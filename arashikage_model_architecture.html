@@ -1,0 +1,3064 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arashikage (Hex63) — Systems & Neural Architecture</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';document.head.appendChild(s);"></script>
+  <style>
+    /* ==========================================================================
+       BASE TYPOGRAPHY SCALE (+2PX UPGRADE ACROSS ENTIRE INTERFACE)
+       Setting root font-size to 18px (up from 16px) scales all rem-based utilities
+       by +2px while explicit pixel rules are also bumped +2px.
+       ========================================================================== */
+    html {
+      font-size: 18px;
+    }
+
+    /* ==========================================================================
+       6-DIRECTION × 2-POLARITY (LIGHT & DARK) THEME ENGINE (ZERO GLASSMORPHISM)
+       1. neo_brutalism  : Neo-Brutalism (Light archival paper / Dark brutalist charcoal)
+       2. modular_typo   : Modular Typography (Swiss Alabaster / Swiss Editorial Carbon)
+       3. utilitarian    : Utilitarian (Field Manual Light / Matte Tactical Slate Dark)
+       4. memphis        : Memphis (80s Sottsass Studio Cream / 80s Nightclub Arcade Dark)
+       5. pixel_art      : Pixel Art (16-Bit Handheld Cartridge Light / CRT Midnight Dark)
+       6. aurora         : Aurora (Glacial Borealis Pearl Light / Deep Cosmic Velvet Dark)
+       ========================================================================== */
+
+    /* --- 1. NEO-BRUTALISM (LIGHT & DARK) --- */
+    body[data-theme="neo_brutalism"][data-mode="light"] {
+      --bg-root: #f3efe6;
+      --bg-panel: #fbf9f5;
+      --bg-card: #ffffff;
+      --bg-elevated: #fffbeb;
+      --border-hair: #111111;
+      --border-sub: #111111;
+      --ink-primary: #111111;
+      --ink-secondary: #27272a;
+      --ink-muted: #52525b;
+      --accent-main: #ff4d00;
+      --font-body: "Inter", "Arial Black", system-ui, -apple-system, sans-serif;
+      --card-shadow: 4px 4px 0px #111111;
+      --elevated-shadow: 8px 8px 0px #111111;
+      --border-w: 2.5px;
+    }
+    body[data-theme="neo_brutalism"][data-mode="dark"] {
+      --bg-root: #111113;
+      --bg-panel: #18181c;
+      --bg-card: #222228;
+      --bg-elevated: #28241e;
+      --border-hair: #f4f4f5;
+      --border-sub: #f4f4f5;
+      --ink-primary: #fafafa;
+      --ink-secondary: #d4d4d8;
+      --ink-muted: #a1a1aa;
+      --accent-main: #ff5e1a;
+      --font-body: "Inter", "Arial Black", system-ui, -apple-system, sans-serif;
+      --card-shadow: 4px 4px 0px #ff5e1a;
+      --elevated-shadow: 7px 7px 0px #ff5e1a;
+      --border-w: 2.5px;
+    }
+    body[data-theme="neo_brutalism"] .rounded-2xl,
+    body[data-theme="neo_brutalism"] .rounded-xl,
+    body[data-theme="neo_brutalism"] .rounded-lg {
+      border-radius: 2px !important;
+    }
+
+    /* --- 2. MODULAR TYPOGRAPHY (LIGHT & DARK) --- */
+    body[data-theme="modular_typo"][data-mode="light"] {
+      --bg-root: #eceae4;
+      --bg-panel: #f7f6f2;
+      --bg-card: #ffffff;
+      --bg-elevated: #ffffff;
+      --border-hair: #18181b;
+      --border-sub: #18181b;
+      --ink-primary: #09090b;
+      --ink-secondary: #27272a;
+      --ink-muted: #52525b;
+      --accent-main: #ff2a00;
+      --font-body: "Helvetica Neue", "Inter", Arial, sans-serif;
+      --card-shadow: none;
+      --elevated-shadow: 0 0 0 2px #09090b;
+      --border-w: 1.5px;
+    }
+    body[data-theme="modular_typo"][data-mode="dark"] {
+      --bg-root: #0c0c0e;
+      --bg-panel: #131316;
+      --bg-card: #1a1a1f;
+      --bg-elevated: #1f1f26;
+      --border-hair: #52525b;
+      --border-sub: #e4e4e7;
+      --ink-primary: #fafafa;
+      --ink-secondary: #d4d4d8;
+      --ink-muted: #a1a1aa;
+      --accent-main: #ff3b14;
+      --font-body: "Helvetica Neue", "Inter", Arial, sans-serif;
+      --card-shadow: none;
+      --elevated-shadow: 0 0 0 2px #ff3b14;
+      --border-w: 1.5px;
+    }
+    body[data-theme="modular_typo"] .rounded-2xl,
+    body[data-theme="modular_typo"] .rounded-xl,
+    body[data-theme="modular_typo"] .rounded-lg,
+    body[data-theme="modular_typo"] .rounded {
+      border-radius: 0px !important;
+    }
+
+    /* --- 3. UTILITARIAN (LIGHT & DARK) --- */
+    body[data-theme="utilitarian"][data-mode="light"] {
+      --bg-root: #e2e7ec;
+      --bg-panel: #edf1f5;
+      --bg-card: #f8fafc;
+      --bg-elevated: #ffffff;
+      --border-hair: #94a3b8;
+      --border-sub: #475569;
+      --ink-primary: #0f172a;
+      --ink-secondary: #334155;
+      --ink-muted: #64748b;
+      --accent-main: #d97706;
+      --font-body: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+      --card-shadow: none;
+      --elevated-shadow: 0 0 0 1.5px #0f172a, 0 12px 28px rgba(15,23,42,0.18);
+      --border-w: 1px;
+    }
+    body[data-theme="utilitarian"][data-mode="dark"] {
+      --bg-root: #0a0c0e;
+      --bg-panel: #111417;
+      --bg-card: #171b20;
+      --bg-elevated: #14181d;
+      --border-hair: #2c353d;
+      --border-sub: #43505c;
+      --ink-primary: #e2e8f0;
+      --ink-secondary: #94a3b8;
+      --ink-muted: #64748b;
+      --accent-main: #f59e0b;
+      --font-body: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+      --card-shadow: none;
+      --elevated-shadow: 0 0 0 1px #f59e0b, 0 16px 36px rgba(0,0,0,0.9);
+      --border-w: 1px;
+    }
+    body[data-theme="utilitarian"] .rounded-2xl,
+    body[data-theme="utilitarian"] .rounded-xl,
+    body[data-theme="utilitarian"] .rounded-lg {
+      border-radius: 0px !important;
+    }
+
+    /* --- 4. MEMPHIS (LIGHT & DARK) --- */
+    body[data-theme="memphis"][data-mode="light"] {
+      --bg-root: #fff7d6;
+      --bg-panel: #ffffff;
+      --bg-card: #fdf2f8;
+      --bg-elevated: #f0fdfa;
+      --border-hair: #1e1b4b;
+      --border-sub: #1e1b4b;
+      --ink-primary: #1e1b4b;
+      --ink-secondary: #312e81;
+      --ink-muted: #4f46e5;
+      --accent-main: #ec4899;
+      --font-body: "Trebuchet MS", "Inter", system-ui, sans-serif;
+      --card-shadow: 4px 4px 0px #06b6d4;
+      --elevated-shadow: 6px 6px 0px #ec4899;
+      --border-w: 2.5px;
+    }
+    body[data-theme="memphis"][data-mode="dark"] {
+      --bg-root: #14112b;
+      --bg-panel: #1d183b;
+      --bg-card: #27204d;
+      --bg-elevated: #2e2559;
+      --border-hair: #38bdf8;
+      --border-sub: #f472b6;
+      --ink-primary: #ffffff;
+      --ink-secondary: #e0e7ff;
+      --ink-muted: #a5b4fc;
+      --accent-main: #f472b6;
+      --font-body: "Trebuchet MS", "Inter", system-ui, sans-serif;
+      --card-shadow: 4px 4px 0px #ec4899;
+      --elevated-shadow: 6px 6px 0px #facc15;
+      --border-w: 2.5px;
+    }
+    body[data-theme="memphis"] .rounded-2xl,
+    body[data-theme="memphis"] .rounded-xl {
+      border-radius: 16px !important;
+    }
+
+    /* --- 5. PIXEL ART (LIGHT & DARK) --- */
+    body[data-theme="pixel_art"][data-mode="light"] {
+      --bg-root: #d8d4c4;
+      --bg-panel: #e8e4d5;
+      --bg-card: #f4f1e6;
+      --bg-elevated: #ffffff;
+      --border-hair: #231f33;
+      --border-sub: #231f33;
+      --ink-primary: #161324;
+      --ink-secondary: #352f4f;
+      --ink-muted: #5c547d;
+      --accent-main: #d90429;
+      --font-body: "Courier New", Courier, ui-monospace, monospace;
+      --card-shadow: 4px 4px 0px #231f33;
+      --elevated-shadow: 6px 6px 0px #231f33;
+      --border-w: 2px;
+    }
+    body[data-theme="pixel_art"][data-mode="dark"] {
+      --bg-root: #0c061a;
+      --bg-panel: #160d2e;
+      --bg-card: #211542;
+      --bg-elevated: #1b1038;
+      --border-hair: #4c3b80;
+      --border-sub: #00ffcc;
+      --ink-primary: #f8fafc;
+      --ink-secondary: #a5b4fc;
+      --ink-muted: #818cf8;
+      --accent-main: #00ffcc;
+      --font-body: "Courier New", Courier, ui-monospace, monospace;
+      --card-shadow: 4px 4px 0px #05020a;
+      --elevated-shadow: 6px 6px 0px #05020a, 0 0 0 2px #00ffcc;
+      --border-w: 2px;
+    }
+    body[data-theme="pixel_art"] .rounded-2xl,
+    body[data-theme="pixel_art"] .rounded-xl,
+    body[data-theme="pixel_art"] .rounded-lg,
+    body[data-theme="pixel_art"] .rounded,
+    body[data-theme="pixel_art"] .rounded-full {
+      border-radius: 0px !important;
+    }
+
+    /* --- 6. AURORA (LIGHT & DARK — Solid Velvet/Pearl Surfaces, Zero Blur) --- */
+    body[data-theme="aurora"][data-mode="light"] {
+      --bg-root: #edf6ff;
+      --bg-panel: #f5faff;
+      --bg-card: #ffffff;
+      --bg-elevated: #ffffff;
+      --border-hair: rgba(14, 165, 233, 0.28);
+      --border-sub: rgba(168, 85, 247, 0.45);
+      --ink-primary: #0f172a;
+      --ink-secondary: #334155;
+      --ink-muted: #64748b;
+      --accent-main: #0284c7;
+      --font-body: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      --card-shadow: 0 4px 18px rgba(14, 165, 233, 0.10);
+      --elevated-shadow: 0 16px 40px rgba(15, 23, 42, 0.16), 0 0 0 1.5px rgba(14, 165, 233, 0.4);
+      --border-w: 1px;
+    }
+    body[data-theme="aurora"][data-mode="dark"] {
+      --bg-root: #050714;
+      --bg-panel: #0a0e24;
+      --bg-card: #101736;
+      --bg-elevated: #131c42;
+      --border-hair: rgba(0, 245, 212, 0.24);
+      --border-sub: rgba(247, 37, 133, 0.45);
+      --ink-primary: #f8fafc;
+      --ink-secondary: #cbd5e1;
+      --ink-muted: #94a3b8;
+      --accent-main: #00f5d4;
+      --font-body: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      --card-shadow: 0 4px 20px rgba(0, 245, 212, 0.08);
+      --elevated-shadow: 0 16px 48px rgba(4, 6, 20, 0.95), 0 0 24px rgba(0, 245, 212, 0.22);
+      --border-w: 1px;
+    }
+
+    body {
+      background-color: var(--bg-root);
+      color: var(--ink-primary);
+      font-family: var(--font-body);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      transition: background-color 0.16s ease, color 0.16s ease;
+    }
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+    }
+    .surface-root { background-color: var(--bg-root); }
+    .surface-panel { background-color: var(--bg-panel); }
+    .surface-card {
+      background-color: var(--bg-card);
+      box-shadow: var(--card-shadow);
+    }
+    /* Solid elevated overlay surface — NO backdrop-filter glassmorphism */
+    .surface-elevated {
+      background-color: var(--bg-elevated) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      box-shadow: var(--elevated-shadow);
+    }
+    .border-hairline {
+      border-color: var(--border-hair) !important;
+      border-width: var(--border-w);
+    }
+    .border-subtle {
+      border-color: var(--border-sub) !important;
+      border-width: var(--border-w);
+    }
+    .text-primary-ink { color: var(--ink-primary) !important; }
+    .text-secondary-ink { color: var(--ink-secondary) !important; }
+    .text-muted-ink { color: var(--ink-muted) !important; }
+    .kicker {
+      font-size: 13px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .theme-glyph {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      font-weight: 800;
+      line-height: 1;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-root); }
+    ::-webkit-scrollbar-thumb { background: var(--border-sub); }
+  </style>
+</head>
+<body data-theme="neo_brutalism" data-mode="light" class="surface-root antialiased lg:h-screen lg:w-screen lg:overflow-hidden flex flex-col">
+
+  <!-- Full-Viewport Application Shell (No Outer Wrapper Box) -->
+  <div class="w-full flex-1 min-h-0 surface-panel flex flex-col overflow-hidden">
+
+    <!-- Unified Architectural Header (With Integrated Theme & Polarity Selector) -->
+    <header class="shrink-0 px-4 py-2.5 border-b border-hairline surface-card flex flex-col gap-2">
+      <!-- Top Header Row: Platform Identity, Walkthrough Controls, Pathway & Export -->
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <!-- Brand & System Identity -->
+        <div class="flex items-center gap-2.5">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+            <span class="mono text-xs font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX63</span>
+          </div>
+          <span class="text-muted-ink">|</span>
+          <h1 class="text-sm md:text-base font-bold text-primary-ink tracking-tight">
+            Real-Time Physics & Neural Control Architecture
+          </h1>
+        </div>
+
+        <!-- Center: Guided Tour & In-Game Scenario Launcher -->
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="kicker text-muted-ink">Walkthrough:</span>
+          <select id="selScenario" class="surface-panel text-primary-ink border border-subtle rounded-lg px-2.5 py-1 text-xs font-medium focus:outline-none transition cursor-pointer">
+            <option value="none">Free Exploration (Click Any Block)</option>
+            <option value="tour" selected>Guided Tour: End-to-End 66.7ms Cycle (8 Steps)</option>
+            <option value="bounce">Game Scenario 1: Corner Wall Double-Tap Read (4 Steps)</option>
+            <option value="aerial">Game Scenario 2: Fast Aerial Double-Jump Guard (4 Steps)</option>
+            <option value="fake">Game Scenario 3: Adapting Live to Opponent Fake & Bump (4 Steps)</option>
+            <option value="save">Game Scenario 4: Late-Game Goal-Line Save Search (4 Steps)</option>
+          </select>
+          <button id="btnToggleTour" class="px-3 py-1 rounded-lg text-xs font-semibold surface-panel text-primary-ink border border-subtle transition cursor-pointer">
+            Tour Overlay: Active
+          </button>
+        </div>
+
+        <!-- Right: Pathway Filter & Export Actions (Uniform Button Design) -->
+        <div class="flex flex-wrap items-center gap-1.5">
+          <select id="selMode" class="surface-panel text-secondary-ink border border-hairline rounded-lg px-2.5 py-1 text-xs mono focus:outline-none">
+            <option value="all">Pathway: Full Architecture</option>
+            <option value="live">Pathway: Live 5.5ms Inference</option>
+            <option value="train">Pathway: 4,096-Arena RL Training</option>
+            <option value="distill">Pathway: Teacher Warm-Start</option>
+          </select>
+          <button id="btnExportHtml" title="Download standalone single-file HTML" class="px-3 py-1 rounded-lg bg-sky-500 text-slate-950 text-xs font-semibold hover:bg-sky-400 transition cursor-pointer">
+            Share HTML
+          </button>
+          <button id="btnExportPng" title="Download 2x Retina PNG of diagram" class="px-3 py-1 rounded-lg surface-panel text-secondary-ink border border-hairline text-xs font-semibold hover:text-primary-ink transition cursor-pointer">
+            Export PNG
+          </button>
+          <button id="btnCopyMermaid" title="Copy Mermaid diagram markdown" class="px-3 py-1 rounded-lg surface-panel text-secondary-ink border border-hairline text-xs font-semibold hover:text-primary-ink transition cursor-pointer">
+            Copy Mermaid
+          </button>
+        </div>
+      </div>
+
+      <!-- Integrated Header Row 2: Theme Selector & Light/Dark Polarity Switcher -->
+      <div class="pt-2 border-t border-hairline flex flex-wrap items-center justify-between gap-2">
+        <div class="flex flex-wrap items-center gap-1.5">
+          <span class="kicker text-muted-ink mr-1">Theme:</span>
+          <button data-theme-btn="neo_brutalism" class="theme-pill px-2.5 py-1 rounded-lg text-xs font-bold border border-hairline surface-panel text-primary-ink transition cursor-pointer">
+            1. Neo-Brutalism
+          </button>
+          <button data-theme-btn="modular_typo" class="theme-pill px-2.5 py-1 rounded-lg text-xs font-bold border border-hairline surface-panel text-primary-ink transition cursor-pointer">
+            2. Modular Typography
+          </button>
+          <button data-theme-btn="utilitarian" class="theme-pill px-2.5 py-1 rounded-lg text-xs font-bold border border-hairline surface-panel text-primary-ink transition cursor-pointer">
+            3. Utilitarian
+          </button>
+          <button data-theme-btn="memphis" class="theme-pill px-2.5 py-1 rounded-lg text-xs font-bold border border-hairline surface-panel text-primary-ink transition cursor-pointer">
+            4. Memphis
+          </button>
+          <button data-theme-btn="pixel_art" class="theme-pill px-2.5 py-1 rounded-lg text-xs font-bold border border-hairline surface-panel text-primary-ink transition cursor-pointer">
+            5. Pixel Art
+          </button>
+          <button data-theme-btn="aurora" class="theme-pill px-2.5 py-1 rounded-lg text-xs font-bold border border-hairline surface-panel text-primary-ink transition cursor-pointer">
+            6. Aurora
+          </button>
+          <div class="flex items-center gap-1 ml-1">
+            <button id="btnPrevTheme" title="Previous Theme" class="px-2.5 py-1 rounded-lg border border-hairline surface-panel text-xs font-bold text-primary-ink cursor-pointer">Prev</button>
+            <button id="btnNextTheme" title="Next Theme" class="px-2.5 py-1 rounded-lg border border-hairline surface-panel text-xs font-bold text-primary-ink cursor-pointer">Next</button>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2.5">
+          <span id="themeStyleNotes" class="hidden 2xl:inline-block mono text-xs text-secondary-ink"></span>
+          <div class="flex items-center p-1 rounded-lg border border-hairline surface-panel gap-1">
+            <button id="btnPolarityLight" class="px-3 py-1 rounded text-xs font-bold transition cursor-pointer">
+              Light
+            </button>
+            <button id="btnPolarityDark" class="px-3 py-1 rounded text-xs font-bold transition cursor-pointer">
+              Dark
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace: Scales to 100% of Available Height | Left Diagram Expands, Right Side Panel Fixed Width -->
+    <div class="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden">
+
+      <!-- LEFT: Responsive Full-Height Dataflow Canvas + Floating Walkthrough Tooltip Overlay -->
+      <div class="flex-1 min-w-0 min-h-0 relative surface-root border-b lg:border-b-0 lg:border-r border-hairline flex flex-col justify-between overflow-hidden">
+
+        <!-- Top-Left Canvas Stage Legend & Runtime SLA Controls -->
+        <div class="shrink-0 px-4 py-2 border-b border-hairline flex flex-wrap items-center justify-between gap-2 surface-panel z-10">
+          <div class="flex flex-wrap items-center gap-3 text-xs">
+            <span class="flex items-center gap-1.5 text-secondary-ink"><span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>1. Observation</span>
+            <span class="flex items-center gap-1.5 text-secondary-ink"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>2. Bipartite Graph</span>
+            <span class="flex items-center gap-1.5 text-secondary-ink"><span class="w-2.5 h-2.5 rounded-full bg-violet-400"></span>3. Titans Memory</span>
+            <span class="flex items-center gap-1.5 text-secondary-ink"><span class="w-2.5 h-2.5 rounded-full bg-pink-400"></span>4. Coconut & MoE</span>
+            <span class="flex items-center gap-1.5 text-secondary-ink"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>5. 60Hz Control</span>
+            <span class="flex items-center gap-1.5 text-secondary-ink"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>6. Critic & Search</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="flex items-center gap-1.5 text-xs text-secondary-ink mono">
+              <span>Tier:</span>
+              <select id="selTier" class="surface-card text-primary-ink border border-hairline rounded px-2 py-0.5 text-xs mono">
+                <option value="0">T0 (K=6, M=16 · 3.8ms)</option>
+                <option value="1">T1 (K=6, M=8 · 2.9ms)</option>
+                <option value="2">T2 (K=4, M=8 · 2.2ms)</option>
+                <option value="3">T3 (K=4, M=1 · 1.4ms)</option>
+              </select>
+            </label>
+            <label class="flex items-center gap-1.5 text-xs text-secondary-ink mono">
+              <span>κ_Δt:</span>
+              <select id="selKappa" class="surface-card text-primary-ink border border-hairline rounded px-2 py-0.5 text-xs mono">
+                <option value="1.0">1.0 (15Hz)</option>
+                <option value="0.5">0.5 (30Hz)</option>
+                <option value="0.25">0.25 (60Hz)</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <!-- Interactive Schematic Canvas Container (Dynamically Resizes to Fill 100% of Available Width & Height) -->
+        <div id="canvasWrapper" class="relative flex-1 w-full min-h-[520px] lg:min-h-0 overflow-hidden">
+          <canvas id="mainGraphCanvas" width="1120" height="680" class="w-full h-full block cursor-pointer"></canvas>
+
+          <!-- Floating Guided Walkthrough / Scenario Tooltip Overlay (Balanced internal padding & spacing) -->
+          <div id="tourTooltip" class="absolute z-20 w-[360px] md:w-[410px] surface-elevated border border-subtle rounded-xl shadow-2xl transition-all duration-300 flex flex-col gap-3" style="left: 24px; top: 24px; padding: 18px 20px;">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span id="ttStepBadge" class="mono text-xs font-bold px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-400 border border-sky-400/40">
+                  STEP 1 OF 8
+                </span>
+                <span id="ttScenarioLabel" class="kicker text-muted-ink">END-TO-END TOUR</span>
+              </div>
+              <button id="btnCloseTooltip" title="Close guided overlay" class="px-2.5 py-1 rounded-lg text-xs font-semibold surface-panel text-secondary-ink border border-hairline hover:text-primary-ink transition cursor-pointer">
+                Close
+              </button>
+            </div>
+
+            <div>
+              <h4 id="ttTitle" class="text-sm font-bold text-primary-ink leading-snug mb-1.5"></h4>
+              <p id="ttDesc" class="text-xs text-secondary-ink leading-relaxed"></p>
+            </div>
+
+            <!-- Step Navigation Bar with Generous Internal Padding -->
+            <div class="pt-3 border-t border-hairline flex items-center justify-between gap-3">
+              <button id="btnTtDeepDive" class="px-3 py-1.5 rounded-lg text-xs font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
+                Tech Deep Dive
+              </button>
+              <div class="flex items-center gap-2">
+                <button id="btnTtPrev" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
+                  Prev
+                </button>
+                <button id="btnTtNext" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-sky-500 text-slate-950 hover:bg-sky-400 transition cursor-pointer">
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- "Learn More" External White Papers & Technical Literature Overlay Panel (Covers Diagram Section) -->
+          <div id="learnMoreOverlay" class="hidden absolute inset-4 md:inset-6 z-30 surface-elevated border border-subtle rounded-2xl shadow-2xl flex-col justify-between overflow-hidden">
+            <!-- Overlay Header -->
+            <div class="px-5 py-4 border-b border-hairline surface-card flex flex-wrap items-center justify-between gap-3">
+              <div class="flex flex-col gap-0.5">
+                <div class="flex items-center gap-2">
+                  <span class="mono text-xs font-bold px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-400 border border-sky-400/40">
+                    PRIMARY LITERATURE & WHITE PAPERS
+                  </span>
+                  <span id="lmTechShortBadge" class="mono text-xs text-muted-ink"></span>
+                </div>
+                <h3 id="lmTechTitle" class="text-base md:text-lg font-bold text-primary-ink tracking-tight mt-1"></h3>
+              </div>
+              <button id="btnCloseLearnMore" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold surface-panel text-primary-ink border border-subtle hover:border-sky-400 transition cursor-pointer">
+                Close Panel
+              </button>
+            </div>
+
+            <!-- Quick Technology Filter Strip Inside Overlay -->
+            <div class="px-5 py-3 border-b border-hairline surface-panel flex items-center gap-2 overflow-x-auto" id="lmTechPillsBar"></div>
+
+            <!-- Scrollable White Papers & Technical Sources Grid -->
+            <div class="p-5 flex-1 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4" id="lmResourcesGrid"></div>
+
+            <!-- Overlay Footer -->
+            <div class="px-5 py-3 border-t border-hairline surface-card flex flex-wrap items-center justify-between gap-2 text-xs mono text-muted-ink">
+              <span>ALL EXTERNAL LINKS OPEN IN A NEW BROWSER TAB</span>
+              <span>PRESS ESC OR CLICK CLOSE TO RETURN TO DIAGRAM</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Status Strip -->
+        <div class="shrink-0 px-4 py-2 border-t border-hairline flex flex-wrap items-center justify-between gap-2 surface-panel text-xs mono text-muted-ink">
+          <span id="statusPathwayText">ARASHIKAGE // HEX63 · SCHEMA_CRC64: 0x185109A0FD5E64D3 · 17 SUBSYSTEM BLOCKS</span>
+          <span>CLICK ANY SUBSYSTEM BLOCK TO INSPECT DETAILS ON THE RIGHT</span>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE PANEL: Fixed Ergonomic Width (460px-510px) & Full-Height Scrollable Inspector -->
+      <aside class="w-full lg:w-[470px] xl:w-[510px] shrink-0 h-full min-h-0 surface-panel flex flex-col justify-between overflow-y-auto">
+
+        <!-- Right Panel Top Mode Bar: Switch between Block Inspector & Tech Deep Dive (Aligned Button Design) -->
+        <div class="p-4 border-b border-hairline sticky top-0 surface-panel z-10 flex flex-col gap-2">
+          <div class="flex items-center justify-between gap-2">
+            <div class="grid grid-cols-2 gap-1.5 p-1 rounded-xl surface-root border border-hairline w-full">
+              <button id="btnViewNode" class="py-1.5 px-3 rounded-lg text-xs font-semibold bg-sky-500 text-slate-950 transition cursor-pointer">
+                Block Inspector
+              </button>
+              <button id="btnViewTech" class="py-1.5 px-3 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+                Tech Deep Dive
+              </button>
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span id="rightSpecRef" class="mono text-xs text-muted-ink truncate"></span>
+          </div>
+        </div>
+
+        <!-- VIEW 1: BLOCK INSPECTOR -->
+        <div id="inspectorNodeView" class="p-5 flex-1 flex flex-col gap-4">
+          <!-- Block Identity Header -->
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span id="inspBadge" class="mono text-xs font-bold px-2.5 py-0.5 rounded bg-sky-500/15 text-sky-400 border border-sky-400/30">
+                BLOCK 01
+              </span>
+              <span id="inspShapePill" class="mono text-xs text-secondary-ink truncate"></span>
+            </div>
+            <h2 id="inspTitle" class="text-lg font-bold text-primary-ink tracking-tight leading-snug mt-1"></h2>
+          </div>
+
+          <!-- 1-2-3-4 Progressive Disclosure Tabs -->
+          <div class="grid grid-cols-4 gap-1.5 p-1.5 rounded-xl surface-root border border-hairline">
+            <button data-ntab="how" class="ntab-btn py-1.5 px-2 rounded-lg text-xs font-semibold bg-sky-500 text-slate-950 transition cursor-pointer">
+              1. How
+            </button>
+            <button data-ntab="why" class="ntab-btn py-1.5 px-2 rounded-lg text-xs font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+              2. Why
+            </button>
+            <button data-ntab="contrib" class="ntab-btn py-1.5 px-2 rounded-lg text-xs font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+              3. Impact
+            </button>
+            <button data-ntab="math" class="ntab-btn py-1.5 px-2 rounded-lg text-xs font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+              4. Math
+            </button>
+          </div>
+
+          <!-- Tab Content Box (How / Why / Impact / Math) -->
+          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-3">
+            <div id="ntabHeading" class="kicker text-sky-400">01 // HOW IT WORKS</div>
+            <p id="ntabBody" class="text-xs text-primary-ink leading-relaxed"></p>
+            <div class="pt-3 border-t border-hairline">
+              <div class="kicker text-muted-ink mb-1" id="ntabSubLabel">DATAFLOW SIGNATURE</div>
+              <div id="ntabSubContent" class="mono text-xs text-secondary-ink leading-relaxed break-words"></div>
+            </div>
+          </div>
+
+          <!-- Underlying Technologies Box (Placed directly under How/Why/Impact box!) -->
+          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-2.5">
+            <span class="kicker text-muted-ink">Underlying Technologies (Select for Deep Dive)</span>
+            <div id="inspTechChips" class="flex flex-wrap gap-2"></div>
+          </div>
+
+          <!-- Contextual Embedded Interactive Widget -->
+          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-3">
+            <div class="flex items-center justify-between gap-2">
+              <span id="ctxWidgetTitle" class="kicker text-sky-400">INTERACTIVE STAGE EXPLORER</span>
+              <span id="ctxWidgetTag" class="mono text-xs text-muted-ink"></span>
+            </div>
+            <div id="ctxWidgetBody" class="flex flex-col gap-2.5 text-xs"></div>
+          </div>
+        </div>
+
+        <!-- VIEW 2: TECHNOLOGY DEEP DIVE (Aligned with Block Inspector Tabbed How/Why/Impact Design) -->
+        <div id="inspectorTechView" class="p-5 flex-1 hidden flex-col gap-4">
+          <div class="flex items-center justify-between gap-2">
+            <button id="btnBackToNode" class="px-3 py-1 rounded-lg text-xs font-semibold surface-card text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
+              Back to Block Inspector
+            </button>
+            <select id="selTechDropdown" class="surface-card text-primary-ink border border-subtle rounded-lg px-2.5 py-1 text-xs font-medium"></select>
+          </div>
+
+          <div>
+            <span id="techKicker" class="kicker text-sky-400">TECHNOLOGY DEEP DIVE</span>
+            <h2 id="techTitle" class="text-lg font-bold text-primary-ink tracking-tight leading-snug mt-1"></h2>
+          </div>
+
+          <!-- 1-2-3-4 Progressive Disclosure Tabs (Identical Functionality & Design to Block Inspector!) -->
+          <div class="grid grid-cols-4 gap-1.5 p-1.5 rounded-xl surface-root border border-hairline">
+            <button data-ttab="how" class="ttab-btn py-1.5 px-2 rounded-lg text-xs font-semibold bg-sky-500 text-slate-950 transition cursor-pointer">
+              1. How
+            </button>
+            <button data-ttab="why" class="ttab-btn py-1.5 px-2 rounded-lg text-xs font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+              2. Why
+            </button>
+            <button data-ttab="contrib" class="ttab-btn py-1.5 px-2 rounded-lg text-xs font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+              3. Impact
+            </button>
+            <button data-ttab="science" class="ttab-btn py-1.5 px-2 rounded-lg text-xs font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+              4. Science
+            </button>
+          </div>
+
+          <!-- Tab Content Box (Matches Block Inspector Card Layout) -->
+          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-3">
+            <div id="ttabHeading" class="kicker text-sky-400">01 // HOW IT WORKS (MECHANISM)</div>
+            <p id="ttabBody" class="text-xs text-primary-ink leading-relaxed"></p>
+            <div class="pt-3 border-t border-hairline">
+              <div class="kicker text-muted-ink mb-1" id="ttabSubLabel">DATAFLOW PLACEMENT</div>
+              <div id="ttabSubContent" class="text-xs text-secondary-ink leading-relaxed break-words"></div>
+            </div>
+          </div>
+
+          <!-- External White Papers & Technical Sources Block (Placed directly under How/Why/Impact box!) -->
+          <div class="surface-card border border-hairline rounded-xl p-4 flex items-center justify-between gap-3">
+            <div class="flex flex-col gap-1">
+              <span class="kicker text-sky-400">External White Papers & Technical Sources</span>
+              <span class="text-xs text-secondary-ink">Open curated foundational papers & technical references over the diagram</span>
+            </div>
+            <button id="btnOpenLearnMoreTop" class="shrink-0 px-3.5 py-2 rounded-lg text-xs font-semibold bg-sky-500 text-slate-950 hover:bg-sky-400 transition cursor-pointer">
+              Learn More
+            </button>
+          </div>
+
+          <!-- Active In Subsystem Blocks Card -->
+          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-2.5">
+            <span class="kicker text-muted-ink">Active In Subsystem Blocks (Select to Inspect Block)</span>
+            <div class="flex flex-wrap items-center gap-2" id="techUsedInNodes"></div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================================
+    // CHUNK 2: 17 ARCHITECTURAL BLOCKS & 24 TENSOR EDGES (1120 x 680 CANVAS)
+    // ============================================================================
+    window.ARASHIKAGE_NODES = [
+      // --- COLUMN 0: STAGE 1 — C++20 OBSERVATION MANIFOLD (x = 96) ---
+      {
+        id: 'dma_slice', num: '01', col: 0, x: 96, y: 125, w: 162, h: 92,
+        title: '5,376B Arena Slice', sub: '84×64B Cache Lines · C2v', tag: 'Layout A DMA',
+        color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
+        techIds: ['t0', 't9'],
+        spec: 'observation_manifold_hex63_spec.md §4',
+        tensor: 'Hex63EntityNodeArenaSlice [B, 5376B] (84 × 64B cache lines)',
+        formula: 'M_C2v = diag(-1, -1, +1) ∈ SO(3), det(M_C2v) = +1',
+        how: 'Packs all 64 arena entities, bitmasks, and training context into a 64-byte-aligned 5,376B C++20 struct (84 CPU cache lines). When playing on Orange (team == 1), applies a 180° Z-rotation M_C2v = diag(-1, -1, +1) to arena coordinates while keeping car-local vectors untouched.',
+        why: 'Eliminates Python dictionary marshalling overhead, guarantees single-DMA host-to-GPU transfers for 4,096 parallel arenas, and ensures the neural network only has to learn one canonical offensive direction (+Y).',
+        contrib: 'Reduces observation construction to 0.25 ms across 4,096 arenas on CPU and guarantees bit-exact parity between training (BatchArenaEngine) and live play (RocketSimShadowTwin).'
+      },
+      {
+        id: 'dyn_nodes', num: '02', col: 0, x: 96, y: 265, w: 162, h: 92,
+        title: '16 Dynamic Queries', sub: '6 Cars · Ball · 8 Traj · Match', tag: 'Slots 0..15',
+        color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
+        techIds: ['t0', 't1'],
+        spec: 'observation_manifold_hex63_spec.md §2–3',
+        tensor: 'Q_dyn ∈ R^[B, 16, 384] (from 2,752B slots 0..15)',
+        formula: 'tau_k ∈ {4, 8, 12, 16, 24, 32, 40, 48} ticks @ 120Hz',
+        how: 'Projects the 16 rapidly moving entities into 384D query tokens: 6 Cars (64 floats each: kinematics, airborne timers, dodge/flip locks, wheel shocks), 1 Ball (32 floats), 8 BallRingBuffer480 trajectory nodes (4.0s spin/curve/post-bounce preview), and 1 Match Context node (κ_Δt, score, clock).',
+        why: 'Separates the 16 dynamic moving entities that need to query the pitch from the 48 static/semi-static environment features.',
+        contrib: 'Gives the policy immediate access to 4.0 seconds of ball bounce geometry and exact car resource timers without burning neural layers on Newtonian curve integration.'
+      },
+      {
+        id: 'env_nodes', num: '03', col: 0, x: 96, y: 405, w: 162, h: 92,
+        title: '48 Context Keys', sub: '34 Pads · 6 Goals · 4 Wheels', tag: 'Slots 16..63',
+        color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
+        techIds: ['t0', 't1'],
+        spec: 'observation_manifold_hex63_spec.md §3.5–3.8',
+        tensor: 'K_env ∈ R^[B, 48, 384] (from 1,984B slots 16..63)',
+        formula: 'wheel_contact_count = Σ_{w=0}^3 m_contact,w ∈ [0, 4]',
+        how: 'Encodes 34 Boost Pads (respawn timers & spatial availability), 6 Goal Posts/Crossbars, 4 Ego Wheel Raycasts (suspension travel, surface normal, zero-lag flip-reset detector), and 4 Nearest Arena Surface OBBs.',
+        why: 'Explicit wheel raycast and wall surface tokens expose exact curved corner geometry and immediate 4-wheel ball contact for flip resets.',
+        contrib: 'Enables reliable flip-reset detection on the ball in 1 physics tick (zero packet lag) and spatial orientation along curved corner walls.'
+      },
+      {
+        id: 'priv_ctx', num: '04', col: 0, x: 96, y: 545, w: 162, h: 92,
+        title: 'Privileged Context', sub: '512B Offset 4864 · Sim Only', tag: '128 Floats',
+        color: '#34d399', modes: ['all', 'train', 'distill'], stageGroup: 'mem',
+        techIds: ['t0', 't8'],
+        spec: 'observation_manifold_hex63_spec.md §4.3',
+        tensor: 'c_priv ∈ R^[B, 128] (Bytes 4864..5375, actor-masked)',
+        formula: 'm_priv = 1 (Training Critic) | 0 (Actor & Live Runtime)',
+        how: 'Occupies bytes 4864..5375 of Layout A. Stores ground-truth internal physics states of all opponents (exact boost decimals, hidden dodge timers, exact airborne frames) and hidden drill curriculum parameters.',
+        why: 'In live play, opponent internal states are partially hidden. Providing exact ground truth exclusively to the training critic stabilizes value estimation without leaking illegal information to the actor.',
+        contrib: 'Reduces value variance during multi-agent PPO updates while keeping the deployed live policy 100% compliant with tournament rules.'
+      },
+
+      // --- COLUMN 1: STAGE 2 — RELATIONAL BIPARTITE GRAPH (x = 282) ---
+      {
+        id: 'gpu_edges', num: '05', col: 1, x: 282, y: 205, w: 162, h: 96,
+        title: 'Fused Pairwise Bias', sub: '16×64 × 72D · 0.09ms GPU', tag: 'Relational Bias',
+        color: '#22d3ee', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'edges',
+        techIds: ['t1', 't2'],
+        spec: 'observation_manifold_hex63_spec.md §5',
+        tensor: 'E_pair ∈ R^[B, 16, 64, 72] -> B_rel ∈ R^[B, 6, 16, 64]',
+        formula: 't_go = clamp(d_ij / max(||v_rel||, 100), 0, 5) s',
+        how: 'A fused GPU kernel computes 72 pairwise physics features between the 16 dynamic queries and all 64 arena entities directly in VRAM: 32 multi-scale Fourier distance bands, relative closing speed, time-to-closest-approach, 3D bearing cosines, and time-to-reach.',
+        why: 'Pre-computing 1,024×72 floats on CPU would add 189 KB per arena (775 MB/step). Fusing it on GPU in 0.09 ms keeps PCIe transfers at 5,376B and provides exact geometric biases to attention.',
+        contrib: 'Gives attention heads direct physical intercept margins ("who reaches the ball first and by how many milliseconds") in Layer 1.'
+      },
+      {
+        id: 'bipartite_enc', num: '06', col: 1, x: 282, y: 365, w: 162, h: 96,
+        title: 'Bipartite DiffAttn', sub: '2-Layer 16×64 · SwiGLU', tag: '1,024 Pairs',
+        color: '#22d3ee', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'edges',
+        techIds: ['t1', 't2'],
+        spec: 'arashikage_hex63_platform_spec.md §3.1',
+        tensor: 'H_0 ∈ R^[B, 16, 384] (6 heads × d_h = 64)',
+        formula: 'DiffAttn = (softmax(S_1 + B_1) - λ·softmax(S_2 + B_2)) V',
+        how: 'Two-layer Bipartite Entity Graph Encoder where only the 16 dynamic tokens act as queries attending over all 64 tokens. Each head computes two softmax maps and subtracts the second scaled by learnable λ to cancel background attention noise.',
+        why: 'Cuts attention matrix size by 4× (1,024 vs 4,096 pairs) while Differential Attention suppresses irrelevant boost pads and distant cars.',
+        contrib: 'Produces sharp, permutation-equivariant entity representations across 1v1, 2v2, and 3v3 with zero dead-slot noise.'
+      },
+
+      // --- COLUMN 2: STAGE 3 — FP32 TITANS CONTINUAL MEMORY (x = 468) ---
+      {
+        id: 'titans_prior', num: '07', col: 2, x: 468, y: 205, w: 162, h: 96,
+        title: 'Titans Meta-Prior', sub: 'Orthogonal W_init · k_prev', tag: 'Kickoff Reset',
+        color: '#a78bfa', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+        techIds: ['t3'],
+        spec: 'arashikage_hex63_platform_spec.md §3.2',
+        tensor: 'W_init ∈ R^[2, 4, 32, 32], k_prev ∈ R^[B, 2, 4, 32]',
+        formula: 'W_0 = W_init, M_0 = 0 (Match Start), W_t persists across goals',
+        how: 'Initializes the 2×4×32×32 fast-weight matrices from a learned orthogonal meta-prior at match start and caches the normalized query key k_prev across consecutive 15 Hz steps. Goal resets clear momentum M_t but preserve adapted fast weights W_t.',
+        why: 'Allows the agent to start every match with a well-conditioned baseline opponent model and retain learned opponent habits across goals within the same match.',
+        contrib: 'Prevents cold-start memory drift on kickoffs and preserves opponent playstyle adaptations throughout a 5-minute game.'
+      },
+      {
+        id: 'titans_mem', num: '08', col: 2, x: 468, y: 365, w: 162, h: 96,
+        title: 'FP32 Titans Memory', sub: '2×4×32×32 Fast Weights', tag: '||W||_F <= 4.0',
+        color: '#a78bfa', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+        techIds: ['t3'],
+        spec: 'arashikage_hex63_platform_spec.md §3.2',
+        tensor: 'W_t, M_t ∈ R^[B, 2, 4, 32, 32] (strict torch.float32)',
+        formula: 'g_t = tanh(W_prev^T k_prev - v_t) ⊗ k_prev, ||W||_F <= 4.0',
+        how: 'At every step during inference, compares what the fast weights W_prev predicted on the previous step against the current observation v_t. Updates W_t in-place using a smooth Log-Cosh surprise gradient with momentum M_t and retracts each head onto a Frobenius ball of radius 4.0.',
+        why: 'Fixed network weights cannot adapt mid-match to an opponent who fakes challenges or steals boost. Updating a 32×32 matrix per head in FP32 gives test-time learning in 0.12 ms.',
+        contrib: 'Enables rapid in-match adaptation to opponent aggression, boost-starve habits, and demo tendencies without catastrophic forgetting.'
+      },
+
+      // --- COLUMN 3: STAGE 4 — COCONUT RECURRENCE, SOFT-MOE & FSQ (x = 654) ---
+      {
+        id: 'coconut_loop', num: '09', col: 3, x: 654, y: 150, w: 162, h: 92,
+        title: 'Coconut Latent Loop', sub: 'K ∈ {4, 6} Passes · 3D Focus', tag: 'Shared Weights',
+        color: '#f472b6', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+        techIds: ['t4', 't2'],
+        spec: 'arashikage_hex63_platform_spec.md §3.3',
+        tensor: 'H^(k) ∈ R^[B, 16, 384], p_lat^(k) ∈ R^[B, 3]',
+        formula: 'H^(k) = Block_shared(H^(k-1) + e_pass(k)), k = 1..K_t',
+        how: 'Loops the 16×384 latent state through weight-tied Bipartite DiffAttn + Soft-MoE blocks for K_t = 4 or 6 recurrent passes before emitting an action. At each pass k, an auxiliary head predicts a 3D spatial focus anchor p_lat^(k) along the upcoming trajectory.',
+        why: 'Instead of stacking 16 separate layers (quadrupling VRAM), looping shared weights lets compute scale dynamically with tactical complexity and 5.5 ms latency tiers.',
+        contrib: 'Provides multi-step lookahead for wall double-taps and shadow defense while keeping active parameters compact enough for L2 cache.'
+      },
+      {
+        id: 'soft_moe', num: '10', col: 3, x: 654, y: 295, w: 162, h: 92,
+        title: 'Static 8×2 Soft-MoE', sub: '1 Shared + 8 Spec · Einsum', tag: 'CUDAGraph Safe',
+        color: '#f472b6', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+        techIds: ['t5'],
+        spec: 'arashikage_hex63_platform_spec.md §3.4',
+        tensor: 'Phi_disp ∈ R^[B, 16, 8, 2], Y_moe ∈ R^[B, 16, 384]',
+        formula: 'S_n,e,s = (X_n · W_r) / τ + b_e^bal (Loss-Free Bias)',
+        how: 'Combines 1 always-active Shared Expert (d_ff=512) with 8 Specialist Experts (d_ff=192, P=2 slots each = 16 slots). Tokens are blended into expert slots and back via static-shape einsum matrices, balanced by a loss-free bias b_e^bal updated outside gradient descent.',
+        why: 'Standard Top-K MoE requires dynamic token sorting and variable-size buffers that break PyTorch CUDAGraphs. Soft-MoE is 100% static-shape.',
+        contrib: 'Partitions mechanics cleanly across specialists (ground dribble, aerial, flip reset, defense) without reward interference or CUDAGraph breaks.'
+      },
+      {
+        id: 'fsq_bottleneck', num: '11', col: 3, x: 654, y: 440, w: 162, h: 92,
+        title: '8×125 FSQ Bottleneck', sub: '1,000 Discrete Skill Codes', tag: 'Zero Codebook Loss',
+        color: '#f472b6', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+        techIds: ['t6'],
+        spec: 'arashikage_hex63_platform_spec.md §3.5',
+        tensor: 'z_q ∈ {-2,-1,0,1,2}^24 (8 groups × 5^3 = 1,000 codes)',
+        formula: 'z_q = z_b + stop_grad(round(2·tanh(z_b)) - z_b)',
+        how: 'Projects the ego token into 24 scalars grouped into 8 cyclic 3D triplets, bounding each coordinate into 5 integer levels {-2,-1,0,1,2} via Straight-Through Estimator (STE) rounding (8 × 125 = 1,000 discrete skill codes).',
+        why: 'Eliminates VQ-VAE codebook collapse and commitment losses while compressing tactical intent into a clean discrete code for the action decoder and telemetry UI.',
+        contrib: 'Gives the action head an unambiguous tactical conditioning signal and lets operators inspect exact active skill modes in real time.'
+      },
+
+      // --- COLUMN 4: STAGE 5 — 60HZ SUBTICK FLOW-GRPO DECODER (x = 840) ---
+      {
+        id: 'stage1_bin', num: '12', col: 4, x: 840, y: 150, w: 162, h: 92,
+        title: 'Stage-1 Binary Head', sub: '16-Way Jump/Dodge · Boost', tag: 'Exact Log-Prob',
+        color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
+        techIds: ['t7'],
+        spec: 'arashikage_hex63_platform_spec.md §3.6.1',
+        tensor: 'u_bin ∈ {0,1}^[B, 4, 3], m_dj ∈ {0,1}^[B, 4]',
+        formula: 'log π(u_bin) = log P(seq_J) + Σ_k [log P(B_k) + log P(H_k)]',
+        how: 'Evaluates a 16-way categorical head over all causal 4-subtick Jump/Double-Jump patterns (J_1..J_4) alongside subtick Bernoulli heads for Boost and Handbrake. Computes exact double-jump edge flags m_dj,k indicating which 60 Hz subtick triggers a dodge or stall.',
+        why: 'Sampling binaries before continuous axes lets the continuous flow head condition directly on whether a jump or dodge impulse occurs on subtick k.',
+        contrib: 'Prevents mismatched actions (e.g., pitching for a speedflip on a subtick where jump failed to fire) and yields exact discrete log-probabilities.'
+      },
+      {
+        id: 'stage2_flow', num: '13', col: 4, x: 840, y: 295, w: 162, h: 92,
+        title: 'Stage-2 Flow-GRPO', sub: '4-Step SDE in R^20 · Clamp', tag: '0.12·tanh Stall',
+        color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
+        techIds: ['t7'],
+        spec: 'arashikage_hex63_platform_spec.md §3.6.2',
+        tensor: 'x_1 ∈ R^[B, 20] -> u_cont ∈ [-1, 1]^[B, 4, 5]',
+        formula: 'dx = v_θ(x_τ, τ, c_act) dτ + σ_τ dW_τ (4 Euler steps)',
+        how: 'Integrates a 2-layer Residual MLP velocity field v_θ over 4 Euler steps (Δτ = 0.25) in R^20 (4 subticks × 5 axes), conditioned on the sampled binary sequence u_bin. On double-jump subticks (m_dj,k=1), applies a smooth 0.12·tanh deadzone clamp for vertical stalls.',
+        why: 'Unimodal Gaussian policies average symmetric left/right aerial adjustments into zero (flying straight into the goalpost). Flow matching preserves sharp multimodal trajectories.',
+        contrib: 'Executes frame-accurate 60 Hz speedflip cancels, half-flips, and vertical flip-reset stalls with exact step-wise Gaussian transitions for PPO/GRPO.'
+      },
+      {
+        id: 'subtick_exec', num: '14', col: 4, x: 840, y: 440, w: 162, h: 92,
+        title: '60Hz Subtick Executor', sub: 'K_sub=4 (2 Ticks) · 192B Acc', tag: 'Zero Hijack',
+        color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
+        techIds: ['t7', 't9'],
+        spec: 'sim_engine_hex63_spec.md §2.2',
+        tensor: 'SubtickActionChunk[4] -> 192B SubtickEventAccumulator',
+        formula: '8 physics ticks (15Hz) = 4 subticks × 2 ticks (60Hz)',
+        how: 'Applies the 4-subtick action chunk across 8 RocketSim physics ticks (2 ticks = 16.67 ms per subtick) with zero C++ FlipState overrides. Records exact ball-touch impulses, subtick touch masks, and demo events into the 192B SubtickEventAccumulator.',
+        why: 'Standard 15 Hz action repeat locks controls for 66.7 ms, making 33 ms speedflip pitch cancels physically impossible without hardcoded C++ macros.',
+        contrib: 'Gives the neural policy native 60 Hz mechanical resolution while running the heavy backbone only at 15–30 Hz.'
+      },
+
+      // --- COLUMN 5: STAGE 6 — CRITIC, JEPA SEARCH & RL/TEACHER (x = 1024) ---
+      {
+        id: 'critic_heads', num: '15', col: 5, x: 1024, y: 150, w: 162, h: 92,
+        title: 'Dual 4×51 HL-Gauss', sub: 'p_priv & p_eval · 4 Horizons', tag: 'Symlog [-10,10]',
+        color: '#34d399', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
+        techIds: ['t8'],
+        spec: 'arashikage_hex63_platform_spec.md §3.8',
+        tensor: 'Logits ∈ R^[B, 4, 51] (204 bins × 2 heads: p_priv, p_eval)',
+        formula: 'γ_dense ∈ {0.95, 0.98, 0.995}, γ_sparse = 0.9995',
+        how: 'Outputs 51 categorical histogram bins spaced uniformly in symlog space z ∈ [-10, +10] across 4 discount horizons (1s micro, 2.5s tactical, 10s possession, and full-match win probability). Evaluates both a Privileged Critic p_priv (for GAE) and an Observation-Only Critic p_eval (for live search).',
+        why: 'Classification with Gaussian label smoothing (σ_HL = 0.30) prevents value gradient spikes when sparse goals combine with high-frequency touch rewards.',
+        contrib: 'Provides calibrated multi-horizon value distributions for both training advantage estimation and live Best-of-M candidate ranking.'
+      },
+      {
+        id: 'jepa_search', num: '16', col: 5, x: 1024, y: 295, w: 162, h: 92,
+        title: 'JEPA & CVaR Search', sub: 'Best-of-16 Rollout · 5.5ms', tag: 'Test-Time Compute',
+        color: '#34d399', modes: ['all', 'live', 'train'], stageGroup: 'control',
+        techIds: ['t9', 't8'],
+        spec: 'live_runtime_shadow_twin_hex63_spec.md §4',
+        tensor: 'M ∈ {16, 8, 1} candidates -> argmax J_CVaR(u^(m))',
+        formula: 'J(u^(m)) = w_eval^T v_eval + λ_cvar · CVaR_α(v_sparse)',
+        how: 'In live play at Tier 0/1, fans out the ego latent state into M = 16 or 8 candidate action chunks from the Stage-1/Stage-2 decoder, rolls them forward 1 step in the Dual-Stream JEPA latent predictor, and selects the trajectory maximizing risk-adjusted value under p_eval.',
+        why: 'Single-sample policy decoding can occasionally pick a risky 50/50 challenge when last-man back. Latent search filters out catastrophic tail risks in 0.8 ms.',
+        contrib: 'Delivers test-time tactical verification on high-leverage saves and goal-line challenges within the 5.5 ms hard real-time budget.'
+      },
+      {
+        id: 'ppo_grpo_opt', num: '17', col: 5, x: 1024, y: 440, w: 162, h: 92,
+        title: 'G=8 GRPO & Flow-PPO', sub: '816 Drill + 2,880 Match', tag: '0 ULP Clone',
+        color: '#34d399', modes: ['all', 'train', 'distill'], stageGroup: 'control',
+        techIds: ['t7', 't8'],
+        spec: 'reward_curriculum_league_hex63_spec.md §2–4',
+        tensor: '4,096 Arenas: 816 GRPO (G=8) + 2,880 PPO + 400 Boss',
+        formula: 'A_i^GRPO = (R_i - μ_G) / (σ_G + 1e-5) across G=8 clones',
+        how: 'Partitions 4,096 RocketSim arenas into 816 G=8 lockstep-cloned GRPO mechanics drills (critic-free intra-group normalized returns), 2,880 full-match PFSP self-play arenas (4-horizon GAE + Flow-PPO), and 400 Boss evaluation arenas, warm-started from the frozen Teacher policy.',
+        why: 'Fine-grained aerial mechanics learn fastest via critic-free G=8 cohort comparisons from identical physics seeds, while team positioning requires full-match self-play.',
+        contrib: 'Unifies surgical mechanical mastery (flip resets, double taps) and grand-champion game sense in a single end-to-end training loop.'
+      }
+    ];
+
+    window.ARASHIKAGE_EDGES = [
+      // Col 0 -> Col 1
+      { from: 'dma_slice', to: 'dyn_nodes', label: '2,752B', modes: ['all','live','train','distill'] },
+      { from: 'dma_slice', to: 'env_nodes', label: '1,984B', modes: ['all','live','train','distill'] },
+      { from: 'dma_slice', to: 'priv_ctx', label: '512B @4864', modes: ['all','train','distill'], dashed: true },
+      { from: 'dyn_nodes', to: 'gpu_edges', label: '16 Queries', modes: ['all','live','train','distill'] },
+      { from: 'env_nodes', to: 'gpu_edges', label: '48 Keys', modes: ['all','live','train','distill'] },
+      { from: 'dyn_nodes', to: 'bipartite_enc', label: 'Q [16,384]', modes: ['all','live','train','distill'] },
+      { from: 'env_nodes', to: 'bipartite_enc', label: 'K,V [64,384]', modes: ['all','live','train','distill'] },
+      { from: 'gpu_edges', to: 'bipartite_enc', label: 'Bias [6,16,64]', modes: ['all','live','train','distill'] },
+      // Col 1 -> Col 2
+      { from: 'bipartite_enc', to: 'titans_mem', label: 'H_0 [16,384]', modes: ['all','live','train','distill'] },
+      { from: 'titans_prior', to: 'titans_mem', label: 'W_init, k_prev', modes: ['all','live','train','distill'] },
+      // Col 2 -> Col 3
+      { from: 'titans_mem', to: 'coconut_loop', label: 'Mem Context', modes: ['all','live','train','distill'] },
+      { from: 'coconut_loop', to: 'soft_moe', label: 'Pass k=1..K', modes: ['all','live','train','distill'] },
+      { from: 'soft_moe', to: 'coconut_loop', label: 'Recurrent H^(k)', modes: ['all','live','train','distill'], dashed: true },
+      { from: 'soft_moe', to: 'fsq_bottleneck', label: 'h_ego [384]', modes: ['all','live','train','distill'] },
+      // Col 3 -> Col 4
+      { from: 'fsq_bottleneck', to: 'stage1_bin', label: 'e_skill [128]', modes: ['all','live','train','distill'] },
+      { from: 'coconut_loop', to: 'stage1_bin', label: 'c_base [512]', modes: ['all','live','train','distill'] },
+      { from: 'stage1_bin', to: 'stage2_flow', label: 'u_bin + m_dj', modes: ['all','live','train','distill'] },
+      { from: 'stage2_flow', to: 'subtick_exec', label: 'u_chunk [4,8]', modes: ['all','live','train','distill'] },
+      // Col 3/4 -> Col 5
+      { from: 'priv_ctx', to: 'critic_heads', label: 'c_priv [128]', modes: ['all','train','distill'], dashed: true },
+      { from: 'coconut_loop', to: 'critic_heads', label: 'h_ego + Pool', modes: ['all','live','train','distill'] },
+      { from: 'stage2_flow', to: 'jepa_search', label: 'M=16 Chunks', modes: ['all','live','train'] },
+      { from: 'critic_heads', to: 'jepa_search', label: 'p_eval CVaR', modes: ['all','live','train'] },
+      { from: 'critic_heads', to: 'ppo_grpo_opt', label: 'p_priv GAE', modes: ['all','train','distill'], dashed: true },
+      { from: 'subtick_exec', to: 'ppo_grpo_opt', label: '192B Events', modes: ['all','train','distill'], dashed: true }
+    ];
+
+    // ============================================================================
+    // CHUNK 3: TOOLTIP-DRIVEN WALKTHROUGH SCENARIOS & 10 TECHNOLOGY DEEP DIVES
+    // ============================================================================
+    window.ARASHIKAGE_SCENARIOS = {
+      tour: {
+        label: 'END-TO-END 66.7ms TOUR',
+        steps: [
+          {
+            title: 'Step 1/8: C++20 5,376B Cache-Line Observation Slice',
+            focusNode: 'dma_slice', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
+            desc: 'Every 66.7 ms (15 Hz), Hex63ObsMapper packs all 64 arena entities into a 64-byte-aligned 5,376B struct (84 CPU cache lines). Orange team coordinates rotate 180° around Z via M_C2v = diag(-1,-1,+1) so the model always attacks toward +Y.'
+          },
+          {
+            title: 'Step 2/8: 16 Dynamic Queries vs. 48 Context Keys',
+            focusNode: 'dyn_nodes', highlight: ['dyn_nodes', 'env_nodes', 'priv_ctx'], techId: 't1',
+            desc: 'Slots 0..15 hold the 16 dynamic moving entities (6 cars, 1 ball, 8 future ball bounce samples from BallRingBuffer480, 1 match state). Slots 16..63 hold 48 context tokens (34 pads, 6 goals, 4 ego wheel raycasts, 4 OBB surfaces).'
+          },
+          {
+            title: 'Step 3/8: Fused GPU Pairwise Physics & Bipartite DiffAttn',
+            focusNode: 'bipartite_enc', highlight: ['gpu_edges', 'bipartite_enc'], techId: 't2',
+            desc: 'A 0.09 ms GPU kernel computes 72 pairwise physics features (distance bands, closing speed, time-to-intercept) across all 16×64 = 1,024 pairs. Two Bipartite Differential Attention layers subtract a second noise-canceling softmax map to isolate active threats.'
+          },
+          {
+            title: 'Step 4/8: In-Match Adaptation via FP32 Titans Memory',
+            focusNode: 'titans_mem', highlight: ['titans_prior', 'titans_mem'], techId: 't3',
+            desc: 'Each of the 2 layers × 4 heads maintains a 32×32 FP32 fast-weight matrix W_t updated live during the match via a Log-Cosh surprise gradient whenever opponent behavior deviates from prediction, bounded within ||W||_F <= 4.0.'
+          },
+          {
+            title: 'Step 5/8: Coconut Latent Loop & Static 8×2 Soft-MoE',
+            focusNode: 'coconut_loop', highlight: ['coconut_loop', 'soft_moe'], techId: 't4',
+            desc: 'Rather than stacking 16 separate layers, the latent state loops K_t = 4 or 6 times through shared weights, projecting a 3D spatial anchor p_lat^(k) at each pass while routing tokens through 8 static-shape Soft-MoE specialist experts.'
+          },
+          {
+            title: 'Step 6/8: 8×125 = 1,000 Discrete FSQ Skill Bottleneck',
+            focusNode: 'fsq_bottleneck', highlight: ['soft_moe', 'fsq_bottleneck', 'stage1_bin'], techId: 't6',
+            desc: 'The ego token projects into 24 bounded scalars rounded into 5 integer levels {-2,-1,0,1,2} across 8 triplets (1,000 discrete skill codes) with zero auxiliary VQ codebook loss, conditioning the downstream 60 Hz action decoder.'
+          },
+          {
+            title: 'Step 7/8: Two-Stage 60Hz Subtick Flow-GRPO Action Chunking',
+            focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow', 'subtick_exec'], techId: 't7',
+            desc: 'Stage 1 samples a 16-way causal 4-subtick Jump/Double-Jump sequence plus Boost and Handbrake. Stage 2 integrates a 4-step Flow-GRPO velocity field in R^20 conditioned on those exact binary edges, executing 4 subticks at 60 Hz.'
+          },
+          {
+            title: 'Step 8/8: Dual 4×51 Symlog Critic, JEPA Search & G=8 GRPO',
+            focusNode: 'critic_heads', highlight: ['critic_heads', 'jepa_search', 'ppo_grpo_opt'], techId: 't8',
+            desc: 'Dual 4×51 Symlog HL-Gauss heads predict return distributions across 4 horizons (1s, 2.5s, 10s, full match). Live play uses p_eval + JEPA for Best-of-16 CVaR search; training combines p_priv GAE with 816 G=8 cloned GRPO drill arenas.'
+          }
+        ]
+      },
+      bounce: {
+        label: 'SCENARIO 1: CORNER WALL DOUBLE-TAP',
+        steps: [
+          {
+            title: '1/4: 4.0-Second Corner Bounce Preview in Slots 7..14',
+            focusNode: 'dyn_nodes', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
+            desc: 'When a hard clear heads toward the curved offensive corner, C++ BallRingBuffer480 integrates 480 ticks (4.0s) of Magnus air curve and mesh collisions, populating 8 trajectory query nodes with exact post-bounce positions and velocities.'
+          },
+          {
+            title: '2/4: Time-to-Intercept Margin via Pairwise Edge Bias',
+            focusNode: 'gpu_edges', highlight: ['dyn_nodes', 'gpu_edges', 'bipartite_enc'], techId: 't1',
+            desc: 'The fused GPU pairwise kernel evaluates time-to-reach between all 6 cars and the 8 future ball trajectory nodes. Bipartite DiffAttn locks attention onto the 1.6s post-bounce node (tau_5 = 32 ticks) where the ego car beats the defender by 240 ms.'
+          },
+          {
+            title: '3/4: 6-Pass Coconut Spatial Anchor Refinement',
+            focusNode: 'coconut_loop', highlight: ['coconut_loop', 'soft_moe', 'fsq_bottleneck'], techId: 't4',
+            desc: 'Across K = 6 Coconut passes, the 3D spatial focus head p_lat^(k) steps forward from the initial wall impact point (Pass 1) to the backboard rebound apex (Pass 6), activating Soft-MoE Specialist #3 (Aerial Intercept) and #5 (Backboard Read).'
+          },
+          {
+            title: '4/4: 60Hz Pre-Rotation & Boost Feathering',
+            focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow', 'subtick_exec'], techId: 't7',
+            desc: 'Stage-1 Binary Head schedules Boost on subticks k=1,2 and coasts on k=3,4, while Stage-2 Flow-GRPO outputs a smooth 4-subtick air-roll + pitch trajectory that aligns the nose with the backboard rebound.'
+          }
+        ]
+      },
+      aerial: {
+        label: 'SCENARIO 2: FAST AERIAL & FLIP RESET',
+        steps: [
+          {
+            title: '1/4: Zero-Lag 4-Wheel Ball Contact Detection',
+            focusNode: 'env_nodes', highlight: ['dma_slice', 'env_nodes'], techId: 't0',
+            desc: 'As the car approaches the underside of the ball airborne, the 4 Wheel Contact nodes (Slots 56..59) track exact suspension raycast distances and surface normals, flipping has_flip = 1 on the exact physics tick all 4 wheels touch the ball.'
+          },
+          {
+            title: '2/4: Specialist Expert Routing for Flip-Reset Mechanics',
+            focusNode: 'soft_moe', highlight: ['coconut_loop', 'soft_moe', 'fsq_bottleneck'], techId: 't5',
+            desc: 'Static-Shape 8×2 Soft-MoE routes the ego token heavily into Specialist #4 (Flip-Reset / Stall) while retaining baseline aerial control from the Shared Expert, emitting a dedicated FSQ skill code.'
+          },
+          {
+            title: '3/4: Causal 16-Way Jump Edge & Deadzone Stall Clamp',
+            focusNode: 'stage1_bin', highlight: ['stage1_bin', 'stage2_flow'], techId: 't7',
+            desc: 'Stage-1 Binary Head selects pattern [0, 1, 0, 0], setting double-jump flag m_dj,2 = 1 on subtick 2 (16.7 ms into the step). Stage-2 Flow-GRPO automatically applies the 0.12·tanh deadzone clamp on subtick 2 so the car executes a clean vertical stall.'
+          },
+          {
+            title: '4/4: 60Hz Pitch Cancel Execution in C++',
+            focusNode: 'subtick_exec', highlight: ['stage2_flow', 'subtick_exec'], techId: 't7',
+            desc: 'On subticks 3 and 4 (33.3 ms and 50.0 ms), m_dj returns to 0 and Stage-2 snaps pitch to -1.0 to cancel rotational inertia—executing a frame-perfect flip cancel natively at 60 Hz with zero hardcoded C++ overrides.'
+          }
+        ]
+      },
+      fake: {
+        label: 'SCENARIO 3: LIVE ADAPTATION TO FAKE',
+        steps: [
+          {
+            title: '1/4: Opponent Executes a Fake Challenge & Demo Lunge',
+            focusNode: 'bipartite_enc', highlight: ['dyn_nodes', 'gpu_edges', 'bipartite_enc'], techId: 't2',
+            desc: 'An opponent sprints at the ball as if to 50/50, then slams handbrake and veers toward the ego car for a demolition. Bipartite DiffAttn detects the sudden divergence in relative closing velocity and yaw rate.'
+          },
+          {
+            title: '2/4: High Surprise Gradient Updates FP32 Titans Memory',
+            focusNode: 'titans_mem', highlight: ['titans_prior', 'titans_mem'], techId: 't3',
+            desc: 'In Stage 3, the prediction residual r_t = W_{t-1}^T k_{t-1} - v_t spikes because W_{t-1} expected a standard ball challenge. The Log-Cosh surprise step updates the 32×32 FP32 fast weights W_t in 0.12 ms, encoding this opponent’s fake-and-bump habit.'
+          },
+          {
+            title: '3/4: Goal-Reset Persistence Across the Match',
+            focusNode: 'titans_prior', highlight: ['titans_prior', 'titans_mem', 'coconut_loop'], techId: 't3',
+            desc: 'Even if a goal is scored later in the game, Titans resets only the transient momentum M_t to zero while keeping W_t intact—so the next time that player rushes on defense, Coconut already anticipates the fake.'
+          },
+          {
+            title: '4/4: Evasive Jump & Counter-Dribble Decoding',
+            focusNode: 'stage2_flow', highlight: ['coconut_loop', 'stage1_bin', 'stage2_flow'], techId: 't7',
+            desc: 'Conditioned on the updated Titans memory context, the decoder schedules a short hop on subtick 1 to dodge the demo lunge while keeping the ball close for an uncontested flick.'
+          }
+        ]
+      },
+      save: {
+        label: 'SCENARIO 4: GOAL-LINE SAVE SEARCH',
+        steps: [
+          {
+            title: '1/4: Adaptive Governor Verifies Tier 0 Compute Budget',
+            focusNode: 'coconut_loop', highlight: ['dma_slice', 'coconut_loop'], techId: 't4',
+            desc: 'With the opponent shooting on an open net from 12 meters out, the C++ AdaptiveComputeGovernor checks the rolling P99 latency (3.8 ms < 5.5 ms SLA) and unlocks full Tier 0 compute: K_t = 6 Coconut passes and M = 16 search rollouts.'
+          },
+          {
+            title: '2/4: Sampling M = 16 Multimodal Save Candidates',
+            focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow', 'jepa_search'], techId: 't7',
+            desc: 'The ego latent state is replicated 16× along the batch dimension. Stage-1 and Stage-2 Flow-GRPO sample 16 distinct 60 Hz action chunks covering pre-jump high saves, low corner dives, and backboard clears.'
+          },
+          {
+            title: '3/4: 1-Step Batched Rollout in Dual-Stream JEPA',
+            focusNode: 'jepa_search', highlight: ['stage2_flow', 'jepa_search', 'critic_heads'], techId: 't9',
+            desc: 'The JEPA action-conditioned latent world model predicts the resulting ego and ball latent states 66.7 ms ahead for all 16 candidates in parallel on GPU without calling CPU physics.'
+          },
+          {
+            title: '4/4: Lower-Tail CVaR Selection via Observation Critic p_eval',
+            focusNode: 'critic_heads', highlight: ['critic_heads', 'jepa_search', 'subtick_exec'], techId: 't8',
+            desc: 'The observation-only critic p_eval evaluates the 51-bin return distribution for all 16 future states. The selector picks the action chunk maximizing expected value plus lower-tail CVaR_α on the sparse win/loss horizon, rejecting diving misses.'
+          }
+        ]
+      }
+    };
+
+    window.ARASHIKAGE_TECH_LIBRARY = [
+      {
+        id: 't0', short: '5,376B Layout A & C2v',
+        title: '64-Byte Cache-Line Aligned Schema & Klein 4-Group (C2v) Equivariance',
+        usedIn: ['dma_slice', 'dyn_nodes', 'env_nodes', 'priv_ctx'],
+        how: 'All 64 arena entities are written directly by C++20 into a flat 5,376-byte structure (84 × 64-byte CPU cache lines) verified by SCHEMA_CRC64 = 0x185109A0FD5E64D3. When building observations for an Orange-team car (team == 1), arena-frame positions and velocities are multiplied by M_C2v = diag(-1, -1, +1) (a 180° rotation around the Z axis), while body-local vectors (vel_local, ang_vel_local) remain unchanged.',
+        why: 'First, Python object serialization across 4,096 parallel arenas would bottleneck CPU-to-GPU PCIe bandwidth. Second, Rocket League pitches are symmetric between Blue (-Y) and Orange (+Y), and left (-X) vs. right (+X). Without coordinate normalization, the model must learn every mechanic twice.',
+        contrib: 'Shrinks CPU observation building to 0.25 ms for 4,096 arenas, doubles sample efficiency via exact spatial symmetry, and guarantees 0-ULP observation parity between training and live matches.',
+        science: 'Rocket League uses a Left-Handed Z-Up coordinate system (+X right sidewall, +Y Orange goal, +Z up). Naive Y-negation flips handedness (det = -1), corrupting cross products and angular velocities. Rotating 180° around Z via M_C2v = diag(-1,-1,+1) ∈ SO(3) has determinant +1, preserving Left-Handed chirality. Combined with lateral X-reflection M_lat (which flips roll, yaw, and steer signs), this forms the Klein 4-group C_2v = {I, M_C2v, M_lat, M_C2v M_lat}.',
+        origins: 'Grounded in Geometric Deep Learning and group-equivariant networks (Cohen & Welling, 2016; Bronstein et al., 2021) paired with High-Performance Computing (HPC) cache-line alignment practices.',
+        placement: 'Executed at the C++20 boundary (Stage 1) before bytes cross PCIe so every downstream GPU kernel, attention head, and critic operates exclusively in canonical coordinates.'
+      },
+      {
+        id: 't1', short: '16×64 Bipartite Graph',
+        title: '16×64 Asymmetric Bipartite Entity Graph & GPU Pairwise Physics Bias',
+        usedIn: ['dyn_nodes', 'env_nodes', 'gpu_edges', 'bipartite_enc'],
+        how: 'Splits the 64 arena tokens into 16 Dynamic Query tokens (6 cars, 1 ball, 8 future ball trajectory samples, 1 match state) and 48 Static/Context Key-Value tokens (34 boost pads, 6 goals, 4 ego wheel contacts, 4 wall OBBs). A fused GPU kernel computes a [B, 16, 64, 72] pairwise kinematic tensor in 0.09 ms and projects it into per-head attention biases.',
+        why: 'Full 64×64 self-attention computes 4,096 pairs—wasting 75% of compute having static boost pads attend to other static boost pads. Meanwhile, computing 1,024×72 pairwise features on CPU would balloon PCIe traffic from 5.3 KB to 194 KB per arena.',
+        contrib: 'Reduces attention complexity by 4× (1,024 active pairs), keeps host-to-GPU DMA minimal, and injects exact physical intercept margins directly into attention logits.',
+        science: 'For each pair (i ∈ {0..15}, j ∈ {0..63}), the GPU kernel computes relative displacement Δp_ij, relative velocity Δv_ij, log-spaced Fourier distance features [sin(ω_m d_ij), cos(ω_m d_ij)], time-to-closest-approach τ_ca = clamp(-(Δp·Δv)/||Δv||^2, 0, 5), and estimated time-to-reach.',
+        origins: 'Synthesizes Set Transformers / Perceiver cross-attention (Lee et al., 2019; Jaegle et al., 2021) with relational geometric biases from AlphaFold 2 Evoformer (Jumper et al., 2021).',
+        placement: 'Sits at the entry of Stage 2 on GPU immediately after unpacking the 5,376B slice, turning raw coordinates into relational intercept features before backbone layers.'
+      },
+      {
+        id: 't2', short: 'Differential Attention',
+        title: 'Differential Attention (Noise-Canceling Dual-Softmax Operators)',
+        usedIn: ['gpu_edges', 'bipartite_enc', 'coconut_loop'],
+        how: 'Splits each attention head’s queries and keys into two half-dimension groups (Q_1, Q_2 and K_1, K_2), computes two separate softmax attention distributions over the 64 context tokens, and subtracts the second map scaled by a learnable scalar λ: DiffAttn = (softmax(S_1) - λ·softmax(S_2)) V.',
+        why: 'Standard softmax must sum to 1.0 and assigns positive weight to every token, leaking background noise from 30+ irrelevant boost pads and parked cars into the ego representation.',
+        contrib: 'Produces sparse, high-contrast attention focused strictly on the ball, the active challenger, and the 1–2 relevant boost pads or wall surfaces.',
+        science: 'Let S_1 = Q_1 K_1^T / √d + B_1 and S_2 = Q_2 K_2^T / √d + B_2, with λ = exp(λ_q1 · λ_k1) - exp(λ_q2 · λ_k2) + λ_init. Subtracting the two normalized distributions cancels common-mode softmax noise, analogous to differential amplifiers in electrical engineering and balanced photodetectors in optics.',
+        origins: 'Introduced in the Differential Transformer architecture (Ye et al., Microsoft Research, ICLR 2025) to eliminate attention sinks and context dilution.',
+        placement: 'Powers both the Stage 2 Bipartite Graph Encoder and the Stage 4 Coconut recurrent blocks where 64 heterogeneous arena entities compete for focus.'
+      },
+      {
+        id: 't3', short: 'FP32 Titans Memory',
+        title: '2×4×32×32 FP32 Titans Neural Memory (Test-Time Fast-Weight Adaptation)',
+        usedIn: ['titans_prior', 'titans_mem'],
+        how: 'Maintains a per-car fast-weight matrix W_t ∈ R^[32×32] and momentum state M_t ∈ R^[32×32] in strict 32-bit floating point across 2 layers × 4 heads. At every 15 Hz step during live play, W_t updates via a causal Log-Cosh surprise gradient measuring the prediction error on the previous step, followed by Frobenius norm retraction ||W||_F <= 4.0.',
+        why: 'Standard neural networks freeze their weights after training and cannot remember habits exhibited by an opponent 90 seconds ago (such as fake challenges or boost-starve rotations).',
+        contrib: 'Gives the agent persistent 5-minute in-match memory that adapts to opponent playstyles in real time without recurrent state explosion.',
+        science: 'Using the cached key k_{t-1} from step t-1 and current value v_t, the surprise gradient is g_t = tanh((W_{t-1}^T k_{t-1} - v_t) / τ_s) ⊗ k_{t-1}. Momentum updates via M_t = η_t M_{t-1} - θ_t g_t and W_t = Proj_{||·||_F <= 4}((1 - α_t) W_{t-1} + M_t). Goal resets clear M_t = 0 while preserving W_t across the match.',
+        origins: 'Evolved from Fast Weights (Hinton & Plaut, 1987; Schlag et al., 2021), Test-Time Training / TTT-Linear (Sun et al., 2024), and Google Research’s Titans: Learning to Memorize at Test Time (Behrouz et al., 2025).',
+        placement: 'Placed in Stage 3 between spatial encoding (Stage 2) and tactical Coconut planning (Stage 4) so multi-step reasoning is conditioned on opponent history.'
+      },
+      {
+        id: 't4', short: 'Coconut Latent Loop',
+        title: 'Coconut Continuous Latent Reasoning Loop & 3D Spatial Focus Anchors',
+        usedIn: ['coconut_loop'],
+        how: 'Loops the [B, 16, 384] entity representation through weight-tied Bipartite DiffAttn + Soft-MoE blocks for K_t ∈ {4, 6} recurrent passes within a single environment step. At each pass k, an auxiliary projection head predicts a 3D spatial anchor p_lat^(k) = (x, y, z) supervised during training to track future ball/car intercept waypoints.',
+        why: 'Stacking 16 distinct transformer layers would quadruple parameter memory and thrash GPU L2 cache. Weight-tied recurrence dynamically scales thinking depth with tactical complexity and latency budget.',
+        contrib: 'Enables multi-bounce trajectory planning (wall double-taps, corner reads) in Tier 0 (K=6) while gracefully dropping to K=4 in Tier 2/3 if frame time tightens.',
+        science: 'At pass k ∈ {1..K_t}, H^(k) = Block_shared(H^(k-1) + e_pass(k) + e_mode(u_t) + e_dt(κ_Δt)), accompanied by spatial anchor loss L_anchor = Σ_k ||p_lat^(k) - p_target^(k)||_2^2 that grounds each recurrent pass in physical 3D pitch coordinates.',
+        origins: 'Draws from Universal Transformers (Dehghani et al., 2019), PonderNet (Banino et al., 2021), and Coconut: Training Large Language Models to Reason in a Continuous Latent Space (Hao et al., Meta FAIR, 2024).',
+        placement: 'Forms the core of Stage 4, iteratively refining the spatial + memory state before compressing into the discrete skill bottleneck.'
+      },
+      {
+        id: 't5', short: 'Static 8×2 Soft-MoE',
+        title: 'Static-Shape 8×2 Soft Mixture-of-Experts with Loss-Free Bias Balancing',
+        usedIn: ['soft_moe'],
+        how: 'Combines 1 always-active Shared Expert (d_ff = 512) with 8 routed Specialist Experts (d_ff = 192, P = 2 slots each = 16 total slots). Tokens are mapped into expert slots via a softmax dispatch matrix Φ_disp and merged back via Φ_comb using static-shape einsum operations. Load balancing is maintained by an auxiliary-loss-free bias b_e^bal updated outside the gradient graph.',
+        why: 'Discrete Top-K MoE requires dynamic token sorting and variable-length buffers that break PyTorch CUDAGraph capture and introduce latency jitter. Furthermore, auxiliary load-balancing losses distort RL policy gradients.',
+        contrib: 'Allows dedicated sub-networks to specialize in distinct mechanics (kickoffs, air dribbles, flip resets, shadow defense) while executing inside a single static CUDAGraph.',
+        science: 'Slot logits S_{n,e,s} = (X_n · W_r)/τ + b_e^bal define dispatch weights Φ_disp = softmax_n(S) and combine weights Φ_comb = softmax_{e,s}(S). Expert inputs X_tilde = einsum("bnpd,bnep->bepd", X, Φ_disp) pass through BatchedSwiGLU and recombine via Y = FFN_shared(X) + einsum("bepd,bnep->bnpd", Z, Φ_comb).',
+        origins: 'Combines Soft-MoE (Puigcerver et al., Google Brain, ICLR 2024) with Shared Expert Isolation and Loss-Free Bias Balancing from DeepSeekMoE (Dai et al., 2024).',
+        placement: 'Serves as the feedforward sub-layer inside every Stage 4 Coconut pass, injecting specialized mechanical knowledge at each step of latent reasoning.'
+      },
+      {
+        id: 't6', short: '8×125 FSQ Bottleneck',
+        title: 'Finite Scalar Quantization (8×125 = 1,000 Discrete Skill Bottleneck)',
+        usedIn: ['fsq_bottleneck'],
+        how: 'Projects the ego latent state h_ego ∈ R^384 into a 24D vector z_raw, bounds each coordinate via 2·tanh(z_raw), and rounds to the nearest integer in {-2, -1, 0, +1, +2} using a Straight-Through Estimator (STE). Grouped into 8 cyclic 3D triplets, each triplet forms 5^3 = 125 discrete codes (8 × 125 = 1,000 total skill codes).',
+        why: 'Traditional VQ-VAE vector quantizers suffer from codebook collapse (where 90% of codes die during RL updates) and require delicate commitment losses.',
+        contrib: 'Provides a zero-hyperparameter, 100%-utilization discrete skill interface between the recurrent backbone and the 60 Hz action decoder, while making active bot intentions human-readable in telemetry.',
+        science: 'In forward evaluation, z_q = round(2·tanh(z_raw)) ∈ {-2,-1,0,1,2}^24; in backward pass, ∂L/∂z_raw = ∂L/∂z_q · 2 sech^2(z_raw). Because bounding onto a fixed integer hypercube requires no learned codebook vectors, codebook collapse is mathematically impossible.',
+        origins: 'Introduced in Finite Scalar Quantization: VQ-VAE Made Simple (Mentzer et al., Google Research, ICLR 2024).',
+        placement: 'Positioned at the exit of Stage 4, distilling Coconut’s multi-pass continuous thought into a discrete tactical command for the Stage 5 action head.'
+      },
+      {
+        id: 't7', short: '60Hz Flow-GRPO Chunking',
+        title: 'Two-Stage Autoregressive Binary + 4-Step Flow-GRPO 60Hz Action Chunking',
+        usedIn: ['stage1_bin', 'stage2_flow', 'subtick_exec', 'ppo_grpo_opt'],
+        how: 'Each 15 Hz outer step predicts a K_sub = 4 subtick action chunk executed at 60 Hz (every 16.67 ms). Stage 1 samples a 16-way categorical distribution over all causal 4-subtick Jump sequences (J_1..J_4) plus Boost and Handbrake. Conditioned on the sampled binary sequence u_bin, Stage 2 integrates a 4-step Euler-Maruyama velocity field in R^20 (4 subticks × 5 continuous axes) with a 0.12·tanh deadzone stall clamp whenever double-jump m_dj,k = 1.',
+        why: 'Holding controls constant for 66.7 ms (15 Hz) makes 33 ms speedflip pitch cancels physically impossible. Moreover, unimodal Gaussian policies average left/right aerial evasion paths into zero (flying straight into obstacles).',
+        contrib: 'Delivers 60 Hz frame-perfect mechanical execution (speedflips, stalls, half-flips) and sharp multimodal continuous trajectories with exact tractable log-probabilities for PPO and GRPO.',
+        science: 'The 4-step stochastic flow transition from τ_m to τ_{m+1} (Δτ = 0.25) is a tractable Gaussian N(x_{m+1}; x_m + v_θ(x_m, τ_m, c_act)Δτ, σ_m^2 Δτ I), allowing exact computation of log π_θ(x_{m+1}|x_m) during RL updates.',
+        origins: 'Synthesizes Action Chunking (Zhao et al., RSS 2023), Flow Matching for Generative Modeling (Lipman et al., ICLR 2023), π_0 Flow-Matching VLA (Black et al., Physical Intelligence, 2024), and Flow-GRPO (2025).',
+        placement: 'Forms Stage 5 at the policy output, translating 15 Hz tactical representations into 60 Hz physical motor commands.'
+      },
+      {
+        id: 't8', short: '4×51 Symlog HL-Gauss',
+        title: 'Dual-Head 4×51 Symlog HL-Gauss Distributional Critic & Multi-Horizon PBRS',
+        usedIn: ['priv_ctx', 'critic_heads', 'jepa_search', 'ppo_grpo_opt'],
+        how: 'Predicts return distributions across 4 discount horizons—3 dense PBRS horizons γ_dense ∈ {0.95 (1s), 0.98 (2.5s), 0.995 (10s)} and 1 sparse match-outcome horizon γ_sparse = 0.9995—using 51 categorical bins spaced uniformly in symlog space z ∈ [-10, +10]. Trains two parallel heads: Privileged p_priv (using the 512B privileged context for GAE) and Observation-Only p_eval (for live Best-of-M search).',
+        why: 'Scalar MSE value regression suffers from gradient explosion when sparse ±10 goal rewards collide with dense micro-rewards, and single-horizon discounting forces a false trade-off between immediate ball touches and long-term positioning.',
+        contrib: 'Stabilizes critic training across orders of magnitude and enables risk-averse CVaR action selection during live play.',
+        science: 'Returns G are compressed via symlog(x) = sign(x) ln(1 + |x|) onto 51 support atoms z_j = -10 + 0.4j and converted into soft Gaussian histogram targets using the Gauss error function erf((b_j - y)/(√2 σ_HL)) with σ_HL = 0.30. Dense PBRS shaping ΔΦ_{t,h} = m_dense γ_h^{Δm_t/8} Φ(s_{t+1}) - Φ(s_t) telescopes exactly at outer step boundaries.',
+        origins: 'Combines Potential-Based Reward Shaping (Ng et al., 1999), Symlog transformations from DreamerV3 (Hafner et al., 2023), and HL-Gauss classification critics (Imani & White, 2018; Farebrother et al., ICML 2024).',
+        placement: 'Situated in Stage 6, consuming ego + pooled entity states (plus c_priv in training) to supervise PPO/GRPO and score live JEPA rollouts.'
+      },
+      {
+        id: 't9', short: 'ShadowTwin & JEPA Search',
+        title: '120Hz C++20 RocketSimShadowTwin & Best-of-M JEPA Latent Search',
+        usedIn: ['dma_slice', 'subtick_exec', 'jepa_search'],
+        how: 'In live RLBot matches, a local C++20 RocketSim instance steps forward 1 tick at 120 Hz alongside the game client, reconciling sensor packets via a 2-stage residual corrector and calling the exact same Hex63ObsMapper::BuildArenaSlice function used in training. When Tier 0/1 compute headroom is available, the policy samples M = 16 candidate action chunks, rolls them forward 1 step in the Dual-Stream JEPA latent predictor, and picks the chunk maximizing CVaR value under p_eval.',
+        why: 'Live socket packets omit internal suspension states, wheel raycast normals, and 4.0s future ball bounce trajectories. Recomputing observations via ad-hoc Python math causes fatal Sim-to-Live policy degradation.',
+        contrib: 'Eliminates the Sim-to-Live observation gap by construction and filters out high-risk mechanical blunders before sending controls to the socket.',
+        science: 'Dual-Stream JEPA predicts next-step ego and ball embeddings (z_hat_ego, z_hat_ball) = f_pred(h_ego, h_ball, u_chunk) supervised against a stop-gradient EMA target encoder (τ_ema = 0.996). Candidate chunks u^(m) are ranked by J(u^(m)) = w_eval^T v_eval + λ_cvar CVaR_α(v_sparse), governed by a 4-tier latency state machine keeping P99 <= 5.50 ms.',
+        origins: 'Unifies Digital Twin state estimation with Joint-Embedding Predictive Architectures / I-JEPA (LeCun, 2022; Assran et al., 2023) and test-time compute scaling.',
+        placement: 'Wraps the outer live runtime loop (Stage 1 input & Stage 6 output), bridging the 120 Hz RLBot socket with the GPU neural engine.'
+      }
+    ];
+
+    // ============================================================================
+    // CHUNK 4: INTERACTIVE SCHEMATIC RENDERER, TOOLTIP OVERLAY & RIGHT INSPECTOR
+    // ============================================================================
+    (function () {
+      const nodes = window.ARASHIKAGE_NODES;
+      const edges = window.ARASHIKAGE_EDGES;
+      const scenarios = window.ARASHIKAGE_SCENARIOS;
+      const techLib = window.ARASHIKAGE_TECH_LIBRARY;
+
+      const nodeMap = {};
+      nodes.forEach(n => { nodeMap[n.id] = n; });
+      const techMap = {};
+      techLib.forEach(t => { techMap[t.id] = t; });
+
+      // Application State
+      let selectedNodeId = 'dma_slice';
+      let hoveredNodeId = null;
+      let activeNTab = 'how';
+      let activeTTab = 'how';
+      let activeRightView = 'node'; // 'node' | 'tech'
+      let selectedTechId = 't0';
+      let activeMode = 'all';
+      let activeScenarioKey = 'tour';
+      let activeStepIdx = 0;
+      let tourOverlayVisible = true;
+      let animTick = 0;
+
+      // Contextual Micro-Simulator State
+      let selectedMemSliceIdx = 0;
+      let selectedPairQueryIdx = 0;
+      let selectedPairKeyIdx = 6;
+      let surpriseIntensity = 0.68;
+
+      // DOM Elements
+      const canvas = document.getElementById('mainGraphCanvas');
+      const ctx = canvas.getContext('2d');
+      const selScenario = document.getElementById('selScenario');
+      const btnToggleTour = document.getElementById('btnToggleTour');
+      const selMode = document.getElementById('selMode');
+      const selTier = document.getElementById('selTier');
+      const selKappa = document.getElementById('selKappa');
+
+      // Tooltip Overlay DOM
+      const tourTooltip = document.getElementById('tourTooltip');
+      const ttStepBadge = document.getElementById('ttStepBadge');
+      const ttScenarioLabel = document.getElementById('ttScenarioLabel');
+      const btnCloseTooltip = document.getElementById('btnCloseTooltip');
+      const ttTitle = document.getElementById('ttTitle');
+      const ttDesc = document.getElementById('ttDesc');
+      const btnTtDeepDive = document.getElementById('btnTtDeepDive');
+      const btnTtPrev = document.getElementById('btnTtPrev');
+      const btnTtNext = document.getElementById('btnTtNext');
+
+      // Right Panel DOM
+      const btnViewNode = document.getElementById('btnViewNode');
+      const btnViewTech = document.getElementById('btnViewTech');
+      const rightSpecRef = document.getElementById('rightSpecRef');
+      const inspectorNodeView = document.getElementById('inspectorNodeView');
+      const inspectorTechView = document.getElementById('inspectorTechView');
+      const btnBackToNode = document.getElementById('btnBackToNode');
+      const selTechDropdown = document.getElementById('selTechDropdown');
+
+      // Populate Tech Dropdown
+      techLib.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.textContent = t.short;
+        selTechDropdown.appendChild(opt);
+      });
+
+      // Switch Right Panel between Block Inspector and Tech Deep Dive
+      function setRightView(view, techIdOpt) {
+        activeRightView = view;
+        if (techIdOpt && techMap[techIdOpt]) {
+          selectedTechId = techIdOpt;
+        }
+        if (view === 'node') {
+          if (typeof closeLearnMoreOverlay === 'function') closeLearnMoreOverlay();
+          inspectorNodeView.classList.remove('hidden');
+          inspectorNodeView.classList.add('flex');
+          inspectorTechView.classList.add('hidden');
+          inspectorTechView.classList.remove('flex');
+          btnViewNode.className = 'py-1.5 px-3 rounded-lg text-xs font-semibold bg-sky-500 text-slate-950 transition cursor-pointer';
+          btnViewTech.className = 'py-1.5 px-3 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+          renderNodeInspector();
+        } else {
+          inspectorNodeView.classList.add('hidden');
+          inspectorNodeView.classList.remove('flex');
+          inspectorTechView.classList.remove('hidden');
+          inspectorTechView.classList.add('flex');
+          btnViewTech.className = 'py-1.5 px-3 rounded-lg text-xs font-semibold bg-sky-500 text-slate-950 transition cursor-pointer';
+          btnViewNode.className = 'py-1.5 px-3 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+          renderTechDeepDive();
+        }
+      }
+
+      btnViewNode.addEventListener('click', () => setRightView('node'));
+      btnViewTech.addEventListener('click', () => setRightView('tech', selectedTechId));
+      btnBackToNode.addEventListener('click', () => setRightView('node'));
+      selTechDropdown.addEventListener('change', (e) => {
+        selectedTechId = e.target.value;
+        renderTechDeepDive();
+      });
+
+      // Render Block Inspector View
+      function renderNodeInspector() {
+        const n = nodeMap[selectedNodeId] || nodes[0];
+        rightSpecRef.textContent = n.spec;
+
+        const inspBadge = document.getElementById('inspBadge');
+        inspBadge.textContent = 'BLOCK ' + n.num + ' · ' + n.tag;
+        inspBadge.style.color = n.color;
+        inspBadge.style.borderColor = n.color + '55';
+        inspBadge.style.backgroundColor = n.color + '18';
+
+        document.getElementById('inspShapePill').textContent = n.sub;
+        document.getElementById('inspTitle').textContent = n.title;
+
+        // Render Linked Technology Chips (Placed under How/Why/Impact box)
+        const chipsContainer = document.getElementById('inspTechChips');
+        chipsContainer.innerHTML = '';
+        (n.techIds || []).forEach(tid => {
+          const t = techMap[tid];
+          if (!t) return;
+          const btn = document.createElement('button');
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold surface-panel text-primary-ink border border-hairline hover:border-sky-400 transition cursor-pointer';
+          btn.textContent = t.short;
+          btn.addEventListener('click', () => {
+            setRightView('tech', tid);
+          });
+          chipsContainer.appendChild(btn);
+        });
+
+        // Update 1-2-3-4 Tabs
+        document.querySelectorAll('.ntab-btn').forEach(btn => {
+          const isAct = btn.getAttribute('data-ntab') === activeNTab;
+          btn.className = isAct
+            ? 'ntab-btn py-1.5 px-2 rounded-lg text-xs font-semibold bg-sky-500 text-slate-950 transition cursor-pointer'
+            : 'ntab-btn py-1.5 px-2 rounded-lg text-xs font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+        });
+
+        const ntabHeading = document.getElementById('ntabHeading');
+        const ntabBody = document.getElementById('ntabBody');
+        const ntabSubLabel = document.getElementById('ntabSubLabel');
+        const ntabSubContent = document.getElementById('ntabSubContent');
+
+        if (activeNTab === 'how') {
+          ntabHeading.textContent = '01 // HOW IT WORKS (MECHANISM)';
+          ntabBody.textContent = n.how;
+          ntabSubLabel.textContent = 'TENSOR SIGNATURE';
+          ntabSubContent.textContent = n.tensor;
+        } else if (activeNTab === 'why') {
+          ntabHeading.textContent = '02 // WHY IT IS USED (ENGINEERING RATIONALE)';
+          ntabBody.textContent = n.why;
+          ntabSubLabel.textContent = 'MATHEMATICAL IDENTITY';
+          ntabSubContent.textContent = n.formula;
+        } else if (activeNTab === 'contrib') {
+          ntabHeading.textContent = '03 // WHAT IT CONTRIBUTES TO SYSTEM GOAL';
+          ntabBody.textContent = n.contrib;
+          ntabSubLabel.textContent = 'SPECIFICATION REFERENCE';
+          ntabSubContent.textContent = n.spec;
+        } else {
+          ntabHeading.textContent = '04 // MATHEMATICAL FORMULATION & TENSOR ABI';
+          ntabBody.textContent = n.formula;
+          ntabSubLabel.textContent = 'IN / OUT SHAPE';
+          ntabSubContent.textContent = n.tensor;
+        }
+
+        // Render Contextual Embedded Interactive Micro-Simulator
+        renderContextualWidget(n);
+      }
+
+      document.querySelectorAll('.ntab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          activeNTab = btn.getAttribute('data-ntab');
+          renderNodeInspector();
+        });
+      });
+
+      document.querySelectorAll('.ttab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          activeTTab = btn.getAttribute('data-ttab');
+          renderTechDeepDive();
+        });
+      });
+
+      // Render Contextual Interactive Micro-Simulator inside the Right Panel
+      function renderContextualWidget(node) {
+        const wTitle = document.getElementById('ctxWidgetTitle');
+        const wTag = document.getElementById('ctxWidgetTag');
+        const wBody = document.getElementById('ctxWidgetBody');
+        wBody.innerHTML = '';
+
+        if (node.stageGroup === 'mem') {
+          wTitle.textContent = 'INTERACTIVE 5,376B CACHE-LINE INSPECTOR';
+          wTag.textContent = '84 × 64B CL';
+          const segments = [
+            { name: 'Cars [0..5]', bytes: '0..1535', cl: '24 CL', color: '#38bdf8', desc: '6 Cars × 64 floats (256B each): Pos, Vel, Rot6D, Local Vel, Dodge/Flip Timers, 4-Wheel Shocks' },
+            { name: 'Ball [6]', bytes: '1536..1663', cl: '2 CL', color: '#22d3ee', desc: '1 Ball × 32 floats (128B): Position, Linear/Angular Velocity, Last Hit Car, Magnus Force' },
+            { name: 'Traj [7..14]', bytes: '1664..2687', cl: '16 CL', color: '#818cf8', desc: '8 BallRingBuffer480 Samples × 32 floats (1,024B): 4.0s Future Bounce & Spin Curve' },
+            { name: 'Match [15]', bytes: '2688..2751', cl: '1 CL', color: '#a78bfa', desc: '1 Match Node × 16 floats (64B): κ_Δt Action Duration, Score Diff, Clock, Gravity' },
+            { name: 'Pads [16..49]', bytes: '2752..3839', cl: '17 CL', color: '#f472b6', desc: '34 Boost Pads × 8 floats (1,088B): Canonical X/Y/Z, IsBigPad, Active Flag, Respawn Timer' },
+            { name: 'Goals/Wheels/OBB', bytes: '3840..4735', cl: '14 CL', color: '#fbbf24', desc: '6 Goals + 4 Zero-Lag Ego Wheel Raycasts + 4 Nearest Wall Surface OBBs (896B)' },
+            { name: 'PrivCtx [128]', bytes: '4864..5375', cl: '8 CL', color: '#34d399', desc: '128 Privileged Floats (512B): Exact Opponent Boost/Flip Secrets (Training Critic Only)' }
+          ];
+          const barRow = document.createElement('div');
+          barRow.className = 'grid grid-cols-7 gap-1';
+          segments.forEach((seg, idx) => {
+            const b = document.createElement('button');
+            b.className = 'py-1.5 px-1 rounded text-[10px] mono font-bold truncate border transition ' +
+              (selectedMemSliceIdx === idx ? 'border-white text-slate-950' : 'border-transparent text-slate-200 opacity-75 hover:opacity-100');
+            b.style.backgroundColor = seg.color;
+            b.textContent = seg.cl;
+            b.title = seg.name;
+            b.addEventListener('click', () => {
+              selectedMemSliceIdx = idx;
+              renderContextualWidget(node);
+            });
+            barRow.appendChild(b);
+          });
+          wBody.appendChild(barRow);
+
+          const activeSeg = segments[selectedMemSliceIdx] || segments[0];
+          const info = document.createElement('div');
+          info.className = 'p-2.5 rounded-lg surface-root border border-hairline mono text-xs flex flex-col gap-1';
+          info.innerHTML =
+            '<div class="flex justify-between"><span class="font-bold text-primary-ink">' + activeSeg.name + '</span><span class="text-sky-400">Bytes ' + activeSeg.bytes + ' (' + activeSeg.cl + ')</span></div>' +
+            '<div class="text-secondary-ink font-sans text-xs">' + activeSeg.desc + '</div>';
+          wBody.appendChild(info);
+
+        } else if (node.stageGroup === 'edges') {
+          wTitle.textContent = '16×64 PAIRWISE INTERCEPT SIMULATOR';
+          wTag.textContent = '1,024 PAIRS · 72D';
+          const queries = [
+            { label: 'Q0: Ego Car (Blue #0)', v: 1850, pos: [-420, -1200, 17] },
+            { label: 'Q1: Teammate #1', v: 1410, pos: [1100, -2400, 17] },
+            { label: 'Q3: Opponent #1 (Chal)', v: 2150, pos: [-180, 640, 190] },
+            { label: 'Q6: Live Ball', v: 2400, pos: [0, 120, 420] }
+          ];
+          const keys = [
+            { label: 'K6: Current Ball', pos: [0, 120, 420] },
+            { label: 'K10: Ball Bounce +1.3s (τ_4)', pos: [-1650, 3100, 680] },
+            { label: 'K22: Mid-Left 100% Boost Pad', pos: [-3072, 0, 73] },
+            { label: 'K57: Ego Wheel #1 Raycast', pos: [-420, -1180, 17] }
+          ];
+
+          const selRow = document.createElement('div');
+          selRow.className = 'grid grid-cols-2 gap-1.5';
+          const sQ = document.createElement('select');
+          sQ.className = 'surface-root text-primary-ink border border-hairline rounded px-2 py-1 text-xs mono';
+          queries.forEach((q, i) => {
+            const o = document.createElement('option');
+            o.value = i; o.textContent = q.label;
+            if (i === selectedPairQueryIdx) o.selected = true;
+            sQ.appendChild(o);
+          });
+          sQ.addEventListener('change', e => { selectedPairQueryIdx = Number(e.target.value); renderContextualWidget(node); });
+
+          const sK = document.createElement('select');
+          sK.className = 'surface-root text-primary-ink border border-hairline rounded px-2 py-1 text-xs mono';
+          keys.forEach((k, i) => {
+            const o = document.createElement('option');
+            o.value = i; o.textContent = k.label;
+            if (i === (selectedPairKeyIdx % keys.length)) o.selected = true;
+            sK.appendChild(o);
+          });
+          sK.addEventListener('change', e => { selectedPairKeyIdx = Number(e.target.value); renderContextualWidget(node); });
+
+          selRow.appendChild(sQ);
+          selRow.appendChild(sK);
+          wBody.appendChild(selRow);
+
+          const qObj = queries[selectedPairQueryIdx] || queries[0];
+          const kObj = keys[selectedPairKeyIdx % keys.length] || keys[0];
+          const dx = kObj.pos[0] - qObj.pos[0];
+          const dy = kObj.pos[1] - qObj.pos[1];
+          const dz = kObj.pos[2] - qObj.pos[2];
+          const dist = Math.round(Math.sqrt(dx*dx + dy*dy + dz*dz));
+          const tReach = (dist / Math.max(qObj.v, 500)).toFixed(2);
+          const diffWeight = Math.max(0.08, Math.min(0.94, 1.35 - Number(tReach) * 0.45)).toFixed(2);
+
+          const metrics = document.createElement('div');
+          metrics.className = 'grid grid-cols-3 gap-1.5 mono text-xs';
+          metrics.innerHTML =
+            '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">3D DIST</div><div class="text-primary-ink font-bold">' + dist + ' uu</div></div>' +
+            '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">T_INTERCEPT</div><div class="text-cyan-400 font-bold">' + tReach + ' s</div></div>' +
+            '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">DIFF-ATTN</div><div class="text-emerald-400 font-bold">' + diffWeight + '</div></div>';
+          wBody.appendChild(metrics);
+
+        } else if (node.stageGroup === 'titans') {
+          wTitle.textContent = 'TITANS SURPRISE & 8-EXPERT SOFT-MOE ROUTER';
+          wTag.textContent = 'FP32 ||W||_F <= 4.0';
+
+          const sliderRow = document.createElement('div');
+          sliderRow.className = 'flex items-center justify-between gap-2';
+          sliderRow.innerHTML = '<span class="text-secondary-ink">Opponent Surprise Residual ||r_t||:</span><span class="mono font-bold text-violet-400">' + surpriseIntensity.toFixed(2) + '</span>';
+          wBody.appendChild(sliderRow);
+
+          const rng = document.createElement('input');
+          rng.type = 'range'; rng.min = '0.05'; rng.max = '1.50'; rng.step = '0.05';
+          rng.value = String(surpriseIntensity);
+          rng.className = 'w-full accent-violet-400 cursor-pointer';
+          rng.addEventListener('input', e => {
+            surpriseIntensity = Number(e.target.value);
+            renderContextualWidget(node);
+          });
+          wBody.appendChild(rng);
+
+          const frobNorm = Math.min(4.0, (2.15 + surpriseIntensity * 1.15)).toFixed(2);
+          const experts = [
+            { name: 'E1: Ground/50s', w: 0.14 },
+            { name: 'E2: Fast Aerial', w: 0.22 },
+            { name: 'E3: Wall/Double', w: Math.min(0.42, 0.12 + surpriseIntensity * 0.18) },
+            { name: 'E4: Flip Reset', w: Math.min(0.38, 0.08 + surpriseIntensity * 0.15) },
+            { name: 'E5: Shadow Def', w: Math.max(0.06, 0.34 - surpriseIntensity * 0.12) },
+            { name: 'E6: Demo/Evade', w: Math.min(0.45, 0.10 + surpriseIntensity * 0.22) }
+          ];
+          const expGrid = document.createElement('div');
+          expGrid.className = 'grid grid-cols-2 gap-1.5 pt-1';
+          experts.forEach(ex => {
+            const pct = Math.round(ex.w * 100);
+            const item = document.createElement('div');
+            item.className = 'p-1.5 rounded surface-root border border-hairline flex flex-col gap-1';
+            item.innerHTML =
+              '<div class="flex justify-between text-[11px] mono"><span class="text-secondary-ink">' + ex.name + '</span><span class="text-pink-400">' + pct + '%</span></div>' +
+              '<div class="w-full h-1.5 bg-slate-800 rounded overflow-hidden"><div class="h-full bg-pink-400" style="width:' + pct + '%"></div></div>';
+            expGrid.appendChild(item);
+          });
+          wBody.appendChild(expGrid);
+
+          const foot = document.createElement('div');
+          foot.className = 'mono text-[11px] text-secondary-ink flex justify-between pt-1';
+          foot.innerHTML = '<span>Fast-Weight Norm: ||W_t||_F = ' + frobNorm + ' / 4.00</span><span class="text-emerald-400">FSQ Code #418</span>';
+          wBody.appendChild(foot);
+
+        } else {
+          wTitle.textContent = '60HZ SUBTICK CHUNK & 4-HORIZON CRITIC';
+          wTag.textContent = 'K_sub = 4 (16.7ms)';
+          const subticks = [
+            { k: 'Subtick 1 (0–16.7ms)', j: '1 (Jump)', dj: '0', pitch: '-0.85', boost: '1' },
+            { k: 'Subtick 2 (16.7–33.3ms)', j: '1 (Hold)', dj: '1 (Stall Clamp)', pitch: '+0.02 (0.12·tanh)', boost: '1' },
+            { k: 'Subtick 3 (33.3–50.0ms)', j: '0 (Rel)', dj: '0', pitch: '-0.98 (Cancel)', boost: '1' },
+            { k: 'Subtick 4 (50.0–66.7ms)', j: '0', dj: '0', pitch: '-0.94 (Align)', boost: '0' }
+          ];
+          const tbl = document.createElement('div');
+          tbl.className = 'flex flex-col gap-1 mono text-[11px]';
+          subticks.forEach(st => {
+            const r = document.createElement('div');
+            r.className = 'p-1.5 rounded surface-root border border-hairline flex items-center justify-between';
+            r.innerHTML =
+              '<span class="text-primary-ink font-semibold">' + st.k + '</span>' +
+              '<span class="text-amber-400">m_dj=' + st.dj.charAt(0) + ' · Pitch ' + st.pitch + '</span>';
+            tbl.appendChild(r);
+          });
+          wBody.appendChild(tbl);
+
+          const hRow = document.createElement('div');
+          hRow.className = 'grid grid-cols-4 gap-1 pt-1 mono text-[10px] text-center';
+          hRow.innerHTML =
+            '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">γ=0.95 (1s)</div><div class="text-emerald-400 font-bold">+1.42</div></div>' +
+            '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">γ=0.98 (2.5s)</div><div class="text-emerald-400 font-bold">+2.18</div></div>' +
+            '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">γ=0.995 (10s)</div><div class="text-emerald-400 font-bold">+3.05</div></div>' +
+            '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">Sparse Win</div><div class="text-sky-400 font-bold">64.2%</div></div>';
+          wBody.appendChild(hRow);
+        }
+      }
+
+      // Curated External White Papers & Technical Literature per Technology (Links open in new tab)
+      const TECH_EXTERNAL_RESOURCES = {
+        t0: [
+          {
+            badge: 'FOUNDATIONAL MONOGRAPH // ARXIV 2021',
+            title: 'Geometric Deep Learning: Grids, Groups, Graphs, Geodesics, and Gauges',
+            authors: 'M. M. Bronstein, J. Bruna, T. Cohen, P. Veličković (2021)',
+            desc: 'Formalizes group-equivariant neural architectures over symmetry groups such as the Klein 4-group C_2v = {I, M_C2v, M_lat, M_C2v M_lat}, explaining why canonicalizing symmetries at the input manifold doubles sample efficiency and preserves geometric invariants.',
+            url: 'https://arxiv.org/abs/2104.13478'
+          },
+          {
+            badge: 'WHITE PAPER // ICML 2016',
+            title: 'Group Equivariant Convolutional Networks (G-CNNs)',
+            authors: 'T. S. Cohen, M. Welling — University of Amsterdam (ICML 2016)',
+            desc: 'Introduces discrete group representations for reflections and rotations, providing the mathematical foundation for Arashikage’s chirality-preserving SO(3) team rotation M_C2v = diag(-1, -1, +1) and lateral reflection pseudovector parity laws.',
+            url: 'https://arxiv.org/abs/1602.07576'
+          },
+          {
+            badge: 'SYSTEMS & HPC REFERENCE // RED HAT',
+            title: 'What Every Programmer Should Know About Memory (Cache Lines & DMA)',
+            authors: 'Ulrich Drepper — Red Hat (2007)',
+            desc: 'Detailed hardware treatise on 64-byte CPU cache lines, false-sharing prevention, SIMD alignment (alignas(64)), and zero-copy DMA transfers that govern the 5,376B (84 cache line) Hex63EntityNodeArenaSlice layout.',
+            url: 'https://people.freebsd.org/~lstewart/articles/cpumemory.pdf'
+          },
+          {
+            badge: 'WHITE PAPER // CVPR 2019',
+            title: 'On the Continuity of Rotation Representations in Neural Networks',
+            authors: 'Y. Zhou, C. Barnes, J. Lu, J. Yang, H. Li (CVPR 2019)',
+            desc: 'Proves that Euler angles and quaternions exhibit topological discontinuities during gradient descent, motivating the continuous 6D Gram-Schmidt rotation basis (forward f_hat, up u_hat) stored in CarNode slots.',
+            url: 'https://arxiv.org/abs/1812.07035'
+          }
+        ],
+        t1: [
+          {
+            badge: 'WHITE PAPER // ICML 2021',
+            title: 'Perceiver: General Perception with Iterative Attention',
+            authors: 'A. Jaegle et al. — DeepMind (ICML 2021)',
+            desc: 'Introduces asymmetric cross-attention where a compact set of dynamic latent queries (M = 16) attends over a larger context byte/entity array (N = 64), reducing quadratic O(N^2) self-attention complexity to O(M·N).',
+            url: 'https://arxiv.org/abs/2103.03206'
+          },
+          {
+            badge: 'WHITE PAPER // NATURE 2021',
+            title: 'Highly Accurate Protein Structure Prediction with AlphaFold (Evoformer Pair Bias)',
+            authors: 'J. Jumper et al. — DeepMind (Nature 2021)',
+            desc: 'Pioneered injecting projected pairwise geometric distance and orientation tensors directly into attention logits as additive relational bias B_rel—the exact pattern used by our fused 16×64×72D GPU pairwise physics kernel.',
+            url: 'https://www.nature.com/articles/s41586-021-03819-2'
+          },
+          {
+            badge: 'WHITE PAPER // ICML 2019',
+            title: 'Set Transformer: Permutation-Invariant Attention Networks',
+            authors: 'J. Lee, Y. Lee, J. Kim, A. R. Kosiorek, S. Choi, Y. W. Teh (ICML 2019)',
+            desc: 'Establishes permutation-equivariant entity set encoding with induced attention blocks, enabling a single network to handle 1v1, 2v2, and 3v3 car counts seamlessly via key-padding masks.',
+            url: 'https://arxiv.org/abs/1810.00825'
+          },
+          {
+            badge: 'WHITE PAPER // NEURIPS 2020',
+            title: 'Fourier Features Let Networks Learn High Frequency Functions in Low Dimensions',
+            authors: 'M. Tancik et al. — UC Berkeley / Google Research (NeurIPS 2020)',
+            desc: 'Explains why raw Euclidean coordinates suffer from spectral bias in MLPs and how multi-scale sinusoidal Fourier bands [sin(ω_m d), cos(ω_m d)] resolve millimeter-scale wheel/ball contact alongside full-field clearances.',
+            url: 'https://arxiv.org/abs/2006.10739'
+          }
+        ],
+        t2: [
+          {
+            badge: 'WHITE PAPER // ICLR 2025',
+            title: 'Differential Transformer (Noise-Canceling Dual-Softmax Attention)',
+            authors: 'T. Ye, L. Dong, Y. Xia, Y. Sun, Y. Zhu, G. Huang, F. Wei — Microsoft Research (ICLR 2025)',
+            desc: 'Primary architectural paper for Stage 2 & Stage 4 attention: splits queries and keys into two groups and subtracts a λ-scaled second softmax map to cancel common-mode attention noise over irrelevant context tokens.',
+            url: 'https://arxiv.org/abs/2410.05258'
+          },
+          {
+            badge: 'WHITE PAPER // ICLR 2024',
+            title: 'Efficient Streaming Language Models with Attention Sinks',
+            authors: 'G. Xiao, Y. Tian, B. Chen, S. Han, M. Lewis — MIT / Meta AI (ICLR 2024)',
+            desc: 'Analyzes why standard softmax operators dump excess probability mass onto uninformative background tokens ("attention sinks")—the exact failure mode over 34 static boost pads that Differential Attention eliminates.',
+            url: 'https://arxiv.org/abs/2309.17453'
+          },
+          {
+            badge: 'TECHNICAL REPORT // ARXIV 2020',
+            title: 'GLU Variants Improve Transformer (SwiGLU Feedforward Networks)',
+            authors: 'Noam Shazeer — Google Brain (2020)',
+            desc: 'Introduces bilinear Swish-Gated Linear Units (SwiGLU) used across the Bipartite Entity Encoder and Soft-MoE experts to improve gradient flow and multiplicative feature interactions.',
+            url: 'https://arxiv.org/abs/2002.05202'
+          }
+        ],
+        t3: [
+          {
+            badge: 'WHITE PAPER // GOOGLE RESEARCH 2025',
+            title: 'Titans: Learning to Memorize at Test Time',
+            authors: 'A. Behrouz, P. Zhong, V. Mirrokni — Google Research (2025)',
+            desc: 'Primary paper for Stage 3: introduces test-time neural memory modules that update fast weights via a surprise-driven gradient with momentum M_t and adaptive forgetting α_t during live inference.',
+            url: 'https://arxiv.org/abs/2501.00663'
+          },
+          {
+            badge: 'WHITE PAPER // ICML 2024',
+            title: 'Learning to (Learn at Test Time): RNNs with Expressive Hidden States (TTT)',
+            authors: 'Y. Sun, X. Li, K. Dalal et al. — Stanford / UC Berkeley / Meta (ICML 2024)',
+            desc: 'Formulates sequence hidden states as a machine learning model W_t updated by self-supervised reconstruction steps at test time, providing the theoretical basis for in-match opponent adaptation.',
+            url: 'https://arxiv.org/abs/2407.04620'
+          },
+          {
+            badge: 'WHITE PAPER // ICML 2021',
+            title: 'Linear Transformers Are Secretly Fast Weight Programmers',
+            authors: 'I. Schlag, K. Irie, J. Schmidhuber — IDSIA (ICML 2021)',
+            desc: 'Demonstrates that outer-product memory updates require error-correcting Delta rules (W^T k - v) and norm control rather than unbounded Hebbian accumulation to prevent memory capacity saturation.',
+            url: 'https://arxiv.org/abs/2102.11174'
+          },
+          {
+            badge: 'FOUNDATIONAL PAPER // COGNITIVE SCIENCE 1987',
+            title: 'Using Fast Weights to Deblur Old Memories',
+            authors: 'G. E. Hinton, D. C. Plaut (1987)',
+            desc: 'Classic foundational work introducing a two-timescale synapse architecture: slow weights trained across lifetimes (PPO/GRPO) paired with fast weights adapting rapidly to the current episode context.',
+            url: 'https://www.cs.toronto.edu/~hinton/absps/fastweights87.pdf'
+          }
+        ],
+        t4: [
+          {
+            badge: 'WHITE PAPER // META FAIR 2024',
+            title: 'Training Large Language Models to Reason in a Continuous Latent Space (Coconut)',
+            authors: 'S. Hao, S. Sukhbaatar, D. Su, X. Li, Z. Hu, J. Weston, Y. Tian — Meta FAIR (2024)',
+            desc: 'Primary paper for Stage 4: replaces discrete step-by-step token generation with recurrent passes in continuous latent space, enabling breadth-first multi-trajectory reasoning before committing to an action.',
+            url: 'https://arxiv.org/abs/2412.06769'
+          },
+          {
+            badge: 'WHITE PAPER // ICLR 2019',
+            title: 'Universal Transformers (Weight-Tied Depth Recurrence)',
+            authors: 'M. Dehghani, S. Gouws, O. Vinyals, J. Uszkoreit, Ł. Kaiser — Google Brain (ICLR 2019)',
+            desc: 'Introduces weight-tied transformer blocks iterated across recurrent depth steps k = 1..K with step embeddings e_pass(k), achieving high effective depth while keeping parameter footprints small enough for GPU L2 cache.',
+            url: 'https://arxiv.org/abs/1807.03819'
+          },
+          {
+            badge: 'WHITE PAPER // DEEPMIND 2021',
+            title: 'PonderNet: Learning to Ponder (Adaptive Compute Depth)',
+            authors: 'A. Banino, J. Balaguer, C. Blundell — DeepMind (2021)',
+            desc: 'Formalizes variable-depth recurrent unrolling where the number of recurrent passes K_t adapts to problem difficulty and real-time latency constraints (Tier 0 K=6 vs. Tier 2 K=4).',
+            url: 'https://arxiv.org/abs/2107.05407'
+          }
+        ],
+        t5: [
+          {
+            badge: 'WHITE PAPER // ICLR 2024',
+            title: 'From Sparse to Soft Mixtures of Experts (Soft-MoE)',
+            authors: 'J. Puigcerver, C. Riquelme, B. Mustafa, N. Houlsby — Google DeepMind (ICLR 2024)',
+            desc: 'Primary paper for Stage 4 MoE: replaces discrete Top-K token dropping/sorting with differentiable dispatch (Φ_disp) and combine (Φ_comb) slot weighted averages, making execution 100% static-shape and CUDAGraph-safe.',
+            url: 'https://arxiv.org/abs/2308.00951'
+          },
+          {
+            badge: 'WHITE PAPER // DEEPSEEK-AI 2024',
+            title: 'Auxiliary-Loss-Free Load Balancing Strategy for Mixture-of-Experts',
+            authors: 'L. Wang et al. — DeepSeek-AI (2024)',
+            desc: 'Introduces the gradient-free routing bias b_e^bal updated via sign-error feedback outside the optimizer so expert utilization stays balanced without polluting RL policy gradients with auxiliary penalties.',
+            url: 'https://arxiv.org/abs/2408.15664'
+          },
+          {
+            badge: 'WHITE PAPER // ACL 2024',
+            title: 'DeepSeekMoE: Towards Ultimate Expert Specialization (Shared Expert Isolation)',
+            authors: 'D. Dai et al. — DeepSeek-AI (ACL 2024)',
+            desc: 'Demonstrates that pairing 1 always-active Shared Expert (capturing universal physics/kinematics) with fine-grained routed Specialist Experts prevents redundant knowledge duplication across experts.',
+            url: 'https://arxiv.org/abs/2401.06066'
+          }
+        ],
+        t6: [
+          {
+            badge: 'WHITE PAPER // ICLR 2024',
+            title: 'Finite Scalar Quantization: VQ-VAE Made Simple (FSQ)',
+            authors: 'F. Mentzer, D. Minnen, E. Agustsson, M. Tschannen — Google Research (ICLR 2024)',
+            desc: 'Primary paper for Stage 4 skill bottleneck: replaces learned VQ-VAE codebooks and commitment losses with coordinate-wise tanh bounding and Straight-Through Estimator rounding onto a fixed integer grid.',
+            url: 'https://arxiv.org/abs/2309.15505'
+          },
+          {
+            badge: 'FOUNDATIONAL PAPER // NEURIPS 2017',
+            title: 'Neural Discrete Representation Learning (VQ-VAE)',
+            authors: 'A. van den Oord, O. Vinyals, K. Kavukcuoglu — DeepMind (NeurIPS 2017)',
+            desc: 'Establishes discrete latent bottlenecks for compressing high-dimensional continuous representations into structured, interpretable discrete skill/intention codes.',
+            url: 'https://arxiv.org/abs/1711.00937'
+          },
+          {
+            badge: 'TECHNICAL PAPER // ARXIV 2013',
+            title: 'Estimating or Propagating Gradients Through Stochastic Neurons (STE)',
+            authors: 'Y. Bengio, N. Léonard, A. Courville — Université de Montréal (2013)',
+            desc: 'Formalizes the Straight-Through Estimator z_q = z_b + stop_grad(round(z_b) - z_b) that enables end-to-end backpropagation through discrete integer rounding operations.',
+            url: 'https://arxiv.org/abs/1308.3432'
+          }
+        ],
+        t7: [
+          {
+            badge: 'WHITE PAPER // ARXIV 2025',
+            title: 'Flow-GRPO: Training Flow Matching Models via Online Reinforcement Learning',
+            authors: 'J. Liu et al. (2025)',
+            desc: 'Primary paper for Stage 5 continuous control: converts deterministic Flow Matching ODEs into an equivalent Stochastic Differential Equation (SDE) whose Euler-Maruyama steps yield exact Gaussian log-probabilities for GRPO/PPO.',
+            url: 'https://arxiv.org/abs/2505.05470'
+          },
+          {
+            badge: 'WHITE PAPER // ICLR 2023',
+            title: 'Flow Matching for Generative Modeling',
+            authors: 'Y. Lipman, R. T. Q. Chen, H. Ben-Hamu, M. Nickel, M. Le — Meta AI (ICLR 2023)',
+            desc: 'Introduces conditional Optimal Transport straight-line probability paths between Gaussian noise x_0 and target actions x_1, enabling accurate trajectory generation in just 4 Euler integration steps.',
+            url: 'https://arxiv.org/abs/2210.02747'
+          },
+          {
+            badge: 'WHITE PAPER // PHYSICAL INTELLIGENCE 2024',
+            title: 'π_0: A Vision-Language-Action Flow Model for General Robot Control',
+            authors: 'K. Black et al. — Physical Intelligence (2024)',
+            desc: 'Demonstrates how coupling a transformer backbone with a conditional Flow-Matching action-chunk decoder unlocks high-frequency (50–60 Hz) dexterous motor control without mode-averaging.',
+            url: 'https://arxiv.org/abs/2410.24164'
+          },
+          {
+            badge: 'WHITE PAPER // RSS 2023',
+            title: 'Learning Fine-Grained Bimanual Manipulation (Action Chunking / ACT)',
+            authors: 'T. Z. Zhao, V. Kumar, S. Levine, C. Finn — Stanford / UC Berkeley (RSS 2023)',
+            desc: 'Shows why predicting multi-subtick action chunks (K_sub = 4) eliminates compounding control jitter and allows coherent multi-frame maneuvers like speedflip pitch cancels.',
+            url: 'https://arxiv.org/abs/2304.13705'
+          },
+          {
+            badge: 'WHITE PAPER // DEEPSEEK-AI 2024',
+            title: 'DeepSeekMath: Group Relative Policy Optimization (GRPO)',
+            authors: 'Z. Shao et al. — DeepSeek-AI (2024)',
+            desc: 'Introduces critic-free Group Relative Policy Optimization A_i = (R_i - μ_G) / σ_G across G = 8 parallel rollouts initialized from identical starting seeds (used in our 816 mechanics drill arenas).',
+            url: 'https://arxiv.org/abs/2402.03300'
+          }
+        ],
+        t8: [
+          {
+            badge: 'WHITE PAPER // ICML 2024',
+            title: 'Stop Regressing: Training Value Functions via Classification for Scalable Deep RL',
+            authors: 'J. Farebrother et al. — Google DeepMind / UC Berkeley (ICML 2024)',
+            desc: 'Primary paper for Stage 6 Critic: proves that replacing scalar MSE value regression with categorical cross-entropy over Histogram Loss with Gaussian smoothing (HL-Gauss) prevents value gradient explosion.',
+            url: 'https://arxiv.org/abs/2403.03950'
+          },
+          {
+            badge: 'WHITE PAPER // NATURE / ARXIV 2023',
+            title: 'Mastering Diverse Domains through World Models (DreamerV3 Symlog)',
+            authors: 'D. Hafner, J. Pasukonis, J. Ba, T. Lillicrap (2023)',
+            desc: 'Introduces the bijective symlog(x) = sign(x)·ln(1+|x|) and symexp(z) transformations that compress multi-scale rewards symmetrically around zero onto a fixed [-10, +10] support grid.',
+            url: 'https://arxiv.org/abs/2301.04104'
+          },
+          {
+            badge: 'FOUNDATIONAL PAPER // ICML 1999',
+            title: 'Policy Invariance Under Reward Transformations: Theory and Application to Reward Shaping',
+            authors: 'A. Y. Ng, D. Harada, S. Russell — UC Berkeley (ICML 1999)',
+            desc: 'Proves that Potential-Based Reward Shaping F(s, s\') = γ·Φ(s\') - Φ(s) telescopes over trajectories and guarantees 100% optimal policy invariance while accelerating credit assignment.',
+            url: 'https://people.eecs.berkeley.edu/~pabbeel/cs287-fa09/readings/NgHaradaRussell-shaping-ICML1999.pdf'
+          },
+          {
+            badge: 'WHITE PAPER // ICML 2018',
+            title: 'Improving Generalization in Regression with Histogram Losses (HL-Gauss)',
+            authors: 'E. Imani, M. White — University of Alberta (ICML 2018)',
+            desc: 'Derives the exact closed-form Gaussian CDF bin target probabilities p_j = 0.5·[erf((b_j - y)/(√2 σ)) - erf((b_{j-1} - y)/(√2 σ))] used in our 51-bin Symlog HL-Gauss value heads.',
+            url: 'https://arxiv.org/abs/1806.04613'
+          }
+        ],
+        t9: [
+          {
+            badge: 'POSITION MONOGRAPH // OPENREVIEW 2022',
+            title: 'A Path Towards Autonomous Machine Intelligence (JEPA & World Models)',
+            authors: 'Yann LeCun — Meta AI / Courant Institute NYU (2022)',
+            desc: 'Foundational blueprint for Joint-Embedding Predictive Architectures (JEPA) that predict future representations in latent space rather than raw state/pixel space, enabling fast test-time planning.',
+            url: 'https://openreview.net/forum?id=BZ5a1r-kVsf'
+          },
+          {
+            badge: 'WHITE PAPER // CVPR 2023',
+            title: 'Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture (I-JEPA)',
+            authors: 'M. Assran et al. — Meta AI (CVPR 2023)',
+            desc: 'Establishes the stop-gradient Exponential Moving Average (EMA) target encoder (τ_ema = 0.996) that prevents representation collapse in our Dual-Stream Ego/Ball JEPA predictor.',
+            url: 'https://arxiv.org/abs/2301.08243'
+          },
+          {
+            badge: 'FOUNDATIONAL PAPER // JOURNAL OF RISK 2000',
+            title: 'Optimization of Conditional Value-at-Risk (CVaR)',
+            authors: 'R. T. Rockafellar, S. Uryasev (Journal of Risk, 2000)',
+            desc: 'Defines Conditional Value-at-Risk (CVaR_α) over the lower α-quantile of a return distribution, used by our Best-of-16 live search to filter out catastrophic defensive dives.',
+            url: 'https://sites.math.washington.edu/~rtr/papers/rtr179-CVaR1.pdf'
+          },
+          {
+            badge: 'SYSTEMS REPOSITORY // C++20 BULLET3',
+            title: 'RocketSim: High-Performance C++ Physics Engine for Rocket League',
+            authors: 'ZealanL (Open-Source C++20 / Bullet3 Physics Engine)',
+            desc: 'Underlying 120 Hz rigid-body vehicle and arena collision engine powering both our 4,096-arena OpenMP BatchArenaEngine and the 1-tick live RocketSimShadowTwin.',
+            url: 'https://github.com/ZealanL/RocketSim'
+          }
+        ]
+      };
+
+      const learnMoreOverlay = document.getElementById('learnMoreOverlay');
+      const lmTechShortBadge = document.getElementById('lmTechShortBadge');
+      const lmTechTitle = document.getElementById('lmTechTitle');
+      const lmTechPillsBar = document.getElementById('lmTechPillsBar');
+      const lmResourcesGrid = document.getElementById('lmResourcesGrid');
+      const btnCloseLearnMore = document.getElementById('btnCloseLearnMore');
+      const btnOpenLearnMoreTop = document.getElementById('btnOpenLearnMoreTop');
+      let learnMoreOpen = false;
+
+      // Theme-Aligned Icon Vocabulary (Adapts button glyphs to active theme so sibling buttons stay 100% aligned)
+      const THEME_GLYPHS = {
+        neo_brutalism: {
+          prev: '■◀', next: '▶■', light: '■', dark: '□',
+          node: '▣', tech: '◈', tourOn: '■', tourOff: '□',
+          export: '▣', close: '×', open: '↗'
+        },
+        modular_typo: {
+          prev: '←', next: '→', light: '○', dark: '●',
+          node: '01', tech: '02', tourOn: '●', tourOff: '○',
+          export: '↗', close: '×', open: '↗'
+        },
+        utilitarian: {
+          prev: '[<]', next: '[>]', light: '[L]', dark: '[D]',
+          node: '[BLK]', tech: '[TEC]', tourOn: '[ON]', tourOff: '[--]',
+          export: '[IO]', close: '[X]', open: '[>]'
+        },
+        memphis: {
+          prev: '◀', next: '▶', light: '★', dark: '✦',
+          node: '◆', tech: '▲', tourOn: '★', tourOff: '☆',
+          export: '◆', close: '✕', open: '↗'
+        },
+        pixel_art: {
+          prev: '<<', next: '>>', light: '[*]', dark: '[-]',
+          node: '[#]', tech: '[?]', tourOn: '[*]', tourOff: '[ ]',
+          export: '[v]', close: '[x]', open: '[>]'
+        },
+        aurora: {
+          prev: '‹', next: '›', light: '✧', dark: '✦',
+          node: '◈', tech: '✦', tourOn: '✦', tourOff: '✧',
+          export: '◈', close: '✕', open: '↗'
+        }
+      };
+
+      function getGlyph(key) {
+        const g = THEME_GLYPHS[activeTheme] || THEME_GLYPHS.neo_brutalism;
+        return g[key] || '';
+      }
+
+      function syncThemeAlignedButtons() {
+        btnPolarityLight.textContent = getGlyph('light') + ' Light';
+        btnPolarityDark.textContent = getGlyph('dark') + ' Dark';
+        document.getElementById('btnPrevTheme').textContent = getGlyph('prev') + ' Prev';
+        document.getElementById('btnNextTheme').textContent = 'Next ' + getGlyph('next');
+        btnViewNode.textContent = getGlyph('node') + ' Block Inspector';
+        btnViewTech.textContent = getGlyph('tech') + ' Tech Deep Dive';
+        document.getElementById('btnExportHtml').textContent = getGlyph('export') + ' Share HTML';
+        document.getElementById('btnExportPng').textContent = getGlyph('export') + ' Export PNG';
+        document.getElementById('btnCopyMermaid').textContent = getGlyph('export') + ' Copy Mermaid';
+        btnTtPrev.textContent = getGlyph('prev') + ' Prev';
+        btnTtNext.textContent = 'Next ' + getGlyph('next');
+        btnTtDeepDive.textContent = getGlyph('tech') + ' Tech Deep Dive';
+        btnCloseTooltip.textContent = getGlyph('close') + ' Close';
+        btnCloseLearnMore.textContent = getGlyph('close') + ' Close Panel';
+        btnOpenLearnMoreTop.textContent = 'Learn More ' + getGlyph('open');
+        btnBackToNode.textContent = getGlyph('prev') + ' Back to Block Inspector';
+      }
+
+      function renderLearnMoreOverlay() {
+        const t = techMap[selectedTechId] || techLib[0];
+        const resList = TECH_EXTERNAL_RESOURCES[t.id] || [];
+        lmTechShortBadge.textContent = resList.length + ' CURATED SOURCES';
+        lmTechTitle.textContent = t.title;
+
+        // Render quick technology switcher bar inside the overlay
+        lmTechPillsBar.innerHTML = '';
+        techLib.forEach(item => {
+          const active = (item.id === t.id);
+          const pill = document.createElement('button');
+          pill.className = 'shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer ' +
+            (active
+              ? 'bg-sky-500 text-slate-950 shadow'
+              : 'surface-card text-secondary-ink border border-hairline hover:text-primary-ink');
+          pill.textContent = item.short;
+          pill.addEventListener('click', () => {
+            selectedTechId = item.id;
+            renderTechDeepDive();
+            renderLearnMoreOverlay();
+          });
+          lmTechPillsBar.appendChild(pill);
+        });
+
+        // Render external white paper & technical source cards
+        lmResourcesGrid.innerHTML = '';
+        resList.forEach(r => {
+          const card = document.createElement('div');
+          card.className = 'surface-card border border-hairline hover:border-sky-400/50 rounded-xl p-4 flex flex-col justify-between gap-3 transition';
+          card.innerHTML =
+            '<div class="flex flex-col gap-1.5">' +
+              '<div class="flex items-center justify-between gap-2">' +
+                '<span class="mono text-xs font-bold px-2 py-0.5 rounded bg-sky-500/15 text-sky-400 border border-sky-400/30">' + r.badge + '</span>' +
+              '</div>' +
+              '<h4 class="text-sm font-bold text-primary-ink leading-snug mt-0.5">' + r.title + '</h4>' +
+              '<div class="mono text-xs text-muted-ink">' + r.authors + '</div>' +
+              '<p class="text-xs text-secondary-ink leading-relaxed mt-1">' + r.desc + '</p>' +
+            '</div>' +
+            '<div class="pt-2.5 border-t border-hairline flex items-center justify-between gap-2">' +
+              '<span class="mono text-xs text-muted-ink truncate">' + r.url + '</span>' +
+              '<a href="' + r.url + '" target="_blank" rel="noopener noreferrer" class="shrink-0 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-sky-500 text-slate-950 hover:bg-sky-400 transition flex items-center gap-1.5">' +
+                '<span>Open Paper ' + getGlyph('open') + '</span>' +
+              '</a>' +
+            '</div>';
+          lmResourcesGrid.appendChild(card);
+        });
+      }
+
+      function openLearnMoreOverlay() {
+        learnMoreOpen = true;
+        learnMoreOverlay.classList.remove('hidden');
+        learnMoreOverlay.classList.add('flex');
+        renderLearnMoreOverlay();
+      }
+
+      function closeLearnMoreOverlay() {
+        learnMoreOpen = false;
+        learnMoreOverlay.classList.add('hidden');
+        learnMoreOverlay.classList.remove('flex');
+      }
+
+      btnOpenLearnMoreTop.addEventListener('click', openLearnMoreOverlay);
+      btnCloseLearnMore.addEventListener('click', closeLearnMoreOverlay);
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && learnMoreOpen) {
+          closeLearnMoreOverlay();
+        }
+      });
+
+      // Render Technology Deep-Dive View in the Right Drawer (Aligned with Block Inspector Tabbed Design)
+      function renderTechDeepDive() {
+        const t = techMap[selectedTechId] || techLib[0];
+        selTechDropdown.value = t.id;
+        rightSpecRef.textContent = t.short;
+        document.getElementById('techTitle').textContent = t.title;
+
+        // Update 1-2-3-4 Tabs in Tech Deep Dive
+        document.querySelectorAll('.ttab-btn').forEach(btn => {
+          const isAct = btn.getAttribute('data-ttab') === activeTTab;
+          btn.className = isAct
+            ? 'ttab-btn py-1.5 px-2 rounded-lg text-xs font-semibold bg-sky-500 text-slate-950 transition cursor-pointer'
+            : 'ttab-btn py-1.5 px-2 rounded-lg text-xs font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+        });
+
+        const ttabHeading = document.getElementById('ttabHeading');
+        const ttabBody = document.getElementById('ttabBody');
+        const ttabSubLabel = document.getElementById('ttabSubLabel');
+        const ttabSubContent = document.getElementById('ttabSubContent');
+
+        if (activeTTab === 'how') {
+          ttabHeading.textContent = '01 // HOW IT WORKS (MECHANISM)';
+          ttabBody.textContent = t.how;
+          ttabSubLabel.textContent = 'WHY IT SITS HERE IN THE DATAFLOW';
+          ttabSubContent.textContent = t.placement;
+        } else if (activeTTab === 'why') {
+          ttabHeading.textContent = '02 // WHY IT IS USED (PROBLEM SOLVED)';
+          ttabBody.textContent = t.why;
+          ttabSubLabel.textContent = 'RESEARCH ORIGINS & EVOLUTION';
+          ttabSubContent.textContent = t.origins;
+        } else if (activeTTab === 'contrib') {
+          ttabHeading.textContent = '03 // WHAT IT CONTRIBUTES TO SYSTEM GOAL';
+          ttabBody.textContent = t.contrib;
+          ttabSubLabel.textContent = 'DATAFLOW PLACEMENT';
+          ttabSubContent.textContent = t.placement;
+        } else {
+          ttabHeading.textContent = '04 // UNDERLYING SCIENCE & MATHEMATICAL MECHANISM';
+          ttabBody.textContent = t.science;
+          ttabSubLabel.textContent = 'RESEARCH ORIGINS';
+          ttabSubContent.textContent = t.origins;
+        }
+
+        if (learnMoreOpen) {
+          renderLearnMoreOverlay();
+        }
+
+        const usedContainer = document.getElementById('techUsedInNodes');
+        usedContainer.innerHTML = '';
+        (t.usedIn || []).forEach(nid => {
+          const n = nodeMap[nid];
+          if (!n) return;
+          const b = document.createElement('button');
+          b.className = 'mono text-xs px-3 py-1 rounded-lg surface-panel text-primary-ink border border-hairline hover:border-sky-400 transition cursor-pointer';
+          b.textContent = getGlyph('node') + ' ' + n.num + ' · ' + n.title;
+          b.addEventListener('click', () => {
+            selectedNodeId = n.id;
+            closeLearnMoreOverlay();
+            setRightView('node');
+          });
+          usedContainer.appendChild(b);
+        });
+      }
+
+      // Update Floating Walkthrough Tooltip Overlay on Canvas
+      function updateTourTooltip() {
+        if (activeScenarioKey === 'none' || !tourOverlayVisible || !scenarios[activeScenarioKey]) {
+          tourTooltip.classList.add('hidden');
+          btnToggleTour.textContent = getGlyph('tourOff') + ' Show Tour Overlay';
+          btnToggleTour.className = 'px-3 py-1 rounded-lg text-xs font-medium surface-panel text-secondary-ink border border-hairline hover:text-primary-ink transition cursor-pointer';
+          return;
+        }
+
+        tourTooltip.classList.remove('hidden');
+        btnToggleTour.textContent = getGlyph('tourOn') + ' Tour Overlay Active';
+        btnToggleTour.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-sky-500/20 text-sky-400 border border-sky-400/40 hover:bg-sky-500/30 transition cursor-pointer';
+
+        const scen = scenarios[activeScenarioKey];
+        const steps = scen.steps;
+        if (activeStepIdx >= steps.length) activeStepIdx = 0;
+        if (activeStepIdx < 0) activeStepIdx = steps.length - 1;
+
+        const step = steps[activeStepIdx];
+        ttStepBadge.textContent = 'STEP ' + (activeStepIdx + 1) + ' OF ' + steps.length;
+        ttScenarioLabel.textContent = scen.label;
+        ttTitle.textContent = step.title;
+        ttDesc.textContent = step.desc;
+
+        // Sync focused node & right-hand inspector automatically
+        if (step.focusNode && nodeMap[step.focusNode]) {
+          selectedNodeId = step.focusNode;
+          if (activeRightView === 'node') {
+            renderNodeInspector();
+          } else if (step.techId) {
+            selectedTechId = step.techId;
+            renderTechDeepDive();
+          }
+        }
+
+        // Position tooltip smartly near the focused node using actual rendered dimensions
+        const fn = nodeMap[step.focusNode] || nodes[0];
+        const wrapperRect = document.getElementById('canvasWrapper').getBoundingClientRect();
+        const scaleX = wrapperRect.width / BASE_W;
+        const scaleY = wrapperRect.height / BASE_H;
+
+        const nodeScreenX = fn.x * scaleX;
+        const nodeScreenY = fn.y * scaleY;
+        const tooltipW = tourTooltip.offsetWidth || 390;
+        const tooltipH = tourTooltip.offsetHeight || 240;
+
+        let leftPx = nodeScreenX + (fn.w * 0.55 * scaleX) + 18;
+        if (fn.col >= 3) {
+          leftPx = nodeScreenX - (fn.w * 0.55 * scaleX) - tooltipW - 18;
+        }
+        leftPx = Math.max(20, Math.min(wrapperRect.width - tooltipW - 20, leftPx));
+
+        let topPx = nodeScreenY - Math.round(tooltipH * 0.35);
+        topPx = Math.max(20, Math.min(wrapperRect.height - tooltipH - 20, topPx));
+
+        tourTooltip.style.left = Math.round(leftPx) + 'px';
+        tourTooltip.style.top = Math.round(topPx) + 'px';
+        tourTooltip.style.bottom = 'auto';
+      }
+
+      // Scenario & Tooltip Controls
+      selScenario.addEventListener('change', (e) => {
+        activeScenarioKey = e.target.value;
+        activeStepIdx = 0;
+        tourOverlayVisible = (activeScenarioKey !== 'none');
+        updateTourTooltip();
+      });
+
+      btnToggleTour.addEventListener('click', () => {
+        if (activeScenarioKey === 'none') {
+          activeScenarioKey = 'tour';
+          selScenario.value = 'tour';
+          activeStepIdx = 0;
+          tourOverlayVisible = true;
+        } else {
+          tourOverlayVisible = !tourOverlayVisible;
+        }
+        updateTourTooltip();
+      });
+
+      btnCloseTooltip.addEventListener('click', () => {
+        tourOverlayVisible = false;
+        updateTourTooltip();
+      });
+
+      btnTtPrev.addEventListener('click', () => {
+        activeStepIdx--;
+        updateTourTooltip();
+      });
+
+      btnTtNext.addEventListener('click', () => {
+        activeStepIdx++;
+        updateTourTooltip();
+      });
+
+      btnTtDeepDive.addEventListener('click', () => {
+        const scen = scenarios[activeScenarioKey];
+        const step = scen ? scen.steps[activeStepIdx] : null;
+        const tid = (step && step.techId) ? step.techId : (nodeMap[selectedNodeId].techIds[0] || 't0');
+        setRightView('tech', tid);
+      });
+
+      selMode.addEventListener('change', (e) => {
+        activeMode = e.target.value;
+      });
+
+      // Logical Base Coordinate Space (Scales Dynamically to Fill 100% of #canvasWrapper)
+      const BASE_W = 1120;
+      const BASE_H = 680;
+
+      const colHeaders = [
+        { col: 0, x: 96,  title: 'STAGE 1 // C++20 OBS',     sub: '5,376B Slice · C2v',       color: '#38bdf8' },
+        { col: 1, x: 282, title: 'STAGE 2 // BIPARTITE',     sub: '16×64 Graph · DiffAttn',   color: '#22d3ee' },
+        { col: 2, x: 468, title: 'STAGE 3 // TITANS MEM',    sub: '2×4×32×32 FP32 Fast W',    color: '#a78bfa' },
+        { col: 3, x: 654, title: 'STAGE 4 // COCONUT & MOE', sub: 'K=4..6 Loop · 8×2 MoE',    color: '#f472b6' },
+        { col: 4, x: 840, title: 'STAGE 5 // 60HZ CONTROL',  sub: 'Binary + Flow-GRPO SDE',   color: '#fbbf24' },
+        { col: 5, x: 1024, title: 'STAGE 6 // CRITIC & RL',  sub: '4×51 Symlog · JEPA · G=8', color: '#34d399' }
+      ];
+
+      // ========================================================================
+      // 6-STYLE × 2-POLARITY (LIGHT & DARK) DESIGN ENGINE
+      // ========================================================================
+      const THEME_ORDER = [
+        'neo_brutalism',
+        'modular_typo',
+        'utilitarian',
+        'memphis',
+        'pixel_art',
+        'aurora'
+      ];
+
+      const THEME_META = {
+        neo_brutalism: {
+          name: 'Neo-Brutalism',
+          notes: '2.5px ink borders · Hard offset block shadows · High-contrast color headers · Zero blur',
+          stageColors: ['#ff4d00', '#00b4d8', '#7c3aed', '#ec4899', '#eab308', '#16a34a']
+        },
+        modular_typo: {
+          name: 'Modular Typography',
+          notes: 'Swiss International Grid · Exposed 1.5px structural rules · 0px radius · Grotesque hierarchy',
+          stageColors: ['#ff2a00', '#0055ff', '#7c3aed', '#d90429', '#ca8a04', '#0d9488']
+        },
+        utilitarian: {
+          name: 'Utilitarian',
+          notes: '100% Monospace · CAD crosshair grid · Corner L-brackets · 90° PCB traces · Zero ornament',
+          stageColors: ['#f59e0b', '#0284c7', '#8b5cf6', '#ec4899', '#eab308', '#10b981']
+        },
+        memphis: {
+          name: 'Memphis',
+          notes: '80s Sottsass geometric pop · 2.5px borders · Cyan/Pink offset shadows · Studio confetti',
+          stageColors: ['#ec4899', '#06b6d4', '#8b5cf6', '#f97316', '#eab308', '#10b981']
+        },
+        pixel_art: {
+          name: 'Pixel Art',
+          notes: '16-Bit command deck · Stepped pixel borders & rivets · Scanlines · Manhattan pixel buses',
+          stageColors: ['#00c49a', '#0096c7', '#9d4edd', '#ff2a85', '#d97706', '#16a34a']
+        },
+        aurora: {
+          name: 'Aurora',
+          notes: 'Borealis radial plumes · Solid velvet/pearl cards (no frost blur) · Luminous rims',
+          stageColors: ['#00bfa5', '#0091ea', '#8b5cf6', '#ec4899', '#eab308', '#10b981']
+        }
+      };
+
+      let activeTheme = 'neo_brutalism';
+      let activePolarity = 'light'; // 'light' | 'dark'
+
+      const btnPolarityLight = document.getElementById('btnPolarityLight');
+      const btnPolarityDark = document.getElementById('btnPolarityDark');
+
+      function updatePolarityButtons() {
+        const meta = THEME_META[activeTheme] || THEME_META.neo_brutalism;
+        if (activePolarity === 'light') {
+          btnPolarityLight.style.backgroundColor = meta.stageColors[0];
+          btnPolarityLight.style.color = '#ffffff';
+          btnPolarityDark.style.backgroundColor = 'transparent';
+          btnPolarityDark.style.color = '';
+        } else {
+          btnPolarityDark.style.backgroundColor = meta.stageColors[0];
+          btnPolarityDark.style.color = '#ffffff';
+          btnPolarityLight.style.backgroundColor = 'transparent';
+          btnPolarityLight.style.color = '';
+        }
+      }
+
+      function setPolarity(mode) {
+        activePolarity = (mode === 'dark') ? 'dark' : 'light';
+        document.body.setAttribute('data-mode', activePolarity);
+        updatePolarityButtons();
+        setTheme(activeTheme);
+      }
+
+      function setTheme(themeKey) {
+        if (!THEME_META[themeKey]) return;
+        activeTheme = themeKey;
+        document.body.setAttribute('data-theme', themeKey);
+        document.body.setAttribute('data-mode', activePolarity);
+
+        const meta = THEME_META[themeKey];
+        const notesEl = document.getElementById('themeStyleNotes');
+        if (notesEl) {
+          notesEl.textContent = meta.name.toUpperCase() + ' (' + activePolarity.toUpperCase() + ') — ' + meta.notes;
+        }
+
+        colHeaders.forEach((ch, idx) => {
+          ch.color = meta.stageColors[idx % meta.stageColors.length];
+        });
+        nodes.forEach(n => {
+          n.color = meta.stageColors[n.col % meta.stageColors.length];
+        });
+
+        const isLight = (activePolarity === 'light');
+        document.querySelectorAll('.theme-pill').forEach(btn => {
+          const k = btn.getAttribute('data-theme-btn');
+          if (k === activeTheme) {
+            btn.style.backgroundColor = meta.stageColors[0];
+            btn.style.color = '#ffffff';
+            btn.style.borderColor = isLight ? '#111111' : '#ffffff';
+          } else {
+            btn.style.backgroundColor = '';
+            btn.style.color = '';
+            btn.style.borderColor = '';
+          }
+        });
+
+        syncThemeAlignedButtons();
+        updatePolarityButtons();
+        updateTourTooltip();
+        renderNodeInspector();
+        if (activeRightView === 'tech') renderTechDeepDive();
+      }
+
+      btnPolarityLight.addEventListener('click', () => setPolarity('light'));
+      btnPolarityDark.addEventListener('click', () => setPolarity('dark'));
+
+      document.querySelectorAll('.theme-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          setTheme(btn.getAttribute('data-theme-btn'));
+        });
+      });
+
+      document.getElementById('btnPrevTheme').addEventListener('click', () => {
+        const idx = THEME_ORDER.indexOf(activeTheme);
+        setTheme(THEME_ORDER[(idx - 1 + THEME_ORDER.length) % THEME_ORDER.length]);
+      });
+
+      document.getElementById('btnNextTheme').addEventListener('click', () => {
+        const idx = THEME_ORDER.indexOf(activeTheme);
+        setTheme(THEME_ORDER[(idx + 1) % THEME_ORDER.length]);
+      });
+
+      function drawRoundedRect(c, x, y, w, h, r) {
+        if (r <= 0) {
+          c.beginPath();
+          c.rect(x, y, w, h);
+          c.closePath();
+          return;
+        }
+        c.beginPath();
+        c.moveTo(x + r, y);
+        c.lineTo(x + w - r, y);
+        c.quadraticCurveTo(x + w, y, x + w, y + r);
+        c.lineTo(x + w, y + h - r);
+        c.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        c.lineTo(x + r, y + h);
+        c.quadraticCurveTo(x, y + h, x, y + h - r);
+        c.lineTo(x, y + r);
+        c.quadraticCurveTo(x, y, x + r, y);
+        c.closePath();
+      }
+
+      // Helper for Utilitarian corner crosshair brackets
+      function drawCornerBrackets(c, x, y, w, h, len, color) {
+        c.strokeStyle = color;
+        c.lineWidth = 1.5;
+        c.beginPath();
+        // TL
+        c.moveTo(x, y + len); c.lineTo(x, y); c.lineTo(x + len, y);
+        // TR
+        c.moveTo(x + w - len, y); c.lineTo(x + w, y); c.lineTo(x + w, y + len);
+        // BL
+        c.moveTo(x, y + h - len); c.lineTo(x, y + h); c.lineTo(x + len, y + h);
+        // BR
+        c.moveTo(x + w - len, y + h); c.lineTo(x + w, y + h); c.lineTo(x + w, y + h - len);
+        c.stroke();
+      }
+
+      // Guarantee zero horizontal text overflow inside subsystem blocks & column headers
+      function drawFittedText(c, text, x, y, maxW) {
+        if (!text) return;
+        c.fillText(text, x, y, maxW);
+      }
+
+      // Wrap subtitle across up to 2 lines inside the block so descriptions never overflow
+      function drawWrappedSub(c, text, x, y, maxW, lineH) {
+        if (!text) return;
+        if (c.measureText(text).width <= maxW) {
+          c.fillText(text, x, y, maxW);
+          return;
+        }
+        const parts = text.split(' ');
+        let line1 = '';
+        let line2 = '';
+        for (let i = 0; i < parts.length; i++) {
+          const test = line1 ? (line1 + ' ' + parts[i]) : parts[i];
+          if (c.measureText(test).width <= maxW || !line1) {
+            line1 = test;
+          } else {
+            line2 = parts.slice(i).join(' ');
+            break;
+          }
+        }
+        c.fillText(line1, x, y, maxW);
+        if (line2) {
+          c.fillText(line2, x, y + lineH, maxW);
+        }
+      }
+
+      // Dynamic High-DPI Canvas Resize Synchronization (Scales to 100% of Available Height & Width)
+      const canvasWrapper = document.getElementById('canvasWrapper');
+      function syncCanvasSize() {
+        const rect = canvasWrapper.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        const targetW = Math.max(600, Math.round(rect.width * dpr));
+        const targetH = Math.max(400, Math.round(rect.height * dpr));
+        if (canvas.width !== targetW || canvas.height !== targetH) {
+          canvas.width = targetW;
+          canvas.height = targetH;
+          if (tourOverlayVisible) updateTourTooltip();
+        }
+      }
+      if (typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(() => syncCanvasSize()).observe(canvasWrapper);
+      }
+
+      function renderCanvas() {
+        syncCanvasSize();
+        animTick += 0.016;
+
+        const scaleX = canvas.width / BASE_W;
+        const scaleY = canvas.height / BASE_H;
+        ctx.save();
+        ctx.setTransform(scaleX, 0, 0, scaleY, 0, 0);
+        ctx.clearRect(0, 0, BASE_W, BASE_H);
+
+        const isLight = (activePolarity === 'light');
+
+        // ====================================================================
+        // 1. THEME + POLARITY SPECIFIC BACKGROUND FIELD
+        // ====================================================================
+        if (activeTheme === 'neo_brutalism') {
+          ctx.fillStyle = isLight ? '#f3efe6' : '#111113';
+          ctx.fillRect(0, 0, BASE_W, BASE_H);
+          ctx.fillStyle = isLight ? 'rgba(17, 17, 17, 0.18)' : 'rgba(250, 250, 250, 0.14)';
+          for (let gx = 20; gx < BASE_W; gx += 24) {
+            for (let gy = 20; gy < BASE_H; gy += 24) {
+              ctx.fillRect(gx, gy, 2, 2);
+            }
+          }
+        } else if (activeTheme === 'modular_typo') {
+          ctx.fillStyle = isLight ? '#f7f6f2' : '#0c0c0e';
+          ctx.fillRect(0, 0, BASE_W, BASE_H);
+          ctx.strokeStyle = isLight ? 'rgba(24, 24, 27, 0.08)' : 'rgba(250, 250, 250, 0.06)';
+          ctx.lineWidth = 1;
+          for (let gy = 68; gy < BASE_H; gy += 20) {
+            ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(BASE_W, gy); ctx.stroke();
+          }
+        } else if (activeTheme === 'utilitarian') {
+          ctx.fillStyle = isLight ? '#e2e7ec' : '#0a0c0e';
+          ctx.fillRect(0, 0, BASE_W, BASE_H);
+          ctx.strokeStyle = isLight ? 'rgba(15, 23, 42, 0.18)' : 'rgba(148, 163, 184, 0.15)';
+          ctx.lineWidth = 1;
+          for (let gx = 40; gx < BASE_W; gx += 56) {
+            for (let gy = 40; gy < BASE_H; gy += 56) {
+              ctx.beginPath();
+              ctx.moveTo(gx - 3, gy); ctx.lineTo(gx + 3, gy);
+              ctx.moveTo(gx, gy - 3); ctx.lineTo(gx, gy + 3);
+              ctx.stroke();
+            }
+          }
+        } else if (activeTheme === 'memphis') {
+          ctx.fillStyle = isLight ? '#fff7d6' : '#14112b';
+          ctx.fillRect(0, 0, BASE_W, BASE_H);
+          ctx.fillStyle = isLight ? 'rgba(30, 27, 75, 0.13)' : 'rgba(56, 189, 248, 0.15)';
+          for (let gx = 24; gx < BASE_W; gx += 32) {
+            for (let gy = 24; gy < BASE_H; gy += 32) {
+              ctx.beginPath(); ctx.arc(gx, gy, 1.8, 0, Math.PI * 2); ctx.fill();
+            }
+          }
+          ctx.save();
+          ctx.strokeStyle = isLight ? 'rgba(236, 72, 153, 0.32)' : 'rgba(244, 114, 182, 0.45)';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          for (let i = 0; i < 6; i++) {
+            ctx.lineTo(28 + i * 14, 642 + (i % 2 === 0 ? -7 : 7));
+          }
+          ctx.stroke();
+          ctx.strokeStyle = isLight ? 'rgba(6, 182, 212, 0.35)' : 'rgba(250, 204, 21, 0.40)';
+          ctx.beginPath(); ctx.arc(1070, 635, 18, 0, Math.PI * 2); ctx.stroke();
+          ctx.restore();
+        } else if (activeTheme === 'pixel_art') {
+          ctx.fillStyle = isLight ? '#d8d4c4' : '#0c061a';
+          ctx.fillRect(0, 0, BASE_W, BASE_H);
+          ctx.fillStyle = isLight ? 'rgba(35, 31, 51, 0.04)' : 'rgba(0, 255, 204, 0.03)';
+          for (let gy = 0; gy < BASE_H; gy += 4) {
+            ctx.fillRect(0, gy, BASE_W, 2);
+          }
+          ctx.fillStyle = isLight ? 'rgba(35, 31, 51, 0.18)' : 'rgba(129, 140, 248, 0.16)';
+          for (let gx = 32; gx < BASE_W; gx += 64) {
+            for (let gy = 32; gy < BASE_H; gy += 64) {
+              ctx.fillRect(gx, gy, 3, 3);
+            }
+          }
+        } else {
+          // Aurora (Light Pearl vs Dark Cosmic Velvet)
+          ctx.fillStyle = isLight ? '#edf6ff' : '#050714';
+          ctx.fillRect(0, 0, BASE_W, BASE_H);
+          const g1 = ctx.createRadialGradient(220 + Math.sin(animTick)*40, 160, 10, 220, 160, 390);
+          g1.addColorStop(0, isLight ? 'rgba(0, 191, 165, 0.22)' : 'rgba(0, 245, 212, 0.18)');
+          g1.addColorStop(1, 'rgba(0, 245, 212, 0)');
+          ctx.fillStyle = g1;
+          ctx.fillRect(0, 0, BASE_W, BASE_H);
+
+          const g2 = ctx.createRadialGradient(860 - Math.cos(animTick)*40, 480, 10, 860, 480, 420);
+          g2.addColorStop(0, isLight ? 'rgba(236, 72, 153, 0.18)' : 'rgba(241, 91, 181, 0.16)');
+          g2.addColorStop(0.5, isLight ? 'rgba(139, 92, 246, 0.12)' : 'rgba(155, 93, 229, 0.10)');
+          g2.addColorStop(1, 'rgba(155, 93, 229, 0)');
+          ctx.fillStyle = g2;
+          ctx.fillRect(0, 0, BASE_W, BASE_H);
+        }
+
+        // ====================================================================
+        // 2. COLUMN SWIMLANES & HEADERS (+2PX BUMPED & FITTED TO PREVENT OVERFLOW)
+        // ====================================================================
+        colHeaders.forEach((ch, idx) => {
+          const laneW = 172;
+          const laneX = ch.x - laneW / 2;
+
+          if (activeTheme === 'neo_brutalism') {
+            const borderCol = isLight ? '#111111' : '#f4f4f5';
+            ctx.fillStyle = isLight ? '#111111' : ch.color;
+            ctx.fillRect(laneX + 4, 16, laneW, 48);
+            ctx.fillStyle = isLight ? ch.color : '#1f1f24';
+            ctx.fillRect(laneX, 12, laneW, 48);
+            ctx.strokeStyle = borderCol;
+            ctx.lineWidth = 2.5;
+            ctx.strokeRect(laneX, 12, laneW, 48);
+
+            ctx.save();
+            ctx.setLineDash([6, 6]);
+            ctx.strokeStyle = isLight ? 'rgba(17,17,17,0.35)' : 'rgba(244,244,245,0.28)';
+            ctx.lineWidth = 1.5;
+            ctx.strokeRect(laneX, 66, laneW, BASE_H - 80);
+            ctx.restore();
+
+            ctx.font = '900 12px "Inter", "Arial Black", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            drawFittedText(ctx, ch.title, ch.x, 32, laneW - 14);
+            ctx.font = 'bold 11.5px ui-monospace, monospace';
+            ctx.fillStyle = '#111111';
+            ctx.fillRect(laneX + 8, 39, laneW - 16, 17);
+            ctx.fillStyle = '#ffffff';
+            drawFittedText(ctx, ch.sub, ch.x, 51, laneW - 22);
+
+          } else if (activeTheme === 'modular_typo') {
+            const ruleCol = isLight ? '#18181b' : '#52525b';
+            ctx.strokeStyle = ruleCol;
+            ctx.lineWidth = 1.5;
+            ctx.strokeRect(laneX, 10, laneW, BASE_H - 20);
+            ctx.fillStyle = isLight ? '#18181b' : ch.color;
+            ctx.fillRect(laneX, 10, laneW, 6);
+
+            ctx.beginPath();
+            ctx.moveTo(laneX, 64);
+            ctx.lineTo(laneX + laneW, 64);
+            ctx.stroke();
+
+            ctx.font = '900 19px "Helvetica Neue", "Inter", Arial, sans-serif';
+            ctx.fillStyle = ch.color;
+            ctx.textAlign = 'left';
+            ctx.fillText('0' + (idx + 1), laneX + 8, 38);
+
+            ctx.font = 'bold 11.5px "Helvetica Neue", "Inter", sans-serif';
+            ctx.fillStyle = isLight ? '#09090b' : '#fafafa';
+            drawFittedText(ctx, ch.title.replace('STAGE ' + (idx + 1) + ' // ', ''), laneX + 36, 32, laneW - 44);
+            ctx.font = '11px ui-monospace, monospace';
+            ctx.fillStyle = isLight ? '#52525b' : '#a1a1aa';
+            drawFittedText(ctx, ch.sub, laneX + 36, 49, laneW - 44);
+
+          } else if (activeTheme === 'utilitarian') {
+            ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.55)' : 'rgba(23, 27, 32, 0.65)';
+            ctx.fillRect(laneX, 14, laneW, BASE_H - 28);
+            ctx.strokeStyle = isLight ? '#94a3b8' : '#2c353d';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(laneX, 14, laneW, BASE_H - 28);
+            drawCornerBrackets(ctx, laneX, 14, laneW, BASE_H - 28, 8, ch.color);
+
+            ctx.fillStyle = isLight ? '#edf1f5' : '#111417';
+            ctx.fillRect(laneX + 1, 15, laneW - 2, 46);
+            ctx.strokeStyle = ch.color;
+            ctx.beginPath(); ctx.moveTo(laneX, 61); ctx.lineTo(laneX + laneW, 61); ctx.stroke();
+
+            ctx.font = 'bold 11.5px ui-monospace, monospace';
+            ctx.fillStyle = ch.color;
+            ctx.textAlign = 'left';
+            drawFittedText(ctx, '[' + ch.title + ']', laneX + 8, 34, laneW - 16);
+            ctx.font = '11px ui-monospace, monospace';
+            ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
+            drawFittedText(ctx, ch.sub, laneX + 8, 52, laneW - 16);
+
+          } else if (activeTheme === 'memphis') {
+            const lightLanes = ['#fce7f3', '#e0f2fe', '#ede9fe', '#ffedd5', '#fef9c3', '#d1fae5'];
+            const darkLanes  = ['#291738', '#152840', '#231b45', '#331d19', '#2e2914', '#122e2a'];
+            const borderCol  = isLight ? '#1e1b4b' : '#38bdf8';
+
+            ctx.fillStyle = isLight ? '#1e1b4b' : '#ec4899';
+            drawRoundedRect(ctx, laneX + 4, 18, laneW, BASE_H - 32, 16);
+            ctx.fill();
+
+            ctx.fillStyle = isLight ? lightLanes[idx % 6] : darkLanes[idx % 6];
+            drawRoundedRect(ctx, laneX, 14, laneW, BASE_H - 32, 16);
+            ctx.fill();
+            ctx.strokeStyle = borderCol;
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            ctx.fillStyle = ch.color;
+            drawRoundedRect(ctx, laneX + 8, 21, laneW - 16, 25, 12);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.font = 'bold 11.5px "Trebuchet MS", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            drawFittedText(ctx, ch.title, ch.x, 38, laneW - 24);
+            ctx.fillStyle = isLight ? '#1e1b4b' : '#e0e7ff';
+            ctx.font = 'bold 11.5px ui-monospace, monospace';
+            drawFittedText(ctx, ch.sub, ch.x, 60, laneW - 18);
+
+          } else if (activeTheme === 'pixel_art') {
+            ctx.fillStyle = isLight ? '#e8e4d5' : '#140b29';
+            ctx.fillRect(laneX, 14, laneW, BASE_H - 28);
+            ctx.strokeStyle = isLight ? '#231f33' : '#4c3b80';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(laneX, 14, laneW, BASE_H - 28);
+            ctx.strokeStyle = ch.color;
+            ctx.strokeRect(laneX + 4, 18, laneW - 8, 44);
+
+            ctx.fillStyle = ch.color;
+            ctx.fillRect(laneX + 2, 16, 4, 4);
+            ctx.fillRect(laneX + laneW - 6, 16, 4, 4);
+            ctx.fillRect(laneX + 2, BASE_H - 20, 4, 4);
+            ctx.fillRect(laneX + laneW - 6, BASE_H - 20, 4, 4);
+
+            ctx.font = 'bold 11.5px "Courier New", monospace';
+            ctx.fillStyle = ch.color;
+            ctx.textAlign = 'center';
+            drawFittedText(ctx, ch.title, ch.x, 36, laneW - 16);
+            ctx.font = 'bold 11px "Courier New", monospace';
+            ctx.fillStyle = isLight ? '#352f4f' : '#a5b4fc';
+            drawFittedText(ctx, ch.sub, ch.x, 53, laneW - 16);
+
+          } else {
+            // Aurora
+            ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.72)' : 'rgba(16, 23, 54, 0.58)';
+            drawRoundedRect(ctx, laneX, 14, laneW, BASE_H - 28, 16);
+            ctx.fill();
+            ctx.strokeStyle = ch.color + (isLight ? '66' : '44');
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+
+            ctx.fillStyle = ch.color;
+            drawRoundedRect(ctx, laneX + 18, 22, laneW - 36, 3, 1.5);
+            ctx.fill();
+
+            ctx.font = 'bold 11.5px ui-monospace, monospace';
+            ctx.fillStyle = ch.color;
+            ctx.textAlign = 'center';
+            drawFittedText(ctx, ch.title, ch.x, 40, laneW - 16);
+            ctx.font = '11.5px "Inter", sans-serif';
+            ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
+            drawFittedText(ctx, ch.sub, ch.x, 56, laneW - 16);
+          }
+        });
+
+        let highlightSet = null;
+        if (tourOverlayVisible && activeScenarioKey !== 'none' && scenarios[activeScenarioKey]) {
+          const step = scenarios[activeScenarioKey].steps[activeStepIdx];
+          if (step && step.highlight) {
+            highlightSet = new Set(step.highlight);
+          }
+        }
+
+        // ====================================================================
+        // 3. DRAW DIRECTED EDGES & DATAFLOW PULSES
+        // ====================================================================
+        const useOrthogonalTraces = (activeTheme === 'utilitarian' || activeTheme === 'modular_typo' || activeTheme === 'pixel_art');
+
+        edges.forEach((e, idx) => {
+          const n1 = nodeMap[e.from];
+          const n2 = nodeMap[e.to];
+          if (!n1 || !n2) return;
+
+          const modeActive = e.modes.includes(activeMode);
+          const tourActive = !highlightSet || (highlightSet.has(e.from) && highlightSet.has(e.to));
+          const isConnectedToSelected = (e.from === selectedNodeId || e.to === selectedNodeId);
+
+          let alpha = isLight ? 0.45 : 0.36;
+          if (!modeActive) alpha = 0.08;
+          else if (highlightSet && !tourActive) alpha = 0.12;
+          else if (isConnectedToSelected || (highlightSet && tourActive)) alpha = 0.95;
+
+          const x1 = n1.x + n1.w / 2;
+          const y1 = n1.y;
+          const x2 = n2.x - n2.w / 2;
+          const y2 = n2.y;
+          const midX = Math.round((x1 + x2) / 2);
+
+          ctx.save();
+          ctx.beginPath();
+          if (e.dashed) ctx.setLineDash([5, 4]);
+
+          if (n1.col === n2.col) {
+            const sx = n1.x;
+            const sy = n1.y + (n2.y > n1.y ? n1.h / 2 : -n1.h / 2);
+            const ey = n2.y + (n2.y > n1.y ? -n2.h / 2 : n2.h / 2);
+            ctx.moveTo(sx, sy);
+            ctx.lineTo(sx, ey);
+          } else if (useOrthogonalTraces) {
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(midX, y1);
+            ctx.lineTo(midX, y2);
+            ctx.lineTo(x2, y2);
+          } else {
+            const cx1 = x1 + (x2 - x1) * 0.48;
+            const cx2 = x1 + (x2 - x1) * 0.52;
+            ctx.moveTo(x1, y1);
+            ctx.bezierCurveTo(cx1, y1, cx2, y2, x2, y2);
+          }
+
+          if (isLight) {
+            ctx.strokeStyle = isConnectedToSelected ? n1.color : 'rgba(24, 24, 27, ' + alpha + ')';
+            ctx.lineWidth = (isConnectedToSelected || (highlightSet && tourActive)) ? 2.6 : 1.7;
+          } else {
+            ctx.strokeStyle = isConnectedToSelected ? n1.color : 'rgba(161, 161, 170, ' + alpha + ')';
+            ctx.lineWidth = (isConnectedToSelected || (highlightSet && tourActive)) ? 2.4 : 1.5;
+          }
+          ctx.stroke();
+          ctx.restore();
+
+          if (modeActive && (!highlightSet || tourActive)) {
+            const t = (animTick + idx * 0.17) % 1.0;
+            let px, py;
+            if (n1.col === n2.col) {
+              const sx = n1.x;
+              const sy = n1.y + (n2.y > n1.y ? n1.h / 2 : -n1.h / 2);
+              const ey = n2.y + (n2.y > n1.y ? -n2.h / 2 : n2.h / 2);
+              px = sx;
+              py = sy + (ey - sy) * t;
+            } else if (useOrthogonalTraces) {
+              if (t < 0.35) {
+                const st = t / 0.35;
+                px = x1 + (midX - x1) * st;
+                py = y1;
+              } else if (t < 0.65) {
+                const st = (t - 0.35) / 0.30;
+                px = midX;
+                py = y1 + (y2 - y1) * st;
+              } else {
+                const st = (t - 0.65) / 0.35;
+                px = midX + (x2 - midX) * st;
+                py = y2;
+              }
+            } else {
+              const cx1 = x1 + (x2 - x1) * 0.48;
+              const cx2 = x1 + (x2 - x1) * 0.52;
+              const mt = 1 - t;
+              px = mt*mt*mt*x1 + 3*mt*mt*t*cx1 + 3*mt*t*t*cx2 + t*t*t*x2;
+              py = mt*mt*mt*y1 + 3*mt*mt*t*y1 + 3*mt*t*t*y2 + t*t*t*y2;
+            }
+
+            ctx.fillStyle = n1.color;
+            if (activeTheme === 'pixel_art' || activeTheme === 'utilitarian' || activeTheme === 'neo_brutalism' || activeTheme === 'modular_typo') {
+              const sz = isConnectedToSelected ? 6 : 4;
+              ctx.fillRect(Math.round(px - sz/2), Math.round(py - sz/2), sz, sz);
+            } else {
+              ctx.beginPath();
+              ctx.arc(px, py, isConnectedToSelected ? 3.5 : 2.5, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+        });
+
+        // ====================================================================
+        // 4. DRAW 17 SUBSYSTEM BLOCKS (+2PX FONT, NO TECH FOOTER, ZERO OVERFLOW)
+        // ====================================================================
+        nodes.forEach(n => {
+          const rx = n.x - n.w / 2;
+          const ry = n.y - n.h / 2;
+          const innerW = n.w - 16;
+          const isSelected = (n.id === selectedNodeId);
+          const isHovered = (n.id === hoveredNodeId);
+          const modeActive = n.modes.includes(activeMode);
+          const inTourSpotlight = !highlightSet || highlightSet.has(n.id);
+
+          ctx.save();
+          if (!modeActive) ctx.globalAlpha = 0.22;
+          else if (!inTourSpotlight) ctx.globalAlpha = 0.30;
+          else ctx.globalAlpha = 1.0;
+
+          if (activeTheme === 'neo_brutalism') {
+            const shOff = isSelected ? 6 : 4;
+            ctx.fillStyle = isLight ? '#111111' : n.color;
+            ctx.fillRect(rx + shOff, ry + shOff, n.w, n.h);
+
+            ctx.fillStyle = isLight ? (isSelected ? '#fffbeb' : '#ffffff') : (isSelected ? '#2c2820' : '#202026');
+            ctx.fillRect(rx, ry, n.w, n.h);
+
+            ctx.fillStyle = n.color;
+            ctx.fillRect(rx, ry, n.w, 25);
+
+            const borderCol = isLight ? '#111111' : '#f4f4f5';
+            ctx.strokeStyle = borderCol;
+            ctx.lineWidth = isSelected ? 3 : 2.2;
+            ctx.strokeRect(rx, ry, n.w, n.h);
+            ctx.beginPath(); ctx.moveTo(rx, ry + 25); ctx.lineTo(rx + n.w, ry + 25); ctx.stroke();
+
+            ctx.font = '900 11.5px ui-monospace, monospace';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+            drawFittedText(ctx, '#' + n.num + ' // ' + n.tag, rx + 8, ry + 17, innerW);
+
+            ctx.font = '900 14px "Inter", "Arial Black", sans-serif';
+            ctx.fillStyle = isLight ? '#111111' : '#fafafa';
+            drawFittedText(ctx, n.title, rx + 8, ry + 47, innerW);
+
+            ctx.font = '600 12px "Inter", sans-serif';
+            ctx.fillStyle = isLight ? '#3f3f46' : '#d4d4d8';
+            drawWrappedSub(ctx, n.sub, rx + 8, ry + 66, innerW, 14);
+
+          } else if (activeTheme === 'modular_typo') {
+            ctx.fillStyle = isLight ? (isSelected ? '#fff5f2' : '#ffffff') : (isSelected ? '#261c1c' : '#18181d');
+            ctx.fillRect(rx, ry, n.w, n.h);
+
+            const topBarCol = isSelected ? '#ff2a00' : (isLight ? '#09090b' : n.color);
+            ctx.fillStyle = topBarCol;
+            ctx.fillRect(rx, ry, n.w, isSelected ? 6 : 4);
+
+            ctx.strokeStyle = isSelected ? '#ff2a00' : (isLight ? '#09090b' : '#52525b');
+            ctx.lineWidth = isSelected ? 2.2 : 1.2;
+            ctx.strokeRect(rx, ry, n.w, n.h);
+
+            ctx.strokeStyle = isLight ? 'rgba(9, 9, 11, 0.2)' : 'rgba(244, 244, 245, 0.16)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(rx, ry + 26); ctx.lineTo(rx + n.w, ry + 26);
+            ctx.stroke();
+
+            ctx.font = 'bold 11.5px "Helvetica Neue", "Inter", sans-serif';
+            ctx.fillStyle = isSelected ? '#ff2a00' : (isLight ? '#09090b' : n.color);
+            ctx.textAlign = 'left';
+            ctx.fillText(n.num, rx + 8, ry + 20);
+
+            ctx.font = '11px ui-monospace, monospace';
+            ctx.fillStyle = isLight ? '#52525b' : '#a1a1aa';
+            ctx.textAlign = 'right';
+            drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 8, ry + 20, innerW - 26);
+
+            ctx.font = 'bold 14px "Helvetica Neue", "Inter", sans-serif';
+            ctx.fillStyle = isLight ? '#09090b' : '#fafafa';
+            ctx.textAlign = 'left';
+            drawFittedText(ctx, n.title, rx + 8, ry + 48, innerW);
+
+            ctx.font = '12px "Helvetica Neue", "Inter", sans-serif';
+            ctx.fillStyle = isLight ? '#3f3f46' : '#d4d4d8';
+            drawWrappedSub(ctx, n.sub, rx + 8, ry + 67, innerW, 14);
+
+          } else if (activeTheme === 'utilitarian') {
+            ctx.fillStyle = isLight
+              ? (isSelected ? '#fffbeb' : (isHovered ? '#f1f5f9' : '#ffffff'))
+              : (isSelected ? '#1e242b' : (isHovered ? '#1a2026' : '#14181d'));
+            ctx.fillRect(rx, ry, n.w, n.h);
+
+            ctx.strokeStyle = isSelected ? n.color : (isLight ? '#94a3b8' : '#2c353d');
+            ctx.lineWidth = isSelected ? 1.8 : 1.0;
+            ctx.strokeRect(rx, ry, n.w, n.h);
+
+            drawCornerBrackets(ctx, rx, ry, n.w, n.h, 6, isSelected ? (isLight ? '#0f172a' : '#ffffff') : n.color);
+
+            ctx.fillStyle = isLight ? '#e2e8f0' : '#0d1013';
+            ctx.fillRect(rx + 1, ry + 1, n.w - 2, 22);
+            ctx.font = 'bold 11px ui-monospace, monospace';
+            ctx.fillStyle = n.color;
+            ctx.textAlign = 'left';
+            ctx.fillText('ID:' + n.num, rx + 8, ry + 16);
+            ctx.fillStyle = isLight ? '#475569' : '#94a3b8';
+            ctx.textAlign = 'right';
+            drawFittedText(ctx, n.tag, rx + n.w - 8, ry + 16, innerW - 38);
+
+            ctx.font = 'bold 13.5px ui-monospace, monospace';
+            ctx.fillStyle = isLight ? '#0f172a' : '#f1f5f9';
+            ctx.textAlign = 'left';
+            drawFittedText(ctx, n.title, rx + 8, ry + 45, innerW);
+
+            ctx.font = '11.5px ui-monospace, monospace';
+            ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
+            drawWrappedSub(ctx, n.sub, rx + 8, ry + 64, innerW, 14);
+
+          } else if (activeTheme === 'memphis') {
+            ctx.fillStyle = isSelected ? '#ec4899' : '#06b6d4';
+            drawRoundedRect(ctx, rx + 5, ry + 5, n.w, n.h, 14);
+            ctx.fill();
+
+            ctx.fillStyle = isLight ? (isSelected ? '#fef08a' : '#ffffff') : (isSelected ? '#3b2466' : '#251e47');
+            drawRoundedRect(ctx, rx, ry, n.w, n.h, 14);
+            ctx.fill();
+
+            ctx.strokeStyle = isLight ? '#1e1b4b' : '#f472b6';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            ctx.fillStyle = n.color;
+            ctx.beginPath();
+            ctx.arc(rx + 18, ry + 19, 10, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.font = 'bold 11px ui-monospace, monospace';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.fillText(n.num, rx + 18, ry + 23);
+
+            ctx.fillStyle = isLight ? '#1e1b4b' : '#e0e7ff';
+            ctx.textAlign = 'right';
+            drawFittedText(ctx, n.tag, rx + n.w - 10, ry + 23, innerW - 28);
+
+            ctx.font = 'bold 14px "Trebuchet MS", sans-serif';
+            ctx.fillStyle = isLight ? '#1e1b4b' : '#ffffff';
+            ctx.textAlign = 'left';
+            drawFittedText(ctx, n.title, rx + 10, ry + 48, n.w - 20);
+
+            ctx.font = '12px "Trebuchet MS", sans-serif';
+            ctx.fillStyle = isLight ? '#312e81' : '#c7d2fe';
+            drawWrappedSub(ctx, n.sub, rx + 10, ry + 66, n.w - 20, 14);
+
+          } else if (activeTheme === 'pixel_art') {
+            ctx.fillStyle = isLight ? '#231f33' : '#05020a';
+            ctx.fillRect(rx + 5, ry + 5, n.w, n.h);
+
+            ctx.fillStyle = isLight ? (isSelected ? '#fffbeb' : '#f4f1e6') : (isSelected ? '#2e1d59' : '#1e123b');
+            ctx.fillRect(rx, ry, n.w, n.h);
+
+            ctx.strokeStyle = isSelected ? (isLight ? '#d90429' : '#ffe600') : (isLight ? '#231f33' : n.color);
+            ctx.lineWidth = 2;
+            ctx.strokeRect(rx, ry, n.w, n.h);
+
+            ctx.fillStyle = n.color;
+            ctx.fillRect(rx + 2, ry + 2, n.w - 4, 20);
+
+            ctx.font = 'bold 11.5px "Courier New", monospace';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+            drawFittedText(ctx, '[' + n.num + '] ' + n.tag, rx + 6, ry + 16, innerW);
+
+            ctx.font = 'bold 13px "Courier New", monospace';
+            ctx.fillStyle = isLight ? '#161324' : '#ffffff';
+            drawFittedText(ctx, n.title, rx + 8, ry + 44, innerW);
+
+            ctx.font = 'bold 11.5px "Courier New", monospace';
+            ctx.fillStyle = isLight ? '#352f4f' : '#a5b4fc';
+            drawWrappedSub(ctx, n.sub, rx + 8, ry + 63, innerW, 14);
+
+          } else {
+            // Aurora (Light Pearl vs Dark Velvet)
+            if (isSelected || (highlightSet && highlightSet.has(n.id))) {
+              ctx.shadowColor = n.color;
+              ctx.shadowBlur = isSelected ? 18 : 10;
+            }
+            ctx.fillStyle = isLight
+              ? (isSelected ? '#f0f9ff' : '#ffffff')
+              : (isSelected ? '#19234d' : (isHovered ? '#141d40' : '#0e1530'));
+            drawRoundedRect(ctx, rx, ry, n.w, n.h, 14);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            ctx.lineWidth = isSelected ? 2.2 : 1.3;
+            ctx.strokeStyle = isSelected ? n.color : (n.color + '77');
+            ctx.stroke();
+
+            ctx.fillStyle = n.color;
+            drawRoundedRect(ctx, rx + 5, ry + 10, 4, n.h - 20, 2);
+            ctx.fill();
+
+            ctx.font = 'bold 11.5px ui-monospace, monospace';
+            ctx.fillStyle = n.color;
+            ctx.textAlign = 'left';
+            ctx.fillText('#' + n.num, rx + 14, ry + 22);
+
+            ctx.fillStyle = isLight ? '#475569' : '#cbd5e1';
+            ctx.textAlign = 'right';
+            drawFittedText(ctx, n.tag, rx + n.w - 10, ry + 22, innerW - 30);
+
+            ctx.font = 'bold 14px "Inter", sans-serif';
+            ctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
+            ctx.textAlign = 'left';
+            drawFittedText(ctx, n.title, rx + 14, ry + 47, n.w - 22);
+
+            ctx.font = '12px "Inter", sans-serif';
+            ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
+            drawWrappedSub(ctx, n.sub, rx + 14, ry + 66, n.w - 22, 14);
+          }
+
+          ctx.restore();
+        });
+
+        ctx.restore();
+        requestAnimationFrame(renderCanvas);
+      }
+
+      // Hit-testing on Canvas (Maps CSS Viewport Click to Logical 1120x680 Diagram Coordinates)
+      function getNodeAtCanvasCoords( clientX, clientY ) {
+        const rect = canvas.getBoundingClientRect();
+        const cx = (clientX - rect.left) * (BASE_W / rect.width);
+        const cy = (clientY - rect.top) * (BASE_H / rect.height);
+        for (let i = nodes.length - 1; i >= 0; i--) {
+          const n = nodes[i];
+          if (cx >= n.x - n.w / 2 && cx <= n.x + n.w / 2 &&
+              cy >= n.y - n.h / 2 && cy <= n.y + n.h / 2) {
+            return n;
+          }
+        }
+        return null;
+      }
+
+      canvas.addEventListener('mousemove', (e) => {
+        const hit = getNodeAtCanvasCoords(e.clientX, e.clientY);
+        hoveredNodeId = hit ? hit.id : null;
+        canvas.style.cursor = hit ? 'pointer' : 'default';
+      });
+
+      canvas.addEventListener('click', (e) => {
+        const hit = getNodeAtCanvasCoords(e.clientX, e.clientY);
+        if (hit) {
+          selectedNodeId = hit.id;
+          setRightView('node');
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        if (tourOverlayVisible) updateTourTooltip();
+      });
+
+      // Share & Export Buttons
+      document.getElementById('btnExportHtml').addEventListener('click', () => {
+        const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+        const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'arashikage_hex63_architecture_explorer.html';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      document.getElementById('btnExportPng').addEventListener('click', () => {
+        const url = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'arashikage_hex63_dataflow.png';
+        a.click();
+      });
+
+      document.getElementById('btnCopyMermaid').addEventListener('click', () => {
+        const mmd = `flowchart LR
+  subgraph S1["Stage 1: C++20 Observation (5,376B)"]
+    N1["01. 5,376B Arena Slice (84x64B CL, C2v)"] --> N2["02. 16 Dynamic Queries"]
+    N1 --> N3["03. 48 Context Keys"]
+    N1 -.-> N4["04. 512B Privileged Critic Ctx"]
+  end
+  subgraph S2["Stage 2: Bipartite Graph"]
+    N2 & N3 --> N5["05. Fused GPU Pairwise Bias (16x64x72D)"]
+    N2 & N3 & N5 --> N6["06. 2L Bipartite DiffAttn"]
+  end
+  subgraph S3["Stage 3: FP32 Titans Memory"]
+    N7["07. Orthogonal W_init & k_prev"] & N6 --> N8["08. 2x4x32x32 FP32 Fast Weights"]
+  end
+  subgraph S4["Stage 4: Coconut & Soft-MoE"]
+    N8 --> N9["09. Coconut Loop (K=4..6)"]
+    N9 <--> N10["10. Static 8x2 Soft-MoE"]
+    N10 --> N11["11. 8x125=1,000 FSQ Bottleneck"]
+  end
+  subgraph S5["Stage 5: 60Hz Flow-GRPO Control"]
+    N9 & N11 --> N12["12. Stage-1 16-Way Binary Head"]
+    N12 --> N13["13. Stage-2 4-Step Flow-GRPO SDE"]
+    N13 --> N14["14. K_sub=4 (60Hz) Subtick Executor"]
+  end
+  subgraph S6["Stage 6: Critic, JEPA & RL"]
+    N4 -.-> N15["15. Dual 4x51 Symlog HL-Gauss Critic"]
+    N9 --> N15
+    N13 & N15 --> N16["16. Best-of-16 JEPA + CVaR Search"]
+    N14 & N15 -.-> N17["17. G=8 Cloned GRPO & Flow-PPO"]
+  end`;
+        navigator.clipboard.writeText(mmd).then(() => {
+          const btn = document.getElementById('btnCopyMermaid');
+          btn.textContent = getGlyph('export') + ' Copied';
+          setTimeout(() => { syncThemeAlignedButtons(); }, 1600);
+        });
+      });
+
+      // Keyboard shortcuts 1..6 for rapid theme comparison, plus L / D for Light / Dark polarity
+      window.addEventListener('keydown', (e) => {
+        if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) return;
+        const numIdx = parseInt(e.key, 10) - 1;
+        if (numIdx >= 0 && numIdx < THEME_ORDER.length) {
+          setTheme(THEME_ORDER[numIdx]);
+        } else if (e.key === 'l' || e.key === 'L') {
+          setPolarity('light');
+        } else if (e.key === 'd' || e.key === 'D') {
+          setPolarity('dark');
+        }
+      });
+
+      // Initialize Views & Start Animation Loop
+      setTheme('neo_brutalism');
+      renderNodeInspector();
+      renderTechDeepDive();
+      setTimeout(updateTourTooltip, 60);
+      requestAnimationFrame(renderCanvas);
+    })();
+  </script>
+</body>
+</html>
