@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arashikage (Hex63) — End-to-End Model Architecture Explorer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles/themes.css" />
+</head>
+<body data-theme="neo_brutalism" data-polarity="dark" class="h-screen w-screen overflow-hidden flex flex-col select-none">
+
+  <!-- TOP IDENTITY BANNER (Dedicated Name & Description Above Control Plane) -->
+  <div id="topIdentityBar" class="h-9 shrink-0 t-header-bar px-4 flex items-center justify-between gap-4 z-30">
+    <div class="flex items-center gap-2.5 min-w-0">
+      <div class="w-5 h-5 flex items-center justify-center t-badge text-[10px] font-bold t-font-mono shrink-0">H63</div>
+      <span class="text-xs font-extrabold tracking-tight t-font-head t-text-primary whitespace-nowrap">ARASHIKAGE // HEX63</span>
+      <span class="text-xs t-text-muted hidden sm:inline">—</span>
+      <span class="text-[11.5px] t-text-secondary truncate hidden sm:inline">
+        End-to-End Model Architecture, 60 Hz Subtick Action Chunking &amp; Multi-Horizon Training Explorer
+      </span>
+    </div>
+    <div class="flex items-center gap-2 shrink-0 text-[10.5px] t-font-mono t-text-muted">
+      <span class="hidden md:inline">Click any diagram block or select a Guided Tour</span>
+    </div>
+  </div>
+
+  <!-- COMPACT SINGLE-LINE CONTROL HEADER -->
+  <header id="controlPlaneHeader" class="h-11 shrink-0 t-header-bar px-3 flex items-center justify-between gap-2 z-30 overflow-x-auto no-scrollbar">
+    <!-- Left: Guided Tour Scrubber -->
+    <div class="flex items-center gap-1.5 shrink-0">
+      <label for="selScenario" class="text-[10px] font-bold uppercase tracking-wider t-font-mono t-text-muted hidden xl:inline">Tour:</label>
+      <select id="selScenario" class="px-2 py-1 text-[11px] font-semibold t-font-mono t-input cursor-pointer outline-none max-w-[205px] truncate"></select>
+      <button id="btnTourPrev" class="no-wrap-btn px-2 py-1 text-[11px] t-font-mono font-semibold t-btn" title="Previous Step">
+        <span id="icoTourPrev">◀</span><span>Prev</span>
+      </button>
+      <button id="btnTourNext" class="no-wrap-btn px-2 py-1 text-[11px] t-font-mono font-semibold t-btn" title="Next Step">
+        <span>Next</span><span id="icoTourNext">▶</span>
+      </button>
+      <button id="btnTourPlay" class="no-wrap-btn px-2 py-1 text-[11px] t-font-mono font-bold t-btn" title="Auto-Play Guided Walkthrough">
+        <span id="icoTourPlay">▶</span><span id="txtTourPlay">Auto</span>
+      </button>
+    </div>
+
+    <!-- Center: Layer Filter Pills + Compact Theme Dropdown + Light/Dark Polarity -->
+    <div class="flex items-center gap-2 shrink-0">
+      <div class="flex items-center gap-1">
+        <button data-layer="all" class="layer-filter-btn active no-wrap-btn px-2 py-1 text-[10.5px] font-bold t-font-mono t-btn">
+          <span id="icoFilterAll">◆</span><span>All</span>
+        </button>
+        <button data-layer="core" class="layer-filter-btn no-wrap-btn px-2 py-1 text-[10.5px] font-bold t-font-mono t-btn">
+          <span id="icoFilterCore">▸</span><span>Core</span>
+        </button>
+        <button data-layer="train" class="layer-filter-btn no-wrap-btn px-2 py-1 text-[10.5px] font-bold t-font-mono t-btn">
+          <span id="icoFilterTrain">◈</span><span>Train</span>
+        </button>
+        <button data-layer="live" class="layer-filter-btn no-wrap-btn px-2 py-1 text-[10.5px] font-bold t-font-mono t-btn">
+          <span id="icoFilterLive">⚡</span><span>Live</span>
+        </button>
+      </div>
+
+      <div class="h-4 w-[1px] bg-current opacity-20"></div>
+
+      <!-- Compact Theme Selector Dropdown -->
+      <div class="flex items-center gap-1">
+        <label for="selTheme" class="text-[10px] font-bold uppercase tracking-wider t-font-mono t-text-muted hidden 2xl:inline">Theme:</label>
+        <select id="selTheme" class="px-2 py-1 text-[11px] font-bold t-font-mono t-input cursor-pointer outline-none">
+          <option value="neo_brutalism">Neo-Brutalism</option>
+          <option value="modular_typo">Modular Typography</option>
+          <option value="utilitarian">Utilitarian</option>
+          <option value="memphis">Memphis</option>
+          <option value="pixel_art">Pixel Art</option>
+          <option value="aurora">Aurora</option>
+        </select>
+        <button data-polarity="light" class="polarity-btn no-wrap-btn px-2 py-1 text-[10.5px] font-bold t-font-mono t-btn" title="Light Mode">
+          <span id="icoPolLight">■</span><span>Light</span>
+        </button>
+        <button data-polarity="dark" class="polarity-btn active no-wrap-btn px-2 py-1 text-[10.5px] font-bold t-font-mono t-btn" title="Dark Mode">
+          <span id="icoPolDark">□</span><span>Dark</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Right: Inspector / Deep Dive Switcher + Full Screen + Share HTML -->
+    <div class="flex items-center gap-1.5 shrink-0">
+      <button id="btnModeInspector" class="active no-wrap-btn px-2.5 py-1 text-[11px] font-bold t-font-mono t-btn">
+        <span id="icoModeBlock">▣</span><span>Block Inspector</span>
+      </button>
+      <button id="btnModeTech" class="no-wrap-btn px-2.5 py-1 text-[11px] font-bold t-font-mono t-btn">
+        <span id="icoModeTech">▤</span><span>Deep Dive</span>
+      </button>
+      <button id="btnToggleFullscreen" class="no-wrap-btn px-2.5 py-1 text-[11px] font-bold t-font-mono t-btn" title="Focus Diagram in Full Screen Mode">
+        <span id="icoFullscreenBtn">⛶</span><span id="txtFullscreenBtn">Full Screen</span>
+      </button>
+      <button id="btnExportHtml" class="no-wrap-btn px-2.5 py-1 text-[11px] font-bold t-font-mono t-btn-primary" title="Download Standalone Single-File HTML">
+        <span id="icoShareBtn">⇩</span><span>Share HTML</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <div id="mainSplitContainer" class="flex-1 flex min-h-0 relative overflow-hidden">
+
+    <!-- LEFT: DATA-FLOW DIAGRAM STAGE (Enforced 1120:680 Display Aspect Ratio) -->
+    <main id="canvasStageArea" class="flex-1 flex flex-col min-w-0 min-h-0 relative t-canvas-wrap">
+
+      <!-- Canvas Wrapper with Centered Aspect-Ratio Box -->
+      <div id="canvasWrapper" class="flex-1 relative min-h-0 w-full h-full flex items-center justify-center p-2.5 overflow-hidden">
+        <div id="canvasAspectBox" class="relative flex items-center justify-center">
+          <canvas id="archCanvas" width="1120" height="680" class="w-full h-full block"></canvas>
+        </div>
+
+        <!-- Floating Hover Tooltip -->
+        <div id="canvasHoverTooltip" class="hidden pointer-events-none absolute z-30 max-w-[260px] p-2.5 t-card">
+          <div id="tooltipBadge" class="text-[9.5px] font-bold uppercase tracking-wider t-font-mono t-text-muted"></div>
+          <div id="tooltipTitle" class="text-xs font-bold t-text-primary t-font-head mt-0.5"></div>
+          <div id="tooltipSub" class="text-[11px] t-text-secondary mt-0.5 leading-snug"></div>
+        </div>
+
+        <!-- Floating Guided Tour Step Overlay -->
+        <div id="tourOverlayCard" class="hidden absolute bottom-3 left-3 z-20 max-w-[540px] p-3.5 t-card">
+          <div class="flex items-center justify-between gap-3 mb-1">
+            <span id="tourOverlayBadge" class="text-[10px] font-bold uppercase tracking-wider t-font-mono px-2 py-0.5 t-badge"></span>
+            <button id="btnExitTour" class="no-wrap-btn text-[10.5px] t-font-mono t-text-muted hover:opacity-80 px-1.5 py-0.5">
+              ✕ Exit Tour
+            </button>
+          </div>
+          <h4 id="tourOverlayTitle" class="text-sm font-bold t-text-primary t-font-head mb-1"></h4>
+          <p id="tourOverlayText" class="text-xs t-text-secondary leading-relaxed"></p>
+          <div class="flex items-center justify-between gap-2 mt-3 pt-2 border-t border-current/10">
+            <div id="tourStepScrubber" class="flex items-center gap-1 flex-wrap"></div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button id="btnOverlayPrev" class="no-wrap-btn px-2.5 py-1 text-[11px] font-bold t-font-mono t-btn">
+                <span id="icoOverlayPrev">◀</span><span>Prev</span>
+              </button>
+              <button id="btnOverlayNext" class="no-wrap-btn px-2.5 py-1 text-[11px] font-bold t-font-mono t-btn-primary">
+                <span>Next</span><span id="icoOverlayNext">▶</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- FULLSCREEN SLIDE-OVER DISMISS BACKDROP (Click outside right panel to dismiss) -->
+    <div id="panelDismissBackdrop" class="hidden fixed inset-0 z-40 bg-black/35 backdrop-blur-[1px] cursor-pointer" title="Click outside panel to close"></div>
+
+    <!-- RIGHT: INSPECTOR & DEEP DIVE PANEL (Static 35% in Split Mode; Slide-Over Drawer in Full Screen Mode) -->
+    <aside id="rightSidePanel" class="w-[35%] min-w-[430px] max-w-[640px] relative h-full flex flex-col t-panel select-text">
+
+      <!-- Right Panel Header -->
+      <div class="p-4 shrink-0 border-b border-current/15 flex items-start justify-between gap-3">
+        <div class="min-w-0">
+          <div class="flex items-center gap-2 flex-wrap mb-1.5">
+            <span id="rightStageBadge" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider t-font-mono t-badge">STAGE 3</span>
+            <span id="rightLayerBadge" class="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider t-font-mono t-badge">CORE INFERENCE</span>
+          </div>
+          <h2 id="rightTitle" class="text-lg font-extrabold tracking-tight t-font-head t-text-primary leading-snug">
+            Titans Persistent Fast-Weight Memory
+          </h2>
+        </div>
+        <!-- Slide-Over Close Button (Visible in Full Screen Mode) -->
+        <button id="btnCloseSlidePanel" class="hidden no-wrap-btn px-2.5 py-1 text-xs font-bold t-font-mono t-btn shrink-0" title="Close Drawer (Esc)">
+          ✕ Close
+        </button>
+      </div>
+
+      <!-- VIEW 1: BLOCK INSPECTOR (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Learn More) -->
+      <div id="viewBlockInspector" class="flex-1 overflow-y-auto p-4 space-y-4">
+
+        <!-- 5-Tab Bar + Unified Card -->
+        <div class="t-card p-3.5 space-y-3">
+          <div class="grid grid-cols-5 gap-1">
+            <button data-tab="how" class="inspector-tab-btn active no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+              1. How
+            </button>
+            <button data-tab="why" class="inspector-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+              2. Why
+            </button>
+            <button data-tab="impact" class="inspector-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+              3. Impact
+            </button>
+            <button data-tab="math" class="inspector-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+              4. Math
+            </button>
+            <button data-tab="learn" class="inspector-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+              5. Learn More
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between gap-2 pt-1">
+            <div id="inspectorTabLabel" class="text-[10.5px] font-bold uppercase tracking-wider t-font-mono t-text-muted">
+              1. HOW IT WORKS — MECHANISM &amp; SIGNAL PATH
+            </div>
+            <button id="btnInspectorQuickLearn" class="no-wrap-btn px-2 py-0.5 text-[10px] font-bold t-font-mono t-btn" title="Jump to White Papers &amp; References Tab">
+              <span>White Papers</span><span>↗</span>
+            </button>
+          </div>
+
+          <div id="inspectorTabContent" class="text-[13px] t-text-secondary leading-relaxed"></div>
+
+          <!-- Theme-Cohesive Callout Box (Shown on Tabs 1..4) -->
+          <div id="inspectorSecondaryBox" class="theme-callout mt-2">
+            <div id="inspectorSecondaryTitle" class="theme-callout-header t-font-mono">
+              WHY IT SITS HERE IN THE DATAFLOW
+            </div>
+            <div id="inspectorSecondaryBody" class="theme-callout-body t-text-secondary"></div>
+          </div>
+        </div>
+
+        <!-- Underlying Technologies (Deep Dive + Direct Learn More Deep Links) -->
+        <div id="inspectorUnderlyingTechBox" class="t-card p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10.5px] font-bold uppercase tracking-wider t-font-mono t-text-muted">
+              UNDERLYING TECHNOLOGIES (DEEP DIVE &amp; WHITE PAPERS)
+            </span>
+          </div>
+          <div id="inspectorTechChips" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <!-- Connected Upstream / Downstream Blocks -->
+        <div class="t-card p-3.5 space-y-2">
+          <div class="text-[10.5px] font-bold uppercase tracking-wider t-font-mono t-text-muted">
+            CONNECTED UPSTREAM &amp; DOWNSTREAM BLOCKS
+          </div>
+          <div id="inspectorConnectedNodes" class="flex flex-wrap gap-1.5"></div>
+        </div>
+      </div>
+
+      <!-- VIEW 2: DEEP DIVE (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Science | 5. Learn More) -->
+      <div id="viewTechDeepDive" class="hidden flex-1 overflow-y-auto p-4 space-y-4">
+
+        <!-- Technology Selector Pills -->
+        <div class="t-card p-3 space-y-2">
+          <div class="text-[10px] font-bold uppercase tracking-wider t-font-mono t-text-muted">
+            SELECT CORE TECHNOLOGY (10 ARCHITECTURAL PILLARS)
+          </div>
+          <div id="techSelectorPills" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <!-- 5-Tab Bar + Unified Deep Dive Card -->
+        <div class="t-card p-3.5 space-y-3">
+          <div class="grid grid-cols-5 gap-1">
+            <button data-techtab="how" class="tech-tab-btn active no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+              1. How
+            </button>
+            <button data-techtab="why" class="tech-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+              2. Why
+            </button>
+            <button data-techtab="impact" class="tech-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+              3. Impact
+            </button>
+            <button data-techtab="science" class="tech-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+              4. Science
+            </button>
+            <button data-techtab="learn" class="tech-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+              5. Learn More
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between gap-2 pt-1">
+            <div id="techTabLabel" class="text-[10.5px] font-bold uppercase tracking-wider t-font-mono t-text-muted">
+              1. HOW IT WORKS — MECHANISM &amp; FORMULATION
+            </div>
+            <button id="btnTechQuickLearn" class="no-wrap-btn px-2 py-0.5 text-[10px] font-bold t-font-mono t-btn" title="Jump to External White Papers Tab">
+              <span>White Papers</span><span>↗</span>
+            </button>
+          </div>
+
+          <div id="techTabContent" class="text-[13px] t-text-secondary leading-relaxed"></div>
+
+          <!-- Theme-Cohesive Callout Box (Shown on Tabs 1..4) -->
+          <div id="techSecondaryBox" class="theme-callout mt-2">
+            <div id="techSecondaryTitle" class="theme-callout-header t-font-mono">
+              RESEARCH ORIGINS &amp; EVOLUTION
+            </div>
+            <div id="techSecondaryBody" class="theme-callout-body t-text-secondary"></div>
+          </div>
+        </div>
+
+        <!-- Diagram Blocks Utilizing This Technology -->
+        <div class="t-card p-3.5 space-y-2">
+          <div class="text-[10.5px] font-bold uppercase tracking-wider t-font-mono t-text-muted">
+            DIAGRAM BLOCKS USING THIS TECHNOLOGY
+          </div>
+          <div id="techDiagramNodeLinks" class="flex flex-wrap gap-1.5"></div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- Modular Static Architecture Scripts -->
+  <script src="./js/nodes_and_edges.js"></script>
+  <script src="./js/scenarios_and_tech.js"></script>
+  <script src="./js/canvas_renderer.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>

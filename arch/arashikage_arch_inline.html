@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arashikage (Hex63) — Interactive Architecture Preview</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';document.head.appendChild(s);"></script>
+  <style>
+    html { font-size: 18px; }
+    /* 1. NEO-BRUTALISM */
+    body[data-theme="neo_brutalism"][data-mode="light"] {
+      --bg-root: #f3efe6; --bg-panel: #fbf9f5; --bg-card: #ffffff;
+      --border-hair: #111111; --ink-primary: #111111; --ink-secondary: #27272a; --ink-muted: #52525b;
+      --font-body: "Inter", "Arial Black", system-ui, sans-serif;
+      --card-shadow: 4px 4px 0px #111111; --border-w: 2.5px; --radius: 2px;
+    }
+    body[data-theme="neo_brutalism"][data-mode="dark"] {
+      --bg-root: #111113; --bg-panel: #19191d; --bg-card: #222228;
+      --border-hair: #f4f4f5; --ink-primary: #fafafa; --ink-secondary: #d4d4d8; --ink-muted: #a1a1aa;
+      --font-body: "Inter", "Arial Black", system-ui, sans-serif;
+      --card-shadow: 4px 4px 0px #ff4d00; --border-w: 2.5px; --radius: 2px;
+    }
+    /* 2. MODULAR TYPOGRAPHY */
+    body[data-theme="modular_typo"][data-mode="light"] {
+      --bg-root: #eceae4; --bg-panel: #f7f6f2; --bg-card: #ffffff;
+      --border-hair: #09090b; --ink-primary: #09090b; --ink-secondary: #27272a; --ink-muted: #52525b;
+      --font-body: "Helvetica Neue", "Inter", Arial, sans-serif;
+      --card-shadow: none; --border-w: 1.5px; --radius: 0px;
+    }
+    body[data-theme="modular_typo"][data-mode="dark"] {
+      --bg-root: #0c0c0e; --bg-panel: #131316; --bg-card: #1a1a1f;
+      --border-hair: #52525b; --ink-primary: #fafafa; --ink-secondary: #d4d4d8; --ink-muted: #a1a1aa;
+      --font-body: "Helvetica Neue", "Inter", Arial, sans-serif;
+      --card-shadow: none; --border-w: 1.5px; --radius: 0px;
+    }
+    /* 3. UTILITARIAN */
+    body[data-theme="utilitarian"][data-mode="light"] {
+      --bg-root: #e2e7ec; --bg-panel: #edf1f5; --bg-card: #ffffff;
+      --border-hair: #64748b; --ink-primary: #0f172a; --ink-secondary: #334155; --ink-muted: #475569;
+      --font-body: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+      --card-shadow: none; --border-w: 1px; --radius: 0px;
+    }
+    body[data-theme="utilitarian"][data-mode="dark"] {
+      --bg-root: #0a0c0e; --bg-panel: #111417; --bg-card: #171b20;
+      --border-hair: #2c353d; --ink-primary: #e2e8f0; --ink-secondary: #94a3b8; --ink-muted: #64748b;
+      --font-body: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+      --card-shadow: none; --border-w: 1px; --radius: 0px;
+    }
+    /* 4. MEMPHIS */
+    body[data-theme="memphis"][data-mode="light"] {
+      --bg-root: #fff7d6; --bg-panel: #ffffff; --bg-card: #fdf2f8;
+      --border-hair: #1e1b4b; --ink-primary: #1e1b4b; --ink-secondary: #312e81; --ink-muted: #4f46e5;
+      --font-body: "Trebuchet MS", "Inter", sans-serif;
+      --card-shadow: 4px 4px 0px #06b6d4; --border-w: 2.5px; --radius: 14px;
+    }
+    body[data-theme="memphis"][data-mode="dark"] {
+      --bg-root: #14112b; --bg-panel: #1d183b; --bg-card: #282150;
+      --border-hair: #38bdf8; --ink-primary: #ffffff; --ink-secondary: #e0e7ff; --ink-muted: #a5b4fc;
+      --font-body: "Trebuchet MS", "Inter", sans-serif;
+      --card-shadow: 4px 4px 0px #ec4899; --border-w: 2.5px; --radius: 14px;
+    }
+    /* 5. PIXEL ART */
+    body[data-theme="pixel_art"][data-mode="light"] {
+      --bg-root: #d8d4c4; --bg-panel: #eae6d7; --bg-card: #f5f2e6;
+      --border-hair: #231f33; --ink-primary: #161324; --ink-secondary: #352f4f; --ink-muted: #585078;
+      --font-body: "Courier New", Courier, monospace;
+      --card-shadow: 4px 4px 0px #231f33; --border-w: 2px; --radius: 0px;
+    }
+    body[data-theme="pixel_art"][data-mode="dark"] {
+      --bg-root: #0c061a; --bg-panel: #160d2e; --bg-card: #211542;
+      --border-hair: #00ffcc; --ink-primary: #f8fafc; --ink-secondary: #a5b4fc; --ink-muted: #818cf8;
+      --font-body: "Courier New", Courier, monospace;
+      --card-shadow: 4px 4px 0px #05020a; --border-w: 2px; --radius: 0px;
+    }
+    /* 6. AURORA */
+    body[data-theme="aurora"][data-mode="light"] {
+      --bg-root: #edf6ff; --bg-panel: #f5faff; --bg-card: #ffffff;
+      --border-hair: rgba(2, 132, 199, 0.35); --ink-primary: #0f172a; --ink-secondary: #334155; --ink-muted: #64748b;
+      --font-body: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+      --card-shadow: 0 4px 20px rgba(14, 165, 233, 0.14); --border-w: 1px; --radius: 14px;
+    }
+    body[data-theme="aurora"][data-mode="dark"] {
+      --bg-root: #050714; --bg-panel: #0a0e24; --bg-card: #101736;
+      --border-hair: rgba(0, 245, 212, 0.35); --ink-primary: #f8fafc; --ink-secondary: #cbd5e1; --ink-muted: #94a3b8;
+      --font-body: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+      --card-shadow: 0 4px 20px rgba(0, 245, 212, 0.12); --border-w: 1px; --radius: 14px;
+    }
+
+    body {
+      background-color: var(--bg-root);
+      color: var(--ink-primary);
+      font-family: var(--font-body);
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .themed-box {
+      background-color: var(--bg-panel);
+      border: var(--border-w) solid var(--border-hair);
+      border-radius: var(--radius);
+    }
+    .themed-card {
+      background-color: var(--bg-card);
+      border: var(--border-w) solid var(--border-hair);
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+    }
+    .text-p { color: var(--ink-primary); }
+    .text-s { color: var(--ink-secondary); }
+    .text-m { color: var(--ink-muted); }
+  </style>
+</head>
+<body data-theme="neo_brutalism" data-mode="light">
+  <div class="w-full themed-box overflow-hidden">
+    <!-- Integrated Header with Brand + Theme & Light/Dark Polarity Controls -->
+    <header class="px-4 py-2.5 border-b flex flex-wrap items-center justify-between gap-2" style="border-color: var(--border-hair); background-color: var(--bg-panel);">
+      <div class="flex items-center gap-2.5">
+        <span class="mono text-[11px] font-bold uppercase px-2 py-0.5 themed-card text-p">ARASHIKAGE // HEX63</span>
+        <span class="text-xs font-bold text-p">Model Architecture Explorer</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-1.5">
+        <button data-t="neo_brutalism" class="tpill px-2 py-0.5 text-[11px] font-bold themed-card text-p">1. Neo-Brutalism</button>
+        <button data-t="modular_typo" class="tpill px-2 py-0.5 text-[11px] font-bold themed-card text-p">2. Modular Typo</button>
+        <button data-t="utilitarian" class="tpill px-2 py-0.5 text-[11px] font-bold themed-card text-p">3. Utilitarian</button>
+        <button data-t="memphis" class="tpill px-2 py-0.5 text-[11px] font-bold themed-card text-p">4. Memphis</button>
+        <button data-t="pixel_art" class="tpill px-2 py-0.5 text-[11px] font-bold themed-card text-p">5. Pixel Art</button>
+        <button data-t="aurora" class="tpill px-2 py-0.5 text-[11px] font-bold themed-card text-p">6. Aurora</button>
+        <div class="flex items-center themed-card p-0.5 gap-0.5 ml-1">
+          <button id="btnLight" class="px-2 py-0.5 text-[11px] font-bold">Light</button>
+          <button id="btnDark" class="px-2 py-0.5 text-[11px] font-bold">Dark</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Split Preview (Left Pipeline Grid + Right Symmetrical 4-Tab Inspector) -->
+    <div class="grid grid-cols-1 md:grid-cols-12">
+      <!-- Left: 6-Stage Pipeline Grid (Clean Boxes Without Tech Labels) -->
+      <div class="md:col-span-7 p-4 border-b md:border-b-0 md:border-r flex flex-col justify-between gap-3" style="border-color: var(--border-hair);">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="stageGrid"></div>
+        <div class="p-3.5 themed-card flex flex-col gap-1.5">
+          <div class="flex items-center justify-between">
+            <span id="overlayKicker" class="mono text-[11px] font-bold uppercase text-p">GUIDED WALKTHROUGH OVERLAY</span>
+            <span id="overlayLatency" class="mono text-[11px] text-m"></span>
+          </div>
+          <div id="overlayTitle" class="text-xs font-bold text-p"></div>
+          <div id="overlayDesc" class="text-xs text-s leading-relaxed"></div>
+        </div>
+      </div>
+
+      <!-- Right: Symmetrical 4-Tab Inspector + Underlying Technologies Underneath -->
+      <div class="md:col-span-5 p-4 flex flex-col justify-between gap-3 text-xs">
+        <div class="flex flex-col gap-2.5">
+          <div>
+            <span class="mono text-[10px] uppercase font-bold text-m">BLOCK INSPECTOR // HEX63</span>
+            <h3 id="rhsTitle" class="text-sm font-bold text-p mt-0.5"></h3>
+          </div>
+          <!-- 4-Tab Switcher (Aligned across Block Inspector & Tech Deep Dive) -->
+          <div class="grid grid-cols-4 gap-1 p-1 themed-box" id="tabBar">
+            <button data-tab="how" class="itab py-1 text-[11px] font-bold rounded">1. How</button>
+            <button data-tab="why" class="itab py-1 text-[11px] font-bold rounded">2. Why</button>
+            <button data-tab="contrib" class="itab py-1 text-[11px] font-bold rounded">3. Impact</button>
+            <button data-tab="math" class="itab py-1 text-[11px] font-bold rounded">4. Math</button>
+          </div>
+          <!-- Active Tab Card -->
+          <div class="p-3 themed-card">
+            <div id="rhsTabKicker" class="mono text-[10px] font-bold text-p mb-1">01 // HOW IT WORKS</div>
+            <p id="rhsTabBody" class="text-s leading-relaxed"></p>
+          </div>
+          <!-- Underlying Technologies (Directly Below How/Why/Impact Card) -->
+          <div class="p-2.5 themed-card flex flex-col gap-1">
+            <div class="mono text-[10px] font-bold text-m uppercase">UNDERLYING TECHNOLOGIES</div>
+            <div id="rhsTechBadge" class="text-xs font-bold text-p"></div>
+          </div>
+        </div>
+        <div class="pt-2 border-t flex items-center justify-between" style="border-color: var(--border-hair);">
+          <span id="styleNote" class="mono text-[10px] text-m"></span>
+          <span id="paperBadge" class="mono text-[10px] font-bold text-p"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const glyphs = {
+        neo_brutalism: { light: '■', dark: '□', tab: ['■', '▲', '◆', '∑'], tech: '▸', doc: '▣' },
+        modular_typo:  { light: '○', dark: '●', tab: ['01', '02', '03', '04'], tech: '→', doc: '⊞' },
+        utilitarian:   { light: '[L]', dark: '[D]', tab: ['[1]', '[2]', '[3]', '[4]'], tech: '>', doc: '[REF]' },
+        memphis:       { light: '★', dark: '✦', tab: ['★', '◆', '▲', '●'], tech: '★', doc: '✦' },
+        pixel_art:     { light: '[*]', dark: '[#]', tab: ['1:', '2:', '3:', '4:'], tech: '»', doc: '[=]' },
+        aurora:        { light: '✧', dark: '✦', tab: ['✧', '◈', '✦', '∫'], tech: '◈', doc: '✧' }
+      };
+      const themeNotes = {
+        neo_brutalism: 'Neo-Brutalism · 2.5px ink · Hard offset',
+        modular_typo: 'Modular Typo · Swiss Grid · 0px radius',
+        utilitarian: 'Utilitarian · Monospace · CAD traces',
+        memphis: 'Memphis · Pop Geometry · Bold shadows',
+        pixel_art: 'Pixel Art · 16-Bit Deck · Stepped edges',
+        aurora: 'Aurora · Borealis Plumes · Crisp rims'
+      };
+      const stages = [
+        { num: '01', name: 'C++20 Observation', sub: '5,376B Slice · C2v', color: '#ff4d00', lat: '0.25 ms CPU',
+          title: 'Stage 1: 5,376B Cache-Line Aligned Manifold (16 Dyn + 48 Env)',
+          overlay: 'Packs 64 entities into 84 CPU cache lines and rotates Orange team coordinates 180° around Z via M_C2v = diag(-1,-1,+1).',
+          how: 'Separates 16 dynamic queries (6 cars, ball, 8 BallRingBuffer480 trajectory samples, match state) from 48 context keys (34 pads, 6 goals, 4 zero-lag ego wheels, 4 wall OBBs).',
+          why: 'Eliminates Python dict serialization overhead and guarantees bit-exact parity between BatchArenaEngine and RocketSimShadowTwin.',
+          contrib: 'Builds 4,096 arena observations in 0.25 ms and quadruples sample efficiency through C2v spatial symmetry.',
+          math: 'M_C2v = diag(-1, -1, +1) in SO(3), det(M_C2v) = +1; gamma(p) = [sin(2^k pi p / L), cos(2^k pi p / L)]_{k=0..5}',
+          tech: 'C2v Pitch Symmetry & 6-Octave Fourier Features' },
+        { num: '02', name: 'Bipartite DiffAttn', sub: '16×64 Graph · 72D Edge', color: '#00b4d8', lat: '0.45 ms GPU',
+          title: 'Stage 2: 16×64 Asymmetric Bipartite Graph & Differential Attention',
+          overlay: 'A 0.09 ms GPU kernel computes 72 pairwise physics features across 1,024 pairs; Differential Attention cancels softmax noise.',
+          how: 'Only the 16 dynamic entities act as queries attending over all 64 tokens, biased by 32 Fourier distance bands and time-to-intercept.',
+          why: 'Cuts attention matrix size by 4× (1,024 vs 4,096 pairs) and prevents 34 static boost pads from diluting attention.',
+          contrib: 'Gives the backbone direct physical intercept margins and sharp entity focus across 1v1, 2v2, and 3v3.',
+          math: 'O_h = (1 - lambda_init) * GroupRMSNorm((softmax(Q1 K1^T + B1) - lambda_k softmax(Q2 K2^T + B2)) V_h)',
+          tech: '16×64 Bipartite Entity Graph + Differential Attention' },
+        { num: '03', name: 'FP32 Titans Memory', sub: '2×4×32×32 Fast Weights', color: '#7c3aed', lat: '0.12 ms GPU',
+          title: 'Stage 3: 2×4×32×32 FP32 Titans Test-Time Neural Memory',
+          overlay: 'Updates a 32×32 FP32 fast-weight matrix per head live during the match whenever opponent actions deviate from prediction.',
+          how: 'Computes a causal Log-Cosh surprise gradient from the prediction error on the previous step, updates momentum M_t and fast weights W_t in FP32, and retracts onto ||W||_F <= 4.0.',
+          why: 'Static neural weights cannot adapt mid-match to an opponent who repeatedly fakes challenges or hunts demolitions.',
+          contrib: 'Preserves learned opponent habits across goals throughout a 5-minute match without recurrent drift.',
+          math: 'e_t = tanh(W2 SiLU(W1 k_{t-1}) - v_t); W_t = Retract_{R_max=4.0}((1 - alpha_t) W_{t-1} + alpha_t W_init + M_t)',
+          tech: 'Titans / TTT-MLP Analytical Test-Time Neural Memory' },
+        { num: '04', name: 'Coconut & Soft-MoE', sub: 'K=4..6 Loop · 1,000 FSQ', color: '#ec4899', lat: '1.35 ms GPU',
+          title: 'Stage 4: Coconut Latent Recurrence, 8×2 Soft-MoE & FSQ Bottleneck',
+          overlay: 'Loops K=4 or 6 times through shared weights, routing tokens across 8 static-shape specialist experts into 1,000 discrete FSQ codes.',
+          how: 'Iterates weight-tied DiffAttn + Soft-MoE blocks K_t times while projecting 3D spatial focus anchors p_lat^(k), then quantizes the ego state into 8×5^3 = 1,000 FSQ skill codes.',
+          why: 'Avoids 16-layer VRAM bloat, keeps MoE routing 100% static-shape for CUDAGraph capture, and prevents VQ codebook collapse.',
+          contrib: 'Delivers multi-bounce tactical lookahead and clean mechanical specialization inside a single static CUDAGraph.',
+          math: 'p_lat^(k) = p_lat^(k-1) + 2048 * tanh(W_anchor Z^(k-1)); z_fsq = z + sg(round(2z)/2 - z) in {-1,-0.5,0,+0.5,+1}^16',
+          tech: 'Coconut Continuous Thought + Static Soft-MoE + 1,000-Code FSQ' },
+        { num: '05', name: '60Hz Flow-GRPO', sub: '16-Way Bin + 4-Step SDE', color: '#eab308', lat: '0.42 ms GPU',
+          title: 'Stage 5: Two-Stage 60Hz Subtick Binary + Flow-GRPO Action Decoder',
+          overlay: 'Conditioned on a 16-way 4-subtick Jump/Dodge sequence, a 4-step Flow-GRPO velocity field outputs 60 Hz continuous controls.',
+          how: 'Stage 1 samples causal 4-subtick Jump, Boost, and Handbrake sequences. Stage 2 integrates a 4-step Euler-Maruyama ODE/SDE in R^20 with a 0.12·tanh deadzone stall clamp.',
+          why: '15 Hz action repeat locks controls for 66.7 ms (breaking speedflip cancels), and unimodal Gaussians average left/right paths into zero.',
+          contrib: 'Executes native 60 Hz speedflips, stalls, and aerial micro-adjustments with zero C++ FlipState hijacking.',
+          math: 'u_{tau+dt} = u_tau + v_theta(u_tau, tau, c_t) dt + sigma_tau sqrt(dt) eps_m; sum |pitch,yaw,roll| <= 0.36 < 0.50',
+          tech: '60Hz Subtick Action Chunking + Flow-GRPO Velocity Field' },
+        { num: '06', name: 'Critic & JEPA Search', sub: '4×51 Symlog · G=8 GRPO', color: '#16a34a', lat: '0.80 ms Search',
+          title: 'Stage 6: Dual 4×51 Symlog HL-Gauss Critic, JEPA Search & G=8 GRPO',
+          overlay: 'Evaluates 51-bin return distributions across 4 horizons; live play runs Best-of-16 JEPA rollouts under a 5.5 ms P99 SLA.',
+          how: 'Predicts 51 symlog bins across 3 dense PBRS horizons (0.95, 0.98, 0.995) + 1 sparse win horizon (0.9995) for p_priv and p_eval.',
+          why: 'Prevents value gradient spikes across sparse/dense rewards and filters out risky last-man mistakes at test time.',
+          contrib: 'Unifies risk-averse live tactical search with lockstep 0-ULP G=8 mechanical drill optimization.',
+          math: 'symlog(G) = sign(G) ln(1 + |G|) in [-10,+10]; A_GRPO = (G_i - mu_G) / (sigma_G + 1e-4) over G=8 clones',
+          tech: 'Symlog HL-Gauss Critic + JEPA World Model + Lockstep G=8 GRPO' }
+      ];
+
+      let idx = 0;
+      let curTab = 'how';
+      let curTheme = 'neo_brutalism';
+      let curMode = 'light';
+      const grid = document.getElementById('stageGrid');
+      const btnLight = document.getElementById('btnLight');
+      const btnDark = document.getElementById('btnDark');
+
+      function updateThemeAndMode() {
+        document.body.setAttribute('data-theme', curTheme);
+        document.body.setAttribute('data-mode', curMode);
+        const g = glyphs[curTheme] || glyphs.neo_brutalism;
+        document.getElementById('styleNote').textContent = (themeNotes[curTheme] || '') + ' (' + curMode.toUpperCase() + ')';
+        document.getElementById('paperBadge').textContent = g.doc + ' 36 Technical Sources ↗';
+        btnLight.textContent = g.light + ' Light';
+        btnDark.textContent = g.dark + ' Dark';
+
+        const tabLabels = ['How', 'Why', 'Impact', 'Math'];
+        document.querySelectorAll('.itab').forEach((b, i) => {
+          const isAct = b.getAttribute('data-tab') === curTab;
+          b.textContent = g.tab[i] + ' ' + tabLabels[i];
+          b.style.backgroundColor = isAct ? '#ff4d00' : 'transparent';
+          b.style.color = isAct ? '#ffffff' : '';
+        });
+
+        document.querySelectorAll('.tpill').forEach(btn => {
+          const isAct = btn.getAttribute('data-t') === curTheme;
+          btn.style.backgroundColor = isAct ? '#ff4d00' : '';
+          btn.style.color = isAct ? '#ffffff' : '';
+        });
+        btnLight.style.backgroundColor = curMode === 'light' ? '#ff4d00' : 'transparent';
+        btnLight.style.color = curMode === 'light' ? '#ffffff' : '';
+        btnDark.style.backgroundColor = curMode === 'dark' ? '#ff4d00' : 'transparent';
+        btnDark.style.color = curMode === 'dark' ? '#ffffff' : '';
+        render();
+      }
+
+      document.querySelectorAll('.tpill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          curTheme = btn.getAttribute('data-t');
+          updateThemeAndMode();
+        });
+      });
+
+      document.querySelectorAll('.itab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          curTab = btn.getAttribute('data-tab');
+          updateThemeAndMode();
+        });
+      });
+
+      btnLight.addEventListener('click', () => { curMode = 'light'; updateThemeAndMode(); });
+      btnDark.addEventListener('click', () => { curMode = 'dark'; updateThemeAndMode(); });
+
+      function render() {
+        grid.innerHTML = '';
+        const g = glyphs[curTheme] || glyphs.neo_brutalism;
+        stages.forEach((s, i) => {
+          const active = (i === idx);
+          const card = document.createElement('button');
+          card.className = 'text-left p-2.5 themed-card transition flex flex-col justify-between gap-1';
+          if (active) {
+            card.style.outline = '2.5px solid ' + s.color;
+          }
+          card.innerHTML =
+            '<div class="flex items-center justify-between w-full">' +
+              '<span class="mono text-[10px] font-bold" style="color:' + s.color + '">STAGE ' + s.num + '</span>' +
+              '<span class="mono text-[10px] text-m">' + s.lat + '</span>' +
+            '</div>' +
+            '<div class="text-xs font-bold text-p truncate">' + s.name + '</div>' +
+            '<div class="text-[11px] text-s truncate">' + s.sub + '</div>';
+          card.addEventListener('click', () => { idx = i; render(); });
+          grid.appendChild(card);
+        });
+
+        const st = stages[idx];
+        document.getElementById('overlayLatency').textContent = 'BUDGET: ' + st.lat;
+        document.getElementById('overlayTitle').textContent = st.title;
+        document.getElementById('overlayDesc').textContent = st.overlay;
+        document.getElementById('rhsTitle').textContent = st.name + ' (' + st.sub + ')';
+
+        const kickers = {
+          how: '01 // HOW IT WORKS',
+          why: '02 // WHY IT IS USED',
+          contrib: '03 // WHAT IT CONTRIBUTES',
+          math: '04 // MATHEMATICAL FORMULATION'
+        };
+        document.getElementById('rhsTabKicker').textContent = kickers[curTab];
+        document.getElementById('rhsTabBody').textContent = st[curTab];
+        document.getElementById('rhsTechBadge').textContent = g.tech + ' ' + st.tech;
+      }
+
+      updateThemeAndMode();
+    })();
+  </script>
+</body>
+</html>

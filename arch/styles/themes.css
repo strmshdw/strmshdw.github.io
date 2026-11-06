@@ -1,0 +1,363 @@
+/* ==========================================================================
+   ARASHIKAGE (HEX63) — ARCHITECTURE EXPLORER STYLESHEET
+   Base Typography Scale (+2px upgrade: 18px root) & 6-Style × Light/Dark Engine
+   ========================================================================== */
+html {
+  font-size: 18px;
+}
+
+/* --- 1. NEO-BRUTALISM (LIGHT & DARK) --- */
+body[data-theme="neo_brutalism"][data-mode="light"] {
+  --bg-root: #f3efe6;
+  --bg-panel: #fbf9f5;
+  --bg-card: #ffffff;
+  --bg-elevated: #fffbeb;
+  --border-hair: #111111;
+  --border-sub: #111111;
+  --ink-primary: #111111;
+  --ink-secondary: #27272a;
+  --ink-muted: #52525b;
+  --accent-main: #ff4d00;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(255, 77, 0, 0.10);
+  --font-body: "Inter", "Arial Black", system-ui, -apple-system, sans-serif;
+  --card-shadow: 4px 4px 0px #111111;
+  --elevated-shadow: 8px 8px 0px #111111;
+  --border-w: 2.5px;
+  --radius-card: 2px;
+}
+body[data-theme="neo_brutalism"][data-mode="dark"] {
+  --bg-root: #111113;
+  --bg-panel: #18181c;
+  --bg-card: #222228;
+  --bg-elevated: #28241e;
+  --border-hair: #f4f4f5;
+  --border-sub: #f4f4f5;
+  --ink-primary: #fafafa;
+  --ink-secondary: #d4d4d8;
+  --ink-muted: #a1a1aa;
+  --accent-main: #ff5e1a;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(255, 94, 26, 0.16);
+  --font-body: "Inter", "Arial Black", system-ui, -apple-system, sans-serif;
+  --card-shadow: 4px 4px 0px #ff5e1a;
+  --elevated-shadow: 7px 7px 0px #ff5e1a;
+  --border-w: 2.5px;
+  --radius-card: 2px;
+}
+body[data-theme="neo_brutalism"] .rounded-2xl,
+body[data-theme="neo_brutalism"] .rounded-xl,
+body[data-theme="neo_brutalism"] .rounded-lg {
+  border-radius: 2px !important;
+}
+
+/* --- 2. MODULAR TYPOGRAPHY (LIGHT & DARK) --- */
+body[data-theme="modular_typo"][data-mode="light"] {
+  --bg-root: #eceae4;
+  --bg-panel: #f7f6f2;
+  --bg-card: #ffffff;
+  --bg-elevated: #ffffff;
+  --border-hair: #18181b;
+  --border-sub: #18181b;
+  --ink-primary: #09090b;
+  --ink-secondary: #27272a;
+  --ink-muted: #52525b;
+  --accent-main: #ff2a00;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(255, 42, 0, 0.09);
+  --font-body: "Helvetica Neue", "Inter", Arial, sans-serif;
+  --card-shadow: none;
+  --elevated-shadow: 0 0 0 2px #09090b;
+  --border-w: 1.5px;
+  --radius-card: 0px;
+}
+body[data-theme="modular_typo"][data-mode="dark"] {
+  --bg-root: #0c0c0e;
+  --bg-panel: #131316;
+  --bg-card: #1a1a1f;
+  --bg-elevated: #1f1f26;
+  --border-hair: #52525b;
+  --border-sub: #e4e4e7;
+  --ink-primary: #fafafa;
+  --ink-secondary: #d4d4d8;
+  --ink-muted: #a1a1aa;
+  --accent-main: #ff3b14;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(255, 59, 20, 0.15);
+  --font-body: "Helvetica Neue", "Inter", Arial, sans-serif;
+  --card-shadow: none;
+  --elevated-shadow: 0 0 0 2px #ff3b14;
+  --border-w: 1.5px;
+  --radius-card: 0px;
+}
+body[data-theme="modular_typo"] .rounded-2xl,
+body[data-theme="modular_typo"] .rounded-xl,
+body[data-theme="modular_typo"] .rounded-lg,
+body[data-theme="modular_typo"] .rounded {
+  border-radius: 0px !important;
+}
+
+/* --- 3. UTILITARIAN (LIGHT & DARK) --- */
+body[data-theme="utilitarian"][data-mode="light"] {
+  --bg-root: #e2e7ec;
+  --bg-panel: #edf1f5;
+  --bg-card: #f8fafc;
+  --bg-elevated: #ffffff;
+  --border-hair: #94a3b8;
+  --border-sub: #475569;
+  --ink-primary: #0f172a;
+  --ink-secondary: #334155;
+  --ink-muted: #64748b;
+  --accent-main: #0284c7;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(2, 132, 199, 0.10);
+  --font-body: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+  --card-shadow: none;
+  --elevated-shadow: 0 0 0 1.5px #0f172a, 0 12px 28px rgba(15, 23, 42, 0.18);
+  --border-w: 1px;
+  --radius-card: 0px;
+}
+body[data-theme="utilitarian"][data-mode="dark"] {
+  --bg-root: #0a0c0e;
+  --bg-panel: #111417;
+  --bg-card: #171b20;
+  --bg-elevated: #14181d;
+  --border-hair: #2c353d;
+  --border-sub: #43505c;
+  --ink-primary: #e2e8f0;
+  --ink-secondary: #94a3b8;
+  --ink-muted: #64748b;
+  --accent-main: #f59e0b;
+  --accent-ink: #09090b;
+  --accent-tint: rgba(245, 158, 11, 0.14);
+  --font-body: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+  --card-shadow: none;
+  --elevated-shadow: 0 0 0 1px #f59e0b, 0 16px 36px rgba(0, 0, 0, 0.9);
+  --border-w: 1px;
+  --radius-card: 0px;
+}
+body[data-theme="utilitarian"] .rounded-2xl,
+body[data-theme="utilitarian"] .rounded-xl,
+body[data-theme="utilitarian"] .rounded-lg {
+  border-radius: 0px !important;
+}
+
+/* --- 4. MEMPHIS (LIGHT & DARK) --- */
+body[data-theme="memphis"][data-mode="light"] {
+  --bg-root: #fff7d6;
+  --bg-panel: #ffffff;
+  --bg-card: #fdf2f8;
+  --bg-elevated: #f0fdfa;
+  --border-hair: #1e1b4b;
+  --border-sub: #1e1b4b;
+  --ink-primary: #1e1b4b;
+  --ink-secondary: #312e81;
+  --ink-muted: #4f46e5;
+  --accent-main: #ec4899;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(236, 72, 153, 0.12);
+  --font-body: "Trebuchet MS", "Inter", system-ui, sans-serif;
+  --card-shadow: 4px 4px 0px #06b6d4;
+  --elevated-shadow: 6px 6px 0px #ec4899;
+  --border-w: 2.5px;
+  --radius-card: 14px;
+}
+body[data-theme="memphis"][data-mode="dark"] {
+  --bg-root: #14112b;
+  --bg-panel: #1d183b;
+  --bg-card: #27204d;
+  --bg-elevated: #2e2559;
+  --border-hair: #38bdf8;
+  --border-sub: #f472b6;
+  --ink-primary: #ffffff;
+  --ink-secondary: #e0e7ff;
+  --ink-muted: #a5b4fc;
+  --accent-main: #f472b6;
+  --accent-ink: #14112b;
+  --accent-tint: rgba(244, 114, 182, 0.16);
+  --font-body: "Trebuchet MS", "Inter", system-ui, sans-serif;
+  --card-shadow: 4px 4px 0px #ec4899;
+  --elevated-shadow: 6px 6px 0px #facc15;
+  --border-w: 2.5px;
+  --radius-card: 14px;
+}
+body[data-theme="memphis"] .rounded-2xl,
+body[data-theme="memphis"] .rounded-xl {
+  border-radius: 16px !important;
+}
+
+/* --- 5. PIXEL ART (LIGHT & DARK) --- */
+body[data-theme="pixel_art"][data-mode="light"] {
+  --bg-root: #d8d4c4;
+  --bg-panel: #e8e4d5;
+  --bg-card: #f4f1e6;
+  --bg-elevated: #ffffff;
+  --border-hair: #231f33;
+  --border-sub: #231f33;
+  --ink-primary: #161324;
+  --ink-secondary: #352f4f;
+  --ink-muted: #5c547d;
+  --accent-main: #008f70;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(0, 143, 112, 0.12);
+  --font-body: "Courier New", Courier, ui-monospace, monospace;
+  --card-shadow: 4px 4px 0px #231f33;
+  --elevated-shadow: 6px 6px 0px #231f33;
+  --border-w: 2px;
+  --radius-card: 0px;
+}
+body[data-theme="pixel_art"][data-mode="dark"] {
+  --bg-root: #0c061a;
+  --bg-panel: #160d2e;
+  --bg-card: #211542;
+  --bg-elevated: #1b1038;
+  --border-hair: #4c3b80;
+  --border-sub: #00ffcc;
+  --ink-primary: #f8fafc;
+  --ink-secondary: #a5b4fc;
+  --ink-muted: #818cf8;
+  --accent-main: #00ffcc;
+  --accent-ink: #0c061a;
+  --accent-tint: rgba(0, 255, 204, 0.14);
+  --font-body: "Courier New", Courier, ui-monospace, monospace;
+  --card-shadow: 4px 4px 0px #05020a;
+  --elevated-shadow: 6px 6px 0px #05020a, 0 0 0 2px #00ffcc;
+  --border-w: 2px;
+  --radius-card: 0px;
+}
+body[data-theme="pixel_art"] .rounded-2xl,
+body[data-theme="pixel_art"] .rounded-xl,
+body[data-theme="pixel_art"] .rounded-lg,
+body[data-theme="pixel_art"] .rounded,
+body[data-theme="pixel_art"] .rounded-full {
+  border-radius: 0px !important;
+}
+
+/* --- 6. AURORA (LIGHT & DARK — Solid Velvet/Pearl Surfaces, Zero Blur) --- */
+body[data-theme="aurora"][data-mode="light"] {
+  --bg-root: #edf6ff;
+  --bg-panel: #f5faff;
+  --bg-card: #ffffff;
+  --bg-elevated: #ffffff;
+  --border-hair: rgba(2, 132, 199, 0.32);
+  --border-sub: rgba(147, 51, 234, 0.45);
+  --ink-primary: #0f172a;
+  --ink-secondary: #334155;
+  --ink-muted: #64748b;
+  --accent-main: #0284c7;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(2, 132, 199, 0.10);
+  --font-body: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  --card-shadow: 0 4px 18px rgba(14, 165, 233, 0.10);
+  --elevated-shadow: 0 16px 40px rgba(15, 23, 42, 0.16), 0 0 0 1.5px rgba(14, 165, 233, 0.4);
+  --border-w: 1px;
+  --radius-card: 12px;
+}
+body[data-theme="aurora"][data-mode="dark"] {
+  --bg-root: #050714;
+  --bg-panel: #0a0e24;
+  --bg-card: #101736;
+  --bg-elevated: #131c42;
+  --border-hair: rgba(0, 245, 212, 0.28);
+  --border-sub: rgba(247, 37, 133, 0.45);
+  --ink-primary: #f8fafc;
+  --ink-secondary: #cbd5e1;
+  --ink-muted: #94a3b8;
+  --accent-main: #00f5d4;
+  --accent-ink: #050714;
+  --accent-tint: rgba(0, 245, 212, 0.12);
+  --font-body: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  --card-shadow: 0 4px 20px rgba(0, 245, 212, 0.08);
+  --elevated-shadow: 0 16px 48px rgba(4, 6, 20, 0.95), 0 0 24px rgba(0, 245, 212, 0.22);
+  --border-w: 1px;
+  --radius-card: 12px;
+}
+
+/* ==========================================================================
+   SHARED LAYOUT & THEME UTILITY CLASSES
+   ========================================================================== */
+body {
+  background-color: var(--bg-root);
+  color: var(--ink-primary);
+  font-family: var(--font-body);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  transition: background-color 0.16s ease, color 0.16s ease;
+}
+.mono {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+}
+.surface-root { background-color: var(--bg-root); }
+.surface-panel { background-color: var(--bg-panel); }
+.surface-card {
+  background-color: var(--bg-card);
+  box-shadow: var(--card-shadow);
+}
+.surface-elevated {
+  background-color: var(--bg-elevated) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: var(--elevated-shadow);
+}
+.border-hairline {
+  border-color: var(--border-hair) !important;
+  border-width: var(--border-w);
+}
+.border-subtle {
+  border-color: var(--border-sub) !important;
+  border-width: var(--border-w);
+}
+.text-primary-ink { color: var(--ink-primary) !important; }
+.text-secondary-ink { color: var(--ink-secondary) !important; }
+.text-muted-ink { color: var(--ink-muted) !important; }
+.text-theme-accent { color: var(--accent-main) !important; }
+
+.btn-theme-accent {
+  background-color: var(--accent-main) !important;
+  color: var(--accent-ink) !important;
+  border-color: var(--border-hair) !important;
+}
+
+.kicker {
+  font-size: 11.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+/* Theme-native Secondary Callout Section inside Tab Cards
+   (Used for "WHY IT SITS HERE IN THE DATAFLOW", "RESEARCH ORIGINS & EVOLUTION",
+    "TENSOR & MEMORY SIGNATURE", etc. across all tabs) */
+.theme-callout {
+  background-color: var(--bg-root);
+  border: var(--border-w) solid var(--border-hair);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+.theme-callout-header {
+  background-color: var(--accent-tint);
+  border-bottom: var(--border-w) solid var(--border-hair);
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.theme-callout-body {
+  padding: 10px 12px;
+}
+
+.no-wrap-btn {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.1;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-root); }
+::-webkit-scrollbar-thumb { background: var(--border-sub); }
