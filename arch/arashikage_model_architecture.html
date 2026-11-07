@@ -418,6 +418,286 @@ body[data-theme="aurora"][data-mode="dark"] .surface-card {
   background-image: linear-gradient(165deg, rgba(19, 28, 66, 0.95) 0%, rgba(11, 16, 40, 0.96) 100%);
 }
 
+/* --- 7. BAUHAUS CONSTRUCTIVISM (LIGHT & DARK — Weimar 1923 Kandinsky / Moholy-Nagy) --- */
+body[data-theme="bauhaus"][data-mode="light"] {
+  --bg-root: #f4efe4;
+  --bg-panel: #faf6ed;
+  --bg-card: #ffffff;
+  --bg-elevated: #fff9eb;
+  --border-hair: #161616;
+  --border-sub: #161616;
+  --ink-primary: #161616;
+  --ink-secondary: #2c2a28;
+  --ink-muted: #57534e;
+  --accent-main: #d92b2b;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(217, 43, 43, 0.12);
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-body: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --card-shadow: 4px 4px 0px #1d4ed8;
+  --elevated-shadow: 5px 5px 0px #d92b2b;
+  --border-w: 2px;
+  --radius-card: 0px;
+}
+body[data-theme="bauhaus"][data-mode="dark"] {
+  --bg-root: #141416;
+  --bg-panel: #1c1c20;
+  --bg-card: #242429;
+  --bg-elevated: #2a2824;
+  --border-hair: #f5f2eb;
+  --border-sub: #facc15;
+  --ink-primary: #f5f2eb;
+  --ink-secondary: #d6d3cd;
+  --ink-muted: #a8a29e;
+  --accent-main: #ef4444;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(239, 68, 68, 0.18);
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-body: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --card-shadow: 4px 4px 0px #3b82f6;
+  --elevated-shadow: 5px 5px 0px #facc15;
+  --border-w: 2px;
+  --radius-card: 0px;
+}
+body[data-theme="bauhaus"] .rounded-2xl,
+body[data-theme="bauhaus"] .rounded-xl,
+body[data-theme="bauhaus"] .rounded-lg,
+body[data-theme="bauhaus"] .rounded {
+  border-radius: 0px !important;
+}
+
+/* --- 8. BLUEPRINT CYANOTYPE (LIGHT & DARK — Architectural Prussian Blue & Drafting Vellum) --- */
+body[data-theme="blueprint"][data-mode="light"] {
+  --bg-root: #eef3f9;
+  --bg-panel: #f5f8fc;
+  --bg-card: #ffffff;
+  --bg-elevated: #ffffff;
+  --border-hair: #1e40af;
+  --border-sub: #0f294a;
+  --ink-primary: #0a1f3d;
+  --ink-secondary: #1e3a5f;
+  --ink-muted: #3b5980;
+  --accent-main: #1d4ed8;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(29, 78, 216, 0.11);
+  --font-display: "IBM Plex Mono", ui-monospace, monospace;
+  --font-body: "IBM Plex Mono", ui-monospace, monospace;
+  --card-shadow: 2px 2px 0px rgba(30, 64, 175, 0.22);
+  --elevated-shadow: 0 0 0 1.5px #1e40af, 4px 4px 0px rgba(15, 41, 74, 0.22);
+  --border-w: 1.5px;
+  --radius-card: 0px;
+}
+body[data-theme="blueprint"][data-mode="dark"] {
+  --bg-root: #071932;
+  --bg-panel: #0b2242;
+  --bg-card: #102c54;
+  --bg-elevated: #143564;
+  --border-hair: #38bdf8;
+  --border-sub: #e0f2fe;
+  --ink-primary: #f0f7ff;
+  --ink-secondary: #bae6fd;
+  --ink-muted: #7dd3fc;
+  --accent-main: #38bdf8;
+  --accent-ink: #071932;
+  --accent-tint: rgba(56, 189, 248, 0.18);
+  --font-display: "IBM Plex Mono", ui-monospace, monospace;
+  --font-body: "IBM Plex Mono", ui-monospace, monospace;
+  --card-shadow: 2px 2px 0px rgba(56, 189, 248, 0.25);
+  --elevated-shadow: 0 0 0 1.5px #f0f7ff, 0 10px 28px rgba(3, 12, 26, 0.88);
+  --border-w: 1.5px;
+  --radius-card: 0px;
+}
+body[data-theme="blueprint"] .rounded-2xl,
+body[data-theme="blueprint"] .rounded-xl,
+body[data-theme="blueprint"] .rounded-lg,
+body[data-theme="blueprint"] .rounded,
+body[data-theme="blueprint"] .rounded-full {
+  border-radius: 0px !important;
+}
+
+/* --- 9. BRAUN / APOLLO INDUSTRIAL (LIGHT & DARK — Dieter Rams Snow-White & 1969 DSKY Console) --- */
+body[data-theme="braun_industrial"][data-mode="light"] {
+  --bg-root: #e6e4de;
+  --bg-panel: #f0eee9;
+  --bg-card: #faf9f5;
+  --bg-elevated: #ffffff;
+  --border-hair: #a8a29e;
+  --border-sub: #44403c;
+  --ink-primary: #1c1917;
+  --ink-secondary: #3f3b37;
+  --ink-muted: #57534e;
+  --accent-main: #ea580c;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(234, 88, 12, 0.12);
+  --font-display: "Inter", "Plus Jakarta Sans", sans-serif;
+  --font-body: "Inter", "Plus Jakarta Sans", system-ui, sans-serif;
+  --card-shadow: inset 0 1px 0 #ffffff, 0 2px 4px rgba(28, 25, 23, 0.10);
+  --elevated-shadow: inset 0 1px 0 #ffffff, 0 8px 20px rgba(28, 25, 23, 0.18);
+  --border-w: 1.5px;
+  --radius-card: 8px;
+}
+body[data-theme="braun_industrial"][data-mode="dark"] {
+  --bg-root: #171715;
+  --bg-panel: #20201d;
+  --bg-card: #292925;
+  --bg-elevated: #31312c;
+  --border-hair: #57534e;
+  --border-sub: #f59e0b;
+  --ink-primary: #f5f3ed;
+  --ink-secondary: #d6d3cb;
+  --ink-muted: #a8a29e;
+  --accent-main: #f97316;
+  --accent-ink: #171715;
+  --accent-tint: rgba(249, 115, 22, 0.18);
+  --font-display: "Inter", "Plus Jakarta Sans", sans-serif;
+  --font-body: "Inter", "Plus Jakarta Sans", system-ui, sans-serif;
+  --card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 3px 6px rgba(0, 0, 0, 0.55);
+  --elevated-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 10px 26px rgba(0, 0, 0, 0.85);
+  --border-w: 1.5px;
+  --radius-card: 8px;
+}
+
+/* --- 10. ART DECO METROPOLIS (LIGHT & DARK — 1929 Chrysler Building Brass & Onyx) --- */
+body[data-theme="art_deco"][data-mode="light"] {
+  --bg-root: #f5f0e6;
+  --bg-panel: #fbf8f1;
+  --bg-card: #ffffff;
+  --bg-elevated: #fffdf8;
+  --border-hair: #9a6f1a;
+  --border-sub: #1c1917;
+  --ink-primary: #171412;
+  --ink-secondary: #3b332b;
+  --ink-muted: #665847;
+  --accent-main: #9a6f1a;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(154, 111, 26, 0.13);
+  --font-display: "Space Grotesk", "Plus Jakarta Sans", sans-serif;
+  --font-body: "Plus Jakarta Sans", "Inter", sans-serif;
+  --card-shadow: inset 0 0 0 2px #f5f0e6, inset 0 0 0 3px rgba(154, 111, 26, 0.45);
+  --elevated-shadow: 0 0 0 2px #9a6f1a, 0 10px 24px rgba(23, 20, 18, 0.16);
+  --border-w: 1.5px;
+  --radius-card: 2px;
+}
+body[data-theme="art_deco"][data-mode="dark"] {
+  --bg-root: #0c0b09;
+  --bg-panel: #14120f;
+  --bg-card: #1d1a15;
+  --bg-elevated: #25211a;
+  --border-hair: #ca8a04;
+  --border-sub: #facc15;
+  --ink-primary: #f7f3e8;
+  --ink-secondary: #e5dcc5;
+  --ink-muted: #b8a98a;
+  --accent-main: #eab308;
+  --accent-ink: #0c0b09;
+  --accent-tint: rgba(234, 179, 8, 0.17);
+  --font-display: "Space Grotesk", "Plus Jakarta Sans", sans-serif;
+  --font-body: "Plus Jakarta Sans", "Inter", sans-serif;
+  --card-shadow: inset 0 0 0 2px #0c0b09, inset 0 0 0 3px rgba(234, 179, 8, 0.42);
+  --elevated-shadow: 0 0 0 2px #facc15, 0 12px 28px rgba(0, 0, 0, 0.90);
+  --border-w: 1.5px;
+  --radius-card: 2px;
+}
+body[data-theme="art_deco"] .rounded-2xl,
+body[data-theme="art_deco"] .rounded-xl,
+body[data-theme="art_deco"] .rounded-lg,
+body[data-theme="art_deco"] .rounded {
+  border-radius: 2px !important;
+}
+
+/* --- 11. CYBERPUNK NEURAL DECK (LIGHT & DARK — Shibuya Titanium & Night City Tactical HUD) --- */
+body[data-theme="cyberpunk"][data-mode="light"] {
+  --bg-root: #eaf0f6;
+  --bg-panel: #f4f7fb;
+  --bg-card: #ffffff;
+  --bg-elevated: #fff0f5;
+  --border-hair: #0284c7;
+  --border-sub: #e11d48;
+  --ink-primary: #090d16;
+  --ink-secondary: #1e293b;
+  --ink-muted: #475569;
+  --accent-main: #e11d48;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(225, 29, 72, 0.12);
+  --font-display: "Space Grotesk", "IBM Plex Mono", sans-serif;
+  --font-body: "Space Grotesk", "Inter", sans-serif;
+  --card-shadow: -3px 0 0 #e11d48, 3px 3px 0px rgba(2, 132, 199, 0.22);
+  --elevated-shadow: -4px 0 0 #0284c7, 4px 4px 0px #e11d48;
+  --border-w: 1.5px;
+  --radius-card: 2px;
+}
+body[data-theme="cyberpunk"][data-mode="dark"] {
+  --bg-root: #06080e;
+  --bg-panel: #0b0f19;
+  --bg-card: #111726;
+  --bg-elevated: #171f33;
+  --border-hair: #00f0ff;
+  --border-sub: #f43f5e;
+  --ink-primary: #f8fafc;
+  --ink-secondary: #cbd5e1;
+  --ink-muted: #94a3b8;
+  --accent-main: #facc15;
+  --accent-ink: #06080e;
+  --accent-tint: rgba(250, 204, 21, 0.16);
+  --font-display: "Space Grotesk", "IBM Plex Mono", sans-serif;
+  --font-body: "Space Grotesk", "Inter", sans-serif;
+  --card-shadow: -3px 0 0 #f43f5e, 0 0 14px rgba(0, 240, 255, 0.12);
+  --elevated-shadow: -4px 0 0 #facc15, 0 0 22px rgba(244, 63, 94, 0.35);
+  --border-w: 1.5px;
+  --radius-card: 2px;
+}
+body[data-theme="cyberpunk"] .rounded-2xl,
+body[data-theme="cyberpunk"] .rounded-xl,
+body[data-theme="cyberpunk"] .rounded-lg,
+body[data-theme="cyberpunk"] .rounded {
+  border-radius: 2px !important;
+}
+
+/* --- 12. SOLARPUNK BOTANICAL (LIGHT & DARK — Herbarium Parchment & Bioluminescent Canopy) --- */
+body[data-theme="solarpunk"][data-mode="light"] {
+  --bg-root: #eef3e8;
+  --bg-panel: #f6f9f2;
+  --bg-card: #ffffff;
+  --bg-elevated: #fefcf5;
+  --border-hair: #2d5a3c;
+  --border-sub: #15803d;
+  --ink-primary: #112217;
+  --ink-secondary: #284231;
+  --ink-muted: #466651;
+  --accent-main: #15803d;
+  --accent-ink: #ffffff;
+  --accent-tint: rgba(21, 128, 61, 0.12);
+  --font-display: "Plus Jakarta Sans", "Space Grotesk", sans-serif;
+  --font-body: "Plus Jakarta Sans", "Inter", sans-serif;
+  --card-shadow: 0 4px 14px rgba(17, 34, 23, 0.08), inset 0 1.5px 0 rgba(21, 128, 61, 0.30);
+  --elevated-shadow: 0 10px 26px rgba(17, 34, 23, 0.16), 0 0 0 1.5px #15803d;
+  --border-w: 1.5px;
+  --radius-card: 14px;
+}
+body[data-theme="solarpunk"][data-mode="dark"] {
+  --bg-root: #08130d;
+  --bg-panel: #0e1f16;
+  --bg-card: #152b1f;
+  --bg-elevated: #1b3627;
+  --border-hair: rgba(52, 211, 153, 0.42);
+  --border-sub: #34d399;
+  --ink-primary: #ecfdf5;
+  --ink-secondary: #bbf7d0;
+  --ink-muted: #86efac;
+  --accent-main: #34d399;
+  --accent-ink: #08130d;
+  --accent-tint: rgba(52, 211, 153, 0.16);
+  --font-display: "Plus Jakarta Sans", "Space Grotesk", sans-serif;
+  --font-body: "Plus Jakarta Sans", "Inter", sans-serif;
+  --card-shadow: 0 6px 18px rgba(0, 0, 0, 0.55), inset 0 1.5px 0 rgba(52, 211, 153, 0.45);
+  --elevated-shadow: 0 12px 30px rgba(0, 0, 0, 0.85), 0 0 0 1.5px #34d399;
+  --border-w: 1.5px;
+  --radius-card: 14px;
+}
+body[data-theme="solarpunk"] .surface-card {
+  border-radius: 16px 4px 16px 4px !important;
+}
+
 /* ==========================================================================
    SHARED LAYOUT, FORMS, SCROLLBARS & THEME UTILITY CLASSES
    ========================================================================== */
@@ -702,18 +982,32 @@ h1, h2, h3, h4 {
       <!-- Cluster 2: Grouped Theme Switcher + Light/Dark Polarity -->
       <div class="flex items-center gap-1.5 shrink-0">
         <div class="inline-flex items-center rounded-lg border border-hairline surface-panel p-0.5 gap-0.5">
-          <button id="btnPrevTheme" title="Previous Design Theme" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
+          <button id="btnPrevTheme" title="Previous Design Theme ([)" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
             ◀
           </button>
-          <select id="selTheme" aria-label="Design Theme" class="bg-transparent text-primary-ink px-1.5 py-0.5 text-[11px] font-bold focus:outline-none cursor-pointer">
-            <option value="neo_brutalism">Theme 1: Neo-Brutalism</option>
-            <option value="modular_typo">Theme 2: Modular Typo</option>
-            <option value="utilitarian">Theme 3: Utilitarian</option>
-            <option value="memphis">Theme 4: Memphis</option>
-            <option value="pixel_art">Theme 5: Pixel Art</option>
-            <option value="aurora">Theme 6: Aurora</option>
+          <select id="selTheme" aria-label="Design Theme (12 Iconic Styles)" class="bg-transparent text-primary-ink px-1.5 py-0.5 text-[11px] font-bold focus:outline-none cursor-pointer">
+            <optgroup label="I. Constructivist &amp; Editorial Grids">
+              <option value="neo_brutalism">01 · Neo-Brutalism</option>
+              <option value="modular_typo">02 · Modular Typography</option>
+              <option value="bauhaus">03 · Bauhaus Constructivism</option>
+            </optgroup>
+            <optgroup label="II. Engineering &amp; Hardware Consoles">
+              <option value="utilitarian">04 · Utilitarian CAD</option>
+              <option value="blueprint">05 · Blueprint Cyanotype</option>
+              <option value="braun_industrial">06 · Braun / Apollo Console</option>
+            </optgroup>
+            <optgroup label="III. Expressive, Decorative &amp; Retro">
+              <option value="memphis">07 · Memphis Milano</option>
+              <option value="pixel_art">08 · 16-Bit Pixel Art</option>
+              <option value="art_deco">09 · Art Deco Metropolis</option>
+            </optgroup>
+            <optgroup label="IV. Atmospheric, Cyber &amp; Biomimetic">
+              <option value="aurora">10 · Aurora Borealis</option>
+              <option value="cyberpunk">11 · Cyberpunk Neural Deck</option>
+              <option value="solarpunk">12 · Solarpunk Botanical</option>
+            </optgroup>
           </select>
-          <button id="btnNextTheme" title="Next Design Theme" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
+          <button id="btnNextTheme" title="Next Design Theme (])" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
             ▶
           </button>
         </div>
@@ -781,11 +1075,12 @@ h1, h2, h3, h4 {
             <button id="btnTtDeepDive" class="no-wrap-btn px-2 py-0.5 rounded text-[10.5px] font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
               Deep Dive
             </button>
+            <div id="ttStepDots" class="flex items-center gap-1 px-1" role="tablist" aria-label="Jump to Walkthrough Step"></div>
             <div class="flex items-center gap-1">
-              <button id="btnTtPrev" class="no-wrap-btn px-2 py-0.5 rounded text-[10.5px] font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
+              <button id="btnTtPrev" title="Previous Step (←)" class="no-wrap-btn px-2 py-0.5 rounded text-[10.5px] font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
                 ◀ Prev
               </button>
-              <button id="btnTtNext" class="no-wrap-btn px-2.5 py-0.5 rounded text-[10.5px] font-bold btn-theme-accent border transition cursor-pointer">
+              <button id="btnTtNext" title="Next Step (→)" class="no-wrap-btn px-2.5 py-0.5 rounded text-[10.5px] font-bold btn-theme-accent border transition cursor-pointer">
                 Next ▶
               </button>
             </div>
@@ -4208,6 +4503,67 @@ window.ARASHIKAGE_ARCHITECTURES = {
     c.stroke();
   }
 
+  // Chamfered 45° clipped-corner octagon for Cyberpunk Neural Deck
+  function drawChamferedRect(c, x, y, w, h, cut) {
+    c.beginPath();
+    c.moveTo(x + 2, y);
+    c.lineTo(x + w - cut, y);
+    c.lineTo(x + w, y + cut);
+    c.lineTo(x + w, y + h - 2);
+    c.lineTo(x + cut, y + h);
+    c.lineTo(x, y + h - cut);
+    c.lineTo(x, y + 2);
+    c.closePath();
+  }
+
+  // Asymmetric botanical leaf capsule (rBig on TL/BR, rSmall on TR/BL) for Solarpunk
+  function drawLeafRect(c, x, y, w, h, rBig, rSmall) {
+    c.beginPath();
+    c.moveTo(x + rBig, y);
+    c.lineTo(x + w - rSmall, y);
+    c.quadraticCurveTo(x + w, y, x + w, y + rSmall);
+    c.lineTo(x + w, y + h - rBig);
+    c.quadraticCurveTo(x + w, y + h, x + w - rBig, y + h);
+    c.lineTo(x + rSmall, y + h);
+    c.quadraticCurveTo(x, y + h, x, y + h - rSmall);
+    c.lineTo(x, y + rBig);
+    c.quadraticCurveTo(x, y, x + rBig, y);
+    c.closePath();
+  }
+
+  // Architectural dimension extension ticks (|---|) for Blueprint Cyanotype
+  function drawDimensionTicks(c, x, y, w, h, ext, color) {
+    c.strokeStyle = color;
+    c.lineWidth = 1.1;
+    c.beginPath();
+    // Top-left overshoot
+    c.moveTo(x - ext, y); c.lineTo(x + ext, y);
+    c.moveTo(x, y - ext); c.lineTo(x, y + ext);
+    // Top-right overshoot
+    c.moveTo(x + w - ext, y); c.lineTo(x + w + ext, y);
+    c.moveTo(x + w, y - ext); c.lineTo(x + w, y + ext);
+    // Bottom-left overshoot
+    c.moveTo(x - ext, y + h); c.lineTo(x + ext, y + h);
+    c.moveTo(x, y + h - ext); c.lineTo(x, y + h + ext);
+    // Bottom-right overshoot
+    c.moveTo(x + w - ext, y + h); c.lineTo(x + w + ext, y + h);
+    c.moveTo(x + w, y + h - ext); c.lineTo(x + w, y + h + ext);
+    c.stroke();
+  }
+
+  // Stepped Art Deco Ziggurat corner inlays + double pinstripe
+  function drawDecoFrame(c, x, y, w, h, color) {
+    c.strokeStyle = color;
+    c.lineWidth = 1.1;
+    c.strokeRect(x + 3, y + 3, w - 6, h - 6);
+    const s = 6;
+    c.fillStyle = color;
+    c.fillRect(x, y, s, 2); c.fillRect(x, y, 2, s);
+    c.fillRect(x + w - s, y, s, 2); c.fillRect(x + w - 2, y, 2, s);
+    c.fillRect(x, y + h - 2, s, 2); c.fillRect(x, y + h - s, 2, s);
+    c.fillRect(x + w - s, y + h - 2, s, 2); c.fillRect(x + w - 2, y + h - s, 2, s);
+  }
+
   // Proportional font-size step-down when text exceeds maxW (zero horizontal glyph squishing)
   function drawFittedText(c, text, x, y, maxW) {
     if (!text) return;
@@ -4505,6 +4861,102 @@ window.ARASHIKAGE_ARCHITECTURES = {
           ctx.fillRect(gx, gy, 3, 3);
         }
       }
+    } else if (activeTheme === 'bauhaus') {
+      // Bauhaus Constructivism: Weimar Vellum / Dessau Charcoal + Diagonal Cross-Axes & Geometric Watermarks
+      ctx.fillStyle = isLight ? '#f4efe4' : '#141416';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.strokeStyle = isLight ? 'rgba(22, 22, 22, 0.07)' : 'rgba(245, 242, 235, 0.06)';
+      ctx.lineWidth = 1;
+      for (let gx = 0; gx <= BASE_W; gx += 186) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, BASE_H); ctx.stroke();
+      }
+      ctx.beginPath();
+      ctx.arc(190, 560, 88, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(920, 120); ctx.lineTo(1030, 290); ctx.lineTo(810, 290); ctx.closePath();
+      ctx.stroke();
+    } else if (activeTheme === 'blueprint') {
+      // Architectural Blueprint & White-Line Cyanotype: Double-Frequency Engineering Millimeter Grid
+      ctx.fillStyle = isLight ? '#eef3f9' : '#071932';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.strokeStyle = isLight ? 'rgba(30, 64, 175, 0.08)' : 'rgba(56, 189, 248, 0.09)';
+      ctx.lineWidth = 0.8;
+      for (let gx = 16; gx < BASE_W; gx += 16) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, BASE_H); ctx.stroke();
+      }
+      for (let gy = 16; gy < BASE_H; gy += 16) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(BASE_W, gy); ctx.stroke();
+      }
+      ctx.strokeStyle = isLight ? 'rgba(30, 64, 175, 0.19)' : 'rgba(56, 189, 248, 0.22)';
+      ctx.lineWidth = 1.1;
+      for (let gx = 80; gx < BASE_W; gx += 80) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, BASE_H); ctx.stroke();
+      }
+      for (let gy = 80; gy < BASE_H; gy += 80) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(BASE_W, gy); ctx.stroke();
+      }
+      ctx.strokeStyle = isLight ? 'rgba(15, 41, 74, 0.45)' : 'rgba(186, 230, 253, 0.40)';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(4, 4, BASE_W - 8, BASE_H - 8);
+    } else if (activeTheme === 'braun_industrial') {
+      // Dieter Rams Snow-White & Apollo DSKY Console: Anodized Instrument Chassis
+      ctx.fillStyle = isLight ? '#e6e4de' : '#171715';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.fillStyle = isLight ? 'rgba(28, 25, 23, 0.10)' : 'rgba(245, 243, 237, 0.08)';
+      for (let gx = 28; gx < BASE_W; gx += 28) {
+        for (let gy = 28; gy < BASE_H; gy += 28) {
+          ctx.beginPath(); ctx.arc(gx, gy, 1.1, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+    } else if (activeTheme === 'art_deco') {
+      // 1929 Art Deco Metropolis: Alabaster & Brass / Obsidian & Champagne Gold Lattice
+      ctx.fillStyle = isLight ? '#f5f0e6' : '#0c0b09';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.strokeStyle = isLight ? 'rgba(154, 111, 26, 0.12)' : 'rgba(234, 179, 8, 0.11)';
+      ctx.lineWidth = 1;
+      for (let gx = 56; gx < BASE_W; gx += 112) {
+        for (let gy = 56; gy < BASE_H; gy += 112) {
+          ctx.beginPath();
+          ctx.moveTo(gx, gy - 14);
+          ctx.lineTo(gx + 14, gy);
+          ctx.lineTo(gx, gy + 14);
+          ctx.lineTo(gx - 14, gy);
+          ctx.closePath();
+          ctx.stroke();
+        }
+      }
+    } else if (activeTheme === 'cyberpunk') {
+      // Cyberpunk Neural Deck: Tactical HUD Grid + Scanlines
+      ctx.fillStyle = isLight ? '#eaf0f6' : '#06080e';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.strokeStyle = isLight ? 'rgba(2, 132, 199, 0.11)' : 'rgba(0, 240, 255, 0.09)';
+      ctx.lineWidth = 1;
+      for (let gx = 40; gx < BASE_W; gx += 40) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, BASE_H); ctx.stroke();
+      }
+      for (let gy = 40; gy < BASE_H; gy += 40) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(BASE_W, gy); ctx.stroke();
+      }
+      ctx.fillStyle = isLight ? 'rgba(15, 23, 42, 0.018)' : 'rgba(0, 240, 255, 0.022)';
+      for (let gy = 0; gy < BASE_H; gy += 4) {
+        ctx.fillRect(0, gy, BASE_W, 1.5);
+      }
+    } else if (activeTheme === 'solarpunk') {
+      // Solarpunk Botanical: Sunlit Herbarium / Bioluminescent Canopy & Contour Rings
+      ctx.fillStyle = isLight ? '#eef3e8' : '#08130d';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      const sg = ctx.createRadialGradient(560, 120, 20, 560, 280, 520);
+      sg.addColorStop(0, isLight ? 'rgba(234, 179, 8, 0.14)' : 'rgba(52, 211, 153, 0.14)');
+      sg.addColorStop(1, 'rgba(52, 211, 153, 0)');
+      ctx.fillStyle = sg;
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.strokeStyle = isLight ? 'rgba(21, 128, 61, 0.10)' : 'rgba(52, 211, 153, 0.09)';
+      ctx.lineWidth = 1;
+      for (let r = 90; r <= 450; r += 90) {
+        ctx.beginPath(); ctx.arc(180, 560, r, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(960, 140, r * 0.85, 0, Math.PI * 2); ctx.stroke();
+      }
     } else {
       // Aurora (Light Pearl vs Dark Cosmic Velvet)
       ctx.fillStyle = isLight ? '#edf6ff' : '#050714';
@@ -4659,6 +5111,157 @@ window.ARASHIKAGE_ARCHITECTURES = {
         ctx.fillStyle = isLight ? '#231f33' : '#c7d2fe';
         drawFittedText(ctx, ch.sub, ch.x, 53, laneW - 16);
 
+      } else if (activeTheme === 'bauhaus') {
+        // Bauhaus Constructivism: Heavy 2px ink column frame, primary geometric block + shape emblem
+        const inkCol = isLight ? '#161616' : '#f5f2eb';
+        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.65)' : 'rgba(36, 36, 41, 0.72)';
+        ctx.fillRect(laneX, 12, laneW, BASE_H - 24);
+        ctx.fillStyle = ch.color;
+        ctx.fillRect(laneX, 12, laneW, 30);
+        ctx.strokeStyle = inkCol;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(laneX, 12, laneW, BASE_H - 24);
+        ctx.beginPath(); ctx.moveTo(laneX, 42); ctx.lineTo(laneX + laneW, 42); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(laneX, 62); ctx.lineTo(laneX + laneW, 62); ctx.stroke();
+
+        // Geometric Constructivist Emblem (Circle / Triangle / Square rotating by column)
+        ctx.fillStyle = getContrastInk(ch.color, '#161616', '#ffffff');
+        if (idx % 3 === 0) {
+          ctx.beginPath(); ctx.arc(laneX + 14, 27, 5, 0, Math.PI * 2); ctx.fill();
+        } else if (idx % 3 === 1) {
+          ctx.beginPath(); ctx.moveTo(laneX + 14, 21); ctx.lineTo(laneX + 20, 32); ctx.lineTo(laneX + 8, 32); ctx.closePath(); ctx.fill();
+        } else {
+          ctx.fillRect(laneX + 9, 22, 10, 10);
+        }
+
+        ctx.font = '800 10px "Space Grotesk", "Inter", sans-serif';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, ch.title, laneX + 25, 31, laneW - 31);
+        ctx.font = '700 9.5px "IBM Plex Mono", monospace';
+        ctx.fillStyle = inkCol;
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, ch.sub, ch.x, 56, laneW - 14);
+
+      } else if (activeTheme === 'blueprint') {
+        // Architectural Blueprint: Drafting title-block header with 45° diagonal hatching & dimension ticks
+        const lineCol = isLight ? '#1e40af' : '#38bdf8';
+        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.72)' : 'rgba(16, 44, 84, 0.68)';
+        ctx.fillRect(laneX, 14, laneW, BASE_H - 28);
+        ctx.strokeStyle = lineCol;
+        ctx.lineWidth = 1.4;
+        ctx.strokeRect(laneX, 14, laneW, BASE_H - 28);
+        drawDimensionTicks(ctx, laneX, 14, laneW, 48, 5, ch.color);
+
+        ctx.save();
+        ctx.beginPath(); ctx.rect(laneX, 14, laneW, 24); ctx.clip();
+        ctx.strokeStyle = ch.color + (isLight ? '28' : '33');
+        ctx.lineWidth = 1;
+        for (let hx = laneX - 24; hx < laneX + laneW + 24; hx += 7) {
+          ctx.beginPath(); ctx.moveTo(hx, 38); ctx.lineTo(hx + 24, 14); ctx.stroke();
+        }
+        ctx.restore();
+
+        ctx.beginPath(); ctx.moveTo(laneX, 38); ctx.lineTo(laneX + laneW, 38); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(laneX, 61); ctx.lineTo(laneX + laneW, 61); ctx.stroke();
+
+        ctx.font = '700 9.8px "IBM Plex Mono", monospace';
+        ctx.fillStyle = ch.color;
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, ch.title, ch.x, 30, laneW - 14);
+        ctx.font = '600 9.4px "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#0a1f3d' : '#e0f2fe';
+        drawFittedText(ctx, ch.sub, ch.x, 53, laneW - 14);
+
+      } else if (activeTheme === 'braun_industrial') {
+        // Dieter Rams / NASA Apollo: Recessed anodized hardware bay + perforated speaker-grille + LED jewel
+        ctx.fillStyle = isLight ? '#f5f4f0' : '#22221f';
+        drawRoundedRect(ctx, laneX, 14, laneW, BASE_H - 28, 8);
+        ctx.fill();
+        ctx.strokeStyle = isLight ? '#a8a29e' : '#44403c';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.fillStyle = isLight ? '#e7e5df' : '#191917';
+        drawRoundedRect(ctx, laneX + 5, 19, laneW - 10, 42, 5);
+        ctx.fill();
+
+        // LED Indicator Jewel
+        ctx.fillStyle = ch.color;
+        ctx.beginPath(); ctx.arc(laneX + 15, 32, 4.2, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath(); ctx.arc(laneX + 13.8, 30.8, 1.3, 0, Math.PI * 2); ctx.fill();
+
+        ctx.font = '800 9.8px "Inter", "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#1c1917' : '#f5f3ed';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, ch.title, laneX + 24, 35, laneW - 34);
+        ctx.font = '600 9.4px "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#44403c' : '#d6d3cb';
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, ch.sub, ch.x, 54, laneW - 20);
+
+      } else if (activeTheme === 'art_deco') {
+        // Art Deco Metropolis: Double-pinstripe brass column with stepped Ziggurat corners & diamond medallion
+        const goldCol = isLight ? '#9a6f1a' : '#eab308';
+        ctx.fillStyle = isLight ? 'rgba(255, 253, 248, 0.86)' : 'rgba(29, 26, 21, 0.84)';
+        ctx.fillRect(laneX, 14, laneW, BASE_H - 28);
+        ctx.strokeStyle = goldCol;
+        ctx.lineWidth = 1.6;
+        ctx.strokeRect(laneX, 14, laneW, BASE_H - 28);
+        drawDecoFrame(ctx, laneX, 14, laneW, BASE_H - 28, ch.color);
+
+        ctx.beginPath(); ctx.moveTo(laneX + 4, 60); ctx.lineTo(laneX + laneW - 4, 60); ctx.stroke();
+
+        ctx.font = '800 10px "Space Grotesk", sans-serif';
+        ctx.fillStyle = ch.color;
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, '❖ ' + ch.title, ch.x, 34, laneW - 18);
+        ctx.font = '600 9.5px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#3b332b' : '#e5dcc5';
+        drawFittedText(ctx, ch.sub, ch.x, 52, laneW - 18);
+
+      } else if (activeTheme === 'cyberpunk') {
+        // Cyberpunk Neural Deck: Chamfered 45° tactical lane + neon left rail
+        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.84)' : 'rgba(17, 23, 38, 0.82)';
+        drawChamferedRect(ctx, laneX, 14, laneW, BASE_H - 28, 12);
+        ctx.fill();
+        ctx.strokeStyle = ch.color;
+        ctx.lineWidth = 1.6;
+        ctx.stroke();
+
+        ctx.fillStyle = ch.color;
+        ctx.fillRect(laneX, 16, 4, 44);
+        ctx.beginPath(); ctx.moveTo(laneX, 60); ctx.lineTo(laneX + laneW, 60); ctx.stroke();
+
+        ctx.font = '800 10px "Space Grotesk", "IBM Plex Mono", sans-serif';
+        ctx.fillStyle = ch.color;
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, '// ' + ch.title, laneX + 10, 34, laneW - 18);
+        ctx.font = '600 9.5px "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#1e293b' : '#cbd5e1';
+        drawFittedText(ctx, ch.sub, laneX + 10, 52, laneW - 18);
+
+      } else if (activeTheme === 'solarpunk') {
+        // Solarpunk Botanical: Asymmetric Leaf Capsule [16, 4, 16, 4] + Sunlit Crest
+        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.88)' : 'rgba(21, 43, 31, 0.80)';
+        drawLeafRect(ctx, laneX, 14, laneW, BASE_H - 28, 18, 4);
+        ctx.fill();
+        ctx.strokeStyle = ch.color + (isLight ? 'aa' : '88');
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.fillStyle = ch.color;
+        drawLeafRect(ctx, laneX + 12, 20, laneW - 24, 22, 10, 3);
+        ctx.fill();
+
+        ctx.font = '800 9.8px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = getContrastInk(ch.color, '#112217', '#ffffff');
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, '❀ ' + ch.title, ch.x, 35, laneW - 30);
+        ctx.font = '600 9.6px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#284231' : '#bbf7d0';
+        drawFittedText(ctx, ch.sub, ch.x, 56, laneW - 18);
+
       } else {
         // Aurora
         ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.88)' : 'rgba(16, 23, 54, 0.72)';
@@ -4688,7 +5291,10 @@ window.ARASHIKAGE_ARCHITECTURES = {
     const useOrthogonalTraces =
       activeTheme === 'utilitarian' ||
       activeTheme === 'modular_typo' ||
-      activeTheme === 'pixel_art';
+      activeTheme === 'pixel_art' ||
+      activeTheme === 'blueprint' ||
+      activeTheme === 'braun_industrial' ||
+      activeTheme === 'bauhaus';
 
     const focusEdgeNodeId = hoveredNodeId || selectedNodeId;
     const edgeLabelsToRender = [];
@@ -4848,10 +5454,22 @@ window.ARASHIKAGE_ARCHITECTURES = {
           activeTheme === 'pixel_art' ||
           activeTheme === 'utilitarian' ||
           activeTheme === 'neo_brutalism' ||
-          activeTheme === 'modular_typo'
+          activeTheme === 'modular_typo' ||
+          activeTheme === 'bauhaus' ||
+          activeTheme === 'blueprint'
         ) {
           const sz = isConnectedToFocus ? 6 : 4;
           ctx.fillRect(Math.round(px - sz / 2), Math.round(py - sz / 2), sz, sz);
+        } else if (activeTheme === 'art_deco' || activeTheme === 'cyberpunk') {
+          // Diamond data packet (◆)
+          const r = isConnectedToFocus ? 4.5 : 3.2;
+          ctx.beginPath();
+          ctx.moveTo(px, py - r);
+          ctx.lineTo(px + r, py);
+          ctx.lineTo(px, py + r);
+          ctx.lineTo(px - r, py);
+          ctx.closePath();
+          ctx.fill();
         } else {
           ctx.beginPath();
           ctx.arc(px, py, isConnectedToFocus ? 3.5 : 2.5, 0, Math.PI * 2);
@@ -5088,6 +5706,247 @@ window.ARASHIKAGE_ARCHITECTURES = {
         ctx.fillStyle = isLight ? '#352f4f' : '#c7d2fe';
         drawWrappedSub(ctx, n.sub, rx + 8, ry + 63, innerW, 13.5);
 
+      } else if (activeTheme === 'bauhaus') {
+        // Bauhaus Constructivism Node: Primary geometric offset block + shape emblem in header
+        const inkCol = isLight ? '#161616' : '#f5f2eb';
+        const shOff = isSelected ? 6 : 4;
+        ctx.fillStyle = isSelected ? '#d92b2b' : n.color;
+        ctx.fillRect(rx + shOff, ry + shOff, n.w, n.h);
+
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fff9eb' : '#ffffff'
+          : isSelected ? '#2e2b24' : '#222227';
+        ctx.fillRect(rx, ry, n.w, n.h);
+
+        // Constructivist left color block in header
+        ctx.fillStyle = n.color;
+        ctx.fillRect(rx, ry, 34, 24);
+        ctx.strokeStyle = inkCol;
+        ctx.lineWidth = isSelected ? 2.6 : 2;
+        ctx.strokeRect(rx, ry, n.w, n.h);
+        ctx.beginPath(); ctx.moveTo(rx, ry + 24); ctx.lineTo(rx + n.w, ry + 24); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(rx + 34, ry); ctx.lineTo(rx + 34, ry + 24); ctx.stroke();
+
+        ctx.font = '800 9.8px "Space Grotesk", "Inter", sans-serif';
+        ctx.fillStyle = getContrastInk(n.color, '#161616', '#ffffff');
+        ctx.textAlign = 'center';
+        ctx.fillText(n.num, rx + 17, ry + 16);
+
+        if (!showTourBadgeInHeader) {
+          ctx.font = '700 9.4px "IBM Plex Mono", monospace';
+          ctx.fillStyle = inkCol;
+          ctx.textAlign = 'left';
+          drawFittedText(ctx, n.tag.toUpperCase(), rx + 40, ry + 16, innerW - 34);
+        }
+
+        ctx.font = '800 12.2px "Space Grotesk", "Inter", sans-serif';
+        ctx.fillStyle = inkCol;
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 8, ry + 46, innerW);
+
+        ctx.font = '600 10.1px "Space Grotesk", "Inter", sans-serif';
+        ctx.fillStyle = isLight ? '#3f3b37' : '#d6d3cd';
+        drawWrappedSub(ctx, n.sub, rx + 8, ry + 65, innerW, 13.5);
+
+      } else if (activeTheme === 'blueprint') {
+        // Architectural Blueprint Node: Dimension overshoot ticks (|---|) & 45° diagonal hatched header
+        ctx.fillStyle = isLight
+          ? isSelected ? '#eff6ff' : '#ffffff'
+          : isSelected ? '#173d73' : '#102c54';
+        ctx.fillRect(rx, ry, n.w, n.h);
+
+        ctx.save();
+        ctx.beginPath(); ctx.rect(rx, ry, n.w, 22); ctx.clip();
+        ctx.strokeStyle = n.color + (isLight ? '30' : '38');
+        ctx.lineWidth = 1;
+        for (let hx = rx - 22; hx < rx + n.w + 22; hx += 6) {
+          ctx.beginPath(); ctx.moveTo(hx, ry + 22); ctx.lineTo(hx + 22, ry); ctx.stroke();
+        }
+        ctx.restore();
+
+        const strokeCol = isSelected ? (isLight ? '#dc2626' : '#fbbf24') : (isLight ? '#1e40af' : '#38bdf8');
+        ctx.strokeStyle = strokeCol;
+        ctx.lineWidth = isSelected ? 2.2 : 1.4;
+        ctx.strokeRect(rx, ry, n.w, n.h);
+        ctx.beginPath(); ctx.moveTo(rx, ry + 22); ctx.lineTo(rx + n.w, ry + 22); ctx.stroke();
+
+        drawDimensionTicks(ctx, rx, ry, n.w, n.h, 4.5, isSelected ? strokeCol : n.color);
+
+        ctx.font = '700 9.5px "IBM Plex Mono", monospace';
+        ctx.fillStyle = n.color;
+        ctx.textAlign = 'left';
+        ctx.fillText('DWG-' + n.num, rx + 7, ry + 15);
+        if (!showTourBadgeInHeader) {
+          ctx.fillStyle = isLight ? '#1e3a5f' : '#bae6fd';
+          ctx.textAlign = 'right';
+          drawFittedText(ctx, n.tag, rx + n.w - 7, ry + 15, innerW - 44);
+        }
+
+        ctx.font = '700 11.8px "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#0a1f3d' : '#f0f7ff';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 8, ry + 45, innerW);
+
+        ctx.font = '500 9.8px "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#1e3a5f' : '#bae6fd';
+        drawWrappedSub(ctx, n.sub, rx + 8, ry + 64, innerW, 13.5);
+
+      } else if (activeTheme === 'braun_industrial') {
+        // Dieter Rams / Apollo DSKY Hardware Module: Recessed bezel + glowing LED indicator jewel
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fff7ed' : '#faf9f5'
+          : isSelected ? '#36342d' : '#292925';
+        drawRoundedRect(ctx, rx, ry, n.w, n.h, 8);
+        ctx.fill();
+
+        ctx.strokeStyle = isSelected ? (isLight ? '#ea580c' : '#f97316') : (isLight ? '#a8a29e' : '#57534e');
+        ctx.lineWidth = isSelected ? 2.4 : 1.5;
+        ctx.stroke();
+
+        // Inner recessed instrument bezel
+        ctx.strokeStyle = isLight ? 'rgba(28, 25, 23, 0.14)' : 'rgba(255, 255, 255, 0.10)';
+        ctx.lineWidth = 1;
+        drawRoundedRect(ctx, rx + 3, ry + 3, n.w - 6, n.h - 6, 5);
+        ctx.stroke();
+
+        // Circular LED Jewel Indicator
+        ctx.fillStyle = n.color;
+        ctx.beginPath(); ctx.arc(rx + 14, ry + 16, 4.5, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath(); ctx.arc(rx + 12.6, ry + 14.6, 1.4, 0, Math.PI * 2); ctx.fill();
+
+        ctx.font = '700 9.6px "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#1c1917' : '#f5f3ed';
+        ctx.textAlign = 'left';
+        ctx.fillText('CH ' + n.num, rx + 23, ry + 19);
+
+        if (!showTourBadgeInHeader) {
+          ctx.fillStyle = isLight ? '#57534e' : '#d6d3cb';
+          ctx.textAlign = 'right';
+          drawFittedText(ctx, n.tag, rx + n.w - 9, ry + 19, innerW - 44);
+        }
+
+        ctx.font = '700 12px "Inter", "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#1c1917' : '#f5f3ed';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 10, ry + 46, n.w - 20);
+
+        ctx.font = '500 10px "Inter", "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#3f3b37' : '#d6d3cb';
+        drawWrappedSub(ctx, n.sub, rx + 10, ry + 65, n.w - 20, 13.5);
+
+      } else if (activeTheme === 'art_deco') {
+        // Art Deco Metropolis Node: Stepped Ziggurat corner inlays + double brass pinstripe + diamond crest
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fef9e7' : '#ffffff'
+          : isSelected ? '#2b2418' : '#1d1a15';
+        ctx.fillRect(rx, ry, n.w, n.h);
+
+        const brassCol = isSelected ? (isLight ? '#b45309' : '#facc15') : n.color;
+        ctx.strokeStyle = brassCol;
+        ctx.lineWidth = isSelected ? 2.4 : 1.6;
+        ctx.strokeRect(rx, ry, n.w, n.h);
+        drawDecoFrame(ctx, rx, ry, n.w, n.h, brassCol);
+
+        ctx.beginPath(); ctx.moveTo(rx + 4, ry + 24); ctx.lineTo(rx + n.w - 4, ry + 24); ctx.stroke();
+
+        ctx.font = '800 9.6px "Space Grotesk", sans-serif';
+        ctx.fillStyle = n.color;
+        ctx.textAlign = 'left';
+        ctx.fillText('❖ ' + n.num, rx + 8, ry + 17);
+
+        if (!showTourBadgeInHeader) {
+          ctx.fillStyle = isLight ? '#3b332b' : '#e5dcc5';
+          ctx.textAlign = 'right';
+          drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 8, ry + 17, innerW - 36);
+        }
+
+        ctx.font = '800 12px "Space Grotesk", sans-serif';
+        ctx.fillStyle = isLight ? '#171412' : '#f7f3e8';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 9, ry + 46, innerW - 2);
+
+        ctx.font = '500 10px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#3b332b' : '#e5dcc5';
+        drawWrappedSub(ctx, n.sub, rx + 9, ry + 65, innerW - 2, 13.5);
+
+      } else if (activeTheme === 'cyberpunk') {
+        // Cyberpunk Neural Deck Node: Chamfered 45° clipped corners + neon left bar + HUD telemetry tag
+        if (isSelected && !isLight) {
+          ctx.shadowColor = n.color;
+          ctx.shadowBlur = 14;
+        }
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fff0f5' : '#ffffff'
+          : isSelected ? '#1a243b' : '#111726';
+        drawChamferedRect(ctx, rx, ry, n.w, n.h, 11);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        ctx.strokeStyle = isSelected ? (isLight ? '#e11d48' : '#facc15') : n.color;
+        ctx.lineWidth = isSelected ? 2.4 : 1.5;
+        ctx.stroke();
+
+        // Neon left vertical bar
+        ctx.fillStyle = n.color;
+        ctx.fillRect(rx + 1, ry + 2, 4.5, n.h - 13);
+
+        ctx.font = '700 9.6px "IBM Plex Mono", monospace';
+        ctx.fillStyle = n.color;
+        ctx.textAlign = 'left';
+        ctx.fillText('SYS//' + n.num, rx + 10, ry + 18);
+
+        if (!showTourBadgeInHeader) {
+          ctx.fillStyle = isLight ? '#1e293b' : '#cbd5e1';
+          ctx.textAlign = 'right';
+          drawFittedText(ctx, n.tag, rx + n.w - 12, ry + 18, innerW - 44);
+        }
+
+        ctx.font = '800 12px "Space Grotesk", sans-serif';
+        ctx.fillStyle = isLight ? '#090d16' : '#f8fafc';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 10, ry + 45, n.w - 18);
+
+        ctx.font = '500 10px "Space Grotesk", sans-serif';
+        ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
+        drawWrappedSub(ctx, n.sub, rx + 10, ry + 64, n.w - 18, 13.5);
+
+      } else if (activeTheme === 'solarpunk') {
+        // Solarpunk Botanical Node: Asymmetric Leaf Capsule [16, 4, 16, 4] + Seed Pill Badge
+        ctx.fillStyle = isLight
+          ? isSelected ? '#f0fdf4' : '#ffffff'
+          : isSelected ? '#1d3b2a' : '#152b1f';
+        drawLeafRect(ctx, rx, ry, n.w, n.h, 16, 4);
+        ctx.fill();
+
+        ctx.strokeStyle = isSelected ? n.color : n.color + (isLight ? 'aa' : '88');
+        ctx.lineWidth = isSelected ? 2.4 : 1.5;
+        ctx.stroke();
+
+        ctx.fillStyle = n.color;
+        drawLeafRect(ctx, rx + 7, ry + 7, 26, 16, 8, 2);
+        ctx.fill();
+
+        ctx.font = '700 9.4px "IBM Plex Mono", monospace';
+        ctx.fillStyle = getContrastInk(n.color, '#112217', '#ffffff');
+        ctx.textAlign = 'center';
+        ctx.fillText(n.num, rx + 20, ry + 19);
+
+        if (!showTourBadgeInHeader) {
+          ctx.fillStyle = isLight ? '#284231' : '#bbf7d0';
+          ctx.textAlign = 'right';
+          drawFittedText(ctx, n.tag, rx + n.w - 9, ry + 19, innerW - 34);
+        }
+
+        ctx.font = '700 12px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#112217' : '#ecfdf5';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 10, ry + 46, n.w - 20);
+
+        ctx.font = '500 10px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#284231' : '#bbf7d0';
+        drawWrappedSub(ctx, n.sub, rx + 10, ry + 65, n.w - 20, 13.5);
+
       } else {
         // Aurora (Light Pearl vs Dark Velvet)
         if (isSelected || (highlightSet && highlightSet.has(n.id))) {
@@ -5301,15 +6160,32 @@ window.ARASHIKAGE_ARCHITECTURES = {
   let selectedSubtickIdx = 1;
   let selectedCriticHorizonIdx = 1;
 
-  // 6-Style × 2-Polarity Theme Engine Metadata (WCAG AA >= 4.5:1 Verified Across All 12 States)
+  // 12-Style × 2-Polarity Theme Engine Metadata (WCAG AA >= 4.5:1 Verified Across All 24 States)
   const THEME_ORDER = [
     'neo_brutalism',
     'modular_typo',
+    'bauhaus',
     'utilitarian',
+    'blueprint',
+    'braun_industrial',
     'memphis',
     'pixel_art',
-    'aurora'
+    'art_deco',
+    'aurora',
+    'cyberpunk',
+    'solarpunk'
   ];
+
+  const MODE_LABELS = {
+    all: 'All Pathways',
+    live: 'Live 5.5ms',
+    train: 'Train (4,096 Arenas)',
+    distill: 'Distill (Warm-Start)'
+  };
+
+  function isNodeActiveInMode(node, mode) {
+    return !mode || mode === 'all' || !node || !node.modes || node.modes.includes(mode);
+  }
 
   const THEME_META = {
     neo_brutalism: {
@@ -5324,29 +6200,65 @@ window.ARASHIKAGE_ARCHITECTURES = {
       stageColorsLight: ['#c81e00', '#0050d8', '#6d28d9', '#be123c', '#92400e', '#0f766e'],
       stageColorsDark:  ['#ff4522', '#3b82f6', '#a78bfa', '#fb7185', '#facc15', '#2dd4bf']
     },
+    bauhaus: {
+      name: 'Bauhaus Constructivism',
+      notes: 'Weimar 1923 · Primary geometric blocks & emblems',
+      stageColorsLight: ['#d92b2b', '#1d4ed8', '#b45309', '#be123c', '#0f766e', '#4338ca'],
+      stageColorsDark:  ['#ef4444', '#60a5fa', '#facc15', '#fb7185', '#2dd4bf', '#a78bfa']
+    },
     utilitarian: {
-      name: 'Utilitarian',
+      name: 'Utilitarian CAD',
       notes: '100% Plex Mono · CAD reticles · 90° traces',
       stageColorsLight: ['#92400e', '#0369a1', '#6d28d9', '#be185d', '#854d0e', '#047857'],
       stageColorsDark:  ['#f59e0b', '#38bdf8', '#a78bfa', '#f472b6', '#facc15', '#34d399']
     },
+    blueprint: {
+      name: 'Blueprint Cyanotype',
+      notes: 'Prussian Cyanotype · Drafting grid & dimension ticks',
+      stageColorsLight: ['#1d4ed8', '#0369a1', '#4338ca', '#b91c1c', '#0f766e', '#1e40af'],
+      stageColorsDark:  ['#38bdf8', '#7dd3fc', '#a5b4fc', '#fbbf24', '#34d399', '#60a5fa']
+    },
+    braun_industrial: {
+      name: 'Braun / Apollo Console',
+      notes: 'Dieter Rams anodized modules · LED indicator jewels',
+      stageColorsLight: ['#ea580c', '#0f766e', '#1d4ed8', '#b45309', '#be123c', '#15803d'],
+      stageColorsDark:  ['#f97316', '#2dd4bf', '#60a5fa', '#facc15', '#fb7185', '#4ade80']
+    },
     memphis: {
-      name: 'Memphis',
+      name: 'Memphis Milano',
       notes: '80s Sottsass pop · Stage-colored shadows',
       stageColorsLight: ['#db2777', '#0e7490', '#7c3aed', '#c2410c', '#eab308', '#047857'],
       stageColorsDark:  ['#f472b6', '#22d3ee', '#a78bfa', '#fb923c', '#facc15', '#34d399']
     },
     pixel_art: {
-      name: 'Pixel Art',
-      notes: '16-Bit deck · Stepped borders & scanlines',
+      name: '16-Bit Pixel Art',
+      notes: 'Arcade command deck · Stepped borders & scanlines',
       stageColorsLight: ['#005f6b', '#023e8a', '#6a1b9a', '#9d174d', '#92400e', '#166534'],
       stageColorsDark:  ['#00e5ff', '#38bdf8', '#c084fc', '#ff2a85', '#f59e0b', '#22c55e']
     },
+    art_deco: {
+      name: 'Art Deco Metropolis',
+      notes: '1929 Chrysler brass pinstripes · Stepped Ziggurat inlays',
+      stageColorsLight: ['#9a6f1a', '#0f766e', '#7c2d12', '#1e3a8a', '#854d0e', '#14532d'],
+      stageColorsDark:  ['#eab308', '#2dd4bf', '#f59e0b', '#60a5fa', '#fde047', '#4ade80']
+    },
     aurora: {
-      name: 'Aurora',
+      name: 'Aurora Borealis',
       notes: 'Borealis plumes · Specular crystal rims',
       stageColorsLight: ['#0f766e', '#0369a1', '#6d28d9', '#be185d', '#92400e', '#15803d'],
       stageColorsDark:  ['#00f5d4', '#38bdf8', '#a78bfa', '#f472b6', '#facc15', '#4ade80']
+    },
+    cyberpunk: {
+      name: 'Cyberpunk Neural Deck',
+      notes: '45° Chamfered Mecha HUD · Neon laser traces',
+      stageColorsLight: ['#e11d48', '#0284c7', '#7c3aed', '#d97706', '#0d9488', '#be123c'],
+      stageColorsDark:  ['#f43f5e', '#00f0ff', '#a855f7', '#facc15', '#2dd4bf', '#fb7185']
+    },
+    solarpunk: {
+      name: 'Solarpunk Botanical',
+      notes: 'Organic leaf capsules · Synaptic tendrils & contours',
+      stageColorsLight: ['#15803d', '#0f766e', '#b45309', '#c2410c', '#4d7c0f', '#0369a1'],
+      stageColorsDark:  ['#34d399', '#2dd4bf', '#fbbf24', '#fb923c', '#a3e635', '#38bdf8']
     }
   };
 
@@ -5361,10 +6273,25 @@ window.ARASHIKAGE_ARCHITECTURES = {
       node: '▪', tech: '§', tourOn: '●', tourOff: '→',
       export: '↗', close: '×', open: '↗', fs: '⤢', fsExit: '⤡'
     },
+    bauhaus: {
+      prev: '◀', next: '▶', light: '●', dark: '▲',
+      node: '■', tech: '▲', tourOn: '■', tourOff: '▶',
+      export: '▲', close: '×', open: '↗', fs: '◧', fsExit: '×'
+    },
     utilitarian: {
       prev: '<', next: '>', light: 'L', dark: 'D',
       node: 'BLK', tech: 'TEC', tourOn: 'ON', tourOff: '>>',
       export: 'IO', close: 'X', open: '↗', fs: 'FS', fsExit: 'X'
+    },
+    blueprint: {
+      prev: '◁', next: '▷', light: '☼', dark: '☾',
+      node: '⊞', tech: '⌖', tourOn: '⊞', tourOff: '▷',
+      export: '⌖', close: '×', open: '↗', fs: '⌙', fsExit: '×'
+    },
+    braun_industrial: {
+      prev: '◂', next: '▸', light: '○', dark: '●',
+      node: '◎', tech: '◉', tourOn: '●', tourOff: '▸',
+      export: '◎', close: '×', open: '↗', fs: '⤢', fsExit: '×'
     },
     memphis: {
       prev: '◀', next: '▶', light: '★', dark: '✦',
@@ -5376,10 +6303,25 @@ window.ARASHIKAGE_ARCHITECTURES = {
       node: '#', tech: '?', tourOn: '*', tourOff: '>',
       export: '^', close: 'x', open: '↗', fs: '+', fsExit: 'x'
     },
+    art_deco: {
+      prev: '◂', next: '▸', light: '❖', dark: '◆',
+      node: '❖', tech: '◈', tourOn: '❖', tourOff: '▸',
+      export: '❖', close: '✕', open: '↗', fs: '⤢', fsExit: '✕'
+    },
     aurora: {
       prev: '‹', next: '›', light: '✧', dark: '✦',
       node: '◈', tech: '✦', tourOn: '✦', tourOff: '▸',
       export: '◈', close: '✕', open: '↗', fs: '⤢', fsExit: '✕'
+    },
+    cyberpunk: {
+      prev: '«', next: '»', light: '◈', dark: '◢',
+      node: '◢', tech: '❖', tourOn: '◢', tourOff: '»',
+      export: '◢', close: '×', open: '↗', fs: '⛶', fsExit: '×'
+    },
+    solarpunk: {
+      prev: '‹', next: '›', light: '❀', dark: '✧',
+      node: '❀', tech: '✦', tourOn: '❀', tourOff: '▸',
+      export: '❀', close: '✕', open: '↗', fs: '⤢', fsExit: '✕'
     }
   };
 
@@ -6024,7 +6966,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       if (activeMode === 'all') {
         const activeCount = ['live', 'train', 'distill'].filter((m) => modes.includes(m)).length;
         ntabSubLabel.textContent =
-          'ROLE ACROSS PATHWAYS (' + activeCount + '/3 ACTIVE — CLICK ROW TO FILTER)';
+          'ROLE ACROSS PATHWAYS (' + activeCount + '/3 ACTIVE — CLICK ROW TO INSPECT)';
 
         const rowsHtml = ['live', 'train', 'distill']
           .map((m) => {
@@ -6038,19 +6980,21 @@ window.ARASHIKAGE_ARCHITECTURES = {
               : isLight ? '#b45309' : '#fbbf24';
             const pillBorder = isAct ? '#16a34a' : '#d97706';
             const statusText = isAct ? '● ACTIVE' : '⊘ BYPASSED';
+            const shortMode = m === 'live' ? 'LIVE 5.5MS' : m === 'train' ? 'TRAIN (4K)' : 'DISTILL';
 
             return (
               '<div data-switch-mode="' +
               m +
-              '" class="p-1.5 rounded surface-panel border border-hairline hover:border-subtle transition cursor-pointer flex flex-col gap-0.5" title="Click to filter diagram to ' +
+              '" class="px-2 py-1 rounded surface-panel border border-hairline hover:border-subtle transition cursor-pointer flex items-center justify-between gap-2" title="' +
+              spec.text.replace(/"/g, '&quot;') +
+              ' (Click to filter to ' +
               modeNames[m] +
-              '">' +
-              '<div class="flex flex-wrap items-center justify-between gap-1">' +
-              '<div class="flex items-center gap-1.5">' +
-              '<span class="mono text-[9.5px] font-bold text-primary-ink">' +
-              modeNames[m].toUpperCase() +
+              ')">' +
+              '<div class="flex items-center gap-1.5 shrink-0">' +
+              '<span class="mono text-[9.5px] font-bold text-primary-ink w-[4.8rem]">' +
+              shortMode +
               '</span>' +
-              '<span class="mono text-[9px] font-bold px-1.5 py-0.2 rounded" style="background:' +
+              '<span class="mono text-[9px] font-bold px-1.5 py-0.2 rounded shrink-0" style="background:' +
               pillBg +
               ';color:' +
               pillCol +
@@ -6060,20 +7004,17 @@ window.ARASHIKAGE_ARCHITECTURES = {
               statusText +
               '</span>' +
               '</div>' +
-              '<span class="mono text-[9px] text-muted-ink">' +
+              '<span class="mono text-[9.5px] text-secondary-ink truncate flex-1 text-right">' +
               spec.regime +
               '</span>' +
-              '</div>' +
-              '<p class="text-[10.5px] text-secondary-ink leading-snug">' +
-              spec.text +
-              '</p>' +
+              '<span class="mono text-[9px] text-theme-accent font-bold shrink-0">↗</span>' +
               '</div>'
             );
           })
           .join('');
 
         ntabSubContent.innerHTML =
-          '<div class="flex flex-col gap-1.5">' +
+          '<div class="flex flex-col gap-1">' +
           rowsHtml +
           '<div class="pt-1 border-t border-hairline flex flex-wrap items-baseline justify-between gap-1 mono text-[10px]">' +
           '<span class="font-bold text-muted-ink uppercase">' +
@@ -6343,7 +7284,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
           const rowsHtml = usedNodes
             .map((un) => {
               const isAct = isNodeActiveInMode(un, activeMode);
-              const spec = getPathwayRoleSpec(un, activeMode);
+              const spec = getPathwayRoleSpec(un, activeArchKey, activeMode);
               const badgeCol = isAct ? '#10b981' : '#f59e0b';
               return (
                 '<div class="p-1.5 rounded border surface-root flex flex-col gap-0.5" style="border-color:' +
@@ -7027,10 +7968,16 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
     let lastTtLeft = -9999;
     let lastTtTop = -9999;
-    let lastTtArrowTop = -9999;
+    let lastTtArrowPos = -9999;
     let lastTtSide = '';
 
-    // Position the Floating Walkthrough Tooltip directly beside the active focusNode with pointer arrow
+    function rectOverlapArea(aL, aT, aR, aB, bL, bT, bR, bB) {
+      const ox = Math.max(0, Math.min(aR, bR) - Math.max(aL, bL));
+      const oy = Math.max(0, Math.min(aB, bB) - Math.max(aT, bT));
+      return ox * oy;
+    }
+
+    // Position the Floating Walkthrough Tooltip beside/below/above focusNode with Highlight-Aware Collision Avoidance
     function positionAnchoredTourTooltip(forceUpdate) {
       if (
         !tourTooltip ||
@@ -7064,6 +8011,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const nodeRight = offsetX + (focusNode.x + focusNode.w * 0.5) * scaleX;
       const nodeTop = offsetY + (focusNode.y - focusNode.h * 0.5) * scaleY;
       const nodeBottom = offsetY + (focusNode.y + focusNode.h * 0.5) * scaleY;
+      const nodeCenterX = (nodeLeft + nodeRight) * 0.5;
       const nodeCenterY = (nodeTop + nodeBottom) * 0.5;
 
       const ttRect = tourTooltip.getBoundingClientRect();
@@ -7072,33 +8020,103 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const gap = 14;
       const pad = 10;
 
-      // Place to the RIGHT of focusNode for Columns 0..2, or to the LEFT of focusNode for Columns 3..5
-      let placeToRight = focusNode.col <= 2;
-      if (placeToRight && nodeRight + gap + ttW > stageRect.width - pad) {
-        if (nodeLeft - gap - ttW >= pad) placeToRight = false;
-      } else if (!placeToRight && nodeLeft - gap - ttW < pad) {
-        if (nodeRight + gap + ttW <= stageRect.width - pad) placeToRight = true;
-      }
+      // Build bounding rects for highlighted neighbor nodes in step.highlight (excluding focusNode)
+      const highlightNeighborRects = [];
+      (step.highlight || []).forEach((hid) => {
+        if (hid === focusNode.id) return;
+        const hn = nodeMap[hid];
+        if (!hn) return;
+        highlightNeighborRects.push({
+          l: offsetX + (hn.x - hn.w * 0.5) * scaleX,
+          r: offsetX + (hn.x + hn.w * 0.5) * scaleX,
+          t: offsetY + (hn.y - hn.h * 0.5) * scaleY,
+          b: offsetY + (hn.y + hn.h * 0.5) * scaleY
+        });
+      });
 
-      let targetLeft = placeToRight ? nodeRight + gap : nodeLeft - gap - ttW;
-      targetLeft = Math.max(pad, Math.min(stageRect.width - ttW - pad, targetLeft));
+      const preferRight = focusNode.col <= 2;
+      const rawCandidates = [
+        {
+          left: nodeRight + gap,
+          top: nodeCenterY - ttH * 0.5,
+          arrowSide: 'left',
+          bonus: preferRight ? -150 : 0
+        },
+        {
+          left: nodeLeft - gap - ttW,
+          top: nodeCenterY - ttH * 0.5,
+          arrowSide: 'right',
+          bonus: !preferRight ? -150 : 0
+        },
+        {
+          left: nodeCenterX - ttW * 0.5,
+          top: nodeBottom + gap,
+          arrowSide: 'top',
+          bonus: -40
+        },
+        {
+          left: nodeCenterX - ttW * 0.5,
+          top: nodeTop - gap - ttH,
+          arrowSide: 'bottom',
+          bonus: -30
+        },
+        {
+          left: nodeRight + gap,
+          top: nodeBottom - ttH * 0.25,
+          arrowSide: 'left',
+          bonus: preferRight ? -60 : 0
+        },
+        {
+          left: nodeLeft - gap - ttW,
+          top: nodeBottom - ttH * 0.25,
+          arrowSide: 'right',
+          bonus: !preferRight ? -60 : 0
+        }
+      ];
 
-      let targetTop = nodeCenterY - ttH * 0.5;
-      targetTop = Math.max(pad, Math.min(stageRect.height - ttH - pad, targetTop));
+      let bestCand = null;
+      let bestScore = Infinity;
 
-      const arrowSide = placeToRight ? 'left' : 'right';
-      const arrowOffsetTop = Math.max(16, Math.min(ttH - 22, nodeCenterY - targetTop - 6));
+      rawCandidates.forEach((rc) => {
+        const cL = Math.max(pad, Math.min(stageRect.width - ttW - pad, rc.left));
+        const cT = Math.max(pad, Math.min(stageRect.height - ttH - pad, rc.top));
+        const cR = cL + ttW;
+        const cB = cT + ttH;
+
+        const focusOvl = rectOverlapArea(cL - 4, cT - 4, cR + 4, cB + 4, nodeLeft, nodeTop, nodeRight, nodeBottom);
+        let neighborOvl = 0;
+        for (let i = 0; i < highlightNeighborRects.length; i++) {
+          const hr = highlightNeighborRects[i];
+          neighborOvl += rectOverlapArea(cL, cT, cR, cB, hr.l, hr.t, hr.r, hr.b);
+        }
+
+        const clampShift = Math.hypot(cL - rc.left, cT - rc.top);
+        const score = focusOvl * 10000 + neighborOvl * 120 + clampShift * 4 + rc.bonus;
+
+        if (score < bestScore) {
+          bestScore = score;
+          bestCand = { left: cL, top: cT, arrowSide: rc.arrowSide };
+        }
+      });
+
+      const targetLeft = bestCand.left;
+      const targetTop = bestCand.top;
+      const arrowSide = bestCand.arrowSide;
+      const arrowPos =
+        arrowSide === 'left' || arrowSide === 'right'
+          ? Math.max(16, Math.min(ttH - 22, nodeCenterY - targetTop - 6))
+          : Math.max(18, Math.min(ttW - 24, nodeCenterX - targetLeft - 6));
 
       if (
         forceUpdate ||
         Math.abs(targetLeft - lastTtLeft) > 0.5 ||
         Math.abs(targetTop - lastTtTop) > 0.5 ||
-        Math.abs(arrowOffsetTop - lastTtArrowTop) > 0.5 ||
+        Math.abs(arrowPos - lastTtArrowPos) > 0.5 ||
         arrowSide !== lastTtSide
       ) {
         lastTtLeft = targetLeft;
         lastTtTop = targetTop;
-        lastTtArrowTop = arrowOffsetTop;
+        lastTtArrowPos = arrowPos;
         lastTtSide = arrowSide;
 
         tourTooltip.style.left = Math.round(targetLeft) + 'px';
@@ -7107,20 +8125,24 @@ window.ARASHIKAGE_ARCHITECTURES = {
         const arrowEl = document.getElementById('tourTooltipArrow');
         if (arrowEl) {
           arrowEl.setAttribute('data-side', arrowSide);
-          arrowEl.style.top = Math.round(arrowOffsetTop) + 'px';
-          arrowEl.style.left = arrowSide === 'left' ? '-7px' : 'auto';
-          arrowEl.style.right = arrowSide === 'right' ? '-7px' : 'auto';
+          if (arrowSide === 'left' || arrowSide === 'right') {
+            arrowEl.style.top = Math.round(arrowPos) + 'px';
+            arrowEl.style.bottom = 'auto';
+            arrowEl.style.left = arrowSide === 'left' ? '-7px' : 'auto';
+            arrowEl.style.right = arrowSide === 'right' ? '-7px' : 'auto';
+          } else {
+            arrowEl.style.left = Math.round(arrowPos) + 'px';
+            arrowEl.style.right = 'auto';
+            arrowEl.style.top = arrowSide === 'top' ? '-7px' : 'auto';
+            arrowEl.style.bottom = arrowSide === 'bottom' ? '-7px' : 'auto';
+          }
         }
 
         const anchorBadge = document.getElementById('ttAnchorBadge');
         if (anchorBadge) {
-          anchorBadge.textContent =
-            (placeToRight ? '◀ ' : '') +
-            '#' +
-            focusNode.num +
-            ' ' +
-            focusNode.title +
-            (!placeToRight ? ' ▶' : '');
+          const dirPrefix = arrowSide === 'left' ? '◀ ' : arrowSide === 'top' ? '▲ ' : '';
+          const dirSuffix = arrowSide === 'right' ? ' ▶' : arrowSide === 'bottom' ? ' ▼' : '';
+          anchorBadge.textContent = dirPrefix + '#' + focusNode.num + ' ' + focusNode.title + dirSuffix;
           anchorBadge.style.color = focusNode.color;
           anchorBadge.style.borderColor = focusNode.color;
           anchorBadge.style.backgroundColor = focusNode.color + '18';
@@ -7128,7 +8150,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       }
     }
 
-    // Update Node-Anchored Floating Walkthrough Tooltip
+    // Update Node-Anchored Floating Walkthrough Tooltip & Step Progress Dots
     function updateTourTooltip() {
       if (activeScenarioKey === 'none' || !tourOverlayVisible || !scenarios[activeScenarioKey]) {
         tourTooltip.classList.add('hidden');
@@ -7156,6 +8178,39 @@ window.ARASHIKAGE_ARCHITECTURES = {
       ttScenarioLabel.textContent = scen.label;
       ttTitle.textContent = step.title;
       ttDesc.textContent = step.desc;
+
+      // Render interactive 1-click Step Progress Jumper Dots
+      const dotsEl = document.getElementById('ttStepDots');
+      if (dotsEl) {
+        dotsEl.innerHTML = steps
+          .map((st, sIdx) => {
+            const isAct = sIdx === activeStepIdx;
+            const fn = st.focusNode && nodeMap[st.focusNode] ? nodeMap[st.focusNode] : null;
+            return (
+              '<button type="button" data-tour-step="' +
+              sIdx +
+              '" title="Step ' +
+              (sIdx + 1) +
+              ': ' +
+              (fn ? '#' + fn.num + ' ' + fn.title : st.title) +
+              '" class="mono text-[9.5px] font-bold w-4 h-4 rounded flex items-center justify-center border transition cursor-pointer ' +
+              (isAct
+                ? 'btn-theme-accent'
+                : 'surface-panel text-secondary-ink border-hairline hover:text-primary-ink') +
+              '">' +
+              (sIdx + 1) +
+              '</button>'
+            );
+          })
+          .join('');
+        dotsEl.querySelectorAll('[data-tour-step]').forEach((b) => {
+          b.addEventListener('click', () => {
+            activeStepIdx = parseInt(b.getAttribute('data-tour-step'), 10) || 0;
+            updateTourTooltip();
+            syncUrlHash();
+          });
+        });
+      }
 
       // Sync focused node & right-hand inspector automatically
       if (step.focusNode && nodeMap[step.focusNode]) {
@@ -7558,20 +8613,46 @@ window.ARASHIKAGE_ARCHITECTURES = {
       });
     });
 
-    // Keyboard shortcuts 1..6 for theme comparison, L / D for Light / Dark, Escape for drawer/fullscreen
+    // Keyboard shortcuts: 1..9,0,-,= for 12 themes, [/] to cycle theme, L/D for Light/Dark, ArrowLeft/Right/Escape for Tour & Fullscreen
+    const THEME_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && isFullscreenMode) {
-        if (isDrawerOpen) {
-          closeSlideInDrawer();
-        } else {
-          toggleFullscreenMode(false);
+      if (e.key === 'Escape') {
+        if (isFullscreenMode) {
+          if (isDrawerOpen) {
+            closeSlideInDrawer();
+          } else {
+            toggleFullscreenMode(false);
+          }
+          return;
         }
-        return;
+        if (tourOverlayVisible && activeScenarioKey !== 'none') {
+          tourOverlayVisible = false;
+          activeScenarioKey = 'none';
+          if (selScenario) selScenario.value = 'none';
+          updateTourTooltip();
+          syncUrlHash();
+          return;
+        }
       }
       if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) return;
-      const numIdx = parseInt(e.key, 10) - 1;
-      if (numIdx >= 0 && numIdx < THEME_ORDER.length) {
-        setTheme(THEME_ORDER[numIdx]);
+
+      if (tourOverlayVisible && activeScenarioKey !== 'none' && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+        e.preventDefault();
+        activeStepIdx += e.key === 'ArrowRight' ? 1 : -1;
+        updateTourTooltip();
+        syncUrlHash();
+        return;
+      }
+
+      const keyIdx = THEME_KEYS.indexOf(e.key);
+      if (keyIdx >= 0 && keyIdx < THEME_ORDER.length) {
+        setTheme(THEME_ORDER[keyIdx]);
+      } else if (e.key === '[') {
+        const cur = THEME_ORDER.indexOf(activeTheme);
+        setTheme(THEME_ORDER[(cur - 1 + THEME_ORDER.length) % THEME_ORDER.length]);
+      } else if (e.key === ']') {
+        const cur = THEME_ORDER.indexOf(activeTheme);
+        setTheme(THEME_ORDER[(cur + 1) % THEME_ORDER.length]);
       } else if (e.key === 'l' || e.key === 'L') {
         setPolarity('light');
       } else if (e.key === 'd' || e.key === 'D') {

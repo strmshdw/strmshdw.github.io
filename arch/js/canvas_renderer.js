@@ -66,6 +66,67 @@
     c.stroke();
   }
 
+  // Chamfered 45° clipped-corner octagon for Cyberpunk Neural Deck
+  function drawChamferedRect(c, x, y, w, h, cut) {
+    c.beginPath();
+    c.moveTo(x + 2, y);
+    c.lineTo(x + w - cut, y);
+    c.lineTo(x + w, y + cut);
+    c.lineTo(x + w, y + h - 2);
+    c.lineTo(x + cut, y + h);
+    c.lineTo(x, y + h - cut);
+    c.lineTo(x, y + 2);
+    c.closePath();
+  }
+
+  // Asymmetric botanical leaf capsule (rBig on TL/BR, rSmall on TR/BL) for Solarpunk
+  function drawLeafRect(c, x, y, w, h, rBig, rSmall) {
+    c.beginPath();
+    c.moveTo(x + rBig, y);
+    c.lineTo(x + w - rSmall, y);
+    c.quadraticCurveTo(x + w, y, x + w, y + rSmall);
+    c.lineTo(x + w, y + h - rBig);
+    c.quadraticCurveTo(x + w, y + h, x + w - rBig, y + h);
+    c.lineTo(x + rSmall, y + h);
+    c.quadraticCurveTo(x, y + h, x, y + h - rSmall);
+    c.lineTo(x, y + rBig);
+    c.quadraticCurveTo(x, y, x + rBig, y);
+    c.closePath();
+  }
+
+  // Architectural dimension extension ticks (|---|) for Blueprint Cyanotype
+  function drawDimensionTicks(c, x, y, w, h, ext, color) {
+    c.strokeStyle = color;
+    c.lineWidth = 1.1;
+    c.beginPath();
+    // Top-left overshoot
+    c.moveTo(x - ext, y); c.lineTo(x + ext, y);
+    c.moveTo(x, y - ext); c.lineTo(x, y + ext);
+    // Top-right overshoot
+    c.moveTo(x + w - ext, y); c.lineTo(x + w + ext, y);
+    c.moveTo(x + w, y - ext); c.lineTo(x + w, y + ext);
+    // Bottom-left overshoot
+    c.moveTo(x - ext, y + h); c.lineTo(x + ext, y + h);
+    c.moveTo(x, y + h - ext); c.lineTo(x, y + h + ext);
+    // Bottom-right overshoot
+    c.moveTo(x + w - ext, y + h); c.lineTo(x + w + ext, y + h);
+    c.moveTo(x + w, y + h - ext); c.lineTo(x + w, y + h + ext);
+    c.stroke();
+  }
+
+  // Stepped Art Deco Ziggurat corner inlays + double pinstripe
+  function drawDecoFrame(c, x, y, w, h, color) {
+    c.strokeStyle = color;
+    c.lineWidth = 1.1;
+    c.strokeRect(x + 3, y + 3, w - 6, h - 6);
+    const s = 6;
+    c.fillStyle = color;
+    c.fillRect(x, y, s, 2); c.fillRect(x, y, 2, s);
+    c.fillRect(x + w - s, y, s, 2); c.fillRect(x + w - 2, y, 2, s);
+    c.fillRect(x, y + h - 2, s, 2); c.fillRect(x, y + h - s, 2, s);
+    c.fillRect(x + w - s, y + h - 2, s, 2); c.fillRect(x + w - 2, y + h - s, 2, s);
+  }
+
   // Proportional font-size step-down when text exceeds maxW (zero horizontal glyph squishing)
   function drawFittedText(c, text, x, y, maxW) {
     if (!text) return;
@@ -363,6 +424,102 @@
           ctx.fillRect(gx, gy, 3, 3);
         }
       }
+    } else if (activeTheme === 'bauhaus') {
+      // Bauhaus Constructivism: Weimar Vellum / Dessau Charcoal + Diagonal Cross-Axes & Geometric Watermarks
+      ctx.fillStyle = isLight ? '#f4efe4' : '#141416';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.strokeStyle = isLight ? 'rgba(22, 22, 22, 0.07)' : 'rgba(245, 242, 235, 0.06)';
+      ctx.lineWidth = 1;
+      for (let gx = 0; gx <= BASE_W; gx += 186) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, BASE_H); ctx.stroke();
+      }
+      ctx.beginPath();
+      ctx.arc(190, 560, 88, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(920, 120); ctx.lineTo(1030, 290); ctx.lineTo(810, 290); ctx.closePath();
+      ctx.stroke();
+    } else if (activeTheme === 'blueprint') {
+      // Architectural Blueprint & White-Line Cyanotype: Double-Frequency Engineering Millimeter Grid
+      ctx.fillStyle = isLight ? '#eef3f9' : '#071932';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.strokeStyle = isLight ? 'rgba(30, 64, 175, 0.08)' : 'rgba(56, 189, 248, 0.09)';
+      ctx.lineWidth = 0.8;
+      for (let gx = 16; gx < BASE_W; gx += 16) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, BASE_H); ctx.stroke();
+      }
+      for (let gy = 16; gy < BASE_H; gy += 16) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(BASE_W, gy); ctx.stroke();
+      }
+      ctx.strokeStyle = isLight ? 'rgba(30, 64, 175, 0.19)' : 'rgba(56, 189, 248, 0.22)';
+      ctx.lineWidth = 1.1;
+      for (let gx = 80; gx < BASE_W; gx += 80) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, BASE_H); ctx.stroke();
+      }
+      for (let gy = 80; gy < BASE_H; gy += 80) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(BASE_W, gy); ctx.stroke();
+      }
+      ctx.strokeStyle = isLight ? 'rgba(15, 41, 74, 0.45)' : 'rgba(186, 230, 253, 0.40)';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(4, 4, BASE_W - 8, BASE_H - 8);
+    } else if (activeTheme === 'braun_industrial') {
+      // Dieter Rams Snow-White & Apollo DSKY Console: Anodized Instrument Chassis
+      ctx.fillStyle = isLight ? '#e6e4de' : '#171715';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.fillStyle = isLight ? 'rgba(28, 25, 23, 0.10)' : 'rgba(245, 243, 237, 0.08)';
+      for (let gx = 28; gx < BASE_W; gx += 28) {
+        for (let gy = 28; gy < BASE_H; gy += 28) {
+          ctx.beginPath(); ctx.arc(gx, gy, 1.1, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+    } else if (activeTheme === 'art_deco') {
+      // 1929 Art Deco Metropolis: Alabaster & Brass / Obsidian & Champagne Gold Lattice
+      ctx.fillStyle = isLight ? '#f5f0e6' : '#0c0b09';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.strokeStyle = isLight ? 'rgba(154, 111, 26, 0.12)' : 'rgba(234, 179, 8, 0.11)';
+      ctx.lineWidth = 1;
+      for (let gx = 56; gx < BASE_W; gx += 112) {
+        for (let gy = 56; gy < BASE_H; gy += 112) {
+          ctx.beginPath();
+          ctx.moveTo(gx, gy - 14);
+          ctx.lineTo(gx + 14, gy);
+          ctx.lineTo(gx, gy + 14);
+          ctx.lineTo(gx - 14, gy);
+          ctx.closePath();
+          ctx.stroke();
+        }
+      }
+    } else if (activeTheme === 'cyberpunk') {
+      // Cyberpunk Neural Deck: Tactical HUD Grid + Scanlines
+      ctx.fillStyle = isLight ? '#eaf0f6' : '#06080e';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.strokeStyle = isLight ? 'rgba(2, 132, 199, 0.11)' : 'rgba(0, 240, 255, 0.09)';
+      ctx.lineWidth = 1;
+      for (let gx = 40; gx < BASE_W; gx += 40) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, BASE_H); ctx.stroke();
+      }
+      for (let gy = 40; gy < BASE_H; gy += 40) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(BASE_W, gy); ctx.stroke();
+      }
+      ctx.fillStyle = isLight ? 'rgba(15, 23, 42, 0.018)' : 'rgba(0, 240, 255, 0.022)';
+      for (let gy = 0; gy < BASE_H; gy += 4) {
+        ctx.fillRect(0, gy, BASE_W, 1.5);
+      }
+    } else if (activeTheme === 'solarpunk') {
+      // Solarpunk Botanical: Sunlit Herbarium / Bioluminescent Canopy & Contour Rings
+      ctx.fillStyle = isLight ? '#eef3e8' : '#08130d';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      const sg = ctx.createRadialGradient(560, 120, 20, 560, 280, 520);
+      sg.addColorStop(0, isLight ? 'rgba(234, 179, 8, 0.14)' : 'rgba(52, 211, 153, 0.14)');
+      sg.addColorStop(1, 'rgba(52, 211, 153, 0)');
+      ctx.fillStyle = sg;
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.strokeStyle = isLight ? 'rgba(21, 128, 61, 0.10)' : 'rgba(52, 211, 153, 0.09)';
+      ctx.lineWidth = 1;
+      for (let r = 90; r <= 450; r += 90) {
+        ctx.beginPath(); ctx.arc(180, 560, r, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(960, 140, r * 0.85, 0, Math.PI * 2); ctx.stroke();
+      }
     } else {
       // Aurora (Light Pearl vs Dark Cosmic Velvet)
       ctx.fillStyle = isLight ? '#edf6ff' : '#050714';
@@ -517,6 +674,157 @@
         ctx.fillStyle = isLight ? '#231f33' : '#c7d2fe';
         drawFittedText(ctx, ch.sub, ch.x, 53, laneW - 16);
 
+      } else if (activeTheme === 'bauhaus') {
+        // Bauhaus Constructivism: Heavy 2px ink column frame, primary geometric block + shape emblem
+        const inkCol = isLight ? '#161616' : '#f5f2eb';
+        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.65)' : 'rgba(36, 36, 41, 0.72)';
+        ctx.fillRect(laneX, 12, laneW, BASE_H - 24);
+        ctx.fillStyle = ch.color;
+        ctx.fillRect(laneX, 12, laneW, 30);
+        ctx.strokeStyle = inkCol;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(laneX, 12, laneW, BASE_H - 24);
+        ctx.beginPath(); ctx.moveTo(laneX, 42); ctx.lineTo(laneX + laneW, 42); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(laneX, 62); ctx.lineTo(laneX + laneW, 62); ctx.stroke();
+
+        // Geometric Constructivist Emblem (Circle / Triangle / Square rotating by column)
+        ctx.fillStyle = getContrastInk(ch.color, '#161616', '#ffffff');
+        if (idx % 3 === 0) {
+          ctx.beginPath(); ctx.arc(laneX + 14, 27, 5, 0, Math.PI * 2); ctx.fill();
+        } else if (idx % 3 === 1) {
+          ctx.beginPath(); ctx.moveTo(laneX + 14, 21); ctx.lineTo(laneX + 20, 32); ctx.lineTo(laneX + 8, 32); ctx.closePath(); ctx.fill();
+        } else {
+          ctx.fillRect(laneX + 9, 22, 10, 10);
+        }
+
+        ctx.font = '800 10px "Space Grotesk", "Inter", sans-serif';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, ch.title, laneX + 25, 31, laneW - 31);
+        ctx.font = '700 9.5px "IBM Plex Mono", monospace';
+        ctx.fillStyle = inkCol;
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, ch.sub, ch.x, 56, laneW - 14);
+
+      } else if (activeTheme === 'blueprint') {
+        // Architectural Blueprint: Drafting title-block header with 45° diagonal hatching & dimension ticks
+        const lineCol = isLight ? '#1e40af' : '#38bdf8';
+        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.72)' : 'rgba(16, 44, 84, 0.68)';
+        ctx.fillRect(laneX, 14, laneW, BASE_H - 28);
+        ctx.strokeStyle = lineCol;
+        ctx.lineWidth = 1.4;
+        ctx.strokeRect(laneX, 14, laneW, BASE_H - 28);
+        drawDimensionTicks(ctx, laneX, 14, laneW, 48, 5, ch.color);
+
+        ctx.save();
+        ctx.beginPath(); ctx.rect(laneX, 14, laneW, 24); ctx.clip();
+        ctx.strokeStyle = ch.color + (isLight ? '28' : '33');
+        ctx.lineWidth = 1;
+        for (let hx = laneX - 24; hx < laneX + laneW + 24; hx += 7) {
+          ctx.beginPath(); ctx.moveTo(hx, 38); ctx.lineTo(hx + 24, 14); ctx.stroke();
+        }
+        ctx.restore();
+
+        ctx.beginPath(); ctx.moveTo(laneX, 38); ctx.lineTo(laneX + laneW, 38); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(laneX, 61); ctx.lineTo(laneX + laneW, 61); ctx.stroke();
+
+        ctx.font = '700 9.8px "IBM Plex Mono", monospace';
+        ctx.fillStyle = ch.color;
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, ch.title, ch.x, 30, laneW - 14);
+        ctx.font = '600 9.4px "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#0a1f3d' : '#e0f2fe';
+        drawFittedText(ctx, ch.sub, ch.x, 53, laneW - 14);
+
+      } else if (activeTheme === 'braun_industrial') {
+        // Dieter Rams / NASA Apollo: Recessed anodized hardware bay + perforated speaker-grille + LED jewel
+        ctx.fillStyle = isLight ? '#f5f4f0' : '#22221f';
+        drawRoundedRect(ctx, laneX, 14, laneW, BASE_H - 28, 8);
+        ctx.fill();
+        ctx.strokeStyle = isLight ? '#a8a29e' : '#44403c';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.fillStyle = isLight ? '#e7e5df' : '#191917';
+        drawRoundedRect(ctx, laneX + 5, 19, laneW - 10, 42, 5);
+        ctx.fill();
+
+        // LED Indicator Jewel
+        ctx.fillStyle = ch.color;
+        ctx.beginPath(); ctx.arc(laneX + 15, 32, 4.2, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath(); ctx.arc(laneX + 13.8, 30.8, 1.3, 0, Math.PI * 2); ctx.fill();
+
+        ctx.font = '800 9.8px "Inter", "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#1c1917' : '#f5f3ed';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, ch.title, laneX + 24, 35, laneW - 34);
+        ctx.font = '600 9.4px "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#44403c' : '#d6d3cb';
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, ch.sub, ch.x, 54, laneW - 20);
+
+      } else if (activeTheme === 'art_deco') {
+        // Art Deco Metropolis: Double-pinstripe brass column with stepped Ziggurat corners & diamond medallion
+        const goldCol = isLight ? '#9a6f1a' : '#eab308';
+        ctx.fillStyle = isLight ? 'rgba(255, 253, 248, 0.86)' : 'rgba(29, 26, 21, 0.84)';
+        ctx.fillRect(laneX, 14, laneW, BASE_H - 28);
+        ctx.strokeStyle = goldCol;
+        ctx.lineWidth = 1.6;
+        ctx.strokeRect(laneX, 14, laneW, BASE_H - 28);
+        drawDecoFrame(ctx, laneX, 14, laneW, BASE_H - 28, ch.color);
+
+        ctx.beginPath(); ctx.moveTo(laneX + 4, 60); ctx.lineTo(laneX + laneW - 4, 60); ctx.stroke();
+
+        ctx.font = '800 10px "Space Grotesk", sans-serif';
+        ctx.fillStyle = ch.color;
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, '❖ ' + ch.title, ch.x, 34, laneW - 18);
+        ctx.font = '600 9.5px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#3b332b' : '#e5dcc5';
+        drawFittedText(ctx, ch.sub, ch.x, 52, laneW - 18);
+
+      } else if (activeTheme === 'cyberpunk') {
+        // Cyberpunk Neural Deck: Chamfered 45° tactical lane + neon left rail
+        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.84)' : 'rgba(17, 23, 38, 0.82)';
+        drawChamferedRect(ctx, laneX, 14, laneW, BASE_H - 28, 12);
+        ctx.fill();
+        ctx.strokeStyle = ch.color;
+        ctx.lineWidth = 1.6;
+        ctx.stroke();
+
+        ctx.fillStyle = ch.color;
+        ctx.fillRect(laneX, 16, 4, 44);
+        ctx.beginPath(); ctx.moveTo(laneX, 60); ctx.lineTo(laneX + laneW, 60); ctx.stroke();
+
+        ctx.font = '800 10px "Space Grotesk", "IBM Plex Mono", sans-serif';
+        ctx.fillStyle = ch.color;
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, '// ' + ch.title, laneX + 10, 34, laneW - 18);
+        ctx.font = '600 9.5px "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#1e293b' : '#cbd5e1';
+        drawFittedText(ctx, ch.sub, laneX + 10, 52, laneW - 18);
+
+      } else if (activeTheme === 'solarpunk') {
+        // Solarpunk Botanical: Asymmetric Leaf Capsule [16, 4, 16, 4] + Sunlit Crest
+        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.88)' : 'rgba(21, 43, 31, 0.80)';
+        drawLeafRect(ctx, laneX, 14, laneW, BASE_H - 28, 18, 4);
+        ctx.fill();
+        ctx.strokeStyle = ch.color + (isLight ? 'aa' : '88');
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.fillStyle = ch.color;
+        drawLeafRect(ctx, laneX + 12, 20, laneW - 24, 22, 10, 3);
+        ctx.fill();
+
+        ctx.font = '800 9.8px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = getContrastInk(ch.color, '#112217', '#ffffff');
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, '❀ ' + ch.title, ch.x, 35, laneW - 30);
+        ctx.font = '600 9.6px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#284231' : '#bbf7d0';
+        drawFittedText(ctx, ch.sub, ch.x, 56, laneW - 18);
+
       } else {
         // Aurora
         ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.88)' : 'rgba(16, 23, 54, 0.72)';
@@ -546,7 +854,10 @@
     const useOrthogonalTraces =
       activeTheme === 'utilitarian' ||
       activeTheme === 'modular_typo' ||
-      activeTheme === 'pixel_art';
+      activeTheme === 'pixel_art' ||
+      activeTheme === 'blueprint' ||
+      activeTheme === 'braun_industrial' ||
+      activeTheme === 'bauhaus';
 
     const focusEdgeNodeId = hoveredNodeId || selectedNodeId;
     const edgeLabelsToRender = [];
@@ -706,10 +1017,22 @@
           activeTheme === 'pixel_art' ||
           activeTheme === 'utilitarian' ||
           activeTheme === 'neo_brutalism' ||
-          activeTheme === 'modular_typo'
+          activeTheme === 'modular_typo' ||
+          activeTheme === 'bauhaus' ||
+          activeTheme === 'blueprint'
         ) {
           const sz = isConnectedToFocus ? 6 : 4;
           ctx.fillRect(Math.round(px - sz / 2), Math.round(py - sz / 2), sz, sz);
+        } else if (activeTheme === 'art_deco' || activeTheme === 'cyberpunk') {
+          // Diamond data packet (◆)
+          const r = isConnectedToFocus ? 4.5 : 3.2;
+          ctx.beginPath();
+          ctx.moveTo(px, py - r);
+          ctx.lineTo(px + r, py);
+          ctx.lineTo(px, py + r);
+          ctx.lineTo(px - r, py);
+          ctx.closePath();
+          ctx.fill();
         } else {
           ctx.beginPath();
           ctx.arc(px, py, isConnectedToFocus ? 3.5 : 2.5, 0, Math.PI * 2);
@@ -945,6 +1268,247 @@
         ctx.font = '600 9.8px "IBM Plex Mono", monospace';
         ctx.fillStyle = isLight ? '#352f4f' : '#c7d2fe';
         drawWrappedSub(ctx, n.sub, rx + 8, ry + 63, innerW, 13.5);
+
+      } else if (activeTheme === 'bauhaus') {
+        // Bauhaus Constructivism Node: Primary geometric offset block + shape emblem in header
+        const inkCol = isLight ? '#161616' : '#f5f2eb';
+        const shOff = isSelected ? 6 : 4;
+        ctx.fillStyle = isSelected ? '#d92b2b' : n.color;
+        ctx.fillRect(rx + shOff, ry + shOff, n.w, n.h);
+
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fff9eb' : '#ffffff'
+          : isSelected ? '#2e2b24' : '#222227';
+        ctx.fillRect(rx, ry, n.w, n.h);
+
+        // Constructivist left color block in header
+        ctx.fillStyle = n.color;
+        ctx.fillRect(rx, ry, 34, 24);
+        ctx.strokeStyle = inkCol;
+        ctx.lineWidth = isSelected ? 2.6 : 2;
+        ctx.strokeRect(rx, ry, n.w, n.h);
+        ctx.beginPath(); ctx.moveTo(rx, ry + 24); ctx.lineTo(rx + n.w, ry + 24); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(rx + 34, ry); ctx.lineTo(rx + 34, ry + 24); ctx.stroke();
+
+        ctx.font = '800 9.8px "Space Grotesk", "Inter", sans-serif';
+        ctx.fillStyle = getContrastInk(n.color, '#161616', '#ffffff');
+        ctx.textAlign = 'center';
+        ctx.fillText(n.num, rx + 17, ry + 16);
+
+        if (!showTourBadgeInHeader) {
+          ctx.font = '700 9.4px "IBM Plex Mono", monospace';
+          ctx.fillStyle = inkCol;
+          ctx.textAlign = 'left';
+          drawFittedText(ctx, n.tag.toUpperCase(), rx + 40, ry + 16, innerW - 34);
+        }
+
+        ctx.font = '800 12.2px "Space Grotesk", "Inter", sans-serif';
+        ctx.fillStyle = inkCol;
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 8, ry + 46, innerW);
+
+        ctx.font = '600 10.1px "Space Grotesk", "Inter", sans-serif';
+        ctx.fillStyle = isLight ? '#3f3b37' : '#d6d3cd';
+        drawWrappedSub(ctx, n.sub, rx + 8, ry + 65, innerW, 13.5);
+
+      } else if (activeTheme === 'blueprint') {
+        // Architectural Blueprint Node: Dimension overshoot ticks (|---|) & 45° diagonal hatched header
+        ctx.fillStyle = isLight
+          ? isSelected ? '#eff6ff' : '#ffffff'
+          : isSelected ? '#173d73' : '#102c54';
+        ctx.fillRect(rx, ry, n.w, n.h);
+
+        ctx.save();
+        ctx.beginPath(); ctx.rect(rx, ry, n.w, 22); ctx.clip();
+        ctx.strokeStyle = n.color + (isLight ? '30' : '38');
+        ctx.lineWidth = 1;
+        for (let hx = rx - 22; hx < rx + n.w + 22; hx += 6) {
+          ctx.beginPath(); ctx.moveTo(hx, ry + 22); ctx.lineTo(hx + 22, ry); ctx.stroke();
+        }
+        ctx.restore();
+
+        const strokeCol = isSelected ? (isLight ? '#dc2626' : '#fbbf24') : (isLight ? '#1e40af' : '#38bdf8');
+        ctx.strokeStyle = strokeCol;
+        ctx.lineWidth = isSelected ? 2.2 : 1.4;
+        ctx.strokeRect(rx, ry, n.w, n.h);
+        ctx.beginPath(); ctx.moveTo(rx, ry + 22); ctx.lineTo(rx + n.w, ry + 22); ctx.stroke();
+
+        drawDimensionTicks(ctx, rx, ry, n.w, n.h, 4.5, isSelected ? strokeCol : n.color);
+
+        ctx.font = '700 9.5px "IBM Plex Mono", monospace';
+        ctx.fillStyle = n.color;
+        ctx.textAlign = 'left';
+        ctx.fillText('DWG-' + n.num, rx + 7, ry + 15);
+        if (!showTourBadgeInHeader) {
+          ctx.fillStyle = isLight ? '#1e3a5f' : '#bae6fd';
+          ctx.textAlign = 'right';
+          drawFittedText(ctx, n.tag, rx + n.w - 7, ry + 15, innerW - 44);
+        }
+
+        ctx.font = '700 11.8px "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#0a1f3d' : '#f0f7ff';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 8, ry + 45, innerW);
+
+        ctx.font = '500 9.8px "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#1e3a5f' : '#bae6fd';
+        drawWrappedSub(ctx, n.sub, rx + 8, ry + 64, innerW, 13.5);
+
+      } else if (activeTheme === 'braun_industrial') {
+        // Dieter Rams / Apollo DSKY Hardware Module: Recessed bezel + glowing LED indicator jewel
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fff7ed' : '#faf9f5'
+          : isSelected ? '#36342d' : '#292925';
+        drawRoundedRect(ctx, rx, ry, n.w, n.h, 8);
+        ctx.fill();
+
+        ctx.strokeStyle = isSelected ? (isLight ? '#ea580c' : '#f97316') : (isLight ? '#a8a29e' : '#57534e');
+        ctx.lineWidth = isSelected ? 2.4 : 1.5;
+        ctx.stroke();
+
+        // Inner recessed instrument bezel
+        ctx.strokeStyle = isLight ? 'rgba(28, 25, 23, 0.14)' : 'rgba(255, 255, 255, 0.10)';
+        ctx.lineWidth = 1;
+        drawRoundedRect(ctx, rx + 3, ry + 3, n.w - 6, n.h - 6, 5);
+        ctx.stroke();
+
+        // Circular LED Jewel Indicator
+        ctx.fillStyle = n.color;
+        ctx.beginPath(); ctx.arc(rx + 14, ry + 16, 4.5, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath(); ctx.arc(rx + 12.6, ry + 14.6, 1.4, 0, Math.PI * 2); ctx.fill();
+
+        ctx.font = '700 9.6px "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#1c1917' : '#f5f3ed';
+        ctx.textAlign = 'left';
+        ctx.fillText('CH ' + n.num, rx + 23, ry + 19);
+
+        if (!showTourBadgeInHeader) {
+          ctx.fillStyle = isLight ? '#57534e' : '#d6d3cb';
+          ctx.textAlign = 'right';
+          drawFittedText(ctx, n.tag, rx + n.w - 9, ry + 19, innerW - 44);
+        }
+
+        ctx.font = '700 12px "Inter", "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#1c1917' : '#f5f3ed';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 10, ry + 46, n.w - 20);
+
+        ctx.font = '500 10px "Inter", "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#3f3b37' : '#d6d3cb';
+        drawWrappedSub(ctx, n.sub, rx + 10, ry + 65, n.w - 20, 13.5);
+
+      } else if (activeTheme === 'art_deco') {
+        // Art Deco Metropolis Node: Stepped Ziggurat corner inlays + double brass pinstripe + diamond crest
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fef9e7' : '#ffffff'
+          : isSelected ? '#2b2418' : '#1d1a15';
+        ctx.fillRect(rx, ry, n.w, n.h);
+
+        const brassCol = isSelected ? (isLight ? '#b45309' : '#facc15') : n.color;
+        ctx.strokeStyle = brassCol;
+        ctx.lineWidth = isSelected ? 2.4 : 1.6;
+        ctx.strokeRect(rx, ry, n.w, n.h);
+        drawDecoFrame(ctx, rx, ry, n.w, n.h, brassCol);
+
+        ctx.beginPath(); ctx.moveTo(rx + 4, ry + 24); ctx.lineTo(rx + n.w - 4, ry + 24); ctx.stroke();
+
+        ctx.font = '800 9.6px "Space Grotesk", sans-serif';
+        ctx.fillStyle = n.color;
+        ctx.textAlign = 'left';
+        ctx.fillText('❖ ' + n.num, rx + 8, ry + 17);
+
+        if (!showTourBadgeInHeader) {
+          ctx.fillStyle = isLight ? '#3b332b' : '#e5dcc5';
+          ctx.textAlign = 'right';
+          drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 8, ry + 17, innerW - 36);
+        }
+
+        ctx.font = '800 12px "Space Grotesk", sans-serif';
+        ctx.fillStyle = isLight ? '#171412' : '#f7f3e8';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 9, ry + 46, innerW - 2);
+
+        ctx.font = '500 10px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#3b332b' : '#e5dcc5';
+        drawWrappedSub(ctx, n.sub, rx + 9, ry + 65, innerW - 2, 13.5);
+
+      } else if (activeTheme === 'cyberpunk') {
+        // Cyberpunk Neural Deck Node: Chamfered 45° clipped corners + neon left bar + HUD telemetry tag
+        if (isSelected && !isLight) {
+          ctx.shadowColor = n.color;
+          ctx.shadowBlur = 14;
+        }
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fff0f5' : '#ffffff'
+          : isSelected ? '#1a243b' : '#111726';
+        drawChamferedRect(ctx, rx, ry, n.w, n.h, 11);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        ctx.strokeStyle = isSelected ? (isLight ? '#e11d48' : '#facc15') : n.color;
+        ctx.lineWidth = isSelected ? 2.4 : 1.5;
+        ctx.stroke();
+
+        // Neon left vertical bar
+        ctx.fillStyle = n.color;
+        ctx.fillRect(rx + 1, ry + 2, 4.5, n.h - 13);
+
+        ctx.font = '700 9.6px "IBM Plex Mono", monospace';
+        ctx.fillStyle = n.color;
+        ctx.textAlign = 'left';
+        ctx.fillText('SYS//' + n.num, rx + 10, ry + 18);
+
+        if (!showTourBadgeInHeader) {
+          ctx.fillStyle = isLight ? '#1e293b' : '#cbd5e1';
+          ctx.textAlign = 'right';
+          drawFittedText(ctx, n.tag, rx + n.w - 12, ry + 18, innerW - 44);
+        }
+
+        ctx.font = '800 12px "Space Grotesk", sans-serif';
+        ctx.fillStyle = isLight ? '#090d16' : '#f8fafc';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 10, ry + 45, n.w - 18);
+
+        ctx.font = '500 10px "Space Grotesk", sans-serif';
+        ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
+        drawWrappedSub(ctx, n.sub, rx + 10, ry + 64, n.w - 18, 13.5);
+
+      } else if (activeTheme === 'solarpunk') {
+        // Solarpunk Botanical Node: Asymmetric Leaf Capsule [16, 4, 16, 4] + Seed Pill Badge
+        ctx.fillStyle = isLight
+          ? isSelected ? '#f0fdf4' : '#ffffff'
+          : isSelected ? '#1d3b2a' : '#152b1f';
+        drawLeafRect(ctx, rx, ry, n.w, n.h, 16, 4);
+        ctx.fill();
+
+        ctx.strokeStyle = isSelected ? n.color : n.color + (isLight ? 'aa' : '88');
+        ctx.lineWidth = isSelected ? 2.4 : 1.5;
+        ctx.stroke();
+
+        ctx.fillStyle = n.color;
+        drawLeafRect(ctx, rx + 7, ry + 7, 26, 16, 8, 2);
+        ctx.fill();
+
+        ctx.font = '700 9.4px "IBM Plex Mono", monospace';
+        ctx.fillStyle = getContrastInk(n.color, '#112217', '#ffffff');
+        ctx.textAlign = 'center';
+        ctx.fillText(n.num, rx + 20, ry + 19);
+
+        if (!showTourBadgeInHeader) {
+          ctx.fillStyle = isLight ? '#284231' : '#bbf7d0';
+          ctx.textAlign = 'right';
+          drawFittedText(ctx, n.tag, rx + n.w - 9, ry + 19, innerW - 34);
+        }
+
+        ctx.font = '700 12px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#112217' : '#ecfdf5';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 10, ry + 46, n.w - 20);
+
+        ctx.font = '500 10px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = isLight ? '#284231' : '#bbf7d0';
+        drawWrappedSub(ctx, n.sub, rx + 10, ry + 65, n.w - 20, 13.5);
 
       } else {
         // Aurora (Light Pearl vs Dark Velvet)

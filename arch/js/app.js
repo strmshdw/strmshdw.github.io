@@ -54,15 +54,32 @@
   let selectedSubtickIdx = 1;
   let selectedCriticHorizonIdx = 1;
 
-  // 6-Style × 2-Polarity Theme Engine Metadata (WCAG AA >= 4.5:1 Verified Across All 12 States)
+  // 12-Style × 2-Polarity Theme Engine Metadata (WCAG AA >= 4.5:1 Verified Across All 24 States)
   const THEME_ORDER = [
     'neo_brutalism',
     'modular_typo',
+    'bauhaus',
     'utilitarian',
+    'blueprint',
+    'braun_industrial',
     'memphis',
     'pixel_art',
-    'aurora'
+    'art_deco',
+    'aurora',
+    'cyberpunk',
+    'solarpunk'
   ];
+
+  const MODE_LABELS = {
+    all: 'All Pathways',
+    live: 'Live 5.5ms',
+    train: 'Train (4,096 Arenas)',
+    distill: 'Distill (Warm-Start)'
+  };
+
+  function isNodeActiveInMode(node, mode) {
+    return !mode || mode === 'all' || !node || !node.modes || node.modes.includes(mode);
+  }
 
   const THEME_META = {
     neo_brutalism: {
@@ -77,29 +94,65 @@
       stageColorsLight: ['#c81e00', '#0050d8', '#6d28d9', '#be123c', '#92400e', '#0f766e'],
       stageColorsDark:  ['#ff4522', '#3b82f6', '#a78bfa', '#fb7185', '#facc15', '#2dd4bf']
     },
+    bauhaus: {
+      name: 'Bauhaus Constructivism',
+      notes: 'Weimar 1923 · Primary geometric blocks & emblems',
+      stageColorsLight: ['#d92b2b', '#1d4ed8', '#b45309', '#be123c', '#0f766e', '#4338ca'],
+      stageColorsDark:  ['#ef4444', '#60a5fa', '#facc15', '#fb7185', '#2dd4bf', '#a78bfa']
+    },
     utilitarian: {
-      name: 'Utilitarian',
+      name: 'Utilitarian CAD',
       notes: '100% Plex Mono · CAD reticles · 90° traces',
       stageColorsLight: ['#92400e', '#0369a1', '#6d28d9', '#be185d', '#854d0e', '#047857'],
       stageColorsDark:  ['#f59e0b', '#38bdf8', '#a78bfa', '#f472b6', '#facc15', '#34d399']
     },
+    blueprint: {
+      name: 'Blueprint Cyanotype',
+      notes: 'Prussian Cyanotype · Drafting grid & dimension ticks',
+      stageColorsLight: ['#1d4ed8', '#0369a1', '#4338ca', '#b91c1c', '#0f766e', '#1e40af'],
+      stageColorsDark:  ['#38bdf8', '#7dd3fc', '#a5b4fc', '#fbbf24', '#34d399', '#60a5fa']
+    },
+    braun_industrial: {
+      name: 'Braun / Apollo Console',
+      notes: 'Dieter Rams anodized modules · LED indicator jewels',
+      stageColorsLight: ['#ea580c', '#0f766e', '#1d4ed8', '#b45309', '#be123c', '#15803d'],
+      stageColorsDark:  ['#f97316', '#2dd4bf', '#60a5fa', '#facc15', '#fb7185', '#4ade80']
+    },
     memphis: {
-      name: 'Memphis',
+      name: 'Memphis Milano',
       notes: '80s Sottsass pop · Stage-colored shadows',
       stageColorsLight: ['#db2777', '#0e7490', '#7c3aed', '#c2410c', '#eab308', '#047857'],
       stageColorsDark:  ['#f472b6', '#22d3ee', '#a78bfa', '#fb923c', '#facc15', '#34d399']
     },
     pixel_art: {
-      name: 'Pixel Art',
-      notes: '16-Bit deck · Stepped borders & scanlines',
+      name: '16-Bit Pixel Art',
+      notes: 'Arcade command deck · Stepped borders & scanlines',
       stageColorsLight: ['#005f6b', '#023e8a', '#6a1b9a', '#9d174d', '#92400e', '#166534'],
       stageColorsDark:  ['#00e5ff', '#38bdf8', '#c084fc', '#ff2a85', '#f59e0b', '#22c55e']
     },
+    art_deco: {
+      name: 'Art Deco Metropolis',
+      notes: '1929 Chrysler brass pinstripes · Stepped Ziggurat inlays',
+      stageColorsLight: ['#9a6f1a', '#0f766e', '#7c2d12', '#1e3a8a', '#854d0e', '#14532d'],
+      stageColorsDark:  ['#eab308', '#2dd4bf', '#f59e0b', '#60a5fa', '#fde047', '#4ade80']
+    },
     aurora: {
-      name: 'Aurora',
+      name: 'Aurora Borealis',
       notes: 'Borealis plumes · Specular crystal rims',
       stageColorsLight: ['#0f766e', '#0369a1', '#6d28d9', '#be185d', '#92400e', '#15803d'],
       stageColorsDark:  ['#00f5d4', '#38bdf8', '#a78bfa', '#f472b6', '#facc15', '#4ade80']
+    },
+    cyberpunk: {
+      name: 'Cyberpunk Neural Deck',
+      notes: '45° Chamfered Mecha HUD · Neon laser traces',
+      stageColorsLight: ['#e11d48', '#0284c7', '#7c3aed', '#d97706', '#0d9488', '#be123c'],
+      stageColorsDark:  ['#f43f5e', '#00f0ff', '#a855f7', '#facc15', '#2dd4bf', '#fb7185']
+    },
+    solarpunk: {
+      name: 'Solarpunk Botanical',
+      notes: 'Organic leaf capsules · Synaptic tendrils & contours',
+      stageColorsLight: ['#15803d', '#0f766e', '#b45309', '#c2410c', '#4d7c0f', '#0369a1'],
+      stageColorsDark:  ['#34d399', '#2dd4bf', '#fbbf24', '#fb923c', '#a3e635', '#38bdf8']
     }
   };
 
@@ -114,10 +167,25 @@
       node: '▪', tech: '§', tourOn: '●', tourOff: '→',
       export: '↗', close: '×', open: '↗', fs: '⤢', fsExit: '⤡'
     },
+    bauhaus: {
+      prev: '◀', next: '▶', light: '●', dark: '▲',
+      node: '■', tech: '▲', tourOn: '■', tourOff: '▶',
+      export: '▲', close: '×', open: '↗', fs: '◧', fsExit: '×'
+    },
     utilitarian: {
       prev: '<', next: '>', light: 'L', dark: 'D',
       node: 'BLK', tech: 'TEC', tourOn: 'ON', tourOff: '>>',
       export: 'IO', close: 'X', open: '↗', fs: 'FS', fsExit: 'X'
+    },
+    blueprint: {
+      prev: '◁', next: '▷', light: '☼', dark: '☾',
+      node: '⊞', tech: '⌖', tourOn: '⊞', tourOff: '▷',
+      export: '⌖', close: '×', open: '↗', fs: '⌙', fsExit: '×'
+    },
+    braun_industrial: {
+      prev: '◂', next: '▸', light: '○', dark: '●',
+      node: '◎', tech: '◉', tourOn: '●', tourOff: '▸',
+      export: '◎', close: '×', open: '↗', fs: '⤢', fsExit: '×'
     },
     memphis: {
       prev: '◀', next: '▶', light: '★', dark: '✦',
@@ -129,10 +197,25 @@
       node: '#', tech: '?', tourOn: '*', tourOff: '>',
       export: '^', close: 'x', open: '↗', fs: '+', fsExit: 'x'
     },
+    art_deco: {
+      prev: '◂', next: '▸', light: '❖', dark: '◆',
+      node: '❖', tech: '◈', tourOn: '❖', tourOff: '▸',
+      export: '❖', close: '✕', open: '↗', fs: '⤢', fsExit: '✕'
+    },
     aurora: {
       prev: '‹', next: '›', light: '✧', dark: '✦',
       node: '◈', tech: '✦', tourOn: '✦', tourOff: '▸',
       export: '◈', close: '✕', open: '↗', fs: '⤢', fsExit: '✕'
+    },
+    cyberpunk: {
+      prev: '«', next: '»', light: '◈', dark: '◢',
+      node: '◢', tech: '❖', tourOn: '◢', tourOff: '»',
+      export: '◢', close: '×', open: '↗', fs: '⛶', fsExit: '×'
+    },
+    solarpunk: {
+      prev: '‹', next: '›', light: '❀', dark: '✧',
+      node: '❀', tech: '✦', tourOn: '❀', tourOff: '▸',
+      export: '❀', close: '✕', open: '↗', fs: '⤢', fsExit: '✕'
     }
   };
 
@@ -777,7 +860,7 @@
       if (activeMode === 'all') {
         const activeCount = ['live', 'train', 'distill'].filter((m) => modes.includes(m)).length;
         ntabSubLabel.textContent =
-          'ROLE ACROSS PATHWAYS (' + activeCount + '/3 ACTIVE — CLICK ROW TO FILTER)';
+          'ROLE ACROSS PATHWAYS (' + activeCount + '/3 ACTIVE — CLICK ROW TO INSPECT)';
 
         const rowsHtml = ['live', 'train', 'distill']
           .map((m) => {
@@ -791,19 +874,21 @@
               : isLight ? '#b45309' : '#fbbf24';
             const pillBorder = isAct ? '#16a34a' : '#d97706';
             const statusText = isAct ? '● ACTIVE' : '⊘ BYPASSED';
+            const shortMode = m === 'live' ? 'LIVE 5.5MS' : m === 'train' ? 'TRAIN (4K)' : 'DISTILL';
 
             return (
               '<div data-switch-mode="' +
               m +
-              '" class="p-1.5 rounded surface-panel border border-hairline hover:border-subtle transition cursor-pointer flex flex-col gap-0.5" title="Click to filter diagram to ' +
+              '" class="px-2 py-1 rounded surface-panel border border-hairline hover:border-subtle transition cursor-pointer flex items-center justify-between gap-2" title="' +
+              spec.text.replace(/"/g, '&quot;') +
+              ' (Click to filter to ' +
               modeNames[m] +
-              '">' +
-              '<div class="flex flex-wrap items-center justify-between gap-1">' +
-              '<div class="flex items-center gap-1.5">' +
-              '<span class="mono text-[9.5px] font-bold text-primary-ink">' +
-              modeNames[m].toUpperCase() +
+              ')">' +
+              '<div class="flex items-center gap-1.5 shrink-0">' +
+              '<span class="mono text-[9.5px] font-bold text-primary-ink w-[4.8rem]">' +
+              shortMode +
               '</span>' +
-              '<span class="mono text-[9px] font-bold px-1.5 py-0.2 rounded" style="background:' +
+              '<span class="mono text-[9px] font-bold px-1.5 py-0.2 rounded shrink-0" style="background:' +
               pillBg +
               ';color:' +
               pillCol +
@@ -813,20 +898,17 @@
               statusText +
               '</span>' +
               '</div>' +
-              '<span class="mono text-[9px] text-muted-ink">' +
+              '<span class="mono text-[9.5px] text-secondary-ink truncate flex-1 text-right">' +
               spec.regime +
               '</span>' +
-              '</div>' +
-              '<p class="text-[10.5px] text-secondary-ink leading-snug">' +
-              spec.text +
-              '</p>' +
+              '<span class="mono text-[9px] text-theme-accent font-bold shrink-0">↗</span>' +
               '</div>'
             );
           })
           .join('');
 
         ntabSubContent.innerHTML =
-          '<div class="flex flex-col gap-1.5">' +
+          '<div class="flex flex-col gap-1">' +
           rowsHtml +
           '<div class="pt-1 border-t border-hairline flex flex-wrap items-baseline justify-between gap-1 mono text-[10px]">' +
           '<span class="font-bold text-muted-ink uppercase">' +
@@ -1096,7 +1178,7 @@
           const rowsHtml = usedNodes
             .map((un) => {
               const isAct = isNodeActiveInMode(un, activeMode);
-              const spec = getPathwayRoleSpec(un, activeMode);
+              const spec = getPathwayRoleSpec(un, activeArchKey, activeMode);
               const badgeCol = isAct ? '#10b981' : '#f59e0b';
               return (
                 '<div class="p-1.5 rounded border surface-root flex flex-col gap-0.5" style="border-color:' +
@@ -1780,10 +1862,16 @@
 
     let lastTtLeft = -9999;
     let lastTtTop = -9999;
-    let lastTtArrowTop = -9999;
+    let lastTtArrowPos = -9999;
     let lastTtSide = '';
 
-    // Position the Floating Walkthrough Tooltip directly beside the active focusNode with pointer arrow
+    function rectOverlapArea(aL, aT, aR, aB, bL, bT, bR, bB) {
+      const ox = Math.max(0, Math.min(aR, bR) - Math.max(aL, bL));
+      const oy = Math.max(0, Math.min(aB, bB) - Math.max(aT, bT));
+      return ox * oy;
+    }
+
+    // Position the Floating Walkthrough Tooltip beside/below/above focusNode with Highlight-Aware Collision Avoidance
     function positionAnchoredTourTooltip(forceUpdate) {
       if (
         !tourTooltip ||
@@ -1817,6 +1905,7 @@
       const nodeRight = offsetX + (focusNode.x + focusNode.w * 0.5) * scaleX;
       const nodeTop = offsetY + (focusNode.y - focusNode.h * 0.5) * scaleY;
       const nodeBottom = offsetY + (focusNode.y + focusNode.h * 0.5) * scaleY;
+      const nodeCenterX = (nodeLeft + nodeRight) * 0.5;
       const nodeCenterY = (nodeTop + nodeBottom) * 0.5;
 
       const ttRect = tourTooltip.getBoundingClientRect();
@@ -1825,33 +1914,103 @@
       const gap = 14;
       const pad = 10;
 
-      // Place to the RIGHT of focusNode for Columns 0..2, or to the LEFT of focusNode for Columns 3..5
-      let placeToRight = focusNode.col <= 2;
-      if (placeToRight && nodeRight + gap + ttW > stageRect.width - pad) {
-        if (nodeLeft - gap - ttW >= pad) placeToRight = false;
-      } else if (!placeToRight && nodeLeft - gap - ttW < pad) {
-        if (nodeRight + gap + ttW <= stageRect.width - pad) placeToRight = true;
-      }
+      // Build bounding rects for highlighted neighbor nodes in step.highlight (excluding focusNode)
+      const highlightNeighborRects = [];
+      (step.highlight || []).forEach((hid) => {
+        if (hid === focusNode.id) return;
+        const hn = nodeMap[hid];
+        if (!hn) return;
+        highlightNeighborRects.push({
+          l: offsetX + (hn.x - hn.w * 0.5) * scaleX,
+          r: offsetX + (hn.x + hn.w * 0.5) * scaleX,
+          t: offsetY + (hn.y - hn.h * 0.5) * scaleY,
+          b: offsetY + (hn.y + hn.h * 0.5) * scaleY
+        });
+      });
 
-      let targetLeft = placeToRight ? nodeRight + gap : nodeLeft - gap - ttW;
-      targetLeft = Math.max(pad, Math.min(stageRect.width - ttW - pad, targetLeft));
+      const preferRight = focusNode.col <= 2;
+      const rawCandidates = [
+        {
+          left: nodeRight + gap,
+          top: nodeCenterY - ttH * 0.5,
+          arrowSide: 'left',
+          bonus: preferRight ? -150 : 0
+        },
+        {
+          left: nodeLeft - gap - ttW,
+          top: nodeCenterY - ttH * 0.5,
+          arrowSide: 'right',
+          bonus: !preferRight ? -150 : 0
+        },
+        {
+          left: nodeCenterX - ttW * 0.5,
+          top: nodeBottom + gap,
+          arrowSide: 'top',
+          bonus: -40
+        },
+        {
+          left: nodeCenterX - ttW * 0.5,
+          top: nodeTop - gap - ttH,
+          arrowSide: 'bottom',
+          bonus: -30
+        },
+        {
+          left: nodeRight + gap,
+          top: nodeBottom - ttH * 0.25,
+          arrowSide: 'left',
+          bonus: preferRight ? -60 : 0
+        },
+        {
+          left: nodeLeft - gap - ttW,
+          top: nodeBottom - ttH * 0.25,
+          arrowSide: 'right',
+          bonus: !preferRight ? -60 : 0
+        }
+      ];
 
-      let targetTop = nodeCenterY - ttH * 0.5;
-      targetTop = Math.max(pad, Math.min(stageRect.height - ttH - pad, targetTop));
+      let bestCand = null;
+      let bestScore = Infinity;
 
-      const arrowSide = placeToRight ? 'left' : 'right';
-      const arrowOffsetTop = Math.max(16, Math.min(ttH - 22, nodeCenterY - targetTop - 6));
+      rawCandidates.forEach((rc) => {
+        const cL = Math.max(pad, Math.min(stageRect.width - ttW - pad, rc.left));
+        const cT = Math.max(pad, Math.min(stageRect.height - ttH - pad, rc.top));
+        const cR = cL + ttW;
+        const cB = cT + ttH;
+
+        const focusOvl = rectOverlapArea(cL - 4, cT - 4, cR + 4, cB + 4, nodeLeft, nodeTop, nodeRight, nodeBottom);
+        let neighborOvl = 0;
+        for (let i = 0; i < highlightNeighborRects.length; i++) {
+          const hr = highlightNeighborRects[i];
+          neighborOvl += rectOverlapArea(cL, cT, cR, cB, hr.l, hr.t, hr.r, hr.b);
+        }
+
+        const clampShift = Math.hypot(cL - rc.left, cT - rc.top);
+        const score = focusOvl * 10000 + neighborOvl * 120 + clampShift * 4 + rc.bonus;
+
+        if (score < bestScore) {
+          bestScore = score;
+          bestCand = { left: cL, top: cT, arrowSide: rc.arrowSide };
+        }
+      });
+
+      const targetLeft = bestCand.left;
+      const targetTop = bestCand.top;
+      const arrowSide = bestCand.arrowSide;
+      const arrowPos =
+        arrowSide === 'left' || arrowSide === 'right'
+          ? Math.max(16, Math.min(ttH - 22, nodeCenterY - targetTop - 6))
+          : Math.max(18, Math.min(ttW - 24, nodeCenterX - targetLeft - 6));
 
       if (
         forceUpdate ||
         Math.abs(targetLeft - lastTtLeft) > 0.5 ||
         Math.abs(targetTop - lastTtTop) > 0.5 ||
-        Math.abs(arrowOffsetTop - lastTtArrowTop) > 0.5 ||
+        Math.abs(arrowPos - lastTtArrowPos) > 0.5 ||
         arrowSide !== lastTtSide
       ) {
         lastTtLeft = targetLeft;
         lastTtTop = targetTop;
-        lastTtArrowTop = arrowOffsetTop;
+        lastTtArrowPos = arrowPos;
         lastTtSide = arrowSide;
 
         tourTooltip.style.left = Math.round(targetLeft) + 'px';
@@ -1860,20 +2019,24 @@
         const arrowEl = document.getElementById('tourTooltipArrow');
         if (arrowEl) {
           arrowEl.setAttribute('data-side', arrowSide);
-          arrowEl.style.top = Math.round(arrowOffsetTop) + 'px';
-          arrowEl.style.left = arrowSide === 'left' ? '-7px' : 'auto';
-          arrowEl.style.right = arrowSide === 'right' ? '-7px' : 'auto';
+          if (arrowSide === 'left' || arrowSide === 'right') {
+            arrowEl.style.top = Math.round(arrowPos) + 'px';
+            arrowEl.style.bottom = 'auto';
+            arrowEl.style.left = arrowSide === 'left' ? '-7px' : 'auto';
+            arrowEl.style.right = arrowSide === 'right' ? '-7px' : 'auto';
+          } else {
+            arrowEl.style.left = Math.round(arrowPos) + 'px';
+            arrowEl.style.right = 'auto';
+            arrowEl.style.top = arrowSide === 'top' ? '-7px' : 'auto';
+            arrowEl.style.bottom = arrowSide === 'bottom' ? '-7px' : 'auto';
+          }
         }
 
         const anchorBadge = document.getElementById('ttAnchorBadge');
         if (anchorBadge) {
-          anchorBadge.textContent =
-            (placeToRight ? '◀ ' : '') +
-            '#' +
-            focusNode.num +
-            ' ' +
-            focusNode.title +
-            (!placeToRight ? ' ▶' : '');
+          const dirPrefix = arrowSide === 'left' ? '◀ ' : arrowSide === 'top' ? '▲ ' : '';
+          const dirSuffix = arrowSide === 'right' ? ' ▶' : arrowSide === 'bottom' ? ' ▼' : '';
+          anchorBadge.textContent = dirPrefix + '#' + focusNode.num + ' ' + focusNode.title + dirSuffix;
           anchorBadge.style.color = focusNode.color;
           anchorBadge.style.borderColor = focusNode.color;
           anchorBadge.style.backgroundColor = focusNode.color + '18';
@@ -1881,7 +2044,7 @@
       }
     }
 
-    // Update Node-Anchored Floating Walkthrough Tooltip
+    // Update Node-Anchored Floating Walkthrough Tooltip & Step Progress Dots
     function updateTourTooltip() {
       if (activeScenarioKey === 'none' || !tourOverlayVisible || !scenarios[activeScenarioKey]) {
         tourTooltip.classList.add('hidden');
@@ -1909,6 +2072,39 @@
       ttScenarioLabel.textContent = scen.label;
       ttTitle.textContent = step.title;
       ttDesc.textContent = step.desc;
+
+      // Render interactive 1-click Step Progress Jumper Dots
+      const dotsEl = document.getElementById('ttStepDots');
+      if (dotsEl) {
+        dotsEl.innerHTML = steps
+          .map((st, sIdx) => {
+            const isAct = sIdx === activeStepIdx;
+            const fn = st.focusNode && nodeMap[st.focusNode] ? nodeMap[st.focusNode] : null;
+            return (
+              '<button type="button" data-tour-step="' +
+              sIdx +
+              '" title="Step ' +
+              (sIdx + 1) +
+              ': ' +
+              (fn ? '#' + fn.num + ' ' + fn.title : st.title) +
+              '" class="mono text-[9.5px] font-bold w-4 h-4 rounded flex items-center justify-center border transition cursor-pointer ' +
+              (isAct
+                ? 'btn-theme-accent'
+                : 'surface-panel text-secondary-ink border-hairline hover:text-primary-ink') +
+              '">' +
+              (sIdx + 1) +
+              '</button>'
+            );
+          })
+          .join('');
+        dotsEl.querySelectorAll('[data-tour-step]').forEach((b) => {
+          b.addEventListener('click', () => {
+            activeStepIdx = parseInt(b.getAttribute('data-tour-step'), 10) || 0;
+            updateTourTooltip();
+            syncUrlHash();
+          });
+        });
+      }
 
       // Sync focused node & right-hand inspector automatically
       if (step.focusNode && nodeMap[step.focusNode]) {
@@ -2311,20 +2507,46 @@
       });
     });
 
-    // Keyboard shortcuts 1..6 for theme comparison, L / D for Light / Dark, Escape for drawer/fullscreen
+    // Keyboard shortcuts: 1..9,0,-,= for 12 themes, [/] to cycle theme, L/D for Light/Dark, ArrowLeft/Right/Escape for Tour & Fullscreen
+    const THEME_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && isFullscreenMode) {
-        if (isDrawerOpen) {
-          closeSlideInDrawer();
-        } else {
-          toggleFullscreenMode(false);
+      if (e.key === 'Escape') {
+        if (isFullscreenMode) {
+          if (isDrawerOpen) {
+            closeSlideInDrawer();
+          } else {
+            toggleFullscreenMode(false);
+          }
+          return;
         }
-        return;
+        if (tourOverlayVisible && activeScenarioKey !== 'none') {
+          tourOverlayVisible = false;
+          activeScenarioKey = 'none';
+          if (selScenario) selScenario.value = 'none';
+          updateTourTooltip();
+          syncUrlHash();
+          return;
+        }
       }
       if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) return;
-      const numIdx = parseInt(e.key, 10) - 1;
-      if (numIdx >= 0 && numIdx < THEME_ORDER.length) {
-        setTheme(THEME_ORDER[numIdx]);
+
+      if (tourOverlayVisible && activeScenarioKey !== 'none' && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+        e.preventDefault();
+        activeStepIdx += e.key === 'ArrowRight' ? 1 : -1;
+        updateTourTooltip();
+        syncUrlHash();
+        return;
+      }
+
+      const keyIdx = THEME_KEYS.indexOf(e.key);
+      if (keyIdx >= 0 && keyIdx < THEME_ORDER.length) {
+        setTheme(THEME_ORDER[keyIdx]);
+      } else if (e.key === '[') {
+        const cur = THEME_ORDER.indexOf(activeTheme);
+        setTheme(THEME_ORDER[(cur - 1 + THEME_ORDER.length) % THEME_ORDER.length]);
+      } else if (e.key === ']') {
+        const cur = THEME_ORDER.indexOf(activeTheme);
+        setTheme(THEME_ORDER[(cur + 1) % THEME_ORDER.length]);
       } else if (e.key === 'l' || e.key === 'L') {
         setPolarity('light');
       } else if (e.key === 'd' || e.key === 'D') {

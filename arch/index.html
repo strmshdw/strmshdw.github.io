@@ -101,18 +101,32 @@
       <!-- Cluster 2: Grouped Theme Switcher + Light/Dark Polarity -->
       <div class="flex items-center gap-1.5 shrink-0">
         <div class="inline-flex items-center rounded-lg border border-hairline surface-panel p-0.5 gap-0.5">
-          <button id="btnPrevTheme" title="Previous Design Theme" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
+          <button id="btnPrevTheme" title="Previous Design Theme ([)" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
             ◀
           </button>
-          <select id="selTheme" aria-label="Design Theme" class="bg-transparent text-primary-ink px-1.5 py-0.5 text-[11px] font-bold focus:outline-none cursor-pointer">
-            <option value="neo_brutalism">Theme 1: Neo-Brutalism</option>
-            <option value="modular_typo">Theme 2: Modular Typo</option>
-            <option value="utilitarian">Theme 3: Utilitarian</option>
-            <option value="memphis">Theme 4: Memphis</option>
-            <option value="pixel_art">Theme 5: Pixel Art</option>
-            <option value="aurora">Theme 6: Aurora</option>
+          <select id="selTheme" aria-label="Design Theme (12 Iconic Styles)" class="bg-transparent text-primary-ink px-1.5 py-0.5 text-[11px] font-bold focus:outline-none cursor-pointer">
+            <optgroup label="I. Constructivist &amp; Editorial Grids">
+              <option value="neo_brutalism">01 · Neo-Brutalism</option>
+              <option value="modular_typo">02 · Modular Typography</option>
+              <option value="bauhaus">03 · Bauhaus Constructivism</option>
+            </optgroup>
+            <optgroup label="II. Engineering &amp; Hardware Consoles">
+              <option value="utilitarian">04 · Utilitarian CAD</option>
+              <option value="blueprint">05 · Blueprint Cyanotype</option>
+              <option value="braun_industrial">06 · Braun / Apollo Console</option>
+            </optgroup>
+            <optgroup label="III. Expressive, Decorative &amp; Retro">
+              <option value="memphis">07 · Memphis Milano</option>
+              <option value="pixel_art">08 · 16-Bit Pixel Art</option>
+              <option value="art_deco">09 · Art Deco Metropolis</option>
+            </optgroup>
+            <optgroup label="IV. Atmospheric, Cyber &amp; Biomimetic">
+              <option value="aurora">10 · Aurora Borealis</option>
+              <option value="cyberpunk">11 · Cyberpunk Neural Deck</option>
+              <option value="solarpunk">12 · Solarpunk Botanical</option>
+            </optgroup>
           </select>
-          <button id="btnNextTheme" title="Next Design Theme" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
+          <button id="btnNextTheme" title="Next Design Theme (])" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
             ▶
           </button>
         </div>
@@ -180,11 +194,12 @@
             <button id="btnTtDeepDive" class="no-wrap-btn px-2 py-0.5 rounded text-[10.5px] font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
               Deep Dive
             </button>
+            <div id="ttStepDots" class="flex items-center gap-1 px-1" role="tablist" aria-label="Jump to Walkthrough Step"></div>
             <div class="flex items-center gap-1">
-              <button id="btnTtPrev" class="no-wrap-btn px-2 py-0.5 rounded text-[10.5px] font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
+              <button id="btnTtPrev" title="Previous Step (←)" class="no-wrap-btn px-2 py-0.5 rounded text-[10.5px] font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
                 ◀ Prev
               </button>
-              <button id="btnTtNext" class="no-wrap-btn px-2.5 py-0.5 rounded text-[10.5px] font-bold btn-theme-accent border transition cursor-pointer">
+              <button id="btnTtNext" title="Next Step (→)" class="no-wrap-btn px-2.5 py-0.5 rounded text-[10.5px] font-bold btn-theme-accent border transition cursor-pointer">
                 Next ▶
               </button>
             </div>
