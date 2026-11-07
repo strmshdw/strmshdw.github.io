@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arashikage (Hex63) — End-to-End Model Architecture Explorer</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <title>Arashikage (Hex63) — Systems &amp; Neural Architecture</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';document.head.appendChild(s);"></script>
   <style>
 /* ==========================================================================
    ARASHIKAGE (HEX63) — ARCHITECTURE EXPLORER STYLESHEET
@@ -375,286 +372,294 @@ body {
 
 </style>
 </head>
-<body data-theme="neo_brutalism" data-polarity="dark" class="h-screen w-screen overflow-hidden flex flex-col select-none">
+<body data-theme="neo_brutalism" data-mode="light" class="surface-root antialiased lg:h-screen lg:w-screen lg:overflow-hidden flex flex-col">
 
-  <!-- TOP IDENTITY BANNER (Dedicated Name & Description Above Control Plane) -->
-  <div id="topIdentityBar" class="h-9 shrink-0 t-header-bar px-4 flex items-center justify-between gap-4 z-30">
-    <div class="flex items-center gap-2.5 min-w-0">
-      <div class="w-5 h-5 flex items-center justify-center t-badge text-[10px] font-bold t-font-mono shrink-0">H63</div>
-      <span class="text-xs font-extrabold tracking-tight t-font-head t-text-primary whitespace-nowrap">ARASHIKAGE // HEX63</span>
-      <span class="text-xs t-text-muted hidden sm:inline">—</span>
-      <span class="text-[11.5px] t-text-secondary truncate hidden sm:inline">
-        End-to-End Model Architecture, 60 Hz Subtick Action Chunking &amp; Multi-Horizon Training Explorer
-      </span>
-    </div>
-    <div class="flex items-center gap-2 shrink-0 text-[10.5px] t-font-mono t-text-muted">
-      <span class="hidden md:inline">Click any diagram block or select a Guided Tour</span>
-    </div>
-  </div>
+  <!-- Full-Viewport Application Shell -->
+  <div class="w-full flex-1 min-h-0 surface-panel flex flex-col overflow-hidden">
 
-  <!-- COMPACT SINGLE-LINE CONTROL HEADER -->
-  <header id="controlPlaneHeader" class="h-11 shrink-0 t-header-bar px-3 flex items-center justify-between gap-2 z-30 overflow-x-auto no-scrollbar">
-    <!-- Left: Guided Tour Scrubber -->
-    <div class="flex items-center gap-1.5 shrink-0">
-      <label for="selScenario" class="text-[10px] font-bold uppercase tracking-wider t-font-mono t-text-muted hidden xl:inline">Tour:</label>
-      <select id="selScenario" class="px-2 py-1 text-[11px] font-semibold t-font-mono t-input cursor-pointer outline-none max-w-[205px] truncate"></select>
-      <button id="btnTourPrev" class="no-wrap-btn px-2 py-1 text-[11px] t-font-mono font-semibold t-btn" title="Previous Step">
-        <span id="icoTourPrev">◀</span><span>Prev</span>
-      </button>
-      <button id="btnTourNext" class="no-wrap-btn px-2 py-1 text-[11px] t-font-mono font-semibold t-btn" title="Next Step">
-        <span>Next</span><span id="icoTourNext">▶</span>
-      </button>
-      <button id="btnTourPlay" class="no-wrap-btn px-2 py-1 text-[11px] t-font-mono font-bold t-btn" title="Auto-Play Guided Walkthrough">
-        <span id="icoTourPlay">▶</span><span id="txtTourPlay">Auto</span>
-      </button>
-    </div>
-
-    <!-- Center: Layer Filter Pills + Compact Theme Dropdown + Light/Dark Polarity -->
-    <div class="flex items-center gap-2 shrink-0">
-      <div class="flex items-center gap-1">
-        <button data-layer="all" class="layer-filter-btn active no-wrap-btn px-2 py-1 text-[10.5px] font-bold t-font-mono t-btn">
-          <span id="icoFilterAll">◆</span><span>All</span>
-        </button>
-        <button data-layer="core" class="layer-filter-btn no-wrap-btn px-2 py-1 text-[10.5px] font-bold t-font-mono t-btn">
-          <span id="icoFilterCore">▸</span><span>Core</span>
-        </button>
-        <button data-layer="train" class="layer-filter-btn no-wrap-btn px-2 py-1 text-[10.5px] font-bold t-font-mono t-btn">
-          <span id="icoFilterTrain">◈</span><span>Train</span>
-        </button>
-        <button data-layer="live" class="layer-filter-btn no-wrap-btn px-2 py-1 text-[10.5px] font-bold t-font-mono t-btn">
-          <span id="icoFilterLive">⚡</span><span>Live</span>
-        </button>
+    <!-- Dedicated Top Identity Banner (Above the Single-Line Control Header) -->
+    <div id="topIdentityBar" class="shrink-0 px-4 py-1.5 border-b border-hairline surface-root flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="flex items-center gap-2 shrink-0">
+          <span id="brandDot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+          <span class="mono text-xs font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX63</span>
+        </div>
+        <span class="text-muted-ink">|</span>
+        <h1 class="text-xs md:text-sm font-bold text-primary-ink tracking-tight truncate">
+          Real-Time Physics &amp; Neural Control Architecture — 60 Hz Subtick Action Chunking &amp; Multi-Horizon RL
+        </h1>
       </div>
+      <span id="themeStyleNotes" class="hidden xl:inline-block mono text-[11px] text-secondary-ink truncate"></span>
+    </div>
 
-      <div class="h-4 w-[1px] bg-current opacity-20"></div>
-
-      <!-- Compact Theme Selector Dropdown -->
-      <div class="flex items-center gap-1">
-        <label for="selTheme" class="text-[10px] font-bold uppercase tracking-wider t-font-mono t-text-muted hidden 2xl:inline">Theme:</label>
-        <select id="selTheme" class="px-2 py-1 text-[11px] font-bold t-font-mono t-input cursor-pointer outline-none">
-          <option value="neo_brutalism">Neo-Brutalism</option>
-          <option value="modular_typo">Modular Typography</option>
-          <option value="utilitarian">Utilitarian</option>
-          <option value="memphis">Memphis</option>
-          <option value="pixel_art">Pixel Art</option>
-          <option value="aurora">Aurora</option>
+    <!-- Single-Line Compact Control Plane Header -->
+    <header id="controlPlaneHeader" class="shrink-0 px-3 py-1.5 border-b border-hairline surface-card flex items-center justify-between gap-1.5 overflow-x-auto">
+      <!-- Left: Guided Walkthrough & Scenario Selector -->
+      <div class="flex items-center gap-1.5 shrink-0">
+        <select id="selScenario" class="surface-panel text-primary-ink border border-subtle rounded-lg px-2 py-1 text-[11.5px] font-semibold focus:outline-none transition cursor-pointer max-w-[215px] truncate">
+          <option value="none">Free Exploration (Click Any Block)</option>
+          <option value="tour" selected>Guided Tour: 66.7ms Cycle (8 Steps)</option>
+          <option value="bounce">Scenario 1: Corner Double-Tap (4 Steps)</option>
+          <option value="aerial">Scenario 2: Fast Aerial &amp; Reset (4 Steps)</option>
+          <option value="fake">Scenario 3: Adapting to Fake (4 Steps)</option>
+          <option value="save">Scenario 4: Goal-Line Save Search (4 Steps)</option>
         </select>
-        <button data-polarity="light" class="polarity-btn no-wrap-btn px-2 py-1 text-[10.5px] font-bold t-font-mono t-btn" title="Light Mode">
-          <span id="icoPolLight">■</span><span>Light</span>
-        </button>
-        <button data-polarity="dark" class="polarity-btn active no-wrap-btn px-2 py-1 text-[10.5px] font-bold t-font-mono t-btn" title="Dark Mode">
-          <span id="icoPolDark">□</span><span>Dark</span>
+        <button id="btnToggleTour" class="no-wrap-btn px-2 py-1 rounded-lg text-[11.5px] font-semibold surface-panel text-primary-ink border border-subtle transition cursor-pointer">
+          Tour Overlay
         </button>
       </div>
-    </div>
 
-    <!-- Right: Inspector / Deep Dive Switcher + Full Screen + Share HTML -->
-    <div class="flex items-center gap-1.5 shrink-0">
-      <button id="btnModeInspector" class="active no-wrap-btn px-2.5 py-1 text-[11px] font-bold t-font-mono t-btn">
-        <span id="icoModeBlock">▣</span><span>Block Inspector</span>
-      </button>
-      <button id="btnModeTech" class="no-wrap-btn px-2.5 py-1 text-[11px] font-bold t-font-mono t-btn">
-        <span id="icoModeTech">▤</span><span>Deep Dive</span>
-      </button>
-      <button id="btnToggleFullscreen" class="no-wrap-btn px-2.5 py-1 text-[11px] font-bold t-font-mono t-btn" title="Focus Diagram in Full Screen Mode">
-        <span id="icoFullscreenBtn">⛶</span><span id="txtFullscreenBtn">Full Screen</span>
-      </button>
-      <button id="btnExportHtml" class="no-wrap-btn px-2.5 py-1 text-[11px] font-bold t-font-mono t-btn-primary" title="Download Standalone Single-File HTML">
-        <span id="icoShareBtn">⇩</span><span>Share HTML</span>
-      </button>
-    </div>
-  </header>
+      <!-- Center: Pathway Filter + Compact Theme Dropdown + Prev/Next + Light/Dark -->
+      <div class="flex items-center gap-1.5 shrink-0">
+        <select id="selMode" class="surface-panel text-secondary-ink border border-hairline rounded-lg px-2 py-1 text-[11.5px] mono focus:outline-none cursor-pointer max-w-[185px] truncate">
+          <option value="all">Pathway: Full Architecture</option>
+          <option value="live">Pathway: Live 5.5ms Inference</option>
+          <option value="train">Pathway: 4,096-Arena Training</option>
+          <option value="distill">Pathway: Teacher Warm-Start</option>
+        </select>
 
-  <!-- MAIN WORKSPACE -->
-  <div id="mainSplitContainer" class="flex-1 flex min-h-0 relative overflow-hidden">
+        <div class="h-4 w-[1px] bg-current opacity-20 mx-0.5"></div>
 
-    <!-- LEFT: DATA-FLOW DIAGRAM STAGE (Enforced 1120:680 Display Aspect Ratio) -->
-    <main id="canvasStageArea" class="flex-1 flex flex-col min-w-0 min-h-0 relative t-canvas-wrap">
+        <select id="selTheme" class="surface-panel text-primary-ink border border-subtle rounded-lg px-2 py-1 text-[11.5px] font-bold focus:outline-none cursor-pointer max-w-[170px] truncate">
+          <option value="neo_brutalism">Theme: 1. Neo-Brutalism</option>
+          <option value="modular_typo">Theme: 2. Modular Typo</option>
+          <option value="utilitarian">Theme: 3. Utilitarian</option>
+          <option value="memphis">Theme: 4. Memphis</option>
+          <option value="pixel_art">Theme: 5. Pixel Art</option>
+          <option value="aurora">Theme: 6. Aurora</option>
+        </select>
+        <button id="btnPrevTheme" title="Previous Theme" class="no-wrap-btn px-2 py-1 rounded-lg border border-hairline surface-panel text-[11.5px] font-bold text-primary-ink cursor-pointer">
+          Prev
+        </button>
+        <button id="btnNextTheme" title="Next Theme" class="no-wrap-btn px-2 py-1 rounded-lg border border-hairline surface-panel text-[11.5px] font-bold text-primary-ink cursor-pointer">
+          Next
+        </button>
 
-      <!-- Canvas Wrapper with Centered Aspect-Ratio Box -->
-      <div id="canvasWrapper" class="flex-1 relative min-h-0 w-full h-full flex items-center justify-center p-2.5 overflow-hidden">
-        <div id="canvasAspectBox" class="relative flex items-center justify-center">
-          <canvas id="archCanvas" width="1120" height="680" class="w-full h-full block"></canvas>
+        <div class="flex items-center p-0.5 rounded-lg border border-hairline surface-panel gap-0.5">
+          <button id="btnPolarityLight" class="no-wrap-btn px-2 py-0.5 rounded text-[11.5px] font-bold transition cursor-pointer">
+            Light
+          </button>
+          <button id="btnPolarityDark" class="no-wrap-btn px-2 py-0.5 rounded text-[11.5px] font-bold transition cursor-pointer">
+            Dark
+          </button>
         </div>
+      </div>
 
-        <!-- Floating Hover Tooltip -->
-        <div id="canvasHoverTooltip" class="hidden pointer-events-none absolute z-30 max-w-[260px] p-2.5 t-card">
-          <div id="tooltipBadge" class="text-[9.5px] font-bold uppercase tracking-wider t-font-mono t-text-muted"></div>
-          <div id="tooltipTitle" class="text-xs font-bold t-text-primary t-font-head mt-0.5"></div>
-          <div id="tooltipSub" class="text-[11px] t-text-secondary mt-0.5 leading-snug"></div>
-        </div>
+      <!-- Right: Full Screen & Export Actions -->
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button id="btnToggleFullscreen" title="Focus Diagram in Full Screen Mode (Side panel slides in on click)" class="no-wrap-btn px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-subtle text-[11.5px] font-bold transition cursor-pointer">
+          Full Screen
+        </button>
+        <button id="btnExportHtml" title="Download standalone single-file HTML" class="no-wrap-btn px-2.5 py-1 rounded-lg btn-theme-accent border text-[11.5px] font-bold transition cursor-pointer">
+          Share HTML
+        </button>
+        <button id="btnExportPng" title="Download 2x Retina PNG of diagram" class="no-wrap-btn px-2 py-1 rounded-lg surface-panel text-secondary-ink border border-hairline text-[11.5px] font-semibold hover:text-primary-ink transition cursor-pointer hidden xl:inline-flex">
+          PNG
+        </button>
+        <button id="btnCopyMermaid" title="Copy Mermaid diagram markdown" class="no-wrap-btn px-2 py-1 rounded-lg surface-panel text-secondary-ink border border-hairline text-[11.5px] font-semibold hover:text-primary-ink transition cursor-pointer hidden 2xl:inline-flex">
+          Mermaid
+        </button>
+      </div>
+    </header>
 
-        <!-- Floating Guided Tour Step Overlay -->
-        <div id="tourOverlayCard" class="hidden absolute bottom-3 left-3 z-20 max-w-[540px] p-3.5 t-card">
-          <div class="flex items-center justify-between gap-3 mb-1">
-            <span id="tourOverlayBadge" class="text-[10px] font-bold uppercase tracking-wider t-font-mono px-2 py-0.5 t-badge"></span>
-            <button id="btnExitTour" class="no-wrap-btn text-[10.5px] t-font-mono t-text-muted hover:opacity-80 px-1.5 py-0.5">
-              ✕ Exit Tour
-            </button>
-          </div>
-          <h4 id="tourOverlayTitle" class="text-sm font-bold t-text-primary t-font-head mb-1"></h4>
-          <p id="tourOverlayText" class="text-xs t-text-secondary leading-relaxed"></p>
-          <div class="flex items-center justify-between gap-2 mt-3 pt-2 border-t border-current/10">
-            <div id="tourStepScrubber" class="flex items-center gap-1 flex-wrap"></div>
-            <div class="flex items-center gap-1.5 shrink-0">
-              <button id="btnOverlayPrev" class="no-wrap-btn px-2.5 py-1 text-[11px] font-bold t-font-mono t-btn">
-                <span id="icoOverlayPrev">◀</span><span>Prev</span>
-              </button>
-              <button id="btnOverlayNext" class="no-wrap-btn px-2.5 py-1 text-[11px] font-bold t-font-mono t-btn-primary">
-                <span>Next</span><span id="icoOverlayNext">▶</span>
-              </button>
+    <!-- Main Workspace: Left Diagram (Enforced 1120:680 Display Ratio) + Right Inspector/Deep-Dive Panel -->
+    <div id="mainWorkspaceRow" class="flex-1 min-h-0 flex flex-col lg:flex-row relative overflow-hidden">
+
+      <!-- LEFT: Aspect-Ratio-Locked Dataflow Diagram Stage -->
+      <div id="canvasStageContainer" class="flex-1 min-w-0 min-h-0 relative surface-root border-b lg:border-b-0 lg:border-r border-hairline flex flex-col justify-center items-center overflow-hidden">
+
+        <div id="canvasWrapper" class="relative flex-1 w-full h-full min-h-[480px] lg:min-h-0 flex items-center justify-center p-2.5 overflow-hidden">
+          <!-- Enforced 1120:680 Display Aspect Ratio Box -->
+          <div id="canvasAspectBox" class="relative overflow-hidden border border-hairline rounded-lg shadow-sm">
+            <canvas id="mainGraphCanvas" width="1120" height="680" class="w-full h-full block cursor-pointer"></canvas>
+
+            <!-- Floating Guided Walkthrough / Scenario Tooltip Overlay -->
+            <div id="tourTooltip" class="absolute z-20 w-[350px] md:w-[395px] surface-elevated border border-subtle rounded-xl shadow-2xl transition-all duration-200 flex flex-col gap-2.5" style="left: 20px; top: 20px; padding: 15px 18px;">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2 min-w-0">
+                  <span id="ttStepBadge" class="mono text-[11px] font-bold px-2 py-0.5 rounded btn-theme-accent border shrink-0">
+                    STEP 1 OF 8
+                  </span>
+                  <span id="ttScenarioLabel" class="kicker text-muted-ink truncate">END-TO-END TOUR</span>
+                </div>
+                <button id="btnCloseTooltip" title="Close guided overlay" class="no-wrap-btn px-2 py-0.5 rounded-lg text-xs font-semibold surface-panel text-secondary-ink border border-hairline hover:text-primary-ink transition cursor-pointer">
+                  Close
+                </button>
+              </div>
+
+              <div>
+                <h4 id="ttTitle" class="text-sm font-bold text-primary-ink leading-snug mb-1"></h4>
+                <p id="ttDesc" class="text-xs text-secondary-ink leading-relaxed"></p>
+              </div>
+
+              <!-- Step Navigation Bar with Non-Wrapping Buttons -->
+              <div class="pt-2.5 border-t border-hairline flex items-center justify-between gap-2">
+                <button id="btnTtDeepDive" class="no-wrap-btn px-2.5 py-1 rounded-lg text-xs font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
+                  Deep Dive
+                </button>
+                <div class="flex items-center gap-1.5">
+                  <button id="btnTtPrev" class="no-wrap-btn px-3 py-1 rounded-lg text-xs font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
+                    Prev
+                  </button>
+                  <button id="btnTtNext" class="no-wrap-btn px-3 py-1 rounded-lg text-xs font-semibold btn-theme-accent border transition cursor-pointer">
+                    Next
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </main>
 
-    <!-- FULLSCREEN SLIDE-OVER DISMISS BACKDROP (Click outside right panel to dismiss) -->
-    <div id="panelDismissBackdrop" class="hidden fixed inset-0 z-40 bg-black/35 backdrop-blur-[1px] cursor-pointer" title="Click outside panel to close"></div>
+      <!-- Full-Screen Backdrop (Click outside right side panel to dismiss drawer) -->
+      <div id="panelDismissBackdrop" class="hidden absolute inset-0 z-30 bg-black/40 cursor-pointer" title="Click outside panel to close"></div>
 
-    <!-- RIGHT: INSPECTOR & DEEP DIVE PANEL (Static 35% in Split Mode; Slide-Over Drawer in Full Screen Mode) -->
-    <aside id="rightSidePanel" class="w-[35%] min-w-[430px] max-w-[640px] relative h-full flex flex-col t-panel select-text">
+      <!-- RIGHT SIDE PANEL: Fixed Ergonomic Width in Split Mode; Slide-In Overlay Drawer in Full Screen Mode -->
+      <aside id="rightSidePanel" class="w-full lg:w-[485px] xl:w-[525px] shrink-0 h-full min-h-0 surface-panel flex flex-col justify-between overflow-y-auto z-40 transition-transform duration-200">
 
-      <!-- Right Panel Header -->
-      <div class="p-4 shrink-0 border-b border-current/15 flex items-start justify-between gap-3">
-        <div class="min-w-0">
-          <div class="flex items-center gap-2 flex-wrap mb-1.5">
-            <span id="rightStageBadge" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider t-font-mono t-badge">STAGE 3</span>
-            <span id="rightLayerBadge" class="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider t-font-mono t-badge">CORE INFERENCE</span>
+        <!-- Right Panel Top Mode Bar: Switch between Block Inspector & Deep Dive -->
+        <div class="p-3.5 border-b border-hairline sticky top-0 surface-panel z-10 flex items-center justify-between gap-2">
+          <div class="grid grid-cols-2 gap-1.5 p-1 rounded-xl surface-root border border-hairline flex-1">
+            <button id="btnViewNode" class="no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold btn-theme-accent transition cursor-pointer">
+              Block Inspector
+            </button>
+            <button id="btnViewTech" class="no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+              Deep Dive
+            </button>
           </div>
-          <h2 id="rightTitle" class="text-lg font-extrabold tracking-tight t-font-head t-text-primary leading-snug">
-            Titans Persistent Fast-Weight Memory
-          </h2>
+          <button id="btnCloseDrawer" class="hidden no-wrap-btn px-2.5 py-1.5 rounded-lg text-xs font-bold surface-card text-primary-ink border border-subtle cursor-pointer" title="Dismiss Drawer (Esc)">
+            Close
+          </button>
         </div>
-        <!-- Slide-Over Close Button (Visible in Full Screen Mode) -->
-        <button id="btnCloseSlidePanel" class="hidden no-wrap-btn px-2.5 py-1 text-xs font-bold t-font-mono t-btn shrink-0" title="Close Drawer (Esc)">
-          ✕ Close
-        </button>
-      </div>
 
-      <!-- VIEW 1: BLOCK INSPECTOR (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Learn More) -->
-      <div id="viewBlockInspector" class="flex-1 overflow-y-auto p-4 space-y-4">
+        <!-- VIEW 1: BLOCK INSPECTOR (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Learn More) -->
+        <div id="inspectorNodeView" class="p-4 flex-1 flex flex-col gap-3.5">
+          <!-- Block Identity Header -->
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span id="inspBadge" class="mono text-xs font-bold px-2.5 py-0.5 rounded border">
+                BLOCK 01
+              </span>
+              <span id="inspShapePill" class="mono text-xs text-secondary-ink truncate"></span>
+            </div>
+            <h2 id="inspTitle" class="text-lg font-bold text-primary-ink tracking-tight leading-snug mt-1"></h2>
+          </div>
 
-        <!-- 5-Tab Bar + Unified Card -->
-        <div class="t-card p-3.5 space-y-3">
-          <div class="grid grid-cols-5 gap-1">
-            <button data-tab="how" class="inspector-tab-btn active no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+          <!-- 1-2-3-4-5 Progressive Disclosure Tabs -->
+          <div class="grid grid-cols-5 gap-1 p-1 rounded-xl surface-root border border-hairline">
+            <button data-ntab="how" class="ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-semibold btn-theme-accent transition cursor-pointer">
               1. How
             </button>
-            <button data-tab="why" class="inspector-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+            <button data-ntab="why" class="ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
               2. Why
             </button>
-            <button data-tab="impact" class="inspector-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+            <button data-ntab="contrib" class="ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
               3. Impact
             </button>
-            <button data-tab="math" class="inspector-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+            <button data-ntab="math" class="ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
               4. Math
             </button>
-            <button data-tab="learn" class="inspector-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+            <button data-ntab="learn" class="ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
               5. Learn More
             </button>
           </div>
 
-          <div class="flex items-center justify-between gap-2 pt-1">
-            <div id="inspectorTabLabel" class="text-[10.5px] font-bold uppercase tracking-wider t-font-mono t-text-muted">
-              1. HOW IT WORKS — MECHANISM &amp; SIGNAL PATH
+          <!-- Tab Content Box (How / Why / Impact / Math / Learn More) -->
+          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-3">
+            <div class="flex items-center justify-between gap-2">
+              <div id="ntabHeading" class="kicker text-theme-accent">01 // HOW IT WORKS (MECHANISM)</div>
+              <button id="btnNodeQuickLearnMore" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] mono font-bold surface-panel text-primary-ink border border-hairline hover:border-subtle cursor-pointer" title="Deep link to 5. Learn More (White Papers)">
+                Learn More ↗
+              </button>
             </div>
-            <button id="btnInspectorQuickLearn" class="no-wrap-btn px-2 py-0.5 text-[10px] font-bold t-font-mono t-btn" title="Jump to White Papers &amp; References Tab">
-              <span>White Papers</span><span>↗</span>
+            <div id="ntabBody" class="text-xs text-primary-ink leading-relaxed"></div>
+
+            <!-- Theme-Cohesive Callout Container (Updated dynamically on every tab 1..4) -->
+            <div id="ntabCalloutBox" class="theme-callout mt-0.5">
+              <div class="theme-callout-header">
+                <span class="kicker text-theme-accent" id="ntabSubLabel">WHY IT SITS HERE IN THE DATAFLOW</span>
+              </div>
+              <div id="ntabSubContent" class="theme-callout-body mono text-xs text-secondary-ink leading-relaxed break-words"></div>
+            </div>
+          </div>
+
+          <!-- Underlying Technologies Box (With Direct Deep Links to Deep Dive & Learn More Tab) -->
+          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-2.5">
+            <span class="kicker text-muted-ink">Underlying Technologies (Select for Deep Dive or White Papers)</span>
+            <div id="inspTechChips" class="flex flex-wrap gap-2"></div>
+          </div>
+
+          <!-- Contextual Embedded Interactive Stage Explorer Widget -->
+          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-3">
+            <div class="flex items-center justify-between gap-2">
+              <span id="ctxWidgetTitle" class="kicker text-theme-accent">INTERACTIVE STAGE EXPLORER</span>
+              <span id="ctxWidgetTag" class="mono text-xs text-muted-ink"></span>
+            </div>
+            <div id="ctxWidgetBody" class="flex flex-col gap-2.5 text-xs"></div>
+          </div>
+        </div>
+
+        <!-- VIEW 2: DEEP DIVE (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Science | 5. Learn More) -->
+        <div id="inspectorTechView" class="p-4 flex-1 hidden flex-col gap-3.5">
+          <div class="flex items-center justify-between gap-2">
+            <button id="btnBackToNode" class="no-wrap-btn px-3 py-1 rounded-lg text-xs font-semibold surface-card text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
+              Back to Block Inspector
             </button>
+            <select id="selTechDropdown" class="surface-card text-primary-ink border border-subtle rounded-lg px-2.5 py-1 text-xs font-semibold cursor-pointer max-w-[230px] truncate"></select>
           </div>
 
-          <div id="inspectorTabContent" class="text-[13px] t-text-secondary leading-relaxed"></div>
-
-          <!-- Theme-Cohesive Callout Box (Shown on Tabs 1..4) -->
-          <div id="inspectorSecondaryBox" class="theme-callout mt-2">
-            <div id="inspectorSecondaryTitle" class="theme-callout-header t-font-mono">
-              WHY IT SITS HERE IN THE DATAFLOW
-            </div>
-            <div id="inspectorSecondaryBody" class="theme-callout-body t-text-secondary"></div>
+          <div>
+            <span id="techKicker" class="kicker text-theme-accent">DEEP DIVE</span>
+            <h2 id="techTitle" class="text-lg font-bold text-primary-ink tracking-tight leading-snug mt-1"></h2>
           </div>
-        </div>
 
-        <!-- Underlying Technologies (Deep Dive + Direct Learn More Deep Links) -->
-        <div id="inspectorUnderlyingTechBox" class="t-card p-3.5 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <span class="text-[10.5px] font-bold uppercase tracking-wider t-font-mono t-text-muted">
-              UNDERLYING TECHNOLOGIES (DEEP DIVE &amp; WHITE PAPERS)
-            </span>
-          </div>
-          <div id="inspectorTechChips" class="flex flex-wrap gap-2"></div>
-        </div>
-
-        <!-- Connected Upstream / Downstream Blocks -->
-        <div class="t-card p-3.5 space-y-2">
-          <div class="text-[10.5px] font-bold uppercase tracking-wider t-font-mono t-text-muted">
-            CONNECTED UPSTREAM &amp; DOWNSTREAM BLOCKS
-          </div>
-          <div id="inspectorConnectedNodes" class="flex flex-wrap gap-1.5"></div>
-        </div>
-      </div>
-
-      <!-- VIEW 2: DEEP DIVE (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Science | 5. Learn More) -->
-      <div id="viewTechDeepDive" class="hidden flex-1 overflow-y-auto p-4 space-y-4">
-
-        <!-- Technology Selector Pills -->
-        <div class="t-card p-3 space-y-2">
-          <div class="text-[10px] font-bold uppercase tracking-wider t-font-mono t-text-muted">
-            SELECT CORE TECHNOLOGY (10 ARCHITECTURAL PILLARS)
-          </div>
-          <div id="techSelectorPills" class="flex flex-wrap gap-1.5"></div>
-        </div>
-
-        <!-- 5-Tab Bar + Unified Deep Dive Card -->
-        <div class="t-card p-3.5 space-y-3">
-          <div class="grid grid-cols-5 gap-1">
-            <button data-techtab="how" class="tech-tab-btn active no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+          <!-- 1-2-3-4-5 Progressive Disclosure Tabs (Identical Functionality & Design to Block Inspector) -->
+          <div class="grid grid-cols-5 gap-1 p-1 rounded-xl surface-root border border-hairline">
+            <button data-ttab="how" class="ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-semibold btn-theme-accent transition cursor-pointer">
               1. How
             </button>
-            <button data-techtab="why" class="tech-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+            <button data-ttab="why" class="ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
               2. Why
             </button>
-            <button data-techtab="impact" class="tech-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+            <button data-ttab="contrib" class="ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
               3. Impact
             </button>
-            <button data-techtab="science" class="tech-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+            <button data-ttab="science" class="ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
               4. Science
             </button>
-            <button data-techtab="learn" class="tech-tab-btn no-wrap-btn py-1.5 px-1 text-[11px] font-bold t-font-mono t-tab">
+            <button data-ttab="learn" class="ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
               5. Learn More
             </button>
           </div>
 
-          <div class="flex items-center justify-between gap-2 pt-1">
-            <div id="techTabLabel" class="text-[10.5px] font-bold uppercase tracking-wider t-font-mono t-text-muted">
-              1. HOW IT WORKS — MECHANISM &amp; FORMULATION
+          <!-- Tab Content Box (Matches Block Inspector Card Layout) -->
+          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-3">
+            <div class="flex items-center justify-between gap-2">
+              <div id="ttabHeading" class="kicker text-theme-accent">01 // HOW IT WORKS (MECHANISM)</div>
+              <button id="btnTechQuickLearnMore" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] mono font-bold surface-panel text-primary-ink border border-hairline hover:border-subtle cursor-pointer" title="Deep link to 5. Learn More (White Papers)">
+                Learn More ↗
+              </button>
             </div>
-            <button id="btnTechQuickLearn" class="no-wrap-btn px-2 py-0.5 text-[10px] font-bold t-font-mono t-btn" title="Jump to External White Papers Tab">
-              <span>White Papers</span><span>↗</span>
-            </button>
+            <div id="ttabBody" class="text-xs text-primary-ink leading-relaxed"></div>
+
+            <!-- Theme-Cohesive Callout Container (Updated dynamically on every tab 1..4) -->
+            <div id="ttabCalloutBox" class="theme-callout mt-0.5">
+              <div class="theme-callout-header">
+                <span class="kicker text-theme-accent" id="ttabSubLabel">WHY IT SITS HERE IN THE DATAFLOW</span>
+              </div>
+              <div id="ttabSubContent" class="theme-callout-body text-xs text-secondary-ink leading-relaxed break-words"></div>
+            </div>
           </div>
 
-          <div id="techTabContent" class="text-[13px] t-text-secondary leading-relaxed"></div>
-
-          <!-- Theme-Cohesive Callout Box (Shown on Tabs 1..4) -->
-          <div id="techSecondaryBox" class="theme-callout mt-2">
-            <div id="techSecondaryTitle" class="theme-callout-header t-font-mono">
-              RESEARCH ORIGINS &amp; EVOLUTION
-            </div>
-            <div id="techSecondaryBody" class="theme-callout-body t-text-secondary"></div>
+          <!-- Active In Subsystem Blocks Card -->
+          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-2.5">
+            <span class="kicker text-muted-ink">Active In Subsystem Blocks (Select to Inspect Block)</span>
+            <div class="flex flex-wrap items-center gap-2" id="techUsedInNodes"></div>
           </div>
         </div>
 
-        <!-- Diagram Blocks Utilizing This Technology -->
-        <div class="t-card p-3.5 space-y-2">
-          <div class="text-[10.5px] font-bold uppercase tracking-wider t-font-mono t-text-muted">
-            DIAGRAM BLOCKS USING THIS TECHNOLOGY
-          </div>
-          <div id="techDiagramNodeLinks" class="flex flex-wrap gap-1.5"></div>
-        </div>
-      </div>
-
-    </aside>
+      </aside>
+    </div>
   </div>
 
   <!-- Modular Static Architecture Scripts -->
@@ -1462,127 +1467,91 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
 
 </script>
   <script>
-// Arashikage (Hex63) — Interactive Canvas Data-Flow Renderer & Aspect Ratio Controller
+// ============================================================================
+// ARASHIKAGE (HEX63) — BESPOKE 6-THEME × 2-POLARITY CANVAS RENDERER (1120 x 680)
+// ============================================================================
 (function () {
-  const LOGICAL_W = 1120;
-  const LOGICAL_H = 680;
+  const BASE_W = 1120;
+  const BASE_H = 680;
 
-  function drawRoundedRect(ctx, x, y, w, h, r) {
-    ctx.beginPath();
+  const colHeaders = [
+    { col: 0, x: 96,  title: 'STAGE 1 // C++20 OBS',     sub: '5,376B Slice · C2v',       color: '#38bdf8' },
+    { col: 1, x: 282, title: 'STAGE 2 // BIPARTITE',     sub: '16×64 Graph · DiffAttn',   color: '#22d3ee' },
+    { col: 2, x: 468, title: 'STAGE 3 // TITANS MEM',    sub: '2×4×32×32 FP32 Fast W',    color: '#a78bfa' },
+    { col: 3, x: 654, title: 'STAGE 4 // COCONUT & MOE', sub: 'K=4..6 Loop · 8×2 MoE',    color: '#f472b6' },
+    { col: 4, x: 840, title: 'STAGE 5 // 60HZ CONTROL',  sub: 'Binary + Flow-GRPO SDE',   color: '#fbbf24' },
+    { col: 5, x: 1024, title: 'STAGE 6 // CRITIC & RL',  sub: '4×51 Symlog · JEPA · G=8', color: '#34d399' }
+  ];
+
+  function drawRoundedRect(c, x, y, w, h, r) {
     if (r <= 0) {
-      ctx.rect(x, y, w, h);
+      c.beginPath();
+      c.rect(x, y, w, h);
+      c.closePath();
       return;
     }
-    ctx.moveTo(x + r, y);
-    ctx.lineTo(x + w - r, y);
-    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-    ctx.lineTo(x + w, y + h - r);
-    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-    ctx.lineTo(x + r, y + h);
-    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-    ctx.lineTo(x, y + r);
-    ctx.quadraticCurveTo(x, y, x + r, y);
-    ctx.closePath();
+    c.beginPath();
+    c.moveTo(x + r, y);
+    c.lineTo(x + w - r, y);
+    c.quadraticCurveTo(x + w, y, x + w, y + r);
+    c.lineTo(x + w, y + h - r);
+    c.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    c.lineTo(x + r, y + h);
+    c.quadraticCurveTo(x, y + h, x, y + h - r);
+    c.lineTo(x, y + r);
+    c.quadraticCurveTo(x, y, x + r, y);
+    c.closePath();
   }
 
-  function drawFittedText(ctx, text, x, y, maxW, baseSize, minSize, weight, family) {
-    let sz = baseSize;
-    ctx.font = `${weight} ${sz}px ${family}`;
-    while (ctx.measureText(text).width > maxW && sz > minSize) {
-      sz -= 0.5;
-      ctx.font = `${weight} ${sz}px ${family}`;
-    }
-    let out = text;
-    if (ctx.measureText(out).width > maxW) {
-      while (out.length > 3 && ctx.measureText(out + '…').width > maxW) {
-        out = out.slice(0, -1);
-      }
-      out += '…';
-    }
-    ctx.fillText(out, x, y);
+  function drawCornerBrackets(c, x, y, w, h, len, color) {
+    c.strokeStyle = color;
+    c.lineWidth = 1.5;
+    c.beginPath();
+    c.moveTo(x, y + len); c.lineTo(x, y); c.lineTo(x + len, y);
+    c.moveTo(x + w - len, y); c.lineTo(x + w, y); c.lineTo(x + w, y + len);
+    c.moveTo(x, y + h - len); c.lineTo(x, y + h); c.lineTo(x + len, y + h);
+    c.moveTo(x + w - len, y + h); c.lineTo(x + w, y + h); c.lineTo(x + w, y + h - len);
+    c.stroke();
   }
 
-  function drawWrappedSub(ctx, text, x, y, maxW, lineHeight, maxLines) {
-    const words = text.split(' ');
-    let line = '';
-    let lineIdx = 0;
-    for (let i = 0; i < words.length; i++) {
-      const testLine = line ? line + ' ' + words[i] : words[i];
-      if (ctx.measureText(testLine).width > maxW && line) {
-        ctx.fillText(line, x, y + lineIdx * lineHeight);
-        line = words[i];
-        lineIdx++;
-        if (lineIdx >= maxLines - 1) {
-          let rem = words.slice(i).join(' ');
-          while (rem.length > 3 && ctx.measureText(rem + '…').width > maxW) {
-            rem = rem.slice(0, -1);
-          }
-          ctx.fillText(
-            rem + (rem.length < words.slice(i).join(' ').length ? '…' : ''),
-            x,
-            y + lineIdx * lineHeight
-          );
-          return;
-        }
+  function drawFittedText(c, text, x, y, maxW) {
+    if (!text) return;
+    c.fillText(text, x, y, maxW);
+  }
+
+  function drawWrappedSub(c, text, x, y, maxW, lineH) {
+    if (!text) return;
+    if (c.measureText(text).width <= maxW) {
+      c.fillText(text, x, y, maxW);
+      return;
+    }
+    const parts = text.split(' ');
+    let line1 = '';
+    let line2 = '';
+    for (let i = 0; i < parts.length; i++) {
+      const test = line1 ? (line1 + ' ' + parts[i]) : parts[i];
+      if (c.measureText(test).width <= maxW || !line1) {
+        line1 = test;
       } else {
-        line = testLine;
+        line2 = parts.slice(i).join(' ');
+        break;
       }
     }
-    if (line && lineIdx < maxLines) {
-      ctx.fillText(line, x, y + lineIdx * lineHeight);
+    c.fillText(line1, x, y, maxW);
+    if (line2) {
+      c.fillText(line2, x, y + lineH, maxW);
     }
   }
 
-  function drawCornerBrackets(ctx, x, y, w, h, len, color) {
-    ctx.save();
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 1.8;
-    ctx.beginPath();
-    ctx.moveTo(x, y + len);
-    ctx.lineTo(x, y);
-    ctx.lineTo(x + len, y);
-    ctx.moveTo(x + w - len, y);
-    ctx.lineTo(x + w, y);
-    ctx.lineTo(x + w, y + len);
-    ctx.moveTo(x, y + h - len);
-    ctx.lineTo(x, y + h);
-    ctx.lineTo(x + len, y + h);
-    ctx.moveTo(x + w - len, y + h);
-    ctx.lineTo(x + w, y + h);
-    ctx.lineTo(x + w, y + h - len);
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  function getEdgePoint(n, side, offsetRatio = 0.5) {
-    if (side === 'right') return { x: n.x + n.w, y: n.y + n.h * offsetRatio };
-    if (side === 'left') return { x: n.x, y: n.y + n.h * offsetRatio };
-    if (side === 'bottom') return { x: n.x + n.w * offsetRatio, y: n.y + n.h };
-    if (side === 'top') return { x: n.x + n.w * offsetRatio, y: n.y };
-    return { x: n.x + n.w / 2, y: n.y + n.h / 2 };
-  }
-
-  function computeEdgeAnchor(src, dst) {
-    const dx = dst.x + dst.w / 2 - (src.x + src.w / 2);
-    const dy = dst.y + dst.h / 2 - (src.y + src.h / 2);
-    if (Math.abs(dx) > Math.abs(dy) * 0.85) {
-      if (dx > 0) return { p1: getEdgePoint(src, 'right'), p2: getEdgePoint(dst, 'left'), horiz: true };
-      return { p1: getEdgePoint(src, 'left'), p2: getEdgePoint(dst, 'right'), horiz: true };
-    } else {
-      if (dy > 0) return { p1: getEdgePoint(src, 'bottom'), p2: getEdgePoint(dst, 'top'), horiz: false };
-      return { p1: getEdgePoint(src, 'top'), p2: getEdgePoint(dst, 'bottom'), horiz: false };
-    }
-  }
-
-  // Enforce strict 1120:680 aspect ratio inside #canvasWrapper
-  function fitDiagramAspectRatio(canvasWrapper, canvasAspectBox) {
-    if (!canvasWrapper || !canvasAspectBox) return;
+  // Enforce strict 1120:680 aspect ratio on #canvasAspectBox inside #canvasWrapper
+  function fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas) {
+    if (!canvasWrapper || !canvasAspectBox || !canvas) return false;
     const rect = canvasWrapper.getBoundingClientRect();
-    const padX = 20;
-    const padY = 20;
-    const availW = Math.max(320, rect.width - padX);
-    const availH = Math.max(220, rect.height - padY);
-    const targetRatio = LOGICAL_W / LOGICAL_H;
+    const padX = 16;
+    const padY = 16;
+    const availW = Math.max(360, rect.width - padX);
+    const availH = Math.max(240, rect.height - padY);
+    const targetRatio = BASE_W / BASE_H;
 
     let boxW = availW;
     let boxH = boxW / targetRatio;
@@ -1590,417 +1559,683 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
       boxH = availH;
       boxW = boxH * targetRatio;
     }
-    canvasAspectBox.style.width = `${Math.floor(boxW)}px`;
-    canvasAspectBox.style.height = `${Math.floor(boxH)}px`;
+
+    const cssW = Math.floor(boxW);
+    const cssH = Math.floor(boxH);
+    canvasAspectBox.style.width = cssW + 'px';
+    canvasAspectBox.style.height = cssH + 'px';
+
+    const dpr = window.devicePixelRatio || 1;
+    const targetW = Math.max(600, Math.round(cssW * dpr));
+    const targetH = Math.max(360, Math.round(cssH * dpr));
+    if (canvas.width !== targetW || canvas.height !== targetH) {
+      canvas.width = targetW;
+      canvas.height = targetH;
+      return true;
+    }
+    return false;
   }
 
-  function getNodeAtCanvasCoords(canvasEl, clientX, clientY, nodes) {
-    const rect = canvasEl.getBoundingClientRect();
-    const scaleX = LOGICAL_W / rect.width;
-    const scaleY = LOGICAL_H / rect.height;
-    const mx = (clientX - rect.left) * scaleX;
-    const my = (clientY - rect.top) * scaleY;
+  function applyStagePaletteToNodes(nodes, stageColors) {
+    colHeaders.forEach((ch, idx) => {
+      ch.color = stageColors[idx % stageColors.length];
+    });
+    nodes.forEach((n) => {
+      n.color = stageColors[n.col % stageColors.length];
+    });
+  }
+
+  function getNodeAtCanvasCoords(canvas, clientX, clientY, nodes) {
+    const rect = canvas.getBoundingClientRect();
+    const cx = (clientX - rect.left) * (BASE_W / rect.width);
+    const cy = (clientY - rect.top) * (BASE_H / rect.height);
     for (let i = nodes.length - 1; i >= 0; i--) {
       const n = nodes[i];
-      if (mx >= n.x && mx <= n.x + n.w && my >= n.y && my <= n.y + n.h) {
-        return { node: n, mx, my, rect };
+      if (
+        cx >= n.x - n.w / 2 &&
+        cx <= n.x + n.w / 2 &&
+        cy >= n.y - n.h / 2 &&
+        cy <= n.y + n.h / 2
+      ) {
+        return n;
       }
     }
-    return { node: null, mx, my, rect };
+    return null;
   }
 
-  function renderCanvas(ctx, state) {
+  function renderCanvas(ctx, canvas, state) {
     const {
       nodes,
       edges,
       nodeMap,
       activeTheme,
       activePolarity,
-      activeLayerFilter,
+      activeMode,
       selectedNodeId,
       hoveredNodeId,
-      isNodeInTour,
-      isEdgeInTour,
-      getStageColor,
+      highlightSet,
       animTick
     } = state;
 
-    const isLight = activePolarity === 'light';
-    ctx.clearRect(0, 0, LOGICAL_W, LOGICAL_H);
-
-    // 1. Theme-Specific Canvas Stage Background
-    const stageStyles = {
-      neo_brutalism: {
-        bg: isLight ? '#F4F0EA' : '#121212',
-        laneFill: isLight ? '#FFFFFF' : '#1C1C1C',
-        laneBorder: isLight ? '#000000' : '#F4F0EA',
-        laneRadius: 0,
-        laneDash: [],
-        laneShadow: isLight ? 4 : 3,
-        textHead: isLight ? '#000000' : '#F4F0EA',
-        textSub: isLight ? '#333333' : '#BDBDBD',
-        fontHead: "'Space Grotesk', sans-serif",
-        fontMono: "'IBM Plex Mono', monospace",
-        nodeBg: isLight ? '#FFFFFF' : '#1E1E1E',
-        nodeRadius: 0
-      },
-      modular_typo: {
-        bg: isLight ? '#F2F0EB' : '#0F1115',
-        laneFill: isLight ? '#FAF9F5' : '#161920',
-        laneBorder: isLight ? '#141413' : '#475569',
-        laneRadius: 0,
-        laneDash: [],
-        laneShadow: 0,
-        textHead: isLight ? '#141413' : '#F2F0EB',
-        textSub: isLight ? '#575653' : '#94A3B8',
-        fontHead: "'Plus Jakarta Sans', sans-serif",
-        fontMono: "'JetBrains Mono', monospace",
-        nodeBg: isLight ? '#FFFFFF' : '#181B22',
-        nodeRadius: 0
-      },
-      utilitarian: {
-        bg: isLight ? '#E6E9EF' : '#0B0E11',
-        laneFill: isLight ? 'rgba(242, 244, 248, 0.92)' : 'rgba(18, 23, 29, 0.9)',
-        laneBorder: isLight ? '#94A3B8' : '#26303D',
-        laneRadius: 0,
-        laneDash: [4, 4],
-        laneShadow: 0,
-        textHead: isLight ? '#0F172A' : '#E2E8F0',
-        textSub: isLight ? '#475569' : '#7E8C9F',
-        fontHead: "'IBM Plex Mono', monospace",
-        fontMono: "'IBM Plex Mono', monospace",
-        nodeBg: isLight ? '#FFFFFF' : '#13181F',
-        nodeRadius: 0
-      },
-      memphis: {
-        bg: isLight ? '#FFF8E7' : '#171126',
-        laneFill: isLight ? '#FFFFFF' : '#231A38',
-        laneBorder: isLight ? '#1D1829' : '#FFF8E7',
-        laneRadius: 14,
-        laneDash: [],
-        laneShadow: 4,
-        textHead: isLight ? '#1D1829' : '#FFF8E7',
-        textSub: isLight ? '#4A3F6B' : '#C4B5FD',
-        fontHead: "'Syne', sans-serif",
-        fontMono: "'Space Mono', monospace",
-        nodeBg: isLight ? '#FFFFFF' : '#261C3D',
-        nodeRadius: 12
-      },
-      pixel_art: {
-        bg: isLight ? '#D8E2DC' : '#0D0B18',
-        laneFill: isLight ? '#ECE4DB' : '#171429',
-        laneBorder: isLight ? '#1D1B2F' : '#4A446E',
-        laneRadius: 0,
-        laneDash: [],
-        laneShadow: 4,
-        textHead: isLight ? '#1D1B2F' : '#F4F4F8',
-        textSub: isLight ? '#4A446E' : '#8E88B5',
-        fontHead: "'Silkscreen', monospace",
-        fontMono: "'Silkscreen', monospace",
-        nodeBg: isLight ? '#F8F9FA' : '#1D1934',
-        nodeRadius: 0
-      },
-      aurora: {
-        bg: isLight ? '#F3F6FC' : '#050814',
-        laneFill: isLight ? 'rgba(255, 255, 255, 0.85)' : 'rgba(13, 20, 38, 0.72)',
-        laneBorder: isLight ? 'rgba(99, 102, 241, 0.25)' : 'rgba(148, 163, 184, 0.22)',
-        laneRadius: 16,
-        laneDash: [],
-        laneShadow: 0,
-        textHead: isLight ? '#0F172A' : '#F8FAFC',
-        textSub: isLight ? '#475569' : '#94A3B8',
-        fontHead: "'Outfit', sans-serif",
-        fontMono: "'JetBrains Mono', monospace",
-        nodeBg: isLight ? '#FFFFFF' : '#0F172A',
-        nodeRadius: 12
-      }
-    };
-
-    const st = stageStyles[activeTheme] || stageStyles.neo_brutalism;
-    ctx.fillStyle = st.bg;
-    ctx.fillRect(0, 0, LOGICAL_W, LOGICAL_H);
-
-    // 2. Background Grid / Pattern per theme
+    const scaleX = canvas.width / BASE_W;
+    const scaleY = canvas.height / BASE_H;
     ctx.save();
+    ctx.setTransform(scaleX, 0, 0, scaleY, 0, 0);
+    ctx.clearRect(0, 0, BASE_W, BASE_H);
+
+    const isLight = activePolarity === 'light';
+
+    // ====================================================================
+    // 1. THEME + POLARITY SPECIFIC BACKGROUND FIELD
+    // ====================================================================
     if (activeTheme === 'neo_brutalism') {
-      ctx.fillStyle = isLight ? 'rgba(0,0,0,0.12)' : 'rgba(255,255,255,0.10)';
-      for (let x = 16; x < LOGICAL_W; x += 24) {
-        for (let y = 16; y < LOGICAL_H; y += 24) {
-          ctx.fillRect(x, y, 2, 2);
+      ctx.fillStyle = isLight ? '#f3efe6' : '#111113';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.fillStyle = isLight ? 'rgba(17, 17, 17, 0.18)' : 'rgba(250, 250, 250, 0.14)';
+      for (let gx = 20; gx < BASE_W; gx += 24) {
+        for (let gy = 20; gy < BASE_H; gy += 24) {
+          ctx.fillRect(gx, gy, 2, 2);
         }
       }
     } else if (activeTheme === 'modular_typo') {
-      ctx.strokeStyle = isLight ? 'rgba(20,20,19,0.06)' : 'rgba(255,255,255,0.05)';
+      ctx.fillStyle = isLight ? '#f7f6f2' : '#0c0c0e';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.strokeStyle = isLight ? 'rgba(24, 24, 27, 0.08)' : 'rgba(250, 250, 250, 0.06)';
       ctx.lineWidth = 1;
-      for (let x = 0; x < LOGICAL_W; x += 56) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, LOGICAL_H); ctx.stroke();
-      }
-      for (let y = 0; y < LOGICAL_H; y += 56) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(LOGICAL_W, y); ctx.stroke();
+      for (let gy = 68; gy < BASE_H; gy += 20) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(BASE_W, gy); ctx.stroke();
       }
     } else if (activeTheme === 'utilitarian') {
-      ctx.strokeStyle = isLight ? 'rgba(15, 23, 42, 0.07)' : 'rgba(56, 189, 248, 0.06)';
+      ctx.fillStyle = isLight ? '#e2e7ec' : '#0a0c0e';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.strokeStyle = isLight ? 'rgba(15, 23, 42, 0.18)' : 'rgba(148, 163, 184, 0.15)';
       ctx.lineWidth = 1;
-      for (let x = 0; x < LOGICAL_W; x += 20) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, LOGICAL_H); ctx.stroke();
-      }
-      for (let y = 0; y < LOGICAL_H; y += 20) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(LOGICAL_W, y); ctx.stroke();
-      }
-    } else if (activeTheme === 'memphis') {
-      ctx.fillStyle = isLight ? 'rgba(29, 24, 41, 0.14)' : 'rgba(255, 248, 231, 0.12)';
-      for (let x = 20; x < LOGICAL_W; x += 32) {
-        for (let y = 20; y < LOGICAL_H; y += 32) {
-          ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI * 2); ctx.fill();
+      for (let gx = 40; gx < BASE_W; gx += 56) {
+        for (let gy = 40; gy < BASE_H; gy += 56) {
+          ctx.beginPath();
+          ctx.moveTo(gx - 3, gy); ctx.lineTo(gx + 3, gy);
+          ctx.moveTo(gx, gy - 3); ctx.lineTo(gx, gy + 3);
+          ctx.stroke();
         }
       }
-    } else if (activeTheme === 'pixel_art') {
-      ctx.strokeStyle = isLight ? 'rgba(29, 27, 47, 0.07)' : 'rgba(123, 223, 242, 0.06)';
-      ctx.lineWidth = 1;
-      for (let x = 0; x < LOGICAL_W; x += 16) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, LOGICAL_H); ctx.stroke();
+    } else if (activeTheme === 'memphis') {
+      ctx.fillStyle = isLight ? '#fff7d6' : '#14112b';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.fillStyle = isLight ? 'rgba(30, 27, 75, 0.13)' : 'rgba(56, 189, 248, 0.15)';
+      for (let gx = 24; gx < BASE_W; gx += 32) {
+        for (let gy = 24; gy < BASE_H; gy += 32) {
+          ctx.beginPath(); ctx.arc(gx, gy, 1.8, 0, Math.PI * 2); ctx.fill();
+        }
       }
-      for (let y = 0; y < LOGICAL_H; y += 16) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(LOGICAL_W, y); ctx.stroke();
-      }
-    } else if (activeTheme === 'aurora') {
-      const g1 = ctx.createRadialGradient(220, 140, 10, 220, 140, 360);
-      g1.addColorStop(0, isLight ? 'rgba(56, 189, 248, 0.16)' : 'rgba(56, 189, 248, 0.12)');
-      g1.addColorStop(1, 'transparent');
-      ctx.fillStyle = g1;
-      ctx.fillRect(0, 0, LOGICAL_W, LOGICAL_H);
-
-      const g2 = ctx.createRadialGradient(860, 480, 10, 860, 480, 400);
-      g2.addColorStop(0, isLight ? 'rgba(168, 85, 247, 0.14)' : 'rgba(168, 85, 247, 0.12)');
-      g2.addColorStop(1, 'transparent');
-      ctx.fillStyle = g2;
-      ctx.fillRect(0, 0, LOGICAL_W, LOGICAL_H);
-    }
-    ctx.restore();
-
-    // 3. Draw 4 Subsystem Stage Lanes
-    const lanes = [
-      { x: 14, y: 12, w: 462, h: 318, label: 'STAGE I // OBSERVATION & BIPARTITE GRAPH', tag: '15 Hz Outer Tick' },
-      { x: 492, y: 12, w: 614, h: 318, label: 'STAGE II // TITANS MEMORY, COCONUT & SOFT-MOE', tag: 'Persistent State + Routing' },
-      { x: 14, y: 344, w: 690, h: 320, label: 'STAGE III // FSQ SKILL BOTTLENECK & 60 HZ SUBTICK CONTROL', tag: 'Closed-Loop 4x Subticks' },
-      { x: 718, y: 344, w: 388, h: 320, label: 'STAGE IV // CRITIC, JEPA & SEARCH', tag: 'Training & Live MCTS' }
-    ];
-
-    lanes.forEach((l) => {
       ctx.save();
-      if (st.laneShadow > 0) {
-        ctx.fillStyle = isLight ? '#000000' : (activeTheme === 'memphis' ? '#FF5E8E' : '#000000');
-        drawRoundedRect(ctx, l.x + st.laneShadow, l.y + st.laneShadow, l.w, l.h, st.laneRadius);
-        ctx.fill();
+      ctx.strokeStyle = isLight ? 'rgba(236, 72, 153, 0.32)' : 'rgba(244, 114, 182, 0.45)';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        ctx.lineTo(28 + i * 14, 642 + (i % 2 === 0 ? -7 : 7));
       }
-      ctx.fillStyle = st.laneFill;
-      drawRoundedRect(ctx, l.x, l.y, l.w, l.h, st.laneRadius);
-      ctx.fill();
-
-      ctx.strokeStyle = st.laneBorder;
-      ctx.lineWidth = activeTheme === 'neo_brutalism' || activeTheme === 'memphis' || activeTheme === 'pixel_art' ? 2 : 1;
-      ctx.setLineDash(st.laneDash);
-      drawRoundedRect(ctx, l.x, l.y, l.w, l.h, st.laneRadius);
       ctx.stroke();
-      ctx.setLineDash([]);
-
-      if (activeTheme === 'utilitarian') {
-        drawCornerBrackets(ctx, l.x, l.y, l.w, l.h, 8, isLight ? '#0284C7' : '#FF9E00');
-      }
-
-      ctx.font = `700 ${activeTheme === 'pixel_art' ? '9px' : '11px'} ${st.fontMono}`;
-      ctx.fillStyle = st.textHead;
-      ctx.fillText(l.label, l.x + 14, l.y + 21);
-
-      ctx.font = `500 ${activeTheme === 'pixel_art' ? '8px' : '10px'} ${st.fontMono}`;
-      ctx.fillStyle = st.textSub;
-      const tw = ctx.measureText(l.tag).width;
-      ctx.fillText(l.tag, l.x + l.w - tw - 14, l.y + 21);
+      ctx.strokeStyle = isLight ? 'rgba(6, 182, 212, 0.35)' : 'rgba(250, 204, 21, 0.40)';
+      ctx.beginPath(); ctx.arc(1070, 635, 18, 0, Math.PI * 2); ctx.stroke();
       ctx.restore();
+    } else if (activeTheme === 'pixel_art') {
+      ctx.fillStyle = isLight ? '#d8d4c4' : '#0c061a';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      ctx.fillStyle = isLight ? 'rgba(35, 31, 51, 0.04)' : 'rgba(0, 255, 204, 0.03)';
+      for (let gy = 0; gy < BASE_H; gy += 4) {
+        ctx.fillRect(0, gy, BASE_W, 2);
+      }
+      ctx.fillStyle = isLight ? 'rgba(35, 31, 51, 0.18)' : 'rgba(129, 140, 248, 0.16)';
+      for (let gx = 32; gx < BASE_W; gx += 64) {
+        for (let gy = 32; gy < BASE_H; gy += 64) {
+          ctx.fillRect(gx, gy, 3, 3);
+        }
+      }
+    } else {
+      // Aurora (Light Pearl vs Dark Cosmic Velvet)
+      ctx.fillStyle = isLight ? '#edf6ff' : '#050714';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+      const g1 = ctx.createRadialGradient(220 + Math.sin(animTick) * 40, 160, 10, 220, 160, 390);
+      g1.addColorStop(0, isLight ? 'rgba(0, 191, 165, 0.22)' : 'rgba(0, 245, 212, 0.18)');
+      g1.addColorStop(1, 'rgba(0, 245, 212, 0)');
+      ctx.fillStyle = g1;
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+
+      const g2 = ctx.createRadialGradient(860 - Math.cos(animTick) * 40, 480, 10, 860, 480, 420);
+      g2.addColorStop(0, isLight ? 'rgba(236, 72, 153, 0.18)' : 'rgba(241, 91, 181, 0.16)');
+      g2.addColorStop(0.5, isLight ? 'rgba(139, 92, 246, 0.12)' : 'rgba(155, 93, 229, 0.10)');
+      g2.addColorStop(1, 'rgba(155, 93, 229, 0)');
+      ctx.fillStyle = g2;
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+    }
+
+    // ====================================================================
+    // 2. COLUMN SWIMLANES & HEADERS (+2PX BUMPED & FITTED TO PREVENT OVERFLOW)
+    // ====================================================================
+    colHeaders.forEach((ch, idx) => {
+      const laneW = 172;
+      const laneX = ch.x - laneW / 2;
+
+      if (activeTheme === 'neo_brutalism') {
+        const borderCol = isLight ? '#111111' : '#f4f4f5';
+        ctx.fillStyle = isLight ? '#111111' : ch.color;
+        ctx.fillRect(laneX + 4, 16, laneW, 48);
+        ctx.fillStyle = isLight ? ch.color : '#1f1f24';
+        ctx.fillRect(laneX, 12, laneW, 48);
+        ctx.strokeStyle = borderCol;
+        ctx.lineWidth = 2.5;
+        ctx.strokeRect(laneX, 12, laneW, 48);
+
+        ctx.save();
+        ctx.setLineDash([6, 6]);
+        ctx.strokeStyle = isLight ? 'rgba(17,17,17,0.35)' : 'rgba(244,244,245,0.28)';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(laneX, 66, laneW, BASE_H - 80);
+        ctx.restore();
+
+        ctx.font = '900 12px "Inter", "Arial Black", sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, ch.title, ch.x, 32, laneW - 14);
+        ctx.font = 'bold 11.5px ui-monospace, monospace';
+        ctx.fillStyle = '#111111';
+        ctx.fillRect(laneX + 8, 39, laneW - 16, 17);
+        ctx.fillStyle = '#ffffff';
+        drawFittedText(ctx, ch.sub, ch.x, 51, laneW - 22);
+
+      } else if (activeTheme === 'modular_typo') {
+        const ruleCol = isLight ? '#18181b' : '#52525b';
+        ctx.strokeStyle = ruleCol;
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(laneX, 10, laneW, BASE_H - 20);
+        ctx.fillStyle = isLight ? '#18181b' : ch.color;
+        ctx.fillRect(laneX, 10, laneW, 6);
+
+        ctx.beginPath();
+        ctx.moveTo(laneX, 64);
+        ctx.lineTo(laneX + laneW, 64);
+        ctx.stroke();
+
+        ctx.font = '900 19px "Helvetica Neue", "Inter", Arial, sans-serif';
+        ctx.fillStyle = ch.color;
+        ctx.textAlign = 'left';
+        ctx.fillText('0' + (idx + 1), laneX + 8, 38);
+
+        ctx.font = 'bold 11.5px "Helvetica Neue", "Inter", sans-serif';
+        ctx.fillStyle = isLight ? '#09090b' : '#fafafa';
+        drawFittedText(ctx, ch.title.replace('STAGE ' + (idx + 1) + ' // ', ''), laneX + 36, 32, laneW - 44);
+        ctx.font = '11px ui-monospace, monospace';
+        ctx.fillStyle = isLight ? '#52525b' : '#a1a1aa';
+        drawFittedText(ctx, ch.sub, laneX + 36, 49, laneW - 44);
+
+      } else if (activeTheme === 'utilitarian') {
+        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.55)' : 'rgba(23, 27, 32, 0.65)';
+        ctx.fillRect(laneX, 14, laneW, BASE_H - 28);
+        ctx.strokeStyle = isLight ? '#94a3b8' : '#2c353d';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(laneX, 14, laneW, BASE_H - 28);
+        drawCornerBrackets(ctx, laneX, 14, laneW, BASE_H - 28, 8, ch.color);
+
+        ctx.fillStyle = isLight ? '#edf1f5' : '#111417';
+        ctx.fillRect(laneX + 1, 15, laneW - 2, 46);
+        ctx.strokeStyle = ch.color;
+        ctx.beginPath(); ctx.moveTo(laneX, 61); ctx.lineTo(laneX + laneW, 61); ctx.stroke();
+
+        ctx.font = 'bold 11.5px ui-monospace, monospace';
+        ctx.fillStyle = ch.color;
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, '[' + ch.title + ']', laneX + 8, 34, laneW - 16);
+        ctx.font = '11px ui-monospace, monospace';
+        ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
+        drawFittedText(ctx, ch.sub, laneX + 8, 52, laneW - 16);
+
+      } else if (activeTheme === 'memphis') {
+        const lightLanes = ['#fce7f3', '#e0f2fe', '#ede9fe', '#ffedd5', '#fef9c3', '#d1fae5'];
+        const darkLanes  = ['#291738', '#152840', '#231b45', '#331d19', '#2e2914', '#122e2a'];
+        const borderCol  = isLight ? '#1e1b4b' : '#38bdf8';
+
+        ctx.fillStyle = isLight ? '#1e1b4b' : '#ec4899';
+        drawRoundedRect(ctx, laneX + 4, 18, laneW, BASE_H - 32, 16);
+        ctx.fill();
+
+        ctx.fillStyle = isLight ? lightLanes[idx % 6] : darkLanes[idx % 6];
+        drawRoundedRect(ctx, laneX, 14, laneW, BASE_H - 32, 16);
+        ctx.fill();
+        ctx.strokeStyle = borderCol;
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        ctx.fillStyle = ch.color;
+        drawRoundedRect(ctx, laneX + 8, 21, laneW - 16, 25, 12);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.font = 'bold 11.5px "Trebuchet MS", sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, ch.title, ch.x, 38, laneW - 24);
+        ctx.fillStyle = isLight ? '#1e1b4b' : '#e0e7ff';
+        ctx.font = 'bold 11.5px ui-monospace, monospace';
+        drawFittedText(ctx, ch.sub, ch.x, 60, laneW - 18);
+
+      } else if (activeTheme === 'pixel_art') {
+        ctx.fillStyle = isLight ? '#e8e4d5' : '#140b29';
+        ctx.fillRect(laneX, 14, laneW, BASE_H - 28);
+        ctx.strokeStyle = isLight ? '#231f33' : '#4c3b80';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(laneX, 14, laneW, BASE_H - 28);
+        ctx.strokeStyle = ch.color;
+        ctx.strokeRect(laneX + 4, 18, laneW - 8, 44);
+
+        ctx.fillStyle = ch.color;
+        ctx.fillRect(laneX + 2, 16, 4, 4);
+        ctx.fillRect(laneX + laneW - 6, 16, 4, 4);
+        ctx.fillRect(laneX + 2, BASE_H - 20, 4, 4);
+        ctx.fillRect(laneX + laneW - 6, BASE_H - 20, 4, 4);
+
+        ctx.font = 'bold 11.5px "Courier New", monospace';
+        ctx.fillStyle = ch.color;
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, ch.title, ch.x, 36, laneW - 16);
+        ctx.font = 'bold 11px "Courier New", monospace';
+        ctx.fillStyle = isLight ? '#352f4f' : '#a5b4fc';
+        drawFittedText(ctx, ch.sub, ch.x, 53, laneW - 16);
+
+      } else {
+        // Aurora
+        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.72)' : 'rgba(16, 23, 54, 0.58)';
+        drawRoundedRect(ctx, laneX, 14, laneW, BASE_H - 28, 16);
+        ctx.fill();
+        ctx.strokeStyle = ch.color + (isLight ? '66' : '44');
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        ctx.fillStyle = ch.color;
+        drawRoundedRect(ctx, laneX + 18, 22, laneW - 36, 3, 1.5);
+        ctx.fill();
+
+        ctx.font = 'bold 11.5px ui-monospace, monospace';
+        ctx.fillStyle = ch.color;
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, ch.title, ch.x, 40, laneW - 16);
+        ctx.font = '11.5px "Inter", sans-serif';
+        ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
+        drawFittedText(ctx, ch.sub, ch.x, 56, laneW - 16);
+      }
     });
 
-    // 4. Draw Directed Edges + Animated Signal Pulses
-    edges.forEach((e) => {
-      const src = nodeMap[e.from];
-      const dst = nodeMap[e.to];
-      if (!src || !dst) return;
+    // ====================================================================
+    // 3. DRAW DIRECTED EDGES & DATAFLOW PULSES
+    // ====================================================================
+    const useOrthogonalTraces =
+      activeTheme === 'utilitarian' ||
+      activeTheme === 'modular_typo' ||
+      activeTheme === 'pixel_art';
 
-      const inTour = isEdgeInTour(e.from, e.to);
-      const isConnectedToSelected = selectedNodeId && (e.from === selectedNodeId || e.to === selectedNodeId);
-      const isConnectedToHover = hoveredNodeId && (e.from === hoveredNodeId || e.to === hoveredNodeId);
-      const layerVisible = activeLayerFilter === 'all' || e.type === activeLayerFilter || (e.type === 'core' && activeLayerFilter === 'live');
+    edges.forEach((e, idx) => {
+      const n1 = nodeMap[e.from];
+      const n2 = nodeMap[e.to];
+      if (!n1 || !n2) return;
 
-      let alpha = 0.45;
-      if (!layerVisible || !inTour) alpha = 0.08;
-      else if (isConnectedToSelected || isConnectedToHover) alpha = 0.98;
+      const modeActive = e.modes.includes(activeMode);
+      const tourActive = !highlightSet || (highlightSet.has(e.from) && highlightSet.has(e.to));
+      const isConnectedToSelected = e.from === selectedNodeId || e.to === selectedNodeId;
 
-      const { p1, p2, horiz } = computeEdgeAnchor(src, dst);
-      const stageCol = getStageColor(src.stage);
+      let alpha = isLight ? 0.45 : 0.36;
+      if (!modeActive) alpha = 0.08;
+      else if (highlightSet && !tourActive) alpha = 0.12;
+      else if (isConnectedToSelected || (highlightSet && tourActive)) alpha = 0.95;
+
+      const x1 = n1.x + n1.w / 2;
+      const y1 = n1.y;
+      const x2 = n2.x - n2.w / 2;
+      const y2 = n2.y;
+      const midX = Math.round((x1 + x2) / 2);
+
+      // Clean bottom sweep for long-span Privileged Context -> Critic edge
+      const isLongBottomSweep = e.from === 'priv_ctx' && e.to === 'critic_heads';
 
       ctx.save();
       ctx.beginPath();
-      if (horiz) {
-        const midX = (p1.x + p2.x) / 2;
-        ctx.moveTo(p1.x, p1.y);
-        ctx.bezierCurveTo(midX, p1.y, midX, p2.y, p2.x, p2.y);
+      if (e.dashed) ctx.setLineDash([5, 4]);
+
+      if (isLongBottomSweep) {
+        const sweepY = 636;
+        const turnX = x2 - 12;
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x1 + 14, sweepY);
+        ctx.lineTo(turnX, sweepY);
+        ctx.lineTo(turnX, y2);
+        ctx.lineTo(x2, y2);
+      } else if (n1.col === n2.col) {
+        const sx = n1.x;
+        const sy = n1.y + (n2.y > n1.y ? n1.h / 2 : -n1.h / 2);
+        const ey = n2.y + (n2.y > n1.y ? -n2.h / 2 : n2.h / 2);
+        ctx.moveTo(sx, sy);
+        ctx.lineTo(sx, ey);
+      } else if (useOrthogonalTraces) {
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(midX, y1);
+        ctx.lineTo(midX, y2);
+        ctx.lineTo(x2, y2);
       } else {
-        const midY = (p1.y + p2.y) / 2;
-        ctx.moveTo(p1.x, p1.y);
-        ctx.bezierCurveTo(p1.x, midY, p2.x, midY, p2.x, p2.y);
+        const cx1 = x1 + (x2 - x1) * 0.48;
+        const cx2 = x1 + (x2 - x1) * 0.52;
+        ctx.moveTo(x1, y1);
+        ctx.bezierCurveTo(cx1, y1, cx2, y2, x2, y2);
       }
 
-      ctx.strokeStyle = stageCol;
-      ctx.globalAlpha = alpha;
-      ctx.lineWidth = isConnectedToSelected || isConnectedToHover ? 2.8 : 1.7;
-      if (e.dashed) ctx.setLineDash([5, 4]);
+      if (isLight) {
+        ctx.strokeStyle = isConnectedToSelected ? n1.color : 'rgba(24, 24, 27, ' + alpha + ')';
+        ctx.lineWidth = isConnectedToSelected || (highlightSet && tourActive) ? 2.6 : 1.7;
+      } else {
+        ctx.strokeStyle = isConnectedToSelected ? n1.color : 'rgba(161, 161, 170, ' + alpha + ')';
+        ctx.lineWidth = isConnectedToSelected || (highlightSet && tourActive) ? 2.4 : 1.5;
+      }
       ctx.stroke();
-      ctx.setLineDash([]);
+      ctx.restore();
 
-      if (layerVisible && inTour && (isConnectedToSelected || isConnectedToHover || activeLayerFilter !== 'all')) {
-        const t = ((animTick * 0.012) + (e.from.length * 0.17)) % 1;
+      if (modeActive && (!highlightSet || tourActive)) {
+        const t = (animTick + idx * 0.17) % 1.0;
         let px, py;
-        if (horiz) {
-          const midX = (p1.x + p2.x) / 2;
-          const u = 1 - t;
-          px = u * u * u * p1.x + 3 * u * u * t * midX + 3 * u * t * t * midX + t * t * t * p2.x;
-          py = u * u * u * p1.y + 3 * u * u * t * p1.y + 3 * u * t * t * p2.y + t * t * t * p2.y;
+        if (isLongBottomSweep) {
+          const sweepY = 636;
+          const turnX = x2 - 12;
+          if (t < 0.65) {
+            const st = t / 0.65;
+            px = (x1 + 14) + (turnX - (x1 + 14)) * st;
+            py = sweepY;
+          } else {
+            const st = (t - 0.65) / 0.35;
+            px = turnX;
+            py = sweepY + (y2 - sweepY) * st;
+          }
+        } else if (n1.col === n2.col) {
+          const sx = n1.x;
+          const sy = n1.y + (n2.y > n1.y ? n1.h / 2 : -n1.h / 2);
+          const ey = n2.y + (n2.y > n1.y ? -n2.h / 2 : n2.h / 2);
+          px = sx;
+          py = sy + (ey - sy) * t;
+        } else if (useOrthogonalTraces) {
+          if (t < 0.35) {
+            const st = t / 0.35;
+            px = x1 + (midX - x1) * st;
+            py = y1;
+          } else if (t < 0.65) {
+            const st = (t - 0.35) / 0.30;
+            px = midX;
+            py = y1 + (y2 - y1) * st;
+          } else {
+            const st = (t - 0.65) / 0.35;
+            px = midX + (x2 - midX) * st;
+            py = y2;
+          }
         } else {
-          const midY = (p1.y + p2.y) / 2;
-          const u = 1 - t;
-          px = u * u * u * p1.x + 3 * u * u * t * p1.x + 3 * u * t * t * p2.x + t * t * t * p2.x;
-          py = u * u * u * p1.y + 3 * u * u * t * midY + 3 * u * t * t * midY + t * t * t * p2.y;
+          const cx1 = x1 + (x2 - x1) * 0.48;
+          const cx2 = x1 + (x2 - x1) * 0.52;
+          const mt = 1 - t;
+          px = mt * mt * mt * x1 + 3 * mt * mt * t * cx1 + 3 * mt * t * t * cx2 + t * t * t * x2;
+          py = mt * mt * mt * y1 + 3 * mt * mt * t * y1 + 3 * mt * t * t * y2 + t * t * t * y2;
         }
-        ctx.globalAlpha = 1;
-        ctx.fillStyle = stageCol;
-        if (activeTheme === 'pixel_art' || activeTheme === 'neo_brutalism' || activeTheme === 'utilitarian') {
-          ctx.fillRect(px - 3.5, py - 3.5, 7, 7);
+
+        ctx.fillStyle = n1.color;
+        if (
+          activeTheme === 'pixel_art' ||
+          activeTheme === 'utilitarian' ||
+          activeTheme === 'neo_brutalism' ||
+          activeTheme === 'modular_typo'
+        ) {
+          const sz = isConnectedToSelected ? 6 : 4;
+          ctx.fillRect(Math.round(px - sz / 2), Math.round(py - sz / 2), sz, sz);
         } else {
           ctx.beginPath();
-          ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+          ctx.arc(px, py, isConnectedToSelected ? 3.5 : 2.5, 0, Math.PI * 2);
           ctx.fill();
         }
       }
-      ctx.restore();
     });
 
-    // 5. Draw Subsystem Blocks
+    // ====================================================================
+    // 4. DRAW 17 SUBSYSTEM BLOCKS (+2PX FONT, NO TECH FOOTER, ZERO OVERFLOW)
+    // ====================================================================
     nodes.forEach((n) => {
+      const rx = n.x - n.w / 2;
+      const ry = n.y - n.h / 2;
+      const innerW = n.w - 16;
       const isSelected = n.id === selectedNodeId;
       const isHovered = n.id === hoveredNodeId;
-      const inTour = isNodeInTour(n.id);
-      const layerMatch =
-        activeLayerFilter === 'all' ||
-        n.layer === activeLayerFilter ||
-        (activeLayerFilter === 'live' && n.layer === 'core') ||
-        (activeLayerFilter === 'train' && n.id === 'backbone');
-
-      const dimmed = !inTour || !layerMatch;
-      const stageCol = getStageColor(n.stage);
+      const modeActive = n.modes.includes(activeMode);
+      const inTourSpotlight = !highlightSet || highlightSet.has(n.id);
 
       ctx.save();
-      ctx.globalAlpha = dimmed ? 0.22 : 1.0;
+      if (!modeActive) ctx.globalAlpha = 0.22;
+      else if (!inTourSpotlight) ctx.globalAlpha = 0.30;
+      else ctx.globalAlpha = 1.0;
 
-      // Hard Offset Shadow for Brutalism / Memphis / Pixel Art
-      if (activeTheme === 'neo_brutalism' || activeTheme === 'memphis' || activeTheme === 'pixel_art') {
-        const sh = isSelected ? 5 : isHovered ? 4 : 3;
-        ctx.fillStyle = isSelected ? stageCol : isLight ? '#000000' : '#000000';
-        drawRoundedRect(ctx, n.x + sh, n.y + sh, n.w, n.h, st.nodeRadius);
+      if (activeTheme === 'neo_brutalism') {
+        const shOff = isSelected ? 6 : 4;
+        ctx.fillStyle = isLight ? '#111111' : n.color;
+        ctx.fillRect(rx + shOff, ry + shOff, n.w, n.h);
+
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fffbeb' : '#ffffff'
+          : isSelected ? '#2c2820' : '#202026';
+        ctx.fillRect(rx, ry, n.w, n.h);
+
+        ctx.fillStyle = n.color;
+        ctx.fillRect(rx, ry, n.w, 25);
+
+        const borderCol = isLight ? '#111111' : '#f4f4f5';
+        ctx.strokeStyle = borderCol;
+        ctx.lineWidth = isSelected ? 3 : 2.2;
+        ctx.strokeRect(rx, ry, n.w, n.h);
+        ctx.beginPath(); ctx.moveTo(rx, ry + 25); ctx.lineTo(rx + n.w, ry + 25); ctx.stroke();
+
+        ctx.font = '900 11.5px ui-monospace, monospace';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, '#' + n.num + ' // ' + n.tag, rx + 8, ry + 17, innerW);
+
+        ctx.font = '900 14px "Inter", "Arial Black", sans-serif';
+        ctx.fillStyle = isLight ? '#111111' : '#fafafa';
+        drawFittedText(ctx, n.title, rx + 8, ry + 47, innerW);
+
+        ctx.font = '600 12px "Inter", sans-serif';
+        ctx.fillStyle = isLight ? '#3f3f46' : '#d4d4d8';
+        drawWrappedSub(ctx, n.sub, rx + 8, ry + 66, innerW, 14);
+
+      } else if (activeTheme === 'modular_typo') {
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fff5f2' : '#ffffff'
+          : isSelected ? '#261c1c' : '#18181d';
+        ctx.fillRect(rx, ry, n.w, n.h);
+
+        const topBarCol = isSelected ? '#ff2a00' : isLight ? '#09090b' : n.color;
+        ctx.fillStyle = topBarCol;
+        ctx.fillRect(rx, ry, n.w, isSelected ? 6 : 4);
+
+        ctx.strokeStyle = isSelected ? '#ff2a00' : isLight ? '#09090b' : '#52525b';
+        ctx.lineWidth = isSelected ? 2.2 : 1.2;
+        ctx.strokeRect(rx, ry, n.w, n.h);
+
+        ctx.strokeStyle = isLight ? 'rgba(9, 9, 11, 0.2)' : 'rgba(244, 244, 245, 0.16)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(rx, ry + 26); ctx.lineTo(rx + n.w, ry + 26);
+        ctx.stroke();
+
+        ctx.font = 'bold 11.5px "Helvetica Neue", "Inter", sans-serif';
+        ctx.fillStyle = isSelected ? '#ff2a00' : isLight ? '#09090b' : n.color;
+        ctx.textAlign = 'left';
+        ctx.fillText(n.num, rx + 8, ry + 20);
+
+        ctx.font = '11px ui-monospace, monospace';
+        ctx.fillStyle = isLight ? '#52525b' : '#a1a1aa';
+        ctx.textAlign = 'right';
+        drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 8, ry + 20, innerW - 26);
+
+        ctx.font = 'bold 14px "Helvetica Neue", "Inter", sans-serif';
+        ctx.fillStyle = isLight ? '#09090b' : '#fafafa';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 8, ry + 48, innerW);
+
+        ctx.font = '12px "Helvetica Neue", "Inter", sans-serif';
+        ctx.fillStyle = isLight ? '#3f3f46' : '#d4d4d8';
+        drawWrappedSub(ctx, n.sub, rx + 8, ry + 67, innerW, 14);
+
+      } else if (activeTheme === 'utilitarian') {
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fffbeb' : isHovered ? '#f1f5f9' : '#ffffff'
+          : isSelected ? '#1e242b' : isHovered ? '#1a2026' : '#14181d';
+        ctx.fillRect(rx, ry, n.w, n.h);
+
+        ctx.strokeStyle = isSelected ? n.color : isLight ? '#94a3b8' : '#2c353d';
+        ctx.lineWidth = isSelected ? 1.8 : 1.0;
+        ctx.strokeRect(rx, ry, n.w, n.h);
+
+        drawCornerBrackets(ctx, rx, ry, n.w, n.h, 6, isSelected ? (isLight ? '#0f172a' : '#ffffff') : n.color);
+
+        ctx.fillStyle = isLight ? '#e2e8f0' : '#0d1013';
+        ctx.fillRect(rx + 1, ry + 1, n.w - 2, 22);
+        ctx.font = 'bold 11px ui-monospace, monospace';
+        ctx.fillStyle = n.color;
+        ctx.textAlign = 'left';
+        ctx.fillText('ID:' + n.num, rx + 8, ry + 16);
+        ctx.fillStyle = isLight ? '#475569' : '#94a3b8';
+        ctx.textAlign = 'right';
+        drawFittedText(ctx, n.tag, rx + n.w - 8, ry + 16, innerW - 38);
+
+        ctx.font = 'bold 13.5px ui-monospace, monospace';
+        ctx.fillStyle = isLight ? '#0f172a' : '#f1f5f9';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 8, ry + 45, innerW);
+
+        ctx.font = '11.5px ui-monospace, monospace';
+        ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
+        drawWrappedSub(ctx, n.sub, rx + 8, ry + 64, innerW, 14);
+
+      } else if (activeTheme === 'memphis') {
+        ctx.fillStyle = isSelected ? '#ec4899' : '#06b6d4';
+        drawRoundedRect(ctx, rx + 5, ry + 5, n.w, n.h, 14);
         ctx.fill();
-      } else if (isSelected || isHovered) {
-        ctx.shadowColor = stageCol;
-        ctx.shadowBlur = isSelected ? 18 : 10;
-      }
 
-      // Node Body Fill
-      ctx.fillStyle = st.nodeBg;
-      drawRoundedRect(ctx, n.x, n.y, n.w, n.h, st.nodeRadius);
-      ctx.fill();
-      ctx.shadowBlur = 0;
-
-      // Selected Tint Overlay
-      if (isSelected) {
-        ctx.save();
-        ctx.fillStyle = stageCol;
-        ctx.globalAlpha = dimmed ? 0.05 : isLight ? 0.10 : 0.14;
-        drawRoundedRect(ctx, n.x, n.y, n.w, n.h, st.nodeRadius);
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fef08a' : '#ffffff'
+          : isSelected ? '#3b2466' : '#251e47';
+        drawRoundedRect(ctx, rx, ry, n.w, n.h, 14);
         ctx.fill();
-        ctx.restore();
+
+        ctx.strokeStyle = isLight ? '#1e1b4b' : '#f472b6';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        ctx.fillStyle = n.color;
+        ctx.beginPath();
+        ctx.arc(rx + 18, ry + 19, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.font = 'bold 11px ui-monospace, monospace';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.fillText(n.num, rx + 18, ry + 23);
+
+        ctx.fillStyle = isLight ? '#1e1b4b' : '#e0e7ff';
+        ctx.textAlign = 'right';
+        drawFittedText(ctx, n.tag, rx + n.w - 10, ry + 23, innerW - 28);
+
+        ctx.font = 'bold 14px "Trebuchet MS", sans-serif';
+        ctx.fillStyle = isLight ? '#1e1b4b' : '#ffffff';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 10, ry + 48, n.w - 20);
+
+        ctx.font = '12px "Trebuchet MS", sans-serif';
+        ctx.fillStyle = isLight ? '#312e81' : '#c7d2fe';
+        drawWrappedSub(ctx, n.sub, rx + 10, ry + 66, n.w - 20, 14);
+
+      } else if (activeTheme === 'pixel_art') {
+        ctx.fillStyle = isLight ? '#231f33' : '#05020a';
+        ctx.fillRect(rx + 5, ry + 5, n.w, n.h);
+
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fffbeb' : '#f4f1e6'
+          : isSelected ? '#2e1d59' : '#1e123b';
+        ctx.fillRect(rx, ry, n.w, n.h);
+
+        ctx.strokeStyle = isSelected
+          ? isLight ? '#d90429' : '#ffe600'
+          : isLight ? '#231f33' : n.color;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(rx, ry, n.w, n.h);
+
+        ctx.fillStyle = n.color;
+        ctx.fillRect(rx + 2, ry + 2, n.w - 4, 20);
+
+        ctx.font = 'bold 11.5px "Courier New", monospace';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, '[' + n.num + '] ' + n.tag, rx + 6, ry + 16, innerW);
+
+        ctx.font = 'bold 13px "Courier New", monospace';
+        ctx.fillStyle = isLight ? '#161324' : '#ffffff';
+        drawFittedText(ctx, n.title, rx + 8, ry + 44, innerW);
+
+        ctx.font = 'bold 11.5px "Courier New", monospace';
+        ctx.fillStyle = isLight ? '#352f4f' : '#a5b4fc';
+        drawWrappedSub(ctx, n.sub, rx + 8, ry + 63, innerW, 14);
+
+      } else {
+        // Aurora (Light Pearl vs Dark Velvet)
+        if (isSelected || (highlightSet && highlightSet.has(n.id))) {
+          ctx.shadowColor = n.color;
+          ctx.shadowBlur = isSelected ? 18 : 10;
+        }
+        ctx.fillStyle = isLight
+          ? isSelected ? '#f0f9ff' : '#ffffff'
+          : isSelected ? '#19234d' : isHovered ? '#141d40' : '#0e1530';
+        drawRoundedRect(ctx, rx, ry, n.w, n.h, 14);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        ctx.lineWidth = isSelected ? 2.2 : 1.3;
+        ctx.strokeStyle = isSelected ? n.color : n.color + '77';
+        ctx.stroke();
+
+        ctx.fillStyle = n.color;
+        drawRoundedRect(ctx, rx + 5, ry + 10, 4, n.h - 20, 2);
+        ctx.fill();
+
+        ctx.font = 'bold 11.5px ui-monospace, monospace';
+        ctx.fillStyle = n.color;
+        ctx.textAlign = 'left';
+        ctx.fillText('#' + n.num, rx + 14, ry + 22);
+
+        ctx.fillStyle = isLight ? '#475569' : '#cbd5e1';
+        ctx.textAlign = 'right';
+        drawFittedText(ctx, n.tag, rx + n.w - 10, ry + 22, innerW - 30);
+
+        ctx.font = 'bold 14px "Inter", sans-serif';
+        ctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 14, ry + 47, n.w - 22);
+
+        ctx.font = '12px "Inter", sans-serif';
+        ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
+        drawWrappedSub(ctx, n.sub, rx + 14, ry + 66, n.w - 22, 14);
       }
 
-      // Top Stage Color Bar
-      ctx.save();
-      drawRoundedRect(ctx, n.x, n.y, n.w, n.h, st.nodeRadius);
-      ctx.clip();
-      ctx.fillStyle = stageCol;
-      ctx.fillRect(n.x, n.y, n.w, isSelected ? 7 : 5);
-      ctx.restore();
-
-      // Node Border
-      ctx.strokeStyle = isSelected || isHovered ? stageCol : st.laneBorder;
-      ctx.lineWidth = isSelected ? 2.6 : isHovered ? 2.0 : activeTheme === 'neo_brutalism' || activeTheme === 'memphis' ? 2.0 : 1.2;
-      drawRoundedRect(ctx, n.x, n.y, n.w, n.h, st.nodeRadius);
-      ctx.stroke();
-
-      if (activeTheme === 'utilitarian' && (isSelected || isHovered)) {
-        drawCornerBrackets(ctx, n.x - 2, n.y - 2, n.w + 4, n.h + 4, 6, stageCol);
-      }
-
-      // Strict Interior Clipping so text never overflows node boundaries
-      ctx.save();
-      drawRoundedRect(ctx, n.x + 2, n.y + 6, n.w - 4, n.h - 8, Math.max(0, st.nodeRadius - 2));
-      ctx.clip();
-
-      const padX = 11;
-      const maxTextW = n.w - padX * 2;
-
-      // 1. Badge Pill (Top-Left)
-      ctx.font = `700 ${activeTheme === 'pixel_art' ? '8px' : '9.5px'} ${st.fontMono}`;
-      ctx.fillStyle = stageCol;
-      drawFittedText(
-        ctx,
-        n.badge,
-        n.x + padX,
-        n.y + 21,
-        maxTextW,
-        activeTheme === 'pixel_art' ? 8 : 9.5,
-        7.5,
-        '700',
-        st.fontMono
-      );
-
-      // 2. Fitted Node Title
-      ctx.fillStyle = st.textHead;
-      const baseTitleSz = activeTheme === 'pixel_art' ? 10 : 13;
-      drawFittedText(
-        ctx,
-        n.title,
-        n.x + padX,
-        n.y + 40,
-        maxTextW,
-        baseTitleSz,
-        9.5,
-        '700',
-        st.fontHead
-      );
-
-      // 3. Multi-Line Wrapped Subtitle
-      ctx.fillStyle = st.textSub;
-      const subSz = activeTheme === 'pixel_art' ? 8 : 10.5;
-      ctx.font = `500 ${subSz}px ${st.fontHead}`;
-      const availSubH = n.h - 56;
-      const lineH = activeTheme === 'pixel_art' ? 12 : 14;
-      const maxLines = Math.max(1, Math.min(3, Math.floor(availSubH / lineH)));
-      drawWrappedSub(ctx, n.sub, n.x + padX, n.y + 57, maxTextW, lineH, maxLines);
-
-      ctx.restore();
       ctx.restore();
     });
+
+    ctx.restore();
   }
 
   window.ArashikageCanvasRenderer = {
-    LOGICAL_W,
-    LOGICAL_H,
+    BASE_W,
+    BASE_H,
+    colHeaders,
     fitDiagramAspectRatio,
+    applyStagePaletteToNodes,
     getNodeAtCanvasCoords,
     renderCanvas
   };
@@ -2008,142 +2243,147 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
 
 </script>
   <script>
-// Arashikage (Hex63) — Main Application Controller, 5-Tab Inspector/Deep-Dive & Fullscreen Drawer
+// ============================================================================
+// ARASHIKAGE (HEX63) — INTERACTIVE CONTROLLER, 5-TAB INSPECTOR/DEEP-DIVE & FULLSCREEN DRAWER
+// ============================================================================
 (function () {
   const nodes = window.ARASHIKAGE_NODES || [];
   const edges = window.ARASHIKAGE_EDGES || [];
-  const scenarios = window.ARASHIKAGE_SCENARIOS || [];
-  const techLibrary = window.ARASHIKAGE_TECH_LIBRARY || [];
-  const externalResourcesByTech = window.ARASHIKAGE_EXTERNAL_RESOURCES || {};
+  const scenarios = window.ARASHIKAGE_SCENARIOS || {};
+  const techLib = window.ARASHIKAGE_TECH_LIBRARY || [];
+  const TECH_EXTERNAL_RESOURCES = window.ARASHIKAGE_EXTERNAL_RESOURCES || {};
   const renderer = window.ArashikageCanvasRenderer;
 
   const nodeMap = {};
   nodes.forEach((n) => {
     nodeMap[n.id] = n;
   });
+  const techMap = {};
+  techLib.forEach((t) => {
+    techMap[t.id] = t;
+  });
+
+  // Application State
+  let selectedNodeId = 'dma_slice';
+  let hoveredNodeId = null;
+  let activeNTab = 'how'; // 'how' | 'why' | 'contrib' | 'math' | 'learn'
+  let activeTTab = 'how'; // 'how' | 'why' | 'contrib' | 'science' | 'learn'
+  let activeRightView = 'node'; // 'node' | 'tech'
+  let selectedTechId = 't0';
+  let activeMode = 'all';
+  let activeScenarioKey = 'tour';
+  let activeStepIdx = 0;
+  let tourOverlayVisible = true;
+  let animTick = 0;
+
+  // Fullscreen & Slide-In Drawer State
+  let isFullscreenMode = false;
+  let isDrawerOpen = false;
+
+  // Contextual Micro-Simulator State
+  let selectedMemSliceIdx = 0;
+  let selectedPairQueryIdx = 0;
+  let selectedPairKeyIdx = 6;
+  let surpriseIntensity = 0.68;
+
+  // 6-Style × 2-Polarity Theme Engine Metadata
+  const THEME_ORDER = [
+    'neo_brutalism',
+    'modular_typo',
+    'utilitarian',
+    'memphis',
+    'pixel_art',
+    'aurora'
+  ];
+
+  const THEME_META = {
+    neo_brutalism: {
+      name: 'Neo-Brutalism',
+      notes: '2.5px ink borders · Hard offset block shadows · High-contrast color headers · Zero blur',
+      stageColors: ['#ff4d00', '#00b4d8', '#7c3aed', '#ec4899', '#eab308', '#16a34a']
+    },
+    modular_typo: {
+      name: 'Modular Typography',
+      notes: 'Swiss International Grid · Exposed 1.5px structural rules · 0px radius · Grotesque hierarchy',
+      stageColors: ['#ff2a00', '#0055ff', '#7c3aed', '#d90429', '#ca8a04', '#0d9488']
+    },
+    utilitarian: {
+      name: 'Utilitarian',
+      notes: '100% Monospace · CAD crosshair grid · Corner L-brackets · 90° PCB traces · Zero ornament',
+      stageColors: ['#f59e0b', '#0284c7', '#8b5cf6', '#ec4899', '#eab308', '#10b981']
+    },
+    memphis: {
+      name: 'Memphis',
+      notes: '80s Sottsass geometric pop · 2.5px borders · Cyan/Pink offset shadows · Studio confetti',
+      stageColors: ['#ec4899', '#06b6d4', '#8b5cf6', '#f97316', '#eab308', '#10b981']
+    },
+    pixel_art: {
+      name: 'Pixel Art',
+      notes: '16-Bit command deck · Stepped pixel borders & rivets · Scanlines · Manhattan pixel buses',
+      stageColors: ['#00c49a', '#0096c7', '#9d4edd', '#ff2a85', '#d97706', '#16a34a']
+    },
+    aurora: {
+      name: 'Aurora',
+      notes: 'Borealis radial plumes · Solid velvet/pearl cards (no frost blur) · Luminous rims',
+      stageColors: ['#00bfa5', '#0091ea', '#8b5cf6', '#ec4899', '#eab308', '#10b981']
+    }
+  };
 
   const THEME_GLYPHS = {
     neo_brutalism: {
-      polLight: '■', polDark: '□',
-      filterAll: '◆', filterCore: '▸', filterTrain: '◈', filterLive: '⚡',
-      modeBlock: '▣', modeTech: '▤',
-      prev: '◀', next: '▶', play: '▶', pause: '❚❚',
-      fullscreen: '⛶', exitFullscreen: '✕', share: '⇩', learn: '↗'
+      prev: '■◀', next: '▶■', light: '■', dark: '□',
+      node: '▣', tech: '◈', tourOn: '■', tourOff: '□',
+      export: '▣', close: '×', open: '↗', fs: '⛶', fsExit: '×'
     },
     modular_typo: {
-      polLight: '○', polDark: '●',
-      filterAll: '01', filterCore: '02', filterTrain: '03', filterLive: '04',
-      modeBlock: '§A', modeTech: '§B',
-      prev: '←', next: '→', play: '▸', pause: '⏸',
-      fullscreen: '⤢', exitFullscreen: '⤡', share: '↓', learn: '↗'
+      prev: '←', next: '→', light: '○', dark: '●',
+      node: '01', tech: '02', tourOn: '●', tourOff: '○',
+      export: '↗', close: '×', open: '↗', fs: '⤢', fsExit: '⤡'
     },
     utilitarian: {
-      polLight: '[L]', polDark: '[D]',
-      filterAll: '[*]', filterCore: '[C]', filterTrain: '[T]', filterLive: '[R]',
-      modeBlock: '[BLK]', modeTech: '[DDV]',
-      prev: '<<', next: '>>', play: '[>]', pause: '[||]',
-      fullscreen: '[FS]', exitFullscreen: '[X]', share: '[DL]', learn: '[↗]'
+      prev: '[<]', next: '[>]', light: '[L]', dark: '[D]',
+      node: '[BLK]', tech: '[DDV]', tourOn: '[ON]', tourOff: '[--]',
+      export: '[IO]', close: '[X]', open: '[>]', fs: '[FS]', fsExit: '[X]'
     },
     memphis: {
-      polLight: '☀', polDark: '★',
-      filterAll: '✦', filterCore: '▲', filterTrain: '●', filterLive: '◆',
-      modeBlock: '❖', modeTech: '✦',
-      prev: '◄', next: '►', play: '▶', pause: '❚❚',
-      fullscreen: '⬡', exitFullscreen: '✕', share: '⬇', learn: '↗'
+      prev: '◀', next: '▶', light: '★', dark: '✦',
+      node: '◆', tech: '▲', tourOn: '★', tourOff: '☆',
+      export: '◆', close: '✕', open: '↗', fs: '⬡', fsExit: '✕'
     },
     pixel_art: {
-      polLight: '+', polDark: '*',
-      filterAll: '#', filterCore: '>', filterTrain: '=', filterLive: '!',
-      modeBlock: '[1]', modeTech: '[2]',
-      prev: '<', next: '>', play: '>', pause: '||',
-      fullscreen: '[+]', exitFullscreen: '[x]', share: 'v', learn: '^'
+      prev: '<<', next: '>>', light: '[*]', dark: '[-]',
+      node: '[#]', tech: '[?]', tourOn: '[*]', tourOff: '[ ]',
+      export: '[v]', close: '[x]', open: '[>]', fs: '[+]', fsExit: '[x]'
     },
     aurora: {
-      polLight: '✧', polDark: '☾',
-      filterAll: '✦', filterCore: '◈', filterTrain: '❖', filterLive: '⚡',
-      modeBlock: '◈', modeTech: '✦',
-      prev: '←', next: '→', play: '▸', pause: '❚❚',
-      fullscreen: '⤢', exitFullscreen: '✕', share: '↓', learn: '↗'
+      prev: '‹', next: '›', light: '✧', dark: '✦',
+      node: '◈', tech: '✦', tourOn: '✦', tourOff: '✧',
+      export: '◈', close: '✕', open: '↗', fs: '⤢', fsExit: '✕'
     }
   };
 
-  const stagePalettes = {
-    dark: {
-      1: '#38bdf8',
-      2: '#818cf8',
-      3: '#c084fc',
-      4: '#fb923c',
-      5: '#34d399',
-      6: '#f472b6'
-    },
-    light: {
-      1: '#0284c7',
-      2: '#4f46e5',
-      3: '#9333ea',
-      4: '#ea580c',
-      5: '#059669',
-      6: '#db2777'
-    }
-  };
-
-  // Application State
   let activeTheme = 'neo_brutalism';
-  let activePolarity = 'dark';
-  let activeLayerFilter = 'all';
-  let selectedNodeId = 'titans';
-  let hoveredNodeId = null;
-  let rightMode = 'inspector'; // 'inspector' | 'tech'
-  let activeInspectorTab = 'how'; // 'how' | 'why' | 'impact' | 'math' | 'learn'
-  let activeTechId = 't3';
-  let activeTechTab = 'how'; // 'how' | 'why' | 'impact' | 'science' | 'learn'
+  let activePolarity = 'light'; // 'light' | 'dark'
 
-  let activeScenarioId = 'full';
-  let activeTourStepIdx = 0;
-  let tourPlaying = false;
-  let tourTimer = null;
-  let animTick = 0;
-
-  let isFullscreenMode = false;
-  let isSlidePanelOpen = false;
-
-  function getStageColor(stage) {
-    return (stagePalettes[activePolarity] || stagePalettes.dark)[stage] || '#38bdf8';
+  function getGlyph(key) {
+    const g = THEME_GLYPHS[activeTheme] || THEME_GLYPHS.neo_brutalism;
+    return g[key] || '';
   }
 
-  function getActiveScenario() {
-    return scenarios.find((s) => s.id === activeScenarioId) || scenarios[0];
-  }
-
-  function isNodeInTour(nodeId) {
-    const sc = getActiveScenario();
-    if (!sc || sc.id === 'full') return true;
-    const step = sc.steps[activeTourStepIdx];
-    return step && step.node === nodeId;
-  }
-
-  function isEdgeInTour(fromId, toId) {
-    const sc = getActiveScenario();
-    if (!sc || sc.id === 'full') return true;
-    const step = sc.steps[activeTourStepIdx];
-    if (!step) return true;
-    return step.node === fromId || step.node === toId;
-  }
-
-  // Gather external resources for a node (aggregated from its associated technologies)
+  // Gather external white papers for a subsystem block (aggregated from its associated technologies)
   function getExternalResourcesForNode(node) {
     if (!node || !Array.isArray(node.techIds)) return [];
     const seen = new Set();
     const list = [];
     node.techIds.forEach((tid) => {
-      const t = techLibrary.find((x) => x.id === tid);
-      const papers = externalResourcesByTech[tid] || [];
+      const t = techMap[tid];
+      const papers = TECH_EXTERNAL_RESOURCES[tid] || [];
       papers.forEach((p) => {
         if (!seen.has(p.url)) {
           seen.add(p.url);
           list.push({
             ...p,
-            techId: tid,
-            techName: t ? t.name : tid.toUpperCase()
+            techShort: t ? t.short : tid.toUpperCase()
           });
         }
       });
@@ -2151,23 +2391,73 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
     return list;
   }
 
-  function updateUrlHash() {
+  // Render external white paper cards inside the 5. Learn More tab
+  function renderLearnMoreCardsHtml(resList) {
+    if (!resList || resList.length === 0) {
+      return '<div class="text-xs text-secondary-ink">No external references indexed.</div>';
+    }
+    return (
+      '<div class="flex flex-col gap-3 max-h-[380px] overflow-y-auto pr-1">' +
+      resList
+        .map(
+          (r) =>
+            '<div class="surface-root border border-hairline rounded-xl p-3.5 flex flex-col justify-between gap-2.5">' +
+            '<div class="flex flex-col gap-1">' +
+            '<div class="flex flex-wrap items-center justify-between gap-1.5">' +
+            '<span class="mono text-[10.5px] font-bold px-2 py-0.5 rounded btn-theme-accent border">' +
+            r.badge +
+            '</span>' +
+            (r.techShort
+              ? '<span class="mono text-[10.5px] font-semibold text-muted-ink">' + r.techShort + '</span>'
+              : '') +
+            '</div>' +
+            '<h4 class="text-xs font-bold text-primary-ink leading-snug mt-0.5">' +
+            r.title +
+            '</h4>' +
+            '<div class="mono text-[11px] text-muted-ink">' +
+            r.authors +
+            '</div>' +
+            '<p class="text-xs text-secondary-ink leading-relaxed mt-0.5">' +
+            r.desc +
+            '</p>' +
+            '</div>' +
+            '<div class="pt-2 border-t border-hairline flex items-center justify-between gap-2">' +
+            '<span class="mono text-[10.5px] text-muted-ink truncate">' +
+            r.url +
+            '</span>' +
+            '<a href="' +
+            r.url +
+            '" target="_blank" rel="noopener noreferrer" class="no-wrap-btn px-3 py-1 rounded-lg text-xs font-semibold btn-theme-accent border transition">' +
+            '<span>Open Paper ' +
+            getGlyph('open') +
+            '</span>' +
+            '</a>' +
+            '</div>' +
+            '</div>'
+        )
+        .join('') +
+      '</div>'
+    );
+  }
+
+  // URL Hash Deep-Linking (#view=tech&tech=t3&tab=learn or #view=node&node=dma_slice&tab=learn)
+  function syncUrlHash() {
     const params = new URLSearchParams();
-    params.set('view', rightMode);
-    if (rightMode === 'tech') {
-      params.set('tech', activeTechId);
-      params.set('tab', activeTechTab);
+    params.set('view', activeRightView);
+    if (activeRightView === 'tech') {
+      params.set('tech', selectedTechId);
+      params.set('tab', activeTTab);
     } else {
       params.set('node', selectedNodeId);
-      params.set('tab', activeInspectorTab);
+      params.set('tab', activeNTab);
     }
-    const newHash = '#' + params.toString();
-    if (window.location.hash !== newHash) {
-      history.replaceState(null, '', newHash);
+    const nextHash = '#' + params.toString();
+    if (window.location.hash !== nextHash) {
+      history.replaceState(null, '', nextHash);
     }
   }
 
-  function applyStateFromUrlHash() {
+  function restoreStateFromUrlHash() {
     if (!window.location.hash || window.location.hash.length <= 1) return false;
     const params = new URLSearchParams(window.location.hash.slice(1));
     const view = params.get('view');
@@ -2176,825 +2466,1028 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
     const node = params.get('node');
 
     if (view === 'tech') {
-      rightMode = 'tech';
-      if (tech && techLibrary.some((t) => t.id === tech)) {
-        activeTechId = tech;
-      }
-      if (tab && ['how', 'why', 'impact', 'science', 'learn'].includes(tab)) {
-        activeTechTab = tab;
+      activeRightView = 'tech';
+      if (tech && techMap[tech]) selectedTechId = tech;
+      if (tab && ['how', 'why', 'contrib', 'science', 'learn'].includes(tab)) {
+        activeTTab = tab;
       }
       return true;
-    } else if (view === 'inspector' || view === 'node') {
-      rightMode = 'inspector';
-      if (node && nodeMap[node]) {
-        selectedNodeId = node;
-      }
-      if (tab && ['how', 'why', 'impact', 'math', 'learn'].includes(tab)) {
-        activeInspectorTab = tab;
+    } else if (view === 'node' || view === 'inspector') {
+      activeRightView = 'node';
+      if (node && nodeMap[node]) selectedNodeId = node;
+      if (tab && ['how', 'why', 'contrib', 'math', 'learn'].includes(tab)) {
+        activeNTab = tab;
       }
       return true;
     }
     return false;
   }
 
-  function updateThemeGlyphs() {
-    const g = THEME_GLYPHS[activeTheme] || THEME_GLYPHS.neo_brutalism;
-    const setGlyph = (id, text) => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = text;
-    };
-    setGlyph('icoPolLight', g.polLight);
-    setGlyph('icoPolDark', g.polDark);
-    setGlyph('icoFilterAll', g.filterAll);
-    setGlyph('icoFilterCore', g.filterCore);
-    setGlyph('icoFilterTrain', g.filterTrain);
-    setGlyph('icoFilterLive', g.filterLive);
-    setGlyph('icoModeBlock', g.modeBlock);
-    setGlyph('icoModeTech', g.modeTech);
-    setGlyph('icoTourPrev', g.prev);
-    setGlyph('icoTourNext', g.next);
-    setGlyph('icoTourPlay', tourPlaying ? g.pause : g.play);
-    setGlyph('icoOverlayPrev', g.prev);
-    setGlyph('icoOverlayNext', g.next);
-    setGlyph('icoShareBtn', g.share);
-    setGlyph('icoFullscreenBtn', isFullscreenMode ? g.exitFullscreen : g.fullscreen);
-
-    const fsText = document.getElementById('txtFullscreenBtn');
-    if (fsText) {
-      fsText.textContent = isFullscreenMode ? 'Exit Full Screen' : 'Full Screen';
-    }
-  }
-
-  function applyThemeAndPolarity(themeId, polarity) {
-    activeTheme = themeId || activeTheme;
-    activePolarity = polarity || activePolarity;
-    document.body.setAttribute('data-theme', activeTheme);
-    document.body.setAttribute('data-polarity', activePolarity);
-
-    try {
-      localStorage.setItem('arashikage_arch_theme', activeTheme);
-      localStorage.setItem('arashikage_arch_polarity', activePolarity);
-    } catch (_) {}
-
-    const selTheme = document.getElementById('selTheme');
-    if (selTheme && selTheme.value !== activeTheme) {
-      selTheme.value = activeTheme;
-    }
-
-    document.querySelectorAll('.polarity-btn').forEach((btn) => {
-      if (btn.dataset.polarity === activePolarity) btn.classList.add('active');
-      else btn.classList.remove('active');
-    });
-
-    updateThemeGlyphs();
-    renderInspector();
-    if (rightMode === 'tech') {
-      renderTechDeepDive(activeTechId);
-    }
-  }
-
-  // Fullscreen & Slide-In Side Panel Controller
-  function updateFullscreenLayout() {
-    const topIdentityBar = document.getElementById('topIdentityBar');
-    const rightSidePanel = document.getElementById('rightSidePanel');
-    const panelDismissBackdrop = document.getElementById('panelDismissBackdrop');
-    const btnCloseSlidePanel = document.getElementById('btnCloseSlidePanel');
-    const canvasWrapper = document.getElementById('canvasWrapper');
-    const canvasAspectBox = document.getElementById('canvasAspectBox');
-
-    if (isFullscreenMode) {
-      document.body.classList.add('diagram-fullscreen-active');
-      if (topIdentityBar) topIdentityBar.classList.add('hidden');
-      if (btnCloseSlidePanel) btnCloseSlidePanel.classList.remove('hidden');
-
-      if (rightSidePanel) {
-        rightSidePanel.classList.remove('w-[35%]', 'min-w-[430px]', 'max-w-[640px]', 'relative');
-        rightSidePanel.classList.add(
-          'fixed',
-          'top-0',
-          'right-0',
-          'bottom-0',
-          'w-[38vw]',
-          'min-w-[440px]',
-          'max-w-[660px]',
-          'z-50',
-          'shadow-2xl',
-          'transition-transform',
-          'duration-200'
-        );
-        if (isSlidePanelOpen) {
-          rightSidePanel.style.transform = 'translateX(0)';
-          if (panelDismissBackdrop) panelDismissBackdrop.classList.remove('hidden');
-        } else {
-          rightSidePanel.style.transform = 'translateX(100%)';
-          if (panelDismissBackdrop) panelDismissBackdrop.classList.add('hidden');
-        }
-      }
-    } else {
-      document.body.classList.remove('diagram-fullscreen-active');
-      if (topIdentityBar) topIdentityBar.classList.remove('hidden');
-      if (btnCloseSlidePanel) btnCloseSlidePanel.classList.add('hidden');
-      if (panelDismissBackdrop) panelDismissBackdrop.classList.add('hidden');
-
-      if (rightSidePanel) {
-        rightSidePanel.classList.remove(
-          'fixed',
-          'top-0',
-          'right-0',
-          'bottom-0',
-          'w-[38vw]',
-          'min-w-[440px]',
-          'max-w-[660px]',
-          'z-50',
-          'shadow-2xl',
-          'transition-transform',
-          'duration-200'
-        );
-        rightSidePanel.classList.add('w-[35%]', 'min-w-[430px]', 'max-w-[640px]', 'relative');
-        rightSidePanel.style.transform = '';
-      }
-    }
-
-    updateThemeGlyphs();
-    requestAnimationFrame(() => {
-      renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox);
-    });
-  }
-
-  function toggleFullscreenMode(forceState) {
-    isFullscreenMode = typeof forceState === 'boolean' ? forceState : !isFullscreenMode;
-    isSlidePanelOpen = false;
-    updateFullscreenLayout();
-  }
-
-  function openSlideInPanel() {
-    if (!isFullscreenMode) return;
-    isSlidePanelOpen = true;
-    updateFullscreenLayout();
-  }
-
-  function closeSlideInPanel() {
-    if (!isFullscreenMode) return;
-    isSlidePanelOpen = false;
-    updateFullscreenLayout();
-  }
-
-  // Right Panel Mode Switcher ('inspector' | 'tech')
-  function setRightMode(mode) {
-    rightMode = mode;
-    const btnBlock = document.getElementById('btnModeInspector');
-    const btnTech = document.getElementById('btnModeTech');
-    const viewInspector = document.getElementById('viewBlockInspector');
-    const viewTech = document.getElementById('viewTechDeepDive');
-
-    if (mode === 'inspector') {
-      btnBlock.classList.add('active');
-      btnTech.classList.remove('active');
-      viewInspector.classList.remove('hidden');
-      viewTech.classList.add('hidden');
-      renderInspector();
-    } else {
-      btnTech.classList.add('active');
-      btnBlock.classList.remove('active');
-      viewTech.classList.remove('hidden');
-      viewInspector.classList.add('hidden');
-      renderTechDeepDive(activeTechId);
-    }
-    updateUrlHash();
-  }
-
-  // Render external white paper cards inside the 5. Learn More tab
-  function renderLearnMoreCardsHtml(papers, contextTitle) {
-    if (!papers || papers.length === 0) {
-      return `<div class="text-xs t-text-secondary">No external publications indexed for ${contextTitle}.</div>`;
-    }
-    return `
-      <div class="space-y-2.5">
-        ${papers
-          .map(
-            (p, idx) => `
-          <div class="t-card-nested p-3.5 transition-all">
-            <div class="flex items-start justify-between gap-2.5 mb-1.5">
-              <div>
-                <div class="flex flex-wrap items-center gap-1.5 mb-1">
-                  <span class="px-1.5 py-0.5 text-[9.5px] t-font-mono font-bold uppercase tracking-wider t-badge">
-                    REF ${idx + 1} // ${p.venue}
-                  </span>
-                  ${
-                    p.techName
-                      ? `<span class="px-1.5 py-0.5 text-[9.5px] t-font-mono font-semibold t-text-secondary">${p.techName}</span>`
-                      : ''
-                  }
-                </div>
-                <h4 class="text-sm font-bold t-text-primary t-font-head leading-snug">${p.title}</h4>
-                <div class="text-[11px] t-font-mono t-text-muted mt-0.5">${p.authors}</div>
-              </div>
-              <a
-                href="${p.url}"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="no-wrap-btn px-2.5 py-1.5 text-[11px] font-bold t-font-mono t-btn-primary"
-              >
-                <span>Open Paper</span>
-                <span>↗</span>
-              </a>
-            </div>
-            <p class="text-[12px] t-text-secondary leading-relaxed mt-1.5">${p.desc}</p>
-            <div class="mt-2 pt-1.5 border-t border-current/10 flex items-center justify-between text-[10px] t-font-mono t-text-muted">
-              <span class="truncate max-w-[320px]">${p.url}</span>
-              <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="underline font-semibold hover:opacity-80">New Tab ↗</a>
-            </div>
-          </div>
-        `
-          )
-          .join('')}
-      </div>
-    `;
-  }
-
-  // Render Block Inspector (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Learn More)
-  function renderInspector() {
-    const n = nodeMap[selectedNodeId] || nodes[0];
-    if (!n) return;
-
-    const stageCol = getStageColor(n.stage);
-    const badgeEl = document.getElementById('rightStageBadge');
-    badgeEl.textContent = n.badge;
-    badgeEl.style.color = stageCol;
-    badgeEl.style.borderColor = stageCol;
-
-    document.getElementById('rightLayerBadge').textContent =
-      n.layer === 'core' ? 'CORE INFERENCE' : n.layer === 'train' ? 'TRAINING ONLY' : 'LIVE RUNTIME';
-    document.getElementById('rightTitle').textContent = n.title;
-
-    // Update 5 Inspector Tabs
-    document.querySelectorAll('.inspector-tab-btn').forEach((btn) => {
-      if (btn.dataset.tab === activeInspectorTab) btn.classList.add('active');
-      else btn.classList.remove('active');
-    });
-
-    const tabLabelEl = document.getElementById('inspectorTabLabel');
-    const tabBodyEl = document.getElementById('inspectorTabContent');
-    const calloutBox = document.getElementById('inspectorSecondaryBox');
-    const calloutTitle = document.getElementById('inspectorSecondaryTitle');
-    const calloutBody = document.getElementById('inspectorSecondaryBody');
-    const techBox = document.getElementById('inspectorUnderlyingTechBox');
-
-    if (activeInspectorTab === 'learn') {
-      tabLabelEl.textContent = '5. LEARN MORE — WHITE PAPERS & TECHNICAL REFERENCES';
-      const nodePapers = getExternalResourcesForNode(n);
-      tabBodyEl.innerHTML = renderLearnMoreCardsHtml(nodePapers, n.title);
-      if (calloutBox) calloutBox.classList.add('hidden');
-    } else {
-      if (calloutBox) calloutBox.classList.remove('hidden');
-      const labels = {
-        how: '1. HOW IT WORKS — MECHANISM & SIGNAL PATH',
-        why: '2. WHY IT IS USED — ARCHITECTURAL RATIONALE',
-        impact: '3. WHAT IT CONTRIBUTES — MEASURABLE IMPACT',
-        math: '4. FORMAL SPECIFICATION — TENSORS & EQUATIONS'
-      };
-      tabLabelEl.textContent = labels[activeInspectorTab] || labels.how;
-
-      if (activeInspectorTab === 'math') {
-        tabBodyEl.innerHTML = `<pre class="text-[11.5px] t-font-mono whitespace-pre-wrap leading-relaxed t-card-nested p-3">${n.math}</pre>`;
-      } else {
-        tabBodyEl.innerHTML = `<div class="text-[13px] t-text-secondary leading-relaxed">${n[activeInspectorTab]}</div>`;
-      }
-
-      calloutTitle.textContent = 'WHY IT SITS HERE IN THE DATAFLOW';
-      calloutBody.textContent = `${n.role} — ${n.sub}`;
-    }
-
-    // Render Underlying Technologies Chips + Direct Deep Link to Learn More
-    if (techBox) {
-      const chipsContainer = document.getElementById('inspectorTechChips');
-      chipsContainer.innerHTML = '';
-      const g = THEME_GLYPHS[activeTheme] || THEME_GLYPHS.neo_brutalism;
-
-      n.techIds.forEach((tid) => {
-        const t = techLibrary.find((x) => x.id === tid);
-        if (!t) return;
-        const wrap = document.createElement('div');
-        wrap.className = 'inline-flex items-center gap-1';
-
-        const btn = document.createElement('button');
-        btn.className = 'no-wrap-btn px-2.5 py-1.5 text-xs font-semibold t-font-mono t-btn transition-all';
-        btn.innerHTML = `<span>${g.modeTech}</span><span>${t.name}</span>`;
-        btn.addEventListener('click', () => {
-          openTechDeepDive(tid, 'how');
-        });
-
-        const learnBtn = document.createElement('button');
-        learnBtn.className = 'no-wrap-btn px-2 py-1.5 text-[11px] font-bold t-font-mono t-btn-primary transition-all';
-        learnBtn.title = `Open ${t.name} White Papers (Learn More Tab)`;
-        learnBtn.innerHTML = `<span>Learn More</span><span>${g.learn}</span>`;
-        learnBtn.addEventListener('click', () => {
-          openTechDeepDive(tid, 'learn');
-        });
-
-        wrap.appendChild(btn);
-        wrap.appendChild(learnBtn);
-        chipsContainer.appendChild(wrap);
-      });
-    }
-
-    // Connected Upstream / Downstream Blocks
-    const connContainer = document.getElementById('inspectorConnectedNodes');
-    connContainer.innerHTML = '';
-    const connectedIds = new Set();
-    edges.forEach((e) => {
-      if (e.from === n.id) connectedIds.add(e.to);
-      if (e.to === n.id) connectedIds.add(e.from);
-    });
-
-    connectedIds.forEach((cid) => {
-      const cn = nodeMap[cid];
-      if (!cn) return;
-      const chip = document.createElement('button');
-      chip.className = 'no-wrap-btn px-2.5 py-1 text-[11px] t-font-mono t-btn transition-all';
-      chip.textContent = cn.title;
-      chip.addEventListener('click', () => {
-        selectedNodeId = cn.id;
-        renderInspector();
-        updateUrlHash();
-      });
-      connContainer.appendChild(chip);
-    });
-  }
-
-  // Render Deep Dive (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Science | 5. Learn More)
-  function renderTechDeepDive(techId) {
-    activeTechId = techId || activeTechId;
-    const t = techLibrary.find((x) => x.id === activeTechId) || techLibrary[0];
-    if (!t) return;
-
-    document.getElementById('rightStageBadge').textContent = 'DEEP DIVE';
-    document.getElementById('rightLayerBadge').textContent = `${t.nodes.length} LINKED BLOCKS`;
-    document.getElementById('rightTitle').textContent = t.name;
-
-    // Populate Selector Pills
-    const pillBar = document.getElementById('techSelectorPills');
-    pillBar.innerHTML = '';
-    techLibrary.forEach((item) => {
-      const b = document.createElement('button');
-      b.className = `no-wrap-btn px-2.5 py-1 text-[11px] font-semibold t-font-mono t-btn ${
-        item.id === t.id ? 'active' : ''
-      }`;
-      b.textContent = item.name.split(' (')[0];
-      b.addEventListener('click', () => {
-        activeTechId = item.id;
-        renderTechDeepDive(item.id);
-        updateUrlHash();
-      });
-      pillBar.appendChild(b);
-    });
-
-    // Update 5 Deep Dive Tabs
-    document.querySelectorAll('.tech-tab-btn').forEach((btn) => {
-      if (btn.dataset.techtab === activeTechTab) btn.classList.add('active');
-      else btn.classList.remove('active');
-    });
-
-    const tabLabelEl = document.getElementById('techTabLabel');
-    const tabContentEl = document.getElementById('techTabContent');
-    const calloutBox = document.getElementById('techSecondaryBox');
-    const calloutTitle = document.getElementById('techSecondaryTitle');
-    const calloutBody = document.getElementById('techSecondaryBody');
-
-    if (activeTechTab === 'learn') {
-      tabLabelEl.textContent = '5. LEARN MORE — WHITE PAPERS & TECHNICAL SOURCES';
-      const papers = externalResourcesByTech[t.id] || [];
-      tabContentEl.innerHTML = renderLearnMoreCardsHtml(papers, t.name);
-      if (calloutBox) calloutBox.classList.add('hidden');
-    } else {
-      if (calloutBox) calloutBox.classList.remove('hidden');
-      const labels = {
-        how: '1. HOW IT WORKS — MECHANISM & FORMULATION',
-        why: '2. WHY IT IS USED — PROBLEM SOLVED',
-        impact: '3. WHAT IT CONTRIBUTES — MEASURABLE IMPACT',
-        science: '4. THE SCIENCE & DATAFLOW PLACEMENT'
-      };
-      tabLabelEl.textContent = labels[activeTechTab] || labels.how;
-
-      if (activeTechTab === 'science') {
-        tabContentEl.innerHTML = `
-          <div class="space-y-2.5">
-            <div><strong class="t-text-primary">Scientific Foundation:</strong> ${t.science}</div>
-            <div><strong class="t-text-primary">Why It Sits Here in the Dataflow:</strong> ${t.placement}</div>
-          </div>
-        `;
-      } else {
-        tabContentEl.innerHTML = `<div class="text-[13px] t-text-secondary leading-relaxed">${t[activeTechTab]}</div>`;
-      }
-
-      calloutTitle.textContent = 'RESEARCH ORIGINS & EVOLUTION';
-      calloutBody.textContent = t.origins;
-    }
-
-    // Linked Diagram Blocks
-    const nodeLinks = document.getElementById('techDiagramNodeLinks');
-    nodeLinks.innerHTML = '';
-    const g = THEME_GLYPHS[activeTheme] || THEME_GLYPHS.neo_brutalism;
-    t.nodes.forEach((nid) => {
-      const n = nodeMap[nid];
-      if (!n) return;
-      const b = document.createElement('button');
-      b.className = 'no-wrap-btn px-2.5 py-1.5 text-[11px] font-semibold t-font-mono t-btn transition-all';
-      b.innerHTML = `<span>${g.modeBlock}</span><span>Inspect: ${n.title}</span>`;
-      b.addEventListener('click', () => {
-        selectedNodeId = nid;
-        setRightMode('inspector');
-      });
-      nodeLinks.appendChild(b);
-    });
-  }
-
-  function openTechDeepDive(techId, initialTab) {
-    activeTechId = techId;
-    if (initialTab) activeTechTab = initialTab;
-    setRightMode('tech');
-    openSlideInPanel();
-  }
-
-  // Guided Tour Overlay & Scrubber
-  function updateTourUI() {
-    const sc = getActiveScenario();
-    const overlayCard = document.getElementById('tourOverlayCard');
-    const stepScrubber = document.getElementById('tourStepScrubber');
-
-    if (!sc || sc.id === 'full' || sc.steps.length === 0) {
-      overlayCard.classList.add('hidden');
-      stepScrubber.innerHTML = `<span class="text-xs t-font-mono t-text-muted px-2">Select a Guided Tour to walk step-by-step</span>`;
-      return;
-    }
-
-    overlayCard.classList.remove('hidden');
-    const step = sc.steps[activeTourStepIdx] || sc.steps[0];
-    document.getElementById('tourOverlayBadge').textContent = `${sc.name} // STEP ${activeTourStepIdx + 1} OF ${sc.steps.length}`;
-    document.getElementById('tourOverlayTitle').textContent = step.title;
-    document.getElementById('tourOverlayText').textContent = step.text;
-
-    stepScrubber.innerHTML = '';
-    sc.steps.forEach((st, idx) => {
-      const dot = document.createElement('button');
-      dot.className = `no-wrap-btn px-2 py-0.5 text-[11px] t-font-mono font-bold t-btn ${
-        idx === activeTourStepIdx ? 'active' : ''
-      }`;
-      dot.textContent = `${idx + 1}`;
-      dot.title = st.title;
-      dot.addEventListener('click', () => {
-        setTourStep(idx);
-      });
-      stepScrubber.appendChild(dot);
-    });
-  }
-
-  function setTourStep(idx) {
-    const sc = getActiveScenario();
-    if (!sc || sc.steps.length === 0) return;
-    activeTourStepIdx = (idx + sc.steps.length) % sc.steps.length;
-    const step = sc.steps[activeTourStepIdx];
-    if (step && step.node) {
-      selectedNodeId = step.node;
-      if (rightMode === 'inspector') renderInspector();
-    }
-    updateTourUI();
-  }
-
-  function stopTourAutoPlay() {
-    tourPlaying = false;
-    if (tourTimer) {
-      clearInterval(tourTimer);
-      tourTimer = null;
-    }
-    const playText = document.getElementById('txtTourPlay');
-    if (playText) playText.textContent = 'Auto';
-    updateThemeGlyphs();
-  }
-
-  // Standalone Self-Contained Single-File HTML Export
-  async function exportStandaloneHtml() {
-    try {
-      const [cssText, nodesJs, scenariosJs, rendererJs, appJs] = await Promise.all([
-        fetch('./styles/themes.css').then((r) => r.text()),
-        fetch('./js/nodes_and_edges.js').then((r) => r.text()),
-        fetch('./js/scenarios_and_tech.js').then((r) => r.text()),
-        fetch('./js/canvas_renderer.js').then((r) => r.text()),
-        fetch('./js/app.js').then((r) => r.text())
-      ]);
-
-      const clone = document.documentElement.cloneNode(true);
-      clone.querySelectorAll('link[rel="stylesheet"]').forEach((link) => {
-        if (link.getAttribute('href') && link.getAttribute('href').includes('themes.css')) {
-          const styleEl = document.createElement('style');
-          styleEl.textContent = cssText;
-          link.replaceWith(styleEl);
-        }
-      });
-
-      const scriptMap = {
-        'nodes_and_edges.js': nodesJs,
-        'scenarios_and_tech.js': scenariosJs,
-        'canvas_renderer.js': rendererJs,
-        'app.js': appJs
-      };
-
-      clone.querySelectorAll('script[src]').forEach((scr) => {
-        const src = scr.getAttribute('src') || '';
-        for (const [key, code] of Object.entries(scriptMap)) {
-          if (src.includes(key)) {
-            const inlineScr = document.createElement('script');
-            inlineScr.textContent = code;
-            scr.replaceWith(inlineScr);
-            break;
-          }
-        }
-      });
-
-      const htmlOut = '<!DOCTYPE html>\n' + clone.outerHTML;
-      const blob = new Blob([htmlOut], { type: 'text/html;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `arashikage_hex63_architecture_${activeTheme}_${activePolarity}.html`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      const htmlOut = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-      const blob = new Blob([htmlOut], { type: 'text/html;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `arashikage_hex63_architecture.html`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-  }
-
-  // Initialization & Event Listeners
   function init() {
-    const canvas = document.getElementById('archCanvas');
+    const canvas = document.getElementById('mainGraphCanvas');
     const ctx = canvas.getContext('2d');
     const canvasWrapper = document.getElementById('canvasWrapper');
     const canvasAspectBox = document.getElementById('canvasAspectBox');
-    const hoverTooltip = document.getElementById('canvasHoverTooltip');
 
-    // Load saved theme/polarity
-    try {
-      const savedTheme = localStorage.getItem('arashikage_arch_theme');
-      const savedPol = localStorage.getItem('arashikage_arch_polarity');
-      if (savedTheme) activeTheme = savedTheme;
-      if (savedPol) activePolarity = savedPol;
-    } catch (_) {}
-
-    // Populate Scenario Select
     const selScenario = document.getElementById('selScenario');
-    scenarios.forEach((s) => {
-      const opt = document.createElement('option');
-      opt.value = s.id;
-      opt.textContent = s.name;
-      selScenario.appendChild(opt);
-    });
-
-    // Compact Theme Dropdown
+    const btnToggleTour = document.getElementById('btnToggleTour');
+    const selMode = document.getElementById('selMode');
     const selTheme = document.getElementById('selTheme');
-    if (selTheme) {
-      selTheme.addEventListener('change', (e) => {
-        applyThemeAndPolarity(e.target.value, activePolarity);
-      });
+    const btnPolarityLight = document.getElementById('btnPolarityLight');
+    const btnPolarityDark = document.getElementById('btnPolarityDark');
+    const btnToggleFullscreen = document.getElementById('btnToggleFullscreen');
+
+    // Tooltip Overlay DOM
+    const tourTooltip = document.getElementById('tourTooltip');
+    const ttStepBadge = document.getElementById('ttStepBadge');
+    const ttScenarioLabel = document.getElementById('ttScenarioLabel');
+    const btnCloseTooltip = document.getElementById('btnCloseTooltip');
+    const ttTitle = document.getElementById('ttTitle');
+    const ttDesc = document.getElementById('ttDesc');
+    const btnTtDeepDive = document.getElementById('btnTtDeepDive');
+    const btnTtPrev = document.getElementById('btnTtPrev');
+    const btnTtNext = document.getElementById('btnTtNext');
+
+    // Right Panel DOM
+    const topIdentityBar = document.getElementById('topIdentityBar');
+    const rightSidePanel = document.getElementById('rightSidePanel');
+    const panelDismissBackdrop = document.getElementById('panelDismissBackdrop');
+    const btnCloseDrawer = document.getElementById('btnCloseDrawer');
+    const btnViewNode = document.getElementById('btnViewNode');
+    const btnViewTech = document.getElementById('btnViewTech');
+    const inspectorNodeView = document.getElementById('inspectorNodeView');
+    const inspectorTechView = document.getElementById('inspectorTechView');
+    const btnBackToNode = document.getElementById('btnBackToNode');
+    const selTechDropdown = document.getElementById('selTechDropdown');
+
+    // Populate Tech Dropdown
+    selTechDropdown.innerHTML = '';
+    techLib.forEach((t) => {
+      const opt = document.createElement('option');
+      opt.value = t.id;
+      opt.textContent = t.short;
+      selTechDropdown.appendChild(opt);
+    });
+
+    function syncThemeAlignedButtons() {
+      btnPolarityLight.textContent = getGlyph('light') + ' Light';
+      btnPolarityDark.textContent = getGlyph('dark') + ' Dark';
+      document.getElementById('btnPrevTheme').textContent = getGlyph('prev') + ' Prev';
+      document.getElementById('btnNextTheme').textContent = 'Next ' + getGlyph('next');
+      btnViewNode.textContent = getGlyph('node') + ' Block Inspector';
+      btnViewTech.textContent = getGlyph('tech') + ' Deep Dive';
+      btnToggleFullscreen.textContent =
+        (isFullscreenMode ? getGlyph('fsExit') + ' Exit Full Screen' : getGlyph('fs') + ' Full Screen');
+      document.getElementById('btnExportHtml').textContent = getGlyph('export') + ' Share HTML';
+      document.getElementById('btnExportPng').textContent = getGlyph('export') + ' PNG';
+      document.getElementById('btnCopyMermaid').textContent = getGlyph('export') + ' Mermaid';
+      btnTtPrev.textContent = getGlyph('prev') + ' Prev';
+      btnTtNext.textContent = 'Next ' + getGlyph('next');
+      btnTtDeepDive.textContent = getGlyph('tech') + ' Deep Dive';
+      btnCloseTooltip.textContent = getGlyph('close') + ' Close';
+      btnCloseDrawer.textContent = getGlyph('close') + ' Close';
+      btnBackToNode.textContent = getGlyph('prev') + ' Back to Block Inspector';
+      document.getElementById('btnNodeQuickLearnMore').textContent = 'Learn More ' + getGlyph('open');
+      document.getElementById('btnTechQuickLearnMore').textContent = 'Learn More ' + getGlyph('open');
     }
 
-    // Polarity Buttons
-    document.querySelectorAll('.polarity-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        applyThemeAndPolarity(activeTheme, btn.dataset.polarity);
-      });
-    });
-
-    // Layer Filter Buttons
-    document.querySelectorAll('.layer-filter-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.layer-filter-btn').forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeLayerFilter = btn.dataset.layer;
-      });
-    });
-
-    // Mode Switcher (Block Inspector | Deep Dive)
-    document.getElementById('btnModeInspector').addEventListener('click', () => {
-      setRightMode('inspector');
-      openSlideInPanel();
-    });
-    document.getElementById('btnModeTech').addEventListener('click', () => {
-      setRightMode('tech');
-      openSlideInPanel();
-    });
-
-    // 5 Inspector Tabs (1. How | 2. Why | 3. Impact | 4. Math | 5. Learn More)
-    document.querySelectorAll('.inspector-tab-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        activeInspectorTab = btn.dataset.tab;
-        renderInspector();
-        updateUrlHash();
-      });
-    });
-
-    // 5 Deep Dive Tabs (1. How | 2. Why | 3. Impact | 4. Science | 5. Learn More)
-    document.querySelectorAll('.tech-tab-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        activeTechTab = btn.dataset.techtab;
-        renderTechDeepDive(activeTechId);
-        updateUrlHash();
-      });
-    });
-
-    // Quick Deep-Link Button to Learn More Tab inside Block Inspector & Deep Dive
-    const btnInspectorQuickLearn = document.getElementById('btnInspectorQuickLearn');
-    if (btnInspectorQuickLearn) {
-      btnInspectorQuickLearn.addEventListener('click', () => {
-        activeInspectorTab = 'learn';
-        renderInspector();
-        updateUrlHash();
-      });
-    }
-    const btnTechQuickLearn = document.getElementById('btnTechQuickLearn');
-    if (btnTechQuickLearn) {
-      btnTechQuickLearn.addEventListener('click', () => {
-        activeTechTab = 'learn';
-        renderTechDeepDive(activeTechId);
-        updateUrlHash();
-      });
-    }
-
-    // Guided Scenario Controls
-    selScenario.addEventListener('change', (e) => {
-      activeScenarioId = e.target.value;
-      activeTourStepIdx = 0;
-      stopTourAutoPlay();
-      const sc = getActiveScenario();
-      if (sc && sc.steps.length > 0) {
-        setTourStep(0);
+    function updatePolarityButtons() {
+      const meta = THEME_META[activeTheme] || THEME_META.neo_brutalism;
+      if (activePolarity === 'light') {
+        btnPolarityLight.style.backgroundColor = meta.stageColors[0];
+        btnPolarityLight.style.color = '#ffffff';
+        btnPolarityDark.style.backgroundColor = 'transparent';
+        btnPolarityDark.style.color = '';
       } else {
-        updateTourUI();
+        btnPolarityDark.style.backgroundColor = meta.stageColors[0];
+        btnPolarityDark.style.color = '#ffffff';
+        btnPolarityLight.style.backgroundColor = 'transparent';
+        btnPolarityLight.style.color = '';
       }
-    });
+    }
 
-    document.getElementById('btnTourPrev').addEventListener('click', () => {
-      stopTourAutoPlay();
-      setTourStep(activeTourStepIdx - 1);
-    });
-    document.getElementById('btnTourNext').addEventListener('click', () => {
-      stopTourAutoPlay();
-      setTourStep(activeTourStepIdx + 1);
-    });
-    document.getElementById('btnOverlayPrev').addEventListener('click', () => {
-      stopTourAutoPlay();
-      setTourStep(activeTourStepIdx - 1);
-    });
-    document.getElementById('btnOverlayNext').addEventListener('click', () => {
-      stopTourAutoPlay();
-      setTourStep(activeTourStepIdx + 1);
-    });
-    document.getElementById('btnExitTour').addEventListener('click', () => {
-      stopTourAutoPlay();
-      activeScenarioId = 'full';
-      selScenario.value = 'full';
-      updateTourUI();
-    });
+    // Full Screen Mode & Slide-In Side Panel Controller
+    function syncFullscreenAndDrawer() {
+      if (isFullscreenMode) {
+        if (topIdentityBar) topIdentityBar.classList.add('hidden');
+        if (btnCloseDrawer) btnCloseDrawer.classList.remove('hidden');
 
-    document.getElementById('btnTourPlay').addEventListener('click', () => {
-      if (activeScenarioId === 'full') {
-        activeScenarioId = 'forward_60hz';
-        selScenario.value = 'forward_60hz';
-        activeTourStepIdx = 0;
-        setTourStep(0);
-      }
-      if (tourPlaying) {
-        stopTourAutoPlay();
-      } else {
-        tourPlaying = true;
-        document.getElementById('txtTourPlay').textContent = 'Pause';
-        updateThemeGlyphs();
-        tourTimer = setInterval(() => {
-          setTourStep(activeTourStepIdx + 1);
-        }, 3600);
-      }
-    });
+        rightSidePanel.classList.remove('w-full', 'lg:w-[485px]', 'xl:w-[525px]');
+        rightSidePanel.classList.add(
+          'absolute',
+          'top-0',
+          'right-0',
+          'bottom-0',
+          'w-[495px]',
+          'max-w-[92vw]',
+          'border-l',
+          'border-subtle',
+          'shadow-2xl'
+        );
 
-    // Fullscreen Button + Slide-In Dismissal Handlers
-    document.getElementById('btnToggleFullscreen').addEventListener('click', () => {
-      toggleFullscreenMode();
-    });
-    document.getElementById('btnCloseSlidePanel').addEventListener('click', () => {
-      closeSlideInPanel();
-    });
-    document.getElementById('panelDismissBackdrop').addEventListener('click', () => {
-      closeSlideInPanel();
-    });
-
-    // Clicking outside the diagram nodes on the canvas stage in Fullscreen mode dismisses the slide-in panel
-    canvasWrapper.addEventListener('click', (e) => {
-      if (isFullscreenMode && isSlidePanelOpen && e.target === canvasWrapper) {
-        closeSlideInPanel();
-      }
-    });
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && isFullscreenMode) {
-        if (isSlidePanelOpen) {
-          closeSlideInPanel();
+        if (isDrawerOpen) {
+          rightSidePanel.style.transform = 'translateX(0)';
+          panelDismissBackdrop.classList.remove('hidden');
         } else {
-          toggleFullscreenMode(false);
+          rightSidePanel.style.transform = 'translateX(100%)';
+          panelDismissBackdrop.classList.add('hidden');
+        }
+      } else {
+        if (topIdentityBar) topIdentityBar.classList.remove('hidden');
+        if (btnCloseDrawer) btnCloseDrawer.classList.add('hidden');
+        panelDismissBackdrop.classList.add('hidden');
+
+        rightSidePanel.classList.remove(
+          'absolute',
+          'top-0',
+          'right-0',
+          'bottom-0',
+          'w-[495px]',
+          'max-w-[92vw]',
+          'border-l',
+          'border-subtle',
+          'shadow-2xl'
+        );
+        rightSidePanel.classList.add('w-full', 'lg:w-[485px]', 'xl:w-[525px]');
+        rightSidePanel.style.transform = '';
+      }
+
+      syncThemeAlignedButtons();
+      requestAnimationFrame(() => {
+        renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
+        if (tourOverlayVisible) updateTourTooltip();
+      });
+    }
+
+    function toggleFullscreenMode(forceVal) {
+      isFullscreenMode = typeof forceVal === 'boolean' ? forceVal : !isFullscreenMode;
+      isDrawerOpen = false;
+      syncFullscreenAndDrawer();
+    }
+
+    function openSlideInDrawer() {
+      if (!isFullscreenMode) return;
+      isDrawerOpen = true;
+      syncFullscreenAndDrawer();
+    }
+
+    function closeSlideInDrawer() {
+      if (!isFullscreenMode) return;
+      isDrawerOpen = false;
+      syncFullscreenAndDrawer();
+    }
+
+    // Switch Right Panel between Block Inspector ('node') and Deep Dive ('tech')
+    function setRightView(view, techIdOpt, tabOpt) {
+      activeRightView = view;
+      if (techIdOpt && techMap[techIdOpt]) {
+        selectedTechId = techIdOpt;
+      }
+      if (view === 'node') {
+        if (tabOpt) activeNTab = tabOpt;
+        inspectorNodeView.classList.remove('hidden');
+        inspectorNodeView.classList.add('flex');
+        inspectorTechView.classList.add('hidden');
+        inspectorTechView.classList.remove('flex');
+        btnViewNode.className = 'no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold btn-theme-accent transition cursor-pointer';
+        btnViewTech.className = 'no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+        renderNodeInspector();
+      } else {
+        if (tabOpt) activeTTab = tabOpt;
+        inspectorNodeView.classList.add('hidden');
+        inspectorNodeView.classList.remove('flex');
+        inspectorTechView.classList.remove('hidden');
+        inspectorTechView.classList.add('flex');
+        btnViewTech.className = 'no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold btn-theme-accent transition cursor-pointer';
+        btnViewNode.className = 'no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+        renderTechDeepDive();
+      }
+      syncUrlHash();
+    }
+
+    // Render Block Inspector View (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Learn More)
+    function renderNodeInspector() {
+      const n = nodeMap[selectedNodeId] || nodes[0];
+      if (!n) return;
+
+      const inspBadge = document.getElementById('inspBadge');
+      inspBadge.textContent = 'BLOCK ' + n.num + ' · ' + n.tag;
+      inspBadge.style.color = n.color;
+      inspBadge.style.borderColor = n.color;
+      inspBadge.style.backgroundColor = n.color + '1a';
+
+      document.getElementById('inspShapePill').textContent = n.sub;
+      document.getElementById('inspTitle').textContent = n.title;
+
+      // Render Linked Technology Chips (Each chip opens Deep Dive, plus a direct Learn More ↗ button)
+      const chipsContainer = document.getElementById('inspTechChips');
+      chipsContainer.innerHTML = '';
+      (n.techIds || []).forEach((tid) => {
+        const t = techMap[tid];
+        if (!t) return;
+        const group = document.createElement('div');
+        group.className = 'inline-flex items-center gap-1';
+
+        const btn = document.createElement('button');
+        btn.className = 'no-wrap-btn px-2.5 py-1.5 rounded-lg text-xs font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer';
+        btn.textContent = getGlyph('tech') + ' ' + t.short;
+        btn.addEventListener('click', () => {
+          setRightView('tech', tid, 'how');
+        });
+
+        const lmBtn = document.createElement('button');
+        lmBtn.className = 'no-wrap-btn px-2 py-1.5 rounded-lg text-[11px] mono font-bold btn-theme-accent border transition cursor-pointer';
+        lmBtn.title = 'Open ' + t.short + ' White Papers (5. Learn More Tab)';
+        lmBtn.textContent = 'Learn More ' + getGlyph('open');
+        lmBtn.addEventListener('click', () => {
+          setRightView('tech', tid, 'learn');
+        });
+
+        group.appendChild(btn);
+        group.appendChild(lmBtn);
+        chipsContainer.appendChild(group);
+      });
+
+      // Update 1-2-3-4-5 Tabs
+      document.querySelectorAll('.ntab-btn').forEach((btn) => {
+        const isAct = btn.getAttribute('data-ntab') === activeNTab;
+        btn.className = isAct
+          ? 'ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-semibold btn-theme-accent transition cursor-pointer'
+          : 'ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+      });
+
+      const ntabHeading = document.getElementById('ntabHeading');
+      const ntabBody = document.getElementById('ntabBody');
+      const ntabCalloutBox = document.getElementById('ntabCalloutBox');
+      const ntabSubLabel = document.getElementById('ntabSubLabel');
+      const ntabSubContent = document.getElementById('ntabSubContent');
+      const btnNodeQuickLearnMore = document.getElementById('btnNodeQuickLearnMore');
+
+      if (activeNTab === 'learn') {
+        ntabHeading.textContent = '05 // LEARN MORE (PRIMARY LITERATURE & WHITE PAPERS)';
+        const papers = getExternalResourcesForNode(n);
+        ntabBody.innerHTML = renderLearnMoreCardsHtml(papers);
+        ntabCalloutBox.classList.add('hidden');
+        btnNodeQuickLearnMore.classList.add('hidden');
+      } else {
+        ntabCalloutBox.classList.remove('hidden');
+        btnNodeQuickLearnMore.classList.remove('hidden');
+
+        if (activeNTab === 'how') {
+          ntabHeading.textContent = '01 // HOW IT WORKS (MECHANISM)';
+          ntabBody.textContent = n.how;
+          ntabSubLabel.textContent = 'WHY IT SITS HERE IN THE DATAFLOW';
+          ntabSubContent.textContent = (n.role || '') + ' — ' + n.tensor;
+        } else if (activeNTab === 'why') {
+          ntabHeading.textContent = '02 // WHY IT IS USED (ENGINEERING RATIONALE)';
+          ntabBody.textContent = n.why;
+          ntabSubLabel.textContent = 'MATHEMATICAL IDENTITY & INVARIANT';
+          ntabSubContent.textContent = n.formula;
+        } else if (activeNTab === 'contrib') {
+          ntabHeading.textContent = '03 // WHAT IT CONTRIBUTES TO SYSTEM GOAL';
+          ntabBody.textContent = n.contrib;
+          ntabSubLabel.textContent = 'WHY IT SITS HERE IN THE DATAFLOW';
+          ntabSubContent.textContent = n.role || n.sub;
+        } else {
+          ntabHeading.textContent = '04 // MATHEMATICAL FORMULATION & TENSOR ABI';
+          ntabBody.textContent = n.formula;
+          ntabSubLabel.textContent = 'IN / OUT TENSOR SIGNATURE';
+          ntabSubContent.textContent = n.tensor;
         }
       }
+
+      renderContextualWidget(n);
+    }
+
+    // Render Deep Dive View (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Science | 5. Learn More)
+    function renderTechDeepDive() {
+      const t = techMap[selectedTechId] || techLib[0];
+      if (!t) return;
+      selTechDropdown.value = t.id;
+      document.getElementById('techTitle').textContent = t.title;
+
+      // Update 1-2-3-4-5 Tabs in Deep Dive
+      document.querySelectorAll('.ttab-btn').forEach((btn) => {
+        const isAct = btn.getAttribute('data-ttab') === activeTTab;
+        btn.className = isAct
+          ? 'ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-semibold btn-theme-accent transition cursor-pointer'
+          : 'ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+      });
+
+      const ttabHeading = document.getElementById('ttabHeading');
+      const ttabBody = document.getElementById('ttabBody');
+      const ttabCalloutBox = document.getElementById('ttabCalloutBox');
+      const ttabSubLabel = document.getElementById('ttabSubLabel');
+      const ttabSubContent = document.getElementById('ttabSubContent');
+      const btnTechQuickLearnMore = document.getElementById('btnTechQuickLearnMore');
+
+      if (activeTTab === 'learn') {
+        ttabHeading.textContent = '05 // LEARN MORE (FOUNDATIONAL WHITE PAPERS & SOURCES)';
+        const resList = TECH_EXTERNAL_RESOURCES[t.id] || [];
+        ttabBody.innerHTML = renderLearnMoreCardsHtml(resList);
+        ttabCalloutBox.classList.add('hidden');
+        btnTechQuickLearnMore.classList.add('hidden');
+      } else {
+        ttabCalloutBox.classList.remove('hidden');
+        btnTechQuickLearnMore.classList.remove('hidden');
+
+        if (activeTTab === 'how') {
+          ttabHeading.textContent = '01 // HOW IT WORKS (MECHANISM)';
+          ttabBody.textContent = t.how;
+          ttabSubLabel.textContent = 'WHY IT SITS HERE IN THE DATAFLOW';
+          ttabSubContent.textContent = t.placement;
+        } else if (activeTTab === 'why') {
+          ttabHeading.textContent = '02 // WHY IT IS USED (PROBLEM SOLVED)';
+          ttabBody.textContent = t.why;
+          ttabSubLabel.textContent = 'RESEARCH ORIGINS & EVOLUTION';
+          ttabSubContent.textContent = t.origins;
+        } else if (activeTTab === 'contrib') {
+          ttabHeading.textContent = '03 // WHAT IT CONTRIBUTES TO SYSTEM GOAL';
+          ttabBody.textContent = t.contrib;
+          ttabSubLabel.textContent = 'WHY IT SITS HERE IN THE DATAFLOW';
+          ttabSubContent.textContent = t.placement;
+        } else {
+          ttabHeading.textContent = '04 // UNDERLYING SCIENCE & MATHEMATICAL MECHANISM';
+          ttabBody.textContent = t.science;
+          ttabSubLabel.textContent = 'RESEARCH ORIGINS & EVOLUTION';
+          ttabSubContent.textContent = t.origins;
+        }
+      }
+
+      const usedContainer = document.getElementById('techUsedInNodes');
+      usedContainer.innerHTML = '';
+      (t.usedIn || []).forEach((nid) => {
+        const n = nodeMap[nid];
+        if (!n) return;
+        const b = document.createElement('button');
+        b.className = 'no-wrap-btn mono text-xs px-3 py-1 rounded-lg surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer';
+        b.textContent = getGlyph('node') + ' ' + n.num + ' · ' + n.title;
+        b.addEventListener('click', () => {
+          selectedNodeId = n.id;
+          setRightView('node');
+        });
+        usedContainer.appendChild(b);
+      });
+    }
+
+    // Render Contextual Interactive Micro-Simulator inside the Right Panel
+    function renderContextualWidget(node) {
+      const wTitle = document.getElementById('ctxWidgetTitle');
+      const wTag = document.getElementById('ctxWidgetTag');
+      const wBody = document.getElementById('ctxWidgetBody');
+      wBody.innerHTML = '';
+
+      if (node.stageGroup === 'mem') {
+        wTitle.textContent = 'INTERACTIVE 5,376B CACHE-LINE INSPECTOR';
+        wTag.textContent = '84 × 64B CL';
+        const segments = [
+          { name: 'Cars [0..5]', bytes: '0..1535', cl: '24 CL', color: '#38bdf8', desc: '6 Cars × 64 floats (256B each): Pos, Vel, Rot6D, Local Vel, Dodge/Flip Timers, 4-Wheel Shocks' },
+          { name: 'Ball [6]', bytes: '1536..1663', cl: '2 CL', color: '#22d3ee', desc: '1 Ball × 32 floats (128B): Position, Linear/Angular Velocity, Last Hit Car, Magnus Force' },
+          { name: 'Traj [7..14]', bytes: '1664..2687', cl: '16 CL', color: '#818cf8', desc: '8 BallRingBuffer480 Samples × 32 floats (1,024B): 4.0s Future Bounce & Spin Curve' },
+          { name: 'Match [15]', bytes: '2688..2751', cl: '1 CL', color: '#a78bfa', desc: '1 Match Node × 16 floats (64B): κ_Δt Action Duration, Score Diff, Clock, Gravity' },
+          { name: 'Pads [16..49]', bytes: '2752..3839', cl: '17 CL', color: '#f472b6', desc: '34 Boost Pads × 8 floats (1,088B): Canonical X/Y/Z, IsBigPad, Active Flag, Respawn Timer' },
+          { name: 'Goals/Wheels/OBB', bytes: '3840..4735', cl: '14 CL', color: '#fbbf24', desc: '6 Goals + 4 Zero-Lag Ego Wheel Raycasts + 4 Nearest Wall Surface OBBs (896B)' },
+          { name: 'PrivCtx [128]', bytes: '4864..5375', cl: '8 CL', color: '#34d399', desc: '128 Privileged Floats (512B): Exact Opponent Boost/Flip Secrets (Training Critic Only)' }
+        ];
+        const barRow = document.createElement('div');
+        barRow.className = 'grid grid-cols-7 gap-1';
+        segments.forEach((seg, idx) => {
+          const b = document.createElement('button');
+          b.className =
+            'py-1.5 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
+            (selectedMemSliceIdx === idx
+              ? 'border-white text-slate-950'
+              : 'border-transparent text-slate-950 opacity-75 hover:opacity-100');
+          b.style.backgroundColor = seg.color;
+          b.textContent = seg.cl;
+          b.title = seg.name;
+          b.addEventListener('click', () => {
+            selectedMemSliceIdx = idx;
+            renderContextualWidget(node);
+          });
+          barRow.appendChild(b);
+        });
+        wBody.appendChild(barRow);
+
+        const activeSeg = segments[selectedMemSliceIdx] || segments[0];
+        const info = document.createElement('div');
+        info.className = 'p-2.5 rounded-lg surface-root border border-hairline mono text-xs flex flex-col gap-1';
+        info.innerHTML =
+          '<div class="flex justify-between"><span class="font-bold text-primary-ink">' +
+          activeSeg.name +
+          '</span><span class="text-theme-accent font-bold">Bytes ' +
+          activeSeg.bytes +
+          ' (' +
+          activeSeg.cl +
+          ')</span></div>' +
+          '<div class="text-secondary-ink font-sans text-xs">' +
+          activeSeg.desc +
+          '</div>';
+        wBody.appendChild(info);
+
+      } else if (node.stageGroup === 'edges') {
+        wTitle.textContent = '16×64 PAIRWISE INTERCEPT SIMULATOR';
+        wTag.textContent = '1,024 PAIRS · 72D';
+        const queries = [
+          { label: 'Q0: Ego Car (Blue #0)', v: 1850, pos: [-420, -1200, 17] },
+          { label: 'Q1: Teammate #1', v: 1410, pos: [1100, -2400, 17] },
+          { label: 'Q3: Opponent #1 (Chal)', v: 2150, pos: [-180, 640, 190] },
+          { label: 'Q6: Live Ball', v: 2400, pos: [0, 120, 420] }
+        ];
+        const keys = [
+          { label: 'K6: Current Ball', pos: [0, 120, 420] },
+          { label: 'K10: Ball Bounce +1.3s (τ_4)', pos: [-1650, 3100, 680] },
+          { label: 'K22: Mid-Left 100% Boost Pad', pos: [-3072, 0, 73] },
+          { label: 'K57: Ego Wheel #1 Raycast', pos: [-420, -1180, 17] }
+        ];
+
+        const selRow = document.createElement('div');
+        selRow.className = 'grid grid-cols-2 gap-1.5';
+        const sQ = document.createElement('select');
+        sQ.className = 'surface-root text-primary-ink border border-hairline rounded px-2 py-1 text-xs mono';
+        queries.forEach((q, i) => {
+          const o = document.createElement('option');
+          o.value = i;
+          o.textContent = q.label;
+          if (i === selectedPairQueryIdx) o.selected = true;
+          sQ.appendChild(o);
+        });
+        sQ.addEventListener('change', (e) => {
+          selectedPairQueryIdx = Number(e.target.value);
+          renderContextualWidget(node);
+        });
+
+        const sK = document.createElement('select');
+        sK.className = 'surface-root text-primary-ink border border-hairline rounded px-2 py-1 text-xs mono';
+        keys.forEach((k, i) => {
+          const o = document.createElement('option');
+          o.value = i;
+          o.textContent = k.label;
+          if (i === selectedPairKeyIdx % keys.length) o.selected = true;
+          sK.appendChild(o);
+        });
+        sK.addEventListener('change', (e) => {
+          selectedPairKeyIdx = Number(e.target.value);
+          renderContextualWidget(node);
+        });
+
+        selRow.appendChild(sQ);
+        selRow.appendChild(sK);
+        wBody.appendChild(selRow);
+
+        const qObj = queries[selectedPairQueryIdx] || queries[0];
+        const kObj = keys[selectedPairKeyIdx % keys.length] || keys[0];
+        const dx = kObj.pos[0] - qObj.pos[0];
+        const dy = kObj.pos[1] - qObj.pos[1];
+        const dz = kObj.pos[2] - qObj.pos[2];
+        const dist = Math.round(Math.sqrt(dx * dx + dy * dy + dz * dz));
+        const tReach = (dist / Math.max(qObj.v, 500)).toFixed(2);
+        const diffWeight = Math.max(0.08, Math.min(0.94, 1.35 - Number(tReach) * 0.45)).toFixed(2);
+
+        const metrics = document.createElement('div');
+        metrics.className = 'grid grid-cols-3 gap-1.5 mono text-xs';
+        metrics.innerHTML =
+          '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">3D DIST</div><div class="text-primary-ink font-bold">' +
+          dist +
+          ' uu</div></div>' +
+          '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">T_INTERCEPT</div><div class="text-theme-accent font-bold">' +
+          tReach +
+          ' s</div></div>' +
+          '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">DIFF-ATTN</div><div class="text-primary-ink font-bold">' +
+          diffWeight +
+          '</div></div>';
+        wBody.appendChild(metrics);
+
+      } else if (node.stageGroup === 'titans') {
+        wTitle.textContent = 'TITANS SURPRISE & 8-EXPERT SOFT-MOE ROUTER';
+        wTag.textContent = 'FP32 ||W||_F <= 4.0';
+
+        const sliderRow = document.createElement('div');
+        sliderRow.className = 'flex items-center justify-between gap-2';
+        sliderRow.innerHTML =
+          '<span class="text-secondary-ink">Opponent Surprise Residual ||r_t||:</span><span class="mono font-bold text-theme-accent">' +
+          surpriseIntensity.toFixed(2) +
+          '</span>';
+        wBody.appendChild(sliderRow);
+
+        const rng = document.createElement('input');
+        rng.type = 'range';
+        rng.min = '0.05';
+        rng.max = '1.50';
+        rng.step = '0.05';
+        rng.value = String(surpriseIntensity);
+        rng.className = 'w-full cursor-pointer';
+        rng.addEventListener('input', (e) => {
+          surpriseIntensity = Number(e.target.value);
+          renderContextualWidget(node);
+        });
+        wBody.appendChild(rng);
+
+        const frobNorm = Math.min(4.0, 2.15 + surpriseIntensity * 1.15).toFixed(2);
+        const experts = [
+          { name: 'E1: Ground/50s', w: 0.14 },
+          { name: 'E2: Fast Aerial', w: 0.22 },
+          { name: 'E3: Wall/Double', w: Math.min(0.42, 0.12 + surpriseIntensity * 0.18) },
+          { name: 'E4: Flip Reset', w: Math.min(0.38, 0.08 + surpriseIntensity * 0.15) },
+          { name: 'E5: Shadow Def', w: Math.max(0.06, 0.34 - surpriseIntensity * 0.12) },
+          { name: 'E6: Demo/Evade', w: Math.min(0.45, 0.10 + surpriseIntensity * 0.22) }
+        ];
+        const expGrid = document.createElement('div');
+        expGrid.className = 'grid grid-cols-2 gap-1.5 pt-1';
+        experts.forEach((ex) => {
+          const pct = Math.round(ex.w * 100);
+          const item = document.createElement('div');
+          item.className = 'p-1.5 rounded surface-root border border-hairline flex flex-col gap-1';
+          item.innerHTML =
+            '<div class="flex justify-between text-[11px] mono"><span class="text-secondary-ink">' +
+            ex.name +
+            '</span><span class="text-theme-accent font-bold">' +
+            pct +
+            '%</span></div>' +
+            '<div class="w-full h-1.5 surface-panel rounded overflow-hidden"><div class="h-full btn-theme-accent" style="width:' +
+            pct +
+            '%"></div></div>';
+          expGrid.appendChild(item);
+        });
+        wBody.appendChild(expGrid);
+
+        const foot = document.createElement('div');
+        foot.className = 'mono text-[11px] text-secondary-ink flex justify-between pt-1';
+        foot.innerHTML =
+          '<span>Fast-Weight Norm: ||W_t||_F = ' +
+          frobNorm +
+          ' / 4.00</span><span class="text-theme-accent font-bold">FSQ Code #418</span>';
+        wBody.appendChild(foot);
+
+      } else {
+        wTitle.textContent = '60HZ SUBTICK CHUNK & 4-HORIZON CRITIC';
+        wTag.textContent = 'K_sub = 4 (16.7ms)';
+        const subticks = [
+          { k: 'Subtick 1 (0–16.7ms)', dj: '0', pitch: '-0.85' },
+          { k: 'Subtick 2 (16.7–33.3ms)', dj: '1 (Stall Clamp)', pitch: '+0.02 (0.12·tanh)' },
+          { k: 'Subtick 3 (33.3–50.0ms)', dj: '0', pitch: '-0.98 (Cancel)' },
+          { k: 'Subtick 4 (50.0–66.7ms)', dj: '0', pitch: '-0.94 (Align)' }
+        ];
+        const tbl = document.createElement('div');
+        tbl.className = 'flex flex-col gap-1 mono text-[11px]';
+        subticks.forEach((st) => {
+          const r = document.createElement('div');
+          r.className = 'p-1.5 rounded surface-root border border-hairline flex items-center justify-between';
+          r.innerHTML =
+            '<span class="text-primary-ink font-semibold">' +
+            st.k +
+            '</span>' +
+            '<span class="text-theme-accent font-bold">m_dj=' +
+            st.dj.charAt(0) +
+            ' · Pitch ' +
+            st.pitch +
+            '</span>';
+          tbl.appendChild(r);
+        });
+        wBody.appendChild(tbl);
+
+        const hRow = document.createElement('div');
+        hRow.className = 'grid grid-cols-4 gap-1 pt-1 mono text-[10px] text-center';
+        hRow.innerHTML =
+          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">γ=0.95 (1s)</div><div class="text-primary-ink font-bold">+1.42</div></div>' +
+          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">γ=0.98 (2.5s)</div><div class="text-primary-ink font-bold">+2.18</div></div>' +
+          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">γ=0.995 (10s)</div><div class="text-primary-ink font-bold">+3.05</div></div>' +
+          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">Sparse Win</div><div class="text-theme-accent font-bold">64.2%</div></div>';
+        wBody.appendChild(hRow);
+      }
+    }
+
+    // Update Floating Walkthrough Tooltip Overlay on Canvas
+    function updateTourTooltip() {
+      if (activeScenarioKey === 'none' || !tourOverlayVisible || !scenarios[activeScenarioKey]) {
+        tourTooltip.classList.add('hidden');
+        btnToggleTour.textContent = getGlyph('tourOff') + ' Show Tour';
+        btnToggleTour.className = 'no-wrap-btn px-2 py-1 rounded-lg text-[11.5px] font-medium surface-panel text-secondary-ink border border-hairline hover:text-primary-ink transition cursor-pointer';
+        return;
+      }
+
+      tourTooltip.classList.remove('hidden');
+      btnToggleTour.textContent = getGlyph('tourOn') + ' Tour Active';
+      btnToggleTour.className = 'no-wrap-btn px-2 py-1 rounded-lg text-[11.5px] font-semibold btn-theme-accent border transition cursor-pointer';
+
+      const scen = scenarios[activeScenarioKey];
+      const steps = scen.steps;
+      if (activeStepIdx >= steps.length) activeStepIdx = 0;
+      if (activeStepIdx < 0) activeStepIdx = steps.length - 1;
+
+      const step = steps[activeStepIdx];
+      ttStepBadge.textContent = 'STEP ' + (activeStepIdx + 1) + ' OF ' + steps.length;
+      ttScenarioLabel.textContent = scen.label;
+      ttTitle.textContent = step.title;
+      ttDesc.textContent = step.desc;
+
+      // Sync focused node & right-hand inspector automatically
+      if (step.focusNode && nodeMap[step.focusNode]) {
+        selectedNodeId = step.focusNode;
+        if (activeRightView === 'node') {
+          renderNodeInspector();
+        } else if (step.techId) {
+          selectedTechId = step.techId;
+          renderTechDeepDive();
+        }
+      }
+
+      // Position tooltip smartly near the focused node inside #canvasAspectBox
+      const fn = nodeMap[step.focusNode] || nodes[0];
+      const boxRect = canvasAspectBox.getBoundingClientRect();
+      const scaleX = boxRect.width / renderer.BASE_W;
+      const scaleY = boxRect.height / renderer.BASE_H;
+
+      const nodeScreenX = fn.x * scaleX;
+      const nodeScreenY = fn.y * scaleY;
+      const tooltipW = tourTooltip.offsetWidth || 380;
+      const tooltipH = tourTooltip.offsetHeight || 220;
+
+      let leftPx = nodeScreenX + fn.w * 0.55 * scaleX + 16;
+      if (fn.col >= 3) {
+        leftPx = nodeScreenX - fn.w * 0.55 * scaleX - tooltipW - 16;
+      }
+      leftPx = Math.max(16, Math.min(boxRect.width - tooltipW - 16, leftPx));
+
+      let topPx = nodeScreenY - Math.round(tooltipH * 0.35);
+      topPx = Math.max(16, Math.min(boxRect.height - tooltipH - 16, topPx));
+
+      tourTooltip.style.left = Math.round(leftPx) + 'px';
+      tourTooltip.style.top = Math.round(topPx) + 'px';
+      tourTooltip.style.bottom = 'auto';
+    }
+
+    function setPolarity(mode) {
+      activePolarity = mode === 'dark' ? 'dark' : 'light';
+      document.body.setAttribute('data-mode', activePolarity);
+      try {
+        localStorage.setItem('arashikage_arch_polarity', activePolarity);
+      } catch (_) {}
+      updatePolarityButtons();
+      setTheme(activeTheme);
+    }
+
+    function setTheme(themeKey) {
+      if (!THEME_META[themeKey]) return;
+      activeTheme = themeKey;
+      document.body.setAttribute('data-theme', themeKey);
+      document.body.setAttribute('data-mode', activePolarity);
+
+      try {
+        localStorage.setItem('arashikage_arch_theme', activeTheme);
+      } catch (_) {}
+
+      if (selTheme && selTheme.value !== activeTheme) {
+        selTheme.value = activeTheme;
+      }
+
+      const meta = THEME_META[themeKey];
+      const notesEl = document.getElementById('themeStyleNotes');
+      if (notesEl) {
+        notesEl.textContent = meta.name.toUpperCase() + ' (' + activePolarity.toUpperCase() + ') — ' + meta.notes;
+      }
+      const brandDot = document.getElementById('brandDot');
+      if (brandDot) {
+        brandDot.style.backgroundColor = meta.stageColors[0];
+      }
+
+      renderer.applyStagePaletteToNodes(nodes, meta.stageColors);
+
+      syncThemeAlignedButtons();
+      updatePolarityButtons();
+      updateTourTooltip();
+      renderNodeInspector();
+      if (activeRightView === 'tech') renderTechDeepDive();
+    }
+
+    // Event Listeners: Theme & Polarity
+    selTheme.addEventListener('change', (e) => {
+      setTheme(e.target.value);
+    });
+    btnPolarityLight.addEventListener('click', () => setPolarity('light'));
+    btnPolarityDark.addEventListener('click', () => setPolarity('dark'));
+
+    document.getElementById('btnPrevTheme').addEventListener('click', () => {
+      const idx = THEME_ORDER.indexOf(activeTheme);
+      setTheme(THEME_ORDER[(idx - 1 + THEME_ORDER.length) % THEME_ORDER.length]);
+    });
+    document.getElementById('btnNextTheme').addEventListener('click', () => {
+      const idx = THEME_ORDER.indexOf(activeTheme);
+      setTheme(THEME_ORDER[(idx + 1) % THEME_ORDER.length]);
     });
 
-    // Share HTML Export
-    document.getElementById('btnExportHtml').addEventListener('click', exportStandaloneHtml);
+    // Event Listeners: Scenario & Tour Tooltip
+    selScenario.addEventListener('change', (e) => {
+      activeScenarioKey = e.target.value;
+      activeStepIdx = 0;
+      tourOverlayVisible = activeScenarioKey !== 'none';
+      updateTourTooltip();
+    });
 
-    // Canvas Pointer Interaction
-    canvas.addEventListener('mousemove', (e) => {
-      const hit = renderer.getNodeAtCanvasCoords(canvas, e.clientX, e.clientY, nodes);
-      if (hit.node) {
-        hoveredNodeId = hit.node.id;
-        canvas.style.cursor = 'pointer';
-        hoverTooltip.classList.remove('hidden');
-        document.getElementById('tooltipBadge').textContent = hit.node.badge;
-        document.getElementById('tooltipTitle').textContent = hit.node.title;
-        document.getElementById('tooltipSub').textContent = hit.node.sub;
-
-        const wrapRect = canvasWrapper.getBoundingClientRect();
-        const tx = Math.min(wrapRect.width - 270, Math.max(12, e.clientX - wrapRect.left + 16));
-        const ty = Math.min(wrapRect.height - 95, Math.max(12, e.clientY - wrapRect.top + 16));
-        hoverTooltip.style.left = `${tx}px`;
-        hoverTooltip.style.top = `${ty}px`;
+    btnToggleTour.addEventListener('click', () => {
+      if (activeScenarioKey === 'none') {
+        activeScenarioKey = 'tour';
+        selScenario.value = 'tour';
+        activeStepIdx = 0;
+        tourOverlayVisible = true;
       } else {
-        hoveredNodeId = null;
-        canvas.style.cursor = 'default';
-        hoverTooltip.classList.add('hidden');
+        tourOverlayVisible = !tourOverlayVisible;
+      }
+      updateTourTooltip();
+    });
+
+    btnCloseTooltip.addEventListener('click', () => {
+      tourOverlayVisible = false;
+      updateTourTooltip();
+    });
+
+    btnTtPrev.addEventListener('click', () => {
+      activeStepIdx--;
+      updateTourTooltip();
+    });
+
+    btnTtNext.addEventListener('click', () => {
+      activeStepIdx++;
+      updateTourTooltip();
+    });
+
+    btnTtDeepDive.addEventListener('click', () => {
+      const scen = scenarios[activeScenarioKey];
+      const step = scen ? scen.steps[activeStepIdx] : null;
+      const tid = step && step.techId ? step.techId : nodeMap[selectedNodeId].techIds[0] || 't0';
+      setRightView('tech', tid, 'how');
+      openSlideInDrawer();
+    });
+
+    selMode.addEventListener('change', (e) => {
+      activeMode = e.target.value;
+    });
+
+    // Event Listeners: Right Panel Mode & Tabs
+    btnViewNode.addEventListener('click', () => {
+      setRightView('node');
+      openSlideInDrawer();
+    });
+    btnViewTech.addEventListener('click', () => {
+      setRightView('tech', selectedTechId);
+      openSlideInDrawer();
+    });
+    btnBackToNode.addEventListener('click', () => {
+      setRightView('node');
+    });
+    selTechDropdown.addEventListener('change', (e) => {
+      selectedTechId = e.target.value;
+      renderTechDeepDive();
+      syncUrlHash();
+    });
+
+    document.querySelectorAll('.ntab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeNTab = btn.getAttribute('data-ntab');
+        renderNodeInspector();
+        syncUrlHash();
+      });
+    });
+
+    document.querySelectorAll('.ttab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeTTab = btn.getAttribute('data-ttab');
+        renderTechDeepDive();
+        syncUrlHash();
+      });
+    });
+
+    document.getElementById('btnNodeQuickLearnMore').addEventListener('click', () => {
+      activeNTab = 'learn';
+      renderNodeInspector();
+      syncUrlHash();
+    });
+
+    document.getElementById('btnTechQuickLearnMore').addEventListener('click', () => {
+      activeTTab = 'learn';
+      renderTechDeepDive();
+      syncUrlHash();
+    });
+
+    // Event Listeners: Full Screen & Slide-Over Dismissal
+    btnToggleFullscreen.addEventListener('click', () => {
+      toggleFullscreenMode();
+    });
+    btnCloseDrawer.addEventListener('click', () => {
+      closeSlideInDrawer();
+    });
+    panelDismissBackdrop.addEventListener('click', () => {
+      closeSlideInDrawer();
+    });
+
+    canvasWrapper.addEventListener('click', (e) => {
+      if (isFullscreenMode && isDrawerOpen && e.target === canvasWrapper) {
+        closeSlideInDrawer();
       }
     });
 
-    canvas.addEventListener('mouseleave', () => {
-      hoveredNodeId = null;
-      hoverTooltip.classList.add('hidden');
+    // Canvas Hit-Testing & Click
+    canvas.addEventListener('mousemove', (e) => {
+      const hit = renderer.getNodeAtCanvasCoords(canvas, e.clientX, e.clientY, nodes);
+      hoveredNodeId = hit ? hit.id : null;
+      canvas.style.cursor = hit ? 'pointer' : 'default';
     });
 
     canvas.addEventListener('click', (e) => {
       const hit = renderer.getNodeAtCanvasCoords(canvas, e.clientX, e.clientY, nodes);
-      if (hit.node) {
-        selectedNodeId = hit.node.id;
-        setRightMode('inspector');
-        openSlideInPanel();
-      } else if (isFullscreenMode && isSlidePanelOpen) {
-        closeSlideInPanel();
+      if (hit) {
+        selectedNodeId = hit.id;
+        setRightView('node');
+        openSlideInDrawer();
+      } else if (isFullscreenMode && isDrawerOpen) {
+        closeSlideInDrawer();
       }
     });
 
-    // Aspect Ratio Resize Observer
-    const resizeObs = new ResizeObserver(() => {
-      renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox);
-    });
-    resizeObs.observe(canvasWrapper);
-    window.addEventListener('resize', () => {
-      renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox);
-    });
-
-    // Apply initial theme, URL hash state, and start animation loop
-    applyThemeAndPolarity(activeTheme, activePolarity);
-    const loadedFromHash = applyStateFromUrlHash();
-    if (loadedFromHash) {
-      setRightMode(rightMode);
-    } else {
-      renderInspector();
-      updateUrlHash();
+    // Resize Observer for 1120:680 Aspect Ratio Box
+    if (typeof ResizeObserver !== 'undefined') {
+      new ResizeObserver(() => {
+        renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
+        if (tourOverlayVisible) updateTourTooltip();
+      }).observe(canvasWrapper);
     }
-    updateTourUI();
-    renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox);
+    window.addEventListener('resize', () => {
+      renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
+      if (tourOverlayVisible) updateTourTooltip();
+    });
 
-    function animate() {
-      animTick++;
-      renderer.renderCanvas(ctx, {
+    // Standalone Single-File HTML Export, PNG Export & Mermaid Copy
+    document.getElementById('btnExportHtml').addEventListener('click', async () => {
+      try {
+        const [cssText, nodesJs, scenariosJs, rendererJs, appJs] = await Promise.all([
+          fetch('./styles/themes.css').then((r) => r.text()),
+          fetch('./js/nodes_and_edges.js').then((r) => r.text()),
+          fetch('./js/scenarios_and_tech.js').then((r) => r.text()),
+          fetch('./js/canvas_renderer.js').then((r) => r.text()),
+          fetch('./js/app.js').then((r) => r.text())
+        ]);
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelectorAll('link[rel="stylesheet"]').forEach((link) => {
+          if ((link.getAttribute('href') || '').includes('themes.css')) {
+            const st = document.createElement('style');
+            st.textContent = cssText;
+            link.replaceWith(st);
+          }
+        });
+        const map = {
+          'nodes_and_edges.js': nodesJs,
+          'scenarios_and_tech.js': scenariosJs,
+          'canvas_renderer.js': rendererJs,
+          'app.js': appJs
+        };
+        clone.querySelectorAll('script[src]').forEach((scr) => {
+          const src = scr.getAttribute('src') || '';
+          for (const [k, v] of Object.entries(map)) {
+            if (src.includes(k)) {
+              const s = document.createElement('script');
+              s.textContent = v;
+              scr.replaceWith(s);
+              break;
+            }
+          }
+        });
+        const htmlContent = '<!DOCTYPE html>\n' + clone.outerHTML;
+        const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'arashikage_hex63_architecture_explorer.html';
+        a.click();
+        URL.revokeObjectURL(url);
+      } catch (_) {
+        const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+        const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'arashikage_hex63_architecture_explorer.html';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    });
+
+    document.getElementById('btnExportPng').addEventListener('click', () => {
+      const url = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'arashikage_hex63_dataflow.png';
+      a.click();
+    });
+
+    document.getElementById('btnCopyMermaid').addEventListener('click', () => {
+      const mmd = `flowchart LR
+  subgraph S1["Stage 1: C++20 Observation (5,376B)"]
+    N1["01. 5,376B Arena Slice (84x64B CL, C2v)"] --> N2["02. 16 Dynamic Queries"]
+    N1 --> N3["03. 48 Context Keys"]
+    N1 -.-> N4["04. 512B Privileged Critic Ctx"]
+  end
+  subgraph S2["Stage 2: Bipartite Graph"]
+    N2 & N3 --> N5["05. Fused GPU Pairwise Bias (16x64x72D)"]
+    N2 & N3 & N5 --> N6["06. 2L Bipartite DiffAttn"]
+  end
+  subgraph S3["Stage 3: FP32 Titans Memory"]
+    N7["07. Orthogonal W_init & k_prev"] & N6 --> N8["08. 2x4x32x32 FP32 Fast Weights"]
+  end
+  subgraph S4["Stage 4: Coconut & Soft-MoE"]
+    N8 --> N9["09. Coconut Loop (K=4..6)"]
+    N9 <--> N10["10. Static 8x2 Soft-MoE"]
+    N10 --> N11["11. 8x125=1,000 FSQ Bottleneck"]
+  end
+  subgraph S5["Stage 5: 60Hz Flow-GRPO Control"]
+    N9 & N11 --> N12["12. Stage-1 16-Way Binary Head"]
+    N12 --> N13["13. Stage-2 4-Step Flow-GRPO SDE"]
+    N13 --> N14["14. K_sub=4 (60Hz) Subtick Executor"]
+  end
+  subgraph S6["Stage 6: Critic, JEPA & RL"]
+    N4 -.-> N15["15. Dual 4x51 Symlog HL-Gauss Critic"]
+    N9 --> N15
+    N13 & N15 --> N16["16. Best-of-16 JEPA + CVaR Search"]
+    N14 & N15 -.-> N17["17. G=8 Cloned GRPO & Flow-PPO"]
+  end`;
+      navigator.clipboard.writeText(mmd).then(() => {
+        const btn = document.getElementById('btnCopyMermaid');
+        btn.textContent = getGlyph('export') + ' Copied';
+        setTimeout(() => {
+          syncThemeAlignedButtons();
+        }, 1600);
+      });
+    });
+
+    // Keyboard shortcuts 1..6 for theme comparison, L / D for Light / Dark, Escape for drawer/fullscreen
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isFullscreenMode) {
+        if (isDrawerOpen) {
+          closeSlideInDrawer();
+        } else {
+          toggleFullscreenMode(false);
+        }
+        return;
+      }
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) return;
+      const numIdx = parseInt(e.key, 10) - 1;
+      if (numIdx >= 0 && numIdx < THEME_ORDER.length) {
+        setTheme(THEME_ORDER[numIdx]);
+      } else if (e.key === 'l' || e.key === 'L') {
+        setPolarity('light');
+      } else if (e.key === 'd' || e.key === 'D') {
+        setPolarity('dark');
+      }
+    });
+
+    // Restore saved theme/polarity & URL hash state
+    try {
+      const savedTheme = localStorage.getItem('arashikage_arch_theme');
+      const savedPol = localStorage.getItem('arashikage_arch_polarity');
+      if (savedTheme && THEME_META[savedTheme]) activeTheme = savedTheme;
+      if (savedPol === 'dark' || savedPol === 'light') activePolarity = savedPol;
+    } catch (_) {}
+
+    setTheme(activeTheme);
+    setPolarity(activePolarity);
+    const restoredFromHash = restoreStateFromUrlHash();
+    if (restoredFromHash) {
+      setRightView(activeRightView);
+    } else {
+      renderNodeInspector();
+      renderTechDeepDive();
+      syncUrlHash();
+    }
+
+    renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
+    setTimeout(updateTourTooltip, 60);
+
+    function loop() {
+      renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
+      animTick += 0.016;
+
+      let highlightSet = null;
+      if (tourOverlayVisible && activeScenarioKey !== 'none' && scenarios[activeScenarioKey]) {
+        const step = scenarios[activeScenarioKey].steps[activeStepIdx];
+        if (step && step.highlight) {
+          highlightSet = new Set(step.highlight);
+        }
+      }
+
+      renderer.renderCanvas(ctx, canvas, {
         nodes,
         edges,
         nodeMap,
         activeTheme,
         activePolarity,
-        activeLayerFilter,
+        activeMode,
         selectedNodeId,
         hoveredNodeId,
-        isNodeInTour,
-        isEdgeInTour,
-        getStageColor,
+        highlightSet,
         animTick
       });
-      requestAnimationFrame(animate);
+      requestAnimationFrame(loop);
     }
-    requestAnimationFrame(animate);
+    requestAnimationFrame(loop);
   }
 
   if (document.readyState === 'loading') {
