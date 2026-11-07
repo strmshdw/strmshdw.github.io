@@ -107,7 +107,13 @@
     return false;
   }
 
-  function applyStagePaletteToNodes(nodes, stageColors) {
+  function applyStagePaletteToNodes(nodes, stageColors, customHeaders) {
+    if (Array.isArray(customHeaders) && customHeaders.length === colHeaders.length) {
+      customHeaders.forEach((srcH, idx) => {
+        colHeaders[idx].title = srcH.title;
+        colHeaders[idx].sub = srcH.sub;
+      });
+    }
     colHeaders.forEach((ch, idx) => {
       ch.color = stageColors[idx % stageColors.length];
     });

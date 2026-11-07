@@ -382,10 +382,10 @@ body {
       <div class="flex items-center gap-2.5 min-w-0">
         <div class="flex items-center gap-2 shrink-0">
           <span id="brandDot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
-          <span class="mono text-xs font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX63</span>
+          <span id="identityBadgeText" class="mono text-xs font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX63 (CURRENT)</span>
         </div>
         <span class="text-muted-ink">|</span>
-        <h1 class="text-xs md:text-sm font-bold text-primary-ink tracking-tight truncate">
+        <h1 id="identityMainTitle" class="text-xs md:text-sm font-bold text-primary-ink tracking-tight truncate">
           Real-Time Physics &amp; Neural Control Architecture — 60 Hz Subtick Action Chunking &amp; Multi-Horizon RL
         </h1>
       </div>
@@ -394,9 +394,16 @@ body {
 
     <!-- Single-Line Compact Control Plane Header -->
     <header id="controlPlaneHeader" class="shrink-0 px-3 py-1.5 border-b border-hairline surface-card flex items-center justify-between gap-1.5 overflow-x-auto">
-      <!-- Left: Guided Walkthrough & Scenario Selector -->
+      <!-- Left: Platform Generation Switcher + Guided Walkthrough & Scenario Selector -->
       <div class="flex items-center gap-1.5 shrink-0">
-        <select id="selScenario" class="surface-panel text-primary-ink border border-subtle rounded-lg px-2 py-1 text-[11.5px] font-semibold focus:outline-none transition cursor-pointer max-w-[215px] truncate">
+        <select id="selArchGen" title="Switch Platform Architecture Generation to Compare &amp; Contrast" class="btn-theme-accent border rounded-lg px-2 py-1 text-[11.5px] font-bold focus:outline-none transition cursor-pointer max-w-[225px] truncate">
+          <option value="hex63" selected>Platform: Arashikage (Hex63 · Current)</option>
+          <option value="gen3_perceiver">Platform: Legacy Gen 3 (ST-Perceiver)</option>
+          <option value="gen2_factorized">Platform: Legacy Gen 2 (Factorized-684)</option>
+          <option value="gen1_ret40">Platform: Legacy Gen 1 (RET-40 + PD)</option>
+        </select>
+
+        <select id="selScenario" class="surface-panel text-primary-ink border border-subtle rounded-lg px-2 py-1 text-[11.5px] font-semibold focus:outline-none transition cursor-pointer max-w-[185px] truncate">
           <option value="none">Free Exploration (Click Any Block)</option>
           <option value="tour" selected>Guided Tour: 66.7ms Cycle (8 Steps)</option>
           <option value="bounce">Scenario 1: Corner Double-Tap (4 Steps)</option>
@@ -411,7 +418,7 @@ body {
 
       <!-- Center: Pathway Filter + Compact Theme Dropdown + Prev/Next + Light/Dark -->
       <div class="flex items-center gap-1.5 shrink-0">
-        <select id="selMode" class="surface-panel text-secondary-ink border border-hairline rounded-lg px-2 py-1 text-[11.5px] mono focus:outline-none cursor-pointer max-w-[185px] truncate">
+        <select id="selMode" class="surface-panel text-secondary-ink border border-hairline rounded-lg px-2 py-1 text-[11.5px] mono focus:outline-none cursor-pointer max-w-[160px] truncate">
           <option value="all">Pathway: Full Architecture</option>
           <option value="live">Pathway: Live 5.5ms Inference</option>
           <option value="train">Pathway: 4,096-Arena Training</option>
@@ -420,7 +427,7 @@ body {
 
         <div class="h-4 w-[1px] bg-current opacity-20 mx-0.5"></div>
 
-        <select id="selTheme" class="surface-panel text-primary-ink border border-subtle rounded-lg px-2 py-1 text-[11.5px] font-bold focus:outline-none cursor-pointer max-w-[170px] truncate">
+        <select id="selTheme" class="surface-panel text-primary-ink border border-subtle rounded-lg px-2 py-1 text-[11.5px] font-bold focus:outline-none cursor-pointer max-w-[155px] truncate">
           <option value="neo_brutalism">Theme: 1. Neo-Brutalism</option>
           <option value="modular_typo">Theme: 2. Modular Typo</option>
           <option value="utilitarian">Theme: 3. Utilitarian</option>
@@ -1468,6 +1475,1812 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
 </script>
   <script>
 // ============================================================================
+// LEGACY GEN 3: ST-PERCEIVER & 2-STAGE AUTOREGRESSIVE HEADS (700D / 752D)
+// ============================================================================
+window.ARASHIKAGE_GEN3_PERCEIVER = {
+  id: 'gen3_perceiver',
+  shortBadge: 'LEGACY GEN 3 // ST-PERCEIVER',
+  dropdownLabel: 'Platform: Gen 3 — ST-Perceiver (700D + Cond-31)',
+  identityTitle: 'Spatial-Temporal Perceiver Cross-Attention & Two-Stage Autoregressive Action Heads — 15 Hz Macro Control',
+  colHeaders: [
+    { col: 0, x: 96,  title: 'STAGE 1 // 700D CANONICAL', sub: 'K=4 Stack · Wheel 16D',    color: '#38bdf8' },
+    { col: 1, x: 282, title: 'STAGE 2 // ENTITY UNPACK',  sub: '144D Core · 34×7D PointNet', color: '#22d3ee' },
+    { col: 2, x: 468, title: 'STAGE 3 // ST-PERCEIVER',   sub: 'M=4 × N=37 · QK-RMSNorm',  color: '#a78bfa' },
+    { col: 3, x: 654, title: 'STAGE 4 // SWIGLU TRUNK',   sub: '912D->256D · Skill Z_t',   color: '#f472b6' },
+    { col: 4, x: 840, title: 'STAGE 5 // COND-31 HEADS',  sub: '2-Stage Jump/Boost->Axes', color: '#fbbf24' },
+    { col: 5, x: 1024, title: 'STAGE 6 // 752D CRITIC',   sub: 'M=4×N=43 · Distill · PPO', color: '#34d399' }
+  ],
+  nodes: [
+    // --- COLUMN 0: STAGE 1 — C++20 SIM & 700D CANONICAL OBS (x = 96) ---
+    {
+      id: 'dma_slice', num: '01', col: 0, x: 96, y: 125, w: 162, h: 92,
+      title: 'C++17 Batch Engine', sub: 'OpenMP Arenas · Z-Up Mirror', tag: 'NativeBatchEngine',
+      color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
+      techIds: ['t0', 't9'],
+      role: 'Stage 1 · C++17 OpenMP RocketSim Batch Engine & Team Mirroring (15 Hz)',
+      tensor: 'CanonicalObs700D [B, 700] + ActionMasks [B, 31]',
+      formula: 'pos_c = (-x, -y, z), pad_idx = ORANGE_PAD_PERM[i] (team == 1)',
+      how: 'Steps parallel RocketSim arenas in C++17 with OpenMP thread pools. For Orange team agents, mirrors world X/Y coordinates (-x, -y, z) and permutes the 34 boost pads via ORANGE_PAD_PERMUTATION so the policy always attacks toward +Y.',
+      why: 'Replaced Python-loop gym wrappers with contiguous C++ float buffers, though it still assembled flat feature vectors rather than Hex63\'s 64-byte-aligned 5,376B entity arena slice.',
+      contrib: 'Delivered high-throughput 1v1 training rollouts and canonical team symmetry across all 34 boost pads.'
+    },
+    {
+      id: 'dyn_nodes', num: '02', col: 0, x: 96, y: 265, w: 162, h: 92,
+      title: '171D×4 History Stack', sub: '684D Egocentric R_car^T', tag: 'K=4 Sliding Win',
+      color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
+      techIds: ['t0', 't1'],
+      role: 'Stage 1 · 4-Frame Egocentric Body-Frame Observation Stack (684 Floats)',
+      tensor: 'X_ego ∈ R^[B, 4, 171] -> [B, 684] (frames t, t-1, t-2, t-3)',
+      formula: 'v_rel^body = R_car^T (v_entity - v_car), g_local = R_car^T [0,0,-1]^T',
+      how: 'Projects all velocities, relative ball/opponent positions, angular velocities, and 34×4 boost pad coordinates into the ego car\'s local body frame R_car^T and stacks the last K=4 steps (684 floats) using a deque buffer with 0..2 tick latency randomization.',
+      why: 'Before Hex63 introduced FP32 Titans fast weights and BallRingBuffer480, stacking K=4 frames was the primary way for the actor to infer ball acceleration and opponent boost consumption.',
+      contrib: 'Provided finite-difference velocity derivatives and immediate body-local steering/pitch alignment.'
+    },
+    {
+      id: 'env_nodes', num: '03', col: 0, x: 96, y: 405, w: 162, h: 92,
+      title: '16D Wheel History', sub: '4 Wheels × K=4 Compression', tag: 'Bytes 684..700',
+      color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
+      techIds: ['t0', 't8'],
+      role: 'Stage 1 · 4-Frame Ego Wheel Suspension Contact Extension (16 Floats)',
+      tensor: 'w_hist ∈ R^[B, 4, 4] -> [B, 16] (appended at [:, 684:700])',
+      formula: 'x_700 = Concat(x_684, w_hist[t..t-3]) ∈ R^[B, 700]',
+      how: 'Appends 16 floats of 4-wheel suspension contact/compression history across the K=4 temporal window onto the 684D egocentric vector to form the 700D canonical observation.',
+      why: 'Gen 2 (684D) suffered from blind spots during wavedashes and flip resets because wheel contact was only visible to the privileged critic; Gen 3 exposed 4-frame wheel history to the actor.',
+      contrib: 'Enabled the ST-Perceiver actor to detect 4-wheel ball touches for flip resets and time wavedash landings.'
+    },
+    {
+      id: 'priv_ctx', num: '04', col: 0, x: 96, y: 545, w: 162, h: 92,
+      title: '68D Privileged Tail', sub: '5 Ballistic Bounces + Slip', tag: '752D Critic Input',
+      color: '#34d399', modes: ['all', 'train', 'distill'], stageGroup: 'mem',
+      techIds: ['t8', 't9'],
+      role: 'Stage 1 · Asymmetric Omniscient Critic Physics Tail (68 Floats -> 752D)',
+      tensor: 'c_priv ∈ R^[B, 68] -> x_critic ∈ R^[B, 752]',
+      formula: 'Δt_bounce ∈ {0.1, 0.25, 0.5, 1.0, 1.5} s (e_restitution = 0.6)',
+      how: 'Appends 68 privileged floats for the training critic: 20D exact 4-wheel suspension compression, contact normals, and lateral slip ratios, 18D true world-frame velocities, and 30D 5-horizon analytical ball bounce predictions.',
+      why: 'Gave the training critic analytical wall/floor bounce lookahead before Hex63 moved 480-tick C++ ball trajectory integration directly into the shared actor-critic observation.',
+      contrib: 'Stabilized value targets during wall reads and high aerials without requiring recurrent critic states.'
+    },
+
+    // --- COLUMN 1: STAGE 2 — ZERO-COPY UNPACK & POINTNET (x = 282) ---
+    {
+      id: 'gpu_edges', num: '05', col: 1, x: 282, y: 205, w: 162, h: 96,
+      title: '144D Core Unpacker', sub: 'Self(62) · Ball(40) · Opp(42)', tag: 'SwiGLU Core Enc',
+      color: '#22d3ee', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'edges',
+      techIds: ['t1', 't2'],
+      role: 'Stage 2A · Zero-Copy Temporal Core Unpacker & SwiGLU Tokenizer',
+      tensor: 'x_core ∈ R^[B, 144] -> T_core ∈ R^[B, 3, 192]',
+      formula: 'a_ball = v_ball^(t) - v_ball^(t-1), Δb_opp = b_opp^(t) - b_opp^(t-3)',
+      how: 'Slices the 4×171 history tensor without memory copies into 62D Self (4×10 kinematics + 6D goals + 16D wheels), 40D Ball (4×9 kinematics + 3D finite-diff acceleration + 1D speed), and 42D Opponent (4×10 kinematics + boost burn delta + closing speed), projecting into 3×192 tokens via SwiGLU.',
+      why: 'Gen 2\'s flat 684->512 linear layer mixed 544 boost-pad floats with 140 core physics floats; explicit unpacking isolated the 3 primary dynamic actors.',
+      contrib: 'Eliminated boost-pad gradient dilution on ball/car kinematics while preserving TorchScript trace compatibility.'
+    },
+    {
+      id: 'bipartite_enc', num: '06', col: 1, x: 282, y: 365, w: 162, h: 96,
+      title: 'BoostPad PointNet', sub: '34 Pads × 7D -> 192D Shared', tag: 'Permutation Inv',
+      color: '#22d3ee', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'edges',
+      techIds: ['t1', 't2'],
+      role: 'Stage 2B · Weight-Shared 34-Entity Boost Pad PointNet Encoder',
+      tensor: 'P_pads ∈ R^[B, 34, 7] -> T_pads ∈ R^[B, 34, 192]',
+      formula: 'p_j = [x_j, y_j, z_j, τ_j^(t), τ_j^(t) - τ_j^(t-3), I_big, d_j] ∈ R^7',
+      how: 'Constructs a 7D feature vector for each of the 34 boost pads (current body-frame XYZ, availability fraction τ_j, 4-frame respawn timer delta Δτ_j, big-pad indicator, and normalized Euclidean distance d_j) and applies a shared PointNet MLP (7 -> 64 -> 192 with LayerNorm + SiLU).',
+      why: 'Replaced 544D of redundant 4-frame static boost pad coordinates with a compact, weight-shared geometric encoder over all 34 pads.',
+      contrib: 'Cut first-layer parameter count and allowed the network to reason over pad respawn rates and spatial proximity.'
+    },
+
+    // --- COLUMN 2: STAGE 3 — PERCEIVER CROSS-ATTENTION (x = 468) ---
+    {
+      id: 'titans_prior', num: '07', col: 2, x: 468, y: 205, w: 162, h: 96,
+      title: 'Spatial & Pad Bias', sub: '-w_dist·d_j - w_cd·(1-τ_j)', tag: 'Per-Head Bias',
+      color: '#a78bfa', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+      techIds: ['t2', 't3'],
+      role: 'Stage 3A · Learned Per-Head Spatial Distance & Cooldown Attention Bias',
+      tensor: 'B_pad ∈ R^[B, 4, 1, 34] -> B_full ∈ R^[B, 4, 1, 37]',
+      formula: 'B_h,j = -|w_dist,h|·d_j - |w_cd,h|·(1 - τ_j) + w_big,h·I_big,j',
+      how: 'Computes an explicit physics-informed additive attention bias across all 4 attention heads for the 34 boost pad keys: penalizing distant pads (-|w_dist|·d_j) and inactive pads on cooldown (-|w_cd|·(1-τ_j)) while boosting 100-boost canisters (+w_big·I_big).',
+      why: 'Pure dot-product attention struggles to filter out 30+ irrelevant or depleted boost pads across the pitch without an explicit spatial distance decay prior.',
+      contrib: 'Ensured attention heads immediately lock onto active, nearby 100-boost pads during rotations.'
+    },
+    {
+      id: 'titans_mem', num: '08', col: 2, x: 468, y: 365, w: 162, h: 96,
+      title: '2L ST-Perceiver', sub: 'M=4 Queries × N=37 Keys', tag: 'Pre-RMS + QK-Norm',
+      color: '#a78bfa', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+      techIds: ['t2', 't3'],
+      role: 'Stage 3B · 2-Layer Pre-RMSNorm + QK-Norm Perceiver Cross-Attention Backbone',
+      tensor: 'Q ∈ R^[B, 4, 192] × K,V ∈ R^[B, 37, 192] -> Q_out ∈ R^[B, 4, 192]',
+      formula: 'Attn(Q,K,V) = softmax((RMSNorm(Q)·RMSNorm(K)^T)/√48 + B_full) V',
+      how: 'Stacks 2 Perceiver Cross-Attention blocks (d=192, H=4, d_k=48) where M=4 latent queries (3 Core tokens [Self, Ball, Opp] + 1 learned Tactical Query token) attend over all N=37 entity tokens (3 Core + 34 Pads) with per-head QK-RMSNorm and SwiGLU FFNs.',
+      why: 'Reduced O(N^2) all-to-all self-attention (37×37 = 1,369 pairs) to O(M·N) cross-attention (4×37 = 148 pairs), laying the conceptual groundwork for Hex63\'s 16×64 Bipartite DiffAttn.',
+      contrib: 'Achieved sub-millisecond entity attention while preventing logit explosion during long PPO runs via QK-RMSNorm.'
+    },
+
+    // --- COLUMN 3: STAGE 4 — SWIGLU FUSION & SKILL AUXILIARY HEAD (x = 654) ---
+    {
+      id: 'coconut_loop', num: '09', col: 3, x: 654, y: 150, w: 162, h: 92,
+      title: '912D->256D Fusion', sub: '4×192 Queries + 144D Core', tag: 'Skip Connection',
+      color: '#f472b6', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+      techIds: ['t3', 't4'],
+      role: 'Stage 4A · Perceiver Query Flatten & Direct Core Skip Concatenation',
+      tensor: 'Concat(Flatten(Q_out)[768], x_core[144]) -> R^[B, 912] -> R^[B, 256]',
+      formula: 'h_0 = SiLU(RMSNorm(Linear_912->256([Q_out || x_core])))',
+      how: 'Flattens the 4×192 Perceiver output queries (768D) and concatenates them with the raw 144D temporal core vector (Self, Ball, Opp kinematics) to form a 912D representation before projecting down to the 256D trunk.',
+      why: 'Guaranteed that high-precision egocentric angles and angular velocities in x_core were never smoothed out by attention softmax averaging.',
+      contrib: 'Preserved sharp local control gradients while injecting global boost-pad and tactical context.'
+    },
+    {
+      id: 'soft_moe', num: '10', col: 3, x: 654, y: 295, w: 162, h: 92,
+      title: 'Residual SwiGLU Trunk', sub: '256D -> 384D -> 256D Block', tag: 'Pre-RMSNorm',
+      color: '#f472b6', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+      techIds: ['t4'],
+      role: 'Stage 4B · Pre-RMSNorm Residual SwiGLU Feature Trunk (256D)',
+      tensor: 'h_trunk = h_0 + SwiGLU(RMSNorm(h_0)) ∈ R^[B, 256]',
+      formula: 'SwiGLU(x) = (SiLU(x W_gate) ⊙ (x W_up)) W_down',
+      how: 'Processes the 256D fused vector through a Pre-RMSNorm residual SwiGLU block (hidden dim 384D) to produce the primary actor latent representation h_trunk.',
+      why: 'Replaced standard LayerNorm+SiLU MLPs with gated linear units (SwiGLU) for multiplicative feature interaction between car orientation and ball velocity.',
+      contrib: 'Provided a clean 256D latent representation for both Stage-1 binary action heads and training skill supervision.'
+    },
+    {
+      id: 'fsq_bottleneck', num: '11', col: 3, x: 654, y: 440, w: 162, h: 92,
+      title: 'Compositional Skill Z_t', sub: '8 Families · 32 Sub-Skills', tag: 'Training Aux Head',
+      color: '#f472b6', modes: ['all', 'train', 'distill'], stageGroup: 'titans',
+      techIds: ['t6'],
+      role: 'Stage 4C · Training-Only Compositional Skill Auxiliary Head (Z_t)',
+      tensor: 'z_macro[8], z_sub[32], z_phase[13] <- MLP(h_trunk)',
+      formula: 'L_skill = CE(z_macro, y_fam) + CE(z_sub, y_sub) + MSE(z_phase, y_ph)',
+      how: 'During training, predicts the structured skill taxonomy Z_t mined from pro replays: 8 Macro Skill Families (Strike, Dash, Carry/Flick, Air Dribble, Flip Reset, Backboard, Cancel), 32 Sub-Variants (Musty, Breezi, StallReset, ZapDash), and 13D continuous phase vectors.',
+      why: 'Prevented latent representation collapse into generic ball-chasing by forcing h_trunk to linearly separate 32 distinct mechanical sub-skills. (Hex63 later upgraded this into an active in-graph 1,000-code FSQ bottleneck).',
+      contrib: 'Shaped the 256D trunk to encode mechanical phase progression without adding any runtime cost during live inference.'
+    },
+
+    // --- COLUMN 4: STAGE 5 — TWO-STAGE AUTOREGRESSIVE HEADS & FLIP FSM (x = 840) ---
+    {
+      id: 'stage1_bin', num: '12', col: 4, x: 840, y: 150, w: 162, h: 92,
+      title: 'Stage-1 Impulse Heads', sub: 'Jump/Dodge[4] · Boost/Brk[4]', tag: 'Physics Masked',
+      color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
+      techIds: ['t5', 't7'],
+      role: 'Stage 5A · Stage-1 Discrete Impulse & Propulsion Categorical Heads',
+      tensor: 'logits_J ∈ R^[B, 4], logits_B ∈ R^[B, 4] (masked by -10^8)',
+      formula: 'a_jump ~ Cat(softmax(logits_J + M_J)), a_boost ~ Cat(softmax(logits_B + M_B))',
+      how: 'Evaluates the two primary impulse heads first from h_trunk: Jump/Dodge (4-way: None, Jump, Hold, Dodge/DoubleJump) and Boost/Handbrake (4-way: None, Boost, Drift, Boost+Drift), applying RocketSim boolean physics masks (-10^8 on illegal actions like boosting with 0 fuel).',
+      why: 'In Gen 2, all 7 categorical heads were sampled independently in parallel, so Steer/Pitch/Yaw did not know whether Jump or Boost had actually fired on that stochastic sample.',
+      contrib: 'Established causal ordering: impulse decisions (Jump/Dodge & Boost/Drift) are resolved before rotational/directional axes.'
+    },
+    {
+      id: 'stage2_flow', num: '13', col: 4, x: 840, y: 295, w: 162, h: 92,
+      title: 'Stage-2 Cond-23 Heads', sub: 'Embed(J,B)->RMSNorm->5 Heads', tag: 'Autoregressive',
+      color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
+      techIds: ['t5', 't7'],
+      role: 'Stage 5B · Autoregressive Action-Conditioned Directional Heads (23 Logits)',
+      tensor: 'h_dir = RMSNorm(h_trunk + W_cond[e_J || e_B]) -> 5 Heads (23 logits)',
+      formula: 'log π(a|s) = Σ_{h∈{J,B}} log P(a_h|h_trunk) + Σ_{d∈Dir} log P(a_d|h_dir)',
+      how: 'Embeds the sampled (a_jump, a_boost) via 32D lookup tables (or soft probability expectation during deterministic TorchScript export), projects [e_J || e_B] (64D -> 256D) into h_dir = RMSNorm(h_trunk + Δ_cond), and evaluates Throttle[3], Steer[7], Pitch[5], Yaw[5], and Roll[3].',
+      why: 'When Stage-1 decides to fire a Dodge (a_jump=3), h_dir immediately shifts the Pitch/Yaw/Roll logits to point in the exact dodge flick direction rather than an airborne air-roll.',
+      contrib: 'Eliminated incompatible multi-head action samples while preserving exact autoregressive joint log-probabilities for PPO.'
+    },
+    {
+      id: 'subtick_exec', num: '14', col: 4, x: 840, y: 440, w: 162, h: 92,
+      title: '8-Subtick Flip FSM', sub: '15Hz Repeat · C++ Jump Edge', tag: 'Subtick 0..7 Macro',
+      color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
+      techIds: ['t7'],
+      role: 'Stage 5C · 8-Tick (120 Hz) Action Repeat & C++/Python FlipState Edge Macro',
+      tensor: 'a_cat[7] -> 8 × CarControls @ 120 Hz (66.7 ms outer step)',
+      formula: 'sub=0: jump=0 (release) | sub=1..4: jump=1 (edge) | sub=5..7: jump=0',
+      how: 'Translates the 7 discrete categorical indices into RocketSim controls held across 8 physics ticks (15 Hz). When a Dodge/Double-Jump is requested while jump was held, a hardcoded C++/Python FlipState machine forces subtick 0 to jump=0 so subtick 1 triggers a fresh rising edge.',
+      why: 'Because the Gen 2/3 policy only emitted 1 action tuple every 8 ticks (15 Hz), it could not release and re-press jump mid-step on its own. (Hex63 eliminated this macro via native K_sub=4 60 Hz action chunking).',
+      contrib: 'Allowed 15 Hz categorical policies to reliably execute double-jumps and dodges in RocketSim and live RLBot matches.'
+    },
+
+    // --- COLUMN 5: STAGE 6 — 752D CRITIC, DISTILLATION & PPO LEAGUE (x = 1024) ---
+    {
+      id: 'critic_heads', num: '15', col: 5, x: 1024, y: 150, w: 162, h: 92,
+      title: 'ST-Perceiver Critic', sub: 'M=4 × N=43 (5 Bounce Tokens)', tag: '3-Horizon PopArt',
+      color: '#34d399', modes: ['all', 'train', 'distill'], stageGroup: 'control',
+      techIds: ['t8'],
+      role: 'Stage 6A · 752D Omniscient ST-Perceiver Critic & 3-Horizon PopArt Heads',
+      tensor: 'N=43 Tokens (3 Core+34 Pads+5 Bounce+1 Omni) -> v_norm ∈ R^[B, 3]',
+      formula: 'γ ∈ {0.990, 0.995, 0.998}, w_h = (0.20, 0.50, 0.30)',
+      how: 'Unpacks the 752D privileged critic state into N=43 entity tokens — adding 5 explicit 7D Future Ball Bounce tokens (Δt ∈ {0.1..1.5}s) and 1 38D Omniscient Physics token — runs 2 Perceiver Cross-Attention layers (M=4×N=43), and outputs 3 PopArt-normalized scalar values.',
+      why: 'Representing the 5 analytical future ball bounces as spatial tokens allowed the critic\'s attention heads to directly compare car trajectories against future bounce coordinates.',
+      contrib: 'Delivered low-variance multi-horizon GAE advantages across tactical (10s), possession (20s), and strategic (40s) horizons.'
+    },
+    {
+      id: 'jepa_search', num: '16', col: 5, x: 1024, y: 295, w: 162, h: 92,
+      title: 'Gen2->Gen3 Distiller', sub: 'Exact 7-Head Categorical KL', tag: 'PopArt Transfer',
+      color: '#34d399', modes: ['all', 'distill'], stageGroup: 'control',
+      techIds: ['t9'],
+      role: 'Stage 6B · Offline-to-Online Policy KL & PopArt Moment Distillation Bridge',
+      tensor: 'L_KL = Σ_{h=1}^7 KL(π_Gen2^(h)(·|s_684) || π_Gen3^(h)(·|s_700))',
+      formula: '(μ_Gen3, σ_Gen3) <- (μ_Gen2, σ_Gen2) (PopArt statistics copy)',
+      how: 'Warm-starts the randomly initialized ST-Perceiver Actor and Critic from the mature Gen 2 (Factorized-684) checkpoint by minimizing exact analytic categorical KL divergence across all 7 action heads while copying PopArt running mean/variance statistics.',
+      why: 'Training a Perceiver transformer from scratch in RL wastes millions of steps re-learning basic driving and aerial stability that the Gen 2 MLP already mastered.',
+      contrib: 'Transferred 100% of Gen 2\'s mechanical competence into the Gen 3 ST-Perceiver architecture in minutes before PPO fine-tuning.'
+    },
+    {
+      id: 'ppo_grpo_opt', num: '17', col: 5, x: 1024, y: 440, w: 162, h: 92,
+      title: 'Zero-Sum PBRS & PFSP', sub: '5-Way Curriculum · TrueSkill', tag: 'Tri-Role League',
+      color: '#34d399', modes: ['all', 'train'], stageGroup: 'control',
+      techIds: ['t6', 't8'],
+      role: 'Stage 6C · Coupled Zero-Sum PBRS, 5-Way Stratified Curriculum & PFSP League',
+      tensor: 'r_i^\' = r_i - κ(r_i + r_opp)/2, P_match(i) ∝ g(p_win) · Var(μ_i)',
+      formula: 'p_curr = [30% Pro, 25%HardNeg, 20%Perturb, 15%Kickoff, 10%SkillBank]',
+      how: 'Trains with Coupled Zero-Sum 1v1 PBRS rewards, resetting arenas from a 5-way Stratified Curriculum (including mined 27D SkillshotInitiationBank aerial/reset entry states) against a Tri-Role PFSP League (65% Main, 20% Main Exploiter, 15% League Exploiter).',
+      why: 'Standard kickoff-only training rarely visits flip-reset or ceiling-shot states; seeding directly into mined replay initiation states forced high-frequency mechanical practice.',
+      contrib: 'Drove continuous TrueSkill improvement and prevented rock-paper-scissors policy cycling.'
+    }
+  ],
+  edges: [
+    // Col 0 -> Col 1
+    { from: 'dma_slice', to: 'dyn_nodes', label: '684D Ego', modes: ['all','live','train','distill'] },
+    { from: 'dma_slice', to: 'env_nodes', label: '16D Wheels', modes: ['all','live','train','distill'] },
+    { from: 'dma_slice', to: 'priv_ctx', label: '68D Omni', modes: ['all','train','distill'], dashed: true },
+    { from: 'dyn_nodes', to: 'gpu_edges', label: 'Core [144D]', modes: ['all','live','train','distill'] },
+    { from: 'env_nodes', to: 'gpu_edges', label: 'Wheels [16D]', modes: ['all','live','train','distill'] },
+    { from: 'dyn_nodes', to: 'bipartite_enc', label: 'Pads [34×7D]', modes: ['all','live','train','distill'] },
+    // Col 1 -> Col 2
+    { from: 'bipartite_enc', to: 'titans_prior', label: 'd_j, τ_j, I_big', modes: ['all','live','train','distill'] },
+    { from: 'gpu_edges', to: 'titans_mem', label: '3 Core Queries', modes: ['all','live','train','distill'] },
+    { from: 'bipartite_enc', to: 'titans_mem', label: '34 Pad Keys', modes: ['all','live','train','distill'] },
+    { from: 'titans_prior', to: 'titans_mem', label: 'Bias [4,1,37]', modes: ['all','live','train','distill'] },
+    // Col 2 -> Col 3
+    { from: 'titans_mem', to: 'coconut_loop', label: 'Q_out [768D]', modes: ['all','live','train','distill'] },
+    { from: 'gpu_edges', to: 'coconut_loop', label: 'Skip x_core[144]', modes: ['all','live','train','distill'], dashed: true },
+    { from: 'coconut_loop', to: 'soft_moe', label: 'h_0 [256D]', modes: ['all','live','train','distill'] },
+    { from: 'soft_moe', to: 'fsq_bottleneck', label: 'h_trunk [256D]', modes: ['all','train','distill'], dashed: true },
+    // Col 3 -> Col 4
+    { from: 'soft_moe', to: 'stage1_bin', label: 'h_trunk [256D]', modes: ['all','live','train','distill'] },
+    { from: 'stage1_bin', to: 'stage2_flow', label: '(a_jump, a_boost)', modes: ['all','live','train','distill'] },
+    { from: 'soft_moe', to: 'stage2_flow', label: 'Residual Base', modes: ['all','live','train','distill'], dashed: true },
+    { from: 'stage2_flow', to: 'subtick_exec', label: '7 Cat Indices', modes: ['all','live','train','distill'] },
+    // Col 3/4 -> Col 5
+    { from: 'priv_ctx', to: 'critic_heads', label: '752D (N=43)', modes: ['all','train','distill'], dashed: true },
+    { from: 'soft_moe', to: 'jepa_search', label: 'Student Logits', modes: ['all','distill'], dashed: true },
+    { from: 'critic_heads', to: 'jepa_search', label: 'PopArt Moments', modes: ['all','distill'], dashed: true },
+    { from: 'critic_heads', to: 'ppo_grpo_opt', label: '3-Horizon GAE', modes: ['all','train'] },
+    { from: 'subtick_exec', to: 'ppo_grpo_opt', label: 'Rollout Step', modes: ['all','train'], dashed: true },
+    { from: 'fsq_bottleneck', to: 'ppo_grpo_opt', label: 'L_skill Aux', modes: ['all','train'], dashed: true }
+  ],
+  scenarios: {
+    tour: {
+      label: 'GEN 3 END-TO-END 66.7ms TOUR',
+      steps: [
+        {
+          title: 'Step 1/7: 700D Egocentric K=4 Stack + 16D Wheel History',
+          focusNode: 'dyn_nodes', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
+          desc: 'Every 66.7 ms (15 Hz), the agent rotates world coordinates into the ego car\'s local body frame R_car^T, stacks the last K=4 frames (684D), and appends 16D of 4-wheel suspension contact history to form a 700D vector.'
+        },
+        {
+          title: 'Step 2/7: Zero-Copy Entity Unpacking & Shared BoostPad PointNet',
+          focusNode: 'bipartite_enc', highlight: ['gpu_edges', 'bipartite_enc'], techId: 't1',
+          desc: 'Rather than feeding 700 floats into a monolithic MLP, unpack_canonical_700d splits out a 144D temporal core (Self, Ball w/ finite-diff accel, Opp w/ boost burn delta) and encodes all 34 boost pads via a weight-shared 7D->192D PointNet.'
+        },
+        {
+          title: 'Step 3/7: Physics-Biased Perceiver Cross-Attention (M=4 × N=37)',
+          focusNode: 'titans_mem', highlight: ['titans_prior', 'titans_mem'], techId: 't2',
+          desc: 'Four latent queries [Self, Ball, Opp, TacticalQuery] attend over all 37 entity tokens using Pre-RMSNorm and per-head QK-Norm, guided by learned per-head spatial distance (-w_dist·d_j) and pad cooldown (-w_cd·(1-τ_j)) biases.'
+        },
+        {
+          title: 'Step 4/7: 912D Skip-Concatenation & Residual SwiGLU Trunk',
+          focusNode: 'soft_moe', highlight: ['coconut_loop', 'soft_moe'], techId: 't4',
+          desc: 'The 4×192 Perceiver queries (768D) concatenate with the raw 144D core kinematics (912D total) and project into a 256D Pre-RMSNorm Residual SwiGLU trunk so local steering/pitch angles remain razor-sharp.'
+        },
+        {
+          title: 'Step 5/7: Compositional Skill Auxiliary Supervision (Z_t)',
+          focusNode: 'fsq_bottleneck', highlight: ['soft_moe', 'fsq_bottleneck'], techId: 't6',
+          desc: 'During training, an auxiliary head on h_trunk predicts 8 Macro Skill Families, 32 Sub-Skills (Musty, StallReset, ZapDash), and 13D continuous phase vectors mined from replays to prevent representation collapse.'
+        },
+        {
+          title: 'Step 6/7: Two-Stage Autoregressive Conditioned Action Heads (31 Logits)',
+          focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow', 'subtick_exec'], techId: 't5',
+          desc: 'Stage 1 samples Jump/Dodge[4] and Boost/Brake[4] with boolean physics masks. Stage 2 embeds those discrete choices into h_dir = RMSNorm(h_trunk + Δ_cond) before evaluating Throttle[3], Steer[7], Pitch[5], Yaw[5], and Roll[3].'
+        },
+        {
+          title: 'Step 7/7: 752D ST-Perceiver Critic & Gen2->Gen3 KL Distillation',
+          focusNode: 'critic_heads', highlight: ['priv_ctx', 'critic_heads', 'jepa_search', 'ppo_grpo_opt'], techId: 't8',
+          desc: 'The asymmetric 752D critic converts 5 analytical ball bounces into spatial tokens (M=4×N=43) for 3-horizon PopArt GAE, warm-started from the Gen 2 MLP via exact 7-head categorical KL distillation.'
+        }
+      ]
+    },
+    bounce: {
+      label: 'SCENARIO 1: CRITIC 5-BOUNCE TOKEN READ',
+      steps: [
+        {
+          title: '1/4: Finite-Difference Ball Acceleration in Actor (40D)',
+          focusNode: 'gpu_edges', highlight: ['dyn_nodes', 'gpu_edges'], techId: 't1',
+          desc: 'The actor infers ball curve from the 4-frame egocentric stack (t..t-3) plus explicit finite-difference acceleration a_ball = v_t - v_{t-1} inside the 144D core unpacker.'
+        },
+        {
+          title: '2/4: Critic 5-Horizon Analytical Ballistic Tokens (752D)',
+          focusNode: 'priv_ctx', highlight: ['priv_ctx', 'critic_heads'], techId: 't8',
+          desc: 'Unlike the actor, the 752D ST-Perceiver Critic receives 5 analytical bounce predictions (Δt ∈ {0.1, 0.25, 0.5, 1.0, 1.5}s with e=0.6 restitution) unpacked as 5 spatial 7D tokens in its N=43 Perceiver key set.'
+        },
+        {
+          title: '3/4: Why Hex63 Moved BallRingBuffer480 into Shared Stage 1',
+          focusNode: 'titans_mem', highlight: ['titans_mem', 'critic_heads'], techId: 't2',
+          desc: 'Because only the Gen 3 critic saw explicit bounce tokens while the actor relied on 4-frame history, actor wall reads lagged behind critic value estimates — motivating Hex63\'s shared 8-node BallRingBuffer480 in Stage 1.'
+        },
+        {
+          title: '4/4: Conditioned Aerial Alignment & Boost Commitment',
+          focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow'], techId: 't5',
+          desc: 'Once Stage 1 commits to Boost (a_boost=1), the conditioning bridge shifts h_dir so Stage 2 pitches and air-rolls toward the intercept window.'
+        }
+      ]
+    },
+    aerial: {
+      label: 'SCENARIO 2: AUTOREGRESSIVE DODGE FLICK',
+      steps: [
+        {
+          title: '1/4: 16D Wheel Contact History Detects Flip Reset',
+          focusNode: 'env_nodes', highlight: ['env_nodes', 'gpu_edges'], techId: 't0',
+          desc: 'Bytes 684..700 expose 4 frames of 4-wheel suspension contact to the actor, signaling that all 4 wheels touched the ball and restored the airborne dodge flag.'
+        },
+        {
+          title: '2/4: Stage-1 Samples Dodge Action (a_jump = 3)',
+          focusNode: 'stage1_bin', highlight: ['soft_moe', 'stage1_bin'], techId: 't5',
+          desc: 'With has_flip == True in the RocketSim boolean mask, Stage 1 evaluates Jump/Dodge[4] and samples a_jump = 3 (Dodge/DoubleJump).'
+        },
+        {
+          title: '3/4: Conditioning Bridge Shifts Directional Latent h_dir',
+          focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow'], techId: 't5',
+          desc: 'The 32D embedding for a_jump=3 projects into h_dir = RMSNorm(h_trunk + Δ_cond), flipping Pitch[5] and Yaw[5] from smooth aerial tracking to a crisp diagonal dodge flick.'
+        },
+        {
+          title: '4/4: 8-Subtick FlipState FSM Fires Rising Jump Edge',
+          focusNode: 'subtick_exec', highlight: ['stage2_flow', 'subtick_exec'], techId: 't7',
+          desc: 'Because the outer step runs at 15 Hz (8 ticks), the C++ FlipState macro forces subtick 0 to jump=0 and subticks 1..4 to jump=1 so RocketSim registers a fresh dodge impulse.'
+        }
+      ]
+    },
+    fake: {
+      label: 'SCENARIO 3: OPPONENT BOOST BURN TRACKING',
+      steps: [
+        {
+          title: '1/4: 4-Frame Opponent Boost Delta (Δb_opp)',
+          focusNode: 'gpu_edges', highlight: ['dyn_nodes', 'gpu_edges'], techId: 't1',
+          desc: 'Inside the 42D Opponent core unpacker, Gen 3 computes Δb_opp = b_opp(t) - b_opp(t-3) over the 267 ms sliding window to detect whether the opponent is actively burning boost into a challenge.'
+        },
+        {
+          title: '2/4: Perceiver Tactical Query Cross-Attends to Opponent & Pads',
+          focusNode: 'titans_mem', highlight: ['titans_prior', 'titans_mem'], techId: 't2',
+          desc: 'Query 3 (TacticalQuery) cross-attends simultaneously to the Opponent token and the 34 Boost Pad tokens to see if the opponent is faking a challenge to grab a mid-field 100-pad.'
+        },
+        {
+          title: '3/4: Why Hex63 Added FP32 Titans Fast-Weight Memory',
+          focusNode: 'coconut_loop', highlight: ['titans_mem', 'coconut_loop'], techId: 't3',
+          desc: 'Gen 3\'s K=4 window only remembered 267 ms of history; if an opponent faked challenges every 30 seconds, weights could not adapt in-match — motivating Hex63\'s 2×4×32×32 FP32 Titans fast weights.'
+        },
+        {
+          title: '4/4: Stage-1 Handbrake Power-Slide Hook',
+          focusNode: 'stage1_bin', highlight: ['stage1_bin', 'stage2_flow'], techId: 't5',
+          desc: 'Stage 1 selects Drift (a_boost=2), conditioning Stage 2 to snap Steer[7] into a tight hook turn.'
+        }
+      ]
+    },
+    save: {
+      label: 'SCENARIO 4: GEN 2 -> GEN 3 KL WARM-START',
+      steps: [
+        {
+          title: '1/4: Teacher Forward Pass on 684D Slice',
+          focusNode: 'jepa_search', highlight: ['dyn_nodes', 'jepa_search'], techId: 't9',
+          desc: 'During distillation, the frozen Gen 2 FactorizedActor evaluates the first 684 floats of the 700D observation to produce teacher probability distributions across all 7 categorical heads.'
+        },
+        {
+          title: '2/4: Student Forward Pass with Teacher Action Conditioning',
+          focusNode: 'stage2_flow', highlight: ['titans_mem', 'stage1_bin', 'stage2_flow', 'jepa_search'], techId: 't9',
+          desc: 'The Gen 3 ST-Perceiver evaluates the full 700D observation, conditioning its Stage-2 directional heads on the teacher\'s Stage-1 action so all 7 heads align cleanly.'
+        },
+        {
+          title: '3/4: Exact Analytic 7-Head Categorical KL Loss',
+          focusNode: 'jepa_search', highlight: ['stage2_flow', 'jepa_search'], techId: 't9',
+          desc: 'Gen2ToGen3Distiller minimizes the exact analytic sum of per-head KL divergences without Monte Carlo sampling noise.'
+        },
+        {
+          title: '4/4: PopArt Moment Transfer & Online PPO Handover',
+          focusNode: 'critic_heads', highlight: ['critic_heads', 'jepa_search', 'ppo_grpo_opt'], techId: 't8',
+          desc: 'Running mean and variance buffers (μ, σ) from Gen 2\'s PopArt heads are copied directly into the ST-Perceiver Critic so online PPO resumes with zero value-scale shock.'
+        }
+      ]
+    }
+  },
+  techLibrary: [
+    {
+      id: 't0', short: 'T0 · 700D Canonical Obs',
+      title: '700D Egocentric K=4 History + 16D Wheel Contact Observation',
+      usedIn: ['dma_slice', 'dyn_nodes', 'env_nodes'],
+      placement: 'Stage 1 Input Boundary — bridges C++17 NativeBatchEngine and the zero-copy entity unpacker.',
+      how: 'Rotates world coordinates into the ego car\'s local body frame R_car^T, stacks K=4 frames of 171D features (684D), and appends 16D of 4-wheel suspension contact history (4 wheels × 4 frames) at indices [684:700].',
+      why: 'Gen 2 (684D) hid wheel contact inside the privileged critic, leaving the actor blind to exact flip-reset 4-wheel ball touches and wavedash ground contacts.',
+      contrib: 'Preserved backward compatibility with 684D teacher checkpoints (via [:684] slicing) while unlocking flip-reset awareness in the actor.',
+      science: 'For any world vector v_w, the egocentric transformation v_b = R_car^T (v_w - p_car) ∈ R^3 is SE(2)-invariant to pitch orientation and Yaw, reducing sample complexity for local steering control.',
+      origins: 'Evolved from Gen 2\'s 684D stack; later superseded in Arashikage (Hex63) by the 64-byte-aligned 5,376B Layout A entity slice with 64 explicit arena tokens.'
+    },
+    {
+      id: 't1', short: 'T1 · Unpack & PointNet',
+      title: 'Zero-Copy 144D Core Unpacker & Shared 34×7D BoostPad PointNet',
+      usedIn: ['dyn_nodes', 'gpu_edges', 'bipartite_enc'],
+      placement: 'Stage 2 Tokenization — sits between the flat 700D buffer and the Perceiver Cross-Attention blocks.',
+      how: 'Unpacks [B, 700] without tensor copies into Self (62D), Ball (40D w/ finite-diff accel), and Opponent (42D w/ 4-frame boost delta), while reshaping the 34 boost pads into [B, 34, 7] and encoding them with a weight-shared PointNet (7->64->192).',
+      why: 'In Gen 2, 544 of the 684 input floats were static boost pad coordinates repeated across 4 frames, consuming >75% of first-layer MLP weights.',
+      contrib: 'Replaced 544 redundant pad inputs with a weight-shared 7D geometric encoder and isolated finite-difference ball/opponent temporal derivatives.',
+      science: 'PointNet (Qi et al., 2017) applies a shared point-wise MLP h(p_j) followed by symmetric attention aggregation, guaranteeing equivariance to boost pad ordering.',
+      origins: 'PointNet (Qi et al., CVPR 2017); customized in the Gen 3 ST-Perceiver Actor.'
+    },
+    {
+      id: 't2', short: 'T2 · ST-Perceiver M=4×N=37',
+      title: 'Spatial-Temporal Perceiver Cross-Attention (M=4 Queries × N=37 Keys)',
+      usedIn: ['gpu_edges', 'bipartite_enc', 'titans_prior', 'titans_mem'],
+      placement: 'Stage 3 Entity Backbone — compresses 37 arena entities into 4 latent queries.',
+      how: 'Runs 2 layers of multi-head cross-attention (d=192, H=4) where M=4 queries (Self, Ball, Opp, plus 1 learned Tactical Query) attend over N=37 keys/values (3 Core + 34 Boost Pads).',
+      why: 'Full self-attention over 37 tokens computes 1,369 pairs per layer; Perceiver cross-attention with M=4 queries computes only 148 pairs (a 9.2× reduction).',
+      contrib: 'Introduced sub-millisecond entity attention to the platform while staying fast enough for 120 Hz/15 Hz RLBot inference.',
+      science: 'Perceiver (Jaegle et al., 2021) projects a large byte/entity array X ∈ R^(N×D) into a compact latent bottleneck Q ∈ R^(M×D) via asymmetric cross-attention O(M·N).',
+      origins: 'Perceiver IO (Jaegle et al., ICML 2021); evolved into Hex63\'s 16×64 Bipartite Differential Attention.'
+    },
+    {
+      id: 't3', short: 'T3 · QK-Norm & Pad Bias',
+      title: 'Per-Head QK-RMSNorm & Physics-Informed Distance/Cooldown Bias',
+      usedIn: ['titans_prior', 'titans_mem', 'coconut_loop'],
+      placement: 'Stage 3 Attention Stabilizer — inside every PerceiverCrossAttentionBlock.',
+      how: 'Applies learned RMSNorm to Q and K per head before dot-product scaling and adds B_h,j = -|w_dist,h|·d_j - |w_cd,h|·(1-τ_j) + w_big,h·I_big,j to the 34 boost pad columns.',
+      why: 'Unbounded QK dot products drift upward over millions of PPO steps, causing attention entropy collapse; meanwhile, un-biased softmax wastes attention mass on depleted pads across the field.',
+      contrib: 'Eliminated attention logit explosion in long PPO runs and gave each head tunable spatial horizon preferences.',
+      science: 'QK-Norm (Dehghani et al., 2023) bounds pre-softmax logits by enforcing ||q_i||_2 ≈ √d_k and ||k_j||_2 ≈ √d_k prior to inner product evaluation.',
+      origins: 'Scaling Vision Transformers / Dehghani et al. (2023); upgraded in Hex63 to 72D Fused GPU Pairwise Fourier + Intercept biases.'
+    },
+    {
+      id: 't4', short: 'T4 · 912D Skip & SwiGLU',
+      title: '912D Core Skip-Concatenation & Pre-RMSNorm Residual SwiGLU Trunk',
+      usedIn: ['coconut_loop', 'soft_moe'],
+      placement: 'Stage 4 Feature Fusion — merges global Perceiver queries with local core kinematics.',
+      how: 'Concatenates the flattened 4×192 Perceiver queries (768D) with the raw 144D core vector (912D total), projects to 256D, and applies a Pre-RMSNorm Residual SwiGLU block (256->384->256).',
+      why: 'Passing ego angular velocity solely through cross-attention softmax introduces slight smoothing that degrades frame-accurate aerial pitch/roll control.',
+      contrib: 'Combined global boost-pad awareness with zero-lag body-frame control responsiveness.',
+      science: 'SwiGLU(x) = (SiLU(x W_g) ⊙ x W_u) W_d computes multiplicative second-order interactions between feature channels with superior gradient flow over ReLU/GELU.',
+      origins: 'GLU Variants Improve Transformer (Shazeer, 2020).'
+    },
+    {
+      id: 't5', short: 'T5 · 2-Stage Cond-31 Heads',
+      title: 'Two-Stage Autoregressive Action-Conditioned Categorical Heads (31 Logits)',
+      usedIn: ['stage1_bin', 'stage2_flow'],
+      placement: 'Stage 5 Action Decoder — converts the 256D trunk into 7 coordinated discrete controls.',
+      how: 'Stage 1 evaluates Jump/Dodge[4] and Boost/Brake[4] from h_trunk. An Action Conditioning Bridge embeds (a_jump, a_boost) into 64D and shifts the trunk via h_dir = RMSNorm(h_trunk + Linear(64->256)) before Stage 2 evaluates Throttle[3], Steer[7], Pitch[5], Yaw[5], and Roll[3].',
+      why: 'Independent factorized heads P(a|s) = Π_i P(a_i|s) cannot coordinate multimodal joint actions (e.g., pitching forward for a speedflip only on the exact sample where Dodge fires).',
+      contrib: 'Restored autoregressive joint action coordination between binary impulses and rotational axes with only a 64->256 linear bridge.',
+      science: 'Autoregressive factorization P(a_J, a_B, a_dir | s) = P(a_J, a_B | h) · Π_{d} P(a_d | h, a_J, a_B) captures cross-head covariance while keeping categorical sampling O(1).',
+      origins: 'Vinyals et al. (AlphaStar Autoregressive Action Heads, 2019); precursor to Hex63\'s Stage-1 16-Way Binary + Stage-2 Flow-GRPO SDE.'
+    },
+    {
+      id: 't6', short: 'T6 · Skill Aux Head (Z_t)',
+      title: 'Compositional Skill Auxiliary Head (8 Macro Families · 32 Sub-Skills)',
+      usedIn: ['fsq_bottleneck', 'ppo_grpo_opt'],
+      placement: 'Stage 4C Training Auxiliary Branch — attached to h_trunk during training only.',
+      how: 'Predicts replay-mined skill labels Z_t: 8 Macro Families, 32 Sub-Skills (PopReset, MaktufReset, StallReset, ZapDash, MustyFlick, BreeziFlick, Speedflip), and a 13D continuous phase/mechanics vector.',
+      why: 'Pure reward-driven PPO tends to collapse intermediate hidden representations into homogeneous value predictors, forgetting rare mechanical sub-skills.',
+      contrib: 'Forced the 256D trunk to maintain linearly separable representations for 32 advanced Rocket League mechanics.',
+      science: 'Multi-task auxiliary representation learning (Jaderberg et al., UNREAL, 2017) regularizes the shared trunk manifold without altering inference latency.',
+      origins: 'Mined via trainer_v3/replay/skillshot_miner.py (SeqScout WRAcc MCTS); evolved in Hex63 into the active 8×125=1,000 FSQ bottleneck.'
+    },
+    {
+      id: 't7', short: 'T7 · Masks & FlipState FSM',
+      title: 'RocketSim Boolean Physics Logit Masking & 8-Subtick FlipState FSM',
+      usedIn: ['stage1_bin', 'stage2_flow', 'subtick_exec'],
+      placement: 'Stage 5 Execution Boundary — enforces physics validity and 120 Hz jump edges.',
+      how: 'Applies -10^8 logit masks when grounded (disabling Pitch/Roll and mapping Yaw->Steer), when boost==0, or when !has_flip. During the 8-subtick (15 Hz) step, a C++/Python FlipState machine forces subtick 0 to jump=0 so subticks 1..4 trigger a rising jump edge.',
+      why: 'A 15 Hz policy holds one action for 8 physics ticks (66.7 ms) and therefore cannot release and re-press the jump button within a single policy step without an external edge macro.',
+      contrib: 'Pruned invalid exploration states and made 15 Hz double-jumps reliable — while revealing the 15 Hz control bottleneck that Hex63 solved with K_sub=4 (60 Hz) subtick action chunking.',
+      science: 'Invalid action masking (Huang & Ontañón, 2020) sets logits of impossible actions to -∞, ensuring policy gradient updates are strictly zero on physically no-op controls.',
+      origins: 'Huang & Ontañón (2020) + RocketSim Car::controls state machine.'
+    },
+    {
+      id: 't8', short: 'T8 · 752D Perceiver Critic',
+      title: 'Asymmetric 752D ST-Perceiver Critic with 5 Ballistic Bounce Tokens & PopArt',
+      usedIn: ['env_nodes', 'priv_ctx', 'critic_heads', 'ppo_grpo_opt'],
+      placement: 'Stage 6 Value Estimator — training-only omniscient critic.',
+      how: 'Unpacks the 752D state into N=43 tokens (3 Core + 34 Pads + 5 7D Analytical Future Ball Bounce tokens at Δt ∈ {0.1..1.5}s + 1 38D Omniscient Wheel/World-Vel token), runs 2 Perceiver layers (M=4×N=43), and predicts 3 PopArt-normalized horizon values.',
+      why: 'Giving the critic explicit spatial tokens for the next 1.5 seconds of wall/floor ball bounces eliminated value estimation lag during backboard reads.',
+      contrib: 'Reduced GAE variance across γ ∈ {0.990, 0.995, 0.998} while keeping the deployed actor lightweight.',
+      science: 'Asymmetric Actor-Critic (Pinto et al., 2017) + PopArt (van Hasselt et al., 2016) preserve output precision across changing reward scales via W_new = (σ_old/σ_new) W_old.',
+      origins: 'Pinto et al. (2017) & van Hasselt et al. (2016); upgraded in Hex63 to Dual-Head 4×51 Symlog HL-Gauss distributional critics.'
+    },
+    {
+      id: 't9', short: 'T9 · KL & PopArt Distiller',
+      title: 'Exact 7-Head Categorical KL & PopArt Moment Distillation (Gen 2 -> Gen 3)',
+      usedIn: ['dma_slice', 'priv_ctx', 'jepa_search'],
+      placement: 'Stage 6B Warm-Start Bridge — transfers Gen 2 MLP mastery into Gen 3 ST-Perceiver.',
+      how: 'Minimizes the exact analytic sum of per-head categorical KL divergences between the frozen Gen 2 teacher (on 684D) and the Gen 3 student (on 700D, teacher-forcing Stage-1 actions into Stage-2) while copying PopArt (μ, σ) buffers.',
+      why: 'Allows major neural architecture upgrades (from flat MLP to relational Perceiver) without losing thousands of GPU-hours of learned mechanical skill.',
+      contrib: 'Enabled zero-regression architectural migration from Gen 2 to Gen 3.',
+      science: 'Policy Distillation (Rusu et al., 2016) over factorized autoregressive heads decomposes exactly into Σ_h Σ_c P_T(c|s) log(P_T(c|s)/P_S(c|s)).',
+      origins: 'Rusu et al. (Policy Distillation, ICLR 2016); implemented in the Gen 2 -> Gen 3 Offline-to-Online Distiller.'
+    }
+  ],
+  externalResources: {
+    t0: [
+      { badge: 'CVPR 2017', title: 'PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation', authors: 'C. R. Qi et al.', url: 'https://arxiv.org/abs/1612.00593', desc: 'Foundational permutation-equivariant point-set architecture used for the 34 boost pads.' }
+    ],
+    t1: [
+      { badge: 'CVPR 2017', title: 'PointNet: Deep Learning on Point Sets', authors: 'C. R. Qi et al.', url: 'https://arxiv.org/abs/1612.00593', desc: 'Shared-weight entity encoder applied across all 34 boost pad tokens.' }
+    ],
+    t2: [
+      { badge: 'ICML 2021', title: 'Perceiver: General Perception with Iterative Attention', authors: 'A. Jaegle et al. (DeepMind)', url: 'https://arxiv.org/abs/2103.03206', desc: 'Introduces asymmetric cross-attention from M latent queries to N byte/entity inputs.' },
+      { badge: 'ICLR 2022', title: 'Perceiver IO: A General Architecture for Structured Inputs & Outputs', authors: 'A. Jaegle et al.', url: 'https://arxiv.org/abs/2107.14795', desc: 'Structured query decoding across heterogeneous entity sets.' }
+    ],
+    t3: [
+      { badge: 'ICML 2023', title: 'Scaling Vision Transformers to 22 Billion Parameters (QK-Norm)', authors: 'M. Dehghani et al. (Google Brain)', url: 'https://arxiv.org/abs/2302.05442', desc: 'Introduces per-head Query-Key Normalization to prevent attention logit growth.' }
+    ],
+    t4: [
+      { badge: 'ARXIV 2020', title: 'GLU Variants Improve Transformer (SwiGLU)', authors: 'N. Shazeer', url: 'https://arxiv.org/abs/2002.05202', desc: 'Introduces Swish-Gated Linear Units used in the Gen 3 core encoder and trunk.' }
+    ],
+    t5: [
+      { badge: 'NATURE 2019', title: 'Grandmaster level in StarCraft II using multi-agent reinforcement learning', authors: 'O. Vinyals et al. (DeepMind)', url: 'https://www.nature.com/articles/s41586-019-1724-z', desc: 'Pioneered autoregressive conditioned action heads in complex multi-head games.' }
+    ],
+    t6: [
+      { badge: 'ICLR 2017', title: 'Reinforcement Learning with Unsupervised Auxiliary Tasks (UNREAL)', authors: 'M. Jaderberg et al.', url: 'https://arxiv.org/abs/1611.05397', desc: 'Demonstrates how auxiliary predictive heads shape shared RL trunk representations.' }
+    ],
+    t7: [
+      { badge: 'FLAIRS 2022', title: 'A Closer Look at Invalid Action Masking in Policy Gradient Algorithms', authors: 'S. Huang & S. Ontañón', url: 'https://arxiv.org/abs/2006.14171', desc: 'Proves that logit masking produces valid policy gradients when actions are physically illegal.' }
+    ],
+    t8: [
+      { badge: 'RSS 2018', title: 'Asymmetric Actor Critic for Image-Based Robot Learning', authors: 'L. Pinto et al.', url: 'https://arxiv.org/abs/1710.06542', desc: 'Trains an omniscient privileged critic alongside a partial-observation actor.' },
+      { badge: 'AAAI 2019', title: 'Multi-Task Deep Reinforcement Learning with PopArt', authors: 'M. Hessel, H. van Hasselt et al.', url: 'https://arxiv.org/abs/1809.04474', desc: 'Preserves Outputs Precisely while Adaptively Rescaling Targets across multi-horizon critics.' }
+    ],
+    t9: [
+      { badge: 'ICLR 2016', title: 'Policy Distillation', authors: 'A. A. Rusu et al. (DeepMind)', url: 'https://arxiv.org/abs/1511.06295', desc: 'Transfers knowledge between distinct neural RL architectures via KL divergence.' }
+    ]
+  },
+  mermaidDiagram: `flowchart LR
+  subgraph S1["Stage 1: 700D Canonical Obs (15Hz)"]
+    N1["01. C++17 Batch Engine"] --> N2["02. 171Dx4 Egocentric Stack (684D)"]
+    N1 --> N3["03. 16D 4-Frame Wheel History"]
+    N1 -.-> N4["04. 68D Privileged Bounce/Slip Tail"]
+  end
+  subgraph S2["Stage 2: Entity Unpack & PointNet"]
+    N2 & N3 --> N5["05. 144D Core Unpacker (SwiGLU)"]
+    N2 --> N6["06. 34x7D Shared BoostPad PointNet"]
+  end
+  subgraph S3["Stage 3: ST-Perceiver (M=4 x N=37)"]
+    N6 --> N7["07. Per-Head Distance/Cooldown Bias"]
+    N5 & N6 & N7 --> N8["08. 2L Perceiver Cross-Attention (QK-Norm)"]
+  end
+  subgraph S4["Stage 4: SwiGLU Trunk & Skill Aux"]
+    N8 & N5 --> N9["09. 912D->256D Skip Fusion"]
+    N9 --> N10["10. Residual SwiGLU Trunk (256D)"]
+    N10 -.-> N11["11. Compositional Skill Z_t (8/32)"]
+  end
+  subgraph S5["Stage 5: 2-Stage Cond-31 Heads"]
+    N10 --> N12["12. Stage-1 Jump[4] & Boost[4]"]
+    N12 & N10 --> N13["13. Stage-2 Cond-23 Directional Heads"]
+    N13 --> N14["14. 8-Subtick FlipState FSM (15Hz)"]
+  end
+  subgraph S6["Stage 6: 752D Critic & Distill"]
+    N4 -.-> N15["15. 752D ST-Perceiver Critic (N=43)"]
+    N10 & N15 -.-> N16["16. Gen2->Gen3 KL & PopArt Distiller"]
+    N14 & N15 --> N17["17. Zero-Sum PBRS & PFSP League"]
+  end`
+};
+
+</script>
+  <script>
+// ============================================================================
+// LEGACY GEN 2: FACTORIZED-684 EGOCENTRIC MLP & PSM-DCP REPLAY SKILL MINING
+// ============================================================================
+window.ARASHIKAGE_GEN2_FACTORIZED = {
+  id: 'gen2_factorized',
+  shortBadge: 'LEGACY GEN 2 // FACTORIZED-684',
+  dropdownLabel: 'Platform: Gen 2 — Factorized-684 (171D×4 MLP + PSM-DCP)',
+  identityTitle: '684D Egocentric Body-Frame MLP, 31-Logit Physics-Masked Categorical Heads & 752D Privileged Critic',
+  colHeaders: [
+    { col: 0, x: 96,  title: 'STAGE 1 // 171D EGOCENTRIC', sub: 'R_car^T Frame · 34 Pads',   color: '#38bdf8' },
+    { col: 1, x: 282, title: 'STAGE 2 // K=4 STACK (684D)', sub: '4-Step Deque · 0..2J Lag', color: '#22d3ee' },
+    { col: 2, x: 468, title: 'STAGE 3 // DENSE MLP TRUNK', sub: '684->512->512->256 SiLU',   color: '#a78bfa' },
+    { col: 3, x: 654, title: 'STAGE 4 // PSM-DCP & Z_t',   sub: 'SeqScout Miner · 32 Skills', color: '#f472b6' },
+    { col: 4, x: 840, title: 'STAGE 5 // 31-LOGIT HEADS',  sub: '7 Heads · Padded [B,7,7]',   color: '#fbbf24' },
+    { col: 5, x: 1024, title: 'STAGE 6 // 752D CRITIC',    sub: '5 Bounces · Zero-Sum PBRS', color: '#34d399' }
+  ],
+  nodes: [
+    // --- COLUMN 0: STAGE 1 — 171D EGOCENTRIC BODY-FRAME BUILDER (x = 96) ---
+    {
+      id: 'dma_slice', num: '01', col: 0, x: 96, y: 125, w: 162, h: 92,
+      title: 'Egocentric Frame R_b', sub: 'R_car^T World->Body Basis', tag: 'Yaw/Pitch Inv',
+      color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
+      techIds: ['t0'],
+      role: 'Stage 1 · Egocentric Car Body-Frame Coordinate Basis Transformation',
+      tensor: 'R_car = [f, r, u] ∈ SO(3), v_body = R_car^T (v_world - v_car)',
+      formula: 'g_local = R_car^T [0, 0, -1]^T ∈ R^3 (Body-Local Gravity Vector)',
+      how: 'Constructs the orthonormal 3×3 rotation matrix R_car from the ego car\'s forward, right, and up unit vectors and projects all relative positions, linear velocities, angular velocities, and gravity into the car\'s instantaneous local frame.',
+      why: 'Replaced Gen 1\'s world-frame relational tokens after discovering that MLPs learn steering and aerial pitch adjustments 4× faster when inputs are already aligned with the car nose.',
+      contrib: 'Made every observation inherently invariant to arena translation and heading angle.'
+    },
+    {
+      id: 'dyn_nodes', num: '02', col: 0, x: 96, y: 265, w: 162, h: 92,
+      title: '35D Core Kinematics', sub: '10 Self · 9 Ball · 10 Opp · 6 Goal', tag: 'Indices 0..34',
+      color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
+      techIds: ['t0'],
+      role: 'Stage 1 · Single-Frame 35D Dynamic Combat & Goal Vector',
+      tensor: 'x_dyn ∈ R^[B, 35] (Self[10] + Ball[9] + Opp[10] + Goals[6])',
+      formula: 'pos_norm = Δp / 6000, vel_norm = Δv / 2300, ω_norm = ω / 5.5',
+      how: 'Packs 10D Self (body vel, body ang_vel, local gravity vector, boost), 9D Ball (rel pos, rel vel, rel ang_vel), 10D Opponent (rel pos, rel vel, rel forward vector, boost), and 6D unit direction vectors to the Opponent and Own goal centers.',
+      why: 'Compressed all essential 1v1 combat geometry into 35 tightly normalized scalars in [-1, 1].',
+      contrib: 'Provided clean, unit-scaled kinematic inputs for the dense MLP layers.'
+    },
+    {
+      id: 'env_nodes', num: '03', col: 0, x: 96, y: 405, w: 162, h: 92,
+      title: '136D Static Pad Block', sub: '34 Pads × 4D (XYZ + Timer)', tag: 'Indices 35..170',
+      color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
+      techIds: ['t0', 't1'],
+      role: 'Stage 1 · 34-Pad Egocentric Coordinate & Cooldown Block (136 Floats)',
+      tensor: 'x_pads ∈ R^[B, 136] (34 pads × [rel_x, rel_y, rel_z, τ_avail])',
+      formula: 'pad_order = ORANGE_PAD_PERMUTATION[0..33] when team == 1',
+      how: 'Transforms all 34 canonical boost pad locations into the ego car\'s body frame and pairs each with its normalized availability fraction τ_avail ∈ [0, 1], permuting pad indices for Orange so pad slots remain symmetric.',
+      why: 'Allowed the MLP to see every boost pad\'s body-relative direction, though repeating 136 floats across 4 history frames consumed 544 of the 684 inputs (later solved by Gen 3\'s PointNet and Hex63\'s Bipartite Graph).',
+      contrib: 'Gave the policy full pitch boost awareness without requiring an entity transformer.'
+    },
+    {
+      id: 'priv_ctx', num: '04', col: 0, x: 96, y: 545, w: 162, h: 92,
+      title: '68D Omniscient State', sub: '20D Wheels · 18D Vel · 30D Bounce', tag: '752D Critic Only',
+      color: '#34d399', modes: ['all', 'train', 'distill'], stageGroup: 'mem',
+      techIds: ['t8'],
+      role: 'Stage 1 · Asymmetric 68D Privileged Physics Context (Training Critic Only)',
+      tensor: 'c_priv ∈ R^[B, 68] -> x_critic = Concat(x_684, c_priv) ∈ R^[B, 752]',
+      formula: 'p_bounce(Δt_k) via e_wall = 0.60, g = -650 uu/s^2, k ∈ {1..5}',
+      how: 'Appends 20D exact 4-wheel suspension compression, contact normals, and lateral slip ratios, 18D true world velocities, and 30D 5-horizon analytical ball bounce trajectories (Δt ∈ {0.1, 0.25, 0.5, 1.0, 1.5}s) exclusively for the 752D PrivilegedCritic.',
+      why: 'Bridged the observability gap during training so the critic could accurately value aerial wall setups before the ball bounced.',
+      contrib: 'Cut value function bootstrap error on backboard and corner reads.'
+    },
+
+    // --- COLUMN 1: STAGE 2 — K=4 TEMPORAL STACK & LATENCY RANDOMIZER (x = 282) ---
+    {
+      id: 'gpu_edges', num: '05', col: 1, x: 282, y: 205, w: 162, h: 96,
+      title: 'K=4 Sliding Window', sub: '4 × 171D = 684D Flat Stack', tag: '267ms Window',
+      color: '#22d3ee', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'edges',
+      techIds: ['t1'],
+      role: 'Stage 2A · 4-Step Temporal Observation Ring Buffer (684 Floats)',
+      tensor: 'X_684 = Concat(s_t, s_{t-1}, s_{t-2}, s_{t-3}) ∈ R^[B, 684]',
+      formula: 'T_window = 4 steps × 8 ticks/step = 32 ticks (266.7 ms @ 120Hz)',
+      how: 'Maintains a 4-frame FIFO history buffer per arena (and in live CanonicalAgent), concatenating the current 171D frame with the previous 3 frames into a contiguous 684D vector. On episode reset, tiles the initial frame 4 times.',
+      why: 'Without recurrent memory or attention, stacking 4 frames allowed the first linear layer to compute finite-difference ball curve (Magnus effect) and opponent acceleration.',
+      contrib: 'Delivered Markovian state observability for short-horizon aerial and ground mechanics.'
+    },
+    {
+      id: 'bipartite_enc', num: '06', col: 1, x: 282, y: 365, w: 162, h: 96,
+      title: 'Latency Randomizer', sub: '0..2 Tick Packet Jitter Sim', tag: 'Sim-to-Live',
+      color: '#22d3ee', modes: ['all', 'train'], stageGroup: 'edges',
+      techIds: ['t1', 't9'],
+      role: 'Stage 2B · Training-Time Socket & Frame Delay Domain Randomizer',
+      tensor: 's_obs(t) <- s_true(t - δ_lag), δ_lag ~ Uniform({0, 1, 2} ticks)',
+      formula: 'Δt_jitter ∈ {0.0 ms, 8.33 ms, 16.67 ms}',
+      how: 'During training rollouts, randomly delays observations by 0, 1, or 2 physics ticks via LatencyDomainRandomizer to mimic RLBot socket IPC jitter and frame-delivery variance.',
+      why: 'Policies trained on zero-lag simulator states often oscillate or miss tight challenges when deployed over live TCP/shared-memory sockets. (Hex63 later solved this deterministically via the 1-tick C++20 RocketSimShadowTwin).',
+      contrib: 'Hardened the Gen 2 MLP against live match packet jitter.'
+    },
+
+    // --- COLUMN 2: STAGE 3 — 4-LAYER LAYER-NORM SILU MLP TRUNK (x = 468) ---
+    {
+      id: 'titans_prior', num: '07', col: 2, x: 468, y: 205, w: 162, h: 96,
+      title: '684->512->512 MLP', sub: 'LayerNorm + SiLU · Ortho Init', tag: ' √2 Gain',
+      color: '#a78bfa', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+      techIds: ['t2'],
+      role: 'Stage 3A · Wide Orthogonal-Initialized LayerNorm-SiLU Feature Extractor',
+      tensor: 'h_1 = SiLU(LN(W_1 x_684)), h_2 = SiLU(LN(W_2 h_1)) ∈ R^[B, 512]',
+      formula: 'W_i ~ Orthogonal(gain = √2), b_i = 0',
+      how: 'Processes the 684D temporal stack through two 512-unit dense layers with LayerNorm and SiLU (Swish) activations, initialized with orthogonal matrices (gain √2).',
+      why: 'Replaced Gen 1\'s 4-layer Relational Transformer after empirical ablations showed a wide 684D->512->512 MLP achieved 5× higher SPS under CUDAGraphs while learning crisp ground/aerial control.',
+      contrib: 'Maximized training throughput (steps per second) on a single RTX 3090 GPU.'
+    },
+    {
+      id: 'titans_mem', num: '08', col: 2, x: 468, y: 365, w: 162, h: 96,
+      title: '512->256 Policy Neck', sub: 'Shared 256D Latent Bottleneck', tag: 'Actor Trunk',
+      color: '#a78bfa', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+      techIds: ['t2', 't3'],
+      role: 'Stage 3B · 256D Policy Latent Bottleneck (h_trunk)',
+      tensor: 'h_trunk = SiLU(LN(W_3 h_2)) ∈ R^[B, 256]',
+      formula: 'dim(h_trunk) = 256 (feeds 7 Action Heads + Aux Skill Head)',
+      how: 'Compresses the 512D hidden state into a 256D policy representation h_trunk that simultaneously drives the fused 31-logit action projection and the training-only CompositionalSkillAuxiliaryHead.',
+      why: 'Created a compact 256D bottleneck that fit entirely in L1/L2 cache during batched CUDA Graph execution.',
+      contrib: 'Served as the universal teacher representation later distilled into Gen 3.'
+    },
+
+    // --- COLUMN 3: STAGE 4 — REPLAY SKILL MINER & AUXILIARY SUPERVISION (x = 654) ---
+    {
+      id: 'coconut_loop', num: '09', col: 3, x: 654, y: 150, w: 162, h: 92,
+      title: 'SeqScout Replay Miner', sub: 'WRAcc MCTS · 30–60Hz Parser', tag: 'SkillshotMiner',
+      color: '#f472b6', modes: ['all', 'train'], stageGroup: 'titans',
+      techIds: ['t4', 't6'],
+      role: 'Stage 4A · Offline Pro Replay Parser & SeqScout Pattern Discovery Engine',
+      tensor: '.replay Corpus -> 27D Initiation States + Z_t Skill Labels',
+      formula: 'WRAcc(s) = (n(s)/N) · (p_goal(s) - p_goal(root))',
+      how: 'Parses high-MMR Rocket League replays at 30–60 Hz, discretizes player/ball interactions into symbolic events, and runs SeqScout Beam/MCTS with Weighted Relative Accuracy (WRAcc) + Jaccard diversity to mine high-scoring mechanical sequences.',
+      why: 'Discovering flip resets, ceiling shots, and zap-dashes purely by random trial-and-error from kickoff takes billions of steps; mining pro replays extracted exact mechanical blueprints.',
+      contrib: 'Populated both the 27D SkillshotInitiationBank for arena resets and the 32-class skill taxonomy.'
+    },
+    {
+      id: 'soft_moe', num: '10', col: 3, x: 654, y: 295, w: 162, h: 92,
+      title: 'Dual Flip-Reset Detector', sub: 'Explicit Flag + 5-Gate Physics', tag: '18..62 uu Ball',
+      color: '#f472b6', modes: ['all', 'train'], stageGroup: 'titans',
+      techIds: ['t4'],
+      role: 'Stage 4B · Dual-Mode Heuristic & Telemetry Flip-Reset Classifier',
+      tensor: 'm_reset = Flag_explicit ∨ (Airborne ∧ d_ball∈[18,62] ∧ BellyAlign)',
+      formula: 'dot(-u_car, (p_ball - p_car)/d) > 0.45 ∧ Δω_surge -> FlipReset',
+      how: 'Detects flip resets in replay telemetry via a dual-mode detector: checking explicit DodgeRefreshed telemetry flags when present, or falling back to a 5-gate physics heuristic (airborne z>110, car-ball center distance 18..62 uu, undercarriage normal dot>0.45, and post-contact angular velocity surge).',
+      why: 'Standard replay parsers frequently drop transient 1-tick wheel-contact flags during mid-air ball touches.',
+      contrib: 'Recovered ribuan of authentic PopReset, MaktufReset, and StallReset trajectories from pro replays.'
+    },
+    {
+      id: 'fsq_bottleneck', num: '11', col: 3, x: 654, y: 440, w: 162, h: 92,
+      title: 'Skill Aux Head (Z_t)', sub: '8 Macro · 32 Sub · 13D Phase', tag: 'Training Only',
+      color: '#f472b6', modes: ['all', 'train', 'distill'], stageGroup: 'titans',
+      techIds: ['t3', 't4'],
+      role: 'Stage 4C · Compositional Skill Auxiliary Head (8 Families × 32 Sub-Skills)',
+      tensor: 'h_trunk[256] -> 128D -> (Logits_8, Logits_32, Phase_13D)',
+      formula: 'Gain = 0.01 Orthogonal Init; omitted from TorchScript live export',
+      how: 'Attaches a lightweight 256->128 MLP head to h_trunk during training to predict the active Macro Skill Family (8), Canonical Sub-Variant (32), and 13D continuous phase vector, stripped out completely at TorchScript export.',
+      why: 'Guided the 256D MLP bottleneck to organize states by mechanical affordance without adding a single FLOP to live match inference.',
+      contrib: 'Accelerated acquisition of aerial dribbles, flicks, and double-taps in the 684D MLP.'
+    },
+
+    // --- COLUMN 4: STAGE 5 — FUSED 31-LOGIT FACTORIZED HEADS & SUBTICK FSM (x = 840) ---
+    {
+      id: 'stage1_bin', num: '12', col: 4, x: 840, y: 150, w: 162, h: 92,
+      title: '_FusedHeadLinearFn', sub: '256->31 Single GEMM · Zero Cat', tag: 'Custom Autograd',
+      color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
+      techIds: ['t5'],
+      role: 'Stage 5A · Custom Autograd Fused 7-Head Linear Projection (31 Logits)',
+      tensor: 'W_cat ∈ R^[31, 256] -> Logits_flat ∈ R^[B, 31] (Zero torch.cat)',
+      formula: 'Heads = (Throttle:3, Steer:7, Pitch:5, Yaw:5, Roll:3, Jump:4, Boost:4)',
+      how: 'Concatenates the 7 orthogonal-initialized (gain=0.01) action head weight matrices into a single [31, 256] buffer at load time and executes one fused GEMM via a custom torch.autograd.Function (_FusedHeadLinearFn).',
+      why: 'Launching 7 separate small linear kernels and calling torch.cat created significant CUDA launch overhead inside the 1,024-env rollout loop.',
+      contrib: 'Evaluated all 31 discrete action logits across 7 factorized heads in a single matrix multiply.'
+    },
+    {
+      id: 'stage2_flow', num: '13', col: 4, x: 840, y: 295, w: 162, h: 92,
+      title: 'Padded [B,7,7] Sampler', sub: 'Physics Mask -10^8 · Gumbel', tag: '25,200 Combos',
+      color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
+      techIds: ['t5', 't7'],
+      role: 'Stage 5B · Vectorized Padded [B, 7, 7] Log-Softmax & Physics Logit Masker',
+      tensor: 'Logits_pad ∈ R^[B, 7, 7] + Mask_31 (-10^8) -> Actions ∈ Z^[B, 7]',
+      formula: 'Π_{i=1}^7 dims = 3 × 7 × 5 × 5 × 3 × 4 × 4 = 25,200 combinations',
+      how: 'Applies RocketSim boolean physics masks (-10^8 on illegal bins), pads the ragged 31 logits into a uniform [B, 7, 7] tensor using _LOGIT_SCATTER_INDICES, and computes log_softmax, entropy, and categorical sampling across all 7 heads in one vectorized kernel.',
+      why: 'Standard PyTorch Split + 7× Categorical() objects allocate dozens of temporary tensors and Python loops per step.',
+      contrib: 'Made 7-head categorical sampling and PPO log-prob evaluation 100% static-shape and CUDAGraph-compatible.'
+    },
+    {
+      id: 'subtick_exec', num: '14', col: 4, x: 840, y: 440, w: 162, h: 92,
+      title: '8-Subtick FlipState', sub: '15Hz Repeat · Jump Edge Macro', tag: '120Hz Physics',
+      color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
+      techIds: ['t7'],
+      role: 'Stage 5C · 8-Subtick (15 Hz) Control Mapping & C++ FlipState Edge Generator',
+      tensor: 'Actions[7] -> 8 × CarControls @ 120 Hz (Bins: Steer[-1..1], etc.)',
+      formula: 'Dodge(a_jump=3): sub=0 jump=0 -> sub=1..4 jump=1 -> sub=5..7 jump=0',
+      how: 'Maps the 7 categorical bin indices to continuous car controls (e.g., 7-bin Steer: [-1, -0.66, -0.33, 0, 0.33, 0.66, 1]) held for 8 physics ticks, using the C++/Python FlipState machine to synthesize rising jump edges for dodges.',
+      why: 'Replaced Gen 1\'s hand-tuned 120 Hz Attitude PD controller with direct neural control over Pitch/Yaw/Roll bins, though still limited to 15 Hz outer decisions.',
+      contrib: 'Eliminated PD controller trajectory fighting during flip-reset stalls and air dribbles.'
+    },
+
+    // --- COLUMN 5: STAGE 6 — 752D PRIVILEGED CRITIC, PBRS & LEAGUE (x = 1024) ---
+    {
+      id: 'critic_heads', num: '15', col: 5, x: 1024, y: 150, w: 162, h: 92,
+      title: '752D Privileged Critic', sub: '752->512->512->256 · 3 PopArt', tag: 'Asymmetric MLP',
+      color: '#34d399', modes: ['all', 'train', 'distill'], stageGroup: 'control',
+      techIds: ['t8'],
+      role: 'Stage 6A · Asymmetric 752D Privileged MLP Critic & 3-Horizon PopArt Heads',
+      tensor: 'x_priv[752] -> MLP(512,512,256) -> 3 PopArt Heads (γ=0.95,0.98,0.995)',
+      formula: 'V_raw = σ_h · V_norm + μ_h, w_New = (σ_old / σ_new) w_old',
+      how: 'Feeds the 752D omniscient observation (684D ego stack + 68D wheel slip/true velocities/5-horizon ball bounces) through a 4-layer LayerNorm-SiLU MLP into 3 PopArt-normalized value heads (short γ=0.95, medium γ=0.98, long γ=0.995).',
+      why: 'Decoupled actor observability (684D legal features) from critic observability (752D omniscient physics) to slash GAE variance.',
+      contrib: 'Provided stable multi-horizon value baselines across both dense touch shaping and sparse goal outcomes.'
+    },
+    {
+      id: 'jepa_search', num: '16', col: 5, x: 1024, y: 295, w: 162, h: 92,
+      title: 'Coupled Zero-Sum PBRS', sub: 'r_i\' = r_i - κ(r_i+r_opp)/2', tag: 'ProgressEngine',
+      color: '#34d399', modes: ['all', 'train'], stageGroup: 'control',
+      techIds: ['t6', 't9'],
+      role: 'Stage 6B · Coupled Zero-Sum 1v1 Potential-Based Reward Shaping Engine',
+      tensor: 'Φ(s) = w_b Φ_ball + w_c Φ_car + w_a Φ_air, ΔΦ_t = γ Φ(s\') - Φ(s)',
+      formula: 'r_i^(coupled) = r_i - κ · 0.5 · (r_i + r_opp), κ ∈ [0, 1]',
+      how: 'Computes bounded potential functions Φ(s) (ball-to-goal exponential potential, car-to-ball closing, aerial height/air-roll, and flip-reset contact bonuses) and applies zero-sum opponent coupling so any positional gain by the opponent penalizes the ego agent.',
+      why: 'Guaranteed by Ng et al. (1999) that dense potential shaping ΔΦ_t = γΦ(s\') - Φ(s) with Φ(s_terminal)=0 never alters the optimal Nash policy.',
+      contrib: 'Accelerated offensive strike velocity while punishing over-commits that leave the net open.'
+    },
+    {
+      id: 'ppo_grpo_opt', num: '17', col: 5, x: 1024, y: 440, w: 162, h: 92,
+      title: '5-Way Curriculum & PFSP', sub: 'Initiation Bank · Tri-Role League', tag: 'TrueSkill Match',
+      color: '#34d399', modes: ['all', 'train'], stageGroup: 'control',
+      techIds: ['t6', 't9'],
+      role: 'Stage 6C · 5-Way Stratified Curriculum, Skillshot Bank & Tri-Role PFSP League',
+      tensor: '30% Pro | 25% HardNeg | 20% Perturb | 15% Kickoff | 10% SkillBank',
+      formula: 'P_match(i) ∝ p_win^p (1 - p_win)^q · (1 + β_u σ_i^2 / σ_0^2)',
+      how: 'Samples arena initial states across 5 stratified curriculum branches (including 27D replay-mined aerial/flip-reset entry states) and matches agents via Prioritized Fictitious Self-Play (PFSP) weighted by Bayesian TrueSkill uncertainty σ_i^2.',
+      why: 'Prevented forgetting of foundational kickoff/ground play while forcing high-density practice on hard-negative ring-buffer states and aerial initiation states.',
+      contrib: 'Established the curriculum and league foundation that Hex63 scaled to 4,096 arenas (816 G=8 GRPO + 2,880 League + 400 Boss).'
+    }
+  ],
+  edges: [
+    // Col 0 -> Col 1
+    { from: 'dma_slice', to: 'dyn_nodes', label: '35D Dynamic', modes: ['all','live','train','distill'] },
+    { from: 'dma_slice', to: 'env_nodes', label: '136D Pads', modes: ['all','live','train','distill'] },
+    { from: 'dma_slice', to: 'priv_ctx', label: '68D Omni', modes: ['all','train','distill'], dashed: true },
+    { from: 'dyn_nodes', to: 'gpu_edges', label: 's_t [0..34]', modes: ['all','live','train','distill'] },
+    { from: 'env_nodes', to: 'gpu_edges', label: 's_t [35..170]', modes: ['all','live','train','distill'] },
+    { from: 'gpu_edges', to: 'bipartite_enc', label: 'Deque K=4', modes: ['all','train'], dashed: true },
+    // Col 1 -> Col 2
+    { from: 'gpu_edges', to: 'titans_prior', label: 'x_684 [B,684]', modes: ['all','live','train','distill'] },
+    { from: 'bipartite_enc', to: 'titans_prior', label: '0..2 Tick Lag', modes: ['all','train'], dashed: true },
+    { from: 'titans_prior', to: 'titans_mem', label: 'h_2 [B,512]', modes: ['all','live','train','distill'] },
+    // Col 2 -> Col 3
+    { from: 'coconut_loop', to: 'soft_moe', label: '30–60Hz Frames', modes: ['all','train'], dashed: true },
+    { from: 'soft_moe', to: 'fsq_bottleneck', label: 'Mined Z_t Labels', modes: ['all','train'], dashed: true },
+    { from: 'titans_mem', to: 'fsq_bottleneck', label: 'h_trunk [256D]', modes: ['all','train','distill'], dashed: true },
+    // Col 2/3 -> Col 4
+    { from: 'titans_mem', to: 'stage1_bin', label: 'h_trunk [256D]', modes: ['all','live','train','distill'] },
+    { from: 'stage1_bin', to: 'stage2_flow', label: '31 Raw Logits', modes: ['all','live','train','distill'] },
+    { from: 'stage2_flow', to: 'subtick_exec', label: '7 Cat Actions', modes: ['all','live','train','distill'] },
+    // Col 4 -> Col 5
+    { from: 'priv_ctx', to: 'critic_heads', label: 'Concat 752D', modes: ['all','train','distill'], dashed: true },
+    { from: 'gpu_edges', to: 'critic_heads', label: 'x_684 Base', modes: ['all','train','distill'], dashed: true },
+    { from: 'critic_heads', to: 'ppo_grpo_opt', label: '3-Horizon GAE', modes: ['all','train'] },
+    { from: 'subtick_exec', to: 'jepa_search', label: 'Step State s\'', modes: ['all','train'], dashed: true },
+    { from: 'jepa_search', to: 'ppo_grpo_opt', label: 'Zero-Sum r_t', modes: ['all','train'] },
+    { from: 'coconut_loop', to: 'ppo_grpo_opt', label: '27D SkillBank', modes: ['all','train'], dashed: true },
+    { from: 'fsq_bottleneck', to: 'ppo_grpo_opt', label: 'L_skill Aux', modes: ['all','train'], dashed: true }
+  ],
+  scenarios: {
+    tour: {
+      label: 'GEN 2 END-TO-END 66.7ms TOUR',
+      steps: [
+        {
+          title: 'Step 1/7: 171D Egocentric Car Body-Frame Projection (R_car^T)',
+          focusNode: 'dma_slice', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
+          desc: 'At 15 Hz, world coordinates rotate into the ego car\'s instantaneous body frame R_car^T: packing 35D core combat kinematics (Self, Ball, Opp, Goal vectors) and 136D boost pad coordinates/timers.'
+        },
+        {
+          title: 'Step 2/7: K=4 Sliding Window (684D) & Latency Randomization',
+          focusNode: 'gpu_edges', highlight: ['gpu_edges', 'bipartite_enc'], techId: 't1',
+          desc: 'Four consecutive 171D frames [t, t-1, t-2, t-3] are stacked into a 684D flat vector (covering 267 ms of motion), injected with 0..2 ticks of random latency jitter during training.'
+        },
+        {
+          title: 'Step 3/7: Orthogonal 684->512->512->256 LayerNorm-SiLU MLP',
+          focusNode: 'titans_prior', highlight: ['titans_prior', 'titans_mem'], techId: 't2',
+          desc: 'A 4-layer dense MLP with LayerNorm and SiLU activations maps the 684D history stack into a compact 256D policy latent representation h_trunk at ultra-high CUDA Graph throughput.'
+        },
+        {
+          title: 'Step 4/7: Offline SeqScout Replay Miner & Compositional Skill Z_t',
+          focusNode: 'coconut_loop', highlight: ['coconut_loop', 'soft_moe', 'fsq_bottleneck'], techId: 't4',
+          desc: 'During training, h_trunk predicts 8 Macro Skill Families and 32 Sub-Skills (PopReset, StallReset, MustyFlick, ZapDash) mined from pro replays via SeqScout WRAcc MCTS and the Dual-Mode Flip Reset Detector.'
+        },
+        {
+          title: 'Step 5/7: Fused 31-Logit Projection & Padded [B,7,7] Masked Sampler',
+          focusNode: 'stage1_bin', highlight: ['stage1_bin', 'stage2_flow'], techId: 't5',
+          desc: '_FusedHeadLinearFn projects h_trunk into 31 logits across 7 categorical heads in one GEMM, applies RocketSim boolean physics masks (-10^8), and samples actions from a padded [B,7,7] tensor.'
+        },
+        {
+          title: 'Step 6/7: 8-Subtick Action Repeat & C++ FlipState Edge Macro',
+          focusNode: 'subtick_exec', highlight: ['stage2_flow', 'subtick_exec'], techId: 't7',
+          desc: 'The 7 chosen categorical bin indices are held for 8 physics ticks (120 Hz), with the C++ FlipState machine forcing subtick 0 to jump=0 when a dodge edge is requested.'
+        },
+        {
+          title: 'Step 7/7: 752D Privileged Critic, Zero-Sum PBRS & 5-Way Curriculum',
+          focusNode: 'critic_heads', highlight: ['priv_ctx', 'critic_heads', 'jepa_search', 'ppo_grpo_opt'], techId: 't8',
+          desc: 'An asymmetric 752D MLP critic (with 5-horizon ball bounce lookahead) outputs 3 PopArt values trained under Coupled Zero-Sum PBRS and the 5-way Stratified Curriculum.'
+        }
+      ]
+    },
+    bounce: {
+      label: 'SCENARIO 1: ASYMMETRIC 5-BOUNCE CRITIC',
+      steps: [
+        {
+          title: '1/4: Actor Infers Spin & Curve from 4-Frame 684D Stack',
+          focusNode: 'gpu_edges', highlight: ['dyn_nodes', 'gpu_edges', 'titans_prior'], techId: 't1',
+          desc: 'The 684D actor observes ball position, linear velocity, and angular velocity across [t, t-1, t-2, t-3] in body coordinates to estimate the wall bounce.'
+        },
+        {
+          title: '2/4: 752D Privileged Critic Computes 5 Analytical Bounces',
+          focusNode: 'priv_ctx', highlight: ['priv_ctx', 'critic_heads'], techId: 't8',
+          desc: 'For the training critic, C++/Python integrates a 5-horizon ballistic bounce trajectory (Δt ∈ {0.1, 0.25, 0.5, 1.0, 1.5}s) with wall/floor restitution e = 0.60.'
+        },
+        {
+          title: '3/4: Coupled Zero-Sum PBRS Rewards Early Pre-Jump',
+          focusNode: 'jepa_search', highlight: ['critic_heads', 'jepa_search'], techId: 't6',
+          desc: 'Because the 752D critic immediately sees the post-bounce ball location in front of the opponent net, its PopArt value surges as soon as the agent jumps for the backboard.'
+        },
+        {
+          title: '4/4: Limitation that Led to Gen 3 & Hex63',
+          focusNode: 'titans_prior', highlight: ['env_nodes', 'titans_prior'], techId: 't2',
+          desc: 'Feeding 544 static pad floats alongside 140 dynamic floats into a dense 684->512 layer diluted spatial attention — motivating Gen 3\'s PointNet+Perceiver and Hex63\'s 5,376B Bipartite Graph.'
+        }
+      ]
+    },
+    aerial: {
+      label: 'SCENARIO 2: MINED FLIP-RESET INITIATION',
+      steps: [
+        {
+          title: '1/4: Dual-Mode Detector Extracts Pro Flip-Reset Replays',
+          focusNode: 'soft_moe', highlight: ['coconut_loop', 'soft_moe'], techId: 't4',
+          desc: 'SkillshotMiner scans pro replays for airborne car-ball undercarriage touches (distance 18..62 uu, belly dot > 0.45) followed by an angular velocity surge.'
+        },
+        {
+          title: '2/4: Seeding Arena from 27D SkillshotInitiationBank (10% Branch)',
+          focusNode: 'ppo_grpo_opt', highlight: ['coconut_loop', 'ppo_grpo_opt'], techId: 't6',
+          desc: 'In the 5-way Stratified Curriculum, 10% of episodes initialize cars and ball directly into mined mid-air setup states 0.5s before the flip reset.'
+        },
+        {
+          title: '3/4: Auxiliary Z_t Head Guides Trunk to Sub-Skill #18 (StallReset)',
+          focusNode: 'fsq_bottleneck', highlight: ['titans_mem', 'fsq_bottleneck'], techId: 't3',
+          desc: 'CompositionalSkillAuxiliaryHead supervises h_trunk to classify Macro Family 5 (Flip Reset) and Sub-Variant StallReset.'
+        },
+        {
+          title: '4/4: Factorized 31-Logit Head Fires Dodge Flick',
+          focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow', 'subtick_exec'], techId: 't5',
+          desc: 'Once the 4 wheels touch the ball and RocketSim unmasks has_flip, the Jump head (bin 3) and Pitch head (bin 0) fire the follow-up flick.'
+        }
+      ]
+    },
+    fake: {
+      label: 'SCENARIO 3: HARD-NEGATIVE RING BUFFER',
+      steps: [
+        {
+          title: '1/4: Detecting High-TD-Error Defensive Breakdowns',
+          focusNode: 'critic_heads', highlight: ['critic_heads', 'ppo_grpo_opt'], techId: 't8',
+          desc: 'Whenever an opponent fake-challenge leads to a goal against the agent, the large negative TD error flags the preceding state in the Failure Ring Buffer.'
+        },
+        {
+          title: '2/4: 25% Hard-Negative Curriculum Replay',
+          focusNode: 'ppo_grpo_opt', highlight: ['ppo_grpo_opt', 'dma_slice'], techId: 't6',
+          desc: 'StratifiedCurriculum allocates 25% of arena resets to re-running recent failure states with Gaussian kinematic perturbations (20% branch).'
+        },
+        {
+          title: '3/4: Zero-Sum Coupling Penalizes Over-Commit',
+          focusNode: 'jepa_search', highlight: ['jepa_search', 'ppo_grpo_opt'], techId: 't6',
+          desc: 'Coupled Zero-Sum PBRS subtracts κ·(r_i + r_opp)/2 so diving past the ball immediately yields negative shaped reward as the opponent gains open-net potential.'
+        },
+        {
+          title: '4/4: Why Gen 3 Added Autoregressive Action Conditioning',
+          focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow'], techId: 't5',
+          desc: 'In Gen 2, independent sampling of Jump[4] and Pitch[5] occasionally caused accidental backflips during shadow defense — solved in Gen 3 by conditioning Stage-2 axes on Stage-1 Jump/Boost.'
+        }
+      ]
+    },
+    save: {
+      label: 'SCENARIO 4: LIVE CANONICAL AGENT (120HZ)',
+      steps: [
+        {
+          title: '1/4: Live GameTickPacket -> 171D Egocentric Transform',
+          focusNode: 'dma_slice', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
+          desc: 'In live RLBot matches, CanonicalAgent converts the GameTickPacket into the 171D body-frame observation and pushes it into the K=4 deque.'
+        },
+        {
+          title: '2/4: TorchScript / CUDAGraph Forward Pass (< 0.4 ms)',
+          focusNode: 'titans_mem', highlight: ['gpu_edges', 'titans_prior', 'titans_mem', 'stage1_bin'], techId: 't2',
+          desc: 'The 4-layer MLP and _FusedHeadLinearFn evaluate the 31 action logits in under 0.4 ms.'
+        },
+        {
+          title: '3/4: Physics Boolean Masking Prevents Dead-Air Flips',
+          focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow'], techId: 't7',
+          desc: 'compute_action_masks disables illegal Dodge/Boost bins before argmax/temperature selection.'
+        },
+        {
+          title: '4/4: 8-Subtick FlipState Holds Save Control Across 66.7ms',
+          focusNode: 'subtick_exec', highlight: ['stage2_flow', 'subtick_exec'], techId: 't7',
+          desc: 'The live bridge steps the FlipState machine at 120 Hz across the 8 physics ticks until the next outer policy decision.'
+        }
+      ]
+    }
+  },
+  techLibrary: [
+    {
+      id: 't0', short: 'T0 · 171D Egocentric Frame',
+      title: '171D Egocentric Body-Frame Coordinate Transformation (R_car^T)',
+      usedIn: ['dma_slice', 'dyn_nodes', 'env_nodes'],
+      placement: 'Stage 1 Observation Builder — transforms world physics into ego-car local coordinates.',
+      how: 'Projects relative positions, linear/angular velocities, gravity, goal vectors (35D), and 34 boost pads (136D) into the ego car\'s orthonormal basis R_car^T = [forward, right, up]^T, applying ORANGE_PAD_PERMUTATION when team == 1.',
+      why: 'World-frame coordinates require the network to mentally rotate steering/pitch commands by the car\'s current 3D orientation; body-frame coordinates align inputs directly with car-local actuators.',
+      contrib: 'Dramatically accelerated early-stage steering, aerial aiming, and shadow defense convergence.',
+      science: 'Given car rotation R_car ∈ SO(3), mapping Δp_b = R_car^T(p_target - p_car) ensures equivariance under global SE(3) car rigid-body transformations.',
+      origins: 'Canonical Observation Spec (trainer_v3/policy/canonical_obs.py).'
+    },
+    {
+      id: 't1', short: 'T1 · K=4 History & Jitter',
+      title: '4-Step Temporal Stack (684D) & 0..2 Tick Latency Domain Randomization',
+      usedIn: ['env_nodes', 'gpu_edges', 'bipartite_enc'],
+      placement: 'Stage 2 Temporal Buffer — sits between single-frame 171D extraction and the MLP.',
+      how: 'Concatenates [s_t, s_{t-1}, s_{t-2}, s_{t-3}] into a 684D flat vector (267 ms window) and randomly delays observations by δ ∈ {0, 1, 2} ticks during training via LatencyDomainRandomizer.',
+      why: 'Single-frame observations cannot distinguish a ball curving via Magnus spin from a straight shot, nor can they survive live socket jitter without delay randomization.',
+      contrib: 'Gave the feedforward MLP short-term velocity derivative awareness and sim-to-live socket resilience.',
+      science: 'Frame stacking (Mnih et al., 2015) approximates a k-th order Markov state s_t^(k) for partially observable second-order dynamical systems.',
+      origins: 'DQN Frame Stacking (Mnih et al., Nature 2015) + Sim-to-Real Latency Randomization (Tan et al., RSS 2018).'
+    },
+    {
+      id: 't2', short: 'T2 · 684->512->512->256 MLP',
+      title: 'Orthogonal LayerNorm-SiLU Dense MLP Backbone (820K Params)',
+      usedIn: ['titans_prior', 'titans_mem'],
+      placement: 'Stage 3 Policy Trunk — maps 684D history to 256D policy latent.',
+      how: 'Three hidden layers (684 -> 512 -> 512 -> 256) with LayerNorm, SiLU activations, and √2-gain orthogonal weight initialization.',
+      why: 'Delivered maximum possible CUDA Graph steps-per-second (SPS) on a single GPU with zero attention or recurrent state overhead.',
+      contrib: 'Served as the high-throughput workhorse policy and later the distillation teacher for Gen 3.',
+      science: 'Orthogonal initialization (Saxe et al., 2014) preserves dynamical isometry (singular values σ_i = 1) across deep nonlinear layers at initialization.',
+      origins: 'Saxe et al. (ICLR 2014) & Ramachandran et al. (Swish/SiLU, 2017).'
+    },
+    {
+      id: 't3', short: 'T3 · Compositional Skill Z_t',
+      title: 'Training-Only Compositional Skill Auxiliary Head (8 Macro · 32 Sub-Skills)',
+      usedIn: ['titans_mem', 'fsq_bottleneck'],
+      placement: 'Stage 4C Auxiliary Branch — attached to the 256D trunk during training.',
+      how: 'Projects h_trunk (256->128) to predict 8 Macro Skill Families, 32 Canonical Sub-Variants, and a 13D continuous phase vector mined from pro replays.',
+      why: 'Forced the dense MLP bottleneck to dedicate latent directions to advanced aerial and dash mechanics rather than collapsing to simple ground ball-chasing.',
+      contrib: 'Stabilized multi-skill representation learning with zero inference overhead.',
+      science: 'Auxiliary multi-task supervision constrains the nullspace of the shared trunk Jacobian ∂h_trunk/∂x.',
+      origins: 'Jaderberg et al. (UNREAL, ICLR 2017).'
+    },
+    {
+      id: 't4', short: 'T4 · SeqScout Replay Miner',
+      title: 'SeqScout WRAcc MCTS Replay Miner & Dual-Mode Flip-Reset Detector',
+      usedIn: ['coconut_loop', 'soft_moe', 'fsq_bottleneck'],
+      placement: 'Stage 4A/B Offline Replay Pipeline — mines .replay files at 30–60 Hz.',
+      how: 'Uses Weighted Relative Accuracy (WRAcc) + Jaccard diversity in Monte Carlo Tree Search over symbolic replay streams, paired with a 5-gate physics heuristic + telemetry flag detector for flip resets.',
+      why: 'Random exploration in 1v1 self-play has near-zero probability of stumbling upon a Maktuf reset or Breezi flick without replay-mined initiation states and skill labels.',
+      contrib: 'Extracted thousands of verified pro mechanical trajectories and 27D arena initiation seeds.',
+      science: 'Subgroup Discovery via WRAcc(S) = P(S)·(P(Goal|S) - P(Goal)) identifies statistically significant tactical action sequences.',
+      origins: 'SeqScout Subgroup Discovery + trainer_v3/replay/skillshot_miner.py.'
+    },
+    {
+      id: 't5', short: 'T5 · Fused 31-Logit Sampler',
+      title: '_FusedHeadLinearFn & Vectorized Padded [B, 7, 7] Categorical Sampler',
+      usedIn: ['stage1_bin', 'stage2_flow'],
+      placement: 'Stage 5 Action Projection — converts 256D trunk into 7 discrete control bins.',
+      how: 'Packs all 7 head weight matrices (3+7+5+5+3+4+4 = 31 rows) into a single [31, 256] GEMM via custom autograd, scatters into a padded [B, 7, 7] tensor, and evaluates masked log-softmax in one kernel.',
+      why: 'Eliminated 7× separate linear layers, torch.cat allocations, and Python loop overhead during 1,024-arena rollouts.',
+      contrib: 'Enabled 25,200 factorized action combinations with sub-0.1ms GPU overhead.',
+      science: 'Factorized categorical policies represent a 7D control hypercube using 31 logits instead of 25,200 joint atomic logits.',
+      origins: 'OpenAI Five / RLGym Factorized Action Spaces; custom CUDA-Graph-safe autograd in factorized_actor.py.'
+    },
+    {
+      id: 't6', short: 'T6 · Zero-Sum PBRS & Bank',
+      title: 'Coupled Zero-Sum 1v1 PBRS & 5-Way Stratified Skillshot Curriculum',
+      usedIn: ['coconut_loop', 'jepa_search', 'ppo_grpo_opt'],
+      placement: 'Stage 6 Reward & Reset Engine — governs arena seeding and step rewards.',
+      how: 'Combines potential-based reward shaping ΔΦ = γΦ(s\') - Φ(s) with zero-sum opponent coupling r_i\' = r_i - κ(r_i+r_opp)/2 and seeds arenas across 5 stratified distributions (30% Pro, 25% Hard-Neg, 20% Perturb, 15% Kickoff, 10% SkillBank).',
+      why: 'Standard uncoupled rewards encourage mutual ball-touch farming, while kickoff-only resets starve aerial mechanics of training samples.',
+      contrib: 'Aligned dense shaping with zero-sum 1v1 win probability and high-frequency aerial drill practice.',
+      science: 'Policy Invariance under Reward Shaping (Ng, Harada, & Russell, ICML 1999).',
+      origins: 'Ng et al. (1999) + Prioritized Level Replay (Jiang et al., ICML 2021).'
+    },
+    {
+      id: 't7', short: 'T7 · Physics Masks & Flip FSM',
+      title: 'RocketSim Boolean Logit Masking & 8-Subtick C++ FlipState Machine',
+      usedIn: ['stage2_flow', 'subtick_exec'],
+      placement: 'Stage 5 Control Executor — bridges 15 Hz categorical bins to 120 Hz physics.',
+      how: 'Masks impossible action bins with -10^8 before softmax and runs an 8-subtick state machine (sub=0 jump=0, sub=1..4 jump=1) to synthesize rising jump edges for dodges.',
+      why: 'Directly retired Gen 1\'s 120 Hz Attitude PD controller (which fought the policy during flip resets) while working around the 15 Hz outer step rate.',
+      contrib: 'Gave the neural network direct categorical authority over Pitch/Yaw/Roll and reliable dodge edges.',
+      science: 'Boolean action masking restricts policy support supp(π(·|s)) to the feasible physical control set A_valid(s).',
+      origins: 'Huang & Ontañón (2020); later superseded in Hex63 by native K_sub=4 (60 Hz) subtick action chunks.'
+    },
+    {
+      id: 't8', short: 'T8 · 752D Privileged Critic',
+      title: 'Asymmetric 752D Privileged MLP Critic with 5-Horizon Ballistics & PopArt',
+      usedIn: ['priv_ctx', 'critic_heads'],
+      placement: 'Stage 6A Training Value Network — omniscient 752D critic.',
+      how: 'Appends 68 privileged floats (20D wheel suspension/normals/slip, 18D true world velocities, 30D 5-horizon analytical ball bounces) to the 684D stack and predicts 3 PopArt value heads (γ ∈ {0.95, 0.98, 0.995}).',
+      why: 'Allowed the critic to see exact wheel slip and 1.5s of future ball bounces without leaking illegal simulator internals to the deployed 684D actor.',
+      contrib: 'Stabilized multi-horizon GAE advantage estimates during complex wall and aerial plays.',
+      science: 'Asymmetric Actor-Critic (Pinto et al., 2017) + PopArt target normalization (van Hasselt et al., 2016).',
+      origins: 'trainer_v3/ml/privileged_critic.py.'
+    },
+    {
+      id: 't9', short: 'T9 · Tri-Role PFSP League',
+      title: 'Tri-Role Bayesian TrueSkill & Prioritized Fictitious Self-Play League',
+      usedIn: ['bipartite_enc', 'jepa_search', 'ppo_grpo_opt'],
+      placement: 'Stage 6C Matchmaking Coordinator — governs multi-agent self-play opponents.',
+      how: 'Maintains a historical checkpoint pool partitioned into Main Agents (65%), Main Exploiters (20%), and League Exploiters (15%), weighting match probabilities by win-rate targeting g(p_win) and TrueSkill variance σ_i^2.',
+      why: 'Naive self-play against only the latest checkpoint cycles between rock-paper-scissors strategies and forgets how to defend older playstyles.',
+      contrib: 'Guaranteed monotonic skill progression and exploit resistance.',
+      science: 'AlphaStar League Training (Vinyals et al., 2019) + TrueSkill Bayesian rating (Herbrich et al., NeurIPS 2006).',
+      origins: 'Vinyals et al. (Nature 2019) & Herbrich et al. (2006).'
+    }
+  ],
+  externalResources: {
+    t0: [
+      { badge: 'NATURE 2015', title: 'Human-level control through deep reinforcement learning', authors: 'V. Mnih et al. (DeepMind)', url: 'https://www.nature.com/articles/nature14236', desc: 'Establishes k-frame temporal stacking for Markovian velocity/acceleration inference.' }
+    ],
+    t1: [
+      { badge: 'RSS 2018', title: 'Sim-to-Real: Learning Agile Locomotion For Quadruped Robots', authors: 'J. Tan et al.', url: 'https://arxiv.org/abs/1804.10332', desc: 'Introduces latency domain randomization to bridge simulator-to-live communication lag.' }
+    ],
+    t2: [
+      { badge: 'ICLR 2014', title: 'Exact solutions to the nonlinear dynamics of learning in deep linear neural networks', authors: 'A. M. Saxe, J. L. McClelland, S. Ganguli', url: 'https://arxiv.org/abs/1312.6120', desc: 'Mathematical foundation for orthogonal weight initialization in deep RL networks.' }
+    ],
+    t3: [
+      { badge: 'ICLR 2017', title: 'Reinforcement Learning with Unsupervised Auxiliary Tasks (UNREAL)', authors: 'M. Jaderberg et al.', url: 'https://arxiv.org/abs/1611.05397', desc: 'Auxiliary representation supervision on shared RL policy trunks.' }
+    ],
+    t4: [
+      { badge: 'JMLR 2009', title: 'Subgroup Discovery: Concepts and Applications (WRAcc)', authors: 'F. Herrera et al.', url: 'https://www.jmlr.org/papers/v10/novak09a.html', desc: 'Weighted Relative Accuracy metric used in SeqScout replay pattern mining.' }
+    ],
+    t5: [
+      { badge: 'ARXIV 2019', title: 'Dota 2 with Large Scale Deep Reinforcement Learning (OpenAI Five)', authors: 'C. Berner et al. (OpenAI)', url: 'https://arxiv.org/abs/1912.06680', desc: 'Factorized multi-head discrete action spaces for high-frequency game control.' }
+    ],
+    t6: [
+      { badge: 'ICML 1999', title: 'Policy Invariance Under Reward Transformations: Theory and Application to Reward Shaping', authors: 'A. Y. Ng, D. Harada, S. Russell', url: 'https://people.eecs.berkeley.edu/~pabbeel/cs287-fa09/readings/NgHaradaRussell-shaping-ICML1999.pdf', desc: 'Proves potential-based reward shaping preserves optimal Nash policies.' },
+      { badge: 'ICML 2021', title: 'Prioritized Level Replay', authors: 'M. Jiang et al.', url: 'https://arxiv.org/abs/2010.03934', desc: 'Prioritizes high-TD-error failure states and curriculum seeds.' }
+    ],
+    t7: [
+      { badge: 'FLAIRS 2022', title: 'A Closer Look at Invalid Action Masking in Policy Gradient Algorithms', authors: 'S. Huang & S. Ontañón', url: 'https://arxiv.org/abs/2006.14171', desc: 'Theoretical justification for -10^8 boolean physics logit masking.' }
+    ],
+    t8: [
+      { badge: 'RSS 2018', title: 'Asymmetric Actor Critic for Image-Based Robot Learning', authors: 'L. Pinto et al.', url: 'https://arxiv.org/abs/1710.06542', desc: 'Privileged omniscient critic paired with a partial-observation actor.' },
+      { badge: 'NEURIPS 2016', title: 'Learning values across many orders of magnitude (PopArt)', authors: 'H. van Hasselt et al.', url: 'https://arxiv.org/abs/1602.07714', desc: 'Adaptive target normalization across multi-horizon value heads.' }
+    ],
+    t9: [
+      { badge: 'NATURE 2019', title: 'Grandmaster level in StarCraft II using multi-agent reinforcement learning', authors: 'O. Vinyals et al.', url: 'https://www.nature.com/articles/s41586-019-1724-z', desc: 'Introduces Prioritized Fictitious Self-Play (PFSP) with Main and Exploiter roles.' }
+    ]
+  },
+  mermaidDiagram: `flowchart LR
+  subgraph S1["Stage 1: 171D Egocentric Frame"]
+    N1["01. Egocentric Basis R_car^T"] --> N2["02. 35D Core Kinematics"]
+    N1 --> N3["03. 136D Static Pad Block (34x4)"]
+    N1 -.-> N4["04. 68D Omniscient Critic Tail"]
+  end
+  subgraph S2["Stage 2: K=4 Temporal Stack (684D)"]
+    N2 & N3 --> N5["05. K=4 Sliding Window (684D)"]
+    N5 -.-> N6["06. 0..2 Tick Latency Randomizer"]
+  end
+  subgraph S3["Stage 3: 4-Layer Dense MLP"]
+    N5 & N6 --> N7["07. 684->512->512 LayerNorm-SiLU"]
+    N7 --> N8["08. 512->256 Policy Neck (h_trunk)"]
+  end
+  subgraph S4["Stage 4: Replay Miner & Skill Z_t"]
+    N9["09. SeqScout WRAcc Replay Miner"] -.-> N10["10. Dual Flip-Reset Detector"]
+    N8 & N10 -.-> N11["11. Compositional Skill Z_t (8/32)"]
+  end
+  subgraph S5["Stage 5: Fused 31-Logit Heads"]
+    N8 --> N12["12. _FusedHeadLinearFn (256->31)"]
+    N12 --> N13["13. Padded [B,7,7] Masked Sampler"]
+    N13 --> N14["14. 8-Subtick FlipState FSM (15Hz)"]
+  end
+  subgraph S6["Stage 6: 752D Critic & League"]
+    N4 & N5 -.-> N15["15. 752D Privileged Critic (3 PopArt)"]
+    N14 -.-> N16["16. Coupled Zero-Sum PBRS"]
+    N15 & N16 & N9 --> N17["17. 5-Way Curriculum & PFSP League"]
+  end`
+};
+
+</script>
+  <script>
+// ============================================================================
+// LEGACY GEN 1: RET-40 RELATIONAL TRANSFORMER & 120HZ ATTITUDE PD CONTROLLER
+// ============================================================================
+window.ARASHIKAGE_GEN1_RET40 = {
+  id: 'gen1_ret40',
+  shortBadge: 'LEGACY GEN 1 // RET-40 + ATTITUDE PD',
+  dropdownLabel: 'Platform: Gen 1 — RET-40 (41×25 Transformer + 120Hz Attitude PD)',
+  identityTitle: '41-Entity Relational Transformer (RET-40), AVX2 Pairwise r_ij & 120 Hz Geodesic SLERP Attitude PD Controller',
+  colHeaders: [
+    { col: 0, x: 96,  title: 'STAGE 1 // 41×25 POD TOKENS', sub: '100B POD · 1,536B SoA',    color: '#38bdf8' },
+    { col: 1, x: 282, title: 'STAGE 2 // AVX2 r_ij BIAS',   sub: '41×41×8 · 53.7KB Block',   color: '#22d3ee' },
+    { col: 2, x: 468, title: 'STAGE 3 // 4L RET-40 TRUNK',  sub: 'd=128 · H=4 · SwiGLU',     color: '#a78bfa' },
+    { col: 3, x: 654, title: 'STAGE 4 // QUAT & EXPLOITER', sub: 'q*∈S^3 · ω* · 4 Archetypes', color: '#f472b6' },
+    { col: 4, x: 840, title: 'STAGE 5 // 120HZ SLERP PD',   sub: 'Geodesic S^3 · Schmitt PD', color: '#fbbf24' },
+    { col: 5, x: 1024, title: 'STAGE 6 // 32-QUANTILE CVaR', sub: 'PopArt-3 · Weight Staging', color: '#34d399' }
+  ],
+  nodes: [
+    // --- COLUMN 0: STAGE 1 — C++17 41×25 ENTITY POD & SOA KINEMATICS (x = 96) ---
+    {
+      id: 'dma_slice', num: '01', col: 0, x: 96, y: 125, w: 162, h: 92,
+      title: '41×25 EntityTokenPOD', sub: '100B POD · 6 Cars · Ball · Pads', tag: '4,100B Slice',
+      color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
+      techIds: ['t0'],
+      role: 'Stage 1 · C++17 41-Entity Token Array (100B EntityTokenPOD × 41)',
+      tensor: 'EntityTokenPOD[41] -> X_tokens ∈ R^[B, 41, 25] (4,100 Bytes)',
+      formula: 'Slots: [0] Ego | [1..2] Mates | [3..5] Opps | [6] Ball | [7..40] 34 Pads',
+      how: 'Packs all 41 arena entities into 100-byte C++ POD structs: 3D position, 3D linear velocity, 3D forward & up unit vectors, 3D angular velocity, boost/timer scalars, 6D one-hot entity type flags, and channel 24 norm_time_to_go.',
+      why: 'Represented the pitch as an unordered set of 41 physical objects with zero 1D positional encodings so the policy was permutation-equivariant across cars and pads.',
+      contrib: 'Pioneered the entity-token paradigm in rl-bot that later evolved into Hex63\'s 64-entity 5,376B Layout A slice.'
+    },
+    {
+      id: 'dyn_nodes', num: '02', col: 0, x: 96, y: 265, w: 162, h: 92,
+      title: '1,536B Kinematics SoA', sub: 'alignas(64) x,y,z,vx,vy,vz', tag: '64-Padded SIMD',
+      color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
+      techIds: ['t0', 't1'],
+      role: 'Stage 1 · 64-Byte-Aligned Structure-of-Arrays (SoA) SIMD Buffer',
+      tensor: 'EntityKinematicsSoA (6 × float[64] = 1,536 Bytes, alignas(64))',
+      formula: 'x[64], y[64], z[64], vx[64], vy[64], vz[64] (8-wide __m256)',
+      how: 'Transposes the 41 entity positions and velocities into 6 contiguous 64-element float arrays aligned to 64-byte cache lines so 8 entities can be loaded simultaneously into AVX2 256-bit YMM registers.',
+      why: 'Computing 41×41 = 1,681 pairwise relative vectors in Array-of-Structs (AoS) layout causes uncoalesced gather stalls on CPU.',
+      contrib: 'Allowed the C++ relational extractor to process 8 target entities per SIMD instruction.'
+    },
+    {
+      id: 'env_nodes', num: '03', col: 0, x: 96, y: 405, w: 162, h: 92,
+      title: 'Ch-24 Time-To-Go', sub: 'norm_time_to_go · Ball Spin', tag: 'Ballistic Hint',
+      color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
+      techIds: ['t0'],
+      role: 'Stage 1 · Channel-24 Normalized Time-To-Intercept & Ball Magnus Spin',
+      tensor: 'token[i].features[24] = clamp(d_i,ball / max(v_close, 500), 0, 1)',
+      formula: 'F_Magnus ∝ ω_ball × v_ball (encoded in Ball token channels 12..14)',
+      how: 'Populates feature index 24 on every entity token with its estimated normalized time-to-go and encodes ball angular velocity ω_ball directly into the Ball token.',
+      why: 'Gave individual entity tokens an immediate scalar intercept horizon before cross-entity attention ran.',
+      contrib: 'Helped early attention layers prioritize the closest challenger to the ball.'
+    },
+    {
+      id: 'priv_ctx', num: '04', col: 0, x: 96, y: 545, w: 162, h: 92,
+      title: 'Lockless Seqlock SHM', sub: '64B Aligned · Odd/Even Seq', tag: 'Zero-Lock Telemetry',
+      color: '#34d399', modes: ['all', 'live', 'train'], stageGroup: 'mem',
+      techIds: ['t9'],
+      role: 'Stage 1 · 64-Byte-Aligned Lockless Seqlock Shared Memory Telemetry',
+      tensor: 'LocklessTelemetryBuffer (alignas(64) std::atomic<uint64_t> seq)',
+      formula: 'Writer: seq.fetch_add(1, release) -> memcpy -> seq.fetch_add(1, release)',
+      how: 'Streams step metrics, SPS, and arena states out of the C++ batch engine into a 64-byte-aligned Seqlock shared memory ring buffer without mutex locks.',
+      why: 'OS mutexes inside a 120 Hz / 1,024-arena OpenMP hot loop cause catastrophic thread convoying.',
+      contrib: 'Established the lock-free Seqlock telemetry design that Hex63 expanded into the 256 KB Hex63TelemetrySharedMemory plane.'
+    },
+
+    // --- COLUMN 1: STAGE 2 — AVX2 PAIRWISE RELATIONAL TENSOR & HOISTED BIAS (x = 282) ---
+    {
+      id: 'gpu_edges', num: '05', col: 1, x: 282, y: 205, w: 162, h: 96,
+      title: 'AVX2 41×41×8 r_ij', sub: '53,792B POD · rsqrt_ps NR', tag: '1,681 Pairs CPU',
+      color: '#22d3ee', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'edges',
+      techIds: ['t1'],
+      role: 'Stage 2A · C++ AVX2 Intrinsics Pairwise Relational Tensor (53.7 KB/Arena)',
+      tensor: 'RelationalTensorBlockPOD: r_ij ∈ R^[B, 41, 41, 8] (53,792 Bytes)',
+      formula: 'inv_d = _mm256_rsqrt_ps(d2) · (1.5 - 0.5 · d2 · inv_d^2)',
+      how: 'Executes ComputeRelationalTensorAVX2 in C++ across all 41×41 = 1,681 entity pairs, computing 8 pairwise physics features: Δp_xyz / 6000, Euclidean distance ||Δp|| / 6000 (via fast AVX2 reciprocal square root + 1 Newton-Raphson step), Δv_xyz / 2300, and closing speed.',
+      why: 'Provided explicit pairwise 3D geometry to every attention head — though transferring 53,792B per arena over PCIe became a bandwidth bottleneck that Hex63 solved by computing pairwise biases on-chip on the GPU.',
+      contrib: 'Gave the RET-40 transformer exact relative kinematics for all 1,681 entity pairs.'
+    },
+    {
+      id: 'bipartite_enc', num: '06', col: 1, x: 282, y: 365, w: 162, h: 96,
+      title: 'Hoisted mlp_rel Bias', sub: '8->16->4 Shared Across 4L', tag: '4× FLOP Savings',
+      color: '#22d3ee', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'edges',
+      techIds: ['t1', 't2'],
+      role: 'Stage 2B · Trunk-Hoisted Relational Attention Bias Projector (mlp_rel)',
+      tensor: 'r_ij[B,41,41,8] -> Linear(8,16)+GELU+Linear(16,4) -> B_rel[B,4,41,41]',
+      formula: 'Computed ONCE per step and reused across all L = 4 Transformer layers',
+      how: 'Projects the [B, 41, 41, 8] relational tensor through a 2-layer MLP (8 -> 16 -> H=4 heads) once at the start of the forward pass and broadcasts the resulting [B, 4, 41, 41] additive bias into all 4 RelationalAttentionBlocks.',
+      why: 'Evaluating mlp_rel separately inside each of the 4 layers on 1,681 pairs consumed 60% of total forward-pass time; hoisting it to the trunk cut relational projection FLOPs by 4×.',
+      contrib: 'Made 4-layer 41×41 relational attention viable inside a 1,024-arena CUDA Graph rollout.'
+    },
+
+    // --- COLUMN 2: STAGE 3 — 4-LAYER RELATIONAL TRANSFORMER RET-40 (x = 468) ---
+    {
+      id: 'titans_prior', num: '07', col: 2, x: 468, y: 205, w: 162, h: 96,
+      title: '4L RET-40 Attention', sub: 'd=128 · H=4 · Key Mask -10^9', tag: 'Zero Pos-Encoding',
+      color: '#a78bfa', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+      techIds: ['t2'],
+      role: 'Stage 3A · 4-Layer Permutation-Equivariant Relational Attention Trunk',
+      tensor: 'H^(l) = Attn(LN(H^(l-1)), B_rel, mask_41) + SwiGLU(LN(·)) ∈ R^[B,41,128]',
+      formula: 'A_ij = softmax((Q_i K_j^T)/√32 + B_rel,ij + M_pad,j)',
+      how: 'Runs 4 RelationalAttentionBlocks (d_model=128, H=4, d_head=32) with Pre-LayerNorm, SwiGLU FFNs (hidden=256), and zero positional encodings. Absent cars in 1v1/2v2 and depleted pads are masked with -10^9.',
+      why: 'Allowed the exact same 1.22M-parameter network weights to handle 1v1, 2v2, and 3v3 matches by simply toggling the 41-element boolean entity mask.',
+      contrib: 'Proved out permutation-equivariant multi-car attention + SwiGLU in rl-bot.'
+    },
+    {
+      id: 'titans_mem', num: '08', col: 2, x: 468, y: 365, w: 162, h: 96,
+      title: '256D Ego+Global Pool', sub: 'h_ego[128] || c_global[128]', tag: 'Mask-Aware Mean',
+      color: '#a78bfa', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+      techIds: ['t2'],
+      role: 'Stage 3B · Mask-Aware Global Context Pooling & Ego Token Concatenation',
+      tensor: 'fused_context = Concat(h_0, (Σ_j m_j h_j)/max(Σ_j m_j, 1)) ∈ R^[B, 256]',
+      formula: 'h_0 = H^(4)[:, 0, :] (Ego Token), c_global = MaskedMean(H^(4))',
+      how: 'Extracts the processed Ego Car token h_0 ∈ R^128 (slot 0) and concatenates it with the mask-aware mean pool c_global ∈ R^128 across all active arena tokens to form the 256D fused_context.',
+      why: 'Combined ego-centric readiness (h_0) with global team/pad summary statistics (c_global) for downstream control and critic heads.',
+      contrib: 'Supplied a unified 256D representation to the quaternion motor heads, exploiter heads, and PopArt/CVaR critics.'
+    },
+
+    // --- COLUMN 3: STAGE 4 — CONTINUOUS QUATERNION, JUMP & EXPLOITER HEADS (x = 654) ---
+    {
+      id: 'coconut_loop', num: '09', col: 3, x: 654, y: 150, w: 162, h: 92,
+      title: 'Target Quat & ω* Head', sub: 'q* ∈ S^3 · ω* ∈ [-5.5,5.5]^3', tag: 'SO(3) Setpoint',
+      color: '#f472b6', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+      techIds: ['t3', 't4'],
+      role: 'Stage 4A · Continuous 3D Attitude Quaternion & Angular Velocity Setpoint Heads',
+      tensor: 'q* = u / max(||u||_2, 1e-6) ∈ S^3, ω* = 5.5 · tanh(z_ω) ∈ R^3',
+      formula: 'log_std = -2.0 + 0.5 · (2.5 - (-2.0)) · (tanh(raw) + 1)',
+      how: 'Rather than outputting raw pitch/yaw/roll torques directly, the actor outputs a desired 3D target attitude unit quaternion q* = (w,x,y,z) ∈ S^3 and target angular velocity ω* ∈ [-5.5, 5.5]^3 rad/s, with smooth sigmoidal bounded log_std.',
+      why: 'Early RL policies struggled to stabilize mid-air pitch/roll torques directly; commanding a target 3D orientation q* let a high-rate 120 Hz PD loop handle rotational damping.',
+      contrib: 'Achieved instant aerial attitude stabilization in early training, though later retired in Gen 2 because the PD loop fought flip-reset stalls.'
+    },
+    {
+      id: 'soft_moe', num: '10', col: 3, x: 654, y: 295, w: 162, h: 92,
+      title: 'Bernoulli Jump & Gates', sub: 'b_0 = -3.80 (p=0.022) · 3 Gates', tag: 'Anti-Spam Prior',
+      color: '#f472b6', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'titans',
+      techIds: ['t3'],
+      role: 'Stage 4B · 1-Logit BernoulliJumpHead & Discrete Boost/Handbrake/Dodge Gates',
+      tensor: 'logit_jump ∈ R^[B, 1] (bias = -3.80), gates ∈ R^[B, 3]',
+      formula: 'p_jump(0) = σ(-3.80) ≈ 0.0219 (prevents early jump-spamming)',
+      how: 'Separates jump initiation into a dedicated 1-logit BernoulliJumpHead initialized with bias b_0 = -3.80 (initial jump probability ~2.2%) alongside 3 discrete gate logits for [boost, handbrake, dodge] and surface [throttle, steer].',
+      why: 'Standard 0-bias initialization causes untrained agents to jump 50% of ticks, spending the entire match helplessly airborne.',
+      contrib: 'Kept early-stage agents grounded long enough to learn driving and ball striking.'
+    },
+    {
+      id: 'fsq_bottleneck', num: '11', col: 3, x: 654, y: 440, w: 162, h: 92,
+      title: '4 Exploiter Heads', sub: 'Denial · Demo · Aerial · Starve', tag: 'Archetype Heads',
+      color: '#f472b6', modes: ['all', 'train'], stageGroup: 'titans',
+      techIds: ['t8'],
+      role: 'Stage 4C · 4 Multi-Archetype NeuralExploiterPolicyHead Branches',
+      tensor: '4 × (256 -> 128 -> 12D Action) + Archetype Intrinsic Rewards',
+      formula: 'Archetypes: BALL_DENIAL | DEMOLITION | AERIAL_MECHANICS | BOOST_STARVATION',
+      how: 'Attaches 4 specialized exploiter policy heads to the 256D trunk, each paired with an intrinsic reward generator (e.g., supersonic closing speed to opponent car for DEMOLITION, big-pad steals in opponent half for BOOST_STARVATION).',
+      why: 'Forced the main agent to defend against extreme specialist playstyles (heavy demo chasers, boost starvers, aerial freestylers). (Hex63 later internalized this via 8×2 Soft-MoE specialist experts).',
+      contrib: 'Hardened the policy against cheese tactics and extreme adversarial styles.'
+    },
+
+    // --- COLUMN 4: STAGE 5 — 120HZ GEODESIC SLERP & ATTITUDE PD CORTEX (x = 840) ---
+    {
+      id: 'stage1_bin', num: '12', col: 4, x: 840, y: 150, w: 162, h: 92,
+      title: 'Geodesic SLERP Gen', sub: 'S^3 Great-Circle Interpolation', tag: 'Antipodal Safe',
+      color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
+      techIds: ['t4', 't5'],
+      role: 'Stage 5A · Geodesic S^3 Spherical Linear Interpolation (SLERP) Waypoint Generator',
+      tensor: 'q_ref(τ) = SLERP(q_current, q̃*, τ) ∈ S^3 across 120 Hz ticks',
+      formula: 'q̃* = sign(<q*, q_curr>) · q* (shortest great-circle arc on S^3)',
+      how: 'Flips the target quaternion q* if its inner product with current car attitude q_curr is negative (solving the q ≡ -q double-cover unwinding bug) and interpolates smooth intermediate reference quaternions along the S^3 geodesic.',
+      why: 'Feeding a 180° step-change quaternion directly into a high-gain PD controller saturates actuators and induces violent overshoot.',
+      contrib: 'Generated smooth, shortest-path rotational trajectories at 120 Hz.'
+    },
+    {
+      id: 'stage2_flow', num: '13', col: 4, x: 840, y: 295, w: 162, h: 92,
+      title: '120Hz Attitude PD', sub: 'Kp=(5,5,1.8) · Kd=(0.65,0.65,0.22)', tag: 'Column-Basis Err',
+      color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
+      techIds: ['t5'],
+      role: 'Stage 5B · Vectorized 120 Hz Nonlinear Attitude PD + Feedforward Controller',
+      tensor: 'u_pyr = clip(Kp·e_rot - Kd·(ω_local - Kff·ω*), -1, 1) ∈ [-1, 1]^3',
+      formula: 'e_pitch = atan2(f*·u, f*·f), e_yaw = atan2(f*·r, f*·f), e_roll = atan2(r*·u, u*·u)',
+      how: 'Computes exact body-local pitch, yaw, and roll angle errors from the column basis vectors (f, r, u) of R(q) and R(q̃*), applies proportional-derivative + angular-velocity feedforward gains, and zeroes micro-oscillations inside a 0.04 rad Schmitt-trigger deadband.',
+      why: 'Closed the control loop at the full 120 Hz physics rate while the heavy RET-40 transformer ran at 15–30 Hz.',
+      contrib: 'Delivered rock-steady aerial aiming, though its restorative torque resisted intentional flip-reset stalls (inspiring Gen 2/3 direct heads and Hex63 60 Hz Flow-GRPO).'
+    },
+    {
+      id: 'subtick_exec', num: '14', col: 4, x: 840, y: 440, w: 162, h: 92,
+      title: 'Dodge Override Gate', sub: 'PD Bypass During Active Dodge', tag: 'Impulse Lock',
+      color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
+      techIds: ['t5'],
+      role: 'Stage 5C · Active Dodge & Grounded Surface Control Multiplexer',
+      tensor: '[throttle, steer, pitch, yaw, roll, jump, boost, handbrake] @ 120 Hz',
+      formula: 'If dodge_gate > 0: bypass Attitude PD -> emit directional dodge flick',
+      how: 'Multiplexes the 120 Hz Attitude PD rotational outputs with ground [throttle, steer] and overrides PD damping whenever the discrete dodge gate fires so the car can execute directional flips.',
+      why: 'Without a bypass gate, an attitude PD controller immediately tries to counter-torque a diagonal dodge.',
+      contrib: 'Bridged continuous SO(3) attitude control with discrete RocketSim dodge impulses.'
+    },
+
+    // --- COLUMN 5: STAGE 6 — 32-QUANTILE CVaR CRITIC & WEIGHT STAGING (x = 1024) ---
+    {
+      id: 'critic_heads', num: '15', col: 5, x: 1024, y: 150, w: 162, h: 92,
+      title: '3-Horizon PopArt Critic', sub: 'γ ∈ {0.95, 0.98, 0.995}', tag: 'MultiHorizonCritic',
+      color: '#34d399', modes: ['all', 'train', 'distill'], stageGroup: 'control',
+      techIds: ['t6'],
+      role: 'Stage 6A · 3-Horizon PopArt Value Critic (Short, Medium, Long)',
+      tensor: 'fused_context[256] -> v_norm ∈ R^[B, 3] (γ = 0.95, 0.98, 0.995)',
+      formula: 'A_t^total = w_1 A_t^(0.95) + w_2 A_t^(0.98) + w_3 A_t^(0.995)',
+      how: 'Projects the 256D fused_context into 3 PopArt-normalized scalar value heads tracking short-term mechanical touches (γ=0.95), medium-term tactical outplays (γ=0.98), and long-term goal outcomes (γ=0.995).',
+      why: 'Single-horizon γ=0.995 critics drown out immediate aerial touch feedback in long-horizon goal variance.',
+      contrib: 'Established the multi-horizon value decomposition that Hex63 expanded into the 4×51 Symlog HL-Gauss critic.'
+    },
+    {
+      id: 'jepa_search', num: '16', col: 5, x: 1024, y: 295, w: 162, h: 92,
+      title: '32-Quantile CVaR Head', sub: 'Softplus Δq · β(s) ∈ [0.05,0.95]', tag: 'Risk-Sensitive',
+      color: '#34d399', modes: ['all', 'live', 'train'], stageGroup: 'control',
+      techIds: ['t7'],
+      role: 'Stage 6B · 32-Quantile Monotonic Distributional Critic & Dynamic CVaR_β',
+      tensor: 'θ_k = θ_1 + Σ_{j=2}^k softplus(Δ_j) ∈ R^[B, 32], CVaR_β = E[q | τ <= β]',
+      formula: 'L_QR(u) = Σ_k |τ_k - I(u < 0)| · L_κ(u), τ_k = (2k - 1)/64',
+      how: 'Predicts N=32 strictly non-decreasing return quantiles via cumulative softplus deltas and integrates the lower tail up to the actor\'s dynamic risk preference β(s) ∈ [0.05, 0.95] (playing conservatively when winning or last-man back).',
+      why: 'Prevented quantile crossing by construction and introduced risk-sensitive CVaR optimization to the platform (which Hex63 later paired with Best-of-16 JEPA world-model search).',
+      contrib: 'Enabled score-and-clock-aware risk management.'
+    },
+    {
+      id: 'ppo_grpo_opt', num: '17', col: 5, x: 1024, y: 440, w: 162, h: 92,
+      title: 'CUDA Graph Staging', sub: 'E=1024 Static Graph · <5.56ms', tag: 'Zero-Alloc Copy',
+      color: '#34d399', modes: ['all', 'train'], stageGroup: 'control',
+      techIds: ['t8', 't9'],
+      role: 'Stage 6C · StaticCUDAPolicyRunner (E=1024) & InPlaceWeightStagingEngine',
+      tensor: 'torch.cuda.CUDAGraph (E=1024) + In-Place param.data.copy_ (< 5.56 ms)',
+      formula: 'Zero pointer changes -> CUDAGraph remains valid across PPO updates',
+      how: 'Captures the entire E=1024 RET-40 forward pass and quantile critic into a static CUDA Graph and updates rollout weights after each PPO epoch via in-place tensor buffer copies without invalidating captured graph memory addresses.',
+      why: 'Re-capturing a CUDA Graph after every PPO gradient step takes数百 milliseconds and leaks GPU memory pools.',
+      contrib: 'Pioneered the static-shape CUDA Graph execution discipline carried forward across all subsequent generations.'
+    }
+  ],
+  edges: [
+    // Col 0 -> Col 1
+    { from: 'dma_slice', to: 'dyn_nodes', label: 'Transpose SoA', modes: ['all','live','train','distill'] },
+    { from: 'dma_slice', to: 'env_nodes', label: 'Ch-24 t_go', modes: ['all','live','train','distill'] },
+    { from: 'dma_slice', to: 'priv_ctx', label: 'Step Metrics', modes: ['all','live','train'], dashed: true },
+    { from: 'dyn_nodes', to: 'gpu_edges', label: '6×float[64] YMM', modes: ['all','live','train','distill'] },
+    { from: 'gpu_edges', to: 'bipartite_enc', label: 'r_ij [41,41,8]', modes: ['all','live','train','distill'] },
+    // Col 1 -> Col 2
+    { from: 'dma_slice', to: 'titans_prior', label: 'Tokens [41,25]', modes: ['all','live','train','distill'] },
+    { from: 'env_nodes', to: 'titans_prior', label: 'Ball Spin/t_go', modes: ['all','live','train','distill'] },
+    { from: 'bipartite_enc', to: 'titans_prior', label: 'Hoisted B_rel', modes: ['all','live','train','distill'] },
+    { from: 'titans_prior', to: 'titans_mem', label: 'H^(4) [41,128]', modes: ['all','live','train','distill'] },
+    // Col 2 -> Col 3
+    { from: 'titans_mem', to: 'coconut_loop', label: 'Fused [256D]', modes: ['all','live','train','distill'] },
+    { from: 'titans_mem', to: 'soft_moe', label: 'Fused [256D]', modes: ['all','live','train','distill'] },
+    { from: 'titans_mem', to: 'fsq_bottleneck', label: 'Fused [256D]', modes: ['all','train'], dashed: true },
+    // Col 3 -> Col 4
+    { from: 'coconut_loop', to: 'stage1_bin', label: 'q* ∈ S^3', modes: ['all','live','train','distill'] },
+    { from: 'stage1_bin', to: 'stage2_flow', label: 'q_ref(τ) @120Hz', modes: ['all','live','train','distill'] },
+    { from: 'coconut_loop', to: 'stage2_flow', label: 'ω* Feedforward', modes: ['all','live','train','distill'] },
+    { from: 'stage2_flow', to: 'subtick_exec', label: 'u_pyr [-1,1]^3', modes: ['all','live','train','distill'] },
+    { from: 'soft_moe', to: 'subtick_exec', label: 'Jump & Gates', modes: ['all','live','train','distill'] },
+    // Col 2/3/4 -> Col 5
+    { from: 'titans_mem', to: 'critic_heads', label: 'Fused [256D]', modes: ['all','train','distill'] },
+    { from: 'titans_mem', to: 'jepa_search', label: 'Fused + β(s)', modes: ['all','live','train'] },
+    { from: 'critic_heads', to: 'ppo_grpo_opt', label: '3-Horizon GAE', modes: ['all','train'] },
+    { from: 'jepa_search', to: 'ppo_grpo_opt', label: 'CVaR_β Advantage', modes: ['all','train'], dashed: true },
+    { from: 'fsq_bottleneck', to: 'ppo_grpo_opt', label: '4 Exploiter Rollouts', modes: ['all','train'], dashed: true }
+  ],
+  scenarios: {
+    tour: {
+      label: 'GEN 1 END-TO-END CYCLE TOUR',
+      steps: [
+        {
+          title: 'Step 1/7: 41×25 EntityTokenPOD & 1,536B SIMD Kinematics SoA',
+          focusNode: 'dma_slice', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
+          desc: 'C++ packs all 41 arena entities (1 Ego, 2 Mates, 3 Opps, 1 Ball, 34 Boost Pads) into 100-byte POD structs and transposes positions/velocities into a 64-byte-aligned Structure-of-Arrays (SoA) buffer.'
+        },
+        {
+          title: 'Step 2/7: AVX2 41×41×8 Pairwise Relational Tensor & Hoisted Bias',
+          focusNode: 'gpu_edges', highlight: ['dyn_nodes', 'gpu_edges', 'bipartite_enc'], techId: 't1',
+          desc: 'ComputeRelationalTensorAVX2 evaluates 8 pairwise kinematic features across all 1,681 entity pairs using 8-wide AVX2 intrinsics. A trunk-hoisted mlp_rel projects r_ij into 4 attention-head bias maps once per step.'
+        },
+        {
+          title: 'Step 3/7: 4-Layer Relational Transformer RET-40 (d=128, SwiGLU)',
+          focusNode: 'titans_prior', highlight: ['bipartite_enc', 'titans_prior', 'titans_mem'], techId: 't2',
+          desc: 'Four permutation-equivariant RelationalAttentionBlocks process the 41 tokens with zero positional encodings, concatenating the Ego token h_0 (128D) and mask-aware global mean pool c_global (128D) into a 256D vector.'
+        },
+        {
+          title: 'Step 4/7: Target Quaternion q* ∈ S^3, ω* & BernoulliJumpHead',
+          focusNode: 'coconut_loop', highlight: ['coconut_loop', 'soft_moe'], techId: 't3',
+          desc: 'The actor predicts a continuous target 3D attitude quaternion q* ∈ S^3, target angular velocity ω* ∈ [-5.5, 5.5]^3, and a 1-logit BernoulliJumpHead initialized at b_0 = -3.80 (p ≈ 0.022).'
+        },
+        {
+          title: 'Step 5/7: 4 Multi-Archetype Neural Exploiter Heads',
+          focusNode: 'fsq_bottleneck', highlight: ['titans_mem', 'fsq_bottleneck'], techId: 't8',
+          desc: 'During league training, 4 specialist exploiter heads (BALL_DENIAL, DEMOLITION, AERIAL_MECHANICS, BOOST_STARVATION) train on archetype-specific intrinsic rewards.'
+        },
+        {
+          title: 'Step 6/7: 120 Hz Geodesic SLERP & Nonlinear Attitude PD Cortex',
+          focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow', 'subtick_exec'], techId: 't5',
+          desc: 'At 120 Hz, SlerpTrajectoryGenerator interpolates shortest-arc waypoints on S^3 and VectorizedAttitudePD converts column-basis angle errors into [pitch, yaw, roll] torques with a 0.04 rad Schmitt-trigger deadband.'
+        },
+        {
+          title: 'Step 7/7: 3-Horizon PopArt, 32-Quantile CVaR_β & Weight Staging',
+          focusNode: 'jepa_search', highlight: ['critic_heads', 'jepa_search', 'ppo_grpo_opt'], techId: 't7',
+          desc: 'MultiHorizonPopArtCritic and the 32-quantile MonotonicQuantileCriticHead evaluate risk-sensitive CVaR_β(s) inside an E=1024 static CUDA Graph updated via <5.56 ms in-place weight staging.'
+        }
+      ]
+    },
+    bounce: {
+      label: 'SCENARIO 1: AVX2 PAIRWISE INTERCEPT',
+      steps: [
+        {
+          title: '1/4: 8-Wide AVX2 Pairwise Distance & Closing Speed',
+          focusNode: 'gpu_edges', highlight: ['dyn_nodes', 'gpu_edges'], techId: 't1',
+          desc: 'For all 41×41 pairs, C++ computes Δp/6000, fast rsqrt_ps Euclidean distance, and relative closing velocity in 256-bit YMM registers.'
+        },
+        {
+          title: '2/4: Trunk-Hoisted mlp_rel Injects Spatial Bias into All 4 Layers',
+          focusNode: 'bipartite_enc', highlight: ['gpu_edges', 'bipartite_enc', 'titans_prior'], techId: 't2',
+          desc: 'The 8D pairwise vector projects to 4 head biases B_rel[B,4,41,41] once and guides all 4 RET-40 layers.'
+        },
+        {
+          title: '3/4: Why Hex63 Moved Pairwise Bias from CPU AVX2 to Fused GPU',
+          focusNode: 'gpu_edges', highlight: ['dma_slice', 'gpu_edges'], techId: 't1',
+          desc: 'In Gen 1, transferring 41×41×8 floats (53.7 KB/arena) from CPU to GPU cost 220 MB/step at 4,096 arenas — motivating Hex63 to transfer only the 5,376B entity slice and compute 16×64×72D biases on-chip on the GPU.'
+        },
+        {
+          title: '4/4: Target Quaternion Aims Car Nose at Intercept Point',
+          focusNode: 'coconut_loop', highlight: ['titans_mem', 'coconut_loop', 'stage2_flow'], techId: 't3',
+          desc: 'quat_head outputs q* aligned with the aerial intercept vector, and the 120 Hz PD loop rotates the car onto target.'
+        }
+      ]
+    },
+    aerial: {
+      label: 'SCENARIO 2: 120HZ SLERP & PD AERIAL',
+      steps: [
+        {
+          title: '1/4: Antipodal Hemisphere Alignment (q̃* = sign(<q*,q>)·q*)',
+          focusNode: 'stage1_bin', highlight: ['coconut_loop', 'stage1_bin'], techId: 't4',
+          desc: 'Because q and -q represent the exact same 3D rotation in SO(3), SlerpTrajectoryGenerator checks the 4D dot product and flips q* if negative so the car never unwinds 360° the wrong way.'
+        },
+        {
+          title: '2/4: Column-Basis Angle Error Extraction',
+          focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow'], techId: 't5',
+          desc: 'VectorizedAttitudePD extracts body-local pitch, yaw, and roll errors via atan2 projections of the target forward/right/up basis vectors onto the current car axes.'
+        },
+        {
+          title: '3/4: Schmitt-Trigger Deadband (0.04 rad) Prevents Chatter',
+          focusNode: 'stage2_flow', highlight: ['stage2_flow', 'subtick_exec'], techId: 't5',
+          desc: 'Once error drops below 0.04 rad and angular velocity is damped, the Schmitt trigger zeroes torques to eliminate high-frequency limit-cycle chatter.'
+        },
+        {
+          title: '4/4: Why Attitude PD Was Retired in Gen 2/3 & Hex63',
+          focusNode: 'subtick_exec', highlight: ['stage2_flow', 'subtick_exec'], techId: 't5',
+          desc: 'During flip-reset stalls and Musty flicks, the PD controller treated intentional stall torques as attitude errors and fought the policy — leading to direct neural subtick control in later generations.'
+        }
+      ]
+    },
+    fake: {
+      label: 'SCENARIO 3: 4 NEURAL EXPLOITER HEADS',
+      steps: [
+        {
+          title: '1/4: Shared 256D RET-40 Trunk Feeds 4 Specialist Heads',
+          focusNode: 'fsq_bottleneck', highlight: ['titans_mem', 'fsq_bottleneck'], techId: 't8',
+          desc: 'Four distinct 256->128->12D NeuralExploiterPolicyHeads branch off the shared RET-40 trunk.'
+        },
+        {
+          title: '2/4: DEMOLITION & BOOST_STARVATION Intrinsic Rewards',
+          focusNode: 'fsq_bottleneck', highlight: ['fsq_bottleneck', 'ppo_grpo_opt'], techId: 't8',
+          desc: 'The Demolition head receives dense closing-speed bonuses toward opponent cars at supersonic speed, while Boost Starvation is rewarded for denying 100-pads in the opponent half.'
+        },
+        {
+          title: '3/4: Main Policy Learns Evasion & Low-Boost Defense',
+          focusNode: 'titans_prior', highlight: ['titans_prior', 'titans_mem'], techId: 't2',
+          desc: 'Playing against the 4 exploiter archetypes forces the RET-40 attention layers to track incoming demo threats even when the ball is elsewhere.'
+        },
+        {
+          title: '4/4: Evolution into Hex63\'s Static 8×2 Soft-MoE',
+          focusNode: 'fsq_bottleneck', highlight: ['fsq_bottleneck'], techId: 't8',
+          desc: 'Rather than keeping 4 separate outer policy heads, Hex63 internalized specialization inside the trunk via 8 static-shape Soft-MoE experts.'
+        }
+      ]
+    },
+    save: {
+      label: 'SCENARIO 4: 32-QUANTILE CVaR RISK SHIFT',
+      steps: [
+        {
+          title: '1/4: Monotonic 32-Quantile Return Distribution',
+          focusNode: 'jepa_search', highlight: ['titans_mem', 'jepa_search'], techId: 't7',
+          desc: 'MonotonicQuantileCriticHead predicts 32 strictly non-decreasing return quantiles θ_1 <= θ_2 <= ... <= θ_32 using cumulative softplus increments.'
+        },
+        {
+          title: '2/4: Dynamic Risk Preference β(s) ∈ [0.05, 0.95]',
+          focusNode: 'coconut_loop', highlight: ['coconut_loop', 'jepa_search'], techId: 't7',
+          desc: 'When defending a 1-goal lead in the final 30 seconds, the actor lowers β(s) -> 0.15 to focus on the worst 15% tail outcomes.'
+        },
+        {
+          title: '3/4: Vectorized Trapezoidal CVaR_β Integration',
+          focusNode: 'jepa_search', highlight: ['jepa_search', 'ppo_grpo_opt'], techId: 't7',
+          desc: 'compute_cvar integrates the quantile function over τ ∈ [0, β(s)] without Python loops inside the captured CUDA Graph.'
+        },
+        {
+          title: '4/4: Evolution into Hex63\'s Best-of-16 JEPA + CVaR Search',
+          focusNode: 'jepa_search', highlight: ['jepa_search'], techId: 't7',
+          desc: 'Hex63 combined Gen 1\'s CVaR tail-risk objective with a Dual-Stream JEPA latent world model to score 16 candidate action chunks at test time.'
+        }
+      ]
+    }
+  },
+  techLibrary: [
+    {
+      id: 't0', short: 'T0 · 41×25 EntityTokenPOD',
+      title: '41-Entity Permutation-Equivariant Token Representation & 1,536B SoA',
+      usedIn: ['dma_slice', 'dyn_nodes', 'env_nodes'],
+      placement: 'Stage 1 C++ Observation Builder — src/native_batch_engine.h & relational_extractor.h.',
+      how: 'Encodes 1 Ego car, 2 Teammates, 3 Opponents, 1 Ball, and 34 Boost Pads as 41 × 25-float tokens (100B POD each) with 6D one-hot type flags and channel-24 norm_time_to_go, plus a 64-byte-aligned 1,536B Structure-of-Arrays buffer.',
+      why: 'Allowed a single network architecture to represent 1v1, 2v2, and 3v3 arenas without changing input dimensions or relying on arbitrary car slot ordering.',
+      contrib: 'Established the entity-centric representation philosophy of the platform.',
+      science: 'A function f(P X) = P f(X) is permutation-equivariant over entity rows when positional encodings are omitted and entity identity is carried by type embeddings.',
+      origins: 'Deep Sets (Zaheer et al., 2017) & Entity-Based RL (OpenAI Five / AlphaStar).'
+    },
+    {
+      id: 't1', short: 'T1 · AVX2 41×41×8 r_ij',
+      title: 'C++ AVX2 Intrinsics Pairwise Relational Extractor & Trunk-Hoisted mlp_rel',
+      usedIn: ['dyn_nodes', 'gpu_edges', 'bipartite_enc'],
+      placement: 'Stage 2 Relational Geometry — bridges C++ SoA kinematics and RET-40 attention.',
+      how: 'Uses 8-wide __m256 AVX2 intrinsics (_mm256_rsqrt_ps + Newton-Raphson refinement) to compute [Δp, ||Δp||, Δv, v_close] across all 1,681 pairs (53,792B), then projects 8->16->4 once per step via trunk-hoisted mlp_rel.',
+      why: 'Attention dot products Q_i K_j^T in world coordinates do not directly compute Euclidean distances ||p_i - p_j||_2; explicit pairwise r_ij biases give exact spatial geometry.',
+      contrib: 'Cut relational bias compute by 4× via trunk hoisting while inspiring Hex63\'s on-chip GPU pairwise kernel.',
+      science: 'One Newton-Raphson step y_{n+1} = y_n (1.5 - 0.5 x y_n^2) on _mm256_rsqrt_ps achieves ~22 bits of mantissa precision in 3 CPU cycles.',
+      origins: 'src/relational_extractor.h + Shaw et al. (Relative Position Representations, NAACL 2018).'
+    },
+    {
+      id: 't2', short: 'T2 · RET-40 Transformer',
+      title: '4-Layer Relational Entity Transformer (RET-40, d=128, H=4, SwiGLU)',
+      usedIn: ['bipartite_enc', 'titans_prior', 'titans_mem'],
+      placement: 'Stage 3 Policy & Critic Backbone — trainer_v3/policy/transformer.py (1.22M Params).',
+      how: 'Stacks 4 Pre-LayerNorm RelationalAttentionBlocks (d=128, H=4, SwiGLU FFN d_ff=256) with additive pairwise relational bias B_rel and boolean key padding masks, pooling h_0 || c_global into 256D.',
+      why: 'Enabled joint relational reasoning across cars, ball, and all 34 boost pads.',
+      contrib: 'Validated relational transformers + SwiGLU in RocketSim before Hex63 introduced asymmetric 16×64 Bipartite Differential Attention.',
+      science: 'Relational Self-Attention A_ij = softmax(q_i^T k_j / √d + ϕ(r_ij)) conditions message passing on SE(3) pairwise invariants.',
+      origins: 'Zambaldi et al. (DeepMind Relational Deep RL, ICLR 2019).'
+    },
+    {
+      id: 't3', short: 'T3 · Quat q* & Jump Prior',
+      title: 'Target Attitude Quaternion Head (q* ∈ S^3) & BernoulliJumpHead (b_0 = -3.80)',
+      usedIn: ['coconut_loop', 'soft_moe'],
+      placement: 'Stage 4A/B Action Heads — outputs high-level attitude setpoints and impulse gates.',
+      how: 'Normalizes a 4D linear output onto the unit 3-sphere S^3 (q* = u/||u||), bounds target angular velocity ω* ∈ [-5.5, 5.5]^3, bounds log_std via smooth tanh scaling [-2.0, 2.5], and initializes the 1-logit jump head bias to -3.80.',
+      why: 'Decoupled 15 Hz high-level orientation planning from 120 Hz low-level rotational stabilization while preventing early random jump-spamming.',
+      contrib: 'Allowed rapid early-stage aerial orientation learning.',
+      science: 'Unit quaternions S^3 ⊂ R^4 provide a singularity-free double cover of SO(3), avoiding Euler-angle gimbal lock at ±90° pitch.',
+      origins: 'trainer_v3/policy/transformer.py (ContinuousActionHead & BernoulliJumpHead).'
+    },
+    {
+      id: 't4', short: 'T4 · Geodesic S^3 SLERP',
+      title: 'Antipodal-Safe Geodesic S^3 Spherical Linear Interpolation (SLERP)',
+      usedIn: ['coconut_loop', 'stage1_bin'],
+      placement: 'Stage 5A Trajectory Generator — trainer_v3/motor/attitude.py.',
+      how: 'Enforces shortest-path hemisphere alignment q̃* = sign(<q*, q_curr>)·q* and evaluates constant-angular-velocity waypoints along the S^3 great-circle arc at 120 Hz.',
+      why: 'Without antipodal sign alignment, a policy commanding q* near -q_curr forces the PD controller to spin the car 350° instead of 10°.',
+      contrib: 'Guaranteed minimum-time, zero-unwinding rotational trajectories.',
+      science: 'SLERP(q_0, q_1, τ) = (sin((1-τ)Ω)/sin Ω) q_0 + (sin(τΩ)/sin Ω) q_1 traces the Riemannian geodesic on S^3 with constant speed Ω = arccos(|<q_0, q_1>|).',
+      origins: 'Shoemake (Animating Rotation with Quaternion Curves, SIGGRAPH 1985).'
+    },
+    {
+      id: 't5', short: 'T5 · 120Hz Attitude PD',
+      title: 'Vectorized 120 Hz Nonlinear Attitude PD + Feedforward & Schmitt Deadband',
+      usedIn: ['stage1_bin', 'stage2_flow', 'subtick_exec'],
+      placement: 'Stage 5B/C Low-Level Motor Cortex — runs at 120 Hz inside the physics loop.',
+      how: 'Computes local pitch/yaw/roll errors from rotation matrix column basis vectors, applies Kp=(5.0, 5.0, 1.8), Kd=(0.65, 0.65, 0.22), Kff=(0.08, 0.08, 0.03), and zeroes chatter inside a 0.04 rad Schmitt-trigger deadband.',
+      why: 'Provided 120 Hz closed-loop rotational damping when the neural policy only stepped at 15 Hz.',
+      contrib: 'Stabilized aerial flight in Gen 1, while teaching the key lesson that led to Hex63: advanced flip-reset stalls require direct 60 Hz neural subtick control rather than a restorative PD loop.',
+      science: 'Geometric attitude control on SO(3) (Lee et al., CDC 2010) achieves almost-global exponential stability outside the 180° antipodal cut locus.',
+      origins: 'Lee, Leok, & McClamroch (Geometric Tracking Control on SO(3), IEEE CDC 2010).'
+    },
+    {
+      id: 't6', short: 'T6 · 3-Horizon PopArt',
+      title: 'Multi-Horizon PopArt Value Critic (γ ∈ {0.95, 0.98, 0.995})',
+      usedIn: ['critic_heads'],
+      placement: 'Stage 6A Value Head — trainer_v3/ml/critic.py.',
+      how: 'Maintains running mean μ_h and standard deviation σ_h across 3 discount horizons (1s, 2.5s, 10s) and rescales linear head weights W_new = (σ_old/σ_new)W_old whenever statistics update.',
+      why: 'Allowed simultaneous dense micro-touch shaping and sparse goal credit assignment without manual reward weight retuning.',
+      contrib: 'Became a permanent multi-horizon pillar across all subsequent generations.',
+      science: 'PopArt (Preserving Outputs Precisely, while Adaptively Rescaling Targets) prevents value network catastrophic forgetting when reward magnitudes shift.',
+      origins: 'van Hasselt et al. (2016) & Hessel et al. (AAAI 2019).'
+    },
+    {
+      id: 't7', short: 'T7 · 32-Quantile CVaR_β',
+      title: 'Monotonic 32-Quantile Distributional Critic & Dynamic CVaR_β(s)',
+      usedIn: ['jepa_search'],
+      placement: 'Stage 6B Risk-Sensitive Critic — trainer_v3/ml/critic.py.',
+      how: 'Parameterizes 32 quantiles via θ_k = θ_1 + Σ_{j=2}^k softplus(Δ_j) (guaranteeing θ_1 <= ... <= θ_32), trained with Huber quantile regression loss, and computes trapezoidal Conditional Value-at-Risk CVaR_β(s).',
+      why: 'Standard expected-value critics ignore tail risk (e.g., a low-probability catastrophic own-goal or over-commit when leading by 1 goal).',
+      contrib: 'Introduced distributional RL and CVaR risk sensitivity to the platform.',
+      science: 'By enforcing ∂θ_k/∂k >= 0 via softplus deltas, the inverse CDF F_Z^{-1}(τ) is strictly monotonic, eliminating non-monotonic quantile crossing.',
+      origins: 'Dabney et al. (QR-DQN / IQN, ICML 2018) + Monotonic Spline Quantiles.'
+    },
+    {
+      id: 't8', short: 'T8 · 4 Exploiter Heads',
+      title: 'Multi-Archetype NeuralExploiterPolicyHead & Intrinsic Reward Shapers',
+      usedIn: ['fsq_bottleneck', 'ppo_grpo_opt'],
+      placement: 'Stage 4C Adversarial League Branch — trainer_v3/policy/transformer.py.',
+      how: 'Four specialist policy heads (BALL_DENIAL, DEMOLITION, AERIAL_MECHANICS, BOOST_STARVATION) paired with dense archetype-specific intrinsic rewards.',
+      why: 'Injected diverse adversarial strategies into self-play before replay mining and Soft-MoE existed.',
+      contrib: 'Prevented early self-play policies from converging to fragile, passive equilibrium.',
+      science: 'Intrinsic motivation R_total = R_extrinsic + λ_arch R_intrinsic(s, a) constructs diverse behavioral policies along Pareto frontiers.',
+      origins: 'AlphaStar Exploiter Agents (Vinyals et al., 2019).'
+    },
+    {
+      id: 't9', short: 'T9 · CUDA Graph & Seqlock',
+      title: 'StaticCUDAPolicyRunner (E=1024), InPlaceWeightStaging & Lockless Seqlock SHM',
+      usedIn: ['priv_ctx', 'ppo_grpo_opt'],
+      placement: 'Stage 1 & Stage 6 Systems Infrastructure — ppo.py & lockless_telemetry.h.',
+      how: 'Captures the E=1024 rollout step in a torch.cuda.CUDAGraph, stages updated PPO weights in-place (<5.56 ms) without changing device pointers, and exports C++ telemetry via a 64B-aligned odd/even atomic Seqlock.',
+      why: 'Eliminated Python kernel launch overhead and OS mutex contention.',
+      contrib: 'Laid the systems engineering foundation for Hex63\'s 4,096-arena CUDAGraph loop and 256 KB Seqlock Command Center.',
+      science: 'A Seqlock increments an atomic counter before and after writing; readers retry if seq_start is odd or seq_start != seq_end, achieving zero-lock wait-free reads.',
+      origins: 'Linux Kernel Seqlock + PyTorch CUDAGraphs.'
+    }
+  ],
+  externalResources: {
+    t0: [
+      { badge: 'NEURIPS 2017', title: 'Deep Sets', authors: 'M. Zaheer et al.', url: 'https://arxiv.org/abs/1703.06114', desc: 'Characterizes permutation-invariant and equivariant neural networks over entity sets.' }
+    ],
+    t1: [
+      { badge: 'NAACL 2018', title: 'Self-Attention with Relative Position Representations', authors: 'P. Shaw, J. Uszkoreit, A. Vaswani', url: 'https://arxiv.org/abs/1803.02155', desc: 'Injects pairwise relative geometry directly into attention score matrices.' }
+    ],
+    t2: [
+      { badge: 'ICLR 2019', title: 'Deep Reinforcement Learning with Relational Inductive Biases', authors: 'V. Zambaldi et al. (DeepMind)', url: 'https://arxiv.org/abs/1806.01830', desc: 'Foundational paper for entity-centric relational transformers in game RL.' }
+    ],
+    t3: [
+      { badge: 'ICML 2017', title: 'Proximal Policy Optimization Algorithms', authors: 'J. Schulman et al. (OpenAI)', url: 'https://arxiv.org/abs/1707.06347', desc: 'Clipped surrogate objective used across continuous quaternion and discrete gate heads.' }
+    ],
+    t4: [
+      { badge: 'SIGGRAPH 1985', title: 'Animating Rotation with Quaternion Curves (SLERP)', authors: 'K. Shoemake', url: 'https://doi.org/10.1145/325334.325242', desc: 'Introduces Spherical Linear Interpolation along unit quaternion geodesics on S^3.' }
+    ],
+    t5: [
+      { badge: 'IEEE CDC 2010', title: 'Geometric Tracking Control of a Quadrotor UAV on SE(3)', authors: 'T. Lee, M. Leok, N. H. McClamroch', url: 'https://arxiv.org/abs/1003.2005', desc: 'Singularity-free geometric attitude PD control directly on rotation manifolds.' }
+    ],
+    t6: [
+      { badge: 'AAAI 2019', title: 'Multi-Task Deep Reinforcement Learning with PopArt', authors: 'M. Hessel, H. van Hasselt et al.', url: 'https://arxiv.org/abs/1809.04474', desc: 'Scale-invariant value normalization across multiple discount horizons.' }
+    ],
+    t7: [
+      { badge: 'AAAI 2018', title: 'Distributional Reinforcement Learning with Quantile Regression (QR-DQN)', authors: 'W. Dabney et al. (DeepMind)', url: 'https://arxiv.org/abs/1710.10044', desc: 'Learns return quantiles via asymmetric Huber quantile regression loss.' },
+      { badge: 'ICML 2018', title: 'Implicit Quantile Networks for Distributional Reinforcement Learning (IQN)', authors: 'W. Dabney et al.', url: 'https://arxiv.org/abs/1806.06923', desc: 'Enables risk-sensitive CVaR policy optimization over return distributions.' }
+    ],
+    t8: [
+      { badge: 'NATURE 2019', title: 'Grandmaster level in StarCraft II using multi-agent reinforcement learning', authors: 'O. Vinyals et al.', url: 'https://www.nature.com/articles/s41586-019-1724-z', desc: 'Introduces specialized Exploiter agents to uncover weaknesses in the main agent.' }
+    ],
+    t9: [
+      { badge: 'NVIDIA 2021', title: 'Accelerating PyTorch with CUDA Graphs', authors: 'NVIDIA / PyTorch Core Team', url: 'https://pytorch.org/blog/accelerating-pytorch-with-cuda-graphs/', desc: 'Eliminates CPU launch overhead by recording static-shape GPU execution graphs.' }
+    ]
+  },
+  mermaidDiagram: `flowchart LR
+  subgraph S1["Stage 1: 41x25 Entity POD & SoA"]
+    N1["01. 41x25 EntityTokenPOD (4,100B)"] --> N2["02. 1,536B Kinematics SoA (alignas 64)"]
+    N1 --> N3["03. Ch-24 Norm Time-To-Go & Spin"]
+    N1 -.-> N4["04. 64B Lockless Seqlock Telemetry"]
+  end
+  subgraph S2["Stage 2: AVX2 Pairwise r_ij"]
+    N2 --> N5["05. AVX2 41x41x8 r_ij (53.7KB)"]
+    N5 --> N6["06. Trunk-Hoisted mlp_rel (8->16->4)"]
+  end
+  subgraph S3["Stage 3: 4L RET-40 Transformer"]
+    N1 & N3 & N6 --> N7["07. 4L RET-40 Attention (d=128, SwiGLU)"]
+    N7 --> N8["08. 256D Ego + Masked Global Pool"]
+  end
+  subgraph S4["Stage 4: Quaternion & Exploiter Heads"]
+    N8 --> N9["09. Target Quat q* ∈ S^3 & ω*"]
+    N8 --> N10["10. BernoulliJumpHead (b0=-3.80)"]
+    N8 -.-> N11["11. 4 Neural Exploiter Archetypes"]
+  end
+  subgraph S5["Stage 5: 120Hz Geodesic SLERP PD"]
+    N9 --> N12["12. Geodesic S^3 SLERP Generator"]
+    N12 & N9 --> N13["13. 120Hz Nonlinear Attitude PD"]
+    N13 & N10 --> N14["14. Dodge Override & 120Hz Controls"]
+  end
+  subgraph S6["Stage 6: 32-Quantile CVaR & Staging"]
+    N8 --> N15["15. 3-Horizon PopArt Critic"]
+    N8 --> N16["16. 32-Quantile Monotonic CVaR_β"]
+    N15 & N16 & N11 --> N17["17. E=1024 CUDAGraph & Weight Staging"]
+  end`
+};
+
+// ============================================================================
+// MASTER MULTI-GENERATION ARCHITECTURE REGISTRY (HEX63 + GEN 3 + GEN 2 + GEN 1)
+// ============================================================================
+window.ARASHIKAGE_ARCHITECTURES = {
+  hex63: {
+    id: 'hex63',
+    shortBadge: 'ARASHIKAGE // HEX63 (CURRENT)',
+    dropdownLabel: 'Platform: Current — Arashikage (Hex63 · 60Hz Flow-GRPO)',
+    identityTitle: 'Real-Time Physics & Neural Control Architecture — 60 Hz Subtick Action Chunking & Multi-Horizon RL',
+    colHeaders: [
+      { col: 0, x: 96,  title: 'STAGE 1 // C++20 OBS',     sub: '5,376B Slice · C2v',       color: '#38bdf8' },
+      { col: 1, x: 282, title: 'STAGE 2 // BIPARTITE',     sub: '16×64 Graph · DiffAttn',   color: '#22d3ee' },
+      { col: 2, x: 468, title: 'STAGE 3 // TITANS MEM',    sub: '2×4×32×32 FP32 Fast W',    color: '#a78bfa' },
+      { col: 3, x: 654, title: 'STAGE 4 // COCONUT & MOE', sub: 'K=4..6 Loop · 8×2 MoE',    color: '#f472b6' },
+      { col: 4, x: 840, title: 'STAGE 5 // 60HZ CONTROL',  sub: 'Binary + Flow-GRPO SDE',   color: '#fbbf24' },
+      { col: 5, x: 1024, title: 'STAGE 6 // CRITIC & RL',  sub: '4×51 Symlog · JEPA · G=8', color: '#34d399' }
+    ],
+    nodes: window.ARASHIKAGE_NODES || [],
+    edges: window.ARASHIKAGE_EDGES || [],
+    scenarios: window.ARASHIKAGE_SCENARIOS || {},
+    techLibrary: window.ARASHIKAGE_TECH_LIBRARY || [],
+    externalResources: window.ARASHIKAGE_EXTERNAL_RESOURCES || {},
+    mermaidDiagram: `flowchart LR
+  subgraph S1["Stage 1: C++20 Observation (5,376B)"]
+    N1["01. 5,376B Arena Slice (84x64B CL, C2v)"] --> N2["02. 16 Dynamic Queries"]
+    N1 --> N3["03. 48 Context Keys"]
+    N1 -.-> N4["04. 512B Privileged Critic Ctx"]
+  end
+  subgraph S2["Stage 2: Bipartite Graph"]
+    N2 & N3 --> N5["05. Fused GPU Pairwise Bias (16x64x72D)"]
+    N2 & N3 & N5 --> N6["06. 2L Bipartite DiffAttn"]
+  end
+  subgraph S3["Stage 3: FP32 Titans Memory"]
+    N7["07. Orthogonal W_init & k_prev"] & N6 --> N8["08. 2x4x32x32 FP32 Fast Weights"]
+  end
+  subgraph S4["Stage 4: Coconut & Soft-MoE"]
+    N8 --> N9["09. Coconut Loop (K=4..6)"]
+    N9 <--> N10["10. Static 8x2 Soft-MoE"]
+    N10 --> N11["11. 8x125=1,000 FSQ Bottleneck"]
+  end
+  subgraph S5["Stage 5: 60Hz Flow-GRPO Control"]
+    N9 & N11 --> N12["12. Stage-1 16-Way Binary Head"]
+    N12 --> N13["13. Stage-2 4-Step Flow-GRPO SDE"]
+    N13 --> N14["14. K_sub=4 (60Hz) Subtick Executor"]
+  end
+  subgraph S6["Stage 6: Critic, JEPA & RL"]
+    N4 -.-> N15["15. Dual 4x51 Symlog HL-Gauss Critic"]
+    N9 --> N15
+    N13 & N15 --> N16["16. Best-of-16 JEPA + CVaR Search"]
+    N14 & N15 -.-> N17["17. G=8 Cloned GRPO & Flow-PPO"]
+  end`
+  },
+  gen3_perceiver: window.ARASHIKAGE_GEN3_PERCEIVER,
+  gen2_factorized: window.ARASHIKAGE_GEN2_FACTORIZED,
+  gen1_ret40: window.ARASHIKAGE_GEN1_RET40
+};
+
+</script>
+  <script>
+// ============================================================================
 // ARASHIKAGE (HEX63) — BESPOKE 6-THEME × 2-POLARITY CANVAS RENDERER (1120 x 680)
 // ============================================================================
 (function () {
@@ -1576,7 +3389,13 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
     return false;
   }
 
-  function applyStagePaletteToNodes(nodes, stageColors) {
+  function applyStagePaletteToNodes(nodes, stageColors, customHeaders) {
+    if (Array.isArray(customHeaders) && customHeaders.length === colHeaders.length) {
+      customHeaders.forEach((srcH, idx) => {
+        colHeaders[idx].title = srcH.title;
+        colHeaders[idx].sub = srcH.sub;
+      });
+    }
     colHeaders.forEach((ch, idx) => {
       ch.color = stageColors[idx % stageColors.length];
     });
@@ -2244,24 +4063,34 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
 </script>
   <script>
 // ============================================================================
-// ARASHIKAGE (HEX63) — INTERACTIVE CONTROLLER, 5-TAB INSPECTOR/DEEP-DIVE & FULLSCREEN DRAWER
+// ARASHIKAGE (HEX63 + LEGACY GEN 1..3) — INTERACTIVE ARCHITECTURE EXPLORER
 // ============================================================================
 (function () {
-  const nodes = window.ARASHIKAGE_NODES || [];
-  const edges = window.ARASHIKAGE_EDGES || [];
-  const scenarios = window.ARASHIKAGE_SCENARIOS || {};
-  const techLib = window.ARASHIKAGE_TECH_LIBRARY || [];
-  const TECH_EXTERNAL_RESOURCES = window.ARASHIKAGE_EXTERNAL_RESOURCES || {};
+  const ARCH_REGISTRY = window.ARASHIKAGE_ARCHITECTURES || {};
+  let activeArchKey = 'hex63';
+  let nodes = window.ARASHIKAGE_NODES || [];
+  let edges = window.ARASHIKAGE_EDGES || [];
+  let scenarios = window.ARASHIKAGE_SCENARIOS || {};
+  let techLib = window.ARASHIKAGE_TECH_LIBRARY || [];
+  let TECH_EXTERNAL_RESOURCES = window.ARASHIKAGE_EXTERNAL_RESOURCES || {};
+  let activeColHeaders = (ARCH_REGISTRY.hex63 && ARCH_REGISTRY.hex63.colHeaders) || [];
+  let activeMermaidDiagram = (ARCH_REGISTRY.hex63 && ARCH_REGISTRY.hex63.mermaidDiagram) || '';
   const renderer = window.ArashikageCanvasRenderer;
 
-  const nodeMap = {};
-  nodes.forEach((n) => {
-    nodeMap[n.id] = n;
-  });
-  const techMap = {};
-  techLib.forEach((t) => {
-    techMap[t.id] = t;
-  });
+  let nodeMap = {};
+  let techMap = {};
+
+  function rebuildLookupMaps() {
+    nodeMap = {};
+    nodes.forEach((n) => {
+      nodeMap[n.id] = n;
+    });
+    techMap = {};
+    techLib.forEach((t) => {
+      techMap[t.id] = t;
+    });
+  }
+  rebuildLookupMaps();
 
   // Application State
   let selectedNodeId = 'dma_slice';
@@ -2440,9 +4269,10 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
     );
   }
 
-  // URL Hash Deep-Linking (#view=tech&tech=t3&tab=learn or #view=node&node=dma_slice&tab=learn)
+  // URL Hash Deep-Linking (#arch=gen3_perceiver&view=tech&tech=t3&tab=learn)
   function syncUrlHash() {
     const params = new URLSearchParams();
+    params.set('arch', activeArchKey);
     params.set('view', activeRightView);
     if (activeRightView === 'tech') {
       params.set('tech', selectedTechId);
@@ -2457,9 +4287,13 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
     }
   }
 
-  function restoreStateFromUrlHash() {
+  function restoreStateFromUrlHash(setArchCallback) {
     if (!window.location.hash || window.location.hash.length <= 1) return false;
     const params = new URLSearchParams(window.location.hash.slice(1));
+    const archParam = params.get('arch');
+    if (archParam && ARCH_REGISTRY[archParam] && setArchCallback) {
+      setArchCallback(archParam, true);
+    }
     const view = params.get('view');
     const tab = params.get('tab');
     const tech = params.get('tech');
@@ -2480,7 +4314,7 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
       }
       return true;
     }
-    return false;
+    return Boolean(archParam && ARCH_REGISTRY[archParam]);
   }
 
   function init() {
@@ -2489,6 +4323,7 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
     const canvasWrapper = document.getElementById('canvasWrapper');
     const canvasAspectBox = document.getElementById('canvasAspectBox');
 
+    const selArchGen = document.getElementById('selArchGen');
     const selScenario = document.getElementById('selScenario');
     const btnToggleTour = document.getElementById('btnToggleTour');
     const selMode = document.getElementById('selMode');
@@ -2510,6 +4345,8 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
 
     // Right Panel DOM
     const topIdentityBar = document.getElementById('topIdentityBar');
+    const identityBadgeText = document.getElementById('identityBadgeText');
+    const identityMainTitle = document.getElementById('identityMainTitle');
     const rightSidePanel = document.getElementById('rightSidePanel');
     const panelDismissBackdrop = document.getElementById('panelDismissBackdrop');
     const btnCloseDrawer = document.getElementById('btnCloseDrawer');
@@ -2520,14 +4357,41 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
     const btnBackToNode = document.getElementById('btnBackToNode');
     const selTechDropdown = document.getElementById('selTechDropdown');
 
-    // Populate Tech Dropdown
-    selTechDropdown.innerHTML = '';
-    techLib.forEach((t) => {
-      const opt = document.createElement('option');
-      opt.value = t.id;
-      opt.textContent = t.short;
-      selTechDropdown.appendChild(opt);
-    });
+    function populateTechDropdown() {
+      selTechDropdown.innerHTML = '';
+      techLib.forEach((t) => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.textContent = t.short;
+        selTechDropdown.appendChild(opt);
+      });
+    }
+
+    function populateScenarioDropdown() {
+      const prevVal = selScenario.value || 'tour';
+      selScenario.innerHTML = '';
+      const noneOpt = document.createElement('option');
+      noneOpt.value = 'none';
+      noneOpt.textContent = 'Free Exploration (Click Any Block)';
+      selScenario.appendChild(noneOpt);
+
+      Object.entries(scenarios).forEach(([key, sc]) => {
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.textContent = sc.label + ' (' + sc.steps.length + ' Steps)';
+        selScenario.appendChild(opt);
+      });
+
+      if (scenarios[prevVal] || prevVal === 'none') {
+        selScenario.value = prevVal;
+      } else {
+        selScenario.value = 'tour';
+        activeScenarioKey = 'tour';
+      }
+    }
+
+    populateTechDropdown();
+    populateScenarioDropdown();
 
     function syncThemeAlignedButtons() {
       btnPolarityLight.textContent = getGlyph('light') + ' Light';
@@ -2830,6 +4694,89 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
       });
     }
 
+    // Stage-Level Evolution Summary across all 4 Platform Generations
+    const STAGE_EVOLUTION_MATRIX = {
+      mem: {
+        title: 'STAGE 1 EVOLUTION // OBSERVATION MANIFOLD',
+        gen1_ret40: '41×25 EntityTokenPOD (4,100B) + 1,536B SoA (World Z-Up)',
+        gen2_factorized: '171D×4 Egocentric R_car^T Stack (684D) + 68D Critic Tail',
+        gen3_perceiver: '700D (684D + 16D 4-Frame Wheel History) + 752D Critic',
+        hex63: '5,376B Layout A (84×64B CL, 64 Entities, 8 BallRingBuffer480, C2v)'
+      },
+      edges: {
+        title: 'STAGE 2 EVOLUTION // RELATIONAL & TEMPORAL ENCODING',
+        gen1_ret40: 'CPU AVX2 41×41×8 r_ij (53.7KB) + Trunk-Hoisted mlp_rel',
+        gen2_factorized: 'K=4 Sliding Window (267ms) + 0..2 Tick Latency Randomizer',
+        gen3_perceiver: 'Zero-Copy 144D Core Unpacker + Shared 34×7D BoostPad PointNet',
+        hex63: 'On-Chip GPU 16×64×72D Pairwise Kernel + 2L Bipartite DiffAttn'
+      },
+      titans: {
+        title: 'STAGE 3–4 EVOLUTION // BACKBONE, MEMORY & SKILL LATENTS',
+        gen1_ret40: '4L RET-40 (d=128) + Quat q*∈S^3 + 4 Exploiter Archetype Heads',
+        gen2_factorized: '684->512->512->256 MLP + SeqScout Miner + Aux Skill Z_t (8/32)',
+        gen3_perceiver: '2L Perceiver (M=4×N=37, QK-Norm) + 912->256 SwiGLU + Aux Z_t',
+        hex63: '2×4×32×32 FP32 Titans Fast Weights + Coconut Loop + 8×2 Soft-MoE + 1,000 FSQ'
+      },
+      control: {
+        title: 'STAGE 5–6 EVOLUTION // MOTOR DECODER, CRITIC & RL',
+        gen1_ret40: '120Hz Geodesic SLERP Attitude PD + 3-PopArt + 32-Quantile CVaR_β',
+        gen2_factorized: 'Fused 31-Logit [B,7,7] + 8-Subtick Flip FSM + 752D Critic + Zero-Sum PBRS',
+        gen3_perceiver: '2-Stage Cond-31 Heads (J/B -> 5 Axes) + 752D Perceiver Critic + KL Distill',
+        hex63: 'Stage-1 16-Way Binary + Stage-2 60Hz Flow-GRPO SDE + Dual 4×51 Symlog + JEPA + G=8 GRPO'
+      }
+    };
+
+    function appendEvolutionComparisonStrip(wBody, stageGroup) {
+      const evo = STAGE_EVOLUTION_MATRIX[stageGroup] || STAGE_EVOLUTION_MATRIX.control;
+      const box = document.createElement('div');
+      box.className = 'mt-1.5 pt-2.5 border-t border-hairline flex flex-col gap-1.5';
+
+      const hdr = document.createElement('div');
+      hdr.className = 'flex items-center justify-between gap-1';
+      hdr.innerHTML =
+        '<span class="kicker text-muted-ink">' +
+        evo.title +
+        '</span><span class="mono text-[10px] text-theme-accent font-bold">CLICK TO SWITCH</span>';
+      box.appendChild(hdr);
+
+      const gens = [
+        { key: 'gen1_ret40', short: 'Gen 1 · RET-40' },
+        { key: 'gen2_factorized', short: 'Gen 2 · MLP-684' },
+        { key: 'gen3_perceiver', short: 'Gen 3 · Perceiver' },
+        { key: 'hex63', short: 'Hex63 · Current' }
+      ];
+
+      const btnGrid = document.createElement('div');
+      btnGrid.className = 'grid grid-cols-4 gap-1';
+      gens.forEach((g) => {
+        const isCurr = g.key === activeArchKey;
+        const b = document.createElement('button');
+        b.className =
+          'no-wrap-btn py-1 px-1.5 rounded text-[10.5px] mono font-bold border transition cursor-pointer truncate ' +
+          (isCurr
+            ? 'btn-theme-accent'
+            : 'surface-root text-secondary-ink border-hairline hover:text-primary-ink');
+        b.textContent = g.short;
+        b.title = evo[g.key];
+        b.addEventListener('click', () => {
+          setArchitecture(g.key);
+        });
+        btnGrid.appendChild(b);
+      });
+      box.appendChild(btnGrid);
+
+      const desc = document.createElement('div');
+      desc.className = 'p-2 rounded surface-root border border-hairline mono text-[11px] text-secondary-ink leading-snug';
+      desc.innerHTML =
+        '<span class="text-theme-accent font-bold">' +
+        (ARCH_REGISTRY[activeArchKey] ? ARCH_REGISTRY[activeArchKey].shortBadge : activeArchKey.toUpperCase()) +
+        ':</span> ' +
+        (evo[activeArchKey] || '');
+      box.appendChild(desc);
+
+      wBody.appendChild(box);
+    }
+
     // Render Contextual Interactive Micro-Simulator inside the Right Panel
     function renderContextualWidget(node) {
       const wTitle = document.getElementById('ctxWidgetTitle');
@@ -2838,67 +4785,138 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
       wBody.innerHTML = '';
 
       if (node.stageGroup === 'mem') {
-        wTitle.textContent = 'INTERACTIVE 5,376B CACHE-LINE INSPECTOR';
-        wTag.textContent = '84 × 64B CL';
-        const segments = [
-          { name: 'Cars [0..5]', bytes: '0..1535', cl: '24 CL', color: '#38bdf8', desc: '6 Cars × 64 floats (256B each): Pos, Vel, Rot6D, Local Vel, Dodge/Flip Timers, 4-Wheel Shocks' },
-          { name: 'Ball [6]', bytes: '1536..1663', cl: '2 CL', color: '#22d3ee', desc: '1 Ball × 32 floats (128B): Position, Linear/Angular Velocity, Last Hit Car, Magnus Force' },
-          { name: 'Traj [7..14]', bytes: '1664..2687', cl: '16 CL', color: '#818cf8', desc: '8 BallRingBuffer480 Samples × 32 floats (1,024B): 4.0s Future Bounce & Spin Curve' },
-          { name: 'Match [15]', bytes: '2688..2751', cl: '1 CL', color: '#a78bfa', desc: '1 Match Node × 16 floats (64B): κ_Δt Action Duration, Score Diff, Clock, Gravity' },
-          { name: 'Pads [16..49]', bytes: '2752..3839', cl: '17 CL', color: '#f472b6', desc: '34 Boost Pads × 8 floats (1,088B): Canonical X/Y/Z, IsBigPad, Active Flag, Respawn Timer' },
-          { name: 'Goals/Wheels/OBB', bytes: '3840..4735', cl: '14 CL', color: '#fbbf24', desc: '6 Goals + 4 Zero-Lag Ego Wheel Raycasts + 4 Nearest Wall Surface OBBs (896B)' },
-          { name: 'PrivCtx [128]', bytes: '4864..5375', cl: '8 CL', color: '#34d399', desc: '128 Privileged Floats (512B): Exact Opponent Boost/Flip Secrets (Training Critic Only)' }
-        ];
-        const barRow = document.createElement('div');
-        barRow.className = 'grid grid-cols-7 gap-1';
-        segments.forEach((seg, idx) => {
-          const b = document.createElement('button');
-          b.className =
-            'py-1.5 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
-            (selectedMemSliceIdx === idx
-              ? 'border-white text-slate-950'
-              : 'border-transparent text-slate-950 opacity-75 hover:opacity-100');
-          b.style.backgroundColor = seg.color;
-          b.textContent = seg.cl;
-          b.title = seg.name;
-          b.addEventListener('click', () => {
-            selectedMemSliceIdx = idx;
-            renderContextualWidget(node);
+        if (activeArchKey === 'hex63') {
+          wTitle.textContent = 'INTERACTIVE 5,376B CACHE-LINE INSPECTOR';
+          wTag.textContent = '84 × 64B CL';
+          const segments = [
+            { name: 'Cars [0..5]', bytes: '0..1535', cl: '24 CL', color: '#38bdf8', desc: '6 Cars × 64 floats (256B each): Pos, Vel, Rot6D, Local Vel, Dodge/Flip Timers, 4-Wheel Shocks' },
+            { name: 'Ball [6]', bytes: '1536..1663', cl: '2 CL', color: '#22d3ee', desc: '1 Ball × 32 floats (128B): Position, Linear/Angular Velocity, Last Hit Car, Magnus Force' },
+            { name: 'Traj [7..14]', bytes: '1664..2687', cl: '16 CL', color: '#818cf8', desc: '8 BallRingBuffer480 Samples × 32 floats (1,024B): 4.0s Future Bounce & Spin Curve' },
+            { name: 'Match [15]', bytes: '2688..2751', cl: '1 CL', color: '#a78bfa', desc: '1 Match Node × 16 floats (64B): κ_Δt Action Duration, Score Diff, Clock, Gravity' },
+            { name: 'Pads [16..49]', bytes: '2752..3839', cl: '17 CL', color: '#f472b6', desc: '34 Boost Pads × 8 floats (1,088B): Canonical X/Y/Z, IsBigPad, Active Flag, Respawn Timer' },
+            { name: 'Goals/Wheels/OBB', bytes: '3840..4735', cl: '14 CL', color: '#fbbf24', desc: '6 Goals + 4 Zero-Lag Ego Wheel Raycasts + 4 Nearest Wall Surface OBBs (896B)' },
+            { name: 'PrivCtx [128]', bytes: '4864..5375', cl: '8 CL', color: '#34d399', desc: '128 Privileged Floats (512B): Exact Opponent Boost/Flip Secrets (Training Critic Only)' }
+          ];
+          const barRow = document.createElement('div');
+          barRow.className = 'grid grid-cols-7 gap-1';
+          segments.forEach((seg, idx) => {
+            const b = document.createElement('button');
+            b.className =
+              'py-1.5 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
+              (selectedMemSliceIdx === idx
+                ? 'border-white text-slate-950'
+                : 'border-transparent text-slate-950 opacity-75 hover:opacity-100');
+            b.style.backgroundColor = seg.color;
+            b.textContent = seg.cl;
+            b.title = seg.name;
+            b.addEventListener('click', () => {
+              selectedMemSliceIdx = idx;
+              renderContextualWidget(node);
+            });
+            barRow.appendChild(b);
           });
-          barRow.appendChild(b);
-        });
-        wBody.appendChild(barRow);
+          wBody.appendChild(barRow);
 
-        const activeSeg = segments[selectedMemSliceIdx] || segments[0];
-        const info = document.createElement('div');
-        info.className = 'p-2.5 rounded-lg surface-root border border-hairline mono text-xs flex flex-col gap-1';
-        info.innerHTML =
-          '<div class="flex justify-between"><span class="font-bold text-primary-ink">' +
-          activeSeg.name +
-          '</span><span class="text-theme-accent font-bold">Bytes ' +
-          activeSeg.bytes +
-          ' (' +
-          activeSeg.cl +
-          ')</span></div>' +
-          '<div class="text-secondary-ink font-sans text-xs">' +
-          activeSeg.desc +
-          '</div>';
-        wBody.appendChild(info);
-
+          const activeSeg = segments[selectedMemSliceIdx] || segments[0];
+          const info = document.createElement('div');
+          info.className = 'p-2.5 rounded-lg surface-root border border-hairline mono text-xs flex flex-col gap-1';
+          info.innerHTML =
+            '<div class="flex justify-between"><span class="font-bold text-primary-ink">' +
+            activeSeg.name +
+            '</span><span class="text-theme-accent font-bold">Bytes ' +
+            activeSeg.bytes +
+            ' (' +
+            activeSeg.cl +
+            ')</span></div>' +
+            '<div class="text-secondary-ink font-sans text-xs">' +
+            activeSeg.desc +
+            '</div>';
+          wBody.appendChild(info);
+        } else {
+          wTitle.textContent =
+            activeArchKey === 'gen1_ret40'
+              ? 'GEN 1 // 41×25 ENTITY POD & 1,536B SOA INSPECTOR'
+              : activeArchKey === 'gen2_factorized'
+              ? 'GEN 2 // 684D EGOCENTRIC + 68D CRITIC INSPECTOR'
+              : 'GEN 3 // 700D CANONICAL + 752D CRITIC INSPECTOR';
+          wTag.textContent = activeArchKey === 'gen1_ret40' ? '41 TOKENS + 53.7KB' : 'K=4 STACK · R_car^T';
+          const legacySegs =
+            activeArchKey === 'gen1_ret40'
+              ? [
+                  { name: 'Ego+Mates [0..2]', cl: '3×100B', color: '#38bdf8', bytes: 'Slots 0..2', desc: '1 Ego + 2 Teammates (25 floats each): World Pos, Vel, Fwd/Up, AngVel, Boost, Type One-Hot, t_go' },
+                  { name: 'Opponents [3..5]', cl: '3×100B', color: '#22d3ee', bytes: 'Slots 3..5', desc: '3 Opponents (25 floats each): Masked with -10^9 in 1v1/2v2; zero 1D positional encoding' },
+                  { name: 'Ball Token [6]', cl: '1×100B', color: '#a78bfa', bytes: 'Slot 6', desc: '1 Ball Token: World Pos/Vel, Magnus Spin ω_ball, and normalized intercept horizon' },
+                  { name: 'Pads [7..40]', cl: '34×100B', color: '#f472b6', bytes: 'Slots 7..40', desc: '34 Boost Pads: World XYZ, Active Flag, Cooldown Timer, and Channel-24 norm_time_to_go' },
+                  { name: 'AVX2 r_ij', cl: '53.7KB', color: '#fbbf24', bytes: '41×41×8', desc: 'RelationalTensorBlockPOD: 1,681 pairs × 8 floats computed on CPU via 8-wide AVX2 rsqrt_ps' }
+                ]
+              : [
+                  { name: 'Self+Goals [16D]', cl: '4×16D', color: '#38bdf8', bytes: '64 Floats', desc: 'K=4 × (10D Self body vel/ang_vel/local gravity/boost + 6D Opp/Own Goal unit vectors)' },
+                  { name: 'Ball Stack [9D]', cl: '4×9D', color: '#22d3ee', bytes: '36 Floats', desc: 'K=4 × 9D Ball relative position, linear velocity, and angular velocity in R_car^T frame' },
+                  { name: 'Opp Stack [10D]', cl: '4×10D', color: '#a78bfa', bytes: '40 Floats', desc: 'K=4 × 10D Opponent relative pos, vel, forward heading, and boost fraction' },
+                  { name: '34 Pads [136D]', cl: '4×136D', color: '#f472b6', bytes: '544 Floats', desc: 'K=4 × 34 Pads × 4D (body-frame XYZ + availability τ_j) with ORANGE_PAD_PERMUTATION' },
+                  { name: activeArchKey === 'gen3_perceiver' ? 'Wheels+Omni' : '68D Critic Tail', cl: activeArchKey === 'gen3_perceiver' ? '16D+68D' : '68D Priv', color: '#34d399', bytes: activeArchKey === 'gen3_perceiver' ? 'Floats 684..752' : 'Critic 684..752', desc: (activeArchKey === 'gen3_perceiver' ? '16D 4-Frame Actor Wheel History + ' : '') + '68D Critic Tail: 20D Wheel Slip, 18D World Vel, 30D 5-Bounce Ballistics' }
+                ];
+          const barRow = document.createElement('div');
+          barRow.className = 'grid grid-cols-5 gap-1';
+          const idx = selectedMemSliceIdx % legacySegs.length;
+          legacySegs.forEach((seg, i) => {
+            const b = document.createElement('button');
+            b.className =
+              'py-1.5 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
+              (idx === i ? 'border-white text-slate-950' : 'border-transparent text-slate-950 opacity-75 hover:opacity-100');
+            b.style.backgroundColor = seg.color;
+            b.textContent = seg.cl;
+            b.addEventListener('click', () => {
+              selectedMemSliceIdx = i;
+              renderContextualWidget(node);
+            });
+            barRow.appendChild(b);
+          });
+          wBody.appendChild(barRow);
+          const activeSeg = legacySegs[idx];
+          const info = document.createElement('div');
+          info.className = 'p-2.5 rounded-lg surface-root border border-hairline mono text-xs flex flex-col gap-1';
+          info.innerHTML =
+            '<div class="flex justify-between"><span class="font-bold text-primary-ink">' +
+            activeSeg.name +
+            '</span><span class="text-theme-accent font-bold">' +
+            activeSeg.bytes +
+            ' (' +
+            activeSeg.cl +
+            ')</span></div><div class="text-secondary-ink font-sans text-xs">' +
+            activeSeg.desc +
+            '</div>';
+          wBody.appendChild(info);
+        }
       } else if (node.stageGroup === 'edges') {
-        wTitle.textContent = '16×64 PAIRWISE INTERCEPT SIMULATOR';
-        wTag.textContent = '1,024 PAIRS · 72D';
+        wTitle.textContent =
+          activeArchKey === 'hex63'
+            ? '16×64 PAIRWISE INTERCEPT SIMULATOR'
+            : activeArchKey === 'gen3_perceiver'
+            ? 'GEN 3 // M=4 × N=37 PERCEIVER PAD BIAS SIMULATOR'
+            : activeArchKey === 'gen2_factorized'
+            ? 'GEN 2 // K=4 FINITE-DIFFERENCE & JITTER SIMULATOR'
+            : 'GEN 1 // AVX2 41×41×8 PAIRWISE r_ij SIMULATOR';
+        wTag.textContent =
+          activeArchKey === 'hex63'
+            ? '1,024 PAIRS · 72D'
+            : activeArchKey === 'gen3_perceiver'
+            ? '148 PAIRS · QK-NORM'
+            : activeArchKey === 'gen2_factorized'
+            ? '267ms WINDOW'
+            : '1,681 PAIRS · AVX2';
+
         const queries = [
           { label: 'Q0: Ego Car (Blue #0)', v: 1850, pos: [-420, -1200, 17] },
-          { label: 'Q1: Teammate #1', v: 1410, pos: [1100, -2400, 17] },
-          { label: 'Q3: Opponent #1 (Chal)', v: 2150, pos: [-180, 640, 190] },
-          { label: 'Q6: Live Ball', v: 2400, pos: [0, 120, 420] }
+          { label: 'Q1: Teammate / Tactical Query', v: 1410, pos: [1100, -2400, 17] },
+          { label: 'Q2: Opponent #1 (Challenger)', v: 2150, pos: [-180, 640, 190] },
+          { label: 'Q3: Live Ball Entity', v: 2400, pos: [0, 120, 420] }
         ];
         const keys = [
-          { label: 'K6: Current Ball', pos: [0, 120, 420] },
-          { label: 'K10: Ball Bounce +1.3s (τ_4)', pos: [-1650, 3100, 680] },
-          { label: 'K22: Mid-Left 100% Boost Pad', pos: [-3072, 0, 73] },
-          { label: 'K57: Ego Wheel #1 Raycast', pos: [-420, -1180, 17] }
+          { label: 'K0: Current Ball', pos: [0, 120, 420] },
+          { label: 'K1: Wall Bounce (+1.0s)', pos: [-1650, 3100, 680] },
+          { label: 'K2: Mid-Left 100% Boost Pad', pos: [-3072, 0, 73] },
+          { label: 'K3: Back-Right Corner 100% Pad', pos: [3072, -4096, 73] }
         ];
 
         const selRow = document.createElement('div');
@@ -2942,7 +4960,7 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
         const dz = kObj.pos[2] - qObj.pos[2];
         const dist = Math.round(Math.sqrt(dx * dx + dy * dy + dz * dz));
         const tReach = (dist / Math.max(qObj.v, 500)).toFixed(2);
-        const diffWeight = Math.max(0.08, Math.min(0.94, 1.35 - Number(tReach) * 0.45)).toFixed(2);
+        const attnScore = Math.max(0.08, Math.min(0.94, 1.35 - Number(tReach) * 0.45)).toFixed(2);
 
         const metrics = document.createElement('div');
         metrics.className = 'grid grid-cols-3 gap-1.5 mono text-xs';
@@ -2953,19 +4971,32 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
           '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">T_INTERCEPT</div><div class="text-theme-accent font-bold">' +
           tReach +
           ' s</div></div>' +
-          '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">DIFF-ATTN</div><div class="text-primary-ink font-bold">' +
-          diffWeight +
+          '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">' +
+          (activeArchKey === 'hex63' ? 'DIFF-ATTN' : 'BIAS WEIGHT') +
+          '</div><div class="text-primary-ink font-bold">' +
+          attnScore +
           '</div></div>';
         wBody.appendChild(metrics);
-
       } else if (node.stageGroup === 'titans') {
-        wTitle.textContent = 'TITANS SURPRISE & 8-EXPERT SOFT-MOE ROUTER';
-        wTag.textContent = 'FP32 ||W||_F <= 4.0';
+        wTitle.textContent =
+          activeArchKey === 'hex63'
+            ? 'TITANS SURPRISE & 8-EXPERT SOFT-MOE ROUTER'
+            : activeArchKey === 'gen1_ret40'
+            ? 'GEN 1 // RET-40 & 4 EXPLOITER ARCHETYPE WEIGHTS'
+            : 'GEN 2/3 // COMPOSITIONAL SKILL TAXONOMY Z_t (8 × 32)';
+        wTag.textContent =
+          activeArchKey === 'hex63'
+            ? 'FP32 ||W||_F <= 4.0'
+            : activeArchKey === 'gen1_ret40'
+            ? '4 ARCHETYPES'
+            : '8 FAMILIES · 32 SUB';
 
         const sliderRow = document.createElement('div');
         sliderRow.className = 'flex items-center justify-between gap-2';
         sliderRow.innerHTML =
-          '<span class="text-secondary-ink">Opponent Surprise Residual ||r_t||:</span><span class="mono font-bold text-theme-accent">' +
+          '<span class="text-secondary-ink">' +
+          (activeArchKey === 'hex63' ? 'Opponent Surprise Residual ||r_t||:' : 'Aerial / Mechanical Phase Intensity:') +
+          '</span><span class="mono font-bold text-theme-accent">' +
           surpriseIntensity.toFixed(2) +
           '</span>';
         wBody.appendChild(sliderRow);
@@ -2983,18 +5014,34 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
         });
         wBody.appendChild(rng);
 
-        const frobNorm = Math.min(4.0, 2.15 + surpriseIntensity * 1.15).toFixed(2);
-        const experts = [
-          { name: 'E1: Ground/50s', w: 0.14 },
-          { name: 'E2: Fast Aerial', w: 0.22 },
-          { name: 'E3: Wall/Double', w: Math.min(0.42, 0.12 + surpriseIntensity * 0.18) },
-          { name: 'E4: Flip Reset', w: Math.min(0.38, 0.08 + surpriseIntensity * 0.15) },
-          { name: 'E5: Shadow Def', w: Math.max(0.06, 0.34 - surpriseIntensity * 0.12) },
-          { name: 'E6: Demo/Evade', w: Math.min(0.45, 0.10 + surpriseIntensity * 0.22) }
-        ];
+        const itemsList =
+          activeArchKey === 'hex63'
+            ? [
+                { name: 'E1: Ground/50s', w: 0.14 },
+                { name: 'E2: Fast Aerial', w: 0.22 },
+                { name: 'E3: Wall/Double', w: Math.min(0.42, 0.12 + surpriseIntensity * 0.18) },
+                { name: 'E4: Flip Reset', w: Math.min(0.38, 0.08 + surpriseIntensity * 0.15) },
+                { name: 'E5: Shadow Def', w: Math.max(0.06, 0.34 - surpriseIntensity * 0.12) },
+                { name: 'E6: Demo/Evade', w: Math.min(0.45, 0.10 + surpriseIntensity * 0.22) }
+              ]
+            : activeArchKey === 'gen1_ret40'
+            ? [
+                { name: 'Main RET-40 Policy', w: Math.max(0.25, 0.65 - surpriseIntensity * 0.2) },
+                { name: 'Exploiter 1: Ball Denial', w: 0.18 },
+                { name: 'Exploiter 2: Demolition', w: Math.min(0.45, 0.10 + surpriseIntensity * 0.22) },
+                { name: 'Exploiter 3: Aerial Mech', w: Math.min(0.42, 0.12 + surpriseIntensity * 0.18) }
+              ]
+            : [
+                { name: 'Z_1: Power Strike', w: 0.15 },
+                { name: 'Z_2: Zap/Wall Dash', w: 0.18 },
+                { name: 'Z_3: Musty/Breezi Flick', w: Math.min(0.38, 0.10 + surpriseIntensity * 0.16) },
+                { name: 'Z_4: Air Dribble', w: 0.22 },
+                { name: 'Z_5: Stall/Pop Reset', w: Math.min(0.46, 0.12 + surpriseIntensity * 0.22) },
+                { name: 'Z_7: Speedflip Cancel', w: 0.24 }
+              ];
         const expGrid = document.createElement('div');
         expGrid.className = 'grid grid-cols-2 gap-1.5 pt-1';
-        experts.forEach((ex) => {
+        itemsList.forEach((ex) => {
           const pct = Math.round(ex.w * 100);
           const item = document.createElement('div');
           item.className = 'p-1.5 rounded surface-root border border-hairline flex flex-col gap-1';
@@ -3010,51 +5057,102 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
           expGrid.appendChild(item);
         });
         wBody.appendChild(expGrid);
-
-        const foot = document.createElement('div');
-        foot.className = 'mono text-[11px] text-secondary-ink flex justify-between pt-1';
-        foot.innerHTML =
-          '<span>Fast-Weight Norm: ||W_t||_F = ' +
-          frobNorm +
-          ' / 4.00</span><span class="text-theme-accent font-bold">FSQ Code #418</span>';
-        wBody.appendChild(foot);
-
       } else {
-        wTitle.textContent = '60HZ SUBTICK CHUNK & 4-HORIZON CRITIC';
-        wTag.textContent = 'K_sub = 4 (16.7ms)';
-        const subticks = [
-          { k: 'Subtick 1 (0–16.7ms)', dj: '0', pitch: '-0.85' },
-          { k: 'Subtick 2 (16.7–33.3ms)', dj: '1 (Stall Clamp)', pitch: '+0.02 (0.12·tanh)' },
-          { k: 'Subtick 3 (33.3–50.0ms)', dj: '0', pitch: '-0.98 (Cancel)' },
-          { k: 'Subtick 4 (50.0–66.7ms)', dj: '0', pitch: '-0.94 (Align)' }
-        ];
+        wTitle.textContent =
+          activeArchKey === 'hex63'
+            ? '60HZ SUBTICK CHUNK & 4-HORIZON CRITIC'
+            : activeArchKey === 'gen1_ret40'
+            ? 'GEN 1 // 120HZ SLERP PD & 32-QUANTILE CVaR'
+            : 'GEN 2/3 // 8-SUBTICK FLIP FSM & 3-HORIZON POPART';
+        wTag.textContent =
+          activeArchKey === 'hex63'
+            ? 'K_sub = 4 (60Hz)'
+            : activeArchKey === 'gen1_ret40'
+            ? '120Hz PD LOOP'
+            : '8 TICKS (15Hz)';
+
+        const rows =
+          activeArchKey === 'hex63'
+            ? [
+                { k: 'Subtick 1 (0–16.7ms)', v: 'm_dj=0 · Pitch -0.85' },
+                { k: 'Subtick 2 (16.7–33.3ms)', v: 'm_dj=1 · Pitch +0.02 (0.12·tanh Stall)' },
+                { k: 'Subtick 3 (33.3–50.0ms)', v: 'm_dj=0 · Pitch -0.98 (Cancel)' },
+                { k: 'Subtick 4 (50.0–66.7ms)', v: 'm_dj=0 · Pitch -0.94 (Align)' }
+              ]
+            : activeArchKey === 'gen1_ret40'
+            ? [
+                { k: 'Ticks 1..2 (SLERP τ=0.25)', v: 'q̃* = sign(<q*,q>)q* · e_rot = 0.31 rad' },
+                { k: 'Ticks 3..4 (SLERP τ=0.50)', v: 'Kp=(5,5,1.8) · Kd=(0.65,0.65,0.22)' },
+                { k: 'Ticks 5..6 (SLERP τ=0.75)', v: 'Kff·ω* Feedforward · Torque Clip [-1,1]' },
+                { k: 'Ticks 7..8 (SLERP τ=1.00)', v: '|e_rot| < 0.04 rad -> Schmitt Deadband 0' }
+              ]
+            : [
+                { k: 'Subtick 0 (Tick 1 / 8.3ms)', v: 'FlipState Override: jump = 0 (Release)' },
+                { k: 'Subticks 1..4 (Ticks 2..5)', v: 'FlipState Rising Edge: jump = 1 (Dodge)' },
+                { k: 'Subticks 5..7 (Ticks 6..8)', v: 'FlipState Hold Release: jump = 0' }
+              ];
         const tbl = document.createElement('div');
         tbl.className = 'flex flex-col gap-1 mono text-[11px]';
-        subticks.forEach((st) => {
+        rows.forEach((st) => {
           const r = document.createElement('div');
-          r.className = 'p-1.5 rounded surface-root border border-hairline flex items-center justify-between';
+          r.className = 'p-1.5 rounded surface-root border border-hairline flex items-center justify-between gap-2';
           r.innerHTML =
             '<span class="text-primary-ink font-semibold">' +
             st.k +
-            '</span>' +
-            '<span class="text-theme-accent font-bold">m_dj=' +
-            st.dj.charAt(0) +
-            ' · Pitch ' +
-            st.pitch +
+            '</span><span class="text-theme-accent font-bold truncate">' +
+            st.v +
             '</span>';
           tbl.appendChild(r);
         });
         wBody.appendChild(tbl);
-
-        const hRow = document.createElement('div');
-        hRow.className = 'grid grid-cols-4 gap-1 pt-1 mono text-[10px] text-center';
-        hRow.innerHTML =
-          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">γ=0.95 (1s)</div><div class="text-primary-ink font-bold">+1.42</div></div>' +
-          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">γ=0.98 (2.5s)</div><div class="text-primary-ink font-bold">+2.18</div></div>' +
-          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">γ=0.995 (10s)</div><div class="text-primary-ink font-bold">+3.05</div></div>' +
-          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">Sparse Win</div><div class="text-theme-accent font-bold">64.2%</div></div>';
-        wBody.appendChild(hRow);
       }
+
+      appendEvolutionComparisonStrip(wBody, node.stageGroup || 'control');
+    }
+
+    // Switch Active Platform Generation (Hex63 vs Gen 3 vs Gen 2 vs Gen 1)
+    function setArchitecture(archKey, skipHashSync) {
+      const archDef = ARCH_REGISTRY[archKey];
+      if (!archDef) return;
+      activeArchKey = archKey;
+      nodes = archDef.nodes || [];
+      edges = archDef.edges || [];
+      scenarios = archDef.scenarios || {};
+      techLib = archDef.techLibrary || [];
+      TECH_EXTERNAL_RESOURCES = archDef.externalResources || {};
+      activeColHeaders = archDef.colHeaders || [];
+      activeMermaidDiagram = archDef.mermaidDiagram || '';
+
+      rebuildLookupMaps();
+
+      if (selArchGen && selArchGen.value !== activeArchKey) {
+        selArchGen.value = activeArchKey;
+      }
+      if (identityBadgeText) {
+        identityBadgeText.textContent = archDef.shortBadge;
+      }
+      if (identityMainTitle) {
+        identityMainTitle.textContent = archDef.identityTitle;
+      }
+
+      populateTechDropdown();
+      populateScenarioDropdown();
+
+      if (!nodeMap[selectedNodeId] && nodes[0]) {
+        selectedNodeId = nodes[0].id;
+      }
+      if (!techMap[selectedTechId] && techLib[0]) {
+        selectedTechId = techLib[0].id;
+      }
+      activeStepIdx = 0;
+
+      const meta = THEME_META[activeTheme] || THEME_META.neo_brutalism;
+      renderer.applyStagePaletteToNodes(nodes, meta.stageColors, activeColHeaders);
+
+      updateTourTooltip();
+      renderNodeInspector();
+      if (activeRightView === 'tech') renderTechDeepDive();
+      if (!skipHashSync) syncUrlHash();
     }
 
     // Update Floating Walkthrough Tooltip Overlay on Canvas
@@ -3151,13 +5249,20 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
         brandDot.style.backgroundColor = meta.stageColors[0];
       }
 
-      renderer.applyStagePaletteToNodes(nodes, meta.stageColors);
+      renderer.applyStagePaletteToNodes(nodes, meta.stageColors, activeColHeaders);
 
       syncThemeAlignedButtons();
       updatePolarityButtons();
       updateTourTooltip();
       renderNodeInspector();
       if (activeRightView === 'tech') renderTechDeepDive();
+    }
+
+    // Event Listener: Platform Generation Switcher
+    if (selArchGen) {
+      selArchGen.addEventListener('change', (e) => {
+        setArchitecture(e.target.value);
+      });
     }
 
     // Event Listeners: Theme & Polarity
@@ -3319,10 +5424,13 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
     // Standalone Single-File HTML Export, PNG Export & Mermaid Copy
     document.getElementById('btnExportHtml').addEventListener('click', async () => {
       try {
-        const [cssText, nodesJs, scenariosJs, rendererJs, appJs] = await Promise.all([
+        const [cssText, nodesJs, scenariosJs, gen3Js, gen2Js, gen1Js, rendererJs, appJs] = await Promise.all([
           fetch('./styles/themes.css').then((r) => r.text()),
           fetch('./js/nodes_and_edges.js').then((r) => r.text()),
           fetch('./js/scenarios_and_tech.js').then((r) => r.text()),
+          fetch('./js/gen3_perceiver.js').then((r) => r.text()),
+          fetch('./js/gen2_factorized.js').then((r) => r.text()),
+          fetch('./js/gen1_ret40.js').then((r) => r.text()),
           fetch('./js/canvas_renderer.js').then((r) => r.text()),
           fetch('./js/app.js').then((r) => r.text())
         ]);
@@ -3337,6 +5445,9 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
         const map = {
           'nodes_and_edges.js': nodesJs,
           'scenarios_and_tech.js': scenariosJs,
+          'gen3_perceiver.js': gen3Js,
+          'gen2_factorized.js': gen2Js,
+          'gen1_ret40.js': gen1Js,
           'canvas_renderer.js': rendererJs,
           'app.js': appJs
         };
@@ -3356,7 +5467,7 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'arashikage_hex63_architecture_explorer.html';
+        a.download = 'arashikage_' + activeArchKey + '_architecture_explorer.html';
         a.click();
         URL.revokeObjectURL(url);
       } catch (_) {
@@ -3365,7 +5476,7 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'arashikage_hex63_architecture_explorer.html';
+        a.download = 'arashikage_' + activeArchKey + '_architecture_explorer.html';
         a.click();
         URL.revokeObjectURL(url);
       }
@@ -3375,40 +5486,12 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
       const url = canvas.toDataURL('image/png');
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'arashikage_hex63_dataflow.png';
+      a.download = 'arashikage_' + activeArchKey + '_dataflow.png';
       a.click();
     });
 
     document.getElementById('btnCopyMermaid').addEventListener('click', () => {
-      const mmd = `flowchart LR
-  subgraph S1["Stage 1: C++20 Observation (5,376B)"]
-    N1["01. 5,376B Arena Slice (84x64B CL, C2v)"] --> N2["02. 16 Dynamic Queries"]
-    N1 --> N3["03. 48 Context Keys"]
-    N1 -.-> N4["04. 512B Privileged Critic Ctx"]
-  end
-  subgraph S2["Stage 2: Bipartite Graph"]
-    N2 & N3 --> N5["05. Fused GPU Pairwise Bias (16x64x72D)"]
-    N2 & N3 & N5 --> N6["06. 2L Bipartite DiffAttn"]
-  end
-  subgraph S3["Stage 3: FP32 Titans Memory"]
-    N7["07. Orthogonal W_init & k_prev"] & N6 --> N8["08. 2x4x32x32 FP32 Fast Weights"]
-  end
-  subgraph S4["Stage 4: Coconut & Soft-MoE"]
-    N8 --> N9["09. Coconut Loop (K=4..6)"]
-    N9 <--> N10["10. Static 8x2 Soft-MoE"]
-    N10 --> N11["11. 8x125=1,000 FSQ Bottleneck"]
-  end
-  subgraph S5["Stage 5: 60Hz Flow-GRPO Control"]
-    N9 & N11 --> N12["12. Stage-1 16-Way Binary Head"]
-    N12 --> N13["13. Stage-2 4-Step Flow-GRPO SDE"]
-    N13 --> N14["14. K_sub=4 (60Hz) Subtick Executor"]
-  end
-  subgraph S6["Stage 6: Critic, JEPA & RL"]
-    N4 -.-> N15["15. Dual 4x51 Symlog HL-Gauss Critic"]
-    N9 --> N15
-    N13 & N15 --> N16["16. Best-of-16 JEPA + CVaR Search"]
-    N14 & N15 -.-> N17["17. G=8 Cloned GRPO & Flow-PPO"]
-  end`;
+      const mmd = activeMermaidDiagram || '';
       navigator.clipboard.writeText(mmd).then(() => {
         const btn = document.getElementById('btnCopyMermaid');
         btn.textContent = getGlyph('export') + ' Copied';
@@ -3449,10 +5532,11 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
 
     setTheme(activeTheme);
     setPolarity(activePolarity);
-    const restoredFromHash = restoreStateFromUrlHash();
+    const restoredFromHash = restoreStateFromUrlHash(setArchitecture);
     if (restoredFromHash) {
       setRightView(activeRightView);
     } else {
+      setArchitecture('hex63', true);
       renderNodeInspector();
       renderTechDeepDive();
       syncUrlHash();

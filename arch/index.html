@@ -17,10 +17,10 @@
       <div class="flex items-center gap-2.5 min-w-0">
         <div class="flex items-center gap-2 shrink-0">
           <span id="brandDot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
-          <span class="mono text-xs font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX63</span>
+          <span id="identityBadgeText" class="mono text-xs font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX63 (CURRENT)</span>
         </div>
         <span class="text-muted-ink">|</span>
-        <h1 class="text-xs md:text-sm font-bold text-primary-ink tracking-tight truncate">
+        <h1 id="identityMainTitle" class="text-xs md:text-sm font-bold text-primary-ink tracking-tight truncate">
           Real-Time Physics &amp; Neural Control Architecture — 60 Hz Subtick Action Chunking &amp; Multi-Horizon RL
         </h1>
       </div>
@@ -29,9 +29,16 @@
 
     <!-- Single-Line Compact Control Plane Header -->
     <header id="controlPlaneHeader" class="shrink-0 px-3 py-1.5 border-b border-hairline surface-card flex items-center justify-between gap-1.5 overflow-x-auto">
-      <!-- Left: Guided Walkthrough & Scenario Selector -->
+      <!-- Left: Platform Generation Switcher + Guided Walkthrough & Scenario Selector -->
       <div class="flex items-center gap-1.5 shrink-0">
-        <select id="selScenario" class="surface-panel text-primary-ink border border-subtle rounded-lg px-2 py-1 text-[11.5px] font-semibold focus:outline-none transition cursor-pointer max-w-[215px] truncate">
+        <select id="selArchGen" title="Switch Platform Architecture Generation to Compare &amp; Contrast" class="btn-theme-accent border rounded-lg px-2 py-1 text-[11.5px] font-bold focus:outline-none transition cursor-pointer max-w-[225px] truncate">
+          <option value="hex63" selected>Platform: Arashikage (Hex63 · Current)</option>
+          <option value="gen3_perceiver">Platform: Legacy Gen 3 (ST-Perceiver)</option>
+          <option value="gen2_factorized">Platform: Legacy Gen 2 (Factorized-684)</option>
+          <option value="gen1_ret40">Platform: Legacy Gen 1 (RET-40 + PD)</option>
+        </select>
+
+        <select id="selScenario" class="surface-panel text-primary-ink border border-subtle rounded-lg px-2 py-1 text-[11.5px] font-semibold focus:outline-none transition cursor-pointer max-w-[185px] truncate">
           <option value="none">Free Exploration (Click Any Block)</option>
           <option value="tour" selected>Guided Tour: 66.7ms Cycle (8 Steps)</option>
           <option value="bounce">Scenario 1: Corner Double-Tap (4 Steps)</option>
@@ -46,7 +53,7 @@
 
       <!-- Center: Pathway Filter + Compact Theme Dropdown + Prev/Next + Light/Dark -->
       <div class="flex items-center gap-1.5 shrink-0">
-        <select id="selMode" class="surface-panel text-secondary-ink border border-hairline rounded-lg px-2 py-1 text-[11.5px] mono focus:outline-none cursor-pointer max-w-[185px] truncate">
+        <select id="selMode" class="surface-panel text-secondary-ink border border-hairline rounded-lg px-2 py-1 text-[11.5px] mono focus:outline-none cursor-pointer max-w-[160px] truncate">
           <option value="all">Pathway: Full Architecture</option>
           <option value="live">Pathway: Live 5.5ms Inference</option>
           <option value="train">Pathway: 4,096-Arena Training</option>
@@ -55,7 +62,7 @@
 
         <div class="h-4 w-[1px] bg-current opacity-20 mx-0.5"></div>
 
-        <select id="selTheme" class="surface-panel text-primary-ink border border-subtle rounded-lg px-2 py-1 text-[11.5px] font-bold focus:outline-none cursor-pointer max-w-[170px] truncate">
+        <select id="selTheme" class="surface-panel text-primary-ink border border-subtle rounded-lg px-2 py-1 text-[11.5px] font-bold focus:outline-none cursor-pointer max-w-[155px] truncate">
           <option value="neo_brutalism">Theme: 1. Neo-Brutalism</option>
           <option value="modular_typo">Theme: 2. Modular Typo</option>
           <option value="utilitarian">Theme: 3. Utilitarian</option>
@@ -300,6 +307,9 @@
   <!-- Modular Static Architecture Scripts -->
   <script src="./js/nodes_and_edges.js"></script>
   <script src="./js/scenarios_and_tech.js"></script>
+  <script src="./js/gen3_perceiver.js"></script>
+  <script src="./js/gen2_factorized.js"></script>
+  <script src="./js/gen1_ret40.js"></script>
   <script src="./js/canvas_renderer.js"></script>
   <script src="./js/app.js"></script>
 </body>

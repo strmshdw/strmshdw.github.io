@@ -10,6 +10,9 @@ def build_single_file_bundle(arch_dir: Path) -> str:
     themes_css = (arch_dir / "styles" / "themes.css").read_text(encoding="utf-8")
     nodes_js = (arch_dir / "js" / "nodes_and_edges.js").read_text(encoding="utf-8")
     scenarios_js = (arch_dir / "js" / "scenarios_and_tech.js").read_text(encoding="utf-8")
+    gen3_js = (arch_dir / "js" / "gen3_perceiver.js").read_text(encoding="utf-8")
+    gen2_js = (arch_dir / "js" / "gen2_factorized.js").read_text(encoding="utf-8")
+    gen1_js = (arch_dir / "js" / "gen1_ret40.js").read_text(encoding="utf-8")
     renderer_js = (arch_dir / "js" / "canvas_renderer.js").read_text(encoding="utf-8")
     app_js = (arch_dir / "js" / "app.js").read_text(encoding="utf-8")
 
@@ -24,6 +27,18 @@ def build_single_file_bundle(arch_dir: Path) -> str:
     bundled = bundled.replace(
         '<script src="./js/scenarios_and_tech.js"></script>',
         f"<script>\n{scenarios_js}\n</script>",
+    )
+    bundled = bundled.replace(
+        '<script src="./js/gen3_perceiver.js"></script>',
+        f"<script>\n{gen3_js}\n</script>",
+    )
+    bundled = bundled.replace(
+        '<script src="./js/gen2_factorized.js"></script>',
+        f"<script>\n{gen2_js}\n</script>",
+    )
+    bundled = bundled.replace(
+        '<script src="./js/gen1_ret40.js"></script>',
+        f"<script>\n{gen1_js}\n</script>",
     )
     bundled = bundled.replace(
         '<script src="./js/canvas_renderer.js"></script>',

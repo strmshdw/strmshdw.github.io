@@ -1,22 +1,32 @@
 // ============================================================================
-// ARASHIKAGE (HEX63) — INTERACTIVE CONTROLLER, 5-TAB INSPECTOR/DEEP-DIVE & FULLSCREEN DRAWER
+// ARASHIKAGE (HEX63 + LEGACY GEN 1..3) — INTERACTIVE ARCHITECTURE EXPLORER
 // ============================================================================
 (function () {
-  const nodes = window.ARASHIKAGE_NODES || [];
-  const edges = window.ARASHIKAGE_EDGES || [];
-  const scenarios = window.ARASHIKAGE_SCENARIOS || {};
-  const techLib = window.ARASHIKAGE_TECH_LIBRARY || [];
-  const TECH_EXTERNAL_RESOURCES = window.ARASHIKAGE_EXTERNAL_RESOURCES || {};
+  const ARCH_REGISTRY = window.ARASHIKAGE_ARCHITECTURES || {};
+  let activeArchKey = 'hex63';
+  let nodes = window.ARASHIKAGE_NODES || [];
+  let edges = window.ARASHIKAGE_EDGES || [];
+  let scenarios = window.ARASHIKAGE_SCENARIOS || {};
+  let techLib = window.ARASHIKAGE_TECH_LIBRARY || [];
+  let TECH_EXTERNAL_RESOURCES = window.ARASHIKAGE_EXTERNAL_RESOURCES || {};
+  let activeColHeaders = (ARCH_REGISTRY.hex63 && ARCH_REGISTRY.hex63.colHeaders) || [];
+  let activeMermaidDiagram = (ARCH_REGISTRY.hex63 && ARCH_REGISTRY.hex63.mermaidDiagram) || '';
   const renderer = window.ArashikageCanvasRenderer;
 
-  const nodeMap = {};
-  nodes.forEach((n) => {
-    nodeMap[n.id] = n;
-  });
-  const techMap = {};
-  techLib.forEach((t) => {
-    techMap[t.id] = t;
-  });
+  let nodeMap = {};
+  let techMap = {};
+
+  function rebuildLookupMaps() {
+    nodeMap = {};
+    nodes.forEach((n) => {
+      nodeMap[n.id] = n;
+    });
+    techMap = {};
+    techLib.forEach((t) => {
+      techMap[t.id] = t;
+    });
+  }
+  rebuildLookupMaps();
 
   // Application State
   let selectedNodeId = 'dma_slice';
@@ -195,9 +205,10 @@
     );
   }
 
-  // URL Hash Deep-Linking (#view=tech&tech=t3&tab=learn or #view=node&node=dma_slice&tab=learn)
+  // URL Hash Deep-Linking (#arch=gen3_perceiver&view=tech&tech=t3&tab=learn)
   function syncUrlHash() {
     const params = new URLSearchParams();
+    params.set('arch', activeArchKey);
     params.set('view', activeRightView);
     if (activeRightView === 'tech') {
       params.set('tech', selectedTechId);
@@ -212,9 +223,13 @@
     }
   }
 
-  function restoreStateFromUrlHash() {
+  function restoreStateFromUrlHash(setArchCallback) {
     if (!window.location.hash || window.location.hash.length <= 1) return false;
     const params = new URLSearchParams(window.location.hash.slice(1));
+    const archParam = params.get('arch');
+    if (archParam && ARCH_REGISTRY[archParam] && setArchCallback) {
+      setArchCallback(archParam, true);
+    }
     const view = params.get('view');
     const tab = params.get('tab');
     const tech = params.get('tech');
@@ -235,7 +250,7 @@
       }
       return true;
     }
-    return false;
+    return Boolean(archParam && ARCH_REGISTRY[archParam]);
   }
 
   function init() {
@@ -244,6 +259,7 @@
     const canvasWrapper = document.getElementById('canvasWrapper');
     const canvasAspectBox = document.getElementById('canvasAspectBox');
 
+    const selArchGen = document.getElementById('selArchGen');
     const selScenario = document.getElementById('selScenario');
     const btnToggleTour = document.getElementById('btnToggleTour');
     const selMode = document.getElementById('selMode');
@@ -265,6 +281,8 @@
 
     // Right Panel DOM
     const topIdentityBar = document.getElementById('topIdentityBar');
+    const identityBadgeText = document.getElementById('identityBadgeText');
+    const identityMainTitle = document.getElementById('identityMainTitle');
     const rightSidePanel = document.getElementById('rightSidePanel');
     const panelDismissBackdrop = document.getElementById('panelDismissBackdrop');
     const btnCloseDrawer = document.getElementById('btnCloseDrawer');
@@ -275,14 +293,41 @@
     const btnBackToNode = document.getElementById('btnBackToNode');
     const selTechDropdown = document.getElementById('selTechDropdown');
 
-    // Populate Tech Dropdown
-    selTechDropdown.innerHTML = '';
-    techLib.forEach((t) => {
-      const opt = document.createElement('option');
-      opt.value = t.id;
-      opt.textContent = t.short;
-      selTechDropdown.appendChild(opt);
-    });
+    function populateTechDropdown() {
+      selTechDropdown.innerHTML = '';
+      techLib.forEach((t) => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.textContent = t.short;
+        selTechDropdown.appendChild(opt);
+      });
+    }
+
+    function populateScenarioDropdown() {
+      const prevVal = selScenario.value || 'tour';
+      selScenario.innerHTML = '';
+      const noneOpt = document.createElement('option');
+      noneOpt.value = 'none';
+      noneOpt.textContent = 'Free Exploration (Click Any Block)';
+      selScenario.appendChild(noneOpt);
+
+      Object.entries(scenarios).forEach(([key, sc]) => {
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.textContent = sc.label + ' (' + sc.steps.length + ' Steps)';
+        selScenario.appendChild(opt);
+      });
+
+      if (scenarios[prevVal] || prevVal === 'none') {
+        selScenario.value = prevVal;
+      } else {
+        selScenario.value = 'tour';
+        activeScenarioKey = 'tour';
+      }
+    }
+
+    populateTechDropdown();
+    populateScenarioDropdown();
 
     function syncThemeAlignedButtons() {
       btnPolarityLight.textContent = getGlyph('light') + ' Light';
@@ -585,6 +630,89 @@
       });
     }
 
+    // Stage-Level Evolution Summary across all 4 Platform Generations
+    const STAGE_EVOLUTION_MATRIX = {
+      mem: {
+        title: 'STAGE 1 EVOLUTION // OBSERVATION MANIFOLD',
+        gen1_ret40: '41×25 EntityTokenPOD (4,100B) + 1,536B SoA (World Z-Up)',
+        gen2_factorized: '171D×4 Egocentric R_car^T Stack (684D) + 68D Critic Tail',
+        gen3_perceiver: '700D (684D + 16D 4-Frame Wheel History) + 752D Critic',
+        hex63: '5,376B Layout A (84×64B CL, 64 Entities, 8 BallRingBuffer480, C2v)'
+      },
+      edges: {
+        title: 'STAGE 2 EVOLUTION // RELATIONAL & TEMPORAL ENCODING',
+        gen1_ret40: 'CPU AVX2 41×41×8 r_ij (53.7KB) + Trunk-Hoisted mlp_rel',
+        gen2_factorized: 'K=4 Sliding Window (267ms) + 0..2 Tick Latency Randomizer',
+        gen3_perceiver: 'Zero-Copy 144D Core Unpacker + Shared 34×7D BoostPad PointNet',
+        hex63: 'On-Chip GPU 16×64×72D Pairwise Kernel + 2L Bipartite DiffAttn'
+      },
+      titans: {
+        title: 'STAGE 3–4 EVOLUTION // BACKBONE, MEMORY & SKILL LATENTS',
+        gen1_ret40: '4L RET-40 (d=128) + Quat q*∈S^3 + 4 Exploiter Archetype Heads',
+        gen2_factorized: '684->512->512->256 MLP + SeqScout Miner + Aux Skill Z_t (8/32)',
+        gen3_perceiver: '2L Perceiver (M=4×N=37, QK-Norm) + 912->256 SwiGLU + Aux Z_t',
+        hex63: '2×4×32×32 FP32 Titans Fast Weights + Coconut Loop + 8×2 Soft-MoE + 1,000 FSQ'
+      },
+      control: {
+        title: 'STAGE 5–6 EVOLUTION // MOTOR DECODER, CRITIC & RL',
+        gen1_ret40: '120Hz Geodesic SLERP Attitude PD + 3-PopArt + 32-Quantile CVaR_β',
+        gen2_factorized: 'Fused 31-Logit [B,7,7] + 8-Subtick Flip FSM + 752D Critic + Zero-Sum PBRS',
+        gen3_perceiver: '2-Stage Cond-31 Heads (J/B -> 5 Axes) + 752D Perceiver Critic + KL Distill',
+        hex63: 'Stage-1 16-Way Binary + Stage-2 60Hz Flow-GRPO SDE + Dual 4×51 Symlog + JEPA + G=8 GRPO'
+      }
+    };
+
+    function appendEvolutionComparisonStrip(wBody, stageGroup) {
+      const evo = STAGE_EVOLUTION_MATRIX[stageGroup] || STAGE_EVOLUTION_MATRIX.control;
+      const box = document.createElement('div');
+      box.className = 'mt-1.5 pt-2.5 border-t border-hairline flex flex-col gap-1.5';
+
+      const hdr = document.createElement('div');
+      hdr.className = 'flex items-center justify-between gap-1';
+      hdr.innerHTML =
+        '<span class="kicker text-muted-ink">' +
+        evo.title +
+        '</span><span class="mono text-[10px] text-theme-accent font-bold">CLICK TO SWITCH</span>';
+      box.appendChild(hdr);
+
+      const gens = [
+        { key: 'gen1_ret40', short: 'Gen 1 · RET-40' },
+        { key: 'gen2_factorized', short: 'Gen 2 · MLP-684' },
+        { key: 'gen3_perceiver', short: 'Gen 3 · Perceiver' },
+        { key: 'hex63', short: 'Hex63 · Current' }
+      ];
+
+      const btnGrid = document.createElement('div');
+      btnGrid.className = 'grid grid-cols-4 gap-1';
+      gens.forEach((g) => {
+        const isCurr = g.key === activeArchKey;
+        const b = document.createElement('button');
+        b.className =
+          'no-wrap-btn py-1 px-1.5 rounded text-[10.5px] mono font-bold border transition cursor-pointer truncate ' +
+          (isCurr
+            ? 'btn-theme-accent'
+            : 'surface-root text-secondary-ink border-hairline hover:text-primary-ink');
+        b.textContent = g.short;
+        b.title = evo[g.key];
+        b.addEventListener('click', () => {
+          setArchitecture(g.key);
+        });
+        btnGrid.appendChild(b);
+      });
+      box.appendChild(btnGrid);
+
+      const desc = document.createElement('div');
+      desc.className = 'p-2 rounded surface-root border border-hairline mono text-[11px] text-secondary-ink leading-snug';
+      desc.innerHTML =
+        '<span class="text-theme-accent font-bold">' +
+        (ARCH_REGISTRY[activeArchKey] ? ARCH_REGISTRY[activeArchKey].shortBadge : activeArchKey.toUpperCase()) +
+        ':</span> ' +
+        (evo[activeArchKey] || '');
+      box.appendChild(desc);
+
+      wBody.appendChild(box);
+    }
+
     // Render Contextual Interactive Micro-Simulator inside the Right Panel
     function renderContextualWidget(node) {
       const wTitle = document.getElementById('ctxWidgetTitle');
@@ -593,67 +721,138 @@
       wBody.innerHTML = '';
 
       if (node.stageGroup === 'mem') {
-        wTitle.textContent = 'INTERACTIVE 5,376B CACHE-LINE INSPECTOR';
-        wTag.textContent = '84 × 64B CL';
-        const segments = [
-          { name: 'Cars [0..5]', bytes: '0..1535', cl: '24 CL', color: '#38bdf8', desc: '6 Cars × 64 floats (256B each): Pos, Vel, Rot6D, Local Vel, Dodge/Flip Timers, 4-Wheel Shocks' },
-          { name: 'Ball [6]', bytes: '1536..1663', cl: '2 CL', color: '#22d3ee', desc: '1 Ball × 32 floats (128B): Position, Linear/Angular Velocity, Last Hit Car, Magnus Force' },
-          { name: 'Traj [7..14]', bytes: '1664..2687', cl: '16 CL', color: '#818cf8', desc: '8 BallRingBuffer480 Samples × 32 floats (1,024B): 4.0s Future Bounce & Spin Curve' },
-          { name: 'Match [15]', bytes: '2688..2751', cl: '1 CL', color: '#a78bfa', desc: '1 Match Node × 16 floats (64B): κ_Δt Action Duration, Score Diff, Clock, Gravity' },
-          { name: 'Pads [16..49]', bytes: '2752..3839', cl: '17 CL', color: '#f472b6', desc: '34 Boost Pads × 8 floats (1,088B): Canonical X/Y/Z, IsBigPad, Active Flag, Respawn Timer' },
-          { name: 'Goals/Wheels/OBB', bytes: '3840..4735', cl: '14 CL', color: '#fbbf24', desc: '6 Goals + 4 Zero-Lag Ego Wheel Raycasts + 4 Nearest Wall Surface OBBs (896B)' },
-          { name: 'PrivCtx [128]', bytes: '4864..5375', cl: '8 CL', color: '#34d399', desc: '128 Privileged Floats (512B): Exact Opponent Boost/Flip Secrets (Training Critic Only)' }
-        ];
-        const barRow = document.createElement('div');
-        barRow.className = 'grid grid-cols-7 gap-1';
-        segments.forEach((seg, idx) => {
-          const b = document.createElement('button');
-          b.className =
-            'py-1.5 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
-            (selectedMemSliceIdx === idx
-              ? 'border-white text-slate-950'
-              : 'border-transparent text-slate-950 opacity-75 hover:opacity-100');
-          b.style.backgroundColor = seg.color;
-          b.textContent = seg.cl;
-          b.title = seg.name;
-          b.addEventListener('click', () => {
-            selectedMemSliceIdx = idx;
-            renderContextualWidget(node);
+        if (activeArchKey === 'hex63') {
+          wTitle.textContent = 'INTERACTIVE 5,376B CACHE-LINE INSPECTOR';
+          wTag.textContent = '84 × 64B CL';
+          const segments = [
+            { name: 'Cars [0..5]', bytes: '0..1535', cl: '24 CL', color: '#38bdf8', desc: '6 Cars × 64 floats (256B each): Pos, Vel, Rot6D, Local Vel, Dodge/Flip Timers, 4-Wheel Shocks' },
+            { name: 'Ball [6]', bytes: '1536..1663', cl: '2 CL', color: '#22d3ee', desc: '1 Ball × 32 floats (128B): Position, Linear/Angular Velocity, Last Hit Car, Magnus Force' },
+            { name: 'Traj [7..14]', bytes: '1664..2687', cl: '16 CL', color: '#818cf8', desc: '8 BallRingBuffer480 Samples × 32 floats (1,024B): 4.0s Future Bounce & Spin Curve' },
+            { name: 'Match [15]', bytes: '2688..2751', cl: '1 CL', color: '#a78bfa', desc: '1 Match Node × 16 floats (64B): κ_Δt Action Duration, Score Diff, Clock, Gravity' },
+            { name: 'Pads [16..49]', bytes: '2752..3839', cl: '17 CL', color: '#f472b6', desc: '34 Boost Pads × 8 floats (1,088B): Canonical X/Y/Z, IsBigPad, Active Flag, Respawn Timer' },
+            { name: 'Goals/Wheels/OBB', bytes: '3840..4735', cl: '14 CL', color: '#fbbf24', desc: '6 Goals + 4 Zero-Lag Ego Wheel Raycasts + 4 Nearest Wall Surface OBBs (896B)' },
+            { name: 'PrivCtx [128]', bytes: '4864..5375', cl: '8 CL', color: '#34d399', desc: '128 Privileged Floats (512B): Exact Opponent Boost/Flip Secrets (Training Critic Only)' }
+          ];
+          const barRow = document.createElement('div');
+          barRow.className = 'grid grid-cols-7 gap-1';
+          segments.forEach((seg, idx) => {
+            const b = document.createElement('button');
+            b.className =
+              'py-1.5 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
+              (selectedMemSliceIdx === idx
+                ? 'border-white text-slate-950'
+                : 'border-transparent text-slate-950 opacity-75 hover:opacity-100');
+            b.style.backgroundColor = seg.color;
+            b.textContent = seg.cl;
+            b.title = seg.name;
+            b.addEventListener('click', () => {
+              selectedMemSliceIdx = idx;
+              renderContextualWidget(node);
+            });
+            barRow.appendChild(b);
           });
-          barRow.appendChild(b);
-        });
-        wBody.appendChild(barRow);
+          wBody.appendChild(barRow);
 
-        const activeSeg = segments[selectedMemSliceIdx] || segments[0];
-        const info = document.createElement('div');
-        info.className = 'p-2.5 rounded-lg surface-root border border-hairline mono text-xs flex flex-col gap-1';
-        info.innerHTML =
-          '<div class="flex justify-between"><span class="font-bold text-primary-ink">' +
-          activeSeg.name +
-          '</span><span class="text-theme-accent font-bold">Bytes ' +
-          activeSeg.bytes +
-          ' (' +
-          activeSeg.cl +
-          ')</span></div>' +
-          '<div class="text-secondary-ink font-sans text-xs">' +
-          activeSeg.desc +
-          '</div>';
-        wBody.appendChild(info);
-
+          const activeSeg = segments[selectedMemSliceIdx] || segments[0];
+          const info = document.createElement('div');
+          info.className = 'p-2.5 rounded-lg surface-root border border-hairline mono text-xs flex flex-col gap-1';
+          info.innerHTML =
+            '<div class="flex justify-between"><span class="font-bold text-primary-ink">' +
+            activeSeg.name +
+            '</span><span class="text-theme-accent font-bold">Bytes ' +
+            activeSeg.bytes +
+            ' (' +
+            activeSeg.cl +
+            ')</span></div>' +
+            '<div class="text-secondary-ink font-sans text-xs">' +
+            activeSeg.desc +
+            '</div>';
+          wBody.appendChild(info);
+        } else {
+          wTitle.textContent =
+            activeArchKey === 'gen1_ret40'
+              ? 'GEN 1 // 41×25 ENTITY POD & 1,536B SOA INSPECTOR'
+              : activeArchKey === 'gen2_factorized'
+              ? 'GEN 2 // 684D EGOCENTRIC + 68D CRITIC INSPECTOR'
+              : 'GEN 3 // 700D CANONICAL + 752D CRITIC INSPECTOR';
+          wTag.textContent = activeArchKey === 'gen1_ret40' ? '41 TOKENS + 53.7KB' : 'K=4 STACK · R_car^T';
+          const legacySegs =
+            activeArchKey === 'gen1_ret40'
+              ? [
+                  { name: 'Ego+Mates [0..2]', cl: '3×100B', color: '#38bdf8', bytes: 'Slots 0..2', desc: '1 Ego + 2 Teammates (25 floats each): World Pos, Vel, Fwd/Up, AngVel, Boost, Type One-Hot, t_go' },
+                  { name: 'Opponents [3..5]', cl: '3×100B', color: '#22d3ee', bytes: 'Slots 3..5', desc: '3 Opponents (25 floats each): Masked with -10^9 in 1v1/2v2; zero 1D positional encoding' },
+                  { name: 'Ball Token [6]', cl: '1×100B', color: '#a78bfa', bytes: 'Slot 6', desc: '1 Ball Token: World Pos/Vel, Magnus Spin ω_ball, and normalized intercept horizon' },
+                  { name: 'Pads [7..40]', cl: '34×100B', color: '#f472b6', bytes: 'Slots 7..40', desc: '34 Boost Pads: World XYZ, Active Flag, Cooldown Timer, and Channel-24 norm_time_to_go' },
+                  { name: 'AVX2 r_ij', cl: '53.7KB', color: '#fbbf24', bytes: '41×41×8', desc: 'RelationalTensorBlockPOD: 1,681 pairs × 8 floats computed on CPU via 8-wide AVX2 rsqrt_ps' }
+                ]
+              : [
+                  { name: 'Self+Goals [16D]', cl: '4×16D', color: '#38bdf8', bytes: '64 Floats', desc: 'K=4 × (10D Self body vel/ang_vel/local gravity/boost + 6D Opp/Own Goal unit vectors)' },
+                  { name: 'Ball Stack [9D]', cl: '4×9D', color: '#22d3ee', bytes: '36 Floats', desc: 'K=4 × 9D Ball relative position, linear velocity, and angular velocity in R_car^T frame' },
+                  { name: 'Opp Stack [10D]', cl: '4×10D', color: '#a78bfa', bytes: '40 Floats', desc: 'K=4 × 10D Opponent relative pos, vel, forward heading, and boost fraction' },
+                  { name: '34 Pads [136D]', cl: '4×136D', color: '#f472b6', bytes: '544 Floats', desc: 'K=4 × 34 Pads × 4D (body-frame XYZ + availability τ_j) with ORANGE_PAD_PERMUTATION' },
+                  { name: activeArchKey === 'gen3_perceiver' ? 'Wheels+Omni' : '68D Critic Tail', cl: activeArchKey === 'gen3_perceiver' ? '16D+68D' : '68D Priv', color: '#34d399', bytes: activeArchKey === 'gen3_perceiver' ? 'Floats 684..752' : 'Critic 684..752', desc: (activeArchKey === 'gen3_perceiver' ? '16D 4-Frame Actor Wheel History + ' : '') + '68D Critic Tail: 20D Wheel Slip, 18D World Vel, 30D 5-Bounce Ballistics' }
+                ];
+          const barRow = document.createElement('div');
+          barRow.className = 'grid grid-cols-5 gap-1';
+          const idx = selectedMemSliceIdx % legacySegs.length;
+          legacySegs.forEach((seg, i) => {
+            const b = document.createElement('button');
+            b.className =
+              'py-1.5 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
+              (idx === i ? 'border-white text-slate-950' : 'border-transparent text-slate-950 opacity-75 hover:opacity-100');
+            b.style.backgroundColor = seg.color;
+            b.textContent = seg.cl;
+            b.addEventListener('click', () => {
+              selectedMemSliceIdx = i;
+              renderContextualWidget(node);
+            });
+            barRow.appendChild(b);
+          });
+          wBody.appendChild(barRow);
+          const activeSeg = legacySegs[idx];
+          const info = document.createElement('div');
+          info.className = 'p-2.5 rounded-lg surface-root border border-hairline mono text-xs flex flex-col gap-1';
+          info.innerHTML =
+            '<div class="flex justify-between"><span class="font-bold text-primary-ink">' +
+            activeSeg.name +
+            '</span><span class="text-theme-accent font-bold">' +
+            activeSeg.bytes +
+            ' (' +
+            activeSeg.cl +
+            ')</span></div><div class="text-secondary-ink font-sans text-xs">' +
+            activeSeg.desc +
+            '</div>';
+          wBody.appendChild(info);
+        }
       } else if (node.stageGroup === 'edges') {
-        wTitle.textContent = '16×64 PAIRWISE INTERCEPT SIMULATOR';
-        wTag.textContent = '1,024 PAIRS · 72D';
+        wTitle.textContent =
+          activeArchKey === 'hex63'
+            ? '16×64 PAIRWISE INTERCEPT SIMULATOR'
+            : activeArchKey === 'gen3_perceiver'
+            ? 'GEN 3 // M=4 × N=37 PERCEIVER PAD BIAS SIMULATOR'
+            : activeArchKey === 'gen2_factorized'
+            ? 'GEN 2 // K=4 FINITE-DIFFERENCE & JITTER SIMULATOR'
+            : 'GEN 1 // AVX2 41×41×8 PAIRWISE r_ij SIMULATOR';
+        wTag.textContent =
+          activeArchKey === 'hex63'
+            ? '1,024 PAIRS · 72D'
+            : activeArchKey === 'gen3_perceiver'
+            ? '148 PAIRS · QK-NORM'
+            : activeArchKey === 'gen2_factorized'
+            ? '267ms WINDOW'
+            : '1,681 PAIRS · AVX2';
+
         const queries = [
           { label: 'Q0: Ego Car (Blue #0)', v: 1850, pos: [-420, -1200, 17] },
-          { label: 'Q1: Teammate #1', v: 1410, pos: [1100, -2400, 17] },
-          { label: 'Q3: Opponent #1 (Chal)', v: 2150, pos: [-180, 640, 190] },
-          { label: 'Q6: Live Ball', v: 2400, pos: [0, 120, 420] }
+          { label: 'Q1: Teammate / Tactical Query', v: 1410, pos: [1100, -2400, 17] },
+          { label: 'Q2: Opponent #1 (Challenger)', v: 2150, pos: [-180, 640, 190] },
+          { label: 'Q3: Live Ball Entity', v: 2400, pos: [0, 120, 420] }
         ];
         const keys = [
-          { label: 'K6: Current Ball', pos: [0, 120, 420] },
-          { label: 'K10: Ball Bounce +1.3s (τ_4)', pos: [-1650, 3100, 680] },
-          { label: 'K22: Mid-Left 100% Boost Pad', pos: [-3072, 0, 73] },
-          { label: 'K57: Ego Wheel #1 Raycast', pos: [-420, -1180, 17] }
+          { label: 'K0: Current Ball', pos: [0, 120, 420] },
+          { label: 'K1: Wall Bounce (+1.0s)', pos: [-1650, 3100, 680] },
+          { label: 'K2: Mid-Left 100% Boost Pad', pos: [-3072, 0, 73] },
+          { label: 'K3: Back-Right Corner 100% Pad', pos: [3072, -4096, 73] }
         ];
 
         const selRow = document.createElement('div');
@@ -697,7 +896,7 @@
         const dz = kObj.pos[2] - qObj.pos[2];
         const dist = Math.round(Math.sqrt(dx * dx + dy * dy + dz * dz));
         const tReach = (dist / Math.max(qObj.v, 500)).toFixed(2);
-        const diffWeight = Math.max(0.08, Math.min(0.94, 1.35 - Number(tReach) * 0.45)).toFixed(2);
+        const attnScore = Math.max(0.08, Math.min(0.94, 1.35 - Number(tReach) * 0.45)).toFixed(2);
 
         const metrics = document.createElement('div');
         metrics.className = 'grid grid-cols-3 gap-1.5 mono text-xs';
@@ -708,19 +907,32 @@
           '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">T_INTERCEPT</div><div class="text-theme-accent font-bold">' +
           tReach +
           ' s</div></div>' +
-          '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">DIFF-ATTN</div><div class="text-primary-ink font-bold">' +
-          diffWeight +
+          '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">' +
+          (activeArchKey === 'hex63' ? 'DIFF-ATTN' : 'BIAS WEIGHT') +
+          '</div><div class="text-primary-ink font-bold">' +
+          attnScore +
           '</div></div>';
         wBody.appendChild(metrics);
-
       } else if (node.stageGroup === 'titans') {
-        wTitle.textContent = 'TITANS SURPRISE & 8-EXPERT SOFT-MOE ROUTER';
-        wTag.textContent = 'FP32 ||W||_F <= 4.0';
+        wTitle.textContent =
+          activeArchKey === 'hex63'
+            ? 'TITANS SURPRISE & 8-EXPERT SOFT-MOE ROUTER'
+            : activeArchKey === 'gen1_ret40'
+            ? 'GEN 1 // RET-40 & 4 EXPLOITER ARCHETYPE WEIGHTS'
+            : 'GEN 2/3 // COMPOSITIONAL SKILL TAXONOMY Z_t (8 × 32)';
+        wTag.textContent =
+          activeArchKey === 'hex63'
+            ? 'FP32 ||W||_F <= 4.0'
+            : activeArchKey === 'gen1_ret40'
+            ? '4 ARCHETYPES'
+            : '8 FAMILIES · 32 SUB';
 
         const sliderRow = document.createElement('div');
         sliderRow.className = 'flex items-center justify-between gap-2';
         sliderRow.innerHTML =
-          '<span class="text-secondary-ink">Opponent Surprise Residual ||r_t||:</span><span class="mono font-bold text-theme-accent">' +
+          '<span class="text-secondary-ink">' +
+          (activeArchKey === 'hex63' ? 'Opponent Surprise Residual ||r_t||:' : 'Aerial / Mechanical Phase Intensity:') +
+          '</span><span class="mono font-bold text-theme-accent">' +
           surpriseIntensity.toFixed(2) +
           '</span>';
         wBody.appendChild(sliderRow);
@@ -738,18 +950,34 @@
         });
         wBody.appendChild(rng);
 
-        const frobNorm = Math.min(4.0, 2.15 + surpriseIntensity * 1.15).toFixed(2);
-        const experts = [
-          { name: 'E1: Ground/50s', w: 0.14 },
-          { name: 'E2: Fast Aerial', w: 0.22 },
-          { name: 'E3: Wall/Double', w: Math.min(0.42, 0.12 + surpriseIntensity * 0.18) },
-          { name: 'E4: Flip Reset', w: Math.min(0.38, 0.08 + surpriseIntensity * 0.15) },
-          { name: 'E5: Shadow Def', w: Math.max(0.06, 0.34 - surpriseIntensity * 0.12) },
-          { name: 'E6: Demo/Evade', w: Math.min(0.45, 0.10 + surpriseIntensity * 0.22) }
-        ];
+        const itemsList =
+          activeArchKey === 'hex63'
+            ? [
+                { name: 'E1: Ground/50s', w: 0.14 },
+                { name: 'E2: Fast Aerial', w: 0.22 },
+                { name: 'E3: Wall/Double', w: Math.min(0.42, 0.12 + surpriseIntensity * 0.18) },
+                { name: 'E4: Flip Reset', w: Math.min(0.38, 0.08 + surpriseIntensity * 0.15) },
+                { name: 'E5: Shadow Def', w: Math.max(0.06, 0.34 - surpriseIntensity * 0.12) },
+                { name: 'E6: Demo/Evade', w: Math.min(0.45, 0.10 + surpriseIntensity * 0.22) }
+              ]
+            : activeArchKey === 'gen1_ret40'
+            ? [
+                { name: 'Main RET-40 Policy', w: Math.max(0.25, 0.65 - surpriseIntensity * 0.2) },
+                { name: 'Exploiter 1: Ball Denial', w: 0.18 },
+                { name: 'Exploiter 2: Demolition', w: Math.min(0.45, 0.10 + surpriseIntensity * 0.22) },
+                { name: 'Exploiter 3: Aerial Mech', w: Math.min(0.42, 0.12 + surpriseIntensity * 0.18) }
+              ]
+            : [
+                { name: 'Z_1: Power Strike', w: 0.15 },
+                { name: 'Z_2: Zap/Wall Dash', w: 0.18 },
+                { name: 'Z_3: Musty/Breezi Flick', w: Math.min(0.38, 0.10 + surpriseIntensity * 0.16) },
+                { name: 'Z_4: Air Dribble', w: 0.22 },
+                { name: 'Z_5: Stall/Pop Reset', w: Math.min(0.46, 0.12 + surpriseIntensity * 0.22) },
+                { name: 'Z_7: Speedflip Cancel', w: 0.24 }
+              ];
         const expGrid = document.createElement('div');
         expGrid.className = 'grid grid-cols-2 gap-1.5 pt-1';
-        experts.forEach((ex) => {
+        itemsList.forEach((ex) => {
           const pct = Math.round(ex.w * 100);
           const item = document.createElement('div');
           item.className = 'p-1.5 rounded surface-root border border-hairline flex flex-col gap-1';
@@ -765,51 +993,102 @@
           expGrid.appendChild(item);
         });
         wBody.appendChild(expGrid);
-
-        const foot = document.createElement('div');
-        foot.className = 'mono text-[11px] text-secondary-ink flex justify-between pt-1';
-        foot.innerHTML =
-          '<span>Fast-Weight Norm: ||W_t||_F = ' +
-          frobNorm +
-          ' / 4.00</span><span class="text-theme-accent font-bold">FSQ Code #418</span>';
-        wBody.appendChild(foot);
-
       } else {
-        wTitle.textContent = '60HZ SUBTICK CHUNK & 4-HORIZON CRITIC';
-        wTag.textContent = 'K_sub = 4 (16.7ms)';
-        const subticks = [
-          { k: 'Subtick 1 (0–16.7ms)', dj: '0', pitch: '-0.85' },
-          { k: 'Subtick 2 (16.7–33.3ms)', dj: '1 (Stall Clamp)', pitch: '+0.02 (0.12·tanh)' },
-          { k: 'Subtick 3 (33.3–50.0ms)', dj: '0', pitch: '-0.98 (Cancel)' },
-          { k: 'Subtick 4 (50.0–66.7ms)', dj: '0', pitch: '-0.94 (Align)' }
-        ];
+        wTitle.textContent =
+          activeArchKey === 'hex63'
+            ? '60HZ SUBTICK CHUNK & 4-HORIZON CRITIC'
+            : activeArchKey === 'gen1_ret40'
+            ? 'GEN 1 // 120HZ SLERP PD & 32-QUANTILE CVaR'
+            : 'GEN 2/3 // 8-SUBTICK FLIP FSM & 3-HORIZON POPART';
+        wTag.textContent =
+          activeArchKey === 'hex63'
+            ? 'K_sub = 4 (60Hz)'
+            : activeArchKey === 'gen1_ret40'
+            ? '120Hz PD LOOP'
+            : '8 TICKS (15Hz)';
+
+        const rows =
+          activeArchKey === 'hex63'
+            ? [
+                { k: 'Subtick 1 (0–16.7ms)', v: 'm_dj=0 · Pitch -0.85' },
+                { k: 'Subtick 2 (16.7–33.3ms)', v: 'm_dj=1 · Pitch +0.02 (0.12·tanh Stall)' },
+                { k: 'Subtick 3 (33.3–50.0ms)', v: 'm_dj=0 · Pitch -0.98 (Cancel)' },
+                { k: 'Subtick 4 (50.0–66.7ms)', v: 'm_dj=0 · Pitch -0.94 (Align)' }
+              ]
+            : activeArchKey === 'gen1_ret40'
+            ? [
+                { k: 'Ticks 1..2 (SLERP τ=0.25)', v: 'q̃* = sign(<q*,q>)q* · e_rot = 0.31 rad' },
+                { k: 'Ticks 3..4 (SLERP τ=0.50)', v: 'Kp=(5,5,1.8) · Kd=(0.65,0.65,0.22)' },
+                { k: 'Ticks 5..6 (SLERP τ=0.75)', v: 'Kff·ω* Feedforward · Torque Clip [-1,1]' },
+                { k: 'Ticks 7..8 (SLERP τ=1.00)', v: '|e_rot| < 0.04 rad -> Schmitt Deadband 0' }
+              ]
+            : [
+                { k: 'Subtick 0 (Tick 1 / 8.3ms)', v: 'FlipState Override: jump = 0 (Release)' },
+                { k: 'Subticks 1..4 (Ticks 2..5)', v: 'FlipState Rising Edge: jump = 1 (Dodge)' },
+                { k: 'Subticks 5..7 (Ticks 6..8)', v: 'FlipState Hold Release: jump = 0' }
+              ];
         const tbl = document.createElement('div');
         tbl.className = 'flex flex-col gap-1 mono text-[11px]';
-        subticks.forEach((st) => {
+        rows.forEach((st) => {
           const r = document.createElement('div');
-          r.className = 'p-1.5 rounded surface-root border border-hairline flex items-center justify-between';
+          r.className = 'p-1.5 rounded surface-root border border-hairline flex items-center justify-between gap-2';
           r.innerHTML =
             '<span class="text-primary-ink font-semibold">' +
             st.k +
-            '</span>' +
-            '<span class="text-theme-accent font-bold">m_dj=' +
-            st.dj.charAt(0) +
-            ' · Pitch ' +
-            st.pitch +
+            '</span><span class="text-theme-accent font-bold truncate">' +
+            st.v +
             '</span>';
           tbl.appendChild(r);
         });
         wBody.appendChild(tbl);
-
-        const hRow = document.createElement('div');
-        hRow.className = 'grid grid-cols-4 gap-1 pt-1 mono text-[10px] text-center';
-        hRow.innerHTML =
-          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">γ=0.95 (1s)</div><div class="text-primary-ink font-bold">+1.42</div></div>' +
-          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">γ=0.98 (2.5s)</div><div class="text-primary-ink font-bold">+2.18</div></div>' +
-          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">γ=0.995 (10s)</div><div class="text-primary-ink font-bold">+3.05</div></div>' +
-          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink">Sparse Win</div><div class="text-theme-accent font-bold">64.2%</div></div>';
-        wBody.appendChild(hRow);
       }
+
+      appendEvolutionComparisonStrip(wBody, node.stageGroup || 'control');
+    }
+
+    // Switch Active Platform Generation (Hex63 vs Gen 3 vs Gen 2 vs Gen 1)
+    function setArchitecture(archKey, skipHashSync) {
+      const archDef = ARCH_REGISTRY[archKey];
+      if (!archDef) return;
+      activeArchKey = archKey;
+      nodes = archDef.nodes || [];
+      edges = archDef.edges || [];
+      scenarios = archDef.scenarios || {};
+      techLib = archDef.techLibrary || [];
+      TECH_EXTERNAL_RESOURCES = archDef.externalResources || {};
+      activeColHeaders = archDef.colHeaders || [];
+      activeMermaidDiagram = archDef.mermaidDiagram || '';
+
+      rebuildLookupMaps();
+
+      if (selArchGen && selArchGen.value !== activeArchKey) {
+        selArchGen.value = activeArchKey;
+      }
+      if (identityBadgeText) {
+        identityBadgeText.textContent = archDef.shortBadge;
+      }
+      if (identityMainTitle) {
+        identityMainTitle.textContent = archDef.identityTitle;
+      }
+
+      populateTechDropdown();
+      populateScenarioDropdown();
+
+      if (!nodeMap[selectedNodeId] && nodes[0]) {
+        selectedNodeId = nodes[0].id;
+      }
+      if (!techMap[selectedTechId] && techLib[0]) {
+        selectedTechId = techLib[0].id;
+      }
+      activeStepIdx = 0;
+
+      const meta = THEME_META[activeTheme] || THEME_META.neo_brutalism;
+      renderer.applyStagePaletteToNodes(nodes, meta.stageColors, activeColHeaders);
+
+      updateTourTooltip();
+      renderNodeInspector();
+      if (activeRightView === 'tech') renderTechDeepDive();
+      if (!skipHashSync) syncUrlHash();
     }
 
     // Update Floating Walkthrough Tooltip Overlay on Canvas
@@ -906,13 +1185,20 @@
         brandDot.style.backgroundColor = meta.stageColors[0];
       }
 
-      renderer.applyStagePaletteToNodes(nodes, meta.stageColors);
+      renderer.applyStagePaletteToNodes(nodes, meta.stageColors, activeColHeaders);
 
       syncThemeAlignedButtons();
       updatePolarityButtons();
       updateTourTooltip();
       renderNodeInspector();
       if (activeRightView === 'tech') renderTechDeepDive();
+    }
+
+    // Event Listener: Platform Generation Switcher
+    if (selArchGen) {
+      selArchGen.addEventListener('change', (e) => {
+        setArchitecture(e.target.value);
+      });
     }
 
     // Event Listeners: Theme & Polarity
@@ -1074,10 +1360,13 @@
     // Standalone Single-File HTML Export, PNG Export & Mermaid Copy
     document.getElementById('btnExportHtml').addEventListener('click', async () => {
       try {
-        const [cssText, nodesJs, scenariosJs, rendererJs, appJs] = await Promise.all([
+        const [cssText, nodesJs, scenariosJs, gen3Js, gen2Js, gen1Js, rendererJs, appJs] = await Promise.all([
           fetch('./styles/themes.css').then((r) => r.text()),
           fetch('./js/nodes_and_edges.js').then((r) => r.text()),
           fetch('./js/scenarios_and_tech.js').then((r) => r.text()),
+          fetch('./js/gen3_perceiver.js').then((r) => r.text()),
+          fetch('./js/gen2_factorized.js').then((r) => r.text()),
+          fetch('./js/gen1_ret40.js').then((r) => r.text()),
           fetch('./js/canvas_renderer.js').then((r) => r.text()),
           fetch('./js/app.js').then((r) => r.text())
         ]);
@@ -1092,6 +1381,9 @@
         const map = {
           'nodes_and_edges.js': nodesJs,
           'scenarios_and_tech.js': scenariosJs,
+          'gen3_perceiver.js': gen3Js,
+          'gen2_factorized.js': gen2Js,
+          'gen1_ret40.js': gen1Js,
           'canvas_renderer.js': rendererJs,
           'app.js': appJs
         };
@@ -1111,7 +1403,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'arashikage_hex63_architecture_explorer.html';
+        a.download = 'arashikage_' + activeArchKey + '_architecture_explorer.html';
         a.click();
         URL.revokeObjectURL(url);
       } catch (_) {
@@ -1120,7 +1412,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'arashikage_hex63_architecture_explorer.html';
+        a.download = 'arashikage_' + activeArchKey + '_architecture_explorer.html';
         a.click();
         URL.revokeObjectURL(url);
       }
@@ -1130,40 +1422,12 @@
       const url = canvas.toDataURL('image/png');
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'arashikage_hex63_dataflow.png';
+      a.download = 'arashikage_' + activeArchKey + '_dataflow.png';
       a.click();
     });
 
     document.getElementById('btnCopyMermaid').addEventListener('click', () => {
-      const mmd = `flowchart LR
-  subgraph S1["Stage 1: C++20 Observation (5,376B)"]
-    N1["01. 5,376B Arena Slice (84x64B CL, C2v)"] --> N2["02. 16 Dynamic Queries"]
-    N1 --> N3["03. 48 Context Keys"]
-    N1 -.-> N4["04. 512B Privileged Critic Ctx"]
-  end
-  subgraph S2["Stage 2: Bipartite Graph"]
-    N2 & N3 --> N5["05. Fused GPU Pairwise Bias (16x64x72D)"]
-    N2 & N3 & N5 --> N6["06. 2L Bipartite DiffAttn"]
-  end
-  subgraph S3["Stage 3: FP32 Titans Memory"]
-    N7["07. Orthogonal W_init & k_prev"] & N6 --> N8["08. 2x4x32x32 FP32 Fast Weights"]
-  end
-  subgraph S4["Stage 4: Coconut & Soft-MoE"]
-    N8 --> N9["09. Coconut Loop (K=4..6)"]
-    N9 <--> N10["10. Static 8x2 Soft-MoE"]
-    N10 --> N11["11. 8x125=1,000 FSQ Bottleneck"]
-  end
-  subgraph S5["Stage 5: 60Hz Flow-GRPO Control"]
-    N9 & N11 --> N12["12. Stage-1 16-Way Binary Head"]
-    N12 --> N13["13. Stage-2 4-Step Flow-GRPO SDE"]
-    N13 --> N14["14. K_sub=4 (60Hz) Subtick Executor"]
-  end
-  subgraph S6["Stage 6: Critic, JEPA & RL"]
-    N4 -.-> N15["15. Dual 4x51 Symlog HL-Gauss Critic"]
-    N9 --> N15
-    N13 & N15 --> N16["16. Best-of-16 JEPA + CVaR Search"]
-    N14 & N15 -.-> N17["17. G=8 Cloned GRPO & Flow-PPO"]
-  end`;
+      const mmd = activeMermaidDiagram || '';
       navigator.clipboard.writeText(mmd).then(() => {
         const btn = document.getElementById('btnCopyMermaid');
         btn.textContent = getGlyph('export') + ' Copied';
@@ -1204,10 +1468,11 @@
 
     setTheme(activeTheme);
     setPolarity(activePolarity);
-    const restoredFromHash = restoreStateFromUrlHash();
+    const restoredFromHash = restoreStateFromUrlHash(setArchitecture);
     if (restoredFromHash) {
       setRightView(activeRightView);
     } else {
+      setArchitecture('hex63', true);
       renderNodeInspector();
       renderTechDeepDive();
       syncUrlHash();
