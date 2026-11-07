@@ -1,9 +1,21 @@
 /* ==========================================================================
    ARASHIKAGE (HEX63) — ARCHITECTURE EXPLORER STYLESHEET
-   Base Typography Scale (18px root) & 6-Style × Light/Dark Engine
+   Base Typography Scale (16px root) & 6-Style × Light/Dark Engine
    ========================================================================== */
+:root,
 html {
-  font-size: 18px;
+  font-size: 16px;
+  color-scheme: light dark;
+}
+
+html[data-mode="light"],
+body[data-mode="light"] {
+  color-scheme: light;
+}
+
+html[data-mode="dark"],
+body[data-mode="dark"] {
+  color-scheme: dark;
 }
 
 /* --- 1. NEO-BRUTALISM (LIGHT & DARK) --- */
@@ -18,12 +30,12 @@ body[data-theme="neo_brutalism"][data-mode="light"] {
   --ink-secondary: #27272a;
   --ink-muted: #52525b;
   --accent-main: #ff4d00;
-  --accent-ink: #ffffff;
+  --accent-ink: #111111;
   --accent-tint: rgba(255, 77, 0, 0.12);
   --font-display: "Space Grotesk", "Inter", "Arial Black", sans-serif;
   --font-body: "Space Grotesk", "Inter", system-ui, -apple-system, sans-serif;
-  --card-shadow: 4px 4px 0px #111111;
-  --elevated-shadow: 6px 6px 0px #111111;
+  --card-shadow: 3px 3px 0px #111111;
+  --elevated-shadow: 5px 5px 0px #111111;
   --border-w: 2.5px;
   --radius-card: 2px;
 }
@@ -42,8 +54,8 @@ body[data-theme="neo_brutalism"][data-mode="dark"] {
   --accent-tint: rgba(255, 94, 26, 0.18);
   --font-display: "Space Grotesk", "Inter", "Arial Black", sans-serif;
   --font-body: "Space Grotesk", "Inter", system-ui, -apple-system, sans-serif;
-  --card-shadow: 4px 4px 0px #ff5e1a;
-  --elevated-shadow: 6px 6px 0px #ff5e1a;
+  --card-shadow: 3px 3px 0px #ff5e1a;
+  --elevated-shadow: 5px 5px 0px #ff5e1a;
   --border-w: 2.5px;
   --radius-card: 2px;
 }
@@ -54,7 +66,7 @@ body[data-theme="neo_brutalism"] .rounded {
   border-radius: 2px !important;
 }
 
-/* --- 2. MODULAR TYPOGRAPHY (LIGHT & DARK) --- */
+/* --- 2. MODULAR TYPOGRAPHY (LIGHT & DARK — Müller-Brockmann Swiss Grid) --- */
 body[data-theme="modular_typo"][data-mode="light"] {
   --bg-root: #eceae4;
   --bg-panel: #f7f6f2;
@@ -65,9 +77,9 @@ body[data-theme="modular_typo"][data-mode="light"] {
   --ink-primary: #09090b;
   --ink-secondary: #27272a;
   --ink-muted: #52525b;
-  --accent-main: #e62400;
+  --accent-main: #c81e00;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(230, 36, 0, 0.10);
+  --accent-tint: rgba(200, 30, 0, 0.09);
   --font-display: "Inter", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
   --card-shadow: none;
@@ -102,8 +114,22 @@ body[data-theme="modular_typo"] .rounded,
 body[data-theme="modular_typo"] .rounded-full {
   border-radius: 0px !important;
 }
+/* Flush collapsed Swiss hairline grid compartments in the Right Inspector */
+body[data-theme="modular_typo"] #inspectorNodeView,
+body[data-theme="modular_typo"] #inspectorTechView {
+  padding: 0 !important;
+  gap: 0 !important;
+}
+body[data-theme="modular_typo"] #inspectorNodeView > .surface-card,
+body[data-theme="modular_typo"] #inspectorTechView > .surface-card {
+  border-top-width: 0px !important;
+  border-left-width: 0px !important;
+  border-right-width: 0px !important;
+  border-bottom: 1.5px solid var(--border-hair) !important;
+  padding: 10px 14px !important;
+}
 
-/* --- 3. UTILITARIAN (LIGHT & DARK) --- */
+/* --- 3. UTILITARIAN (LIGHT & DARK — CAD / Tektronix Schematic) --- */
 body[data-theme="utilitarian"][data-mode="light"] {
   --bg-root: #e2e7ec;
   --bg-panel: #edf1f5;
@@ -151,8 +177,29 @@ body[data-theme="utilitarian"] .rounded,
 body[data-theme="utilitarian"] .rounded-full {
   border-radius: 0px !important;
 }
+/* CAD Corner L-Bracket Reticles on DOM Inspector Cards */
+body[data-theme="utilitarian"] #inspectorNodeView > .surface-card,
+body[data-theme="utilitarian"] #inspectorTechView > .surface-card {
+  position: relative;
+}
+body[data-theme="utilitarian"] #inspectorNodeView > .surface-card::before,
+body[data-theme="utilitarian"] #inspectorTechView > .surface-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  background:
+    linear-gradient(to right, var(--accent-main) 7px, transparent 7px) 0 0 / 100% 2px no-repeat,
+    linear-gradient(to bottom, var(--accent-main) 7px, transparent 7px) 0 0 / 2px 100% no-repeat,
+    linear-gradient(to left, var(--accent-main) 7px, transparent 7px) 100% 0 / 100% 2px no-repeat,
+    linear-gradient(to bottom, var(--accent-main) 7px, transparent 7px) 100% 0 / 2px 100% no-repeat,
+    linear-gradient(to right, var(--accent-main) 7px, transparent 7px) 0 100% / 100% 2px no-repeat,
+    linear-gradient(to top, var(--accent-main) 7px, transparent 7px) 0 100% / 2px 100% no-repeat,
+    linear-gradient(to left, var(--accent-main) 7px, transparent 7px) 100% 100% / 100% 2px no-repeat,
+    linear-gradient(to top, var(--accent-main) 7px, transparent 7px) 100% 100% / 2px 100% no-repeat;
+}
 
-/* --- 4. MEMPHIS (LIGHT & DARK) --- */
+/* --- 4. MEMPHIS (LIGHT & DARK — Sottsass Milan Post-Modern) --- */
 body[data-theme="memphis"][data-mode="light"] {
   --bg-root: #fff7d6;
   --bg-panel: #ffffff;
@@ -168,10 +215,10 @@ body[data-theme="memphis"][data-mode="light"] {
   --accent-tint: rgba(219, 39, 119, 0.13);
   --font-display: "Space Grotesk", "Plus Jakarta Sans", sans-serif;
   --font-body: "Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif;
-  --card-shadow: 4px 4px 0px #06b6d4;
-  --elevated-shadow: 5px 5px 0px #db2777;
+  --card-shadow: 3px 3px 0px #06b6d4;
+  --elevated-shadow: 4px 4px 0px #db2777;
   --border-w: 2.5px;
-  --radius-card: 14px;
+  --radius-card: 12px;
 }
 body[data-theme="memphis"][data-mode="dark"] {
   --bg-root: #14112b;
@@ -188,17 +235,17 @@ body[data-theme="memphis"][data-mode="dark"] {
   --accent-tint: rgba(244, 114, 182, 0.18);
   --font-display: "Space Grotesk", "Plus Jakarta Sans", sans-serif;
   --font-body: "Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif;
-  --card-shadow: 4px 4px 0px #ec4899;
-  --elevated-shadow: 5px 5px 0px #facc15;
+  --card-shadow: 3px 3px 0px #ec4899;
+  --elevated-shadow: 4px 4px 0px #facc15;
   --border-w: 2.5px;
-  --radius-card: 14px;
+  --radius-card: 12px;
 }
 body[data-theme="memphis"] .rounded-2xl,
 body[data-theme="memphis"] .rounded-xl {
-  border-radius: 14px !important;
+  border-radius: 12px !important;
 }
 
-/* --- 5. PIXEL ART (LIGHT & DARK) --- */
+/* --- 5. PIXEL ART (LIGHT & DARK — 16-Bit Arcade Command Deck) --- */
 body[data-theme="pixel_art"][data-mode="light"] {
   --bg-root: #d8d4c4;
   --bg-panel: #e8e4d5;
@@ -209,13 +256,13 @@ body[data-theme="pixel_art"][data-mode="light"] {
   --ink-primary: #161324;
   --ink-secondary: #352f4f;
   --ink-muted: #524973;
-  --accent-main: #007a5e;
+  --accent-main: #006d55;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(0, 122, 94, 0.14);
+  --accent-tint: rgba(0, 109, 85, 0.14);
   --font-display: "Silkscreen", "IBM Plex Mono", monospace;
   --font-body: "IBM Plex Mono", "Courier New", monospace;
-  --card-shadow: 4px 4px 0px #231f33;
-  --elevated-shadow: 5px 5px 0px #231f33;
+  --card-shadow: 3px 3px 0px #231f33;
+  --elevated-shadow: 4px 4px 0px #231f33;
   --border-w: 2px;
   --radius-card: 0px;
 }
@@ -234,8 +281,8 @@ body[data-theme="pixel_art"][data-mode="dark"] {
   --accent-tint: rgba(0, 255, 204, 0.16);
   --font-display: "Silkscreen", "IBM Plex Mono", monospace;
   --font-body: "IBM Plex Mono", "Courier New", monospace;
-  --card-shadow: 4px 4px 0px #05020a;
-  --elevated-shadow: 5px 5px 0px #05020a, 0 0 0 2px #00ffcc;
+  --card-shadow: 3px 3px 0px #05020a;
+  --elevated-shadow: 4px 4px 0px #05020a, 0 0 0 1.5px #00ffcc;
   --border-w: 2px;
   --radius-card: 0px;
 }
@@ -246,31 +293,35 @@ body[data-theme="pixel_art"] .rounded,
 body[data-theme="pixel_art"] .rounded-full {
   border-radius: 0px !important;
 }
-body[data-theme="pixel_art"] h1,
-body[data-theme="pixel_art"] h2,
+body[data-theme="pixel_art"] h2 {
+  font-family: var(--font-display);
+  font-size: 13px !important;
+  letter-spacing: 0.02em;
+}
 body[data-theme="pixel_art"] .kicker {
   font-family: var(--font-display);
-  letter-spacing: 0.04em;
+  font-size: 9px !important;
+  letter-spacing: 0.02em;
 }
 
-/* --- 6. AURORA (LIGHT & DARK — Solid Velvet/Pearl Surfaces, Zero Blur) --- */
+/* --- 6. AURORA (LIGHT & DARK — Luminous Borealis Crystal & Specular Rims) --- */
 body[data-theme="aurora"][data-mode="light"] {
   --bg-root: #edf6ff;
   --bg-panel: #f5faff;
   --bg-card: #ffffff;
   --bg-elevated: #ffffff;
-  --border-hair: rgba(2, 132, 199, 0.36);
+  --border-hair: rgba(3, 105, 161, 0.34);
   --border-sub: rgba(109, 40, 217, 0.55);
   --ink-primary: #0f172a;
   --ink-secondary: #334155;
   --ink-muted: #475569;
-  --accent-main: #0284c7;
+  --accent-main: #0369a1;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(2, 132, 199, 0.11);
+  --accent-tint: rgba(3, 105, 161, 0.11);
   --font-display: "Plus Jakarta Sans", "Inter", sans-serif;
   --font-body: "Plus Jakarta Sans", "Inter", -apple-system, sans-serif;
-  --card-shadow: 0 4px 18px rgba(14, 165, 233, 0.10);
-  --elevated-shadow: 0 12px 32px rgba(15, 23, 42, 0.14), 0 0 0 1.5px rgba(2, 132, 199, 0.45);
+  --card-shadow: inset 0 1.5px 0 rgba(2, 132, 199, 0.42), 0 6px 18px rgba(14, 165, 233, 0.10);
+  --elevated-shadow: inset 0 1.5px 0 rgba(109, 40, 217, 0.45), 0 12px 28px rgba(15, 23, 42, 0.14);
   --border-w: 1.5px;
   --radius-card: 12px;
 }
@@ -289,24 +340,51 @@ body[data-theme="aurora"][data-mode="dark"] {
   --accent-tint: rgba(0, 245, 212, 0.14);
   --font-display: "Plus Jakarta Sans", "Inter", sans-serif;
   --font-body: "Plus Jakarta Sans", "Inter", -apple-system, sans-serif;
-  --card-shadow: 0 4px 20px rgba(0, 245, 212, 0.08);
-  --elevated-shadow: 0 12px 36px rgba(4, 6, 20, 0.92), 0 0 18px rgba(0, 245, 212, 0.22);
+  --card-shadow: inset 0 1.5px 0 rgba(0, 245, 212, 0.52), 0 6px 22px rgba(0, 245, 212, 0.09);
+  --elevated-shadow: inset 0 1.5px 0 rgba(244, 114, 182, 0.65), 0 12px 32px rgba(4, 6, 20, 0.92);
   --border-w: 1.5px;
   --radius-card: 12px;
 }
+body[data-theme="aurora"][data-mode="light"] .surface-card {
+  background-image: linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 249, 255, 0.92) 100%);
+}
+body[data-theme="aurora"][data-mode="dark"] .surface-card {
+  background-image: linear-gradient(165deg, rgba(19, 28, 66, 0.95) 0%, rgba(11, 16, 40, 0.96) 100%);
+}
 
 /* ==========================================================================
-   SHARED LAYOUT & THEME UTILITY CLASSES
+   SHARED LAYOUT, FORMS, SCROLLBARS & THEME UTILITY CLASSES
    ========================================================================== */
 body {
   background-color: var(--bg-root);
   color: var(--ink-primary);
   font-family: var(--font-body);
+  accent-color: var(--accent-main);
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   transition: background-color 0.16s ease, color 0.16s ease;
 }
+
+/* Progressive enhancement fallback for browsers lacking accent-color */
+@supports not (accent-color: #000) {
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--bg-root);
+    height: 6px;
+    border: 1px solid var(--border-hair);
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--accent-main);
+    cursor: pointer;
+  }
+}
+
 h1, h2, h3, h4 {
   font-family: var(--font-display, var(--font-body));
 }
@@ -321,8 +399,6 @@ h1, h2, h3, h4 {
 }
 .surface-elevated {
   background-color: var(--bg-elevated) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
   box-shadow: var(--elevated-shadow);
 }
 .border-hairline {
@@ -333,7 +409,6 @@ h1, h2, h3, h4 {
   border-color: var(--border-sub) !important;
   border-width: var(--border-w) !important;
 }
-/* Ensure single-side borders also respect --border-w */
 .border-b.border-hairline, .border-b.border-subtle {
   border-top-width: 0px !important;
   border-left-width: 0px !important;
@@ -365,10 +440,22 @@ h1, h2, h3, h4 {
   color: var(--accent-ink) !important;
   border-color: var(--border-hair) !important;
 }
+@supports (color: oklch(from red l c h)) {
+  .btn-theme-accent {
+    --threshold: 0.623;
+    --l: max(0, sign(var(--threshold) - l));
+    color: oklch(from var(--accent-main) var(--l) 0 h) !important;
+  }
+}
+@supports (color: contrast-color(red)) {
+  .btn-theme-accent {
+    color: contrast-color(var(--accent-main)) !important;
+  }
+}
 
 .kicker {
-  font-size: 10.5px;
-  letter-spacing: 0.06em;
+  font-size: 10px;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   font-weight: 800;
   line-height: 1.2;
@@ -384,14 +471,14 @@ h1, h2, h3, h4 {
 .theme-callout-header {
   background-color: var(--accent-tint);
   border-bottom: var(--border-w) solid var(--border-hair);
-  padding: 5px 10px;
+  padding: 4px 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
 }
 .theme-callout-body {
-  padding: 8px 10px;
+  padding: 6px 8px;
 }
 
 .no-wrap-btn {
@@ -403,6 +490,23 @@ h1, h2, h3, h4 {
   line-height: 1.1;
 }
 
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-root); }
-::-webkit-scrollbar-thumb { background: var(--border-sub); }
+/* Native Popover Menu Styling (+ Polyfill class fallback) */
+#exportPopoverMenu {
+  margin: 0;
+  inset: auto;
+}
+#exportPopoverMenu:is(:popover-open, .\:popover-open) {
+  display: flex;
+}
+
+/* Standard Scrollbar Styling with Legacy WebKit Fallback */
+:root,
+#rightSidePanel {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-sub) var(--bg-root);
+}
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-root); }
+  ::-webkit-scrollbar-thumb { background: var(--border-sub); }
+}

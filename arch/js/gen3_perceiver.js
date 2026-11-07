@@ -4,8 +4,8 @@
 window.ARASHIKAGE_GEN3_PERCEIVER = {
   id: 'gen3_perceiver',
   shortBadge: 'LEGACY GEN 3 // ST-PERCEIVER',
-  dropdownLabel: 'Platform: Gen 3 — ST-Perceiver (700D + Cond-31)',
-  identityTitle: 'Spatial-Temporal Perceiver Cross-Attention & Two-Stage Autoregressive Action Heads — 15 Hz Macro Control',
+  dropdownLabel: 'Gen 3: ST-Perceiver (700D · Cond-31)',
+  identityTitle: '700D ST-Perceiver & 2-Stage Autoregressive Control',
   colHeaders: [
     { col: 0, x: 96,  title: 'STAGE 1 // 700D CANONICAL', sub: 'K=4 Stack · Wheel 16D',    color: '#38bdf8' },
     { col: 1, x: 282, title: 'STAGE 2 // ENTITY UNPACK',  sub: '144D Core · 34×7D PointNet', color: '#22d3ee' },

@@ -4,8 +4,8 @@
 window.ARASHIKAGE_GEN1_RET40 = {
   id: 'gen1_ret40',
   shortBadge: 'LEGACY GEN 1 // RET-40 + ATTITUDE PD',
-  dropdownLabel: 'Platform: Gen 1 — RET-40 (41×25 Transformer + 120Hz Attitude PD)',
-  identityTitle: '41-Entity Relational Transformer (RET-40), AVX2 Pairwise r_ij & 120 Hz Geodesic SLERP Attitude PD Controller',
+  dropdownLabel: 'Gen 1: RET-40 (41×25 · 120Hz PD)',
+  identityTitle: '41-Entity RET-40 Transformer & 120 Hz Attitude PD',
   colHeaders: [
     { col: 0, x: 96,  title: 'STAGE 1 // 41×25 POD TOKENS', sub: '100B POD · 1,536B SoA',    color: '#38bdf8' },
     { col: 1, x: 282, title: 'STAGE 2 // AVX2 r_ij BIAS',   sub: '41×41×8 · 53.7KB Block',   color: '#22d3ee' },
@@ -585,8 +585,8 @@ window.ARASHIKAGE_ARCHITECTURES = {
   hex63: {
     id: 'hex63',
     shortBadge: 'ARASHIKAGE // HEX63 (CURRENT)',
-    dropdownLabel: 'Platform: Current — Arashikage (Hex63 · 60Hz Flow-GRPO)',
-    identityTitle: 'Real-Time Physics & Neural Control Architecture — 60 Hz Subtick Action Chunking & Multi-Horizon RL',
+    dropdownLabel: 'Gen 4: Hex63 (Current · 60Hz Flow)',
+    identityTitle: 'Real-Time Physics & Neural Control — 60 Hz Flow-GRPO',
     colHeaders: [
       { col: 0, x: 96,  title: 'STAGE 1 // C++20 OBS',     sub: '5,376B Slice · C2v',       color: '#38bdf8' },
       { col: 1, x: 282, title: 'STAGE 2 // BIPARTITE',     sub: '16×64 Graph · DiffAttn',   color: '#22d3ee' },

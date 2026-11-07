@@ -29,9 +29,10 @@
     return 0.2126 * toLin(r8) + 0.7152 * toLin(g8) + 0.0722 * toLin(b8);
   }
 
+  // Exact WCAG 2.1 4.5:1 crossover against #ffffff (L = 0.179)
   function getContrastInk(hexColor, darkInk, lightInk) {
     const lum = getRelativeLuminance(hexColor);
-    return lum > 0.31 ? (darkInk || '#111111') : (lightInk || '#ffffff');
+    return lum > 0.179 ? (darkInk || '#111111') : (lightInk || '#ffffff');
   }
 
   function drawRoundedRect(c, x, y, w, h, r) {
@@ -65,15 +66,35 @@
     c.stroke();
   }
 
+  // Proportional font-size step-down when text exceeds maxW (zero horizontal glyph squishing)
   function drawFittedText(c, text, x, y, maxW) {
     if (!text) return;
-    c.fillText(text, x, y, maxW);
+    if (!maxW) {
+      c.fillText(text, x, y);
+      return;
+    }
+    const measured = c.measureText(text).width;
+    if (measured <= maxW) {
+      c.fillText(text, x, y);
+      return;
+    }
+    const origFont = c.font;
+    const match = origFont.match(/(\d+(?:\.\d+)?)px/);
+    if (match) {
+      const origPx = parseFloat(match[1]);
+      const scaledPx = Math.max(8, Math.floor(origPx * (maxW / measured) * 2) / 2);
+      c.font = origFont.replace(match[0], scaledPx + 'px');
+      c.fillText(text, x, y);
+      c.font = origFont;
+    } else {
+      c.fillText(text, x, y);
+    }
   }
 
   function drawWrappedSub(c, text, x, y, maxW, lineH) {
     if (!text) return;
     if (c.measureText(text).width <= maxW) {
-      c.fillText(text, x, y, maxW);
+      c.fillText(text, x, y);
       return;
     }
     const parts = text.split(' ');
@@ -88,9 +109,9 @@
         break;
       }
     }
-    c.fillText(line1, x, y, maxW);
+    drawFittedText(c, line1, x, y, maxW);
     if (line2) {
-      c.fillText(line2, x, y + lineH, maxW);
+      drawFittedText(c, line2, x, y + lineH, maxW);
     }
   }
 
@@ -160,6 +181,109 @@
     return null;
   }
 
+  // Test if a pill centered at (cx, cy) of size (tw, th) intersects any node box or swimlane header
+  function overlapsNodeOrHeader(cx, cy, tw, th, nodes) {
+    if (cy - th / 2 < 65 || cy + th / 2 > 654) return true;
+    const hw = tw / 2 + 3;
+    const hh = th / 2 + 3;
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      if (
+        Math.abs(cx - n.x) < hw + n.w / 2 &&
+        Math.abs(cy - n.y) < hh + n.h / 2
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function overlapsPlacedPill(cx, cy, tw, th, placed) {
+    const hw = tw / 2 + 3;
+    const hh = th / 2 + 2;
+    for (let i = 0; i < placed.length; i++) {
+      const p = placed[i];
+      if (
+        Math.abs(cx - p.x) < hw + p.w / 2 &&
+        Math.abs(cy - p.y) < hh + p.h / 2
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Deterministic collision-free edge label placement solver
+  function resolveEdgeLabelPosition(lbl, tw, th, nodes, placed) {
+    const candidates = [];
+    // 1. Primary wire anchor
+    candidates.push({ x: lbl.x, y: lbl.y });
+
+    // 2. Vertical corridor scan at lbl.x (above/below overlapping node rows)
+    const scanOffsets = [-18, 18, -32, 32, -46, 46, -62, 62, -78, 78, -94, 94];
+    for (let i = 0; i < scanOffsets.length; i++) {
+      candidates.push({ x: lbl.x, y: lbl.y + scanOffsets[i] });
+    }
+
+    // 3. Open inter-node gaps in source or target column (guaranteed 162px wide clear lane)
+    if (lbl.n1 && lbl.n2) {
+      const n1Top = Math.round(lbl.n1.y - lbl.n1.h / 2 - 12);
+      const n1Bot = Math.round(lbl.n1.y + lbl.n1.h / 2 + 12);
+      const n2Top = Math.round(lbl.n2.y - lbl.n2.h / 2 - 12);
+      const n2Bot = Math.round(lbl.n2.y + lbl.n2.h / 2 + 12);
+
+      candidates.push({ x: lbl.n2.x, y: n2Top });
+      candidates.push({ x: lbl.n2.x, y: n2Bot });
+      candidates.push({ x: lbl.n1.x, y: n1Bot });
+      candidates.push({ x: lbl.n1.x, y: n1Top });
+
+      // Shifted left/right inside source/target column gaps
+      candidates.push({ x: lbl.n2.x - 24, y: n2Top });
+      candidates.push({ x: lbl.n2.x + 24, y: n2Top });
+      candidates.push({ x: lbl.n2.x - 24, y: n2Bot });
+      candidates.push({ x: lbl.n2.x + 24, y: n2Bot });
+      candidates.push({ x: lbl.n1.x - 24, y: n1Bot });
+      candidates.push({ x: lbl.n1.x + 24, y: n1Bot });
+      candidates.push({ x: lbl.n1.x - 24, y: n1Top });
+      candidates.push({ x: lbl.n1.x + 24, y: n1Top });
+    }
+
+    // 4. Global clear horizontal corridors at lbl.x
+    const corridors = [78, 195, 223, 285, 335, 368, 475, 505, 615, 636];
+    for (let i = 0; i < corridors.length; i++) {
+      candidates.push({ x: lbl.x, y: corridors[i] });
+    }
+
+    for (let i = 0; i < candidates.length; i++) {
+      const c = candidates[i];
+      if (
+        !overlapsNodeOrHeader(c.x, c.y, tw, th, nodes) &&
+        !overlapsPlacedPill(c.x, c.y, tw, th, placed)
+      ) {
+        return c;
+      }
+    }
+
+    // Fallback: scan y in steps of 14 along lbl.x or n2.x
+    for (let y = 76; y <= 640; y += 14) {
+      if (
+        !overlapsNodeOrHeader(lbl.x, y, tw, th, nodes) &&
+        !overlapsPlacedPill(lbl.x, y, tw, th, placed)
+      ) {
+        return { x: lbl.x, y };
+      }
+      if (
+        lbl.n2 &&
+        !overlapsNodeOrHeader(lbl.n2.x, y, tw, th, nodes) &&
+        !overlapsPlacedPill(lbl.n2.x, y, tw, th, placed)
+      ) {
+        return { x: lbl.n2.x, y };
+      }
+    }
+
+    return { x: lbl.x, y: lbl.y };
+  }
+
   function renderCanvas(ctx, canvas, state) {
     const {
       nodes,
@@ -226,18 +350,6 @@
           ctx.beginPath(); ctx.arc(gx, gy, 1.8, 0, Math.PI * 2); ctx.fill();
         }
       }
-      // Decorative Memphis motifs placed safely outside wire routing lanes
-      ctx.save();
-      ctx.strokeStyle = isLight ? 'rgba(219, 39, 119, 0.28)' : 'rgba(244, 114, 182, 0.38)';
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      for (let i = 0; i < 5; i++) {
-        ctx.lineTo(18 + i * 11, 666 + (i % 2 === 0 ? -4 : 4));
-      }
-      ctx.stroke();
-      ctx.strokeStyle = isLight ? 'rgba(6, 182, 212, 0.30)' : 'rgba(250, 204, 21, 0.35)';
-      ctx.beginPath(); ctx.arc(1088, 656, 12, 0, Math.PI * 2); ctx.stroke();
-      ctx.restore();
     } else if (activeTheme === 'pixel_art') {
       ctx.fillStyle = isLight ? '#d8d4c4' : '#0c061a';
       ctx.fillRect(0, 0, BASE_W, BASE_H);
@@ -280,7 +392,6 @@
         const borderCol = isLight ? '#111111' : '#f4f4f5';
         ctx.fillStyle = '#111111';
         ctx.fillRect(laneX + 4, 16, laneW, 48);
-        // Keep vibrant stage header fills in both Light and Dark Brutalism
         ctx.fillStyle = ch.color;
         ctx.fillRect(laneX, 12, laneW, 48);
         ctx.strokeStyle = borderCol;
@@ -294,14 +405,14 @@
         ctx.strokeRect(laneX, 66, laneW, BASE_H - 80);
         ctx.restore();
 
-        ctx.font = '800 11.5px "Space Grotesk", "Inter", sans-serif';
+        ctx.font = '800 11px "Space Grotesk", "Inter", sans-serif';
         ctx.fillStyle = getContrastInk(ch.color, '#111111', '#ffffff');
         ctx.textAlign = 'center';
         drawFittedText(ctx, ch.title, ch.x, 31, laneW - 14);
 
         ctx.fillStyle = '#111111';
         ctx.fillRect(laneX + 8, 38, laneW - 16, 18);
-        ctx.font = '700 11px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = '#ffffff';
         drawFittedText(ctx, ch.sub, ch.x, 51, laneW - 22);
 
@@ -318,15 +429,15 @@
         ctx.lineTo(laneX + laneW, 64);
         ctx.stroke();
 
-        ctx.font = '900 19px "Inter", "Helvetica Neue", Arial, sans-serif';
+        ctx.font = '900 18px "Inter", "Helvetica Neue", Arial, sans-serif';
         ctx.fillStyle = ch.color;
         ctx.textAlign = 'left';
         ctx.fillText('0' + (idx + 1), laneX + 8, 38);
 
-        ctx.font = '800 11.5px "Inter", "Helvetica Neue", sans-serif';
+        ctx.font = '800 11px "Inter", "Helvetica Neue", sans-serif';
         ctx.fillStyle = isLight ? '#09090b' : '#fafafa';
         drawFittedText(ctx, ch.title.replace('STAGE ' + (idx + 1) + ' // ', ''), laneX + 36, 32, laneW - 44);
-        ctx.font = '600 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '600 10px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = isLight ? '#3f3f46' : '#d4d4d8';
         drawFittedText(ctx, ch.sub, laneX + 36, 49, laneW - 44);
 
@@ -344,11 +455,11 @@
         ctx.lineWidth = 1.5;
         ctx.beginPath(); ctx.moveTo(laneX, 61); ctx.lineTo(laneX + laneW, 61); ctx.stroke();
 
-        ctx.font = '700 11px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = ch.color;
         ctx.textAlign = 'left';
         drawFittedText(ctx, '[' + ch.title + ']', laneX + 8, 34, laneW - 16);
-        ctx.font = '500 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '500 10px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
         drawFittedText(ctx, ch.sub, laneX + 8, 52, laneW - 16);
 
@@ -375,12 +486,12 @@
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        ctx.font = '800 11px "Space Grotesk", sans-serif';
+        ctx.font = '800 10.5px "Space Grotesk", sans-serif';
         ctx.fillStyle = getContrastInk(ch.color, '#1e1b4b', '#ffffff');
         ctx.textAlign = 'center';
         drawFittedText(ctx, ch.title, ch.x, 38, laneW - 24);
         ctx.fillStyle = isLight ? '#1e1b4b' : '#f8fafc';
-        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 10px "IBM Plex Mono", ui-monospace, monospace';
         drawFittedText(ctx, ch.sub, ch.x, 60, laneW - 18);
 
       } else if (activeTheme === 'pixel_art') {
@@ -398,17 +509,17 @@
         ctx.fillRect(laneX + 2, BASE_H - 20, 4, 4);
         ctx.fillRect(laneX + laneW - 6, BASE_H - 20, 4, 4);
 
-        ctx.font = '700 10px "Silkscreen", "IBM Plex Mono", monospace';
+        ctx.font = '700 9px "Silkscreen", "IBM Plex Mono", monospace';
         ctx.fillStyle = ch.color;
         ctx.textAlign = 'center';
         drawFittedText(ctx, ch.title, ch.x, 35, laneW - 16);
-        ctx.font = '600 10.5px "IBM Plex Mono", monospace';
+        ctx.font = '600 10px "IBM Plex Mono", monospace';
         ctx.fillStyle = isLight ? '#231f33' : '#c7d2fe';
         drawFittedText(ctx, ch.sub, ch.x, 53, laneW - 16);
 
       } else {
         // Aurora
-        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.84)' : 'rgba(16, 23, 54, 0.68)';
+        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.88)' : 'rgba(16, 23, 54, 0.72)';
         drawRoundedRect(ctx, laneX, 14, laneW, BASE_H - 28, 14);
         ctx.fill();
         ctx.strokeStyle = ch.color + (isLight ? '88' : '66');
@@ -419,11 +530,11 @@
         drawRoundedRect(ctx, laneX + 18, 21, laneW - 36, 3.5, 1.5);
         ctx.fill();
 
-        ctx.font = '700 11px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = ch.color;
         ctx.textAlign = 'center';
         drawFittedText(ctx, ch.title, ch.x, 39, laneW - 16);
-        ctx.font = '600 11px "Plus Jakarta Sans", "Inter", sans-serif';
+        ctx.font = '600 10.5px "Plus Jakarta Sans", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
         drawFittedText(ctx, ch.sub, ch.x, 55, laneW - 16);
       }
@@ -460,8 +571,9 @@
       const y2 = n2.y;
       const midX = Math.round((x1 + x2) / 2);
 
-      // Clean bottom sweep for long-span Privileged Context -> Critic edge
+      // Clean corridor sweeps for multi-column edges so they never cut through intermediate blocks
       const isLongBottomSweep = e.from === 'priv_ctx' && e.to === 'critic_heads';
+      const isLongTopSweep = Math.abs(n2.col - n1.col) > 1 && !isLongBottomSweep && y1 <= 185 && y2 <= 185;
 
       ctx.save();
       ctx.beginPath();
@@ -471,9 +583,17 @@
         const sweepY = 636;
         const turnX = x2 - 12;
         ctx.moveTo(x1, y1);
-        ctx.lineTo(x1 + 14, sweepY);
+        ctx.lineTo(x1 + 12, sweepY);
         ctx.lineTo(turnX, sweepY);
         ctx.lineTo(turnX, y2);
+        ctx.lineTo(x2, y2);
+      } else if (isLongTopSweep) {
+        const sweepY = 82;
+        const turnX1 = x1 + 10;
+        const turnX2 = x2 - 10;
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(turnX1, sweepY);
+        ctx.lineTo(turnX2, sweepY);
         ctx.lineTo(x2, y2);
       } else if (n1.col === n2.col) {
         const sx = n1.x;
@@ -505,22 +625,29 @@
 
       // Queue edge label if connected to focused/hovered node (and mode-active)
       if (modeActive && e.label && isConnectedToFocus) {
-        let lx, ly;
+        let wx, wy;
         if (isLongBottomSweep) {
-          lx = Math.round((x1 + x2) / 2);
-          ly = 636;
+          wx = Math.round((x1 + x2) / 2);
+          wy = 636;
+        } else if (isLongTopSweep) {
+          wx = Math.round((x1 + x2) / 2);
+          wy = 82;
         } else if (n1.col === n2.col) {
           const ey = n2.y + (n2.y > n1.y ? -n2.h / 2 : n2.h / 2);
-          lx = n1.x;
-          ly = Math.round(ey + (n2.y > n1.y ? -15 : 15));
+          wx = n1.x;
+          wy = Math.round(ey + (n2.y > n1.y ? -15 : 15));
         } else {
-          lx = midX;
-          ly = Math.round((y1 + y2) / 2);
+          wx = midX;
+          wy = Math.round((y1 + y2) / 2);
         }
         edgeLabelsToRender.push({
           text: e.label,
-          x: lx,
-          y: ly,
+          x: wx,
+          y: wy,
+          wireX: wx,
+          wireY: wy,
+          n1,
+          n2,
           color: n1.color
         });
       }
@@ -533,13 +660,19 @@
           const turnX = x2 - 12;
           if (t < 0.65) {
             const st = t / 0.65;
-            px = (x1 + 14) + (turnX - (x1 + 14)) * st;
+            px = (x1 + 12) + (turnX - (x1 + 12)) * st;
             py = sweepY;
           } else {
             const st = (t - 0.65) / 0.35;
             px = turnX;
             py = sweepY + (y2 - sweepY) * st;
           }
+        } else if (isLongTopSweep) {
+          const sweepY = 82;
+          const turnX1 = x1 + 10;
+          const turnX2 = x2 - 10;
+          px = turnX1 + (turnX2 - turnX1) * t;
+          py = sweepY;
         } else if (n1.col === n2.col) {
           const sx = n1.x;
           const sy = n1.y + (n2.y > n1.y ? n1.h / 2 : -n1.h / 2);
@@ -595,6 +728,7 @@
       const isSelected = n.id === selectedNodeId;
       const isHovered = n.id === hoveredNodeId;
       const isTourFocus = n.id === tourFocusNodeId;
+      const showTourBadgeInHeader = Boolean(isTourFocus && tourStepBadgeText);
       const modeActive = n.modes.includes(activeMode);
       const inTourSpotlight = !highlightSet || highlightSet.has(n.id);
 
@@ -624,16 +758,22 @@
         ctx.lineWidth = 2.2;
         ctx.beginPath(); ctx.moveTo(rx, ry + 25); ctx.lineTo(rx + n.w, ry + 25); ctx.stroke();
 
-        ctx.font = '700 11px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = getContrastInk(n.color, '#111111', '#ffffff');
         ctx.textAlign = 'left';
-        drawFittedText(ctx, '#' + n.num + ' // ' + n.tag, rx + 8, ry + 17, innerW);
+        drawFittedText(
+          ctx,
+          showTourBadgeInHeader ? '#' + n.num : '#' + n.num + ' // ' + n.tag,
+          rx + 8,
+          ry + 17,
+          showTourBadgeInHeader ? 42 : innerW
+        );
 
-        ctx.font = '800 13.5px "Space Grotesk", "Inter", sans-serif';
+        ctx.font = '800 13px "Space Grotesk", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#111111' : '#fafafa';
         drawFittedText(ctx, n.title, rx + 8, ry + 47, innerW);
 
-        ctx.font = '600 11.5px "Space Grotesk", "Inter", sans-serif';
+        ctx.font = '600 11px "Space Grotesk", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#3f3f46' : '#d4d4d8';
         drawWrappedSub(ctx, n.sub, rx + 8, ry + 66, innerW, 14);
 
@@ -643,7 +783,7 @@
           : isSelected ? '#281d1b' : '#18181d';
         ctx.fillRect(rx, ry, n.w, n.h);
 
-        const topBarCol = isSelected ? '#e62400' : n.color;
+        const topBarCol = isSelected ? '#c81e00' : n.color;
         ctx.fillStyle = topBarCol;
         ctx.fillRect(rx, ry, n.w, isSelected ? 7 : 4);
 
@@ -652,7 +792,7 @@
         ctx.strokeRect(rx, ry, n.w, n.h);
 
         if (isSelected) {
-          ctx.strokeStyle = '#e62400';
+          ctx.strokeStyle = '#c81e00';
           ctx.lineWidth = 1.5;
           ctx.strokeRect(rx - 3, ry - 3, n.w + 6, n.h + 6);
         }
@@ -664,30 +804,32 @@
         ctx.stroke();
 
         if (isSelected) {
-          ctx.fillStyle = '#e62400';
+          ctx.fillStyle = '#c81e00';
           ctx.fillRect(rx + 6, ry + 8, 22, 15);
-          ctx.font = '800 10.5px "Inter", sans-serif';
+          ctx.font = '800 10px "Inter", sans-serif';
           ctx.fillStyle = '#ffffff';
           ctx.textAlign = 'center';
           ctx.fillText(n.num, rx + 17, ry + 19);
         } else {
-          ctx.font = '800 11.5px "Inter", "Helvetica Neue", sans-serif';
+          ctx.font = '800 11px "Inter", "Helvetica Neue", sans-serif';
           ctx.fillStyle = n.color;
           ctx.textAlign = 'left';
           ctx.fillText(n.num, rx + 8, ry + 20);
         }
 
-        ctx.font = '600 10.5px "IBM Plex Mono", ui-monospace, monospace';
-        ctx.fillStyle = isLight ? '#52525b' : '#d4d4d8';
-        ctx.textAlign = 'right';
-        drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 8, ry + 20, innerW - 28);
+        if (!showTourBadgeInHeader) {
+          ctx.font = '600 10px "IBM Plex Mono", ui-monospace, monospace';
+          ctx.fillStyle = isLight ? '#52525b' : '#d4d4d8';
+          ctx.textAlign = 'right';
+          drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 8, ry + 20, innerW - 28);
+        }
 
-        ctx.font = '800 13.5px "Inter", "Helvetica Neue", sans-serif';
+        ctx.font = '800 13px "Inter", "Helvetica Neue", sans-serif';
         ctx.fillStyle = isLight ? '#09090b' : '#fafafa';
         ctx.textAlign = 'left';
         drawFittedText(ctx, n.title, rx + 8, ry + 48, innerW);
 
-        ctx.font = '500 11.5px "Inter", "Helvetica Neue", sans-serif';
+        ctx.font = '500 11px "Inter", "Helvetica Neue", sans-serif';
         ctx.fillStyle = isLight ? '#3f3f46' : '#d4d4d8';
         drawWrappedSub(ctx, n.sub, rx + 8, ry + 67, innerW, 14);
 
@@ -705,25 +847,26 @@
 
         ctx.fillStyle = isLight ? '#e2e8f0' : '#0d1013';
         ctx.fillRect(rx + 1, ry + 1, n.w - 2, 22);
-        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 10px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = n.color;
         ctx.textAlign = 'left';
         ctx.fillText('ID:' + n.num, rx + 8, ry + 16);
-        ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
-        ctx.textAlign = 'right';
-        drawFittedText(ctx, n.tag, rx + n.w - 8, ry + 16, innerW - 38);
+        if (!showTourBadgeInHeader) {
+          ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
+          ctx.textAlign = 'right';
+          drawFittedText(ctx, n.tag, rx + n.w - 8, ry + 16, innerW - 38);
+        }
 
-        ctx.font = '700 13px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 12.5px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
         ctx.textAlign = 'left';
         drawFittedText(ctx, n.title, rx + 8, ry + 45, innerW);
 
-        ctx.font = '500 11px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '500 10.5px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
         drawWrappedSub(ctx, n.sub, rx + 8, ry + 64, innerW, 14);
 
       } else if (activeTheme === 'memphis') {
-        // Restore per-stage color identity in both Light & Dark Memphis
         ctx.fillStyle = isSelected ? (isLight ? '#db2777' : '#facc15') : n.color;
         drawRoundedRect(ctx, rx + 5, ry + 5, n.w, n.h, 13);
         ctx.fill();
@@ -746,21 +889,23 @@
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 10px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = getContrastInk(n.color, '#1e1b4b', '#ffffff');
         ctx.textAlign = 'center';
         ctx.fillText(n.num, rx + 18, ry + 23);
 
-        ctx.fillStyle = isLight ? '#1e1b4b' : '#e0e7ff';
-        ctx.textAlign = 'right';
-        drawFittedText(ctx, n.tag, rx + n.w - 10, ry + 23, innerW - 28);
+        if (!showTourBadgeInHeader) {
+          ctx.fillStyle = isLight ? '#1e1b4b' : '#e0e7ff';
+          ctx.textAlign = 'right';
+          drawFittedText(ctx, n.tag, rx + n.w - 10, ry + 23, innerW - 28);
+        }
 
-        ctx.font = '800 13.5px "Space Grotesk", sans-serif';
+        ctx.font = '800 13px "Space Grotesk", sans-serif';
         ctx.fillStyle = isLight ? '#1e1b4b' : '#ffffff';
         ctx.textAlign = 'left';
         drawFittedText(ctx, n.title, rx + 10, ry + 48, n.w - 20);
 
-        ctx.font = '600 11.5px "Space Grotesk", sans-serif';
+        ctx.font = '600 11px "Space Grotesk", sans-serif';
         ctx.fillStyle = isLight ? '#312e81' : '#c7d2fe';
         drawWrappedSub(ctx, n.sub, rx + 10, ry + 66, n.w - 20, 14);
 
@@ -782,16 +927,22 @@
         ctx.fillStyle = n.color;
         ctx.fillRect(rx + 2, ry + 2, n.w - 4, 21);
 
-        ctx.font = '700 10px "Silkscreen", "IBM Plex Mono", monospace';
+        ctx.font = '700 9.5px "Silkscreen", "IBM Plex Mono", monospace';
         ctx.fillStyle = getContrastInk(n.color, '#161324', '#ffffff');
         ctx.textAlign = 'left';
-        drawFittedText(ctx, '[' + n.num + '] ' + n.tag, rx + 6, ry + 16, innerW);
+        drawFittedText(
+          ctx,
+          showTourBadgeInHeader ? '[' + n.num + ']' : '[' + n.num + '] ' + n.tag,
+          rx + 6,
+          ry + 16,
+          showTourBadgeInHeader ? 42 : innerW
+        );
 
-        ctx.font = '700 12.5px "IBM Plex Mono", monospace';
+        ctx.font = '700 12px "IBM Plex Mono", monospace';
         ctx.fillStyle = isLight ? '#161324' : '#ffffff';
         drawFittedText(ctx, n.title, rx + 8, ry + 44, innerW);
 
-        ctx.font = '600 11px "IBM Plex Mono", monospace';
+        ctx.font = '600 10.5px "IBM Plex Mono", monospace';
         ctx.fillStyle = isLight ? '#352f4f' : '#c7d2fe';
         drawWrappedSub(ctx, n.sub, rx + 8, ry + 63, innerW, 14);
 
@@ -816,26 +967,28 @@
         drawRoundedRect(ctx, rx + 5, ry + 10, 4, n.h - 20, 2);
         ctx.fill();
 
-        ctx.font = '700 11px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = n.color;
         ctx.textAlign = 'left';
         ctx.fillText('#' + n.num, rx + 14, ry + 22);
 
-        ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
-        ctx.textAlign = 'right';
-        drawFittedText(ctx, n.tag, rx + n.w - 10, ry + 22, innerW - 30);
+        if (!showTourBadgeInHeader) {
+          ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
+          ctx.textAlign = 'right';
+          drawFittedText(ctx, n.tag, rx + n.w - 10, ry + 22, innerW - 30);
+        }
 
-        ctx.font = '700 13.5px "Plus Jakarta Sans", "Inter", sans-serif';
+        ctx.font = '700 13px "Plus Jakarta Sans", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
         ctx.textAlign = 'left';
         drawFittedText(ctx, n.title, rx + 14, ry + 47, n.w - 22);
 
-        ctx.font = '500 11.5px "Plus Jakarta Sans", "Inter", sans-serif';
+        ctx.font = '500 11px "Plus Jakarta Sans", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
         drawWrappedSub(ctx, n.sub, rx + 14, ry + 66, n.w - 22, 14);
       }
 
-      // Guided Tour Focus Callout Ring & Tag (Links Canvas Block to Docked HUD Bar)
+      // Guided Tour Focus Callout Ring & In-Bounds Header Badge (Zero External Overlap)
       if (isTourFocus) {
         const pulse = 2 + Math.sin(animTick * 4) * 1.5;
         ctx.save();
@@ -849,16 +1002,16 @@
           ctx.save();
           ctx.font = '700 9.5px "IBM Plex Mono", ui-monospace, monospace';
           const tagW = Math.ceil(ctx.measureText(tourStepBadgeText).width) + 12;
-          const tagX = rx + n.w - tagW;
-          const tagY = ry - 15;
-          ctx.fillStyle = n.color;
-          ctx.fillRect(tagX, tagY, tagW, 14);
-          ctx.strokeStyle = isLight ? '#111111' : '#ffffff';
+          const tagX = rx + n.w - tagW - 4;
+          const tagY = ry + 5;
+          ctx.fillStyle = isLight ? '#111111' : '#ffffff';
+          ctx.fillRect(tagX, tagY, tagW, 15);
+          ctx.strokeStyle = n.color;
           ctx.lineWidth = 1.5;
-          ctx.strokeRect(tagX, tagY, tagW, 14);
-          ctx.fillStyle = getContrastInk(n.color, '#111111', '#ffffff');
+          ctx.strokeRect(tagX, tagY, tagW, 15);
+          ctx.fillStyle = isLight ? '#ffffff' : '#111111';
           ctx.textAlign = 'center';
-          ctx.fillText(tourStepBadgeText, tagX + tagW / 2, tagY + 10.5);
+          ctx.fillText(tourStepBadgeText, tagX + tagW / 2, tagY + 11);
           ctx.restore();
         }
       }
@@ -867,7 +1020,7 @@
     });
 
     // ====================================================================
-    // 5. DRAW CONTEXTUAL TENSOR & LATENCY EDGE LABELS (ON HOVER / SELECTION)
+    // 5. DRAW COLLISION-FREE CONTEXTUAL TENSOR & LATENCY EDGE LABELS
     // ====================================================================
     if (edgeLabelsToRender.length > 0) {
       ctx.save();
@@ -876,18 +1029,31 @@
       const placed = [];
 
       edgeLabelsToRender.forEach((lbl) => {
-        let ly = lbl.y;
-        for (let k = 0; k < placed.length; k++) {
-          if (Math.abs(placed[k].x - lbl.x) < 58 && Math.abs(placed[k].y - ly) < 16) {
-            ly = placed[k].y + 16;
-          }
-        }
-        placed.push({ x: lbl.x, y: ly });
-
         const tw = Math.ceil(ctx.measureText(lbl.text).width) + 10;
         const th = 15;
-        const bx = Math.round(lbl.x - tw / 2);
-        const by = Math.round(ly - th / 2);
+        const pos = resolveEdgeLabelPosition(lbl, tw, th, nodes, placed);
+        placed.push({ x: pos.x, y: pos.y, w: tw, h: th });
+
+        const bx = Math.round(pos.x - tw / 2);
+        const by = Math.round(pos.y - th / 2);
+
+        // If shifted away from wire midpoint, draw a crisp leader line & anchor dot
+        const dist = Math.hypot(pos.x - lbl.wireX, pos.y - lbl.wireY);
+        if (dist > 8) {
+          ctx.save();
+          ctx.strokeStyle = lbl.color;
+          ctx.lineWidth = 1.2;
+          ctx.setLineDash([2, 2]);
+          ctx.beginPath();
+          ctx.moveTo(lbl.wireX, lbl.wireY);
+          ctx.lineTo(pos.x, pos.y);
+          ctx.stroke();
+          ctx.fillStyle = lbl.color;
+          ctx.beginPath();
+          ctx.arc(lbl.wireX, lbl.wireY, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
 
         ctx.fillStyle = isLight ? '#ffffff' : '#18181b';
         ctx.fillRect(bx, by, tw, th);
@@ -896,7 +1062,7 @@
         ctx.strokeRect(bx, by, tw, th);
 
         ctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
-        ctx.fillText(lbl.text, lbl.x, by + 11);
+        ctx.fillText(lbl.text, pos.x, by + 11);
       });
       ctx.restore();
     }

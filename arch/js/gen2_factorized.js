@@ -4,8 +4,8 @@
 window.ARASHIKAGE_GEN2_FACTORIZED = {
   id: 'gen2_factorized',
   shortBadge: 'LEGACY GEN 2 // FACTORIZED-684',
-  dropdownLabel: 'Platform: Gen 2 — Factorized-684 (171D×4 MLP + PSM-DCP)',
-  identityTitle: '684D Egocentric Body-Frame MLP, 31-Logit Physics-Masked Categorical Heads & 752D Privileged Critic',
+  dropdownLabel: 'Gen 2: Factorized-684 (MLP · PSM)',
+  identityTitle: '684D Egocentric MLP, PSM-DCP Skills & 752D Critic',
   colHeaders: [
     { col: 0, x: 96,  title: 'STAGE 1 // 171D EGOCENTRIC', sub: 'R_car^T Frame · 34 Pads',   color: '#38bdf8' },
     { col: 1, x: 282, title: 'STAGE 2 // K=4 STACK (684D)', sub: '4-Step Deque · 0..2J Lag', color: '#22d3ee' },
