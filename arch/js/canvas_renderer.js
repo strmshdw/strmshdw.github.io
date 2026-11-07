@@ -728,12 +728,12 @@
       const isSelected = n.id === selectedNodeId;
       const isHovered = n.id === hoveredNodeId;
       const isTourFocus = n.id === tourFocusNodeId;
-      const showTourBadgeInHeader = Boolean(isTourFocus && tourStepBadgeText);
       const modeActive = n.modes.includes(activeMode);
+      const showTourBadgeInHeader = Boolean((isTourFocus && tourStepBadgeText) || !modeActive);
       const inTourSpotlight = !highlightSet || highlightSet.has(n.id);
 
       ctx.save();
-      if (!modeActive) ctx.globalAlpha = 0.22;
+      if (!modeActive) ctx.globalAlpha = isSelected ? 0.78 : 0.38;
       else if (!inTourSpotlight) ctx.globalAlpha = 0.28;
       else ctx.globalAlpha = 1.0;
 
@@ -1014,6 +1014,24 @@
           ctx.fillText(tourStepBadgeText, tagX + tagW / 2, tagY + 11);
           ctx.restore();
         }
+      } else if (!modeActive && activeMode !== 'all') {
+        // Explicit In-Header BYPASSED Badge when node is inactive in the selected Pathway Filter
+        ctx.save();
+        ctx.globalAlpha = 0.96;
+        const bypassLabel = 'BYPASSED (' + activeMode.toUpperCase() + ')';
+        ctx.font = '700 8.5px "IBM Plex Mono", ui-monospace, monospace';
+        const tagW = Math.ceil(ctx.measureText(bypassLabel).width) + 10;
+        const tagX = rx + n.w - tagW - 4;
+        const tagY = ry + 5;
+        ctx.fillStyle = isLight ? '#78350f' : '#451a03';
+        ctx.fillRect(tagX, tagY, tagW, 15);
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 1.4;
+        ctx.strokeRect(tagX, tagY, tagW, 15);
+        ctx.fillStyle = '#fef3c7';
+        ctx.textAlign = 'center';
+        ctx.fillText(bypassLabel, tagX + tagW / 2, tagY + 11);
+        ctx.restore();
       }
 
       ctx.restore();

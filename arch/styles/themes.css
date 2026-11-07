@@ -553,6 +553,39 @@ h1, h2, h3, h4 {
   display: flex;
 }
 
+/* Node-Anchored Floating Walkthrough Tooltip Pointer Arrow */
+.tour-tooltip-arrow {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: var(--bg-elevated);
+  border-color: var(--border-sub);
+  border-style: solid;
+  border-width: 0;
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+.tour-tooltip-arrow[data-side="left"] {
+  left: -7px;
+  border-left-width: var(--border-w);
+  border-bottom-width: var(--border-w);
+}
+.tour-tooltip-arrow[data-side="right"] {
+  right: -7px;
+  border-right-width: var(--border-w);
+  border-top-width: var(--border-w);
+}
+.tour-tooltip-arrow[data-side="top"] {
+  top: -7px;
+  border-left-width: var(--border-w);
+  border-top-width: var(--border-w);
+}
+.tour-tooltip-arrow[data-side="bottom"] {
+  bottom: -7px;
+  border-right-width: var(--border-w);
+  border-bottom-width: var(--border-w);
+}
+
 /* Standard Scrollbar Styling with Legacy WebKit Fallback */
 :root,
 #rightSidePanel {

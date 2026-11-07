@@ -543,3 +543,536 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
     }
   ]
 };
+
+// ============================================================================
+// PATHWAY EXECUTION CONTEXTS & PER-BLOCK ROLE / BYPASS SPECIFICATIONS
+// Explains each block's exact role, runtime expectations, or why it is disabled
+// across All, Live 5.5ms, Train (4,096 Arenas), and Distill (Teacher Warm-Start)
+// ============================================================================
+window.ARASHIKAGE_PATHWAY_ROLES = {
+  meta: {
+    all: {
+      name: 'All Pathways (Full Architecture)',
+      short: 'All',
+      regime: 'Full 17-Block Graph (Live + Train + Distill)',
+      summary: 'Shows all subsystem blocks across live tournament inference, 4,096-arena RL training, and teacher-to-student warm-start distillation.'
+    },
+    live: {
+      name: 'Live 5.5ms Tournament Inference',
+      short: 'Live 5.5ms',
+      regime: 'B=1 Arena · 15Hz / 60Hz Subtick · ≤5.50ms P99 SLA',
+      summary: 'Hard real-time forward inference via RLBot v5 sockets and the 1-tick C++20 RocketSimShadowTwin. Blocks that rely on omniscient simulator state (#04) or gradient/cloner updates (#17) are disabled.'
+    },
+    train: {
+      name: '4,096-Arena Hybrid RL Training',
+      short: 'Train',
+      regime: 'B=4,096 Arenas (816 G=8 GRPO + 2,880 PPO + 400 Boss)',
+      summary: 'Parallel OpenMP rollout & learning loop combining critic-free G=8 cloned mechanics drills, 4-horizon Symlog GAE Flow-PPO self-play, and omniscient 512B critic supervision.'
+    },
+    distill: {
+      name: 'Teacher Warm-Start Distillation',
+      short: 'Distill',
+      regime: 'Frozen Teacher (checkpoint_step_173650.pt) + .v5traj BC',
+      summary: 'Supervised warm-start phase that transfers mechanical mastery and value calibration from frozen legacy teachers and .v5traj replay banks before online RL updates begin.'
+    }
+  },
+  hex63: {
+    dma_slice: {
+      live: {
+        regime: 'B=1 · RocketSimShadowTwin · c_priv Zero-Masked',
+        text: 'Constructed every 66.7 ms (15 Hz) from live RLBot v5 socket packets corrected by the 1-tick C++20 RocketSimShadowTwin. Uses the exact same V5ObsMapper::BuildArenaSlice C++ code as training, except bytes 4864..5375 (privileged_critic_ctx) are hardware zero-filled (m_priv=0) for tournament legality.'
+      },
+      train: {
+        regime: 'B=4,096 Arenas · 0.25ms OpenMP CPU -> Pinned DMA',
+        text: 'Assembled in parallel across all 4,096 RocketSim arenas in 0.25 ms total CPU time and streamed to the GPU in a single 22 MB pinned-memory DMA transfer, with bytes 4864..5375 populated with full omniscient physics and curriculum drill metadata.'
+      },
+      distill: {
+        regime: 'Paired Student (5,376B) + Teacher (700D) Views',
+        text: 'Generated from .v5traj expert trajectory records and warm-start rollout arenas alongside the legacy 700D teacher vector so the Hex63 student observes the exact same physical pitch state as the frozen teacher.'
+      }
+    },
+    dyn_nodes: {
+      live: {
+        regime: 'B=1 · 16 Active Queries · 4.0s BallRingBuffer480',
+        text: 'Unpacks the 6 cars, 1 ball, 8 future ball bounce samples (stepped 480 ticks forward in the local ShadowTwin), and 1 match node (with live κ_Δt latency indicator) into 16×384 query tokens.'
+      },
+      train: {
+        regime: 'B=4,096 · 1v1/2v2/3v3 Dynamic Slot Masking',
+        text: 'Projects the 16 dynamic moving entities across all 4,096 arenas (1,440 1v1 + 864 2v2 + 576 3v3 + 816 drills + 400 boss), masking parked cars in 1v1/2v2 via car_validity_mask.'
+      },
+      distill: {
+        regime: 'Supervised Entity Query Alignment',
+        text: 'Encodes the 16 moving entities from teacher demonstration states so the student learns to extract velocity and bounce features from entity tokens rather than Gen 3\'s flat K=4 history stack.'
+      }
+    },
+    env_nodes: {
+      live: {
+        regime: 'B=1 · 1-Tick ShadowTwin Wheel Raycasts',
+        text: 'Supplies 34 boost pad timers, 6 goal posts, 4 nearest wall OBBs, and 4 ego wheel suspension raycasts reconstructed by the local C++20 ShadowTwin—giving zero-lag flip-reset detection even over UDP/TCP sockets.'
+      },
+      train: {
+        regime: 'B=4,096 · Direct Bullet3 Raycast & Pad State',
+        text: 'Reads exact 4-wheel contact normals, suspension travel, and pad cooldowns directly from the 4,096 parallel Bullet3 arena instances at every 15 Hz outer step.'
+      },
+      distill: {
+        regime: 'Static & Semi-Static Arena Context Keys',
+        text: 'Provides the 48 environment context keys during behavioral cloning and teacher distillation so attention heads anchor to boost pads, goalposts, and curved corner walls.'
+      }
+    },
+    priv_ctx: {
+      live: {
+        regime: 'DISABLED IN LIVE (Bytes 4864..5375 Zero-Filled)',
+        text: 'WHY DISABLED IN LIVE 5.5ms: In live RLBot tournament matches, hidden opponent states (exact fractional boost reserves, internal dodge timers, and curriculum drill seeds) cannot be observed legally. Bytes 4864..5375 are strictly zeroed (m_priv = 0), and live search relies on the observation-only critic head p_eval (#15) instead.'
+      },
+      train: {
+        regime: 'B=4,096 · 128 Omniscient Floats -> p_priv Only',
+        text: 'Active exclusively for the Privileged Critic head (p_priv in #15). Exposes exact hidden opponent physics, true subtick touch impulses, and curriculum scenario parameters so GAE advantage estimates have minimal variance.'
+      },
+      distill: {
+        regime: 'Omniscient Critic Target Calibration',
+        text: 'Feeds ground-truth simulator physics into the student\'s privileged critic head (p_priv) while distilling value distributions and PopArt moments from the teacher critic.'
+      }
+    },
+    gpu_edges: {
+      live: {
+        regime: 'B=1 · 0.09ms Fused CUDA Kernel (1,024 Pairs)',
+        text: 'Computes the 16×64×72D pairwise kinematics, closing speeds, time-to-closest-approach, and 32 Fourier distance bands on-chip in 0.09 ms, keeping CPU-to-GPU socket bandwidth tiny.'
+      },
+      train: {
+        regime: 'B=4,096 · 4.19M Pairs/Step Fused in VRAM',
+        text: 'Evaluates 4,096 × 1,024 = 4.19 million entity pairs per step entirely inside GPU registers/shared memory, avoiding 775 MB/step of PCIe traffic and backpropagating gradients into the per-head bias projections.'
+      },
+      distill: {
+        regime: 'Geometric Attention Prior Warm-Start',
+        text: 'Supplies exact physical intercept margins and Fourier distance features from step 0 of distillation so Bipartite DiffAttn heads immediately lock onto the ball and nearest challenger.'
+      }
+    },
+    bipartite_enc: {
+      live: {
+        regime: 'B=1 · 0.36ms · Static CUDA Graph (FP16/BF16)',
+        text: 'Runs 2 layers of 16×64 Bipartite Differential Attention inside the captured live CUDA Graph, subtracting the λ-weighted noise-canceling softmax map to isolate active threats in 0.36 ms.'
+      },
+      train: {
+        regime: 'B=4,096 · Learnable Differential Noise Gain λ',
+        text: 'Trains the query/key/value projections and per-head differential noise cancellation scalars λ across mixed 1v1, 2v2, and 3v3 arenas with variable car validity masks.'
+      },
+      distill: {
+        regime: 'Representation Alignment from Teacher Trunk',
+        text: 'Trained via cosine/MSE feature alignment and end-to-end action distillation to compress 64 arena tokens into clean 16×384 latent representations.'
+      }
+    },
+    titans_prior: {
+      live: {
+        regime: 'B=1 · Kickoff M_t Reset · W_t Persists Full Match',
+        text: 'Initializes fast weights W_0 = W_init at the start of a live match. On goals and kickoff resets, clears momentum M_t = 0 so stale pre-goal gradients do not carry over, while keeping adapted opponent weights W_t intact.'
+      },
+      train: {
+        regime: 'B=4,096 · Meta-Learned Orthogonal Prior W_init',
+        text: 'Updates the shared orthogonal meta-prior W_init via outer-loop backpropagation through time (BPTT) across thousands of diverse league opponents and boss bots.'
+      },
+      distill: {
+        regime: 'Anchored at Orthogonal Prior W_init',
+        text: 'Initializes fast-weight matrices at the orthogonal identity-scaled prior W_init and caches causal keys k_prev across sequential .v5traj demonstration steps.'
+      }
+    },
+    titans_mem: {
+      live: {
+        regime: 'B=1 · Test-Time Learning (Slow Weights Frozen)',
+        text: 'CRITICAL LIVE ROLE: While all slow network weights θ are frozen in live play, Titans updates its 2×4×32×32 FP32 fast weights W_t in-place every 66.7 ms (0.12 ms GPU) via Log-Cosh surprise gradients—adapting live to an opponent\'s fakes, demo habits, or boost starving.'
+      },
+      train: {
+        regime: 'B=4,096 · Differentiable Fast-Weight Rollouts',
+        text: 'Executes the inner-loop FP32 fast-weight update rule across 4,096 parallel arenas while outer-loop PPO/GRPO gradients train the key/value/query projections and surprise gate temperature.'
+      },
+      distill: {
+        regime: 'Sequential Trajectory Memory Warm-Up',
+        text: 'Unrolls the fast-weight memory update over multi-second replay sequences while enforcing the per-head Frobenius ball retraction (||W||_F <= 4.0) to guarantee numerical stability.'
+      }
+    },
+    coconut_loop: {
+      live: {
+        regime: 'AdaptiveComputeGovernor: K_t ∈ {6, 4, 2} Passes',
+        text: 'Dynamically governed by the 4-Tier AdaptiveComputeGovernor to guarantee the ≤5.50 ms P99 SLA: executes K_t = 6 recurrent passes at Tier 0 (<3.8 ms), steps down to K_t = 4 at Tier 1/2, or K_t = 2 under severe host GPU load.'
+      },
+      train: {
+        regime: 'K_t=6 (816 Drills & 400 Boss) | K_t=4 (2,880 League)',
+        text: 'Runs K_t = 6 recurrent passes on Block A (816 G=8 mechanics drills) and Block C (400 Boss arenas) for deep mechanical planning, and K_t = 4 on Block B (2,880 League arenas), supervised at each pass k by the 3D spatial anchor loss L_coconut.'
+      },
+      distill: {
+        regime: 'K_t=4 Recurrent Unroll + 3D Spatial Anchor Loss',
+        text: 'Loops K_t = 4 passes through the shared block while supervising the auxiliary 3D spatial focus head p_lat^(k) against ground-truth future ball/car positions.'
+      }
+    },
+    soft_moe: {
+      live: {
+        regime: 'B=1 · Static Einsum Dispatch · Frozen Bias b_e^bal',
+        text: 'Routes tokens across the 1 Shared + 8 Specialist experts (16 slots) via static-shape einsum matrices inside a single CUDA Graph with routing bias b_e^bal frozen.'
+      },
+      train: {
+        regime: 'B=4,096 · DeepSeek Loss-Free Load Balancing Updates',
+        text: 'Trains all 8 specialist experts in parallel while updating the loss-free load-balancing bias b_e^bal outside gradient descent after each rollout batch to prevent expert collapse without auxiliary loss interference.'
+      },
+      distill: {
+        regime: 'Specialist Skill Partitioning Warm-Start',
+        text: 'Routes diverse replay mechanics (ground dribbles, air dribbles, flip resets, shadow saves) into distinct specialist expert slots during teacher distillation.'
+      }
+    },
+    fsq_bottleneck: {
+      live: {
+        regime: 'B=1 · Deterministic Discrete Rounding (1,000 Codes)',
+        text: 'Quantizes the ego token into an exact discrete skill code in {-2,-1,0,1,2}^24 (8×125 = 1,000 codes) to condition the 60 Hz action decoder and stream live interpretable skill telemetry to the Command Center.'
+      },
+      train: {
+        regime: 'B=4,096 · Straight-Through Estimator (STE) Gradients',
+        text: 'Uses the Straight-Through Estimator z_q = z_b + stop_grad(round(z_b) - z_b) so PPO and GRPO policy gradients flow cleanly across the discrete 1,000-code bottleneck with zero VQ codebook loss.'
+      },
+      distill: {
+        regime: 'Discrete Skill Codebook Seeding',
+        text: 'Aligns the 8 cyclic 3D FSQ triplets with teacher skill embeddings and .v5traj mechanical labels so all 1,000 discrete codes receive balanced initial coverage.'
+      }
+    },
+    stage1_bin: {
+      live: {
+        regime: 'B=1 · Mode / Low-Temp Sampling + M=16 Fan-Out',
+        text: 'Evaluates the 16-way causal 4-subtick Jump/Double-Jump categorical distribution plus Boost and Handbrake. At Tier 0/1, samples M=16 or 8 high-probability binary sequences for JEPA search (#16) and sets exact double-jump flags m_dj,k.'
+      },
+      train: {
+        regime: 'B=4,096 · Stochastic Categorical Exploration',
+        text: 'Samples causal 4-subtick binary sequences stochastically across 4,096 arenas and evaluates exact discrete log-probabilities log π_θ(u_bin | s) for the combined discrete + continuous PPO/GRPO ratio.'
+      },
+      distill: {
+        regime: 'Cross-Entropy & KL Supervision on Teacher Buttons',
+        text: 'Trained via exact categorical cross-entropy / KL divergence against the teacher\'s jump, double-jump, boost, and handbrake decisions across 4 subticks.'
+      }
+    },
+    stage2_flow: {
+      live: {
+        regime: 'B=1 · Low-Noise ODE Midpoint Integration (σ_τ → 0)',
+        text: 'Integrates the 4-step velocity field v_θ in R^20 with minimal/zero diffusion noise for razor-sharp 60 Hz motor execution, applying the 0.12·tanh deadzone clamp on any subtick where m_dj,k = 1 to guarantee clean vertical stalls.'
+      },
+      train: {
+        regime: 'B=4,096 · Stochastic Flow-GRPO SDE (σ_τ > 0)',
+        text: 'Injects calibrated Wiener exploration noise σ_τ dW_τ across the 4 Euler integration steps so every step forms a tractable Gaussian transition with exact log-likelihood ratios for Flow-PPO and G=8 GRPO updates.'
+      },
+      distill: {
+        regime: 'Conditional Flow Matching (CFM) Velocity Loss',
+        text: 'Trained directly via simulation-free Conditional Flow Matching regression ||v_θ(x_τ, τ, c) - (u_expert - x_0)||^2 to reconstruct expert and teacher 60 Hz continuous control trajectories.'
+      }
+    },
+    subtick_exec: {
+      live: {
+        regime: 'Live RLBot v5 120Hz Socket Loop (2 Ticks/Subtick)',
+        text: 'Streams the 4 subtick controls across 8 live 120 Hz frames (holding each subtick for 2 ticks = 16.67 ms) directly to RLBot v5 sockets while stepping the local RocketSimShadowTwin in lockstep.'
+      },
+      train: {
+        regime: 'B=4,096 · OpenMP C++20 Subtick Stepping & 192B Acc',
+        text: 'Executes all 4 subticks (8 Bullet3 physics ticks) inside C++20 across 4,096 arenas with zero FlipState hijacking and records subtick touch masks, ball impulses, and demos into the 192B SubtickEventAccumulator.'
+      },
+      distill: {
+        regime: 'Online DAgger Rollout Verification',
+        text: 'Executes student 4-subtick action chunks in RocketSim during online teacher-student DAgger rollouts so the student learns to recover from its own 60 Hz state visitation distribution.'
+      }
+    },
+    critic_heads: {
+      live: {
+        regime: 'ACTIVE (p_eval Head Only — p_priv Masked)',
+        text: 'Evaluates ONLY the Observation-Only Critic head (p_eval) across the 4 Symlog horizons (since #04 c_priv is zeroed in live matches). Supplies 4-horizon expected values and lower-tail CVaR_α scores to #16 JEPA Search.'
+      },
+      train: {
+        regime: 'ACTIVE (Dual p_priv + p_eval Heads · 4×51 Symlog)',
+        text: 'Evaluates BOTH heads: p_priv (using #04 512B omniscient context) computes low-variance 4-horizon GAE advantages for #17, while p_eval is trained via HL-Gauss cross-entropy + KL distillation from p_priv.'
+      },
+      distill: {
+        regime: '51-Bin Symlog HL-Gauss Value Pre-Calibration',
+        text: 'Trains both 4×51 Symlog HL-Gauss heads on teacher value targets and empirical trajectory returns so the critic is pre-calibrated before online PPO/GRPO updates start (preventing early value-spike policy destruction).'
+      }
+    },
+    jepa_search: {
+      live: {
+        regime: 'ACTIVE: Best-of-16 (Tier 0) / Best-of-8 (Tier 1) Search',
+        text: 'PRIMARY LIVE ROLE: Fans out M = 16 (Tier 0) or M = 8 (Tier 1) candidate 4-subtick action chunks, rolls them 1 step forward in the Dual-Stream JEPA latent world model (0.80 ms), and picks the action maximizing p_eval + CVaR_α safety.'
+      },
+      train: {
+        regime: 'ACTIVE (World-Model Loss L_jepa Only · M=1 Rollout)',
+        text: 'During 4,096-arena training rollouts, M=16 test-time search is bypassed (M=1) so the actor explores stochastically at full throughput; instead, this block trains the Dual-Stream JEPA predictor against the stop-gradient EMA target encoder (τ=0.996).'
+      },
+      distill: {
+        regime: 'BYPASSED IN DISTILL (Dimmed on Diagram)',
+        text: 'WHY DISABLED IN DISTILL: Warm-start distillation trains the actor and critic directly against the frozen teacher policy and .v5traj banks (#17). Running 16-candidate test-time JEPA search is unnecessary during supervised teacher cloning.'
+      }
+    },
+    ppo_grpo_opt: {
+      live: {
+        regime: 'DISABLED IN LIVE (Forward Inference Only)',
+        text: 'WHY DISABLED IN LIVE 5.5ms: Live RLBot matches run strictly in torch.inference_mode() within the 5.5 ms latency ceiling (#14 + #16). No G=8 arena cloning, PBRS reward scoring, or PPO/GRPO gradient updates run during a live game; mid-match adaptation is performed by #08 FP32 Titans fast weights.'
+      },
+      train: {
+        regime: 'ACTIVE: 816 G=8 Cloned GRPO + 2,880 Flow-PPO Arenas',
+        text: 'PRIMARY TRAINING ENGINE: Orchestrates 102 groups × G=8 = 816 bit-exact cloned mechanics drill arenas (critic-free intra-group normalized returns A^GRPO) alongside 2,880 full-match PFSP League arenas (4-horizon GAE Flow-PPO) and 400 Boss arenas.'
+      },
+      distill: {
+        regime: 'ACTIVE: Teacher KL / Flow-Matching Warm-Start Loop',
+        text: 'PRIMARY DISTILLATION ENGINE: Loads frozen teacher checkpoint_step_173650.pt and .v5traj banks, optimizing Conditional Flow Matching + discrete KL losses before gradually annealing the teacher tether into pure RL.'
+      }
+    }
+  },
+  // Specific overrides for Legacy Gen 3, Gen 2, and Gen 1 blocks where modes/roles differ
+  gen3_perceiver: {
+    priv_ctx: {
+      live: {
+        regime: 'DISABLED IN LIVE (700D Actor Input Only)',
+        text: 'WHY DISABLED IN LIVE: The 68D privileged tail (exact 4-wheel slip ratios, world velocities, and 5 analytical future ball bounces) is training-only. The deployed live TorchScript capsule takes only the 700D canonical observation.'
+      },
+      train: {
+        regime: 'ACTIVE: Appends 68D Tail -> 752D Omniscient Critic',
+        text: 'Concatenates the 68D privileged physics & 5-bounce lookahead vector onto the 684D stack to form the 752D input for the N=43 ST-Perceiver Critic (#15).'
+      },
+      distill: {
+        regime: 'ACTIVE: 752D Critic Warm-Start Input',
+        text: 'Provides the 752D privileged observation during Gen 2 -> Gen 3 distillation so the ST-Perceiver Critic matches the Gen 2 teacher\'s PopArt value predictions.'
+      }
+    },
+    fsq_bottleneck: {
+      live: {
+        regime: 'DISABLED IN LIVE (Stripped at TorchScript Export)',
+        text: 'WHY DISABLED IN LIVE: In Gen 3, Compositional Skill Head Z_t (#11) is an auxiliary training-only head attached as a side-branch to h_trunk. Unlike Hex63\'s in-graph FSQ bottleneck, it is stripped out during TorchScript export for zero live latency cost.'
+      },
+      train: {
+        regime: 'ACTIVE: 8 Macro · 32 Sub-Skill Auxiliary Loss',
+        text: 'Supervises the 256D SwiGLU trunk against replay-mined skill labels (L_skill = CE_macro + CE_sub + MSE_phase) so h_trunk linearly separates 32 mechanical sub-skills.'
+      },
+      distill: {
+        regime: 'ACTIVE: Auxiliary Skill Representation Retention',
+        text: 'Maintains skill classification supervision on h_trunk while distilling action logits from the Gen 2 teacher.'
+      }
+    },
+    critic_heads: {
+      live: {
+        regime: 'DISABLED IN LIVE (Actor-Only Live Execution)',
+        text: 'WHY DISABLED IN LIVE: Gen 3 did not yet have Hex63\'s Dual-Head p_eval + JEPA test-time search (#16). The 752D ST-Perceiver Critic is used exclusively for GAE advantage estimation during training and distillation.'
+      },
+      train: {
+        regime: 'ACTIVE: M=4 × N=43 Perceiver Critic + 3-Horizon PopArt',
+        text: 'Processes N=43 tokens (including 5 spatial future ball bounce tokens) to predict 3 PopArt-normalized horizon values (γ = 0.990, 0.995, 0.998) for PPO GAE.'
+      },
+      distill: {
+        regime: 'ACTIVE: PopArt (μ, σ) Moment Transfer & Value Fit',
+        text: 'Copies running PopArt normalization moments (μ, σ) from the Gen 2 teacher and regresses the ST-Perceiver Critic heads onto teacher value targets.'
+      }
+    },
+    jepa_search: {
+      live: {
+        regime: 'DISABLED IN LIVE (Offline/Online Warm-Start Bridge)',
+        text: 'WHY DISABLED IN LIVE: Block #16 in Gen 3 is the Gen 2 -> Gen 3 KL & PopArt Distillation Bridge, which only runs during architecture migration before live deployment.'
+      },
+      train: {
+        regime: 'BYPASSED IN PURE PPO TRAIN (Used in Distill Phase)',
+        text: 'WHY BYPASSED IN TRAIN: Once the Gen 3 student has been warm-started from the Gen 2 teacher during the Distill phase, pure PPO self-play (#17) takes over.'
+      },
+      distill: {
+        regime: 'PRIMARY DISTILLATION BRIDGE (Exact 7-Head Analytic KL)',
+        text: 'Minimizes exact analytic categorical KL divergence across all 7 action heads between the frozen Gen 2 MLP teacher (on 684D) and the Gen 3 ST-Perceiver student (on 700D).'
+      }
+    },
+    ppo_grpo_opt: {
+      live: {
+        regime: 'DISABLED IN LIVE (Forward Inference Only)',
+        text: 'WHY DISABLED IN LIVE: Coupled Zero-Sum PBRS rewards, 5-way curriculum resets, and PFSP League matchmaking operate exclusively inside the training rollout loop.'
+      },
+      train: {
+        regime: 'ACTIVE: Coupled Zero-Sum PBRS + 5-Way Curriculum + PFSP',
+        text: 'Drives full-match and SkillshotInitiationBank PPO training across the Tri-Role PFSP League (65% Main, 20% Main Exploiter, 15% League Exploiter).'
+      },
+      distill: {
+        regime: 'BYPASSED IN DISTILL (Replaced by KL Distiller #16)',
+        text: 'WHY BYPASSED IN DISTILL: During initial Gen 2 -> Gen 3 warm-start distillation, updates are driven by exact teacher KL divergence (#16) before switching to online PBRS PPO (#17).'
+      }
+    }
+  },
+  gen2_factorized: {
+    priv_ctx: {
+      live: {
+        regime: 'DISABLED IN LIVE (684D Actor Stack Only)',
+        text: 'WHY DISABLED IN LIVE: The 68D omniscient state (20D wheel slip/compression, 18D true world velocities, 30D 5-bounce lookahead) is not available in live RLBot packets and feeds only the 752D Training Critic (#15).'
+      },
+      train: {
+        regime: 'ACTIVE: 68D Omniscient Tail -> 752D Privileged Critic',
+        text: 'Appends 68 ground-truth simulator floats to the 684D actor stack so the 752D Privileged Critic (#15) can accurately value aerial wall setups and flip resets.'
+      },
+      distill: {
+        regime: 'ACTIVE: Teacher Critic Target Export',
+        text: 'Used when evaluating the frozen Gen 2 Privileged Critic to supervise downstream student critics.'
+      }
+    },
+    bipartite_enc: {
+      live: {
+        regime: 'DISABLED IN LIVE (Real Socket Latency Present)',
+        text: 'WHY DISABLED IN LIVE: Block #06 in Gen 2 is the LatencyDomainRandomizer, which injects artificial 0..2 tick delays during training. In live play, no artificial delay is added because real socket jitter is already present.'
+      },
+      train: {
+        regime: 'ACTIVE: 0..2 Tick (0–16.7ms) Domain Randomization',
+        text: 'Randomly delays observations by 0, 1, or 2 physics ticks during training rollouts to immunize the 684D MLP against live RLBot socket jitter.'
+      },
+      distill: {
+        regime: 'BYPASSED IN DISTILL (Zero-Lag Teacher Alignment)',
+        text: 'WHY BYPASSED IN DISTILL: Teacher-to-student distillation aligns states at exact matching timestamps (δ_lag = 0) so action KL targets remain uncorrupted.'
+      }
+    },
+    coconut_loop: {
+      live: {
+        regime: 'DISABLED IN LIVE (Offline Pro Replay Miner)',
+        text: 'WHY DISABLED IN LIVE: Block #09 in Gen 2 is the SeqScout Replay Miner (WRAcc MCTS parser), which runs offline over .replay files to populate the training curriculum and skill labels.'
+      },
+      train: {
+        regime: 'ACTIVE: Populates 27D SkillBank & Z_t Supervision',
+        text: 'Extracts high-WRAcc mechanical initiation states and 32-class skill labels from pro replays to seed training arenas (#17) and supervise the Skill Aux Head (#11).'
+      },
+      distill: {
+        regime: 'BYPASSED IN DISTILL (Offline Pre-Computed Bank)',
+        text: 'WHY BYPASSED IN DISTILL: Replay mining is completed prior to distillation; distilled policies consume the pre-mined trajectories and skill labels.'
+      }
+    },
+    soft_moe: {
+      live: {
+        regime: 'DISABLED IN LIVE (Replay & Training Flip-Reset Detector)',
+        text: 'WHY DISABLED IN LIVE: Block #10 in Gen 2 is the Dual-Mode Heuristic Flip-Reset Detector used to label replay segments and trigger training PBRS bonuses. Live inference does not run heuristic reward detectors.'
+      },
+      train: {
+        regime: 'ACTIVE: 5-Gate Physics + Flag Flip-Reset Detector',
+        text: 'Detects mid-air 4-wheel ball contacts across training arenas and replay streams to award flip-reset potential bonuses and label Z_t skill phases.'
+      },
+      distill: {
+        regime: 'BYPASSED IN DISTILL (Training/Mining Detector)',
+        text: 'WHY BYPASSED IN DISTILL: Used during replay mining and online RL reward calculation rather than supervised logit distillation.'
+      }
+    },
+    fsq_bottleneck: {
+      live: {
+        regime: 'DISABLED IN LIVE (Omitted from TorchScript Capsule)',
+        text: 'WHY DISABLED IN LIVE: The Compositional Skill Auxiliary Head Z_t (#11) is a training-only side head on the 256D neck and is stripped from the deployed TorchScript actor.'
+      },
+      train: {
+        regime: 'ACTIVE: 8 Macro × 32 Sub-Skill Auxiliary Supervision',
+        text: 'Forces the 256D policy neck (#08) to encode distinct mechanical families and phase progression during PPO training.'
+      },
+      distill: {
+        regime: 'ACTIVE: Auxiliary Skill Knowledge Transfer',
+        text: 'Provides structured skill logits alongside the 31 action logits when distilling Gen 2 into Gen 3.'
+      }
+    },
+    critic_heads: {
+      live: {
+        regime: 'DISABLED IN LIVE (Actor-Only Live Deployment)',
+        text: 'WHY DISABLED IN LIVE: The 752D Privileged MLP Critic (#15) requires omniscient simulator features (#04) and is omitted from the live RLBot inference loop.'
+      },
+      train: {
+        regime: 'ACTIVE: 752->512->512->256 MLP + 3 PopArt Heads',
+        text: 'Computes 3-horizon PopArt-normalized value baselines (γ = 0.95, 0.98, 0.995) from the 752D omniscient state to drive PPO GAE.'
+      },
+      distill: {
+        regime: 'ACTIVE: PopArt Value Teacher for Gen 3',
+        text: 'Exports calibrated running PopArt moments (μ, σ) and value targets to warm-start the Gen 3 ST-Perceiver Critic.'
+      }
+    },
+    jepa_search: {
+      live: {
+        regime: 'DISABLED IN LIVE (Training Reward Shaping Engine)',
+        text: 'WHY DISABLED IN LIVE: Block #16 in Gen 2 is the Coupled Zero-Sum PBRS reward engine, which computes training rewards after physics steps and is not part of live action inference.'
+      },
+      train: {
+        regime: 'ACTIVE: Coupled Zero-Sum 1v1 PBRS Reward Shaping',
+        text: 'Computes potential-based shaping ΔΦ_t = γΦ(s\') - Φ(s) with zero-sum opponent coupling across all training arenas.'
+      },
+      distill: {
+        regime: 'BYPASSED IN DISTILL (Supervised KL Objective)',
+        text: 'WHY BYPASSED IN DISTILL: Distillation optimizes supervised policy KL divergence rather than environmental PBRS rewards.'
+      }
+    },
+    ppo_grpo_opt: {
+      live: {
+        regime: 'DISABLED IN LIVE (Training Curriculum & League)',
+        text: 'WHY DISABLED IN LIVE: Block #17 in Gen 2 is the 5-Way Stratified Curriculum & Tri-Role PFSP League scheduler used only during training.'
+      },
+      train: {
+        regime: 'ACTIVE: 5-Way Curriculum + SkillshotBank + PFSP League',
+        text: 'Seeds training arenas across 5 curriculum branches (30% Pro, 25% HardNeg, 20% Perturb, 15% Kickoff, 10% SkillBank) and schedules TrueSkill PFSP opponents.'
+      },
+      distill: {
+        regime: 'BYPASSED IN DISTILL (Used in RL Phase)',
+        text: 'WHY BYPASSED IN DISTILL: Full PFSP league matchmaking resumes after the student completes teacher warm-start distillation.'
+      }
+    }
+  },
+  gen1_ret40: {
+    priv_ctx: {
+      live: {
+        regime: 'ACTIVE: Lockless Seqlock Live Diagnostics',
+        text: 'Streams live step latency and PD controller error metrics into the 64-byte-aligned Lockless Seqlock shared memory buffer with zero mutex stalls.'
+      },
+      train: {
+        regime: 'ACTIVE: 1,024-Arena OpenMP Seqlock Telemetry',
+        text: 'Publishes rollout SPS, reward components, and quantile value summaries from the C++17 batch engine to the external training monitor.'
+      },
+      distill: {
+        regime: 'BYPASSED IN DISTILL (Offline Tensor Dataset Loop)',
+        text: 'WHY BYPASSED IN DISTILL: Offline behavioral cloning / distillation runs over pre-allocated GPU tensor batches without stepping the C++ Seqlock IPC bridge.'
+      }
+    },
+    fsq_bottleneck: {
+      live: {
+        regime: 'DISABLED IN LIVE (Main Policy Head Deployed Only)',
+        text: 'WHY DISABLED IN LIVE: Block #11 in Gen 1 consists of the 4 Adversarial Exploiter Heads (Ball Denial, Demolition, Aerial, Boost Starve) used as sparring partners in training. Live matches deploy the Main Policy head (#09/#10).'
+      },
+      train: {
+        regime: 'ACTIVE: 4 Archetype Exploiter Heads + Intrinsic Rewards',
+        text: 'Trains 4 specialist adversarial heads driven by archetype-specific intrinsic rewards (demo closing speed, opponent-half big-pad steals) to harden the main agent.'
+      },
+      distill: {
+        regime: 'BYPASSED IN DISTILL (Main Policy Distilled Only)',
+        text: 'WHY BYPASSED IN DISTILL: Distillation transfers only the primary competitive policy rather than the auxiliary adversarial sparring heads.'
+      }
+    },
+    critic_heads: {
+      live: {
+        regime: 'DISABLED IN LIVE (Training Value Baseline Only)',
+        text: 'WHY DISABLED IN LIVE: The 3-Horizon PopArt Critic (#15) computes GAE baselines during PPO training; live risk modulation uses the 32-Quantile CVaR Head (#16) instead.'
+      },
+      train: {
+        regime: 'ACTIVE: 3-Horizon PopArt Value Critic (γ=0.95,0.98,0.995)',
+        text: 'Predicts short, medium, and long-horizon PopArt-normalized scalar values from the 256D fused context to compute multi-horizon GAE advantages.'
+      },
+      distill: {
+        regime: 'ACTIVE: Value Baseline Warm-Start',
+        text: 'Calibrates the 3 PopArt value heads on demonstration return targets prior to PPO fine-tuning.'
+      }
+    },
+    jepa_search: {
+      live: {
+        regime: 'ACTIVE: Dynamic Risk-Sensitive β(s) Quantile Readout',
+        text: 'Evaluates the 32 monotonic return quantiles and integrates the lower α-tail up to the score/clock-dependent risk preference β(s) ∈ [0.05, 0.95].'
+      },
+      train: {
+        regime: 'ACTIVE: 32-Quantile Huber Pinball Loss Training',
+        text: 'Trains the N=32 non-crossing softplus quantile deltas via quantile regression Huber loss and supplies risk-averse CVaR_β advantages to PPO.'
+      },
+      distill: {
+        regime: 'BYPASSED IN DISTILL (Trained Online via QR Loss)',
+        text: 'WHY BYPASSED IN DISTILL: Distributional return quantiles depend on the online policy\'s stochastic outcome distribution and are trained during RL rollouts.'
+      }
+    },
+    ppo_grpo_opt: {
+      live: {
+        regime: 'DISABLED IN LIVE (Training Rollout Weight Stager)',
+        text: 'WHY DISABLED IN LIVE: Block #17 in Gen 1 is the E=1024 StaticCUDAPolicyRunner & In-Place Weight Staging Engine that copies updated PPO weights after gradient epochs. Live play loads frozen weights once at match start.'
+      },
+      train: {
+        regime: 'ACTIVE: E=1024 CUDA Graph & <5.56ms Weight Staging',
+        text: 'Executes 1,024-arena rollouts inside a static CUDA Graph and copies updated parameters in-place after each PPO epoch without invalidating graph pointers.'
+      },
+      distill: {
+        regime: 'BYPASSED IN DISTILL (Standard Batched Optimizer)',
+        text: 'WHY BYPASSED IN DISTILL: Supervised distillation updates weights directly on mini-batches without requiring the 1,024-arena rollout weight-staging bridge.'
+      }
+    }
+  }
+};

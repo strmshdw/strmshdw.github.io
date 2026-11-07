@@ -152,37 +152,43 @@
     <!-- Main Workspace: Left Diagram (Enforced 1120:680 Display Ratio) + Right Inspector/Deep-Dive Panel -->
     <div id="mainWorkspaceRow" class="flex-1 min-h-0 flex flex-col lg:flex-row relative overflow-hidden">
 
-      <!-- LEFT: Aspect-Ratio-Locked Dataflow Diagram Stage + 2-Row Docked Walkthrough HUD -->
+      <!-- LEFT: Aspect-Ratio-Locked Dataflow Diagram Stage + Node-Anchored Floating Walkthrough Tooltip -->
       <div id="canvasStageContainer" class="flex-1 min-w-0 min-h-0 relative surface-root border-b lg:border-b-0 lg:border-r border-hairline flex flex-col justify-between items-center overflow-hidden">
 
-        <!-- 2-Row Docked Guided Walkthrough HUD Ribbon (100% Untruncated Description, Zero Node Occlusion) -->
-        <div id="tourTooltip" class="hidden shrink-0 w-full px-3.5 py-1.5 surface-elevated border-b border-subtle z-20 flex flex-col gap-1">
-          <div class="flex items-center justify-between gap-3">
-            <div class="flex items-center gap-2 min-w-0">
-              <span id="ttStepBadge" class="mono text-[10.5px] font-bold px-2 py-0.5 rounded btn-theme-accent border shrink-0">
+        <!-- Node-Anchored Floating Guided Walkthrough Popover Card (Positioned beside active block with pointer arrow) -->
+        <div id="tourTooltip" class="hidden absolute z-30 w-[22rem] max-w-[92%] p-3 rounded-xl surface-elevated border border-subtle shadow-2xl flex flex-col gap-1.5 transition-all duration-150">
+          <div id="tourTooltipArrow" class="tour-tooltip-arrow"></div>
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-1.5 min-w-0">
+              <span id="ttStepBadge" class="mono text-[10px] font-bold px-2 py-0.5 rounded btn-theme-accent border shrink-0">
                 STEP 1 OF 8
               </span>
-              <span id="ttScenarioLabel" class="kicker text-muted-ink shrink-0 hidden sm:inline">END-TO-END TOUR</span>
-              <span class="text-muted-ink shrink-0 hidden sm:inline">·</span>
-              <h4 id="ttTitle" class="text-xs font-bold text-primary-ink truncate"></h4>
+              <span id="ttAnchorBadge" class="mono text-[10px] font-bold px-1.5 py-0.5 rounded surface-panel text-primary-ink border border-hairline truncate">
+                ◀ #01
+              </span>
+              <span id="ttScenarioLabel" class="sr-only">END-TO-END TOUR</span>
             </div>
+            <button id="btnCloseTooltip" title="Exit guided tour and return to free exploration" class="no-wrap-btn px-1.5 py-0.5 rounded text-[10.5px] font-bold surface-panel text-secondary-ink border border-hairline hover:text-primary-ink transition cursor-pointer">
+              × Exit
+            </button>
+          </div>
 
-            <div class="flex items-center gap-1.5 shrink-0">
-              <button id="btnTtDeepDive" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
-                Deep Dive
-              </button>
-              <button id="btnTtPrev" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
+          <h4 id="ttTitle" class="text-xs font-bold text-primary-ink leading-snug"></h4>
+          <p id="ttDesc" class="text-[11px] text-secondary-ink leading-snug"></p>
+
+          <div class="flex items-center justify-between gap-1.5 pt-1 border-t border-hairline">
+            <button id="btnTtDeepDive" class="no-wrap-btn px-2 py-0.5 rounded text-[10.5px] font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
+              Deep Dive
+            </button>
+            <div class="flex items-center gap-1">
+              <button id="btnTtPrev" class="no-wrap-btn px-2 py-0.5 rounded text-[10.5px] font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
                 ◀ Prev
               </button>
-              <button id="btnTtNext" class="no-wrap-btn px-2.5 py-0.5 rounded text-[11px] font-bold btn-theme-accent border transition cursor-pointer">
+              <button id="btnTtNext" class="no-wrap-btn px-2.5 py-0.5 rounded text-[10.5px] font-bold btn-theme-accent border transition cursor-pointer">
                 Next ▶
-              </button>
-              <button id="btnCloseTooltip" title="Exit guided tour and return to free exploration" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] font-semibold surface-panel text-secondary-ink border border-hairline hover:text-primary-ink transition cursor-pointer">
-                × Exit
               </button>
             </div>
           </div>
-          <p id="ttDesc" class="text-[11.5px] text-secondary-ink leading-snug"></p>
         </div>
 
         <div id="canvasWrapper" class="relative flex-1 w-full h-full min-h-[440px] lg:min-h-0 flex items-center justify-center p-2 overflow-hidden">
@@ -218,10 +224,15 @@
 
           <!-- Subheader A: Block Inspector Identity, Jumper & 5-Tab Bar -->
           <div id="nodeStickySubheader" class="flex flex-col gap-1.5 pt-0.5">
-            <div class="flex items-center justify-between gap-1.5">
-              <span id="inspBadge" class="mono text-[10.5px] font-bold px-2 py-0.5 rounded border shrink-0">
-                BLOCK 01
-              </span>
+            <div class="flex flex-wrap items-center justify-between gap-1.5">
+              <div class="flex flex-wrap items-center gap-1.5 min-w-0">
+                <span id="inspBadge" class="mono text-[10.5px] font-bold px-2 py-0.5 rounded border shrink-0">
+                  BLOCK 01
+                </span>
+                <span id="inspModeStatusBadge" class="mono text-[10px] font-bold px-1.5 py-0.5 rounded border shrink-0">
+                  ● 3/3 PATHWAYS
+                </span>
+              </div>
               <!-- Sequential Block Navigation (Prev / Block Jumper / Next) -->
               <div class="inline-flex items-center gap-0.5 p-0.5 rounded border border-hairline surface-root shrink-0">
                 <button id="btnPrevNode" title="Previous Subsystem Block" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
@@ -308,12 +319,18 @@
             </div>
             <div id="ntabBody" class="text-xs text-primary-ink leading-relaxed"></div>
 
-            <!-- Theme-Cohesive Callout Container -->
+            <!-- Pathway-Aware Role & Execution Context Callout Container -->
             <div id="ntabCalloutBox" class="theme-callout mt-0.5">
-              <div class="theme-callout-header">
-                <span class="kicker text-theme-accent" id="ntabSubLabel">WHY IT SITS HERE IN THE DATAFLOW</span>
+              <div class="theme-callout-header flex-wrap">
+                <span class="kicker text-theme-accent" id="ntabSubLabel">PATHWAY ROLE &amp; EXPECTATIONS</span>
+                <div class="inline-flex items-center gap-0.5 p-0.5 rounded surface-panel border border-hairline" role="group" aria-label="Switch Pathway Context">
+                  <button type="button" data-inline-mode="all" class="inline-mode-pill no-wrap-btn px-1.5 py-0.5 rounded text-[9.5px] font-bold cursor-pointer">All</button>
+                  <button type="button" data-inline-mode="live" class="inline-mode-pill no-wrap-btn px-1.5 py-0.5 rounded text-[9.5px] font-semibold cursor-pointer">Live 5.5ms</button>
+                  <button type="button" data-inline-mode="train" class="inline-mode-pill no-wrap-btn px-1.5 py-0.5 rounded text-[9.5px] font-semibold cursor-pointer">Train</button>
+                  <button type="button" data-inline-mode="distill" class="inline-mode-pill no-wrap-btn px-1.5 py-0.5 rounded text-[9.5px] font-semibold cursor-pointer">Distill</button>
+                </div>
               </div>
-              <div id="ntabSubContent" class="theme-callout-body mono text-[11px] text-secondary-ink leading-snug break-words"></div>
+              <div id="ntabSubContent" class="theme-callout-body text-[11px] text-secondary-ink leading-snug break-words"></div>
             </div>
           </div>
 
@@ -349,12 +366,18 @@
             </div>
             <div id="ttabBody" class="text-xs text-primary-ink leading-relaxed"></div>
 
-            <!-- Theme-Cohesive Callout Container -->
+            <!-- Pathway-Aware Callout Container in Deep Dive -->
             <div id="ttabCalloutBox" class="theme-callout mt-0.5">
-              <div class="theme-callout-header">
-                <span class="kicker text-theme-accent" id="ttabSubLabel">WHY IT SITS HERE IN THE DATAFLOW</span>
+              <div class="theme-callout-header flex-wrap">
+                <span class="kicker text-theme-accent" id="ttabSubLabel">PATHWAY ROLE &amp; PLACEMENT</span>
+                <div class="inline-flex items-center gap-0.5 p-0.5 rounded surface-panel border border-hairline" role="group" aria-label="Switch Pathway Context">
+                  <button type="button" data-inline-mode="all" class="inline-mode-pill no-wrap-btn px-1.5 py-0.5 rounded text-[9.5px] font-bold cursor-pointer">All</button>
+                  <button type="button" data-inline-mode="live" class="inline-mode-pill no-wrap-btn px-1.5 py-0.5 rounded text-[9.5px] font-semibold cursor-pointer">Live 5.5ms</button>
+                  <button type="button" data-inline-mode="train" class="inline-mode-pill no-wrap-btn px-1.5 py-0.5 rounded text-[9.5px] font-semibold cursor-pointer">Train</button>
+                  <button type="button" data-inline-mode="distill" class="inline-mode-pill no-wrap-btn px-1.5 py-0.5 rounded text-[9.5px] font-semibold cursor-pointer">Distill</button>
+                </div>
               </div>
-              <div id="ttabSubContent" class="theme-callout-body mono text-[11px] text-secondary-ink leading-snug break-words"></div>
+              <div id="ttabSubContent" class="theme-callout-body text-[11px] text-secondary-ink leading-snug break-words"></div>
             </div>
           </div>
 

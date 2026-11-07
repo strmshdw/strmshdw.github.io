@@ -415,9 +415,25 @@
           ? 'mode-filter-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold surface-elevated text-primary-ink border border-subtle transition cursor-pointer'
           : 'mode-filter-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
       });
+      document.querySelectorAll('.inline-mode-pill').forEach((btn) => {
+        const key = btn.getAttribute('data-inline-mode');
+        const isAct = key === activeMode;
+        btn.className = isAct
+          ? 'inline-mode-pill no-wrap-btn px-1.5 py-0.5 rounded text-[9.5px] font-bold btn-theme-accent transition cursor-pointer'
+          : 'inline-mode-pill no-wrap-btn px-1.5 py-0.5 rounded text-[9.5px] font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+      });
       if (selMode && selMode.value !== activeMode) {
         selMode.value = activeMode;
       }
+    }
+
+    function setActivePathwayMode(modeKey) {
+      if (!['all', 'live', 'train', 'distill'].includes(modeKey)) return;
+      activeMode = modeKey;
+      syncModeFilterPills();
+      renderNodeInspector();
+      if (activeRightView === 'tech') renderTechDeepDive();
+      syncUrlHash();
     }
 
     function syncThemeAlignedButtons() {
@@ -599,16 +615,19 @@
         edgeList.forEach((e) => {
           const targetNode = nodeMap[isIncoming ? e.from : e.to];
           if (!targetNode) return;
+          const edgeActive = activeMode === 'all' || (e.modes && e.modes.includes(activeMode));
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.className =
-            'no-wrap-btn px-1.5 py-0.5 rounded surface-root border border-hairline hover:border-subtle text-[10px] mono text-primary-ink transition cursor-pointer gap-1';
+            'no-wrap-btn px-1.5 py-0.5 rounded surface-root border border-hairline hover:border-subtle text-[10px] mono text-primary-ink transition cursor-pointer gap-1' +
+            (edgeActive ? '' : ' opacity-55');
           btn.title =
             (isIncoming ? 'Upstream Input from #' : 'Downstream Output to #') +
             targetNode.num +
             ' ' +
             targetNode.title +
-            (e.label ? ' (' + e.label + ')' : '');
+            (e.label ? ' (' + e.label + ')' : '') +
+            (edgeActive ? '' : ' — Bypassed in ' + activeMode.toUpperCase());
           btn.innerHTML =
             '<span class="font-bold" style="color:' +
             targetNode.color +
@@ -619,6 +638,9 @@
             '</span>' +
             (e.label
               ? '<span class="px-1 rounded surface-panel text-[9px] text-secondary-ink">' + e.label + '</span>'
+              : '') +
+            (!edgeActive
+              ? '<span class="px-1 rounded text-[8.5px] font-bold" style="background:rgba(245,158,11,0.18);color:#d97706">BYPASSED</span>'
               : '');
           btn.addEventListener('click', () => {
             selectedNodeId = targetNode.id;
@@ -636,6 +658,271 @@
       container.appendChild(makeCol('Downstream Outputs (' + outgoing.length + ') →', outgoing, false));
     }
 
+    // Resolve per-block Pathway Role & Bypass Explanation for (node, activeArchKey, mode)
+    function getPathwayRoleSpec(node, archKey, mode) {
+      const db = window.ARASHIKAGE_PATHWAY_ROLES || {};
+      const archMap = db[archKey] || {};
+      const hexMap = db.hex63 || {};
+      if (archMap[node.id] && archMap[node.id][mode]) {
+        return archMap[node.id][mode];
+      }
+      if (archKey === 'hex63' && hexMap[node.id] && hexMap[node.id][mode]) {
+        return hexMap[node.id][mode];
+      }
+      // Generation-specific synthesis for active/bypassed legacy blocks not explicitly overridden
+      const isAct = (node.modes || []).includes(mode);
+      if (mode === 'live') {
+        return isAct
+          ? {
+              regime: 'ACTIVE · Live 15Hz / 120Hz Forward Inference',
+              text:
+                'Executes inside the deployed real-time RLBot inference loop (' +
+                node.tag +
+                '). Processes ' +
+                node.tensor +
+                ' with frozen weights and deterministic / low-temperature action selection.'
+            }
+          : {
+              regime: 'DISABLED IN LIVE (Training / Distillation Only)',
+              text:
+                'WHY DISABLED IN LIVE: ' +
+                node.title +
+                ' relies on simulator-only privileged state or training-time optimization and is omitted from the live tournament inference path.'
+            };
+      }
+      if (mode === 'train') {
+        return isAct
+          ? {
+              regime: 'ACTIVE · Parallel Batch Arena Rollout & PPO',
+              text:
+                'Executes across parallel RocketSim training arenas (' +
+                node.tensor +
+                '). Participates in batched forward rollouts and receives policy/value gradients during PPO epochs.'
+            }
+          : {
+              regime: 'BYPASSED IN TRAIN (Used in Live / Distill)',
+              text:
+                'WHY BYPASSED IN TRAIN: ' +
+                node.title +
+                ' is a dedicated migration or test-time module and is bypassed during standard RL self-play rollouts.'
+            };
+      }
+      return isAct
+        ? {
+            regime: 'ACTIVE · Teacher -> Student Warm-Start Distillation',
+            text:
+              'Active during supervised policy & value distillation (' +
+              node.tensor +
+              '), aligning student representations and action heads with the teacher checkpoint before RL fine-tuning.'
+          }
+        : {
+            regime: 'BYPASSED IN DISTILL (Used in Online RL / Live)',
+            text:
+              'WHY BYPASSED IN DISTILL: ' +
+              node.title +
+              ' operates on online RL rollout rewards or live test-time search and is bypassed during supervised teacher cloning.'
+          };
+    }
+
+    function updateInspectorModeStatusBadge(node) {
+      const badge = document.getElementById('inspModeStatusBadge');
+      if (!badge || !node) return;
+      const isLight = activePolarity === 'light';
+      const modes = node.modes || [];
+      const activeList = ['live', 'train', 'distill'].filter((m) => modes.includes(m));
+
+      if (activeMode === 'all') {
+        if (activeList.length === 3) {
+          badge.textContent = '● 3/3 PATHWAYS';
+          badge.style.color = isLight ? '#15803d' : '#4ade80';
+          badge.style.borderColor = isLight ? '#16a34a' : '#22c55e';
+          badge.style.backgroundColor = isLight ? 'rgba(22,163,74,0.12)' : 'rgba(34,197,94,0.16)';
+        } else {
+          const names = activeList.map((m) => m.toUpperCase()).join('+');
+          badge.textContent = '◐ ' + names + ' ONLY';
+          badge.style.color = isLight ? '#b45309' : '#fbbf24';
+          badge.style.borderColor = isLight ? '#d97706' : '#f59e0b';
+          badge.style.backgroundColor = isLight ? 'rgba(217,119,6,0.14)' : 'rgba(245,158,11,0.18)';
+        }
+      } else {
+        const isAct = modes.includes(activeMode);
+        const mName = activeMode.toUpperCase();
+        if (isAct) {
+          badge.textContent = '● ' + mName + ': ACTIVE';
+          badge.style.color = isLight ? '#15803d' : '#4ade80';
+          badge.style.borderColor = isLight ? '#16a34a' : '#22c55e';
+          badge.style.backgroundColor = isLight ? 'rgba(22,163,74,0.14)' : 'rgba(34,197,94,0.18)';
+        } else {
+          badge.textContent = '⊘ ' + mName + ': BYPASSED';
+          badge.style.color = isLight ? '#b45309' : '#fbbf24';
+          badge.style.borderColor = isLight ? '#d97706' : '#f59e0b';
+          badge.style.backgroundColor = isLight ? 'rgba(217,119,6,0.18)' : 'rgba(245,158,11,0.22)';
+        }
+      }
+    }
+
+    function renderNodePathwayCallout(node, sigLabel, sigValue) {
+      const ntabSubLabel = document.getElementById('ntabSubLabel');
+      const ntabSubContent = document.getElementById('ntabSubContent');
+      if (!ntabSubLabel || !ntabSubContent || !node) return;
+
+      const isLight = activePolarity === 'light';
+      const modes = node.modes || [];
+      const modeNames = {
+        live: 'Live 5.5ms',
+        train: 'Train (4,096 Arenas)',
+        distill: 'Distill (Warm-Start)'
+      };
+
+      if (activeMode === 'all') {
+        const activeCount = ['live', 'train', 'distill'].filter((m) => modes.includes(m)).length;
+        ntabSubLabel.textContent =
+          'ROLE ACROSS PATHWAYS (' + activeCount + '/3 ACTIVE — CLICK ROW TO FILTER)';
+
+        const rowsHtml = ['live', 'train', 'distill']
+          .map((m) => {
+            const isAct = modes.includes(m);
+            const spec = getPathwayRoleSpec(node, activeArchKey, m);
+            const pillBg = isAct
+              ? isLight ? 'rgba(22,163,74,0.14)' : 'rgba(34,197,94,0.18)'
+              : isLight ? 'rgba(217,119,6,0.16)' : 'rgba(245,158,11,0.22)';
+            const pillCol = isAct
+              ? isLight ? '#15803d' : '#4ade80'
+              : isLight ? '#b45309' : '#fbbf24';
+            const pillBorder = isAct ? '#16a34a' : '#d97706';
+            const statusText = isAct ? '● ACTIVE' : '⊘ BYPASSED';
+
+            return (
+              '<div data-switch-mode="' +
+              m +
+              '" class="p-1.5 rounded surface-panel border border-hairline hover:border-subtle transition cursor-pointer flex flex-col gap-0.5" title="Click to filter diagram to ' +
+              modeNames[m] +
+              '">' +
+              '<div class="flex flex-wrap items-center justify-between gap-1">' +
+              '<div class="flex items-center gap-1.5">' +
+              '<span class="mono text-[9.5px] font-bold text-primary-ink">' +
+              modeNames[m].toUpperCase() +
+              '</span>' +
+              '<span class="mono text-[9px] font-bold px-1.5 py-0.2 rounded" style="background:' +
+              pillBg +
+              ';color:' +
+              pillCol +
+              ';border:1px solid ' +
+              pillBorder +
+              '">' +
+              statusText +
+              '</span>' +
+              '</div>' +
+              '<span class="mono text-[9px] text-muted-ink">' +
+              spec.regime +
+              '</span>' +
+              '</div>' +
+              '<p class="text-[10.5px] text-secondary-ink leading-snug">' +
+              spec.text +
+              '</p>' +
+              '</div>'
+            );
+          })
+          .join('');
+
+        ntabSubContent.innerHTML =
+          '<div class="flex flex-col gap-1.5">' +
+          rowsHtml +
+          '<div class="pt-1 border-t border-hairline flex flex-wrap items-baseline justify-between gap-1 mono text-[10px]">' +
+          '<span class="font-bold text-muted-ink uppercase">' +
+          sigLabel +
+          ':</span>' +
+          '<span class="text-primary-ink">' +
+          sigValue +
+          '</span>' +
+          '</div>' +
+          '</div>';
+      } else {
+        const isAct = modes.includes(activeMode);
+        const spec = getPathwayRoleSpec(node, activeArchKey, activeMode);
+        const mLabel = modeNames[activeMode] || activeMode.toUpperCase();
+        ntabSubLabel.textContent =
+          'ROLE IN ' + mLabel.toUpperCase() + (isAct ? ' · ● ACTIVE' : ' · ⊘ BYPASSED ON DIAGRAM');
+
+        const bannerBg = isAct
+          ? isLight ? 'rgba(22,163,74,0.12)' : 'rgba(34,197,94,0.16)'
+          : isLight ? 'rgba(217,119,6,0.15)' : 'rgba(245,158,11,0.20)';
+        const bannerCol = isAct
+          ? isLight ? '#15803d' : '#4ade80'
+          : isLight ? '#b45309' : '#fbbf24';
+        const bannerBorder = isAct ? '#16a34a' : '#d97706';
+
+        const otherModesHtml = ['live', 'train', 'distill']
+          .map((m) => {
+            const mAct = modes.includes(m);
+            const isCur = m === activeMode;
+            return (
+              '<button type="button" data-switch-mode="' +
+              m +
+              '" class="no-wrap-btn mono text-[9.5px] px-1.5 py-0.5 rounded border border-hairline ' +
+              (isCur ? 'surface-elevated font-bold text-primary-ink' : 'surface-panel text-secondary-ink hover:text-primary-ink') +
+              ' cursor-pointer gap-1">' +
+              '<span style="color:' +
+              (mAct ? (isLight ? '#15803d' : '#4ade80') : isLight ? '#b45309' : '#fbbf24') +
+              '">' +
+              (mAct ? '●' : '⊘') +
+              '</span>' +
+              '<span>' +
+              (m === 'live' ? 'Live' : m === 'train' ? 'Train' : 'Distill') +
+              ': ' +
+              (mAct ? 'Active' : 'Bypassed') +
+              '</span>' +
+              '</button>'
+            );
+          })
+          .join('');
+
+        ntabSubContent.innerHTML =
+          '<div class="flex flex-col gap-1.5">' +
+          '<div class="p-2 rounded border flex flex-col gap-1" style="background:' +
+          bannerBg +
+          ';border-color:' +
+          bannerBorder +
+          '">' +
+          '<div class="flex flex-wrap items-center justify-between gap-1">' +
+          '<span class="mono text-[10px] font-bold" style="color:' +
+          bannerCol +
+          '">' +
+          (isAct ? '● ACTIVE IN ' + mLabel.toUpperCase() : '⊘ DISABLED / BYPASSED IN ' + mLabel.toUpperCase()) +
+          '</span>' +
+          '<span class="mono text-[9.5px] font-semibold text-primary-ink">' +
+          spec.regime +
+          '</span>' +
+          '</div>' +
+          '<p class="text-[11px] text-primary-ink leading-snug">' +
+          spec.text +
+          '</p>' +
+          '</div>' +
+          '<div class="flex flex-wrap items-center justify-between gap-1 pt-0.5">' +
+          '<span class="mono text-[9.5px] font-bold text-muted-ink uppercase">Block Status Across Tasks:</span>' +
+          '<div class="flex flex-wrap items-center gap-1">' +
+          otherModesHtml +
+          '</div>' +
+          '</div>' +
+          '<div class="pt-1 border-t border-hairline flex flex-wrap items-baseline justify-between gap-1 mono text-[10px]">' +
+          '<span class="font-bold text-muted-ink uppercase">' +
+          sigLabel +
+          ':</span>' +
+          '<span class="text-primary-ink">' +
+          sigValue +
+          '</span>' +
+          '</div>' +
+          '</div>';
+      }
+
+      ntabSubContent.querySelectorAll('[data-switch-mode]').forEach((el) => {
+        el.addEventListener('click', () => {
+          const targetMode = el.getAttribute('data-switch-mode');
+          if (targetMode) setActivePathwayMode(targetMode);
+        });
+      });
+    }
+
     // Render Block Inspector View (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Papers)
     function renderNodeInspector() {
       const n = nodeMap[selectedNodeId] || nodes[0];
@@ -650,6 +937,8 @@
       inspBadge.style.color = n.color;
       inspBadge.style.borderColor = n.color;
       inspBadge.style.backgroundColor = n.color + '18';
+
+      updateInspectorModeStatusBadge(n);
 
       document.getElementById('inspShapePill').textContent = n.sub;
       document.getElementById('inspTitle').textContent = n.title;
@@ -703,8 +992,6 @@
       const ntabHeading = document.getElementById('ntabHeading');
       const ntabBody = document.getElementById('ntabBody');
       const ntabCalloutBox = document.getElementById('ntabCalloutBox');
-      const ntabSubLabel = document.getElementById('ntabSubLabel');
-      const ntabSubContent = document.getElementById('ntabSubContent');
 
       if (activeNTab === 'learn') {
         ntabHeading.textContent = '05 // PRIMARY LITERATURE & WHITE PAPERS';
@@ -714,27 +1001,32 @@
       } else {
         ntabCalloutBox.classList.remove('hidden');
 
+        let sigLabel = 'DATAFLOW PLACEMENT & TENSOR';
+        let sigValue = (n.role || '') + ' — ' + n.tensor;
+
         if (activeNTab === 'how') {
           ntabHeading.textContent = '01 // HOW IT WORKS (MECHANISM)';
           ntabBody.textContent = n.how;
-          ntabSubLabel.textContent = 'WHY IT SITS HERE IN THE DATAFLOW';
-          ntabSubContent.textContent = (n.role || '') + ' — ' + n.tensor;
+          sigLabel = 'DATAFLOW PLACEMENT & TENSOR';
+          sigValue = (n.role || '') + ' — ' + n.tensor;
         } else if (activeNTab === 'why') {
           ntabHeading.textContent = '02 // WHY IT IS USED (ENGINEERING RATIONALE)';
           ntabBody.textContent = n.why;
-          ntabSubLabel.textContent = 'MATHEMATICAL IDENTITY & INVARIANT';
-          ntabSubContent.textContent = n.formula;
+          sigLabel = 'MATHEMATICAL IDENTITY & INVARIANT';
+          sigValue = n.formula;
         } else if (activeNTab === 'contrib') {
           ntabHeading.textContent = '03 // WHAT IT CONTRIBUTES TO SYSTEM GOAL';
           ntabBody.textContent = n.contrib;
-          ntabSubLabel.textContent = 'WHY IT SITS HERE IN THE DATAFLOW';
-          ntabSubContent.textContent = n.role || n.sub;
+          sigLabel = 'DATAFLOW PLACEMENT';
+          sigValue = n.role || n.sub;
         } else {
           ntabHeading.textContent = '04 // MATHEMATICAL FORMULATION & TENSOR ABI';
           ntabBody.textContent = n.formula;
-          ntabSubLabel.textContent = 'IN / OUT TENSOR SIGNATURE';
-          ntabSubContent.textContent = n.tensor;
+          sigLabel = 'IN / OUT TENSOR SIGNATURE';
+          sigValue = n.tensor;
         }
+
+        renderNodePathwayCallout(n, sigLabel, sigValue);
       }
 
       renderContextualWidget(n);
@@ -769,26 +1061,74 @@
       } else {
         ttabCalloutBox.classList.remove('hidden');
 
+        let sigLabel = 'WHY IT SITS HERE IN THE DATAFLOW';
+        let sigValue = t.placement;
+
         if (activeTTab === 'how') {
           ttabHeading.textContent = '01 // HOW IT WORKS (MECHANISM)';
           ttabBody.textContent = t.how;
-          ttabSubLabel.textContent = 'WHY IT SITS HERE IN THE DATAFLOW';
-          ttabSubContent.textContent = t.placement;
+          sigLabel = 'WHY IT SITS HERE IN THE DATAFLOW';
+          sigValue = t.placement;
         } else if (activeTTab === 'why') {
           ttabHeading.textContent = '02 // WHY IT IS USED (PROBLEM SOLVED)';
           ttabBody.textContent = t.why;
-          ttabSubLabel.textContent = 'RESEARCH ORIGINS & EVOLUTION';
-          ttabSubContent.textContent = t.origins;
+          sigLabel = 'RESEARCH ORIGINS & EVOLUTION';
+          sigValue = t.origins;
         } else if (activeTTab === 'contrib') {
           ttabHeading.textContent = '03 // WHAT IT CONTRIBUTES TO SYSTEM GOAL';
           ttabBody.textContent = t.contrib;
-          ttabSubLabel.textContent = 'WHY IT SITS HERE IN THE DATAFLOW';
-          ttabSubContent.textContent = t.placement;
+          sigLabel = 'WHY IT SITS HERE IN THE DATAFLOW';
+          sigValue = t.placement;
         } else {
           ttabHeading.textContent = '04 // UNDERLYING SCIENCE & MATHEMATICAL MECHANISM';
           ttabBody.textContent = t.science;
-          ttabSubLabel.textContent = 'RESEARCH ORIGINS & EVOLUTION';
-          ttabSubContent.textContent = t.origins;
+          sigLabel = 'RESEARCH ORIGINS & EVOLUTION';
+          sigValue = t.origins;
+        }
+
+        const usedNodes = (t.usedIn || []).map((nid) => nodeMap[nid]).filter(Boolean);
+        if (activeMode === 'all' || usedNodes.length === 0) {
+          ttabSubLabel.textContent = sigLabel;
+          ttabSubContent.textContent = sigValue;
+        } else {
+          const mLabel = MODE_LABELS[activeMode] || activeMode.toUpperCase();
+          ttabSubLabel.textContent = 'PATHWAY ROLE (' + mLabel.toUpperCase() + ') & ' + sigLabel;
+          const rowsHtml = usedNodes
+            .map((un) => {
+              const isAct = isNodeActiveInMode(un, activeMode);
+              const spec = getPathwayRoleSpec(un, activeMode);
+              const badgeCol = isAct ? '#10b981' : '#f59e0b';
+              return (
+                '<div class="p-1.5 rounded border surface-root flex flex-col gap-0.5" style="border-color:' +
+                (isAct ? 'rgba(16,185,129,0.32)' : 'rgba(245,158,11,0.40)') +
+                '">' +
+                '<div class="flex flex-wrap items-center justify-between gap-1">' +
+                '<span class="mono text-[10px] font-bold" style="color:' +
+                badgeCol +
+                '">' +
+                (isAct ? '● #' + un.num + ' ' + un.title + ' (ACTIVE)' : '⊘ #' + un.num + ' ' + un.title + ' (BYPASSED)') +
+                '</span>' +
+                '<span class="mono text-[9.5px] font-semibold text-primary-ink">' +
+                spec.regime +
+                '</span>' +
+                '</div>' +
+                '<p class="text-[10.5px] text-secondary-ink leading-snug">' +
+                spec.text +
+                '</p>' +
+                '</div>'
+              );
+            })
+            .join('');
+          ttabSubContent.innerHTML =
+            '<div class="flex flex-col gap-1.5">' +
+            rowsHtml +
+            '<div class="pt-1 border-t border-hairline mono text-[10px] text-secondary-ink">' +
+            '<span class="font-bold text-muted-ink">' +
+            sigLabel +
+            ': </span>' +
+            sigValue +
+            '</div>' +
+            '</div>';
         }
       }
 
@@ -797,9 +1137,12 @@
       (t.usedIn || []).forEach((nid) => {
         const n = nodeMap[nid];
         if (!n) return;
+        const isAct = isNodeActiveInMode(n, activeMode);
         const b = document.createElement('button');
         b.type = 'button';
-        b.className = 'no-wrap-btn mono text-[10.5px] px-2 py-0.5 rounded surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer gap-1';
+        b.className =
+          'no-wrap-btn mono text-[10.5px] px-2 py-0.5 rounded surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer gap-1' +
+          (!isAct ? ' opacity-70' : '');
         b.innerHTML =
           '<span class="font-bold" style="color:' +
           n.color +
@@ -807,7 +1150,10 @@
           n.num +
           '</span><span>' +
           n.title +
-          '</span>';
+          '</span>' +
+          (!isAct && activeMode !== 'all'
+            ? '<span class="text-[9px] font-bold text-amber-500">[BYP]</span>'
+            : '');
         b.addEventListener('click', () => {
           selectedNodeId = n.id;
           setRightView('node');
@@ -1432,7 +1778,110 @@
       if (!skipHashSync) syncUrlHash();
     }
 
-    // Update 2-Row Docked Walkthrough HUD Bar (100% Untruncated Description, Zero Node Occlusion)
+    let lastTtLeft = -9999;
+    let lastTtTop = -9999;
+    let lastTtArrowTop = -9999;
+    let lastTtSide = '';
+
+    // Position the Floating Walkthrough Tooltip directly beside the active focusNode with pointer arrow
+    function positionAnchoredTourTooltip(forceUpdate) {
+      if (
+        !tourTooltip ||
+        tourTooltip.classList.contains('hidden') ||
+        activeScenarioKey === 'none' ||
+        !tourOverlayVisible ||
+        !scenarios[activeScenarioKey]
+      ) {
+        return;
+      }
+
+      const scen = scenarios[activeScenarioKey];
+      const steps = scen.steps || [];
+      const step = steps[activeStepIdx] || steps[0];
+      if (!step) return;
+
+      const focusNode = (step.focusNode && nodeMap[step.focusNode]) ? nodeMap[step.focusNode] : nodes[0];
+      if (!focusNode) return;
+
+      const stageContainer = document.getElementById('canvasStageContainer') || tourTooltip.offsetParent || canvasWrapper;
+      const stageRect = stageContainer.getBoundingClientRect();
+      const cRect = canvas.getBoundingClientRect();
+      if (cRect.width < 40 || stageRect.width < 40) return;
+
+      const scaleX = cRect.width / 1120;
+      const scaleY = cRect.height / 680;
+      const offsetX = cRect.left - stageRect.left;
+      const offsetY = cRect.top - stageRect.top;
+
+      const nodeLeft = offsetX + (focusNode.x - focusNode.w * 0.5) * scaleX;
+      const nodeRight = offsetX + (focusNode.x + focusNode.w * 0.5) * scaleX;
+      const nodeTop = offsetY + (focusNode.y - focusNode.h * 0.5) * scaleY;
+      const nodeBottom = offsetY + (focusNode.y + focusNode.h * 0.5) * scaleY;
+      const nodeCenterY = (nodeTop + nodeBottom) * 0.5;
+
+      const ttRect = tourTooltip.getBoundingClientRect();
+      const ttW = ttRect.width || 352;
+      const ttH = ttRect.height || 180;
+      const gap = 14;
+      const pad = 10;
+
+      // Place to the RIGHT of focusNode for Columns 0..2, or to the LEFT of focusNode for Columns 3..5
+      let placeToRight = focusNode.col <= 2;
+      if (placeToRight && nodeRight + gap + ttW > stageRect.width - pad) {
+        if (nodeLeft - gap - ttW >= pad) placeToRight = false;
+      } else if (!placeToRight && nodeLeft - gap - ttW < pad) {
+        if (nodeRight + gap + ttW <= stageRect.width - pad) placeToRight = true;
+      }
+
+      let targetLeft = placeToRight ? nodeRight + gap : nodeLeft - gap - ttW;
+      targetLeft = Math.max(pad, Math.min(stageRect.width - ttW - pad, targetLeft));
+
+      let targetTop = nodeCenterY - ttH * 0.5;
+      targetTop = Math.max(pad, Math.min(stageRect.height - ttH - pad, targetTop));
+
+      const arrowSide = placeToRight ? 'left' : 'right';
+      const arrowOffsetTop = Math.max(16, Math.min(ttH - 22, nodeCenterY - targetTop - 6));
+
+      if (
+        forceUpdate ||
+        Math.abs(targetLeft - lastTtLeft) > 0.5 ||
+        Math.abs(targetTop - lastTtTop) > 0.5 ||
+        Math.abs(arrowOffsetTop - lastTtArrowTop) > 0.5 ||
+        arrowSide !== lastTtSide
+      ) {
+        lastTtLeft = targetLeft;
+        lastTtTop = targetTop;
+        lastTtArrowTop = arrowOffsetTop;
+        lastTtSide = arrowSide;
+
+        tourTooltip.style.left = Math.round(targetLeft) + 'px';
+        tourTooltip.style.top = Math.round(targetTop) + 'px';
+
+        const arrowEl = document.getElementById('tourTooltipArrow');
+        if (arrowEl) {
+          arrowEl.setAttribute('data-side', arrowSide);
+          arrowEl.style.top = Math.round(arrowOffsetTop) + 'px';
+          arrowEl.style.left = arrowSide === 'left' ? '-7px' : 'auto';
+          arrowEl.style.right = arrowSide === 'right' ? '-7px' : 'auto';
+        }
+
+        const anchorBadge = document.getElementById('ttAnchorBadge');
+        if (anchorBadge) {
+          anchorBadge.textContent =
+            (placeToRight ? '◀ ' : '') +
+            '#' +
+            focusNode.num +
+            ' ' +
+            focusNode.title +
+            (!placeToRight ? ' ▶' : '');
+          anchorBadge.style.color = focusNode.color;
+          anchorBadge.style.borderColor = focusNode.color;
+          anchorBadge.style.backgroundColor = focusNode.color + '18';
+        }
+      }
+    }
+
+    // Update Node-Anchored Floating Walkthrough Tooltip
     function updateTourTooltip() {
       if (activeScenarioKey === 'none' || !tourOverlayVisible || !scenarios[activeScenarioKey]) {
         tourTooltip.classList.add('hidden');
@@ -1474,6 +1923,7 @@
 
       requestAnimationFrame(() => {
         renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
+        positionAnchoredTourTooltip(true);
       });
     }
 
@@ -1540,20 +1990,22 @@
       });
     }
 
-    // Event Listeners: 1-Click Pathway Filter Pills & Select
+    // Event Listeners: 1-Click Pathway Filter Pills, Inline Callout Switcher & Select
     document.querySelectorAll('.mode-filter-pill').forEach((btn) => {
       btn.addEventListener('click', () => {
         const m = btn.getAttribute('data-mode-pill');
-        if (m) {
-          activeMode = m;
-          syncModeFilterPills();
-        }
+        if (m) setActivePathwayMode(m);
+      });
+    });
+    document.querySelectorAll('.inline-mode-pill').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const m = btn.getAttribute('data-inline-mode');
+        if (m) setActivePathwayMode(m);
       });
     });
     if (selMode) {
       selMode.addEventListener('change', (e) => {
-        activeMode = e.target.value;
-        syncModeFilterPills();
+        setActivePathwayMode(e.target.value);
       });
     }
 
@@ -1911,6 +2363,9 @@
 
     function loop() {
       renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
+      if (tourOverlayVisible && activeScenarioKey !== 'none') {
+        positionAnchoredTourTooltip(false);
+      }
       animTick += 0.016;
 
       let highlightSet = null;
