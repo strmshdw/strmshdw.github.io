@@ -28,7 +28,7 @@
   }
   rebuildLookupMaps();
 
-  // Application State
+  // Application State (Default to un-dimmed Free Exploration on initial load)
   let selectedNodeId = 'dma_slice';
   let hoveredNodeId = null;
   let activeNTab = 'how'; // 'how' | 'why' | 'contrib' | 'math' | 'learn'
@@ -36,9 +36,9 @@
   let activeRightView = 'node'; // 'node' | 'tech'
   let selectedTechId = 't0';
   let activeMode = 'all';
-  let activeScenarioKey = 'tour';
+  let activeScenarioKey = 'none';
   let activeStepIdx = 0;
-  let tourOverlayVisible = true;
+  let tourOverlayVisible = false;
   let animTick = 0;
 
   // Fullscreen & Slide-In Drawer State
@@ -51,7 +51,7 @@
   let selectedPairKeyIdx = 6;
   let surpriseIntensity = 0.68;
 
-  // 6-Style × 2-Polarity Theme Engine Metadata
+  // 6-Style × 2-Polarity Theme Engine Metadata (Polarity-Tuned for WCAG AA/AAA Contrast)
   const THEME_ORDER = [
     'neo_brutalism',
     'modular_typo',
@@ -64,65 +64,71 @@
   const THEME_META = {
     neo_brutalism: {
       name: 'Neo-Brutalism',
-      notes: '2.5px ink borders · Hard offset block shadows · High-contrast color headers · Zero blur',
-      stageColors: ['#ff4d00', '#00b4d8', '#7c3aed', '#ec4899', '#eab308', '#16a34a']
+      notes: '2.5px ink borders · Hard offset shadows · High-contrast stage headers',
+      stageColorsLight: ['#ff4d00', '#00b4d8', '#7c3aed', '#ec4899', '#eab308', '#16a34a'],
+      stageColorsDark:  ['#ff5e1a', '#22d3ee', '#a78bfa', '#f472b6', '#facc15', '#4ade80']
     },
     modular_typo: {
       name: 'Modular Typography',
-      notes: 'Swiss International Grid · Exposed 1.5px structural rules · 0px radius · Grotesque hierarchy',
-      stageColors: ['#ff2a00', '#0055ff', '#7c3aed', '#d90429', '#ca8a04', '#0d9488']
+      notes: 'Swiss International Grid · Exposed 1.5px rules · 0px radius · Grotesque hierarchy',
+      stageColorsLight: ['#e62400', '#0050d8', '#6d28d9', '#be123c', '#b45309', '#0f766e'],
+      stageColorsDark:  ['#ff4522', '#3b82f6', '#a78bfa', '#fb7185', '#facc15', '#2dd4bf']
     },
     utilitarian: {
       name: 'Utilitarian',
-      notes: '100% Monospace · CAD crosshair grid · Corner L-brackets · 90° PCB traces · Zero ornament',
-      stageColors: ['#f59e0b', '#0284c7', '#8b5cf6', '#ec4899', '#eab308', '#10b981']
+      notes: '100% IBM Plex Mono · CAD reticle grid · Corner L-brackets · 90° PCB traces',
+      stageColorsLight: ['#b45309', '#0369a1', '#6d28d9', '#be185d', '#a16207', '#047857'],
+      stageColorsDark:  ['#f59e0b', '#38bdf8', '#a78bfa', '#f472b6', '#facc15', '#34d399']
     },
     memphis: {
       name: 'Memphis',
-      notes: '80s Sottsass geometric pop · 2.5px borders · Cyan/Pink offset shadows · Studio confetti',
-      stageColors: ['#ec4899', '#06b6d4', '#8b5cf6', '#f97316', '#eab308', '#10b981']
+      notes: '80s Sottsass geometric pop · 2.5px borders · Stage-colored offset shadows',
+      stageColorsLight: ['#db2777', '#0891b2', '#7c3aed', '#ea580c', '#eab308', '#059669'],
+      stageColorsDark:  ['#f472b6', '#22d3ee', '#a78bfa', '#fb923c', '#facc15', '#34d399']
     },
     pixel_art: {
       name: 'Pixel Art',
-      notes: '16-Bit command deck · Stepped pixel borders & rivets · Scanlines · Manhattan pixel buses',
-      stageColors: ['#00c49a', '#0096c7', '#9d4edd', '#ff2a85', '#d97706', '#16a34a']
+      notes: '16-Bit command deck · Silkscreen pixel headers · Stepped borders & scanlines',
+      stageColorsLight: ['#006d77', '#023e8a', '#6a1b9a', '#b5179e', '#b45309', '#15803d'],
+      stageColorsDark:  ['#00e5ff', '#38bdf8', '#c084fc', '#ff2a85', '#f59e0b', '#22c55e']
     },
     aurora: {
       name: 'Aurora',
-      notes: 'Borealis radial plumes · Solid velvet/pearl cards (no frost blur) · Luminous rims',
-      stageColors: ['#00bfa5', '#0091ea', '#8b5cf6', '#ec4899', '#eab308', '#10b981']
+      notes: 'Borealis radial plumes · Solid pearl/velvet cards · Luminous specular rims',
+      stageColorsLight: ['#0f766e', '#0284c7', '#6d28d9', '#be185d', '#b45309', '#15803d'],
+      stageColorsDark:  ['#00f5d4', '#38bdf8', '#a78bfa', '#f472b6', '#facc15', '#4ade80']
     }
   };
 
   const THEME_GLYPHS = {
     neo_brutalism: {
-      prev: '■◀', next: '▶■', light: '■', dark: '□',
-      node: '▣', tech: '◈', tourOn: '■', tourOff: '□',
+      prev: '◀', next: '▶', light: '■', dark: '□',
+      node: '▣', tech: '◈', tourOn: '■', tourOff: '▶',
       export: '▣', close: '×', open: '↗', fs: '⛶', fsExit: '×'
     },
     modular_typo: {
       prev: '←', next: '→', light: '○', dark: '●',
-      node: '01', tech: '02', tourOn: '●', tourOff: '○',
+      node: '▪', tech: '§', tourOn: '●', tourOff: '→',
       export: '↗', close: '×', open: '↗', fs: '⤢', fsExit: '⤡'
     },
     utilitarian: {
-      prev: '[<]', next: '[>]', light: '[L]', dark: '[D]',
-      node: '[BLK]', tech: '[DDV]', tourOn: '[ON]', tourOff: '[--]',
-      export: '[IO]', close: '[X]', open: '[>]', fs: '[FS]', fsExit: '[X]'
+      prev: '<', next: '>', light: 'L', dark: 'D',
+      node: 'BLK', tech: 'TEC', tourOn: 'ON', tourOff: '>>',
+      export: 'IO', close: 'X', open: '↗', fs: 'FS', fsExit: 'X'
     },
     memphis: {
       prev: '◀', next: '▶', light: '★', dark: '✦',
-      node: '◆', tech: '▲', tourOn: '★', tourOff: '☆',
+      node: '◆', tech: '▲', tourOn: '★', tourOff: '▶',
       export: '◆', close: '✕', open: '↗', fs: '⬡', fsExit: '✕'
     },
     pixel_art: {
-      prev: '<<', next: '>>', light: '[*]', dark: '[-]',
-      node: '[#]', tech: '[?]', tourOn: '[*]', tourOff: '[ ]',
-      export: '[v]', close: '[x]', open: '[>]', fs: '[+]', fsExit: '[x]'
+      prev: '<', next: '>', light: '*', dark: '-',
+      node: '#', tech: '?', tourOn: '*', tourOff: '>',
+      export: '^', close: 'x', open: '↗', fs: '+', fsExit: 'x'
     },
     aurora: {
       prev: '‹', next: '›', light: '✧', dark: '✦',
-      node: '◈', tech: '✦', tourOn: '✦', tourOff: '✧',
+      node: '◈', tech: '✦', tourOn: '✦', tourOff: '▸',
       export: '◈', close: '✕', open: '↗', fs: '⤢', fsExit: '✕'
     }
   };
@@ -135,7 +141,12 @@
     return g[key] || '';
   }
 
-  // Gather external white papers for a subsystem block (aggregated from its associated technologies)
+  function getActiveStageColors() {
+    const meta = THEME_META[activeTheme] || THEME_META.neo_brutalism;
+    return activePolarity === 'light' ? meta.stageColorsLight : meta.stageColorsDark;
+  }
+
+  // Gather external white papers for a subsystem block
   function getExternalResourcesForNode(node) {
     if (!node || !Array.isArray(node.techIds)) return [];
     const seen = new Set();
@@ -156,43 +167,43 @@
     return list;
   }
 
-  // Render external white paper cards inside the 5. Learn More tab
+  // Render external white paper cards inside the 5. Papers tab
   function renderLearnMoreCardsHtml(resList) {
     if (!resList || resList.length === 0) {
       return '<div class="text-xs text-secondary-ink">No external references indexed.</div>';
     }
     return (
-      '<div class="flex flex-col gap-3 max-h-[380px] overflow-y-auto pr-1">' +
+      '<div class="flex flex-col gap-2.5 max-h-[340px] overflow-y-auto pr-1">' +
       resList
         .map(
           (r) =>
-            '<div class="surface-root border border-hairline rounded-xl p-3.5 flex flex-col justify-between gap-2.5">' +
+            '<div class="surface-root border border-hairline rounded-xl p-3 flex flex-col justify-between gap-2">' +
             '<div class="flex flex-col gap-1">' +
             '<div class="flex flex-wrap items-center justify-between gap-1.5">' +
-            '<span class="mono text-[10.5px] font-bold px-2 py-0.5 rounded btn-theme-accent border">' +
+            '<span class="mono text-[10px] font-bold px-2 py-0.5 rounded btn-theme-accent border">' +
             r.badge +
             '</span>' +
             (r.techShort
-              ? '<span class="mono text-[10.5px] font-semibold text-muted-ink">' + r.techShort + '</span>'
+              ? '<span class="mono text-[10px] font-semibold text-muted-ink">' + r.techShort + '</span>'
               : '') +
             '</div>' +
             '<h4 class="text-xs font-bold text-primary-ink leading-snug mt-0.5">' +
             r.title +
             '</h4>' +
-            '<div class="mono text-[11px] text-muted-ink">' +
+            '<div class="mono text-[10.5px] text-muted-ink">' +
             r.authors +
             '</div>' +
-            '<p class="text-xs text-secondary-ink leading-relaxed mt-0.5">' +
+            '<p class="text-[11.5px] text-secondary-ink leading-relaxed mt-0.5">' +
             r.desc +
             '</p>' +
             '</div>' +
-            '<div class="pt-2 border-t border-hairline flex items-center justify-between gap-2">' +
-            '<span class="mono text-[10.5px] text-muted-ink truncate">' +
+            '<div class="pt-1.5 border-t border-hairline flex items-center justify-between gap-2">' +
+            '<span class="mono text-[10px] text-muted-ink truncate">' +
             r.url +
             '</span>' +
             '<a href="' +
             r.url +
-            '" target="_blank" rel="noopener noreferrer" class="no-wrap-btn px-3 py-1 rounded-lg text-xs font-semibold btn-theme-accent border transition">' +
+            '" target="_blank" rel="noopener noreferrer" class="no-wrap-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold btn-theme-accent border transition">' +
             '<span>Open Paper ' +
             getGlyph('open') +
             '</span>' +
@@ -217,18 +228,39 @@
       params.set('node', selectedNodeId);
       params.set('tab', activeNTab);
     }
+    if (activeScenarioKey !== 'none' && tourOverlayVisible) {
+      params.set('scenario', activeScenarioKey);
+    }
     const nextHash = '#' + params.toString();
     if (window.location.hash !== nextHash) {
       history.replaceState(null, '', nextHash);
     }
   }
 
-  function restoreStateFromUrlHash(setArchCallback) {
+  function restoreStateFromUrlHash(setArchCallback, setThemeCallback, setPolCallback) {
     if (!window.location.hash || window.location.hash.length <= 1) return false;
     const params = new URLSearchParams(window.location.hash.slice(1));
+    const themeParam = params.get('theme');
+    const polParam = params.get('polarity') || params.get('mode');
+    const scenParam = params.get('scenario');
+    if (themeParam && THEME_META[themeParam] && setThemeCallback) {
+      setThemeCallback(themeParam);
+    }
+    if ((polParam === 'light' || polParam === 'dark') && setPolCallback) {
+      setPolCallback(polParam);
+    }
     const archParam = params.get('arch');
     if (archParam && ARCH_REGISTRY[archParam] && setArchCallback) {
       setArchCallback(archParam, true);
+    }
+    if (scenParam) {
+      if (scenParam === 'none') {
+        activeScenarioKey = 'none';
+        tourOverlayVisible = false;
+      } else if (scenarios[scenParam]) {
+        activeScenarioKey = scenParam;
+        tourOverlayVisible = true;
+      }
     }
     const view = params.get('view');
     const tab = params.get('tab');
@@ -250,7 +282,7 @@
       }
       return true;
     }
-    return Boolean(archParam && ARCH_REGISTRY[archParam]);
+    return Boolean((archParam && ARCH_REGISTRY[archParam]) || themeParam || polParam || scenParam);
   }
 
   function init() {
@@ -268,7 +300,7 @@
     const btnPolarityDark = document.getElementById('btnPolarityDark');
     const btnToggleFullscreen = document.getElementById('btnToggleFullscreen');
 
-    // Tooltip Overlay DOM
+    // Docked Walkthrough HUD Bar DOM
     const tourTooltip = document.getElementById('tourTooltip');
     const ttStepBadge = document.getElementById('ttStepBadge');
     const ttScenarioLabel = document.getElementById('ttScenarioLabel');
@@ -290,8 +322,10 @@
     const btnViewTech = document.getElementById('btnViewTech');
     const inspectorNodeView = document.getElementById('inspectorNodeView');
     const inspectorTechView = document.getElementById('inspectorTechView');
-    const btnBackToNode = document.getElementById('btnBackToNode');
     const selTechDropdown = document.getElementById('selTechDropdown');
+    const selNodeJumper = document.getElementById('selNodeJumper');
+    const btnPrevNode = document.getElementById('btnPrevNode');
+    const btnNextNode = document.getElementById('btnNextNode');
 
     function populateTechDropdown() {
       selTechDropdown.innerHTML = '';
@@ -303,8 +337,20 @@
       });
     }
 
+    function populateNodeJumperDropdown() {
+      if (!selNodeJumper) return;
+      selNodeJumper.innerHTML = '';
+      nodes.forEach((n) => {
+        const opt = document.createElement('option');
+        opt.value = n.id;
+        opt.textContent = '#' + n.num + ' · ' + n.title;
+        selNodeJumper.appendChild(opt);
+      });
+      selNodeJumper.value = selectedNodeId;
+    }
+
     function populateScenarioDropdown() {
-      const prevVal = selScenario.value || 'tour';
+      const prevVal = selScenario.value || activeScenarioKey || 'none';
       selScenario.innerHTML = '';
       const noneOpt = document.createElement('option');
       noneOpt.value = 'none';
@@ -321,46 +367,62 @@
       if (scenarios[prevVal] || prevVal === 'none') {
         selScenario.value = prevVal;
       } else {
-        selScenario.value = 'tour';
-        activeScenarioKey = 'tour';
+        selScenario.value = 'none';
+        activeScenarioKey = 'none';
       }
     }
 
     populateTechDropdown();
+    populateNodeJumperDropdown();
     populateScenarioDropdown();
 
+    function syncArchGenPills() {
+      document.querySelectorAll('.arch-gen-pill').forEach((btn) => {
+        const key = btn.getAttribute('data-arch-pill');
+        const isAct = key === activeArchKey;
+        btn.className = isAct
+          ? 'arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold btn-theme-accent transition cursor-pointer'
+          : 'arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+      });
+      if (selArchGen && selArchGen.value !== activeArchKey) {
+        selArchGen.value = activeArchKey;
+      }
+    }
+
     function syncThemeAlignedButtons() {
+      const curNode = nodeMap[selectedNodeId] || nodes[0];
+      const nodeSuffix = curNode ? ' (#' + curNode.num + ')' : '';
       btnPolarityLight.textContent = getGlyph('light') + ' Light';
       btnPolarityDark.textContent = getGlyph('dark') + ' Dark';
-      document.getElementById('btnPrevTheme').textContent = getGlyph('prev') + ' Prev';
-      document.getElementById('btnNextTheme').textContent = 'Next ' + getGlyph('next');
-      btnViewNode.textContent = getGlyph('node') + ' Block Inspector';
+      document.getElementById('btnPrevTheme').textContent = getGlyph('prev');
+      document.getElementById('btnNextTheme').textContent = getGlyph('next');
+      btnViewNode.textContent =
+        getGlyph('node') + ' Block Inspector' + (activeRightView === 'tech' ? nodeSuffix : '');
       btnViewTech.textContent = getGlyph('tech') + ' Deep Dive';
       btnToggleFullscreen.textContent =
         (isFullscreenMode ? getGlyph('fsExit') + ' Exit Full Screen' : getGlyph('fs') + ' Full Screen');
-      document.getElementById('btnExportHtml').textContent = getGlyph('export') + ' Share HTML';
-      document.getElementById('btnExportPng').textContent = getGlyph('export') + ' PNG';
-      document.getElementById('btnCopyMermaid').textContent = getGlyph('export') + ' Mermaid';
+      document.getElementById('btnExportHtml').textContent = 'Share HTML';
+      document.getElementById('btnExportPng').textContent = 'PNG';
+      document.getElementById('btnCopyMermaid').textContent = 'Mermaid';
       btnTtPrev.textContent = getGlyph('prev') + ' Prev';
       btnTtNext.textContent = 'Next ' + getGlyph('next');
       btnTtDeepDive.textContent = getGlyph('tech') + ' Deep Dive';
-      btnCloseTooltip.textContent = getGlyph('close') + ' Close';
+      btnCloseTooltip.textContent = getGlyph('close') + ' Exit';
       btnCloseDrawer.textContent = getGlyph('close') + ' Close';
-      btnBackToNode.textContent = getGlyph('prev') + ' Back to Block Inspector';
-      document.getElementById('btnNodeQuickLearnMore').textContent = 'Learn More ' + getGlyph('open');
-      document.getElementById('btnTechQuickLearnMore').textContent = 'Learn More ' + getGlyph('open');
     }
 
     function updatePolarityButtons() {
-      const meta = THEME_META[activeTheme] || THEME_META.neo_brutalism;
+      const cols = getActiveStageColors();
+      const bgCol = cols[0];
+      const inkCol = renderer.getContrastInk(bgCol, '#111111', '#ffffff');
       if (activePolarity === 'light') {
-        btnPolarityLight.style.backgroundColor = meta.stageColors[0];
-        btnPolarityLight.style.color = '#ffffff';
+        btnPolarityLight.style.backgroundColor = bgCol;
+        btnPolarityLight.style.color = inkCol;
         btnPolarityDark.style.backgroundColor = 'transparent';
         btnPolarityDark.style.color = '';
       } else {
-        btnPolarityDark.style.backgroundColor = meta.stageColors[0];
-        btnPolarityDark.style.color = '#ffffff';
+        btnPolarityDark.style.backgroundColor = bgCol;
+        btnPolarityDark.style.color = inkCol;
         btnPolarityLight.style.backgroundColor = 'transparent';
         btnPolarityLight.style.color = '';
       }
@@ -372,13 +434,13 @@
         if (topIdentityBar) topIdentityBar.classList.add('hidden');
         if (btnCloseDrawer) btnCloseDrawer.classList.remove('hidden');
 
-        rightSidePanel.classList.remove('w-full', 'lg:w-[485px]', 'xl:w-[525px]');
+        rightSidePanel.classList.remove('w-full', 'lg:w-[490px]', 'xl:w-[535px]');
         rightSidePanel.classList.add(
           'absolute',
           'top-0',
           'right-0',
           'bottom-0',
-          'w-[495px]',
+          'w-[500px]',
           'max-w-[92vw]',
           'border-l',
           'border-subtle',
@@ -402,20 +464,19 @@
           'top-0',
           'right-0',
           'bottom-0',
-          'w-[495px]',
+          'w-[500px]',
           'max-w-[92vw]',
           'border-l',
           'border-subtle',
           'shadow-2xl'
         );
-        rightSidePanel.classList.add('w-full', 'lg:w-[485px]', 'xl:w-[525px]');
+        rightSidePanel.classList.add('w-full', 'lg:w-[490px]', 'xl:w-[535px]');
         rightSidePanel.style.transform = '';
       }
 
       syncThemeAlignedButtons();
       requestAnimationFrame(() => {
         renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
-        if (tourOverlayVisible) updateTourTooltip();
       });
     }
 
@@ -449,8 +510,8 @@
         inspectorNodeView.classList.add('flex');
         inspectorTechView.classList.add('hidden');
         inspectorTechView.classList.remove('flex');
-        btnViewNode.className = 'no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold btn-theme-accent transition cursor-pointer';
-        btnViewTech.className = 'no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+        btnViewNode.className = 'no-wrap-btn py-1 px-2.5 rounded-lg text-xs font-semibold btn-theme-accent transition cursor-pointer';
+        btnViewTech.className = 'no-wrap-btn py-1 px-2.5 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
         renderNodeInspector();
       } else {
         if (tabOpt) activeTTab = tabOpt;
@@ -458,53 +519,134 @@
         inspectorNodeView.classList.remove('flex');
         inspectorTechView.classList.remove('hidden');
         inspectorTechView.classList.add('flex');
-        btnViewTech.className = 'no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold btn-theme-accent transition cursor-pointer';
-        btnViewNode.className = 'no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+        btnViewTech.className = 'no-wrap-btn py-1 px-2.5 rounded-lg text-xs font-semibold btn-theme-accent transition cursor-pointer';
+        btnViewNode.className = 'no-wrap-btn py-1 px-2.5 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
         renderTechDeepDive();
       }
+      syncThemeAlignedButtons();
       syncUrlHash();
     }
 
-    // Render Block Inspector View (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Learn More)
+    // Render Clickable Upstream Inputs & Downstream Outputs inside Block Inspector
+    function renderGraphNeighbors(node) {
+      const container = document.getElementById('inspGraphNeighbors');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const incoming = edges.filter((e) => e.to === node.id && nodeMap[e.from]);
+      const outgoing = edges.filter((e) => e.from === node.id && nodeMap[e.to]);
+
+      const makeCol = (title, edgeList, isIncoming) => {
+        const col = document.createElement('div');
+        col.className = 'flex flex-col gap-1';
+        const hdr = document.createElement('span');
+        hdr.className = 'mono text-[10px] font-bold text-muted-ink uppercase';
+        hdr.textContent = title;
+        col.appendChild(hdr);
+
+        if (edgeList.length === 0) {
+          const empty = document.createElement('span');
+          empty.className = 'mono text-[10.5px] text-muted-ink italic';
+          empty.textContent = isIncoming ? 'Source Input Boundary' : 'Terminal Output Head';
+          col.appendChild(empty);
+          return col;
+        }
+
+        const wrap = document.createElement('div');
+        wrap.className = 'flex flex-wrap gap-1';
+        edgeList.forEach((e) => {
+          const targetNode = nodeMap[isIncoming ? e.from : e.to];
+          if (!targetNode) return;
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className =
+            'no-wrap-btn px-2 py-0.5 rounded surface-root border border-hairline hover:border-subtle text-[10.5px] mono text-primary-ink transition cursor-pointer gap-1';
+          btn.title =
+            (isIncoming ? 'Upstream Input from #' : 'Downstream Output to #') +
+            targetNode.num +
+            ' ' +
+            targetNode.title +
+            (e.label ? ' (' + e.label + ')' : '');
+          btn.innerHTML =
+            '<span class="font-bold" style="color:' +
+            targetNode.color +
+            '">#' +
+            targetNode.num +
+            '</span><span class="truncate max-w-[105px]">' +
+            targetNode.title +
+            '</span>' +
+            (e.label
+              ? '<span class="px-1 rounded surface-panel text-[9.5px] text-secondary-ink">' + e.label + '</span>'
+              : '');
+          btn.addEventListener('click', () => {
+            selectedNodeId = targetNode.id;
+            renderNodeInspector();
+            syncThemeAlignedButtons();
+            syncUrlHash();
+          });
+          wrap.appendChild(btn);
+        });
+        col.appendChild(wrap);
+        return col;
+      };
+
+      container.appendChild(makeCol('← Upstream Inputs (' + incoming.length + ')', incoming, true));
+      container.appendChild(makeCol('Downstream Outputs (' + outgoing.length + ') →', outgoing, false));
+    }
+
+    // Render Block Inspector View (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Papers)
     function renderNodeInspector() {
       const n = nodeMap[selectedNodeId] || nodes[0];
       if (!n) return;
+
+      if (selNodeJumper && selNodeJumper.value !== n.id) {
+        selNodeJumper.value = n.id;
+      }
 
       const inspBadge = document.getElementById('inspBadge');
       inspBadge.textContent = 'BLOCK ' + n.num + ' · ' + n.tag;
       inspBadge.style.color = n.color;
       inspBadge.style.borderColor = n.color;
-      inspBadge.style.backgroundColor = n.color + '1a';
+      inspBadge.style.backgroundColor = n.color + '18';
 
       document.getElementById('inspShapePill').textContent = n.sub;
       document.getElementById('inspTitle').textContent = n.title;
 
-      // Render Linked Technology Chips (Each chip opens Deep Dive, plus a direct Learn More ↗ button)
+      // Render Upstream & Downstream Dataflow Neighbors
+      renderGraphNeighbors(n);
+
+      // Render Linked Technology Chips (Clean Single-Click Deep Dive Pills + Subtle Papers Link)
       const chipsContainer = document.getElementById('inspTechChips');
       chipsContainer.innerHTML = '';
       (n.techIds || []).forEach((tid) => {
         const t = techMap[tid];
         if (!t) return;
+        const papers = TECH_EXTERNAL_RESOURCES[tid] || [];
         const group = document.createElement('div');
-        group.className = 'inline-flex items-center gap-1';
+        group.className = 'inline-flex items-center rounded-lg border border-hairline surface-panel overflow-hidden';
 
         const btn = document.createElement('button');
-        btn.className = 'no-wrap-btn px-2.5 py-1.5 rounded-lg text-xs font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer';
-        btn.textContent = getGlyph('tech') + ' ' + t.short;
+        btn.type = 'button';
+        btn.className = 'no-wrap-btn px-2.5 py-1 text-[11px] font-semibold text-primary-ink hover:text-theme-accent transition cursor-pointer';
+        btn.textContent = getGlyph('tech') + ' ' + t.short + ' ↗';
+        btn.title = 'Inspect ' + t.short + ' in Deep Dive & highlight blocks on canvas';
         btn.addEventListener('click', () => {
           setRightView('tech', tid, 'how');
         });
-
-        const lmBtn = document.createElement('button');
-        lmBtn.className = 'no-wrap-btn px-2 py-1.5 rounded-lg text-[11px] mono font-bold btn-theme-accent border transition cursor-pointer';
-        lmBtn.title = 'Open ' + t.short + ' White Papers (5. Learn More Tab)';
-        lmBtn.textContent = 'Learn More ' + getGlyph('open');
-        lmBtn.addEventListener('click', () => {
-          setRightView('tech', tid, 'learn');
-        });
-
         group.appendChild(btn);
-        group.appendChild(lmBtn);
+
+        if (papers.length > 0) {
+          const lmBtn = document.createElement('button');
+          lmBtn.type = 'button';
+          lmBtn.className = 'no-wrap-btn px-1.5 py-1 text-[10px] mono font-bold surface-root text-secondary-ink hover:text-primary-ink border-l border-hairline transition cursor-pointer';
+          lmBtn.title = 'View ' + papers.length + ' foundational paper(s) for ' + t.short;
+          lmBtn.textContent = 'Papers (' + papers.length + ')';
+          lmBtn.addEventListener('click', () => {
+            setRightView('tech', tid, 'learn');
+          });
+          group.appendChild(lmBtn);
+        }
+
         chipsContainer.appendChild(group);
       });
 
@@ -512,8 +654,8 @@
       document.querySelectorAll('.ntab-btn').forEach((btn) => {
         const isAct = btn.getAttribute('data-ntab') === activeNTab;
         btn.className = isAct
-          ? 'ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-semibold btn-theme-accent transition cursor-pointer'
-          : 'ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+          ? 'ntab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-semibold btn-theme-accent transition cursor-pointer'
+          : 'ntab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer';
       });
 
       const ntabHeading = document.getElementById('ntabHeading');
@@ -521,17 +663,14 @@
       const ntabCalloutBox = document.getElementById('ntabCalloutBox');
       const ntabSubLabel = document.getElementById('ntabSubLabel');
       const ntabSubContent = document.getElementById('ntabSubContent');
-      const btnNodeQuickLearnMore = document.getElementById('btnNodeQuickLearnMore');
 
       if (activeNTab === 'learn') {
-        ntabHeading.textContent = '05 // LEARN MORE (PRIMARY LITERATURE & WHITE PAPERS)';
+        ntabHeading.textContent = '05 // PRIMARY LITERATURE & WHITE PAPERS';
         const papers = getExternalResourcesForNode(n);
         ntabBody.innerHTML = renderLearnMoreCardsHtml(papers);
         ntabCalloutBox.classList.add('hidden');
-        btnNodeQuickLearnMore.classList.add('hidden');
       } else {
         ntabCalloutBox.classList.remove('hidden');
-        btnNodeQuickLearnMore.classList.remove('hidden');
 
         if (activeNTab === 'how') {
           ntabHeading.textContent = '01 // HOW IT WORKS (MECHANISM)';
@@ -559,7 +698,7 @@
       renderContextualWidget(n);
     }
 
-    // Render Deep Dive View (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Science | 5. Learn More)
+    // Render Deep Dive View (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Papers)
     function renderTechDeepDive() {
       const t = techMap[selectedTechId] || techLib[0];
       if (!t) return;
@@ -570,8 +709,8 @@
       document.querySelectorAll('.ttab-btn').forEach((btn) => {
         const isAct = btn.getAttribute('data-ttab') === activeTTab;
         btn.className = isAct
-          ? 'ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-semibold btn-theme-accent transition cursor-pointer'
-          : 'ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+          ? 'ttab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-semibold btn-theme-accent transition cursor-pointer'
+          : 'ttab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer';
       });
 
       const ttabHeading = document.getElementById('ttabHeading');
@@ -579,17 +718,14 @@
       const ttabCalloutBox = document.getElementById('ttabCalloutBox');
       const ttabSubLabel = document.getElementById('ttabSubLabel');
       const ttabSubContent = document.getElementById('ttabSubContent');
-      const btnTechQuickLearnMore = document.getElementById('btnTechQuickLearnMore');
 
       if (activeTTab === 'learn') {
-        ttabHeading.textContent = '05 // LEARN MORE (FOUNDATIONAL WHITE PAPERS & SOURCES)';
+        ttabHeading.textContent = '05 // FOUNDATIONAL WHITE PAPERS & SOURCES';
         const resList = TECH_EXTERNAL_RESOURCES[t.id] || [];
         ttabBody.innerHTML = renderLearnMoreCardsHtml(resList);
         ttabCalloutBox.classList.add('hidden');
-        btnTechQuickLearnMore.classList.add('hidden');
       } else {
         ttabCalloutBox.classList.remove('hidden');
-        btnTechQuickLearnMore.classList.remove('hidden');
 
         if (activeTTab === 'how') {
           ttabHeading.textContent = '01 // HOW IT WORKS (MECHANISM)';
@@ -620,8 +756,16 @@
         const n = nodeMap[nid];
         if (!n) return;
         const b = document.createElement('button');
-        b.className = 'no-wrap-btn mono text-xs px-3 py-1 rounded-lg surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer';
-        b.textContent = getGlyph('node') + ' ' + n.num + ' · ' + n.title;
+        b.type = 'button';
+        b.className = 'no-wrap-btn mono text-[11px] px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer gap-1';
+        b.innerHTML =
+          '<span class="font-bold" style="color:' +
+          n.color +
+          '">#' +
+          n.num +
+          '</span><span>' +
+          n.title +
+          '</span>';
         b.addEventListener('click', () => {
           selectedNodeId = n.id;
           setRightView('node');
@@ -630,7 +774,7 @@
       });
     }
 
-    // Stage-Level Evolution Summary across all 4 Platform Generations
+    // Stage-Level Evolution Summary across all 4 Platform Generations (Side-by-Side 4-Row Matrix)
     const STAGE_EVOLUTION_MATRIX = {
       mem: {
         title: 'STAGE 1 EVOLUTION // OBSERVATION MANIFOLD',
@@ -665,50 +809,52 @@
     function appendEvolutionComparisonStrip(wBody, stageGroup) {
       const evo = STAGE_EVOLUTION_MATRIX[stageGroup] || STAGE_EVOLUTION_MATRIX.control;
       const box = document.createElement('div');
-      box.className = 'mt-1.5 pt-2.5 border-t border-hairline flex flex-col gap-1.5';
+      box.className = 'mt-1 pt-2 border-t border-hairline flex flex-col gap-1';
 
       const hdr = document.createElement('div');
       hdr.className = 'flex items-center justify-between gap-1';
       hdr.innerHTML =
         '<span class="kicker text-muted-ink">' +
         evo.title +
-        '</span><span class="mono text-[10px] text-theme-accent font-bold">CLICK TO SWITCH</span>';
+        '</span><span class="mono text-[9.5px] text-theme-accent font-bold">4-GEN MATRIX (CLICK ROW)</span>';
       box.appendChild(hdr);
 
       const gens = [
-        { key: 'gen1_ret40', short: 'Gen 1 · RET-40' },
-        { key: 'gen2_factorized', short: 'Gen 2 · MLP-684' },
+        { key: 'hex63', short: 'Hex63 · Current' },
         { key: 'gen3_perceiver', short: 'Gen 3 · Perceiver' },
-        { key: 'hex63', short: 'Hex63 · Current' }
+        { key: 'gen2_factorized', short: 'Gen 2 · MLP-684' },
+        { key: 'gen1_ret40', short: 'Gen 1 · RET-40' }
       ];
 
-      const btnGrid = document.createElement('div');
-      btnGrid.className = 'grid grid-cols-4 gap-1';
+      const matrixList = document.createElement('div');
+      matrixList.className = 'flex flex-col gap-1';
       gens.forEach((g) => {
         const isCurr = g.key === activeArchKey;
-        const b = document.createElement('button');
-        b.className =
-          'no-wrap-btn py-1 px-1.5 rounded text-[10.5px] mono font-bold border transition cursor-pointer truncate ' +
+        const rowBtn = document.createElement('button');
+        rowBtn.type = 'button';
+        rowBtn.className =
+          'w-full text-left px-2 py-1 rounded border transition cursor-pointer flex items-baseline justify-between gap-2 ' +
           (isCurr
-            ? 'btn-theme-accent'
-            : 'surface-root text-secondary-ink border-hairline hover:text-primary-ink');
-        b.textContent = g.short;
-        b.title = evo[g.key];
-        b.addEventListener('click', () => {
+            ? 'surface-elevated border-subtle'
+            : 'surface-root border-hairline opacity-80 hover:opacity-100');
+        rowBtn.innerHTML =
+          '<span class="mono text-[10px] font-bold shrink-0 ' +
+          (isCurr ? 'text-theme-accent' : 'text-primary-ink') +
+          '">' +
+          (isCurr ? '▸ ' : '  ') +
+          g.short +
+          '</span>' +
+          '<span class="mono text-[10px] text-secondary-ink truncate flex-1 text-right" title="' +
+          evo[g.key] +
+          '">' +
+          evo[g.key] +
+          '</span>';
+        rowBtn.addEventListener('click', () => {
           setArchitecture(g.key);
         });
-        btnGrid.appendChild(b);
+        matrixList.appendChild(rowBtn);
       });
-      box.appendChild(btnGrid);
-
-      const desc = document.createElement('div');
-      desc.className = 'p-2 rounded surface-root border border-hairline mono text-[11px] text-secondary-ink leading-snug';
-      desc.innerHTML =
-        '<span class="text-theme-accent font-bold">' +
-        (ARCH_REGISTRY[activeArchKey] ? ARCH_REGISTRY[activeArchKey].shortBadge : activeArchKey.toUpperCase()) +
-        ':</span> ' +
-        (evo[activeArchKey] || '');
-      box.appendChild(desc);
+      box.appendChild(matrixList);
 
       wBody.appendChild(box);
     }
@@ -720,29 +866,32 @@
       const wBody = document.getElementById('ctxWidgetBody');
       wBody.innerHTML = '';
 
+      const stageCols = getActiveStageColors();
+
       if (node.stageGroup === 'mem') {
         if (activeArchKey === 'hex63') {
           wTitle.textContent = 'INTERACTIVE 5,376B CACHE-LINE INSPECTOR';
           wTag.textContent = '84 × 64B CL';
           const segments = [
-            { name: 'Cars [0..5]', bytes: '0..1535', cl: '24 CL', color: '#38bdf8', desc: '6 Cars × 64 floats (256B each): Pos, Vel, Rot6D, Local Vel, Dodge/Flip Timers, 4-Wheel Shocks' },
-            { name: 'Ball [6]', bytes: '1536..1663', cl: '2 CL', color: '#22d3ee', desc: '1 Ball × 32 floats (128B): Position, Linear/Angular Velocity, Last Hit Car, Magnus Force' },
-            { name: 'Traj [7..14]', bytes: '1664..2687', cl: '16 CL', color: '#818cf8', desc: '8 BallRingBuffer480 Samples × 32 floats (1,024B): 4.0s Future Bounce & Spin Curve' },
-            { name: 'Match [15]', bytes: '2688..2751', cl: '1 CL', color: '#a78bfa', desc: '1 Match Node × 16 floats (64B): κ_Δt Action Duration, Score Diff, Clock, Gravity' },
-            { name: 'Pads [16..49]', bytes: '2752..3839', cl: '17 CL', color: '#f472b6', desc: '34 Boost Pads × 8 floats (1,088B): Canonical X/Y/Z, IsBigPad, Active Flag, Respawn Timer' },
-            { name: 'Goals/Wheels/OBB', bytes: '3840..4735', cl: '14 CL', color: '#fbbf24', desc: '6 Goals + 4 Zero-Lag Ego Wheel Raycasts + 4 Nearest Wall Surface OBBs (896B)' },
-            { name: 'PrivCtx [128]', bytes: '4864..5375', cl: '8 CL', color: '#34d399', desc: '128 Privileged Floats (512B): Exact Opponent Boost/Flip Secrets (Training Critic Only)' }
+            { name: 'Cars [0..5]', bytes: '0..1535', cl: '24 CL', color: stageCols[0], desc: '6 Cars × 64 floats (256B each): Pos, Vel, Rot6D, Local Vel, Dodge/Flip Timers, 4-Wheel Shocks' },
+            { name: 'Ball [6]', bytes: '1536..1663', cl: '2 CL', color: stageCols[1], desc: '1 Ball × 32 floats (128B): Position, Linear/Angular Velocity, Last Hit Car, Magnus Force' },
+            { name: 'Traj [7..14]', bytes: '1664..2687', cl: '16 CL', color: stageCols[2], desc: '8 BallRingBuffer480 Samples × 32 floats (1,024B): 4.0s Future Bounce & Spin Curve' },
+            { name: 'Match [15]', bytes: '2688..2751', cl: '1 CL', color: stageCols[3], desc: '1 Match Node × 16 floats (64B): κ_Δt Action Duration, Score Diff, Clock, Gravity' },
+            { name: 'Pads [16..49]', bytes: '2752..3839', cl: '17 CL', color: stageCols[4], desc: '34 Boost Pads × 8 floats (1,088B): Canonical X/Y/Z, IsBigPad, Active Flag, Respawn Timer' },
+            { name: 'Goals/Wheels', bytes: '3840..4735', cl: '14 CL', color: stageCols[5], desc: '6 Goals + 4 Zero-Lag Ego Wheel Raycasts + 4 Nearest Wall Surface OBBs (896B)' },
+            { name: 'PrivCtx [128]', bytes: '4864..5375', cl: '8 CL', color: stageCols[0], desc: '128 Privileged Floats (512B): Exact Opponent Boost/Flip Secrets (Training Critic Only)' }
           ];
           const barRow = document.createElement('div');
           barRow.className = 'grid grid-cols-7 gap-1';
           segments.forEach((seg, idx) => {
+            const isSel = selectedMemSliceIdx === idx;
             const b = document.createElement('button');
+            b.type = 'button';
             b.className =
-              'py-1.5 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
-              (selectedMemSliceIdx === idx
-                ? 'border-white text-slate-950'
-                : 'border-transparent text-slate-950 opacity-75 hover:opacity-100');
+              'py-1 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
+              (isSel ? 'border-subtle ring-1 ring-current' : 'border-hairline opacity-80 hover:opacity-100');
             b.style.backgroundColor = seg.color;
+            b.style.color = renderer.getContrastInk(seg.color, '#111111', '#ffffff');
             b.textContent = seg.cl;
             b.title = seg.name;
             b.addEventListener('click', () => {
@@ -755,7 +904,7 @@
 
           const activeSeg = segments[selectedMemSliceIdx] || segments[0];
           const info = document.createElement('div');
-          info.className = 'p-2.5 rounded-lg surface-root border border-hairline mono text-xs flex flex-col gap-1';
+          info.className = 'p-2 rounded-lg surface-root border border-hairline mono text-[11px] flex flex-col gap-0.5';
           info.innerHTML =
             '<div class="flex justify-between"><span class="font-bold text-primary-ink">' +
             activeSeg.name +
@@ -764,7 +913,7 @@
             ' (' +
             activeSeg.cl +
             ')</span></div>' +
-            '<div class="text-secondary-ink font-sans text-xs">' +
+            '<div class="text-secondary-ink font-sans text-[11.5px] leading-snug">' +
             activeSeg.desc +
             '</div>';
           wBody.appendChild(info);
@@ -779,28 +928,31 @@
           const legacySegs =
             activeArchKey === 'gen1_ret40'
               ? [
-                  { name: 'Ego+Mates [0..2]', cl: '3×100B', color: '#38bdf8', bytes: 'Slots 0..2', desc: '1 Ego + 2 Teammates (25 floats each): World Pos, Vel, Fwd/Up, AngVel, Boost, Type One-Hot, t_go' },
-                  { name: 'Opponents [3..5]', cl: '3×100B', color: '#22d3ee', bytes: 'Slots 3..5', desc: '3 Opponents (25 floats each): Masked with -10^9 in 1v1/2v2; zero 1D positional encoding' },
-                  { name: 'Ball Token [6]', cl: '1×100B', color: '#a78bfa', bytes: 'Slot 6', desc: '1 Ball Token: World Pos/Vel, Magnus Spin ω_ball, and normalized intercept horizon' },
-                  { name: 'Pads [7..40]', cl: '34×100B', color: '#f472b6', bytes: 'Slots 7..40', desc: '34 Boost Pads: World XYZ, Active Flag, Cooldown Timer, and Channel-24 norm_time_to_go' },
-                  { name: 'AVX2 r_ij', cl: '53.7KB', color: '#fbbf24', bytes: '41×41×8', desc: 'RelationalTensorBlockPOD: 1,681 pairs × 8 floats computed on CPU via 8-wide AVX2 rsqrt_ps' }
+                  { name: 'Ego+Mates [0..2]', cl: '3×100B', color: stageCols[0], bytes: 'Slots 0..2', desc: '1 Ego + 2 Teammates (25 floats each): World Pos, Vel, Fwd/Up, AngVel, Boost, Type One-Hot, t_go' },
+                  { name: 'Opponents [3..5]', cl: '3×100B', color: stageCols[1], bytes: 'Slots 3..5', desc: '3 Opponents (25 floats each): Masked with -10^9 in 1v1/2v2; zero 1D positional encoding' },
+                  { name: 'Ball Token [6]', cl: '1×100B', color: stageCols[2], bytes: 'Slot 6', desc: '1 Ball Token: World Pos/Vel, Magnus Spin ω_ball, and normalized intercept horizon' },
+                  { name: 'Pads [7..40]', cl: '34×100B', color: stageCols[3], bytes: 'Slots 7..40', desc: '34 Boost Pads: World XYZ, Active Flag, Cooldown Timer, and Channel-24 norm_time_to_go' },
+                  { name: 'AVX2 r_ij', cl: '53.7KB', color: stageCols[4], bytes: '41×41×8', desc: 'RelationalTensorBlockPOD: 1,681 pairs × 8 floats computed on CPU via 8-wide AVX2 rsqrt_ps' }
                 ]
               : [
-                  { name: 'Self+Goals [16D]', cl: '4×16D', color: '#38bdf8', bytes: '64 Floats', desc: 'K=4 × (10D Self body vel/ang_vel/local gravity/boost + 6D Opp/Own Goal unit vectors)' },
-                  { name: 'Ball Stack [9D]', cl: '4×9D', color: '#22d3ee', bytes: '36 Floats', desc: 'K=4 × 9D Ball relative position, linear velocity, and angular velocity in R_car^T frame' },
-                  { name: 'Opp Stack [10D]', cl: '4×10D', color: '#a78bfa', bytes: '40 Floats', desc: 'K=4 × 10D Opponent relative pos, vel, forward heading, and boost fraction' },
-                  { name: '34 Pads [136D]', cl: '4×136D', color: '#f472b6', bytes: '544 Floats', desc: 'K=4 × 34 Pads × 4D (body-frame XYZ + availability τ_j) with ORANGE_PAD_PERMUTATION' },
-                  { name: activeArchKey === 'gen3_perceiver' ? 'Wheels+Omni' : '68D Critic Tail', cl: activeArchKey === 'gen3_perceiver' ? '16D+68D' : '68D Priv', color: '#34d399', bytes: activeArchKey === 'gen3_perceiver' ? 'Floats 684..752' : 'Critic 684..752', desc: (activeArchKey === 'gen3_perceiver' ? '16D 4-Frame Actor Wheel History + ' : '') + '68D Critic Tail: 20D Wheel Slip, 18D World Vel, 30D 5-Bounce Ballistics' }
+                  { name: 'Self+Goals [16D]', cl: '4×16D', color: stageCols[0], bytes: '64 Floats', desc: 'K=4 × (10D Self body vel/ang_vel/local gravity/boost + 6D Opp/Own Goal unit vectors)' },
+                  { name: 'Ball Stack [9D]', cl: '4×9D', color: stageCols[1], bytes: '36 Floats', desc: 'K=4 × 9D Ball relative position, linear velocity, and angular velocity in R_car^T frame' },
+                  { name: 'Opp Stack [10D]', cl: '4×10D', color: stageCols[2], bytes: '40 Floats', desc: 'K=4 × 10D Opponent relative pos, vel, forward heading, and boost fraction' },
+                  { name: '34 Pads [136D]', cl: '4×136D', color: stageCols[3], bytes: '544 Floats', desc: 'K=4 × 34 Pads × 4D (body-frame XYZ + availability τ_j) with ORANGE_PAD_PERMUTATION' },
+                  { name: activeArchKey === 'gen3_perceiver' ? 'Wheels+Omni' : '68D Critic Tail', cl: activeArchKey === 'gen3_perceiver' ? '16D+68D' : '68D Priv', color: stageCols[5], bytes: activeArchKey === 'gen3_perceiver' ? 'Floats 684..752' : 'Critic 684..752', desc: (activeArchKey === 'gen3_perceiver' ? '16D 4-Frame Actor Wheel History + ' : '') + '68D Critic Tail: 20D Wheel Slip, 18D World Vel, 30D 5-Bounce Ballistics' }
                 ];
           const barRow = document.createElement('div');
           barRow.className = 'grid grid-cols-5 gap-1';
           const idx = selectedMemSliceIdx % legacySegs.length;
           legacySegs.forEach((seg, i) => {
+            const isSel = idx === i;
             const b = document.createElement('button');
+            b.type = 'button';
             b.className =
-              'py-1.5 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
-              (idx === i ? 'border-white text-slate-950' : 'border-transparent text-slate-950 opacity-75 hover:opacity-100');
+              'py-1 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
+              (isSel ? 'border-subtle ring-1 ring-current' : 'border-hairline opacity-80 hover:opacity-100');
             b.style.backgroundColor = seg.color;
+            b.style.color = renderer.getContrastInk(seg.color, '#111111', '#ffffff');
             b.textContent = seg.cl;
             b.addEventListener('click', () => {
               selectedMemSliceIdx = i;
@@ -811,7 +963,7 @@
           wBody.appendChild(barRow);
           const activeSeg = legacySegs[idx];
           const info = document.createElement('div');
-          info.className = 'p-2.5 rounded-lg surface-root border border-hairline mono text-xs flex flex-col gap-1';
+          info.className = 'p-2 rounded-lg surface-root border border-hairline mono text-[11px] flex flex-col gap-0.5';
           info.innerHTML =
             '<div class="flex justify-between"><span class="font-bold text-primary-ink">' +
             activeSeg.name +
@@ -819,7 +971,7 @@
             activeSeg.bytes +
             ' (' +
             activeSeg.cl +
-            ')</span></div><div class="text-secondary-ink font-sans text-xs">' +
+            ')</span></div><div class="text-secondary-ink font-sans text-[11.5px] leading-snug">' +
             activeSeg.desc +
             '</div>';
           wBody.appendChild(info);
@@ -858,7 +1010,7 @@
         const selRow = document.createElement('div');
         selRow.className = 'grid grid-cols-2 gap-1.5';
         const sQ = document.createElement('select');
-        sQ.className = 'surface-root text-primary-ink border border-hairline rounded px-2 py-1 text-xs mono';
+        sQ.className = 'surface-root text-primary-ink border border-hairline rounded px-2 py-1 text-[11px] mono';
         queries.forEach((q, i) => {
           const o = document.createElement('option');
           o.value = i;
@@ -872,7 +1024,7 @@
         });
 
         const sK = document.createElement('select');
-        sK.className = 'surface-root text-primary-ink border border-hairline rounded px-2 py-1 text-xs mono';
+        sK.className = 'surface-root text-primary-ink border border-hairline rounded px-2 py-1 text-[11px] mono';
         keys.forEach((k, i) => {
           const o = document.createElement('option');
           o.value = i;
@@ -899,15 +1051,15 @@
         const attnScore = Math.max(0.08, Math.min(0.94, 1.35 - Number(tReach) * 0.45)).toFixed(2);
 
         const metrics = document.createElement('div');
-        metrics.className = 'grid grid-cols-3 gap-1.5 mono text-xs';
+        metrics.className = 'grid grid-cols-3 gap-1.5 mono text-[11px]';
         metrics.innerHTML =
-          '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">3D DIST</div><div class="text-primary-ink font-bold">' +
+          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink text-[9.5px]">3D DIST</div><div class="text-primary-ink font-bold">' +
           dist +
           ' uu</div></div>' +
-          '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">T_INTERCEPT</div><div class="text-theme-accent font-bold">' +
+          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink text-[9.5px]">T_INTERCEPT</div><div class="text-theme-accent font-bold">' +
           tReach +
           ' s</div></div>' +
-          '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">' +
+          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink text-[9.5px]">' +
           (activeArchKey === 'hex63' ? 'DIFF-ATTN' : 'BIAS WEIGHT') +
           '</div><div class="text-primary-ink font-bold">' +
           attnScore +
@@ -928,7 +1080,7 @@
             : '8 FAMILIES · 32 SUB';
 
         const sliderRow = document.createElement('div');
-        sliderRow.className = 'flex items-center justify-between gap-2';
+        sliderRow.className = 'flex items-center justify-between gap-2 text-[11.5px]';
         sliderRow.innerHTML =
           '<span class="text-secondary-ink">' +
           (activeArchKey === 'hex63' ? 'Opponent Surprise Residual ||r_t||:' : 'Aerial / Mechanical Phase Intensity:') +
@@ -976,13 +1128,13 @@
                 { name: 'Z_7: Speedflip Cancel', w: 0.24 }
               ];
         const expGrid = document.createElement('div');
-        expGrid.className = 'grid grid-cols-2 gap-1.5 pt-1';
+        expGrid.className = 'grid grid-cols-2 gap-1 pt-0.5';
         itemsList.forEach((ex) => {
           const pct = Math.round(ex.w * 100);
           const item = document.createElement('div');
-          item.className = 'p-1.5 rounded surface-root border border-hairline flex flex-col gap-1';
+          item.className = 'p-1.5 rounded surface-root border border-hairline flex flex-col gap-0.5';
           item.innerHTML =
-            '<div class="flex justify-between text-[11px] mono"><span class="text-secondary-ink">' +
+            '<div class="flex justify-between text-[10.5px] mono"><span class="text-secondary-ink">' +
             ex.name +
             '</span><span class="text-theme-accent font-bold">' +
             pct +
@@ -1028,10 +1180,10 @@
                 { k: 'Subticks 5..7 (Ticks 6..8)', v: 'FlipState Hold Release: jump = 0' }
               ];
         const tbl = document.createElement('div');
-        tbl.className = 'flex flex-col gap-1 mono text-[11px]';
+        tbl.className = 'flex flex-col gap-1 mono text-[10.5px]';
         rows.forEach((st) => {
           const r = document.createElement('div');
-          r.className = 'p-1.5 rounded surface-root border border-hairline flex items-center justify-between gap-2';
+          r.className = 'p-1 rounded surface-root border border-hairline flex items-center justify-between gap-2';
           r.innerHTML =
             '<span class="text-primary-ink font-semibold">' +
             st.k +
@@ -1060,10 +1212,8 @@
       activeMermaidDiagram = archDef.mermaidDiagram || '';
 
       rebuildLookupMaps();
+      syncArchGenPills();
 
-      if (selArchGen && selArchGen.value !== activeArchKey) {
-        selArchGen.value = activeArchKey;
-      }
       if (identityBadgeText) {
         identityBadgeText.textContent = archDef.shortBadge;
       }
@@ -1072,6 +1222,7 @@
       }
 
       populateTechDropdown();
+      populateNodeJumperDropdown();
       populateScenarioDropdown();
 
       if (!nodeMap[selectedNodeId] && nodes[0]) {
@@ -1082,27 +1233,32 @@
       }
       activeStepIdx = 0;
 
-      const meta = THEME_META[activeTheme] || THEME_META.neo_brutalism;
-      renderer.applyStagePaletteToNodes(nodes, meta.stageColors, activeColHeaders);
+      renderer.applyStagePaletteToNodes(nodes, getActiveStageColors(), activeColHeaders);
 
       updateTourTooltip();
       renderNodeInspector();
       if (activeRightView === 'tech') renderTechDeepDive();
+      syncThemeAlignedButtons();
       if (!skipHashSync) syncUrlHash();
     }
 
-    // Update Floating Walkthrough Tooltip Overlay on Canvas
+    // Update Docked Walkthrough HUD Bar (Above Canvas — Never Occludes Nodes)
     function updateTourTooltip() {
       if (activeScenarioKey === 'none' || !tourOverlayVisible || !scenarios[activeScenarioKey]) {
         tourTooltip.classList.add('hidden');
-        btnToggleTour.textContent = getGlyph('tourOff') + ' Show Tour';
-        btnToggleTour.className = 'no-wrap-btn px-2 py-1 rounded-lg text-[11.5px] font-medium surface-panel text-secondary-ink border border-hairline hover:text-primary-ink transition cursor-pointer';
+        btnToggleTour.textContent = getGlyph('tourOff') + ' Start Tour';
+        btnToggleTour.className =
+          'no-wrap-btn px-2.5 py-1 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer';
+        requestAnimationFrame(() => {
+          renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
+        });
         return;
       }
 
       tourTooltip.classList.remove('hidden');
-      btnToggleTour.textContent = getGlyph('tourOn') + ' Tour Active';
-      btnToggleTour.className = 'no-wrap-btn px-2 py-1 rounded-lg text-[11.5px] font-semibold btn-theme-accent border transition cursor-pointer';
+      btnToggleTour.textContent = getGlyph('tourOn') + ' Exit Tour';
+      btnToggleTour.className =
+        'no-wrap-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold surface-panel text-primary-ink border border-subtle transition cursor-pointer';
 
       const scen = scenarios[activeScenarioKey];
       const steps = scen.steps;
@@ -1126,29 +1282,9 @@
         }
       }
 
-      // Position tooltip smartly near the focused node inside #canvasAspectBox
-      const fn = nodeMap[step.focusNode] || nodes[0];
-      const boxRect = canvasAspectBox.getBoundingClientRect();
-      const scaleX = boxRect.width / renderer.BASE_W;
-      const scaleY = boxRect.height / renderer.BASE_H;
-
-      const nodeScreenX = fn.x * scaleX;
-      const nodeScreenY = fn.y * scaleY;
-      const tooltipW = tourTooltip.offsetWidth || 380;
-      const tooltipH = tourTooltip.offsetHeight || 220;
-
-      let leftPx = nodeScreenX + fn.w * 0.55 * scaleX + 16;
-      if (fn.col >= 3) {
-        leftPx = nodeScreenX - fn.w * 0.55 * scaleX - tooltipW - 16;
-      }
-      leftPx = Math.max(16, Math.min(boxRect.width - tooltipW - 16, leftPx));
-
-      let topPx = nodeScreenY - Math.round(tooltipH * 0.35);
-      topPx = Math.max(16, Math.min(boxRect.height - tooltipH - 16, topPx));
-
-      tourTooltip.style.left = Math.round(leftPx) + 'px';
-      tourTooltip.style.top = Math.round(topPx) + 'px';
-      tourTooltip.style.bottom = 'auto';
+      requestAnimationFrame(() => {
+        renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
+      });
     }
 
     function setPolarity(mode) {
@@ -1157,7 +1293,6 @@
       try {
         localStorage.setItem('arashikage_arch_polarity', activePolarity);
       } catch (_) {}
-      updatePolarityButtons();
       setTheme(activeTheme);
     }
 
@@ -1176,16 +1311,21 @@
       }
 
       const meta = THEME_META[themeKey];
+      const stageCols = getActiveStageColors();
+      const notesText = meta.name.toUpperCase() + ' (' + activePolarity.toUpperCase() + ') — ' + meta.notes;
       const notesEl = document.getElementById('themeStyleNotes');
       if (notesEl) {
-        notesEl.textContent = meta.name.toUpperCase() + ' (' + activePolarity.toUpperCase() + ') — ' + meta.notes;
+        notesEl.textContent = notesText;
+      }
+      if (selTheme) {
+        selTheme.title = notesText;
       }
       const brandDot = document.getElementById('brandDot');
       if (brandDot) {
-        brandDot.style.backgroundColor = meta.stageColors[0];
+        brandDot.style.backgroundColor = stageCols[0];
       }
 
-      renderer.applyStagePaletteToNodes(nodes, meta.stageColors, activeColHeaders);
+      renderer.applyStagePaletteToNodes(nodes, stageCols, activeColHeaders);
 
       syncThemeAlignedButtons();
       updatePolarityButtons();
@@ -1194,10 +1334,48 @@
       if (activeRightView === 'tech') renderTechDeepDive();
     }
 
-    // Event Listener: Platform Generation Switcher
+    // Event Listeners: Segmented 4-Generation Pill Bar & Select
+    document.querySelectorAll('.arch-gen-pill').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-arch-pill');
+        if (key) setArchitecture(key);
+      });
+    });
     if (selArchGen) {
       selArchGen.addEventListener('change', (e) => {
         setArchitecture(e.target.value);
+      });
+    }
+
+    // Event Listeners: Sequential Block Navigation in Block Inspector
+    if (selNodeJumper) {
+      selNodeJumper.addEventListener('change', (e) => {
+        if (nodeMap[e.target.value]) {
+          selectedNodeId = e.target.value;
+          renderNodeInspector();
+          syncThemeAlignedButtons();
+          syncUrlHash();
+        }
+      });
+    }
+    if (btnPrevNode) {
+      btnPrevNode.addEventListener('click', () => {
+        const curIdx = nodes.findIndex((n) => n.id === selectedNodeId);
+        const nextIdx = (curIdx - 1 + nodes.length) % nodes.length;
+        selectedNodeId = nodes[nextIdx].id;
+        renderNodeInspector();
+        syncThemeAlignedButtons();
+        syncUrlHash();
+      });
+    }
+    if (btnNextNode) {
+      btnNextNode.addEventListener('click', () => {
+        const curIdx = nodes.findIndex((n) => n.id === selectedNodeId);
+        const nextIdx = (curIdx + 1) % nodes.length;
+        selectedNodeId = nodes[nextIdx].id;
+        renderNodeInspector();
+        syncThemeAlignedButtons();
+        syncUrlHash();
       });
     }
 
@@ -1217,29 +1395,36 @@
       setTheme(THEME_ORDER[(idx + 1) % THEME_ORDER.length]);
     });
 
-    // Event Listeners: Scenario & Tour Tooltip
+    // Event Listeners: Scenario & Docked Walkthrough HUD Bar
     selScenario.addEventListener('change', (e) => {
       activeScenarioKey = e.target.value;
       activeStepIdx = 0;
       tourOverlayVisible = activeScenarioKey !== 'none';
       updateTourTooltip();
+      syncUrlHash();
     });
 
     btnToggleTour.addEventListener('click', () => {
-      if (activeScenarioKey === 'none') {
-        activeScenarioKey = 'tour';
-        selScenario.value = 'tour';
+      if (activeScenarioKey === 'none' || !tourOverlayVisible) {
+        activeScenarioKey = activeScenarioKey === 'none' ? 'tour' : activeScenarioKey;
+        selScenario.value = activeScenarioKey;
         activeStepIdx = 0;
         tourOverlayVisible = true;
       } else {
-        tourOverlayVisible = !tourOverlayVisible;
+        activeScenarioKey = 'none';
+        selScenario.value = 'none';
+        tourOverlayVisible = false;
       }
       updateTourTooltip();
+      syncUrlHash();
     });
 
     btnCloseTooltip.addEventListener('click', () => {
+      activeScenarioKey = 'none';
+      selScenario.value = 'none';
       tourOverlayVisible = false;
       updateTourTooltip();
+      syncUrlHash();
     });
 
     btnTtPrev.addEventListener('click', () => {
@@ -1273,9 +1458,6 @@
       setRightView('tech', selectedTechId);
       openSlideInDrawer();
     });
-    btnBackToNode.addEventListener('click', () => {
-      setRightView('node');
-    });
     selTechDropdown.addEventListener('change', (e) => {
       selectedTechId = e.target.value;
       renderTechDeepDive();
@@ -1296,18 +1478,6 @@
         renderTechDeepDive();
         syncUrlHash();
       });
-    });
-
-    document.getElementById('btnNodeQuickLearnMore').addEventListener('click', () => {
-      activeNTab = 'learn';
-      renderNodeInspector();
-      syncUrlHash();
-    });
-
-    document.getElementById('btnTechQuickLearnMore').addEventListener('click', () => {
-      activeTTab = 'learn';
-      renderTechDeepDive();
-      syncUrlHash();
     });
 
     // Event Listeners: Full Screen & Slide-Over Dismissal
@@ -1334,6 +1504,10 @@
       canvas.style.cursor = hit ? 'pointer' : 'default';
     });
 
+    canvas.addEventListener('mouseleave', () => {
+      hoveredNodeId = null;
+    });
+
     canvas.addEventListener('click', (e) => {
       const hit = renderer.getNodeAtCanvasCoords(canvas, e.clientX, e.clientY, nodes);
       if (hit) {
@@ -1349,12 +1523,10 @@
     if (typeof ResizeObserver !== 'undefined') {
       new ResizeObserver(() => {
         renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
-        if (tourOverlayVisible) updateTourTooltip();
       }).observe(canvasWrapper);
     }
     window.addEventListener('resize', () => {
       renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
-      if (tourOverlayVisible) updateTourTooltip();
     });
 
     // Standalone Single-File HTML Export, PNG Export & Mermaid Copy
@@ -1430,7 +1602,7 @@
       const mmd = activeMermaidDiagram || '';
       navigator.clipboard.writeText(mmd).then(() => {
         const btn = document.getElementById('btnCopyMermaid');
-        btn.textContent = getGlyph('export') + ' Copied';
+        btn.textContent = 'Copied!';
         setTimeout(() => {
           syncThemeAlignedButtons();
         }, 1600);
@@ -1468,28 +1640,45 @@
 
     setTheme(activeTheme);
     setPolarity(activePolarity);
-    const restoredFromHash = restoreStateFromUrlHash(setArchitecture);
+    const restoredFromHash = restoreStateFromUrlHash(setArchitecture, setTheme, setPolarity);
     if (restoredFromHash) {
+      if (selScenario) selScenario.value = activeScenarioKey;
+      updateTourTooltip();
       setRightView(activeRightView);
     } else {
       setArchitecture('hex63', true);
+      selScenario.value = 'none';
+      activeScenarioKey = 'none';
+      tourOverlayVisible = false;
+      updateTourTooltip();
       renderNodeInspector();
       renderTechDeepDive();
       syncUrlHash();
     }
 
     renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
-    setTimeout(updateTourTooltip, 60);
 
     function loop() {
       renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
       animTick += 0.016;
 
       let highlightSet = null;
+      let tourFocusNodeId = null;
+      let tourStepBadgeText = null;
+
       if (tourOverlayVisible && activeScenarioKey !== 'none' && scenarios[activeScenarioKey]) {
-        const step = scenarios[activeScenarioKey].steps[activeStepIdx];
-        if (step && step.highlight) {
-          highlightSet = new Set(step.highlight);
+        const steps = scenarios[activeScenarioKey].steps;
+        const step = steps[activeStepIdx];
+        if (step) {
+          if (step.highlight) highlightSet = new Set(step.highlight);
+          tourFocusNodeId = step.focusNode || null;
+          tourStepBadgeText = 'STEP ' + (activeStepIdx + 1) + '/' + steps.length;
+        }
+      } else if (activeRightView === 'tech' && techMap[selectedTechId]) {
+        // Automatically spotlight the subsystem blocks that implement the inspected technology!
+        const usedIn = techMap[selectedTechId].usedIn || [];
+        if (usedIn.length > 0) {
+          highlightSet = new Set(usedIn);
         }
       }
 
@@ -1503,6 +1692,8 @@
         selectedNodeId,
         hoveredNodeId,
         highlightSet,
+        tourFocusNodeId,
+        tourStepBadgeText,
         animTick
       });
       requestAnimationFrame(loop);

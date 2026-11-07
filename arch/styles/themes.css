@@ -1,6 +1,6 @@
 /* ==========================================================================
    ARASHIKAGE (HEX63) — ARCHITECTURE EXPLORER STYLESHEET
-   Base Typography Scale (+2px upgrade: 18px root) & 6-Style × Light/Dark Engine
+   Base Typography Scale (18px root) & 6-Style × Light/Dark Engine
    ========================================================================== */
 html {
   font-size: 18px;
@@ -19,10 +19,11 @@ body[data-theme="neo_brutalism"][data-mode="light"] {
   --ink-muted: #52525b;
   --accent-main: #ff4d00;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(255, 77, 0, 0.10);
-  --font-body: "Inter", "Arial Black", system-ui, -apple-system, sans-serif;
+  --accent-tint: rgba(255, 77, 0, 0.12);
+  --font-display: "Space Grotesk", "Inter", "Arial Black", sans-serif;
+  --font-body: "Space Grotesk", "Inter", system-ui, -apple-system, sans-serif;
   --card-shadow: 4px 4px 0px #111111;
-  --elevated-shadow: 8px 8px 0px #111111;
+  --elevated-shadow: 6px 6px 0px #111111;
   --border-w: 2.5px;
   --radius-card: 2px;
 }
@@ -37,17 +38,19 @@ body[data-theme="neo_brutalism"][data-mode="dark"] {
   --ink-secondary: #d4d4d8;
   --ink-muted: #a1a1aa;
   --accent-main: #ff5e1a;
-  --accent-ink: #ffffff;
-  --accent-tint: rgba(255, 94, 26, 0.16);
-  --font-body: "Inter", "Arial Black", system-ui, -apple-system, sans-serif;
+  --accent-ink: #111113;
+  --accent-tint: rgba(255, 94, 26, 0.18);
+  --font-display: "Space Grotesk", "Inter", "Arial Black", sans-serif;
+  --font-body: "Space Grotesk", "Inter", system-ui, -apple-system, sans-serif;
   --card-shadow: 4px 4px 0px #ff5e1a;
-  --elevated-shadow: 7px 7px 0px #ff5e1a;
+  --elevated-shadow: 6px 6px 0px #ff5e1a;
   --border-w: 2.5px;
   --radius-card: 2px;
 }
 body[data-theme="neo_brutalism"] .rounded-2xl,
 body[data-theme="neo_brutalism"] .rounded-xl,
-body[data-theme="neo_brutalism"] .rounded-lg {
+body[data-theme="neo_brutalism"] .rounded-lg,
+body[data-theme="neo_brutalism"] .rounded {
   border-radius: 2px !important;
 }
 
@@ -58,14 +61,15 @@ body[data-theme="modular_typo"][data-mode="light"] {
   --bg-card: #ffffff;
   --bg-elevated: #ffffff;
   --border-hair: #18181b;
-  --border-sub: #18181b;
+  --border-sub: #09090b;
   --ink-primary: #09090b;
   --ink-secondary: #27272a;
   --ink-muted: #52525b;
-  --accent-main: #ff2a00;
+  --accent-main: #e62400;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(255, 42, 0, 0.09);
-  --font-body: "Helvetica Neue", "Inter", Arial, sans-serif;
+  --accent-tint: rgba(230, 36, 0, 0.10);
+  --font-display: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
   --card-shadow: none;
   --elevated-shadow: 0 0 0 2px #09090b;
   --border-w: 1.5px;
@@ -76,24 +80,26 @@ body[data-theme="modular_typo"][data-mode="dark"] {
   --bg-panel: #131316;
   --bg-card: #1a1a1f;
   --bg-elevated: #1f1f26;
-  --border-hair: #52525b;
-  --border-sub: #e4e4e7;
+  --border-hair: #71717a;
+  --border-sub: #f4f4f5;
   --ink-primary: #fafafa;
   --ink-secondary: #d4d4d8;
   --ink-muted: #a1a1aa;
-  --accent-main: #ff3b14;
-  --accent-ink: #ffffff;
-  --accent-tint: rgba(255, 59, 20, 0.15);
-  --font-body: "Helvetica Neue", "Inter", Arial, sans-serif;
+  --accent-main: #ff4522;
+  --accent-ink: #09090b;
+  --accent-tint: rgba(255, 69, 34, 0.16);
+  --font-display: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
   --card-shadow: none;
-  --elevated-shadow: 0 0 0 2px #ff3b14;
+  --elevated-shadow: 0 0 0 2px #ff4522;
   --border-w: 1.5px;
   --radius-card: 0px;
 }
 body[data-theme="modular_typo"] .rounded-2xl,
 body[data-theme="modular_typo"] .rounded-xl,
 body[data-theme="modular_typo"] .rounded-lg,
-body[data-theme="modular_typo"] .rounded {
+body[data-theme="modular_typo"] .rounded,
+body[data-theme="modular_typo"] .rounded-full {
   border-radius: 0px !important;
 }
 
@@ -103,18 +109,19 @@ body[data-theme="utilitarian"][data-mode="light"] {
   --bg-panel: #edf1f5;
   --bg-card: #f8fafc;
   --bg-elevated: #ffffff;
-  --border-hair: #94a3b8;
-  --border-sub: #475569;
+  --border-hair: #64748b;
+  --border-sub: #1e293b;
   --ink-primary: #0f172a;
   --ink-secondary: #334155;
-  --ink-muted: #64748b;
-  --accent-main: #0284c7;
+  --ink-muted: #475569;
+  --accent-main: #0369a1;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(2, 132, 199, 0.10);
-  --font-body: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+  --accent-tint: rgba(3, 105, 161, 0.12);
+  --font-display: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  --font-body: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
   --card-shadow: none;
-  --elevated-shadow: 0 0 0 1.5px #0f172a, 0 12px 28px rgba(15, 23, 42, 0.18);
-  --border-w: 1px;
+  --elevated-shadow: 0 0 0 1.5px #0f172a, 0 8px 20px rgba(15, 23, 42, 0.15);
+  --border-w: 1.5px;
   --radius-card: 0px;
 }
 body[data-theme="utilitarian"][data-mode="dark"] {
@@ -122,23 +129,26 @@ body[data-theme="utilitarian"][data-mode="dark"] {
   --bg-panel: #111417;
   --bg-card: #171b20;
   --bg-elevated: #14181d;
-  --border-hair: #2c353d;
-  --border-sub: #43505c;
-  --ink-primary: #e2e8f0;
-  --ink-secondary: #94a3b8;
-  --ink-muted: #64748b;
+  --border-hair: #334155;
+  --border-sub: #64748b;
+  --ink-primary: #f1f5f9;
+  --ink-secondary: #cbd5e1;
+  --ink-muted: #94a3b8;
   --accent-main: #f59e0b;
   --accent-ink: #09090b;
-  --accent-tint: rgba(245, 158, 11, 0.14);
-  --font-body: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+  --accent-tint: rgba(245, 158, 11, 0.16);
+  --font-display: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  --font-body: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
   --card-shadow: none;
-  --elevated-shadow: 0 0 0 1px #f59e0b, 0 16px 36px rgba(0, 0, 0, 0.9);
-  --border-w: 1px;
+  --elevated-shadow: 0 0 0 1.5px #f59e0b, 0 12px 28px rgba(0, 0, 0, 0.85);
+  --border-w: 1.5px;
   --radius-card: 0px;
 }
 body[data-theme="utilitarian"] .rounded-2xl,
 body[data-theme="utilitarian"] .rounded-xl,
-body[data-theme="utilitarian"] .rounded-lg {
+body[data-theme="utilitarian"] .rounded-lg,
+body[data-theme="utilitarian"] .rounded,
+body[data-theme="utilitarian"] .rounded-full {
   border-radius: 0px !important;
 }
 
@@ -152,13 +162,14 @@ body[data-theme="memphis"][data-mode="light"] {
   --border-sub: #1e1b4b;
   --ink-primary: #1e1b4b;
   --ink-secondary: #312e81;
-  --ink-muted: #4f46e5;
-  --accent-main: #ec4899;
+  --ink-muted: #4338ca;
+  --accent-main: #db2777;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(236, 72, 153, 0.12);
-  --font-body: "Trebuchet MS", "Inter", system-ui, sans-serif;
+  --accent-tint: rgba(219, 39, 119, 0.13);
+  --font-display: "Space Grotesk", "Plus Jakarta Sans", sans-serif;
+  --font-body: "Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif;
   --card-shadow: 4px 4px 0px #06b6d4;
-  --elevated-shadow: 6px 6px 0px #ec4899;
+  --elevated-shadow: 5px 5px 0px #db2777;
   --border-w: 2.5px;
   --radius-card: 14px;
 }
@@ -174,16 +185,17 @@ body[data-theme="memphis"][data-mode="dark"] {
   --ink-muted: #a5b4fc;
   --accent-main: #f472b6;
   --accent-ink: #14112b;
-  --accent-tint: rgba(244, 114, 182, 0.16);
-  --font-body: "Trebuchet MS", "Inter", system-ui, sans-serif;
+  --accent-tint: rgba(244, 114, 182, 0.18);
+  --font-display: "Space Grotesk", "Plus Jakarta Sans", sans-serif;
+  --font-body: "Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif;
   --card-shadow: 4px 4px 0px #ec4899;
-  --elevated-shadow: 6px 6px 0px #facc15;
+  --elevated-shadow: 5px 5px 0px #facc15;
   --border-w: 2.5px;
   --radius-card: 14px;
 }
 body[data-theme="memphis"] .rounded-2xl,
 body[data-theme="memphis"] .rounded-xl {
-  border-radius: 16px !important;
+  border-radius: 14px !important;
 }
 
 /* --- 5. PIXEL ART (LIGHT & DARK) --- */
@@ -196,13 +208,14 @@ body[data-theme="pixel_art"][data-mode="light"] {
   --border-sub: #231f33;
   --ink-primary: #161324;
   --ink-secondary: #352f4f;
-  --ink-muted: #5c547d;
-  --accent-main: #008f70;
+  --ink-muted: #524973;
+  --accent-main: #007a5e;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(0, 143, 112, 0.12);
-  --font-body: "Courier New", Courier, ui-monospace, monospace;
+  --accent-tint: rgba(0, 122, 94, 0.14);
+  --font-display: "Silkscreen", "IBM Plex Mono", monospace;
+  --font-body: "IBM Plex Mono", "Courier New", monospace;
   --card-shadow: 4px 4px 0px #231f33;
-  --elevated-shadow: 6px 6px 0px #231f33;
+  --elevated-shadow: 5px 5px 0px #231f33;
   --border-w: 2px;
   --radius-card: 0px;
 }
@@ -211,17 +224,18 @@ body[data-theme="pixel_art"][data-mode="dark"] {
   --bg-panel: #160d2e;
   --bg-card: #211542;
   --bg-elevated: #1b1038;
-  --border-hair: #4c3b80;
+  --border-hair: #5b4699;
   --border-sub: #00ffcc;
   --ink-primary: #f8fafc;
-  --ink-secondary: #a5b4fc;
-  --ink-muted: #818cf8;
+  --ink-secondary: #c7d2fe;
+  --ink-muted: #93c5fd;
   --accent-main: #00ffcc;
   --accent-ink: #0c061a;
-  --accent-tint: rgba(0, 255, 204, 0.14);
-  --font-body: "Courier New", Courier, ui-monospace, monospace;
+  --accent-tint: rgba(0, 255, 204, 0.16);
+  --font-display: "Silkscreen", "IBM Plex Mono", monospace;
+  --font-body: "IBM Plex Mono", "Courier New", monospace;
   --card-shadow: 4px 4px 0px #05020a;
-  --elevated-shadow: 6px 6px 0px #05020a, 0 0 0 2px #00ffcc;
+  --elevated-shadow: 5px 5px 0px #05020a, 0 0 0 2px #00ffcc;
   --border-w: 2px;
   --radius-card: 0px;
 }
@@ -232,6 +246,12 @@ body[data-theme="pixel_art"] .rounded,
 body[data-theme="pixel_art"] .rounded-full {
   border-radius: 0px !important;
 }
+body[data-theme="pixel_art"] h1,
+body[data-theme="pixel_art"] h2,
+body[data-theme="pixel_art"] .kicker {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
 
 /* --- 6. AURORA (LIGHT & DARK — Solid Velvet/Pearl Surfaces, Zero Blur) --- */
 body[data-theme="aurora"][data-mode="light"] {
@@ -239,18 +259,19 @@ body[data-theme="aurora"][data-mode="light"] {
   --bg-panel: #f5faff;
   --bg-card: #ffffff;
   --bg-elevated: #ffffff;
-  --border-hair: rgba(2, 132, 199, 0.32);
-  --border-sub: rgba(147, 51, 234, 0.45);
+  --border-hair: rgba(2, 132, 199, 0.36);
+  --border-sub: rgba(109, 40, 217, 0.55);
   --ink-primary: #0f172a;
   --ink-secondary: #334155;
-  --ink-muted: #64748b;
+  --ink-muted: #475569;
   --accent-main: #0284c7;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(2, 132, 199, 0.10);
-  --font-body: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  --accent-tint: rgba(2, 132, 199, 0.11);
+  --font-display: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-body: "Plus Jakarta Sans", "Inter", -apple-system, sans-serif;
   --card-shadow: 0 4px 18px rgba(14, 165, 233, 0.10);
-  --elevated-shadow: 0 16px 40px rgba(15, 23, 42, 0.16), 0 0 0 1.5px rgba(14, 165, 233, 0.4);
-  --border-w: 1px;
+  --elevated-shadow: 0 12px 32px rgba(15, 23, 42, 0.14), 0 0 0 1.5px rgba(2, 132, 199, 0.45);
+  --border-w: 1.5px;
   --radius-card: 12px;
 }
 body[data-theme="aurora"][data-mode="dark"] {
@@ -258,18 +279,19 @@ body[data-theme="aurora"][data-mode="dark"] {
   --bg-panel: #0a0e24;
   --bg-card: #101736;
   --bg-elevated: #131c42;
-  --border-hair: rgba(0, 245, 212, 0.28);
-  --border-sub: rgba(247, 37, 133, 0.45);
+  --border-hair: rgba(56, 189, 248, 0.34);
+  --border-sub: rgba(244, 114, 182, 0.55);
   --ink-primary: #f8fafc;
   --ink-secondary: #cbd5e1;
   --ink-muted: #94a3b8;
   --accent-main: #00f5d4;
   --accent-ink: #050714;
-  --accent-tint: rgba(0, 245, 212, 0.12);
-  --font-body: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  --accent-tint: rgba(0, 245, 212, 0.14);
+  --font-display: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-body: "Plus Jakarta Sans", "Inter", -apple-system, sans-serif;
   --card-shadow: 0 4px 20px rgba(0, 245, 212, 0.08);
-  --elevated-shadow: 0 16px 48px rgba(4, 6, 20, 0.95), 0 0 24px rgba(0, 245, 212, 0.22);
-  --border-w: 1px;
+  --elevated-shadow: 0 12px 36px rgba(4, 6, 20, 0.92), 0 0 18px rgba(0, 245, 212, 0.22);
+  --border-w: 1.5px;
   --radius-card: 12px;
 }
 
@@ -285,8 +307,11 @@ body {
   overflow-x: hidden;
   transition: background-color 0.16s ease, color 0.16s ease;
 }
+h1, h2, h3, h4 {
+  font-family: var(--font-display, var(--font-body));
+}
 .mono {
-  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
 }
 .surface-root { background-color: var(--bg-root); }
 .surface-panel { background-color: var(--bg-panel); }
@@ -302,12 +327,34 @@ body {
 }
 .border-hairline {
   border-color: var(--border-hair) !important;
-  border-width: var(--border-w);
+  border-width: var(--border-w) !important;
 }
 .border-subtle {
   border-color: var(--border-sub) !important;
-  border-width: var(--border-w);
+  border-width: var(--border-w) !important;
 }
+/* Ensure single-side borders also respect --border-w */
+.border-b.border-hairline, .border-b.border-subtle {
+  border-top-width: 0px !important;
+  border-left-width: 0px !important;
+  border-right-width: 0px !important;
+  border-bottom-width: var(--border-w) !important;
+}
+.border-t.border-hairline, .border-t.border-subtle {
+  border-bottom-width: 0px !important;
+  border-left-width: 0px !important;
+  border-right-width: 0px !important;
+  border-top-width: var(--border-w) !important;
+}
+@media (min-width: 1024px) {
+  .lg\:border-r.border-hairline {
+    border-top-width: 0px !important;
+    border-bottom-width: 0px !important;
+    border-left-width: 0px !important;
+    border-right-width: var(--border-w) !important;
+  }
+}
+
 .text-primary-ink { color: var(--ink-primary) !important; }
 .text-secondary-ink { color: var(--ink-secondary) !important; }
 .text-muted-ink { color: var(--ink-muted) !important; }
@@ -320,16 +367,14 @@ body {
 }
 
 .kicker {
-  font-size: 11.5px;
-  letter-spacing: 0.07em;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   font-weight: 800;
-  line-height: 1.25;
+  line-height: 1.2;
 }
 
-/* Theme-native Secondary Callout Section inside Tab Cards
-   (Used for "WHY IT SITS HERE IN THE DATAFLOW", "RESEARCH ORIGINS & EVOLUTION",
-    "TENSOR & MEMORY SIGNATURE", etc. across all tabs) */
+/* Theme-native Secondary Callout Section inside Tab Cards */
 .theme-callout {
   background-color: var(--bg-root);
   border: var(--border-w) solid var(--border-hair);
@@ -339,14 +384,14 @@ body {
 .theme-callout-header {
   background-color: var(--accent-tint);
   border-bottom: var(--border-w) solid var(--border-hair);
-  padding: 6px 12px;
+  padding: 5px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
 }
 .theme-callout-body {
-  padding: 10px 12px;
+  padding: 8px 10px;
 }
 
 .no-wrap-btn {

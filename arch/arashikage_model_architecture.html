@@ -3,12 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arashikage (Hex63) — Systems &amp; Neural Architecture</title>
+  <title>Arashikage (Hex63) — Systems &amp; Neural Architecture Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" />
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';document.head.appendChild(s);"></script>
   <style>
 /* ==========================================================================
    ARASHIKAGE (HEX63) — ARCHITECTURE EXPLORER STYLESHEET
-   Base Typography Scale (+2px upgrade: 18px root) & 6-Style × Light/Dark Engine
+   Base Typography Scale (18px root) & 6-Style × Light/Dark Engine
    ========================================================================== */
 html {
   font-size: 18px;
@@ -27,10 +30,11 @@ body[data-theme="neo_brutalism"][data-mode="light"] {
   --ink-muted: #52525b;
   --accent-main: #ff4d00;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(255, 77, 0, 0.10);
-  --font-body: "Inter", "Arial Black", system-ui, -apple-system, sans-serif;
+  --accent-tint: rgba(255, 77, 0, 0.12);
+  --font-display: "Space Grotesk", "Inter", "Arial Black", sans-serif;
+  --font-body: "Space Grotesk", "Inter", system-ui, -apple-system, sans-serif;
   --card-shadow: 4px 4px 0px #111111;
-  --elevated-shadow: 8px 8px 0px #111111;
+  --elevated-shadow: 6px 6px 0px #111111;
   --border-w: 2.5px;
   --radius-card: 2px;
 }
@@ -45,17 +49,19 @@ body[data-theme="neo_brutalism"][data-mode="dark"] {
   --ink-secondary: #d4d4d8;
   --ink-muted: #a1a1aa;
   --accent-main: #ff5e1a;
-  --accent-ink: #ffffff;
-  --accent-tint: rgba(255, 94, 26, 0.16);
-  --font-body: "Inter", "Arial Black", system-ui, -apple-system, sans-serif;
+  --accent-ink: #111113;
+  --accent-tint: rgba(255, 94, 26, 0.18);
+  --font-display: "Space Grotesk", "Inter", "Arial Black", sans-serif;
+  --font-body: "Space Grotesk", "Inter", system-ui, -apple-system, sans-serif;
   --card-shadow: 4px 4px 0px #ff5e1a;
-  --elevated-shadow: 7px 7px 0px #ff5e1a;
+  --elevated-shadow: 6px 6px 0px #ff5e1a;
   --border-w: 2.5px;
   --radius-card: 2px;
 }
 body[data-theme="neo_brutalism"] .rounded-2xl,
 body[data-theme="neo_brutalism"] .rounded-xl,
-body[data-theme="neo_brutalism"] .rounded-lg {
+body[data-theme="neo_brutalism"] .rounded-lg,
+body[data-theme="neo_brutalism"] .rounded {
   border-radius: 2px !important;
 }
 
@@ -66,14 +72,15 @@ body[data-theme="modular_typo"][data-mode="light"] {
   --bg-card: #ffffff;
   --bg-elevated: #ffffff;
   --border-hair: #18181b;
-  --border-sub: #18181b;
+  --border-sub: #09090b;
   --ink-primary: #09090b;
   --ink-secondary: #27272a;
   --ink-muted: #52525b;
-  --accent-main: #ff2a00;
+  --accent-main: #e62400;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(255, 42, 0, 0.09);
-  --font-body: "Helvetica Neue", "Inter", Arial, sans-serif;
+  --accent-tint: rgba(230, 36, 0, 0.10);
+  --font-display: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
   --card-shadow: none;
   --elevated-shadow: 0 0 0 2px #09090b;
   --border-w: 1.5px;
@@ -84,24 +91,26 @@ body[data-theme="modular_typo"][data-mode="dark"] {
   --bg-panel: #131316;
   --bg-card: #1a1a1f;
   --bg-elevated: #1f1f26;
-  --border-hair: #52525b;
-  --border-sub: #e4e4e7;
+  --border-hair: #71717a;
+  --border-sub: #f4f4f5;
   --ink-primary: #fafafa;
   --ink-secondary: #d4d4d8;
   --ink-muted: #a1a1aa;
-  --accent-main: #ff3b14;
-  --accent-ink: #ffffff;
-  --accent-tint: rgba(255, 59, 20, 0.15);
-  --font-body: "Helvetica Neue", "Inter", Arial, sans-serif;
+  --accent-main: #ff4522;
+  --accent-ink: #09090b;
+  --accent-tint: rgba(255, 69, 34, 0.16);
+  --font-display: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
   --card-shadow: none;
-  --elevated-shadow: 0 0 0 2px #ff3b14;
+  --elevated-shadow: 0 0 0 2px #ff4522;
   --border-w: 1.5px;
   --radius-card: 0px;
 }
 body[data-theme="modular_typo"] .rounded-2xl,
 body[data-theme="modular_typo"] .rounded-xl,
 body[data-theme="modular_typo"] .rounded-lg,
-body[data-theme="modular_typo"] .rounded {
+body[data-theme="modular_typo"] .rounded,
+body[data-theme="modular_typo"] .rounded-full {
   border-radius: 0px !important;
 }
 
@@ -111,18 +120,19 @@ body[data-theme="utilitarian"][data-mode="light"] {
   --bg-panel: #edf1f5;
   --bg-card: #f8fafc;
   --bg-elevated: #ffffff;
-  --border-hair: #94a3b8;
-  --border-sub: #475569;
+  --border-hair: #64748b;
+  --border-sub: #1e293b;
   --ink-primary: #0f172a;
   --ink-secondary: #334155;
-  --ink-muted: #64748b;
-  --accent-main: #0284c7;
+  --ink-muted: #475569;
+  --accent-main: #0369a1;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(2, 132, 199, 0.10);
-  --font-body: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+  --accent-tint: rgba(3, 105, 161, 0.12);
+  --font-display: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  --font-body: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
   --card-shadow: none;
-  --elevated-shadow: 0 0 0 1.5px #0f172a, 0 12px 28px rgba(15, 23, 42, 0.18);
-  --border-w: 1px;
+  --elevated-shadow: 0 0 0 1.5px #0f172a, 0 8px 20px rgba(15, 23, 42, 0.15);
+  --border-w: 1.5px;
   --radius-card: 0px;
 }
 body[data-theme="utilitarian"][data-mode="dark"] {
@@ -130,23 +140,26 @@ body[data-theme="utilitarian"][data-mode="dark"] {
   --bg-panel: #111417;
   --bg-card: #171b20;
   --bg-elevated: #14181d;
-  --border-hair: #2c353d;
-  --border-sub: #43505c;
-  --ink-primary: #e2e8f0;
-  --ink-secondary: #94a3b8;
-  --ink-muted: #64748b;
+  --border-hair: #334155;
+  --border-sub: #64748b;
+  --ink-primary: #f1f5f9;
+  --ink-secondary: #cbd5e1;
+  --ink-muted: #94a3b8;
   --accent-main: #f59e0b;
   --accent-ink: #09090b;
-  --accent-tint: rgba(245, 158, 11, 0.14);
-  --font-body: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+  --accent-tint: rgba(245, 158, 11, 0.16);
+  --font-display: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  --font-body: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
   --card-shadow: none;
-  --elevated-shadow: 0 0 0 1px #f59e0b, 0 16px 36px rgba(0, 0, 0, 0.9);
-  --border-w: 1px;
+  --elevated-shadow: 0 0 0 1.5px #f59e0b, 0 12px 28px rgba(0, 0, 0, 0.85);
+  --border-w: 1.5px;
   --radius-card: 0px;
 }
 body[data-theme="utilitarian"] .rounded-2xl,
 body[data-theme="utilitarian"] .rounded-xl,
-body[data-theme="utilitarian"] .rounded-lg {
+body[data-theme="utilitarian"] .rounded-lg,
+body[data-theme="utilitarian"] .rounded,
+body[data-theme="utilitarian"] .rounded-full {
   border-radius: 0px !important;
 }
 
@@ -160,13 +173,14 @@ body[data-theme="memphis"][data-mode="light"] {
   --border-sub: #1e1b4b;
   --ink-primary: #1e1b4b;
   --ink-secondary: #312e81;
-  --ink-muted: #4f46e5;
-  --accent-main: #ec4899;
+  --ink-muted: #4338ca;
+  --accent-main: #db2777;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(236, 72, 153, 0.12);
-  --font-body: "Trebuchet MS", "Inter", system-ui, sans-serif;
+  --accent-tint: rgba(219, 39, 119, 0.13);
+  --font-display: "Space Grotesk", "Plus Jakarta Sans", sans-serif;
+  --font-body: "Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif;
   --card-shadow: 4px 4px 0px #06b6d4;
-  --elevated-shadow: 6px 6px 0px #ec4899;
+  --elevated-shadow: 5px 5px 0px #db2777;
   --border-w: 2.5px;
   --radius-card: 14px;
 }
@@ -182,16 +196,17 @@ body[data-theme="memphis"][data-mode="dark"] {
   --ink-muted: #a5b4fc;
   --accent-main: #f472b6;
   --accent-ink: #14112b;
-  --accent-tint: rgba(244, 114, 182, 0.16);
-  --font-body: "Trebuchet MS", "Inter", system-ui, sans-serif;
+  --accent-tint: rgba(244, 114, 182, 0.18);
+  --font-display: "Space Grotesk", "Plus Jakarta Sans", sans-serif;
+  --font-body: "Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif;
   --card-shadow: 4px 4px 0px #ec4899;
-  --elevated-shadow: 6px 6px 0px #facc15;
+  --elevated-shadow: 5px 5px 0px #facc15;
   --border-w: 2.5px;
   --radius-card: 14px;
 }
 body[data-theme="memphis"] .rounded-2xl,
 body[data-theme="memphis"] .rounded-xl {
-  border-radius: 16px !important;
+  border-radius: 14px !important;
 }
 
 /* --- 5. PIXEL ART (LIGHT & DARK) --- */
@@ -204,13 +219,14 @@ body[data-theme="pixel_art"][data-mode="light"] {
   --border-sub: #231f33;
   --ink-primary: #161324;
   --ink-secondary: #352f4f;
-  --ink-muted: #5c547d;
-  --accent-main: #008f70;
+  --ink-muted: #524973;
+  --accent-main: #007a5e;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(0, 143, 112, 0.12);
-  --font-body: "Courier New", Courier, ui-monospace, monospace;
+  --accent-tint: rgba(0, 122, 94, 0.14);
+  --font-display: "Silkscreen", "IBM Plex Mono", monospace;
+  --font-body: "IBM Plex Mono", "Courier New", monospace;
   --card-shadow: 4px 4px 0px #231f33;
-  --elevated-shadow: 6px 6px 0px #231f33;
+  --elevated-shadow: 5px 5px 0px #231f33;
   --border-w: 2px;
   --radius-card: 0px;
 }
@@ -219,17 +235,18 @@ body[data-theme="pixel_art"][data-mode="dark"] {
   --bg-panel: #160d2e;
   --bg-card: #211542;
   --bg-elevated: #1b1038;
-  --border-hair: #4c3b80;
+  --border-hair: #5b4699;
   --border-sub: #00ffcc;
   --ink-primary: #f8fafc;
-  --ink-secondary: #a5b4fc;
-  --ink-muted: #818cf8;
+  --ink-secondary: #c7d2fe;
+  --ink-muted: #93c5fd;
   --accent-main: #00ffcc;
   --accent-ink: #0c061a;
-  --accent-tint: rgba(0, 255, 204, 0.14);
-  --font-body: "Courier New", Courier, ui-monospace, monospace;
+  --accent-tint: rgba(0, 255, 204, 0.16);
+  --font-display: "Silkscreen", "IBM Plex Mono", monospace;
+  --font-body: "IBM Plex Mono", "Courier New", monospace;
   --card-shadow: 4px 4px 0px #05020a;
-  --elevated-shadow: 6px 6px 0px #05020a, 0 0 0 2px #00ffcc;
+  --elevated-shadow: 5px 5px 0px #05020a, 0 0 0 2px #00ffcc;
   --border-w: 2px;
   --radius-card: 0px;
 }
@@ -240,6 +257,12 @@ body[data-theme="pixel_art"] .rounded,
 body[data-theme="pixel_art"] .rounded-full {
   border-radius: 0px !important;
 }
+body[data-theme="pixel_art"] h1,
+body[data-theme="pixel_art"] h2,
+body[data-theme="pixel_art"] .kicker {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
 
 /* --- 6. AURORA (LIGHT & DARK — Solid Velvet/Pearl Surfaces, Zero Blur) --- */
 body[data-theme="aurora"][data-mode="light"] {
@@ -247,18 +270,19 @@ body[data-theme="aurora"][data-mode="light"] {
   --bg-panel: #f5faff;
   --bg-card: #ffffff;
   --bg-elevated: #ffffff;
-  --border-hair: rgba(2, 132, 199, 0.32);
-  --border-sub: rgba(147, 51, 234, 0.45);
+  --border-hair: rgba(2, 132, 199, 0.36);
+  --border-sub: rgba(109, 40, 217, 0.55);
   --ink-primary: #0f172a;
   --ink-secondary: #334155;
-  --ink-muted: #64748b;
+  --ink-muted: #475569;
   --accent-main: #0284c7;
   --accent-ink: #ffffff;
-  --accent-tint: rgba(2, 132, 199, 0.10);
-  --font-body: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  --accent-tint: rgba(2, 132, 199, 0.11);
+  --font-display: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-body: "Plus Jakarta Sans", "Inter", -apple-system, sans-serif;
   --card-shadow: 0 4px 18px rgba(14, 165, 233, 0.10);
-  --elevated-shadow: 0 16px 40px rgba(15, 23, 42, 0.16), 0 0 0 1.5px rgba(14, 165, 233, 0.4);
-  --border-w: 1px;
+  --elevated-shadow: 0 12px 32px rgba(15, 23, 42, 0.14), 0 0 0 1.5px rgba(2, 132, 199, 0.45);
+  --border-w: 1.5px;
   --radius-card: 12px;
 }
 body[data-theme="aurora"][data-mode="dark"] {
@@ -266,18 +290,19 @@ body[data-theme="aurora"][data-mode="dark"] {
   --bg-panel: #0a0e24;
   --bg-card: #101736;
   --bg-elevated: #131c42;
-  --border-hair: rgba(0, 245, 212, 0.28);
-  --border-sub: rgba(247, 37, 133, 0.45);
+  --border-hair: rgba(56, 189, 248, 0.34);
+  --border-sub: rgba(244, 114, 182, 0.55);
   --ink-primary: #f8fafc;
   --ink-secondary: #cbd5e1;
   --ink-muted: #94a3b8;
   --accent-main: #00f5d4;
   --accent-ink: #050714;
-  --accent-tint: rgba(0, 245, 212, 0.12);
-  --font-body: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  --accent-tint: rgba(0, 245, 212, 0.14);
+  --font-display: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-body: "Plus Jakarta Sans", "Inter", -apple-system, sans-serif;
   --card-shadow: 0 4px 20px rgba(0, 245, 212, 0.08);
-  --elevated-shadow: 0 16px 48px rgba(4, 6, 20, 0.95), 0 0 24px rgba(0, 245, 212, 0.22);
-  --border-w: 1px;
+  --elevated-shadow: 0 12px 36px rgba(4, 6, 20, 0.92), 0 0 18px rgba(0, 245, 212, 0.22);
+  --border-w: 1.5px;
   --radius-card: 12px;
 }
 
@@ -293,8 +318,11 @@ body {
   overflow-x: hidden;
   transition: background-color 0.16s ease, color 0.16s ease;
 }
+h1, h2, h3, h4 {
+  font-family: var(--font-display, var(--font-body));
+}
 .mono {
-  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
 }
 .surface-root { background-color: var(--bg-root); }
 .surface-panel { background-color: var(--bg-panel); }
@@ -310,12 +338,34 @@ body {
 }
 .border-hairline {
   border-color: var(--border-hair) !important;
-  border-width: var(--border-w);
+  border-width: var(--border-w) !important;
 }
 .border-subtle {
   border-color: var(--border-sub) !important;
-  border-width: var(--border-w);
+  border-width: var(--border-w) !important;
 }
+/* Ensure single-side borders also respect --border-w */
+.border-b.border-hairline, .border-b.border-subtle {
+  border-top-width: 0px !important;
+  border-left-width: 0px !important;
+  border-right-width: 0px !important;
+  border-bottom-width: var(--border-w) !important;
+}
+.border-t.border-hairline, .border-t.border-subtle {
+  border-bottom-width: 0px !important;
+  border-left-width: 0px !important;
+  border-right-width: 0px !important;
+  border-top-width: var(--border-w) !important;
+}
+@media (min-width: 1024px) {
+  .lg\:border-r.border-hairline {
+    border-top-width: 0px !important;
+    border-bottom-width: 0px !important;
+    border-left-width: 0px !important;
+    border-right-width: var(--border-w) !important;
+  }
+}
+
 .text-primary-ink { color: var(--ink-primary) !important; }
 .text-secondary-ink { color: var(--ink-secondary) !important; }
 .text-muted-ink { color: var(--ink-muted) !important; }
@@ -328,16 +378,14 @@ body {
 }
 
 .kicker {
-  font-size: 11.5px;
-  letter-spacing: 0.07em;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   font-weight: 800;
-  line-height: 1.25;
+  line-height: 1.2;
 }
 
-/* Theme-native Secondary Callout Section inside Tab Cards
-   (Used for "WHY IT SITS HERE IN THE DATAFLOW", "RESEARCH ORIGINS & EVOLUTION",
-    "TENSOR & MEMORY SIGNATURE", etc. across all tabs) */
+/* Theme-native Secondary Callout Section inside Tab Cards */
 .theme-callout {
   background-color: var(--bg-root);
   border: var(--border-w) solid var(--border-hair);
@@ -347,14 +395,14 @@ body {
 .theme-callout-header {
   background-color: var(--accent-tint);
   border-bottom: var(--border-w) solid var(--border-hair);
-  padding: 6px 12px;
+  padding: 5px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
 }
 .theme-callout-body {
-  padding: 10px 12px;
+  padding: 8px 10px;
 }
 
 .no-wrap-btn {
@@ -377,93 +425,114 @@ body {
   <!-- Full-Viewport Application Shell -->
   <div class="w-full flex-1 min-h-0 surface-panel flex flex-col overflow-hidden">
 
-    <!-- Dedicated Top Identity Banner (Above the Single-Line Control Header) -->
-    <div id="topIdentityBar" class="shrink-0 px-4 py-1.5 border-b border-hairline surface-root flex items-center justify-between gap-4">
-      <div class="flex items-center gap-2.5 min-w-0">
-        <div class="flex items-center gap-2 shrink-0">
+    <!-- Dedicated Top Identity Banner + 1-Click Segmented Generation Switcher -->
+    <div id="topIdentityBar" class="shrink-0 px-3.5 py-1.5 border-b border-hairline surface-root flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2 min-w-0 flex-1">
+        <div class="flex items-center gap-1.5 shrink-0">
           <span id="brandDot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
-          <span id="identityBadgeText" class="mono text-xs font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX63 (CURRENT)</span>
+          <span id="identityBadgeText" class="mono text-[11px] font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX63 (CURRENT)</span>
         </div>
-        <span class="text-muted-ink">|</span>
-        <h1 id="identityMainTitle" class="text-xs md:text-sm font-bold text-primary-ink tracking-tight truncate">
+        <span class="text-muted-ink shrink-0">|</span>
+        <h1 id="identityMainTitle" class="text-xs font-bold text-primary-ink tracking-tight truncate" title="Real-Time Physics &amp; Neural Control Architecture">
           Real-Time Physics &amp; Neural Control Architecture — 60 Hz Subtick Action Chunking &amp; Multi-Horizon RL
         </h1>
       </div>
-      <span id="themeStyleNotes" class="hidden xl:inline-block mono text-[11px] text-secondary-ink truncate"></span>
-    </div>
 
-    <!-- Single-Line Compact Control Plane Header -->
-    <header id="controlPlaneHeader" class="shrink-0 px-3 py-1.5 border-b border-hairline surface-card flex items-center justify-between gap-1.5 overflow-x-auto">
-      <!-- Left: Platform Generation Switcher + Guided Walkthrough & Scenario Selector -->
-      <div class="flex items-center gap-1.5 shrink-0">
-        <select id="selArchGen" title="Switch Platform Architecture Generation to Compare &amp; Contrast" class="btn-theme-accent border rounded-lg px-2 py-1 text-[11.5px] font-bold focus:outline-none transition cursor-pointer max-w-[225px] truncate">
+      <!-- Primary 1-Click Platform Generation Segmented Pill Bar -->
+      <div class="flex items-center gap-1 shrink-0" role="tablist" aria-label="Platform Architecture Generation">
+        <span class="mono text-[10px] font-bold text-muted-ink uppercase tracking-wider mr-1 hidden xl:inline">Platform:</span>
+        <div id="genPillBar" class="inline-flex items-center p-0.5 rounded-lg border border-hairline surface-panel gap-0.5">
+          <button type="button" data-arch-pill="hex63" class="arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold btn-theme-accent transition cursor-pointer" title="Arashikage (Hex63 · Current Architecture)">
+            Hex63 · Current
+          </button>
+          <button type="button" data-arch-pill="gen3_perceiver" class="arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer" title="Legacy Gen 3: ST-Perceiver + Conditional-31">
+            Gen 3 · Perceiver
+          </button>
+          <button type="button" data-arch-pill="gen2_factorized" class="arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer" title="Legacy Gen 2: Factorized-684 MLP + PSM-DCP">
+            Gen 2 · MLP-684
+          </button>
+          <button type="button" data-arch-pill="gen1_ret40" class="arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer" title="Legacy Gen 1: 41-Token RET-40 + 120Hz Geodesic PD">
+            Gen 1 · RET-40
+          </button>
+        </div>
+        <!-- Synced select kept for programmatic / mobile accessibility -->
+        <select id="selArchGen" aria-label="Switch Platform Architecture Generation" class="sr-only">
           <option value="hex63" selected>Platform: Arashikage (Hex63 · Current)</option>
           <option value="gen3_perceiver">Platform: Legacy Gen 3 (ST-Perceiver)</option>
           <option value="gen2_factorized">Platform: Legacy Gen 2 (Factorized-684)</option>
           <option value="gen1_ret40">Platform: Legacy Gen 1 (RET-40 + PD)</option>
         </select>
+      </div>
+    </div>
 
-        <select id="selScenario" class="surface-panel text-primary-ink border border-subtle rounded-lg px-2 py-1 text-[11.5px] font-semibold focus:outline-none transition cursor-pointer max-w-[185px] truncate">
-          <option value="none">Free Exploration (Click Any Block)</option>
-          <option value="tour" selected>Guided Tour: 66.7ms Cycle (8 Steps)</option>
+    <!-- Single-Line Compact Control Plane Header (Zero Horizontal Overflow at 1366px+) -->
+    <header id="controlPlaneHeader" class="shrink-0 px-3 py-1.5 border-b border-hairline surface-card flex items-center justify-between gap-2 overflow-x-auto">
+      <!-- Cluster 1: Guided Walkthrough & Pathway Filter -->
+      <div class="flex items-center gap-1.5 shrink-0">
+        <select id="selScenario" aria-label="Guided Walkthrough or Scenario" class="surface-panel text-primary-ink border border-subtle rounded-lg px-2 py-1 text-[11px] font-semibold focus:outline-none transition cursor-pointer max-w-[205px] truncate">
+          <option value="none" selected>Free Exploration (Click Any Block)</option>
+          <option value="tour">Guided Tour: 66.7ms Cycle (8 Steps)</option>
           <option value="bounce">Scenario 1: Corner Double-Tap (4 Steps)</option>
           <option value="aerial">Scenario 2: Fast Aerial &amp; Reset (4 Steps)</option>
           <option value="fake">Scenario 3: Adapting to Fake (4 Steps)</option>
           <option value="save">Scenario 4: Goal-Line Save Search (4 Steps)</option>
         </select>
-        <button id="btnToggleTour" class="no-wrap-btn px-2 py-1 rounded-lg text-[11.5px] font-semibold surface-panel text-primary-ink border border-subtle transition cursor-pointer">
-          Tour Overlay
+        <button id="btnToggleTour" class="no-wrap-btn px-2.5 py-1 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer" title="Start or exit interactive step-by-step walkthrough">
+          ▶ Start Tour
         </button>
-      </div>
 
-      <!-- Center: Pathway Filter + Compact Theme Dropdown + Prev/Next + Light/Dark -->
-      <div class="flex items-center gap-1.5 shrink-0">
-        <select id="selMode" class="surface-panel text-secondary-ink border border-hairline rounded-lg px-2 py-1 text-[11.5px] mono focus:outline-none cursor-pointer max-w-[160px] truncate">
+        <div class="h-4 w-[1px] bg-current opacity-20 mx-0.5"></div>
+
+        <select id="selMode" aria-label="Dataflow Pathway Filter" class="surface-panel text-secondary-ink border border-hairline rounded-lg px-2 py-1 text-[11px] mono focus:outline-none cursor-pointer max-w-[175px] truncate">
           <option value="all">Pathway: Full Architecture</option>
           <option value="live">Pathway: Live 5.5ms Inference</option>
           <option value="train">Pathway: 4,096-Arena Training</option>
           <option value="distill">Pathway: Teacher Warm-Start</option>
         </select>
+      </div>
 
-        <div class="h-4 w-[1px] bg-current opacity-20 mx-0.5"></div>
+      <!-- Cluster 2: Grouped Theme Switcher + Light/Dark Polarity -->
+      <div class="flex items-center gap-1.5 shrink-0">
+        <div class="inline-flex items-center rounded-lg border border-hairline surface-panel p-0.5 gap-0.5">
+          <button id="btnPrevTheme" title="Previous Design Theme" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
+            ◀
+          </button>
+          <select id="selTheme" aria-label="Design Theme" class="bg-transparent text-primary-ink px-1.5 py-0.5 text-[11px] font-bold focus:outline-none cursor-pointer">
+            <option value="neo_brutalism">Theme 1: Neo-Brutalism</option>
+            <option value="modular_typo">Theme 2: Modular Typo</option>
+            <option value="utilitarian">Theme 3: Utilitarian</option>
+            <option value="memphis">Theme 4: Memphis</option>
+            <option value="pixel_art">Theme 5: Pixel Art</option>
+            <option value="aurora">Theme 6: Aurora</option>
+          </select>
+          <button id="btnNextTheme" title="Next Design Theme" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
+            ▶
+          </button>
+        </div>
 
-        <select id="selTheme" class="surface-panel text-primary-ink border border-subtle rounded-lg px-2 py-1 text-[11.5px] font-bold focus:outline-none cursor-pointer max-w-[155px] truncate">
-          <option value="neo_brutalism">Theme: 1. Neo-Brutalism</option>
-          <option value="modular_typo">Theme: 2. Modular Typo</option>
-          <option value="utilitarian">Theme: 3. Utilitarian</option>
-          <option value="memphis">Theme: 4. Memphis</option>
-          <option value="pixel_art">Theme: 5. Pixel Art</option>
-          <option value="aurora">Theme: 6. Aurora</option>
-        </select>
-        <button id="btnPrevTheme" title="Previous Theme" class="no-wrap-btn px-2 py-1 rounded-lg border border-hairline surface-panel text-[11.5px] font-bold text-primary-ink cursor-pointer">
-          Prev
-        </button>
-        <button id="btnNextTheme" title="Next Theme" class="no-wrap-btn px-2 py-1 rounded-lg border border-hairline surface-panel text-[11.5px] font-bold text-primary-ink cursor-pointer">
-          Next
-        </button>
-
-        <div class="flex items-center p-0.5 rounded-lg border border-hairline surface-panel gap-0.5">
-          <button id="btnPolarityLight" class="no-wrap-btn px-2 py-0.5 rounded text-[11.5px] font-bold transition cursor-pointer">
+        <div class="inline-flex items-center p-0.5 rounded-lg border border-hairline surface-panel gap-0.5">
+          <button id="btnPolarityLight" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold transition cursor-pointer">
             Light
           </button>
-          <button id="btnPolarityDark" class="no-wrap-btn px-2 py-0.5 rounded text-[11.5px] font-bold transition cursor-pointer">
+          <button id="btnPolarityDark" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold transition cursor-pointer">
             Dark
           </button>
         </div>
+        <span id="themeStyleNotes" class="hidden"></span>
       </div>
 
-      <!-- Right: Full Screen & Export Actions -->
-      <div class="flex items-center gap-1.5 shrink-0">
-        <button id="btnToggleFullscreen" title="Focus Diagram in Full Screen Mode (Side panel slides in on click)" class="no-wrap-btn px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-subtle text-[11.5px] font-bold transition cursor-pointer">
-          Full Screen
+      <!-- Cluster 3: Full Screen & Export Utilities (Neutral Chrome to Prevent Accent Fatigue) -->
+      <div class="flex items-center gap-1 shrink-0">
+        <button id="btnToggleFullscreen" title="Focus Diagram in Full Screen Mode (Side panel slides in on click)" class="no-wrap-btn px-2 py-1 rounded-lg surface-panel text-primary-ink border border-subtle text-[11px] font-bold transition cursor-pointer">
+          ⛶ Full Screen
         </button>
-        <button id="btnExportHtml" title="Download standalone single-file HTML" class="no-wrap-btn px-2.5 py-1 rounded-lg btn-theme-accent border text-[11.5px] font-bold transition cursor-pointer">
+        <button id="btnExportHtml" title="Download standalone single-file HTML" class="no-wrap-btn px-2 py-1 rounded-lg surface-panel text-primary-ink border border-hairline hover:border-subtle text-[11px] font-semibold transition cursor-pointer">
           Share HTML
         </button>
-        <button id="btnExportPng" title="Download 2x Retina PNG of diagram" class="no-wrap-btn px-2 py-1 rounded-lg surface-panel text-secondary-ink border border-hairline text-[11.5px] font-semibold hover:text-primary-ink transition cursor-pointer hidden xl:inline-flex">
+        <button id="btnExportPng" title="Download 2x Retina PNG of diagram" class="no-wrap-btn px-2 py-1 rounded-lg surface-panel text-secondary-ink border border-hairline hover:text-primary-ink text-[11px] font-semibold transition cursor-pointer">
           PNG
         </button>
-        <button id="btnCopyMermaid" title="Copy Mermaid diagram markdown" class="no-wrap-btn px-2 py-1 rounded-lg surface-panel text-secondary-ink border border-hairline text-[11.5px] font-semibold hover:text-primary-ink transition cursor-pointer hidden 2xl:inline-flex">
+        <button id="btnCopyMermaid" title="Copy Mermaid diagram markdown" class="no-wrap-btn px-2 py-1 rounded-lg surface-panel text-secondary-ink border border-hairline hover:text-primary-ink text-[11px] font-semibold transition cursor-pointer">
           Mermaid
         </button>
       </div>
@@ -472,48 +541,45 @@ body {
     <!-- Main Workspace: Left Diagram (Enforced 1120:680 Display Ratio) + Right Inspector/Deep-Dive Panel -->
     <div id="mainWorkspaceRow" class="flex-1 min-h-0 flex flex-col lg:flex-row relative overflow-hidden">
 
-      <!-- LEFT: Aspect-Ratio-Locked Dataflow Diagram Stage -->
-      <div id="canvasStageContainer" class="flex-1 min-w-0 min-h-0 relative surface-root border-b lg:border-b-0 lg:border-r border-hairline flex flex-col justify-center items-center overflow-hidden">
+      <!-- LEFT: Aspect-Ratio-Locked Dataflow Diagram Stage + Non-Occluding Docked Walkthrough HUD -->
+      <div id="canvasStageContainer" class="flex-1 min-w-0 min-h-0 relative surface-root border-b lg:border-b-0 lg:border-r border-hairline flex flex-col justify-between items-center overflow-hidden">
 
-        <div id="canvasWrapper" class="relative flex-1 w-full h-full min-h-[480px] lg:min-h-0 flex items-center justify-center p-2.5 overflow-hidden">
+        <!-- Docked Guided Walkthrough HUD Ribbon (Never Covers Diagram Nodes) -->
+        <div id="tourTooltip" class="hidden shrink-0 w-full px-3.5 py-2 surface-elevated border-b border-subtle z-20 flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5 min-w-0 flex-1">
+            <span id="ttStepBadge" class="mono text-[10.5px] font-bold px-2 py-0.5 rounded btn-theme-accent border shrink-0">
+              STEP 1 OF 8
+            </span>
+            <span id="ttScenarioLabel" class="kicker text-muted-ink shrink-0 hidden sm:inline">END-TO-END TOUR</span>
+            <span class="text-muted-ink shrink-0 hidden sm:inline">·</span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-baseline gap-2 min-w-0">
+                <h4 id="ttTitle" class="text-xs font-bold text-primary-ink truncate shrink-0"></h4>
+                <p id="ttDesc" class="text-[11.5px] text-secondary-ink truncate"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button id="btnTtDeepDive" class="no-wrap-btn px-2 py-1 rounded-lg text-[11px] font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
+              Deep Dive
+            </button>
+            <button id="btnTtPrev" class="no-wrap-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
+              ◀ Prev
+            </button>
+            <button id="btnTtNext" class="no-wrap-btn px-2.5 py-1 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer">
+              Next ▶
+            </button>
+            <button id="btnCloseTooltip" title="Exit guided tour and return to free exploration" class="no-wrap-btn px-2 py-1 rounded-lg text-[11px] font-semibold surface-panel text-secondary-ink border border-hairline hover:text-primary-ink transition cursor-pointer">
+              × Exit
+            </button>
+          </div>
+        </div>
+
+        <div id="canvasWrapper" class="relative flex-1 w-full h-full min-h-[440px] lg:min-h-0 flex items-center justify-center p-2 overflow-hidden">
           <!-- Enforced 1120:680 Display Aspect Ratio Box -->
           <div id="canvasAspectBox" class="relative overflow-hidden border border-hairline rounded-lg shadow-sm">
             <canvas id="mainGraphCanvas" width="1120" height="680" class="w-full h-full block cursor-pointer"></canvas>
-
-            <!-- Floating Guided Walkthrough / Scenario Tooltip Overlay -->
-            <div id="tourTooltip" class="absolute z-20 w-[350px] md:w-[395px] surface-elevated border border-subtle rounded-xl shadow-2xl transition-all duration-200 flex flex-col gap-2.5" style="left: 20px; top: 20px; padding: 15px 18px;">
-              <div class="flex items-center justify-between gap-2">
-                <div class="flex items-center gap-2 min-w-0">
-                  <span id="ttStepBadge" class="mono text-[11px] font-bold px-2 py-0.5 rounded btn-theme-accent border shrink-0">
-                    STEP 1 OF 8
-                  </span>
-                  <span id="ttScenarioLabel" class="kicker text-muted-ink truncate">END-TO-END TOUR</span>
-                </div>
-                <button id="btnCloseTooltip" title="Close guided overlay" class="no-wrap-btn px-2 py-0.5 rounded-lg text-xs font-semibold surface-panel text-secondary-ink border border-hairline hover:text-primary-ink transition cursor-pointer">
-                  Close
-                </button>
-              </div>
-
-              <div>
-                <h4 id="ttTitle" class="text-sm font-bold text-primary-ink leading-snug mb-1"></h4>
-                <p id="ttDesc" class="text-xs text-secondary-ink leading-relaxed"></p>
-              </div>
-
-              <!-- Step Navigation Bar with Non-Wrapping Buttons -->
-              <div class="pt-2.5 border-t border-hairline flex items-center justify-between gap-2">
-                <button id="btnTtDeepDive" class="no-wrap-btn px-2.5 py-1 rounded-lg text-xs font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
-                  Deep Dive
-                </button>
-                <div class="flex items-center gap-1.5">
-                  <button id="btnTtPrev" class="no-wrap-btn px-3 py-1 rounded-lg text-xs font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
-                    Prev
-                  </button>
-                  <button id="btnTtNext" class="no-wrap-btn px-3 py-1 rounded-lg text-xs font-semibold btn-theme-accent border transition cursor-pointer">
-                    Next
-                  </button>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -521,63 +587,74 @@ body {
       <!-- Full-Screen Backdrop (Click outside right side panel to dismiss drawer) -->
       <div id="panelDismissBackdrop" class="hidden absolute inset-0 z-30 bg-black/40 cursor-pointer" title="Click outside panel to close"></div>
 
-      <!-- RIGHT SIDE PANEL: Fixed Ergonomic Width in Split Mode; Slide-In Overlay Drawer in Full Screen Mode -->
-      <aside id="rightSidePanel" class="w-full lg:w-[485px] xl:w-[525px] shrink-0 h-full min-h-0 surface-panel flex flex-col justify-between overflow-y-auto z-40 transition-transform duration-200">
+      <!-- RIGHT SIDE PANEL: Sticky Header + High-Density Above-the-Fold Inspector -->
+      <aside id="rightSidePanel" class="w-full lg:w-[490px] xl:w-[535px] shrink-0 h-full min-h-0 surface-panel flex flex-col overflow-y-auto z-40 transition-transform duration-200">
 
-        <!-- Right Panel Top Mode Bar: Switch between Block Inspector & Deep Dive -->
-        <div class="p-3.5 border-b border-hairline sticky top-0 surface-panel z-10 flex items-center justify-between gap-2">
+        <!-- Sticky Top Inspector Mode Bar -->
+        <div class="px-3.5 py-2 border-b border-hairline sticky top-0 surface-panel z-20 flex items-center justify-between gap-2">
           <div class="grid grid-cols-2 gap-1.5 p-1 rounded-xl surface-root border border-hairline flex-1">
-            <button id="btnViewNode" class="no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold btn-theme-accent transition cursor-pointer">
+            <button id="btnViewNode" class="no-wrap-btn py-1 px-2.5 rounded-lg text-xs font-semibold btn-theme-accent transition cursor-pointer">
               Block Inspector
             </button>
-            <button id="btnViewTech" class="no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+            <button id="btnViewTech" class="no-wrap-btn py-1 px-2.5 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer">
               Deep Dive
             </button>
           </div>
-          <button id="btnCloseDrawer" class="hidden no-wrap-btn px-2.5 py-1.5 rounded-lg text-xs font-bold surface-card text-primary-ink border border-subtle cursor-pointer" title="Dismiss Drawer (Esc)">
-            Close
+          <button id="btnCloseDrawer" class="hidden no-wrap-btn px-2.5 py-1 rounded-lg text-xs font-bold surface-card text-primary-ink border border-subtle cursor-pointer" title="Dismiss Drawer (Esc)">
+            × Close
           </button>
         </div>
 
-        <!-- VIEW 1: BLOCK INSPECTOR (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Learn More) -->
-        <div id="inspectorNodeView" class="p-4 flex-1 flex flex-col gap-3.5">
-          <!-- Block Identity Header -->
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span id="inspBadge" class="mono text-xs font-bold px-2.5 py-0.5 rounded border">
-                BLOCK 01
-              </span>
-              <span id="inspShapePill" class="mono text-xs text-secondary-ink truncate"></span>
+        <!-- VIEW 1: BLOCK INSPECTOR (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Papers) -->
+        <div id="inspectorNodeView" class="p-3.5 flex-1 flex flex-col gap-2.5">
+          <!-- Sticky Block Identity + Sequential Block Jumper + 5-Tab Bar -->
+          <div class="sticky top-[45px] z-10 surface-panel pb-2 border-b border-hairline flex flex-col gap-2">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span id="inspBadge" class="mono text-[11px] font-bold px-2 py-0.5 rounded border shrink-0">
+                  BLOCK 01
+                </span>
+                <span id="inspShapePill" class="mono text-[11px] text-secondary-ink truncate"></span>
+              </div>
+              <!-- Sequential Block Navigation (Prev / Block Jumper / Next) -->
+              <div class="inline-flex items-center gap-0.5 p-0.5 rounded-lg border border-hairline surface-root shrink-0">
+                <button id="btnPrevNode" title="Previous Subsystem Block" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
+                  ◀
+                </button>
+                <select id="selNodeJumper" aria-label="Jump to Subsystem Block" class="bg-transparent text-primary-ink text-[11px] mono font-bold px-1 py-0.5 max-w-[140px] truncate focus:outline-none cursor-pointer"></select>
+                <button id="btnNextNode" title="Next Subsystem Block" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
+                  ▶
+                </button>
+              </div>
             </div>
-            <h2 id="inspTitle" class="text-lg font-bold text-primary-ink tracking-tight leading-snug mt-1"></h2>
+
+            <h2 id="inspTitle" class="text-base font-bold text-primary-ink tracking-tight leading-snug"></h2>
+
+            <!-- 1-2-3-4-5 Progressive Disclosure Tabs -->
+            <div class="grid grid-cols-5 gap-1 p-1 rounded-xl surface-root border border-hairline">
+              <button data-ntab="how" class="ntab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-semibold btn-theme-accent transition cursor-pointer">
+                1. How
+              </button>
+              <button data-ntab="why" class="ntab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+                2. Why
+              </button>
+              <button data-ntab="contrib" class="ntab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+                3. Impact
+              </button>
+              <button data-ntab="math" class="ntab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+                4. Math
+              </button>
+              <button data-ntab="learn" class="ntab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+                5. Papers
+              </button>
+            </div>
           </div>
 
-          <!-- 1-2-3-4-5 Progressive Disclosure Tabs -->
-          <div class="grid grid-cols-5 gap-1 p-1 rounded-xl surface-root border border-hairline">
-            <button data-ntab="how" class="ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-semibold btn-theme-accent transition cursor-pointer">
-              1. How
-            </button>
-            <button data-ntab="why" class="ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
-              2. Why
-            </button>
-            <button data-ntab="contrib" class="ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
-              3. Impact
-            </button>
-            <button data-ntab="math" class="ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
-              4. Math
-            </button>
-            <button data-ntab="learn" class="ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
-              5. Learn More
-            </button>
-          </div>
-
-          <!-- Tab Content Box (How / Why / Impact / Math / Learn More) -->
-          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-3">
+          <!-- Tab Content Box (How / Why / Impact / Math / Papers) -->
+          <div class="surface-card border border-hairline rounded-xl p-3 flex flex-col gap-2">
             <div class="flex items-center justify-between gap-2">
               <div id="ntabHeading" class="kicker text-theme-accent">01 // HOW IT WORKS (MECHANISM)</div>
-              <button id="btnNodeQuickLearnMore" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] mono font-bold surface-panel text-primary-ink border border-hairline hover:border-subtle cursor-pointer" title="Deep link to 5. Learn More (White Papers)">
-                Learn More ↗
-              </button>
+              <button id="btnNodeQuickLearnMore" class="hidden"></button>
             </div>
             <div id="ntabBody" class="text-xs text-primary-ink leading-relaxed"></div>
 
@@ -586,66 +663,69 @@ body {
               <div class="theme-callout-header">
                 <span class="kicker text-theme-accent" id="ntabSubLabel">WHY IT SITS HERE IN THE DATAFLOW</span>
               </div>
-              <div id="ntabSubContent" class="theme-callout-body mono text-xs text-secondary-ink leading-relaxed break-words"></div>
+              <div id="ntabSubContent" class="theme-callout-body mono text-[11.5px] text-secondary-ink leading-snug break-words"></div>
             </div>
           </div>
 
-          <!-- Underlying Technologies Box (With Direct Deep Links to Deep Dive & Learn More Tab) -->
-          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-2.5">
-            <span class="kicker text-muted-ink">Underlying Technologies (Select for Deep Dive or White Papers)</span>
-            <div id="inspTechChips" class="flex flex-wrap gap-2"></div>
-          </div>
-
-          <!-- Contextual Embedded Interactive Stage Explorer Widget -->
-          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-3">
+          <!-- Interactive Stage Explorer + 4-Generation Stage Evolution Matrix (Positioned Above the Fold!) -->
+          <div class="surface-card border border-hairline rounded-xl p-3 flex flex-col gap-2">
             <div class="flex items-center justify-between gap-2">
               <span id="ctxWidgetTitle" class="kicker text-theme-accent">INTERACTIVE STAGE EXPLORER</span>
-              <span id="ctxWidgetTag" class="mono text-xs text-muted-ink"></span>
+              <span id="ctxWidgetTag" class="mono text-[11px] text-muted-ink"></span>
             </div>
-            <div id="ctxWidgetBody" class="flex flex-col gap-2.5 text-xs"></div>
+            <div id="ctxWidgetBody" class="flex flex-col gap-2 text-xs"></div>
+          </div>
+
+          <!-- Dataflow Graph Traversal (Upstream Inputs & Downstream Outputs) + Underlying Technologies -->
+          <div class="surface-card border border-hairline rounded-xl p-3 flex flex-col gap-2.5">
+            <div>
+              <span class="kicker text-muted-ink block mb-1.5">Dataflow Connections (Click to Traverse Graph)</span>
+              <div id="inspGraphNeighbors" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs"></div>
+            </div>
+            <div class="pt-2 border-t border-hairline">
+              <span class="kicker text-muted-ink block mb-1.5">Underlying Technologies (Click for Deep Dive)</span>
+              <div id="inspTechChips" class="flex flex-wrap gap-1.5"></div>
+            </div>
           </div>
         </div>
 
-        <!-- VIEW 2: DEEP DIVE (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Science | 5. Learn More) -->
-        <div id="inspectorTechView" class="p-4 flex-1 hidden flex-col gap-3.5">
-          <div class="flex items-center justify-between gap-2">
-            <button id="btnBackToNode" class="no-wrap-btn px-3 py-1 rounded-lg text-xs font-semibold surface-card text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
-              Back to Block Inspector
-            </button>
-            <select id="selTechDropdown" class="surface-card text-primary-ink border border-subtle rounded-lg px-2.5 py-1 text-xs font-semibold cursor-pointer max-w-[230px] truncate"></select>
-          </div>
+        <!-- VIEW 2: DEEP DIVE (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Papers) -->
+        <div id="inspectorTechView" class="p-3.5 flex-1 hidden flex-col gap-2.5">
+          <!-- Sticky Deep Dive Header + Tech Selector + 5-Tab Bar -->
+          <div class="sticky top-[45px] z-10 surface-panel pb-2 border-b border-hairline flex flex-col gap-2">
+            <div class="flex items-center justify-between gap-2">
+              <span id="techKicker" class="kicker text-theme-accent shrink-0">DEEP DIVE // CANVAS SPOTLIGHT</span>
+              <select id="selTechDropdown" aria-label="Select Technology Deep Dive" class="surface-card text-primary-ink border border-subtle rounded-lg px-2 py-0.5 text-[11.5px] font-semibold cursor-pointer max-w-[260px] truncate"></select>
+              <button id="btnBackToNode" class="hidden"></button>
+            </div>
 
-          <div>
-            <span id="techKicker" class="kicker text-theme-accent">DEEP DIVE</span>
-            <h2 id="techTitle" class="text-lg font-bold text-primary-ink tracking-tight leading-snug mt-1"></h2>
-          </div>
+            <h2 id="techTitle" class="text-base font-bold text-primary-ink tracking-tight leading-snug"></h2>
 
-          <!-- 1-2-3-4-5 Progressive Disclosure Tabs (Identical Functionality & Design to Block Inspector) -->
-          <div class="grid grid-cols-5 gap-1 p-1 rounded-xl surface-root border border-hairline">
-            <button data-ttab="how" class="ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-semibold btn-theme-accent transition cursor-pointer">
-              1. How
-            </button>
-            <button data-ttab="why" class="ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
-              2. Why
-            </button>
-            <button data-ttab="contrib" class="ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
-              3. Impact
-            </button>
-            <button data-ttab="science" class="ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
-              4. Science
-            </button>
-            <button data-ttab="learn" class="ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
-              5. Learn More
-            </button>
+            <!-- 1-2-3-4-5 Progressive Disclosure Tabs -->
+            <div class="grid grid-cols-5 gap-1 p-1 rounded-xl surface-root border border-hairline">
+              <button data-ttab="how" class="ttab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-semibold btn-theme-accent transition cursor-pointer">
+                1. How
+              </button>
+              <button data-ttab="why" class="ttab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+                2. Why
+              </button>
+              <button data-ttab="contrib" class="ttab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+                3. Impact
+              </button>
+              <button data-ttab="science" class="ttab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+                4. Math
+              </button>
+              <button data-ttab="learn" class="ttab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer">
+                5. Papers
+              </button>
+            </div>
           </div>
 
           <!-- Tab Content Box (Matches Block Inspector Card Layout) -->
-          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-3">
+          <div class="surface-card border border-hairline rounded-xl p-3 flex flex-col gap-2">
             <div class="flex items-center justify-between gap-2">
               <div id="ttabHeading" class="kicker text-theme-accent">01 // HOW IT WORKS (MECHANISM)</div>
-              <button id="btnTechQuickLearnMore" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] mono font-bold surface-panel text-primary-ink border border-hairline hover:border-subtle cursor-pointer" title="Deep link to 5. Learn More (White Papers)">
-                Learn More ↗
-              </button>
+              <button id="btnTechQuickLearnMore" class="hidden"></button>
             </div>
             <div id="ttabBody" class="text-xs text-primary-ink leading-relaxed"></div>
 
@@ -654,14 +734,17 @@ body {
               <div class="theme-callout-header">
                 <span class="kicker text-theme-accent" id="ttabSubLabel">WHY IT SITS HERE IN THE DATAFLOW</span>
               </div>
-              <div id="ttabSubContent" class="theme-callout-body text-xs text-secondary-ink leading-relaxed break-words"></div>
+              <div id="ttabSubContent" class="theme-callout-body mono text-[11.5px] text-secondary-ink leading-snug break-words"></div>
             </div>
           </div>
 
-          <!-- Active In Subsystem Blocks Card -->
-          <div class="surface-card border border-hairline rounded-xl p-4 flex flex-col gap-2.5">
-            <span class="kicker text-muted-ink">Active In Subsystem Blocks (Select to Inspect Block)</span>
-            <div class="flex flex-wrap items-center gap-2" id="techUsedInNodes"></div>
+          <!-- Active In Subsystem Blocks Card (Highlighted on Canvas!) -->
+          <div class="surface-card border border-hairline rounded-xl p-3 flex flex-col gap-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="kicker text-muted-ink">Highlighted Subsystem Blocks on Diagram</span>
+              <span class="mono text-[10.5px] text-theme-accent font-bold">CLICK TO INSPECT</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-1.5" id="techUsedInNodes"></div>
           </div>
         </div>
 
@@ -3296,6 +3379,26 @@ window.ARASHIKAGE_ARCHITECTURES = {
     { col: 5, x: 1024, title: 'STAGE 6 // CRITIC & RL',  sub: '4×51 Symlog · JEPA · G=8', color: '#34d399' }
   ];
 
+  // Compute sRGB relative luminance (WCAG 2.1) and return high-contrast ink color
+  function getRelativeLuminance(hexColor) {
+    if (!hexColor || typeof hexColor !== 'string') return 0.5;
+    let hex = hexColor.replace('#', '').trim();
+    if (hex.length === 3) {
+      hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    if (hex.length < 6) return 0.5;
+    const r8 = parseInt(hex.slice(0, 2), 16) / 255;
+    const g8 = parseInt(hex.slice(2, 4), 16) / 255;
+    const b8 = parseInt(hex.slice(4, 6), 16) / 255;
+    const toLin = (c) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+    return 0.2126 * toLin(r8) + 0.7152 * toLin(g8) + 0.0722 * toLin(b8);
+  }
+
+  function getContrastInk(hexColor, darkInk, lightInk) {
+    const lum = getRelativeLuminance(hexColor);
+    return lum > 0.31 ? (darkInk || '#111111') : (lightInk || '#ffffff');
+  }
+
   function drawRoundedRect(c, x, y, w, h, r) {
     if (r <= 0) {
       c.beginPath();
@@ -3318,7 +3421,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
   function drawCornerBrackets(c, x, y, w, h, len, color) {
     c.strokeStyle = color;
-    c.lineWidth = 1.5;
+    c.lineWidth = 1.6;
     c.beginPath();
     c.moveTo(x, y + len); c.lineTo(x, y); c.lineTo(x + len, y);
     c.moveTo(x + w - len, y); c.lineTo(x + w, y); c.lineTo(x + w, y + len);
@@ -3360,8 +3463,8 @@ window.ARASHIKAGE_ARCHITECTURES = {
   function fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas) {
     if (!canvasWrapper || !canvasAspectBox || !canvas) return false;
     const rect = canvasWrapper.getBoundingClientRect();
-    const padX = 16;
-    const padY = 16;
+    const padX = 12;
+    const padY = 12;
     const availW = Math.max(360, rect.width - padX);
     const availH = Math.max(240, rect.height - padY);
     const targetRatio = BASE_W / BASE_H;
@@ -3433,6 +3536,8 @@ window.ARASHIKAGE_ARCHITECTURES = {
       selectedNodeId,
       hoveredNodeId,
       highlightSet,
+      tourFocusNodeId,
+      tourStepBadgeText,
       animTick
     } = state;
 
@@ -3450,7 +3555,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
     if (activeTheme === 'neo_brutalism') {
       ctx.fillStyle = isLight ? '#f3efe6' : '#111113';
       ctx.fillRect(0, 0, BASE_W, BASE_H);
-      ctx.fillStyle = isLight ? 'rgba(17, 17, 17, 0.18)' : 'rgba(250, 250, 250, 0.14)';
+      ctx.fillStyle = isLight ? 'rgba(17, 17, 17, 0.16)' : 'rgba(250, 250, 250, 0.12)';
       for (let gx = 20; gx < BASE_W; gx += 24) {
         for (let gy = 20; gy < BASE_H; gy += 24) {
           ctx.fillRect(gx, gy, 2, 2);
@@ -3459,7 +3564,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
     } else if (activeTheme === 'modular_typo') {
       ctx.fillStyle = isLight ? '#f7f6f2' : '#0c0c0e';
       ctx.fillRect(0, 0, BASE_W, BASE_H);
-      ctx.strokeStyle = isLight ? 'rgba(24, 24, 27, 0.08)' : 'rgba(250, 250, 250, 0.06)';
+      ctx.strokeStyle = isLight ? 'rgba(24, 24, 27, 0.08)' : 'rgba(250, 250, 250, 0.07)';
       ctx.lineWidth = 1;
       for (let gy = 68; gy < BASE_H; gy += 20) {
         ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(BASE_W, gy); ctx.stroke();
@@ -3467,7 +3572,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
     } else if (activeTheme === 'utilitarian') {
       ctx.fillStyle = isLight ? '#e2e7ec' : '#0a0c0e';
       ctx.fillRect(0, 0, BASE_W, BASE_H);
-      ctx.strokeStyle = isLight ? 'rgba(15, 23, 42, 0.18)' : 'rgba(148, 163, 184, 0.15)';
+      ctx.strokeStyle = isLight ? 'rgba(15, 23, 42, 0.20)' : 'rgba(148, 163, 184, 0.16)';
       ctx.lineWidth = 1;
       for (let gx = 40; gx < BASE_W; gx += 56) {
         for (let gy = 40; gy < BASE_H; gy += 56) {
@@ -3480,31 +3585,32 @@ window.ARASHIKAGE_ARCHITECTURES = {
     } else if (activeTheme === 'memphis') {
       ctx.fillStyle = isLight ? '#fff7d6' : '#14112b';
       ctx.fillRect(0, 0, BASE_W, BASE_H);
-      ctx.fillStyle = isLight ? 'rgba(30, 27, 75, 0.13)' : 'rgba(56, 189, 248, 0.15)';
+      ctx.fillStyle = isLight ? 'rgba(30, 27, 75, 0.12)' : 'rgba(56, 189, 248, 0.14)';
       for (let gx = 24; gx < BASE_W; gx += 32) {
         for (let gy = 24; gy < BASE_H; gy += 32) {
           ctx.beginPath(); ctx.arc(gx, gy, 1.8, 0, Math.PI * 2); ctx.fill();
         }
       }
+      // Decorative Memphis motifs placed safely outside wire routing lanes
       ctx.save();
-      ctx.strokeStyle = isLight ? 'rgba(236, 72, 153, 0.32)' : 'rgba(244, 114, 182, 0.45)';
-      ctx.lineWidth = 3;
+      ctx.strokeStyle = isLight ? 'rgba(219, 39, 119, 0.28)' : 'rgba(244, 114, 182, 0.38)';
+      ctx.lineWidth = 2.5;
       ctx.beginPath();
-      for (let i = 0; i < 6; i++) {
-        ctx.lineTo(28 + i * 14, 642 + (i % 2 === 0 ? -7 : 7));
+      for (let i = 0; i < 5; i++) {
+        ctx.lineTo(18 + i * 11, 666 + (i % 2 === 0 ? -4 : 4));
       }
       ctx.stroke();
-      ctx.strokeStyle = isLight ? 'rgba(6, 182, 212, 0.35)' : 'rgba(250, 204, 21, 0.40)';
-      ctx.beginPath(); ctx.arc(1070, 635, 18, 0, Math.PI * 2); ctx.stroke();
+      ctx.strokeStyle = isLight ? 'rgba(6, 182, 212, 0.30)' : 'rgba(250, 204, 21, 0.35)';
+      ctx.beginPath(); ctx.arc(1088, 656, 12, 0, Math.PI * 2); ctx.stroke();
       ctx.restore();
     } else if (activeTheme === 'pixel_art') {
       ctx.fillStyle = isLight ? '#d8d4c4' : '#0c061a';
       ctx.fillRect(0, 0, BASE_W, BASE_H);
-      ctx.fillStyle = isLight ? 'rgba(35, 31, 51, 0.04)' : 'rgba(0, 255, 204, 0.03)';
+      ctx.fillStyle = isLight ? 'rgba(35, 31, 51, 0.035)' : 'rgba(0, 255, 204, 0.03)';
       for (let gy = 0; gy < BASE_H; gy += 4) {
         ctx.fillRect(0, gy, BASE_W, 2);
       }
-      ctx.fillStyle = isLight ? 'rgba(35, 31, 51, 0.18)' : 'rgba(129, 140, 248, 0.16)';
+      ctx.fillStyle = isLight ? 'rgba(35, 31, 51, 0.16)' : 'rgba(129, 140, 248, 0.16)';
       for (let gx = 32; gx < BASE_W; gx += 64) {
         for (let gy = 32; gy < BASE_H; gy += 64) {
           ctx.fillRect(gx, gy, 3, 3);
@@ -3515,21 +3621,21 @@ window.ARASHIKAGE_ARCHITECTURES = {
       ctx.fillStyle = isLight ? '#edf6ff' : '#050714';
       ctx.fillRect(0, 0, BASE_W, BASE_H);
       const g1 = ctx.createRadialGradient(220 + Math.sin(animTick) * 40, 160, 10, 220, 160, 390);
-      g1.addColorStop(0, isLight ? 'rgba(0, 191, 165, 0.22)' : 'rgba(0, 245, 212, 0.18)');
+      g1.addColorStop(0, isLight ? 'rgba(15, 118, 110, 0.14)' : 'rgba(0, 245, 212, 0.18)');
       g1.addColorStop(1, 'rgba(0, 245, 212, 0)');
       ctx.fillStyle = g1;
       ctx.fillRect(0, 0, BASE_W, BASE_H);
 
       const g2 = ctx.createRadialGradient(860 - Math.cos(animTick) * 40, 480, 10, 860, 480, 420);
-      g2.addColorStop(0, isLight ? 'rgba(236, 72, 153, 0.18)' : 'rgba(241, 91, 181, 0.16)');
-      g2.addColorStop(0.5, isLight ? 'rgba(139, 92, 246, 0.12)' : 'rgba(155, 93, 229, 0.10)');
+      g2.addColorStop(0, isLight ? 'rgba(190, 24, 93, 0.12)' : 'rgba(241, 91, 181, 0.16)');
+      g2.addColorStop(0.5, isLight ? 'rgba(109, 40, 217, 0.09)' : 'rgba(155, 93, 229, 0.10)');
       g2.addColorStop(1, 'rgba(155, 93, 229, 0)');
       ctx.fillStyle = g2;
       ctx.fillRect(0, 0, BASE_W, BASE_H);
     }
 
     // ====================================================================
-    // 2. COLUMN SWIMLANES & HEADERS (+2PX BUMPED & FITTED TO PREVENT OVERFLOW)
+    // 2. COLUMN SWIMLANES & HEADERS (WCAG AA/AAA CONTRAST VERIFIED)
     // ====================================================================
     colHeaders.forEach((ch, idx) => {
       const laneW = 172;
@@ -3537,9 +3643,10 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
       if (activeTheme === 'neo_brutalism') {
         const borderCol = isLight ? '#111111' : '#f4f4f5';
-        ctx.fillStyle = isLight ? '#111111' : ch.color;
+        ctx.fillStyle = '#111111';
         ctx.fillRect(laneX + 4, 16, laneW, 48);
-        ctx.fillStyle = isLight ? ch.color : '#1f1f24';
+        // Keep vibrant stage header fills in both Light and Dark Brutalism
+        ctx.fillStyle = ch.color;
         ctx.fillRect(laneX, 12, laneW, 48);
         ctx.strokeStyle = borderCol;
         ctx.lineWidth = 2.5;
@@ -3547,27 +3654,28 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
         ctx.save();
         ctx.setLineDash([6, 6]);
-        ctx.strokeStyle = isLight ? 'rgba(17,17,17,0.35)' : 'rgba(244,244,245,0.28)';
+        ctx.strokeStyle = isLight ? 'rgba(17,17,17,0.35)' : 'rgba(244,244,245,0.32)';
         ctx.lineWidth = 1.5;
         ctx.strokeRect(laneX, 66, laneW, BASE_H - 80);
         ctx.restore();
 
-        ctx.font = '900 12px "Inter", "Arial Black", sans-serif';
-        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 11.5px "Space Grotesk", "Inter", sans-serif';
+        ctx.fillStyle = getContrastInk(ch.color, '#111111', '#ffffff');
         ctx.textAlign = 'center';
-        drawFittedText(ctx, ch.title, ch.x, 32, laneW - 14);
-        ctx.font = 'bold 11.5px ui-monospace, monospace';
+        drawFittedText(ctx, ch.title, ch.x, 31, laneW - 14);
+
         ctx.fillStyle = '#111111';
-        ctx.fillRect(laneX + 8, 39, laneW - 16, 17);
+        ctx.fillRect(laneX + 8, 38, laneW - 16, 18);
+        ctx.font = '700 11px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = '#ffffff';
         drawFittedText(ctx, ch.sub, ch.x, 51, laneW - 22);
 
       } else if (activeTheme === 'modular_typo') {
-        const ruleCol = isLight ? '#18181b' : '#52525b';
+        const ruleCol = isLight ? '#18181b' : '#71717a';
         ctx.strokeStyle = ruleCol;
         ctx.lineWidth = 1.5;
         ctx.strokeRect(laneX, 10, laneW, BASE_H - 20);
-        ctx.fillStyle = isLight ? '#18181b' : ch.color;
+        ctx.fillStyle = ch.color;
         ctx.fillRect(laneX, 10, laneW, 6);
 
         ctx.beginPath();
@@ -3575,72 +3683,75 @@ window.ARASHIKAGE_ARCHITECTURES = {
         ctx.lineTo(laneX + laneW, 64);
         ctx.stroke();
 
-        ctx.font = '900 19px "Helvetica Neue", "Inter", Arial, sans-serif';
+        ctx.font = '900 19px "Inter", "Helvetica Neue", Arial, sans-serif';
         ctx.fillStyle = ch.color;
         ctx.textAlign = 'left';
         ctx.fillText('0' + (idx + 1), laneX + 8, 38);
 
-        ctx.font = 'bold 11.5px "Helvetica Neue", "Inter", sans-serif';
+        ctx.font = '800 11.5px "Inter", "Helvetica Neue", sans-serif';
         ctx.fillStyle = isLight ? '#09090b' : '#fafafa';
         drawFittedText(ctx, ch.title.replace('STAGE ' + (idx + 1) + ' // ', ''), laneX + 36, 32, laneW - 44);
-        ctx.font = '11px ui-monospace, monospace';
-        ctx.fillStyle = isLight ? '#52525b' : '#a1a1aa';
+        ctx.font = '600 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.fillStyle = isLight ? '#3f3f46' : '#d4d4d8';
         drawFittedText(ctx, ch.sub, laneX + 36, 49, laneW - 44);
 
       } else if (activeTheme === 'utilitarian') {
-        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.55)' : 'rgba(23, 27, 32, 0.65)';
+        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.65)' : 'rgba(23, 27, 32, 0.72)';
         ctx.fillRect(laneX, 14, laneW, BASE_H - 28);
-        ctx.strokeStyle = isLight ? '#94a3b8' : '#2c353d';
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = isLight ? '#64748b' : '#334155';
+        ctx.lineWidth = 1.2;
         ctx.strokeRect(laneX, 14, laneW, BASE_H - 28);
         drawCornerBrackets(ctx, laneX, 14, laneW, BASE_H - 28, 8, ch.color);
 
-        ctx.fillStyle = isLight ? '#edf1f5' : '#111417';
+        ctx.fillStyle = isLight ? '#f1f5f9' : '#111417';
         ctx.fillRect(laneX + 1, 15, laneW - 2, 46);
         ctx.strokeStyle = ch.color;
+        ctx.lineWidth = 1.5;
         ctx.beginPath(); ctx.moveTo(laneX, 61); ctx.lineTo(laneX + laneW, 61); ctx.stroke();
 
-        ctx.font = 'bold 11.5px ui-monospace, monospace';
+        ctx.font = '700 11px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = ch.color;
         ctx.textAlign = 'left';
         drawFittedText(ctx, '[' + ch.title + ']', laneX + 8, 34, laneW - 16);
-        ctx.font = '11px ui-monospace, monospace';
-        ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
+        ctx.font = '500 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
         drawFittedText(ctx, ch.sub, laneX + 8, 52, laneW - 16);
 
       } else if (activeTheme === 'memphis') {
         const lightLanes = ['#fce7f3', '#e0f2fe', '#ede9fe', '#ffedd5', '#fef9c3', '#d1fae5'];
         const darkLanes  = ['#291738', '#152840', '#231b45', '#331d19', '#2e2914', '#122e2a'];
-        const borderCol  = isLight ? '#1e1b4b' : '#38bdf8';
+        const borderCol  = isLight ? '#1e1b4b' : ch.color;
 
-        ctx.fillStyle = isLight ? '#1e1b4b' : '#ec4899';
-        drawRoundedRect(ctx, laneX + 4, 18, laneW, BASE_H - 32, 16);
+        ctx.fillStyle = isLight ? '#1e1b4b' : ch.color;
+        drawRoundedRect(ctx, laneX + 4, 18, laneW, BASE_H - 32, 14);
         ctx.fill();
 
         ctx.fillStyle = isLight ? lightLanes[idx % 6] : darkLanes[idx % 6];
-        drawRoundedRect(ctx, laneX, 14, laneW, BASE_H - 32, 16);
+        drawRoundedRect(ctx, laneX, 14, laneW, BASE_H - 32, 14);
         ctx.fill();
         ctx.strokeStyle = borderCol;
         ctx.lineWidth = 2.5;
         ctx.stroke();
 
         ctx.fillStyle = ch.color;
-        drawRoundedRect(ctx, laneX + 8, 21, laneW - 16, 25, 12);
+        drawRoundedRect(ctx, laneX + 8, 21, laneW - 16, 25, 11);
         ctx.fill();
+        ctx.strokeStyle = '#1e1b4b';
+        ctx.lineWidth = 2;
         ctx.stroke();
 
-        ctx.font = 'bold 11.5px "Trebuchet MS", sans-serif';
-        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 11px "Space Grotesk", sans-serif';
+        ctx.fillStyle = getContrastInk(ch.color, '#1e1b4b', '#ffffff');
         ctx.textAlign = 'center';
         drawFittedText(ctx, ch.title, ch.x, 38, laneW - 24);
-        ctx.fillStyle = isLight ? '#1e1b4b' : '#e0e7ff';
-        ctx.font = 'bold 11.5px ui-monospace, monospace';
+        ctx.fillStyle = isLight ? '#1e1b4b' : '#f8fafc';
+        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
         drawFittedText(ctx, ch.sub, ch.x, 60, laneW - 18);
 
       } else if (activeTheme === 'pixel_art') {
         ctx.fillStyle = isLight ? '#e8e4d5' : '#140b29';
         ctx.fillRect(laneX, 14, laneW, BASE_H - 28);
-        ctx.strokeStyle = isLight ? '#231f33' : '#4c3b80';
+        ctx.strokeStyle = isLight ? '#231f33' : '#5b4699';
         ctx.lineWidth = 2;
         ctx.strokeRect(laneX, 14, laneW, BASE_H - 28);
         ctx.strokeStyle = ch.color;
@@ -3652,44 +3763,47 @@ window.ARASHIKAGE_ARCHITECTURES = {
         ctx.fillRect(laneX + 2, BASE_H - 20, 4, 4);
         ctx.fillRect(laneX + laneW - 6, BASE_H - 20, 4, 4);
 
-        ctx.font = 'bold 11.5px "Courier New", monospace';
+        ctx.font = '700 10px "Silkscreen", "IBM Plex Mono", monospace';
         ctx.fillStyle = ch.color;
         ctx.textAlign = 'center';
-        drawFittedText(ctx, ch.title, ch.x, 36, laneW - 16);
-        ctx.font = 'bold 11px "Courier New", monospace';
-        ctx.fillStyle = isLight ? '#352f4f' : '#a5b4fc';
+        drawFittedText(ctx, ch.title, ch.x, 35, laneW - 16);
+        ctx.font = '600 10.5px "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#231f33' : '#c7d2fe';
         drawFittedText(ctx, ch.sub, ch.x, 53, laneW - 16);
 
       } else {
         // Aurora
-        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.72)' : 'rgba(16, 23, 54, 0.58)';
-        drawRoundedRect(ctx, laneX, 14, laneW, BASE_H - 28, 16);
+        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.84)' : 'rgba(16, 23, 54, 0.68)';
+        drawRoundedRect(ctx, laneX, 14, laneW, BASE_H - 28, 14);
         ctx.fill();
-        ctx.strokeStyle = ch.color + (isLight ? '66' : '44');
-        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = ch.color + (isLight ? '88' : '66');
+        ctx.lineWidth = 1.4;
         ctx.stroke();
 
         ctx.fillStyle = ch.color;
-        drawRoundedRect(ctx, laneX + 18, 22, laneW - 36, 3, 1.5);
+        drawRoundedRect(ctx, laneX + 18, 21, laneW - 36, 3.5, 1.5);
         ctx.fill();
 
-        ctx.font = 'bold 11.5px ui-monospace, monospace';
+        ctx.font = '700 11px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = ch.color;
         ctx.textAlign = 'center';
-        drawFittedText(ctx, ch.title, ch.x, 40, laneW - 16);
-        ctx.font = '11.5px "Inter", sans-serif';
+        drawFittedText(ctx, ch.title, ch.x, 39, laneW - 16);
+        ctx.font = '600 11px "Plus Jakarta Sans", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
-        drawFittedText(ctx, ch.sub, ch.x, 56, laneW - 16);
+        drawFittedText(ctx, ch.sub, ch.x, 55, laneW - 16);
       }
     });
 
     // ====================================================================
-    // 3. DRAW DIRECTED EDGES & DATAFLOW PULSES
+    // 3. DRAW DIRECTED EDGES, DATAFLOW PULSES & CONTEXTUAL TENSOR LABELS
     // ====================================================================
     const useOrthogonalTraces =
       activeTheme === 'utilitarian' ||
       activeTheme === 'modular_typo' ||
       activeTheme === 'pixel_art';
+
+    const focusEdgeNodeId = hoveredNodeId || selectedNodeId;
+    const edgeLabelsToRender = [];
 
     edges.forEach((e, idx) => {
       const n1 = nodeMap[e.from];
@@ -3698,12 +3812,12 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
       const modeActive = e.modes.includes(activeMode);
       const tourActive = !highlightSet || (highlightSet.has(e.from) && highlightSet.has(e.to));
-      const isConnectedToSelected = e.from === selectedNodeId || e.to === selectedNodeId;
+      const isConnectedToFocus = e.from === focusEdgeNodeId || e.to === focusEdgeNodeId;
 
-      let alpha = isLight ? 0.45 : 0.36;
+      let alpha = isLight ? 0.48 : 0.46;
       if (!modeActive) alpha = 0.08;
-      else if (highlightSet && !tourActive) alpha = 0.12;
-      else if (isConnectedToSelected || (highlightSet && tourActive)) alpha = 0.95;
+      else if (highlightSet && !tourActive) alpha = 0.14;
+      else if (isConnectedToFocus || (highlightSet && tourActive)) alpha = 0.96;
 
       const x1 = n1.x + n1.w / 2;
       const y1 = n1.y;
@@ -3745,14 +3859,36 @@ window.ARASHIKAGE_ARCHITECTURES = {
       }
 
       if (isLight) {
-        ctx.strokeStyle = isConnectedToSelected ? n1.color : 'rgba(24, 24, 27, ' + alpha + ')';
-        ctx.lineWidth = isConnectedToSelected || (highlightSet && tourActive) ? 2.6 : 1.7;
+        ctx.strokeStyle = isConnectedToFocus ? n1.color : 'rgba(24, 24, 27, ' + alpha + ')';
+        ctx.lineWidth = isConnectedToFocus || (highlightSet && tourActive) ? 2.6 : 1.7;
       } else {
-        ctx.strokeStyle = isConnectedToSelected ? n1.color : 'rgba(161, 161, 170, ' + alpha + ')';
-        ctx.lineWidth = isConnectedToSelected || (highlightSet && tourActive) ? 2.4 : 1.5;
+        ctx.strokeStyle = isConnectedToFocus ? n1.color : 'rgba(212, 212, 216, ' + alpha + ')';
+        ctx.lineWidth = isConnectedToFocus || (highlightSet && tourActive) ? 2.5 : 1.6;
       }
       ctx.stroke();
       ctx.restore();
+
+      // Queue edge label if connected to focused/hovered node (and mode-active)
+      if (modeActive && e.label && isConnectedToFocus) {
+        let lx, ly;
+        if (isLongBottomSweep) {
+          lx = Math.round((x1 + x2) / 2);
+          ly = 636;
+        } else if (n1.col === n2.col) {
+          const ey = n2.y + (n2.y > n1.y ? -n2.h / 2 : n2.h / 2);
+          lx = n1.x;
+          ly = Math.round(ey + (n2.y > n1.y ? -15 : 15));
+        } else {
+          lx = midX;
+          ly = Math.round((y1 + y2) / 2);
+        }
+        edgeLabelsToRender.push({
+          text: e.label,
+          x: lx,
+          y: ly,
+          color: n1.color
+        });
+      }
 
       if (modeActive && (!highlightSet || tourActive)) {
         const t = (animTick + idx * 0.17) % 1.0;
@@ -3804,18 +3940,18 @@ window.ARASHIKAGE_ARCHITECTURES = {
           activeTheme === 'neo_brutalism' ||
           activeTheme === 'modular_typo'
         ) {
-          const sz = isConnectedToSelected ? 6 : 4;
+          const sz = isConnectedToFocus ? 6 : 4;
           ctx.fillRect(Math.round(px - sz / 2), Math.round(py - sz / 2), sz, sz);
         } else {
           ctx.beginPath();
-          ctx.arc(px, py, isConnectedToSelected ? 3.5 : 2.5, 0, Math.PI * 2);
+          ctx.arc(px, py, isConnectedToFocus ? 3.5 : 2.5, 0, Math.PI * 2);
           ctx.fill();
         }
       }
     });
 
     // ====================================================================
-    // 4. DRAW 17 SUBSYSTEM BLOCKS (+2PX FONT, NO TECH FOOTER, ZERO OVERFLOW)
+    // 4. DRAW 17 SUBSYSTEM BLOCKS (LUMINANCE-VERIFIED CONTRAST & ZERO OVERFLOW)
     // ====================================================================
     nodes.forEach((n) => {
       const rx = n.x - n.w / 2;
@@ -3823,12 +3959,13 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const innerW = n.w - 16;
       const isSelected = n.id === selectedNodeId;
       const isHovered = n.id === hoveredNodeId;
+      const isTourFocus = n.id === tourFocusNodeId;
       const modeActive = n.modes.includes(activeMode);
       const inTourSpotlight = !highlightSet || highlightSet.has(n.id);
 
       ctx.save();
       if (!modeActive) ctx.globalAlpha = 0.22;
-      else if (!inTourSpotlight) ctx.globalAlpha = 0.30;
+      else if (!inTourSpotlight) ctx.globalAlpha = 0.28;
       else ctx.globalAlpha = 1.0;
 
       if (activeTheme === 'neo_brutalism') {
@@ -3845,106 +3982,124 @@ window.ARASHIKAGE_ARCHITECTURES = {
         ctx.fillRect(rx, ry, n.w, 25);
 
         const borderCol = isLight ? '#111111' : '#f4f4f5';
-        ctx.strokeStyle = borderCol;
-        ctx.lineWidth = isSelected ? 3 : 2.2;
+        ctx.strokeStyle = isSelected ? (isLight ? '#ff4d00' : '#ffffff') : borderCol;
+        ctx.lineWidth = isSelected ? 3.2 : 2.2;
         ctx.strokeRect(rx, ry, n.w, n.h);
+        ctx.strokeStyle = borderCol;
+        ctx.lineWidth = 2.2;
         ctx.beginPath(); ctx.moveTo(rx, ry + 25); ctx.lineTo(rx + n.w, ry + 25); ctx.stroke();
 
-        ctx.font = '900 11.5px ui-monospace, monospace';
-        ctx.fillStyle = '#ffffff';
+        ctx.font = '700 11px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.fillStyle = getContrastInk(n.color, '#111111', '#ffffff');
         ctx.textAlign = 'left';
         drawFittedText(ctx, '#' + n.num + ' // ' + n.tag, rx + 8, ry + 17, innerW);
 
-        ctx.font = '900 14px "Inter", "Arial Black", sans-serif';
+        ctx.font = '800 13.5px "Space Grotesk", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#111111' : '#fafafa';
         drawFittedText(ctx, n.title, rx + 8, ry + 47, innerW);
 
-        ctx.font = '600 12px "Inter", sans-serif';
+        ctx.font = '600 11.5px "Space Grotesk", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#3f3f46' : '#d4d4d8';
         drawWrappedSub(ctx, n.sub, rx + 8, ry + 66, innerW, 14);
 
       } else if (activeTheme === 'modular_typo') {
         ctx.fillStyle = isLight
           ? isSelected ? '#fff5f2' : '#ffffff'
-          : isSelected ? '#261c1c' : '#18181d';
+          : isSelected ? '#281d1b' : '#18181d';
         ctx.fillRect(rx, ry, n.w, n.h);
 
-        const topBarCol = isSelected ? '#ff2a00' : isLight ? '#09090b' : n.color;
+        const topBarCol = isSelected ? '#e62400' : n.color;
         ctx.fillStyle = topBarCol;
-        ctx.fillRect(rx, ry, n.w, isSelected ? 6 : 4);
+        ctx.fillRect(rx, ry, n.w, isSelected ? 7 : 4);
 
-        ctx.strokeStyle = isSelected ? '#ff2a00' : isLight ? '#09090b' : '#52525b';
-        ctx.lineWidth = isSelected ? 2.2 : 1.2;
+        ctx.strokeStyle = isSelected ? (isLight ? '#09090b' : '#ffffff') : isLight ? '#18181b' : '#71717a';
+        ctx.lineWidth = isSelected ? 2.4 : 1.3;
         ctx.strokeRect(rx, ry, n.w, n.h);
 
-        ctx.strokeStyle = isLight ? 'rgba(9, 9, 11, 0.2)' : 'rgba(244, 244, 245, 0.16)';
+        if (isSelected) {
+          ctx.strokeStyle = '#e62400';
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(rx - 3, ry - 3, n.w + 6, n.h + 6);
+        }
+
+        ctx.strokeStyle = isLight ? 'rgba(9, 9, 11, 0.22)' : 'rgba(244, 244, 245, 0.20)';
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(rx, ry + 26); ctx.lineTo(rx + n.w, ry + 26);
         ctx.stroke();
 
-        ctx.font = 'bold 11.5px "Helvetica Neue", "Inter", sans-serif';
-        ctx.fillStyle = isSelected ? '#ff2a00' : isLight ? '#09090b' : n.color;
-        ctx.textAlign = 'left';
-        ctx.fillText(n.num, rx + 8, ry + 20);
+        if (isSelected) {
+          ctx.fillStyle = '#e62400';
+          ctx.fillRect(rx + 6, ry + 8, 22, 15);
+          ctx.font = '800 10.5px "Inter", sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.textAlign = 'center';
+          ctx.fillText(n.num, rx + 17, ry + 19);
+        } else {
+          ctx.font = '800 11.5px "Inter", "Helvetica Neue", sans-serif';
+          ctx.fillStyle = n.color;
+          ctx.textAlign = 'left';
+          ctx.fillText(n.num, rx + 8, ry + 20);
+        }
 
-        ctx.font = '11px ui-monospace, monospace';
-        ctx.fillStyle = isLight ? '#52525b' : '#a1a1aa';
+        ctx.font = '600 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.fillStyle = isLight ? '#52525b' : '#d4d4d8';
         ctx.textAlign = 'right';
-        drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 8, ry + 20, innerW - 26);
+        drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 8, ry + 20, innerW - 28);
 
-        ctx.font = 'bold 14px "Helvetica Neue", "Inter", sans-serif';
+        ctx.font = '800 13.5px "Inter", "Helvetica Neue", sans-serif';
         ctx.fillStyle = isLight ? '#09090b' : '#fafafa';
         ctx.textAlign = 'left';
         drawFittedText(ctx, n.title, rx + 8, ry + 48, innerW);
 
-        ctx.font = '12px "Helvetica Neue", "Inter", sans-serif';
+        ctx.font = '500 11.5px "Inter", "Helvetica Neue", sans-serif';
         ctx.fillStyle = isLight ? '#3f3f46' : '#d4d4d8';
         drawWrappedSub(ctx, n.sub, rx + 8, ry + 67, innerW, 14);
 
       } else if (activeTheme === 'utilitarian') {
         ctx.fillStyle = isLight
           ? isSelected ? '#fffbeb' : isHovered ? '#f1f5f9' : '#ffffff'
-          : isSelected ? '#1e242b' : isHovered ? '#1a2026' : '#14181d';
+          : isSelected ? '#1e2630' : isHovered ? '#1a2026' : '#14181d';
         ctx.fillRect(rx, ry, n.w, n.h);
 
-        ctx.strokeStyle = isSelected ? n.color : isLight ? '#94a3b8' : '#2c353d';
-        ctx.lineWidth = isSelected ? 1.8 : 1.0;
+        ctx.strokeStyle = isSelected ? n.color : isLight ? '#64748b' : '#334155';
+        ctx.lineWidth = isSelected ? 2.2 : 1.2;
         ctx.strokeRect(rx, ry, n.w, n.h);
 
         drawCornerBrackets(ctx, rx, ry, n.w, n.h, 6, isSelected ? (isLight ? '#0f172a' : '#ffffff') : n.color);
 
         ctx.fillStyle = isLight ? '#e2e8f0' : '#0d1013';
         ctx.fillRect(rx + 1, ry + 1, n.w - 2, 22);
-        ctx.font = 'bold 11px ui-monospace, monospace';
+        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = n.color;
         ctx.textAlign = 'left';
         ctx.fillText('ID:' + n.num, rx + 8, ry + 16);
-        ctx.fillStyle = isLight ? '#475569' : '#94a3b8';
+        ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
         ctx.textAlign = 'right';
         drawFittedText(ctx, n.tag, rx + n.w - 8, ry + 16, innerW - 38);
 
-        ctx.font = 'bold 13.5px ui-monospace, monospace';
-        ctx.fillStyle = isLight ? '#0f172a' : '#f1f5f9';
+        ctx.font = '700 13px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
         ctx.textAlign = 'left';
         drawFittedText(ctx, n.title, rx + 8, ry + 45, innerW);
 
-        ctx.font = '11.5px ui-monospace, monospace';
+        ctx.font = '500 11px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
         drawWrappedSub(ctx, n.sub, rx + 8, ry + 64, innerW, 14);
 
       } else if (activeTheme === 'memphis') {
-        ctx.fillStyle = isSelected ? '#ec4899' : '#06b6d4';
-        drawRoundedRect(ctx, rx + 5, ry + 5, n.w, n.h, 14);
+        // Restore per-stage color identity in both Light & Dark Memphis
+        ctx.fillStyle = isSelected ? (isLight ? '#db2777' : '#facc15') : n.color;
+        drawRoundedRect(ctx, rx + 5, ry + 5, n.w, n.h, 13);
         ctx.fill();
 
         ctx.fillStyle = isLight
           ? isSelected ? '#fef08a' : '#ffffff'
           : isSelected ? '#3b2466' : '#251e47';
-        drawRoundedRect(ctx, rx, ry, n.w, n.h, 14);
+        drawRoundedRect(ctx, rx, ry, n.w, n.h, 13);
         ctx.fill();
 
-        ctx.strokeStyle = isLight ? '#1e1b4b' : '#f472b6';
+        ctx.strokeStyle = isLight ? '#1e1b4b' : (isSelected ? '#facc15' : n.color);
         ctx.lineWidth = 2.5;
         ctx.stroke();
 
@@ -3952,10 +4107,12 @@ window.ARASHIKAGE_ARCHITECTURES = {
         ctx.beginPath();
         ctx.arc(rx + 18, ry + 19, 10, 0, Math.PI * 2);
         ctx.fill();
+        ctx.strokeStyle = '#1e1b4b';
+        ctx.lineWidth = 2;
         ctx.stroke();
 
-        ctx.font = 'bold 11px ui-monospace, monospace';
-        ctx.fillStyle = '#ffffff';
+        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.fillStyle = getContrastInk(n.color, '#1e1b4b', '#ffffff');
         ctx.textAlign = 'center';
         ctx.fillText(n.num, rx + 18, ry + 23);
 
@@ -3963,12 +4120,12 @@ window.ARASHIKAGE_ARCHITECTURES = {
         ctx.textAlign = 'right';
         drawFittedText(ctx, n.tag, rx + n.w - 10, ry + 23, innerW - 28);
 
-        ctx.font = 'bold 14px "Trebuchet MS", sans-serif';
+        ctx.font = '800 13.5px "Space Grotesk", sans-serif';
         ctx.fillStyle = isLight ? '#1e1b4b' : '#ffffff';
         ctx.textAlign = 'left';
         drawFittedText(ctx, n.title, rx + 10, ry + 48, n.w - 20);
 
-        ctx.font = '12px "Trebuchet MS", sans-serif';
+        ctx.font = '600 11.5px "Space Grotesk", sans-serif';
         ctx.fillStyle = isLight ? '#312e81' : '#c7d2fe';
         drawWrappedSub(ctx, n.sub, rx + 10, ry + 66, n.w - 20, 14);
 
@@ -3984,23 +4141,23 @@ window.ARASHIKAGE_ARCHITECTURES = {
         ctx.strokeStyle = isSelected
           ? isLight ? '#d90429' : '#ffe600'
           : isLight ? '#231f33' : n.color;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = isSelected ? 2.5 : 2;
         ctx.strokeRect(rx, ry, n.w, n.h);
 
         ctx.fillStyle = n.color;
-        ctx.fillRect(rx + 2, ry + 2, n.w - 4, 20);
+        ctx.fillRect(rx + 2, ry + 2, n.w - 4, 21);
 
-        ctx.font = 'bold 11.5px "Courier New", monospace';
-        ctx.fillStyle = '#ffffff';
+        ctx.font = '700 10px "Silkscreen", "IBM Plex Mono", monospace';
+        ctx.fillStyle = getContrastInk(n.color, '#161324', '#ffffff');
         ctx.textAlign = 'left';
         drawFittedText(ctx, '[' + n.num + '] ' + n.tag, rx + 6, ry + 16, innerW);
 
-        ctx.font = 'bold 13px "Courier New", monospace';
+        ctx.font = '700 12.5px "IBM Plex Mono", monospace';
         ctx.fillStyle = isLight ? '#161324' : '#ffffff';
         drawFittedText(ctx, n.title, rx + 8, ry + 44, innerW);
 
-        ctx.font = 'bold 11.5px "Courier New", monospace';
-        ctx.fillStyle = isLight ? '#352f4f' : '#a5b4fc';
+        ctx.font = '600 11px "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#352f4f' : '#c7d2fe';
         drawWrappedSub(ctx, n.sub, rx + 8, ry + 63, innerW, 14);
 
       } else {
@@ -4012,39 +4169,102 @@ window.ARASHIKAGE_ARCHITECTURES = {
         ctx.fillStyle = isLight
           ? isSelected ? '#f0f9ff' : '#ffffff'
           : isSelected ? '#19234d' : isHovered ? '#141d40' : '#0e1530';
-        drawRoundedRect(ctx, rx, ry, n.w, n.h, 14);
+        drawRoundedRect(ctx, rx, ry, n.w, n.h, 13);
         ctx.fill();
         ctx.shadowBlur = 0;
 
-        ctx.lineWidth = isSelected ? 2.2 : 1.3;
-        ctx.strokeStyle = isSelected ? n.color : n.color + '77';
+        ctx.lineWidth = isSelected ? 2.4 : 1.4;
+        ctx.strokeStyle = isSelected ? n.color : n.color + (isLight ? '99' : '77');
         ctx.stroke();
 
         ctx.fillStyle = n.color;
         drawRoundedRect(ctx, rx + 5, ry + 10, 4, n.h - 20, 2);
         ctx.fill();
 
-        ctx.font = 'bold 11.5px ui-monospace, monospace';
+        ctx.font = '700 11px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = n.color;
         ctx.textAlign = 'left';
         ctx.fillText('#' + n.num, rx + 14, ry + 22);
 
-        ctx.fillStyle = isLight ? '#475569' : '#cbd5e1';
+        ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
         ctx.textAlign = 'right';
         drawFittedText(ctx, n.tag, rx + n.w - 10, ry + 22, innerW - 30);
 
-        ctx.font = 'bold 14px "Inter", sans-serif';
+        ctx.font = '700 13.5px "Plus Jakarta Sans", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
         ctx.textAlign = 'left';
         drawFittedText(ctx, n.title, rx + 14, ry + 47, n.w - 22);
 
-        ctx.font = '12px "Inter", sans-serif';
+        ctx.font = '500 11.5px "Plus Jakarta Sans", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
         drawWrappedSub(ctx, n.sub, rx + 14, ry + 66, n.w - 22, 14);
       }
 
+      // Guided Tour Focus Callout Ring & Tag (Links Canvas Block to Docked HUD Bar)
+      if (isTourFocus) {
+        const pulse = 2 + Math.sin(animTick * 4) * 1.5;
+        ctx.save();
+        ctx.strokeStyle = isLight ? '#111111' : '#ffffff';
+        ctx.lineWidth = 2.2;
+        ctx.setLineDash([5, 3]);
+        ctx.strokeRect(rx - pulse - 2, ry - pulse - 2, n.w + (pulse + 2) * 2, n.h + (pulse + 2) * 2);
+        ctx.restore();
+
+        if (tourStepBadgeText) {
+          ctx.save();
+          ctx.font = '700 9.5px "IBM Plex Mono", ui-monospace, monospace';
+          const tagW = Math.ceil(ctx.measureText(tourStepBadgeText).width) + 12;
+          const tagX = rx + n.w - tagW;
+          const tagY = ry - 15;
+          ctx.fillStyle = n.color;
+          ctx.fillRect(tagX, tagY, tagW, 14);
+          ctx.strokeStyle = isLight ? '#111111' : '#ffffff';
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(tagX, tagY, tagW, 14);
+          ctx.fillStyle = getContrastInk(n.color, '#111111', '#ffffff');
+          ctx.textAlign = 'center';
+          ctx.fillText(tourStepBadgeText, tagX + tagW / 2, tagY + 10.5);
+          ctx.restore();
+        }
+      }
+
       ctx.restore();
     });
+
+    // ====================================================================
+    // 5. DRAW CONTEXTUAL TENSOR & LATENCY EDGE LABELS (ON HOVER / SELECTION)
+    // ====================================================================
+    if (edgeLabelsToRender.length > 0) {
+      ctx.save();
+      ctx.font = '700 9.5px "IBM Plex Mono", ui-monospace, monospace';
+      ctx.textAlign = 'center';
+      const placed = [];
+
+      edgeLabelsToRender.forEach((lbl) => {
+        let ly = lbl.y;
+        for (let k = 0; k < placed.length; k++) {
+          if (Math.abs(placed[k].x - lbl.x) < 58 && Math.abs(placed[k].y - ly) < 16) {
+            ly = placed[k].y + 16;
+          }
+        }
+        placed.push({ x: lbl.x, y: ly });
+
+        const tw = Math.ceil(ctx.measureText(lbl.text).width) + 10;
+        const th = 15;
+        const bx = Math.round(lbl.x - tw / 2);
+        const by = Math.round(ly - th / 2);
+
+        ctx.fillStyle = isLight ? '#ffffff' : '#18181b';
+        ctx.fillRect(bx, by, tw, th);
+        ctx.strokeStyle = lbl.color;
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(bx, by, tw, th);
+
+        ctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
+        ctx.fillText(lbl.text, lbl.x, by + 11);
+      });
+      ctx.restore();
+    }
 
     ctx.restore();
   }
@@ -4053,6 +4273,8 @@ window.ARASHIKAGE_ARCHITECTURES = {
     BASE_W,
     BASE_H,
     colHeaders,
+    getRelativeLuminance,
+    getContrastInk,
     fitDiagramAspectRatio,
     applyStagePaletteToNodes,
     getNodeAtCanvasCoords,
@@ -4092,7 +4314,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
   }
   rebuildLookupMaps();
 
-  // Application State
+  // Application State (Default to un-dimmed Free Exploration on initial load)
   let selectedNodeId = 'dma_slice';
   let hoveredNodeId = null;
   let activeNTab = 'how'; // 'how' | 'why' | 'contrib' | 'math' | 'learn'
@@ -4100,9 +4322,9 @@ window.ARASHIKAGE_ARCHITECTURES = {
   let activeRightView = 'node'; // 'node' | 'tech'
   let selectedTechId = 't0';
   let activeMode = 'all';
-  let activeScenarioKey = 'tour';
+  let activeScenarioKey = 'none';
   let activeStepIdx = 0;
-  let tourOverlayVisible = true;
+  let tourOverlayVisible = false;
   let animTick = 0;
 
   // Fullscreen & Slide-In Drawer State
@@ -4115,7 +4337,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
   let selectedPairKeyIdx = 6;
   let surpriseIntensity = 0.68;
 
-  // 6-Style × 2-Polarity Theme Engine Metadata
+  // 6-Style × 2-Polarity Theme Engine Metadata (Polarity-Tuned for WCAG AA/AAA Contrast)
   const THEME_ORDER = [
     'neo_brutalism',
     'modular_typo',
@@ -4128,65 +4350,71 @@ window.ARASHIKAGE_ARCHITECTURES = {
   const THEME_META = {
     neo_brutalism: {
       name: 'Neo-Brutalism',
-      notes: '2.5px ink borders · Hard offset block shadows · High-contrast color headers · Zero blur',
-      stageColors: ['#ff4d00', '#00b4d8', '#7c3aed', '#ec4899', '#eab308', '#16a34a']
+      notes: '2.5px ink borders · Hard offset shadows · High-contrast stage headers',
+      stageColorsLight: ['#ff4d00', '#00b4d8', '#7c3aed', '#ec4899', '#eab308', '#16a34a'],
+      stageColorsDark:  ['#ff5e1a', '#22d3ee', '#a78bfa', '#f472b6', '#facc15', '#4ade80']
     },
     modular_typo: {
       name: 'Modular Typography',
-      notes: 'Swiss International Grid · Exposed 1.5px structural rules · 0px radius · Grotesque hierarchy',
-      stageColors: ['#ff2a00', '#0055ff', '#7c3aed', '#d90429', '#ca8a04', '#0d9488']
+      notes: 'Swiss International Grid · Exposed 1.5px rules · 0px radius · Grotesque hierarchy',
+      stageColorsLight: ['#e62400', '#0050d8', '#6d28d9', '#be123c', '#b45309', '#0f766e'],
+      stageColorsDark:  ['#ff4522', '#3b82f6', '#a78bfa', '#fb7185', '#facc15', '#2dd4bf']
     },
     utilitarian: {
       name: 'Utilitarian',
-      notes: '100% Monospace · CAD crosshair grid · Corner L-brackets · 90° PCB traces · Zero ornament',
-      stageColors: ['#f59e0b', '#0284c7', '#8b5cf6', '#ec4899', '#eab308', '#10b981']
+      notes: '100% IBM Plex Mono · CAD reticle grid · Corner L-brackets · 90° PCB traces',
+      stageColorsLight: ['#b45309', '#0369a1', '#6d28d9', '#be185d', '#a16207', '#047857'],
+      stageColorsDark:  ['#f59e0b', '#38bdf8', '#a78bfa', '#f472b6', '#facc15', '#34d399']
     },
     memphis: {
       name: 'Memphis',
-      notes: '80s Sottsass geometric pop · 2.5px borders · Cyan/Pink offset shadows · Studio confetti',
-      stageColors: ['#ec4899', '#06b6d4', '#8b5cf6', '#f97316', '#eab308', '#10b981']
+      notes: '80s Sottsass geometric pop · 2.5px borders · Stage-colored offset shadows',
+      stageColorsLight: ['#db2777', '#0891b2', '#7c3aed', '#ea580c', '#eab308', '#059669'],
+      stageColorsDark:  ['#f472b6', '#22d3ee', '#a78bfa', '#fb923c', '#facc15', '#34d399']
     },
     pixel_art: {
       name: 'Pixel Art',
-      notes: '16-Bit command deck · Stepped pixel borders & rivets · Scanlines · Manhattan pixel buses',
-      stageColors: ['#00c49a', '#0096c7', '#9d4edd', '#ff2a85', '#d97706', '#16a34a']
+      notes: '16-Bit command deck · Silkscreen pixel headers · Stepped borders & scanlines',
+      stageColorsLight: ['#006d77', '#023e8a', '#6a1b9a', '#b5179e', '#b45309', '#15803d'],
+      stageColorsDark:  ['#00e5ff', '#38bdf8', '#c084fc', '#ff2a85', '#f59e0b', '#22c55e']
     },
     aurora: {
       name: 'Aurora',
-      notes: 'Borealis radial plumes · Solid velvet/pearl cards (no frost blur) · Luminous rims',
-      stageColors: ['#00bfa5', '#0091ea', '#8b5cf6', '#ec4899', '#eab308', '#10b981']
+      notes: 'Borealis radial plumes · Solid pearl/velvet cards · Luminous specular rims',
+      stageColorsLight: ['#0f766e', '#0284c7', '#6d28d9', '#be185d', '#b45309', '#15803d'],
+      stageColorsDark:  ['#00f5d4', '#38bdf8', '#a78bfa', '#f472b6', '#facc15', '#4ade80']
     }
   };
 
   const THEME_GLYPHS = {
     neo_brutalism: {
-      prev: '■◀', next: '▶■', light: '■', dark: '□',
-      node: '▣', tech: '◈', tourOn: '■', tourOff: '□',
+      prev: '◀', next: '▶', light: '■', dark: '□',
+      node: '▣', tech: '◈', tourOn: '■', tourOff: '▶',
       export: '▣', close: '×', open: '↗', fs: '⛶', fsExit: '×'
     },
     modular_typo: {
       prev: '←', next: '→', light: '○', dark: '●',
-      node: '01', tech: '02', tourOn: '●', tourOff: '○',
+      node: '▪', tech: '§', tourOn: '●', tourOff: '→',
       export: '↗', close: '×', open: '↗', fs: '⤢', fsExit: '⤡'
     },
     utilitarian: {
-      prev: '[<]', next: '[>]', light: '[L]', dark: '[D]',
-      node: '[BLK]', tech: '[DDV]', tourOn: '[ON]', tourOff: '[--]',
-      export: '[IO]', close: '[X]', open: '[>]', fs: '[FS]', fsExit: '[X]'
+      prev: '<', next: '>', light: 'L', dark: 'D',
+      node: 'BLK', tech: 'TEC', tourOn: 'ON', tourOff: '>>',
+      export: 'IO', close: 'X', open: '↗', fs: 'FS', fsExit: 'X'
     },
     memphis: {
       prev: '◀', next: '▶', light: '★', dark: '✦',
-      node: '◆', tech: '▲', tourOn: '★', tourOff: '☆',
+      node: '◆', tech: '▲', tourOn: '★', tourOff: '▶',
       export: '◆', close: '✕', open: '↗', fs: '⬡', fsExit: '✕'
     },
     pixel_art: {
-      prev: '<<', next: '>>', light: '[*]', dark: '[-]',
-      node: '[#]', tech: '[?]', tourOn: '[*]', tourOff: '[ ]',
-      export: '[v]', close: '[x]', open: '[>]', fs: '[+]', fsExit: '[x]'
+      prev: '<', next: '>', light: '*', dark: '-',
+      node: '#', tech: '?', tourOn: '*', tourOff: '>',
+      export: '^', close: 'x', open: '↗', fs: '+', fsExit: 'x'
     },
     aurora: {
       prev: '‹', next: '›', light: '✧', dark: '✦',
-      node: '◈', tech: '✦', tourOn: '✦', tourOff: '✧',
+      node: '◈', tech: '✦', tourOn: '✦', tourOff: '▸',
       export: '◈', close: '✕', open: '↗', fs: '⤢', fsExit: '✕'
     }
   };
@@ -4199,7 +4427,12 @@ window.ARASHIKAGE_ARCHITECTURES = {
     return g[key] || '';
   }
 
-  // Gather external white papers for a subsystem block (aggregated from its associated technologies)
+  function getActiveStageColors() {
+    const meta = THEME_META[activeTheme] || THEME_META.neo_brutalism;
+    return activePolarity === 'light' ? meta.stageColorsLight : meta.stageColorsDark;
+  }
+
+  // Gather external white papers for a subsystem block
   function getExternalResourcesForNode(node) {
     if (!node || !Array.isArray(node.techIds)) return [];
     const seen = new Set();
@@ -4220,43 +4453,43 @@ window.ARASHIKAGE_ARCHITECTURES = {
     return list;
   }
 
-  // Render external white paper cards inside the 5. Learn More tab
+  // Render external white paper cards inside the 5. Papers tab
   function renderLearnMoreCardsHtml(resList) {
     if (!resList || resList.length === 0) {
       return '<div class="text-xs text-secondary-ink">No external references indexed.</div>';
     }
     return (
-      '<div class="flex flex-col gap-3 max-h-[380px] overflow-y-auto pr-1">' +
+      '<div class="flex flex-col gap-2.5 max-h-[340px] overflow-y-auto pr-1">' +
       resList
         .map(
           (r) =>
-            '<div class="surface-root border border-hairline rounded-xl p-3.5 flex flex-col justify-between gap-2.5">' +
+            '<div class="surface-root border border-hairline rounded-xl p-3 flex flex-col justify-between gap-2">' +
             '<div class="flex flex-col gap-1">' +
             '<div class="flex flex-wrap items-center justify-between gap-1.5">' +
-            '<span class="mono text-[10.5px] font-bold px-2 py-0.5 rounded btn-theme-accent border">' +
+            '<span class="mono text-[10px] font-bold px-2 py-0.5 rounded btn-theme-accent border">' +
             r.badge +
             '</span>' +
             (r.techShort
-              ? '<span class="mono text-[10.5px] font-semibold text-muted-ink">' + r.techShort + '</span>'
+              ? '<span class="mono text-[10px] font-semibold text-muted-ink">' + r.techShort + '</span>'
               : '') +
             '</div>' +
             '<h4 class="text-xs font-bold text-primary-ink leading-snug mt-0.5">' +
             r.title +
             '</h4>' +
-            '<div class="mono text-[11px] text-muted-ink">' +
+            '<div class="mono text-[10.5px] text-muted-ink">' +
             r.authors +
             '</div>' +
-            '<p class="text-xs text-secondary-ink leading-relaxed mt-0.5">' +
+            '<p class="text-[11.5px] text-secondary-ink leading-relaxed mt-0.5">' +
             r.desc +
             '</p>' +
             '</div>' +
-            '<div class="pt-2 border-t border-hairline flex items-center justify-between gap-2">' +
-            '<span class="mono text-[10.5px] text-muted-ink truncate">' +
+            '<div class="pt-1.5 border-t border-hairline flex items-center justify-between gap-2">' +
+            '<span class="mono text-[10px] text-muted-ink truncate">' +
             r.url +
             '</span>' +
             '<a href="' +
             r.url +
-            '" target="_blank" rel="noopener noreferrer" class="no-wrap-btn px-3 py-1 rounded-lg text-xs font-semibold btn-theme-accent border transition">' +
+            '" target="_blank" rel="noopener noreferrer" class="no-wrap-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold btn-theme-accent border transition">' +
             '<span>Open Paper ' +
             getGlyph('open') +
             '</span>' +
@@ -4281,18 +4514,39 @@ window.ARASHIKAGE_ARCHITECTURES = {
       params.set('node', selectedNodeId);
       params.set('tab', activeNTab);
     }
+    if (activeScenarioKey !== 'none' && tourOverlayVisible) {
+      params.set('scenario', activeScenarioKey);
+    }
     const nextHash = '#' + params.toString();
     if (window.location.hash !== nextHash) {
       history.replaceState(null, '', nextHash);
     }
   }
 
-  function restoreStateFromUrlHash(setArchCallback) {
+  function restoreStateFromUrlHash(setArchCallback, setThemeCallback, setPolCallback) {
     if (!window.location.hash || window.location.hash.length <= 1) return false;
     const params = new URLSearchParams(window.location.hash.slice(1));
+    const themeParam = params.get('theme');
+    const polParam = params.get('polarity') || params.get('mode');
+    const scenParam = params.get('scenario');
+    if (themeParam && THEME_META[themeParam] && setThemeCallback) {
+      setThemeCallback(themeParam);
+    }
+    if ((polParam === 'light' || polParam === 'dark') && setPolCallback) {
+      setPolCallback(polParam);
+    }
     const archParam = params.get('arch');
     if (archParam && ARCH_REGISTRY[archParam] && setArchCallback) {
       setArchCallback(archParam, true);
+    }
+    if (scenParam) {
+      if (scenParam === 'none') {
+        activeScenarioKey = 'none';
+        tourOverlayVisible = false;
+      } else if (scenarios[scenParam]) {
+        activeScenarioKey = scenParam;
+        tourOverlayVisible = true;
+      }
     }
     const view = params.get('view');
     const tab = params.get('tab');
@@ -4314,7 +4568,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       }
       return true;
     }
-    return Boolean(archParam && ARCH_REGISTRY[archParam]);
+    return Boolean((archParam && ARCH_REGISTRY[archParam]) || themeParam || polParam || scenParam);
   }
 
   function init() {
@@ -4332,7 +4586,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
     const btnPolarityDark = document.getElementById('btnPolarityDark');
     const btnToggleFullscreen = document.getElementById('btnToggleFullscreen');
 
-    // Tooltip Overlay DOM
+    // Docked Walkthrough HUD Bar DOM
     const tourTooltip = document.getElementById('tourTooltip');
     const ttStepBadge = document.getElementById('ttStepBadge');
     const ttScenarioLabel = document.getElementById('ttScenarioLabel');
@@ -4354,8 +4608,10 @@ window.ARASHIKAGE_ARCHITECTURES = {
     const btnViewTech = document.getElementById('btnViewTech');
     const inspectorNodeView = document.getElementById('inspectorNodeView');
     const inspectorTechView = document.getElementById('inspectorTechView');
-    const btnBackToNode = document.getElementById('btnBackToNode');
     const selTechDropdown = document.getElementById('selTechDropdown');
+    const selNodeJumper = document.getElementById('selNodeJumper');
+    const btnPrevNode = document.getElementById('btnPrevNode');
+    const btnNextNode = document.getElementById('btnNextNode');
 
     function populateTechDropdown() {
       selTechDropdown.innerHTML = '';
@@ -4367,8 +4623,20 @@ window.ARASHIKAGE_ARCHITECTURES = {
       });
     }
 
+    function populateNodeJumperDropdown() {
+      if (!selNodeJumper) return;
+      selNodeJumper.innerHTML = '';
+      nodes.forEach((n) => {
+        const opt = document.createElement('option');
+        opt.value = n.id;
+        opt.textContent = '#' + n.num + ' · ' + n.title;
+        selNodeJumper.appendChild(opt);
+      });
+      selNodeJumper.value = selectedNodeId;
+    }
+
     function populateScenarioDropdown() {
-      const prevVal = selScenario.value || 'tour';
+      const prevVal = selScenario.value || activeScenarioKey || 'none';
       selScenario.innerHTML = '';
       const noneOpt = document.createElement('option');
       noneOpt.value = 'none';
@@ -4385,46 +4653,62 @@ window.ARASHIKAGE_ARCHITECTURES = {
       if (scenarios[prevVal] || prevVal === 'none') {
         selScenario.value = prevVal;
       } else {
-        selScenario.value = 'tour';
-        activeScenarioKey = 'tour';
+        selScenario.value = 'none';
+        activeScenarioKey = 'none';
       }
     }
 
     populateTechDropdown();
+    populateNodeJumperDropdown();
     populateScenarioDropdown();
 
+    function syncArchGenPills() {
+      document.querySelectorAll('.arch-gen-pill').forEach((btn) => {
+        const key = btn.getAttribute('data-arch-pill');
+        const isAct = key === activeArchKey;
+        btn.className = isAct
+          ? 'arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold btn-theme-accent transition cursor-pointer'
+          : 'arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+      });
+      if (selArchGen && selArchGen.value !== activeArchKey) {
+        selArchGen.value = activeArchKey;
+      }
+    }
+
     function syncThemeAlignedButtons() {
+      const curNode = nodeMap[selectedNodeId] || nodes[0];
+      const nodeSuffix = curNode ? ' (#' + curNode.num + ')' : '';
       btnPolarityLight.textContent = getGlyph('light') + ' Light';
       btnPolarityDark.textContent = getGlyph('dark') + ' Dark';
-      document.getElementById('btnPrevTheme').textContent = getGlyph('prev') + ' Prev';
-      document.getElementById('btnNextTheme').textContent = 'Next ' + getGlyph('next');
-      btnViewNode.textContent = getGlyph('node') + ' Block Inspector';
+      document.getElementById('btnPrevTheme').textContent = getGlyph('prev');
+      document.getElementById('btnNextTheme').textContent = getGlyph('next');
+      btnViewNode.textContent =
+        getGlyph('node') + ' Block Inspector' + (activeRightView === 'tech' ? nodeSuffix : '');
       btnViewTech.textContent = getGlyph('tech') + ' Deep Dive';
       btnToggleFullscreen.textContent =
         (isFullscreenMode ? getGlyph('fsExit') + ' Exit Full Screen' : getGlyph('fs') + ' Full Screen');
-      document.getElementById('btnExportHtml').textContent = getGlyph('export') + ' Share HTML';
-      document.getElementById('btnExportPng').textContent = getGlyph('export') + ' PNG';
-      document.getElementById('btnCopyMermaid').textContent = getGlyph('export') + ' Mermaid';
+      document.getElementById('btnExportHtml').textContent = 'Share HTML';
+      document.getElementById('btnExportPng').textContent = 'PNG';
+      document.getElementById('btnCopyMermaid').textContent = 'Mermaid';
       btnTtPrev.textContent = getGlyph('prev') + ' Prev';
       btnTtNext.textContent = 'Next ' + getGlyph('next');
       btnTtDeepDive.textContent = getGlyph('tech') + ' Deep Dive';
-      btnCloseTooltip.textContent = getGlyph('close') + ' Close';
+      btnCloseTooltip.textContent = getGlyph('close') + ' Exit';
       btnCloseDrawer.textContent = getGlyph('close') + ' Close';
-      btnBackToNode.textContent = getGlyph('prev') + ' Back to Block Inspector';
-      document.getElementById('btnNodeQuickLearnMore').textContent = 'Learn More ' + getGlyph('open');
-      document.getElementById('btnTechQuickLearnMore').textContent = 'Learn More ' + getGlyph('open');
     }
 
     function updatePolarityButtons() {
-      const meta = THEME_META[activeTheme] || THEME_META.neo_brutalism;
+      const cols = getActiveStageColors();
+      const bgCol = cols[0];
+      const inkCol = renderer.getContrastInk(bgCol, '#111111', '#ffffff');
       if (activePolarity === 'light') {
-        btnPolarityLight.style.backgroundColor = meta.stageColors[0];
-        btnPolarityLight.style.color = '#ffffff';
+        btnPolarityLight.style.backgroundColor = bgCol;
+        btnPolarityLight.style.color = inkCol;
         btnPolarityDark.style.backgroundColor = 'transparent';
         btnPolarityDark.style.color = '';
       } else {
-        btnPolarityDark.style.backgroundColor = meta.stageColors[0];
-        btnPolarityDark.style.color = '#ffffff';
+        btnPolarityDark.style.backgroundColor = bgCol;
+        btnPolarityDark.style.color = inkCol;
         btnPolarityLight.style.backgroundColor = 'transparent';
         btnPolarityLight.style.color = '';
       }
@@ -4436,13 +4720,13 @@ window.ARASHIKAGE_ARCHITECTURES = {
         if (topIdentityBar) topIdentityBar.classList.add('hidden');
         if (btnCloseDrawer) btnCloseDrawer.classList.remove('hidden');
 
-        rightSidePanel.classList.remove('w-full', 'lg:w-[485px]', 'xl:w-[525px]');
+        rightSidePanel.classList.remove('w-full', 'lg:w-[490px]', 'xl:w-[535px]');
         rightSidePanel.classList.add(
           'absolute',
           'top-0',
           'right-0',
           'bottom-0',
-          'w-[495px]',
+          'w-[500px]',
           'max-w-[92vw]',
           'border-l',
           'border-subtle',
@@ -4466,20 +4750,19 @@ window.ARASHIKAGE_ARCHITECTURES = {
           'top-0',
           'right-0',
           'bottom-0',
-          'w-[495px]',
+          'w-[500px]',
           'max-w-[92vw]',
           'border-l',
           'border-subtle',
           'shadow-2xl'
         );
-        rightSidePanel.classList.add('w-full', 'lg:w-[485px]', 'xl:w-[525px]');
+        rightSidePanel.classList.add('w-full', 'lg:w-[490px]', 'xl:w-[535px]');
         rightSidePanel.style.transform = '';
       }
 
       syncThemeAlignedButtons();
       requestAnimationFrame(() => {
         renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
-        if (tourOverlayVisible) updateTourTooltip();
       });
     }
 
@@ -4513,8 +4796,8 @@ window.ARASHIKAGE_ARCHITECTURES = {
         inspectorNodeView.classList.add('flex');
         inspectorTechView.classList.add('hidden');
         inspectorTechView.classList.remove('flex');
-        btnViewNode.className = 'no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold btn-theme-accent transition cursor-pointer';
-        btnViewTech.className = 'no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+        btnViewNode.className = 'no-wrap-btn py-1 px-2.5 rounded-lg text-xs font-semibold btn-theme-accent transition cursor-pointer';
+        btnViewTech.className = 'no-wrap-btn py-1 px-2.5 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
         renderNodeInspector();
       } else {
         if (tabOpt) activeTTab = tabOpt;
@@ -4522,53 +4805,134 @@ window.ARASHIKAGE_ARCHITECTURES = {
         inspectorNodeView.classList.remove('flex');
         inspectorTechView.classList.remove('hidden');
         inspectorTechView.classList.add('flex');
-        btnViewTech.className = 'no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold btn-theme-accent transition cursor-pointer';
-        btnViewNode.className = 'no-wrap-btn py-1.5 px-3 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+        btnViewTech.className = 'no-wrap-btn py-1 px-2.5 rounded-lg text-xs font-semibold btn-theme-accent transition cursor-pointer';
+        btnViewNode.className = 'no-wrap-btn py-1 px-2.5 rounded-lg text-xs font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
         renderTechDeepDive();
       }
+      syncThemeAlignedButtons();
       syncUrlHash();
     }
 
-    // Render Block Inspector View (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Learn More)
+    // Render Clickable Upstream Inputs & Downstream Outputs inside Block Inspector
+    function renderGraphNeighbors(node) {
+      const container = document.getElementById('inspGraphNeighbors');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const incoming = edges.filter((e) => e.to === node.id && nodeMap[e.from]);
+      const outgoing = edges.filter((e) => e.from === node.id && nodeMap[e.to]);
+
+      const makeCol = (title, edgeList, isIncoming) => {
+        const col = document.createElement('div');
+        col.className = 'flex flex-col gap-1';
+        const hdr = document.createElement('span');
+        hdr.className = 'mono text-[10px] font-bold text-muted-ink uppercase';
+        hdr.textContent = title;
+        col.appendChild(hdr);
+
+        if (edgeList.length === 0) {
+          const empty = document.createElement('span');
+          empty.className = 'mono text-[10.5px] text-muted-ink italic';
+          empty.textContent = isIncoming ? 'Source Input Boundary' : 'Terminal Output Head';
+          col.appendChild(empty);
+          return col;
+        }
+
+        const wrap = document.createElement('div');
+        wrap.className = 'flex flex-wrap gap-1';
+        edgeList.forEach((e) => {
+          const targetNode = nodeMap[isIncoming ? e.from : e.to];
+          if (!targetNode) return;
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className =
+            'no-wrap-btn px-2 py-0.5 rounded surface-root border border-hairline hover:border-subtle text-[10.5px] mono text-primary-ink transition cursor-pointer gap-1';
+          btn.title =
+            (isIncoming ? 'Upstream Input from #' : 'Downstream Output to #') +
+            targetNode.num +
+            ' ' +
+            targetNode.title +
+            (e.label ? ' (' + e.label + ')' : '');
+          btn.innerHTML =
+            '<span class="font-bold" style="color:' +
+            targetNode.color +
+            '">#' +
+            targetNode.num +
+            '</span><span class="truncate max-w-[105px]">' +
+            targetNode.title +
+            '</span>' +
+            (e.label
+              ? '<span class="px-1 rounded surface-panel text-[9.5px] text-secondary-ink">' + e.label + '</span>'
+              : '');
+          btn.addEventListener('click', () => {
+            selectedNodeId = targetNode.id;
+            renderNodeInspector();
+            syncThemeAlignedButtons();
+            syncUrlHash();
+          });
+          wrap.appendChild(btn);
+        });
+        col.appendChild(wrap);
+        return col;
+      };
+
+      container.appendChild(makeCol('← Upstream Inputs (' + incoming.length + ')', incoming, true));
+      container.appendChild(makeCol('Downstream Outputs (' + outgoing.length + ') →', outgoing, false));
+    }
+
+    // Render Block Inspector View (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Papers)
     function renderNodeInspector() {
       const n = nodeMap[selectedNodeId] || nodes[0];
       if (!n) return;
+
+      if (selNodeJumper && selNodeJumper.value !== n.id) {
+        selNodeJumper.value = n.id;
+      }
 
       const inspBadge = document.getElementById('inspBadge');
       inspBadge.textContent = 'BLOCK ' + n.num + ' · ' + n.tag;
       inspBadge.style.color = n.color;
       inspBadge.style.borderColor = n.color;
-      inspBadge.style.backgroundColor = n.color + '1a';
+      inspBadge.style.backgroundColor = n.color + '18';
 
       document.getElementById('inspShapePill').textContent = n.sub;
       document.getElementById('inspTitle').textContent = n.title;
 
-      // Render Linked Technology Chips (Each chip opens Deep Dive, plus a direct Learn More ↗ button)
+      // Render Upstream & Downstream Dataflow Neighbors
+      renderGraphNeighbors(n);
+
+      // Render Linked Technology Chips (Clean Single-Click Deep Dive Pills + Subtle Papers Link)
       const chipsContainer = document.getElementById('inspTechChips');
       chipsContainer.innerHTML = '';
       (n.techIds || []).forEach((tid) => {
         const t = techMap[tid];
         if (!t) return;
+        const papers = TECH_EXTERNAL_RESOURCES[tid] || [];
         const group = document.createElement('div');
-        group.className = 'inline-flex items-center gap-1';
+        group.className = 'inline-flex items-center rounded-lg border border-hairline surface-panel overflow-hidden';
 
         const btn = document.createElement('button');
-        btn.className = 'no-wrap-btn px-2.5 py-1.5 rounded-lg text-xs font-semibold surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer';
-        btn.textContent = getGlyph('tech') + ' ' + t.short;
+        btn.type = 'button';
+        btn.className = 'no-wrap-btn px-2.5 py-1 text-[11px] font-semibold text-primary-ink hover:text-theme-accent transition cursor-pointer';
+        btn.textContent = getGlyph('tech') + ' ' + t.short + ' ↗';
+        btn.title = 'Inspect ' + t.short + ' in Deep Dive & highlight blocks on canvas';
         btn.addEventListener('click', () => {
           setRightView('tech', tid, 'how');
         });
-
-        const lmBtn = document.createElement('button');
-        lmBtn.className = 'no-wrap-btn px-2 py-1.5 rounded-lg text-[11px] mono font-bold btn-theme-accent border transition cursor-pointer';
-        lmBtn.title = 'Open ' + t.short + ' White Papers (5. Learn More Tab)';
-        lmBtn.textContent = 'Learn More ' + getGlyph('open');
-        lmBtn.addEventListener('click', () => {
-          setRightView('tech', tid, 'learn');
-        });
-
         group.appendChild(btn);
-        group.appendChild(lmBtn);
+
+        if (papers.length > 0) {
+          const lmBtn = document.createElement('button');
+          lmBtn.type = 'button';
+          lmBtn.className = 'no-wrap-btn px-1.5 py-1 text-[10px] mono font-bold surface-root text-secondary-ink hover:text-primary-ink border-l border-hairline transition cursor-pointer';
+          lmBtn.title = 'View ' + papers.length + ' foundational paper(s) for ' + t.short;
+          lmBtn.textContent = 'Papers (' + papers.length + ')';
+          lmBtn.addEventListener('click', () => {
+            setRightView('tech', tid, 'learn');
+          });
+          group.appendChild(lmBtn);
+        }
+
         chipsContainer.appendChild(group);
       });
 
@@ -4576,8 +4940,8 @@ window.ARASHIKAGE_ARCHITECTURES = {
       document.querySelectorAll('.ntab-btn').forEach((btn) => {
         const isAct = btn.getAttribute('data-ntab') === activeNTab;
         btn.className = isAct
-          ? 'ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-semibold btn-theme-accent transition cursor-pointer'
-          : 'ntab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+          ? 'ntab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-semibold btn-theme-accent transition cursor-pointer'
+          : 'ntab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer';
       });
 
       const ntabHeading = document.getElementById('ntabHeading');
@@ -4585,17 +4949,14 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const ntabCalloutBox = document.getElementById('ntabCalloutBox');
       const ntabSubLabel = document.getElementById('ntabSubLabel');
       const ntabSubContent = document.getElementById('ntabSubContent');
-      const btnNodeQuickLearnMore = document.getElementById('btnNodeQuickLearnMore');
 
       if (activeNTab === 'learn') {
-        ntabHeading.textContent = '05 // LEARN MORE (PRIMARY LITERATURE & WHITE PAPERS)';
+        ntabHeading.textContent = '05 // PRIMARY LITERATURE & WHITE PAPERS';
         const papers = getExternalResourcesForNode(n);
         ntabBody.innerHTML = renderLearnMoreCardsHtml(papers);
         ntabCalloutBox.classList.add('hidden');
-        btnNodeQuickLearnMore.classList.add('hidden');
       } else {
         ntabCalloutBox.classList.remove('hidden');
-        btnNodeQuickLearnMore.classList.remove('hidden');
 
         if (activeNTab === 'how') {
           ntabHeading.textContent = '01 // HOW IT WORKS (MECHANISM)';
@@ -4623,7 +4984,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       renderContextualWidget(n);
     }
 
-    // Render Deep Dive View (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Science | 5. Learn More)
+    // Render Deep Dive View (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Papers)
     function renderTechDeepDive() {
       const t = techMap[selectedTechId] || techLib[0];
       if (!t) return;
@@ -4634,8 +4995,8 @@ window.ARASHIKAGE_ARCHITECTURES = {
       document.querySelectorAll('.ttab-btn').forEach((btn) => {
         const isAct = btn.getAttribute('data-ttab') === activeTTab;
         btn.className = isAct
-          ? 'ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-semibold btn-theme-accent transition cursor-pointer'
-          : 'ttab-btn no-wrap-btn py-1.5 px-1.5 rounded-lg text-[11.5px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+          ? 'ttab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-semibold btn-theme-accent transition cursor-pointer'
+          : 'ttab-btn no-wrap-btn py-1 px-1 rounded-lg text-[11px] font-medium text-secondary-ink hover:text-primary-ink transition cursor-pointer';
       });
 
       const ttabHeading = document.getElementById('ttabHeading');
@@ -4643,17 +5004,14 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const ttabCalloutBox = document.getElementById('ttabCalloutBox');
       const ttabSubLabel = document.getElementById('ttabSubLabel');
       const ttabSubContent = document.getElementById('ttabSubContent');
-      const btnTechQuickLearnMore = document.getElementById('btnTechQuickLearnMore');
 
       if (activeTTab === 'learn') {
-        ttabHeading.textContent = '05 // LEARN MORE (FOUNDATIONAL WHITE PAPERS & SOURCES)';
+        ttabHeading.textContent = '05 // FOUNDATIONAL WHITE PAPERS & SOURCES';
         const resList = TECH_EXTERNAL_RESOURCES[t.id] || [];
         ttabBody.innerHTML = renderLearnMoreCardsHtml(resList);
         ttabCalloutBox.classList.add('hidden');
-        btnTechQuickLearnMore.classList.add('hidden');
       } else {
         ttabCalloutBox.classList.remove('hidden');
-        btnTechQuickLearnMore.classList.remove('hidden');
 
         if (activeTTab === 'how') {
           ttabHeading.textContent = '01 // HOW IT WORKS (MECHANISM)';
@@ -4684,8 +5042,16 @@ window.ARASHIKAGE_ARCHITECTURES = {
         const n = nodeMap[nid];
         if (!n) return;
         const b = document.createElement('button');
-        b.className = 'no-wrap-btn mono text-xs px-3 py-1 rounded-lg surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer';
-        b.textContent = getGlyph('node') + ' ' + n.num + ' · ' + n.title;
+        b.type = 'button';
+        b.className = 'no-wrap-btn mono text-[11px] px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer gap-1';
+        b.innerHTML =
+          '<span class="font-bold" style="color:' +
+          n.color +
+          '">#' +
+          n.num +
+          '</span><span>' +
+          n.title +
+          '</span>';
         b.addEventListener('click', () => {
           selectedNodeId = n.id;
           setRightView('node');
@@ -4694,7 +5060,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       });
     }
 
-    // Stage-Level Evolution Summary across all 4 Platform Generations
+    // Stage-Level Evolution Summary across all 4 Platform Generations (Side-by-Side 4-Row Matrix)
     const STAGE_EVOLUTION_MATRIX = {
       mem: {
         title: 'STAGE 1 EVOLUTION // OBSERVATION MANIFOLD',
@@ -4729,50 +5095,52 @@ window.ARASHIKAGE_ARCHITECTURES = {
     function appendEvolutionComparisonStrip(wBody, stageGroup) {
       const evo = STAGE_EVOLUTION_MATRIX[stageGroup] || STAGE_EVOLUTION_MATRIX.control;
       const box = document.createElement('div');
-      box.className = 'mt-1.5 pt-2.5 border-t border-hairline flex flex-col gap-1.5';
+      box.className = 'mt-1 pt-2 border-t border-hairline flex flex-col gap-1';
 
       const hdr = document.createElement('div');
       hdr.className = 'flex items-center justify-between gap-1';
       hdr.innerHTML =
         '<span class="kicker text-muted-ink">' +
         evo.title +
-        '</span><span class="mono text-[10px] text-theme-accent font-bold">CLICK TO SWITCH</span>';
+        '</span><span class="mono text-[9.5px] text-theme-accent font-bold">4-GEN MATRIX (CLICK ROW)</span>';
       box.appendChild(hdr);
 
       const gens = [
-        { key: 'gen1_ret40', short: 'Gen 1 · RET-40' },
-        { key: 'gen2_factorized', short: 'Gen 2 · MLP-684' },
+        { key: 'hex63', short: 'Hex63 · Current' },
         { key: 'gen3_perceiver', short: 'Gen 3 · Perceiver' },
-        { key: 'hex63', short: 'Hex63 · Current' }
+        { key: 'gen2_factorized', short: 'Gen 2 · MLP-684' },
+        { key: 'gen1_ret40', short: 'Gen 1 · RET-40' }
       ];
 
-      const btnGrid = document.createElement('div');
-      btnGrid.className = 'grid grid-cols-4 gap-1';
+      const matrixList = document.createElement('div');
+      matrixList.className = 'flex flex-col gap-1';
       gens.forEach((g) => {
         const isCurr = g.key === activeArchKey;
-        const b = document.createElement('button');
-        b.className =
-          'no-wrap-btn py-1 px-1.5 rounded text-[10.5px] mono font-bold border transition cursor-pointer truncate ' +
+        const rowBtn = document.createElement('button');
+        rowBtn.type = 'button';
+        rowBtn.className =
+          'w-full text-left px-2 py-1 rounded border transition cursor-pointer flex items-baseline justify-between gap-2 ' +
           (isCurr
-            ? 'btn-theme-accent'
-            : 'surface-root text-secondary-ink border-hairline hover:text-primary-ink');
-        b.textContent = g.short;
-        b.title = evo[g.key];
-        b.addEventListener('click', () => {
+            ? 'surface-elevated border-subtle'
+            : 'surface-root border-hairline opacity-80 hover:opacity-100');
+        rowBtn.innerHTML =
+          '<span class="mono text-[10px] font-bold shrink-0 ' +
+          (isCurr ? 'text-theme-accent' : 'text-primary-ink') +
+          '">' +
+          (isCurr ? '▸ ' : '  ') +
+          g.short +
+          '</span>' +
+          '<span class="mono text-[10px] text-secondary-ink truncate flex-1 text-right" title="' +
+          evo[g.key] +
+          '">' +
+          evo[g.key] +
+          '</span>';
+        rowBtn.addEventListener('click', () => {
           setArchitecture(g.key);
         });
-        btnGrid.appendChild(b);
+        matrixList.appendChild(rowBtn);
       });
-      box.appendChild(btnGrid);
-
-      const desc = document.createElement('div');
-      desc.className = 'p-2 rounded surface-root border border-hairline mono text-[11px] text-secondary-ink leading-snug';
-      desc.innerHTML =
-        '<span class="text-theme-accent font-bold">' +
-        (ARCH_REGISTRY[activeArchKey] ? ARCH_REGISTRY[activeArchKey].shortBadge : activeArchKey.toUpperCase()) +
-        ':</span> ' +
-        (evo[activeArchKey] || '');
-      box.appendChild(desc);
+      box.appendChild(matrixList);
 
       wBody.appendChild(box);
     }
@@ -4784,29 +5152,32 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const wBody = document.getElementById('ctxWidgetBody');
       wBody.innerHTML = '';
 
+      const stageCols = getActiveStageColors();
+
       if (node.stageGroup === 'mem') {
         if (activeArchKey === 'hex63') {
           wTitle.textContent = 'INTERACTIVE 5,376B CACHE-LINE INSPECTOR';
           wTag.textContent = '84 × 64B CL';
           const segments = [
-            { name: 'Cars [0..5]', bytes: '0..1535', cl: '24 CL', color: '#38bdf8', desc: '6 Cars × 64 floats (256B each): Pos, Vel, Rot6D, Local Vel, Dodge/Flip Timers, 4-Wheel Shocks' },
-            { name: 'Ball [6]', bytes: '1536..1663', cl: '2 CL', color: '#22d3ee', desc: '1 Ball × 32 floats (128B): Position, Linear/Angular Velocity, Last Hit Car, Magnus Force' },
-            { name: 'Traj [7..14]', bytes: '1664..2687', cl: '16 CL', color: '#818cf8', desc: '8 BallRingBuffer480 Samples × 32 floats (1,024B): 4.0s Future Bounce & Spin Curve' },
-            { name: 'Match [15]', bytes: '2688..2751', cl: '1 CL', color: '#a78bfa', desc: '1 Match Node × 16 floats (64B): κ_Δt Action Duration, Score Diff, Clock, Gravity' },
-            { name: 'Pads [16..49]', bytes: '2752..3839', cl: '17 CL', color: '#f472b6', desc: '34 Boost Pads × 8 floats (1,088B): Canonical X/Y/Z, IsBigPad, Active Flag, Respawn Timer' },
-            { name: 'Goals/Wheels/OBB', bytes: '3840..4735', cl: '14 CL', color: '#fbbf24', desc: '6 Goals + 4 Zero-Lag Ego Wheel Raycasts + 4 Nearest Wall Surface OBBs (896B)' },
-            { name: 'PrivCtx [128]', bytes: '4864..5375', cl: '8 CL', color: '#34d399', desc: '128 Privileged Floats (512B): Exact Opponent Boost/Flip Secrets (Training Critic Only)' }
+            { name: 'Cars [0..5]', bytes: '0..1535', cl: '24 CL', color: stageCols[0], desc: '6 Cars × 64 floats (256B each): Pos, Vel, Rot6D, Local Vel, Dodge/Flip Timers, 4-Wheel Shocks' },
+            { name: 'Ball [6]', bytes: '1536..1663', cl: '2 CL', color: stageCols[1], desc: '1 Ball × 32 floats (128B): Position, Linear/Angular Velocity, Last Hit Car, Magnus Force' },
+            { name: 'Traj [7..14]', bytes: '1664..2687', cl: '16 CL', color: stageCols[2], desc: '8 BallRingBuffer480 Samples × 32 floats (1,024B): 4.0s Future Bounce & Spin Curve' },
+            { name: 'Match [15]', bytes: '2688..2751', cl: '1 CL', color: stageCols[3], desc: '1 Match Node × 16 floats (64B): κ_Δt Action Duration, Score Diff, Clock, Gravity' },
+            { name: 'Pads [16..49]', bytes: '2752..3839', cl: '17 CL', color: stageCols[4], desc: '34 Boost Pads × 8 floats (1,088B): Canonical X/Y/Z, IsBigPad, Active Flag, Respawn Timer' },
+            { name: 'Goals/Wheels', bytes: '3840..4735', cl: '14 CL', color: stageCols[5], desc: '6 Goals + 4 Zero-Lag Ego Wheel Raycasts + 4 Nearest Wall Surface OBBs (896B)' },
+            { name: 'PrivCtx [128]', bytes: '4864..5375', cl: '8 CL', color: stageCols[0], desc: '128 Privileged Floats (512B): Exact Opponent Boost/Flip Secrets (Training Critic Only)' }
           ];
           const barRow = document.createElement('div');
           barRow.className = 'grid grid-cols-7 gap-1';
           segments.forEach((seg, idx) => {
+            const isSel = selectedMemSliceIdx === idx;
             const b = document.createElement('button');
+            b.type = 'button';
             b.className =
-              'py-1.5 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
-              (selectedMemSliceIdx === idx
-                ? 'border-white text-slate-950'
-                : 'border-transparent text-slate-950 opacity-75 hover:opacity-100');
+              'py-1 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
+              (isSel ? 'border-subtle ring-1 ring-current' : 'border-hairline opacity-80 hover:opacity-100');
             b.style.backgroundColor = seg.color;
+            b.style.color = renderer.getContrastInk(seg.color, '#111111', '#ffffff');
             b.textContent = seg.cl;
             b.title = seg.name;
             b.addEventListener('click', () => {
@@ -4819,7 +5190,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
           const activeSeg = segments[selectedMemSliceIdx] || segments[0];
           const info = document.createElement('div');
-          info.className = 'p-2.5 rounded-lg surface-root border border-hairline mono text-xs flex flex-col gap-1';
+          info.className = 'p-2 rounded-lg surface-root border border-hairline mono text-[11px] flex flex-col gap-0.5';
           info.innerHTML =
             '<div class="flex justify-between"><span class="font-bold text-primary-ink">' +
             activeSeg.name +
@@ -4828,7 +5199,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
             ' (' +
             activeSeg.cl +
             ')</span></div>' +
-            '<div class="text-secondary-ink font-sans text-xs">' +
+            '<div class="text-secondary-ink font-sans text-[11.5px] leading-snug">' +
             activeSeg.desc +
             '</div>';
           wBody.appendChild(info);
@@ -4843,28 +5214,31 @@ window.ARASHIKAGE_ARCHITECTURES = {
           const legacySegs =
             activeArchKey === 'gen1_ret40'
               ? [
-                  { name: 'Ego+Mates [0..2]', cl: '3×100B', color: '#38bdf8', bytes: 'Slots 0..2', desc: '1 Ego + 2 Teammates (25 floats each): World Pos, Vel, Fwd/Up, AngVel, Boost, Type One-Hot, t_go' },
-                  { name: 'Opponents [3..5]', cl: '3×100B', color: '#22d3ee', bytes: 'Slots 3..5', desc: '3 Opponents (25 floats each): Masked with -10^9 in 1v1/2v2; zero 1D positional encoding' },
-                  { name: 'Ball Token [6]', cl: '1×100B', color: '#a78bfa', bytes: 'Slot 6', desc: '1 Ball Token: World Pos/Vel, Magnus Spin ω_ball, and normalized intercept horizon' },
-                  { name: 'Pads [7..40]', cl: '34×100B', color: '#f472b6', bytes: 'Slots 7..40', desc: '34 Boost Pads: World XYZ, Active Flag, Cooldown Timer, and Channel-24 norm_time_to_go' },
-                  { name: 'AVX2 r_ij', cl: '53.7KB', color: '#fbbf24', bytes: '41×41×8', desc: 'RelationalTensorBlockPOD: 1,681 pairs × 8 floats computed on CPU via 8-wide AVX2 rsqrt_ps' }
+                  { name: 'Ego+Mates [0..2]', cl: '3×100B', color: stageCols[0], bytes: 'Slots 0..2', desc: '1 Ego + 2 Teammates (25 floats each): World Pos, Vel, Fwd/Up, AngVel, Boost, Type One-Hot, t_go' },
+                  { name: 'Opponents [3..5]', cl: '3×100B', color: stageCols[1], bytes: 'Slots 3..5', desc: '3 Opponents (25 floats each): Masked with -10^9 in 1v1/2v2; zero 1D positional encoding' },
+                  { name: 'Ball Token [6]', cl: '1×100B', color: stageCols[2], bytes: 'Slot 6', desc: '1 Ball Token: World Pos/Vel, Magnus Spin ω_ball, and normalized intercept horizon' },
+                  { name: 'Pads [7..40]', cl: '34×100B', color: stageCols[3], bytes: 'Slots 7..40', desc: '34 Boost Pads: World XYZ, Active Flag, Cooldown Timer, and Channel-24 norm_time_to_go' },
+                  { name: 'AVX2 r_ij', cl: '53.7KB', color: stageCols[4], bytes: '41×41×8', desc: 'RelationalTensorBlockPOD: 1,681 pairs × 8 floats computed on CPU via 8-wide AVX2 rsqrt_ps' }
                 ]
               : [
-                  { name: 'Self+Goals [16D]', cl: '4×16D', color: '#38bdf8', bytes: '64 Floats', desc: 'K=4 × (10D Self body vel/ang_vel/local gravity/boost + 6D Opp/Own Goal unit vectors)' },
-                  { name: 'Ball Stack [9D]', cl: '4×9D', color: '#22d3ee', bytes: '36 Floats', desc: 'K=4 × 9D Ball relative position, linear velocity, and angular velocity in R_car^T frame' },
-                  { name: 'Opp Stack [10D]', cl: '4×10D', color: '#a78bfa', bytes: '40 Floats', desc: 'K=4 × 10D Opponent relative pos, vel, forward heading, and boost fraction' },
-                  { name: '34 Pads [136D]', cl: '4×136D', color: '#f472b6', bytes: '544 Floats', desc: 'K=4 × 34 Pads × 4D (body-frame XYZ + availability τ_j) with ORANGE_PAD_PERMUTATION' },
-                  { name: activeArchKey === 'gen3_perceiver' ? 'Wheels+Omni' : '68D Critic Tail', cl: activeArchKey === 'gen3_perceiver' ? '16D+68D' : '68D Priv', color: '#34d399', bytes: activeArchKey === 'gen3_perceiver' ? 'Floats 684..752' : 'Critic 684..752', desc: (activeArchKey === 'gen3_perceiver' ? '16D 4-Frame Actor Wheel History + ' : '') + '68D Critic Tail: 20D Wheel Slip, 18D World Vel, 30D 5-Bounce Ballistics' }
+                  { name: 'Self+Goals [16D]', cl: '4×16D', color: stageCols[0], bytes: '64 Floats', desc: 'K=4 × (10D Self body vel/ang_vel/local gravity/boost + 6D Opp/Own Goal unit vectors)' },
+                  { name: 'Ball Stack [9D]', cl: '4×9D', color: stageCols[1], bytes: '36 Floats', desc: 'K=4 × 9D Ball relative position, linear velocity, and angular velocity in R_car^T frame' },
+                  { name: 'Opp Stack [10D]', cl: '4×10D', color: stageCols[2], bytes: '40 Floats', desc: 'K=4 × 10D Opponent relative pos, vel, forward heading, and boost fraction' },
+                  { name: '34 Pads [136D]', cl: '4×136D', color: stageCols[3], bytes: '544 Floats', desc: 'K=4 × 34 Pads × 4D (body-frame XYZ + availability τ_j) with ORANGE_PAD_PERMUTATION' },
+                  { name: activeArchKey === 'gen3_perceiver' ? 'Wheels+Omni' : '68D Critic Tail', cl: activeArchKey === 'gen3_perceiver' ? '16D+68D' : '68D Priv', color: stageCols[5], bytes: activeArchKey === 'gen3_perceiver' ? 'Floats 684..752' : 'Critic 684..752', desc: (activeArchKey === 'gen3_perceiver' ? '16D 4-Frame Actor Wheel History + ' : '') + '68D Critic Tail: 20D Wheel Slip, 18D World Vel, 30D 5-Bounce Ballistics' }
                 ];
           const barRow = document.createElement('div');
           barRow.className = 'grid grid-cols-5 gap-1';
           const idx = selectedMemSliceIdx % legacySegs.length;
           legacySegs.forEach((seg, i) => {
+            const isSel = idx === i;
             const b = document.createElement('button');
+            b.type = 'button';
             b.className =
-              'py-1.5 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
-              (idx === i ? 'border-white text-slate-950' : 'border-transparent text-slate-950 opacity-75 hover:opacity-100');
+              'py-1 px-1 rounded text-[10px] mono font-bold truncate border transition cursor-pointer ' +
+              (isSel ? 'border-subtle ring-1 ring-current' : 'border-hairline opacity-80 hover:opacity-100');
             b.style.backgroundColor = seg.color;
+            b.style.color = renderer.getContrastInk(seg.color, '#111111', '#ffffff');
             b.textContent = seg.cl;
             b.addEventListener('click', () => {
               selectedMemSliceIdx = i;
@@ -4875,7 +5249,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
           wBody.appendChild(barRow);
           const activeSeg = legacySegs[idx];
           const info = document.createElement('div');
-          info.className = 'p-2.5 rounded-lg surface-root border border-hairline mono text-xs flex flex-col gap-1';
+          info.className = 'p-2 rounded-lg surface-root border border-hairline mono text-[11px] flex flex-col gap-0.5';
           info.innerHTML =
             '<div class="flex justify-between"><span class="font-bold text-primary-ink">' +
             activeSeg.name +
@@ -4883,7 +5257,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
             activeSeg.bytes +
             ' (' +
             activeSeg.cl +
-            ')</span></div><div class="text-secondary-ink font-sans text-xs">' +
+            ')</span></div><div class="text-secondary-ink font-sans text-[11.5px] leading-snug">' +
             activeSeg.desc +
             '</div>';
           wBody.appendChild(info);
@@ -4922,7 +5296,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
         const selRow = document.createElement('div');
         selRow.className = 'grid grid-cols-2 gap-1.5';
         const sQ = document.createElement('select');
-        sQ.className = 'surface-root text-primary-ink border border-hairline rounded px-2 py-1 text-xs mono';
+        sQ.className = 'surface-root text-primary-ink border border-hairline rounded px-2 py-1 text-[11px] mono';
         queries.forEach((q, i) => {
           const o = document.createElement('option');
           o.value = i;
@@ -4936,7 +5310,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
         });
 
         const sK = document.createElement('select');
-        sK.className = 'surface-root text-primary-ink border border-hairline rounded px-2 py-1 text-xs mono';
+        sK.className = 'surface-root text-primary-ink border border-hairline rounded px-2 py-1 text-[11px] mono';
         keys.forEach((k, i) => {
           const o = document.createElement('option');
           o.value = i;
@@ -4963,15 +5337,15 @@ window.ARASHIKAGE_ARCHITECTURES = {
         const attnScore = Math.max(0.08, Math.min(0.94, 1.35 - Number(tReach) * 0.45)).toFixed(2);
 
         const metrics = document.createElement('div');
-        metrics.className = 'grid grid-cols-3 gap-1.5 mono text-xs';
+        metrics.className = 'grid grid-cols-3 gap-1.5 mono text-[11px]';
         metrics.innerHTML =
-          '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">3D DIST</div><div class="text-primary-ink font-bold">' +
+          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink text-[9.5px]">3D DIST</div><div class="text-primary-ink font-bold">' +
           dist +
           ' uu</div></div>' +
-          '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">T_INTERCEPT</div><div class="text-theme-accent font-bold">' +
+          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink text-[9.5px]">T_INTERCEPT</div><div class="text-theme-accent font-bold">' +
           tReach +
           ' s</div></div>' +
-          '<div class="p-2 rounded surface-root border border-hairline"><div class="text-muted-ink text-[10px]">' +
+          '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink text-[9.5px]">' +
           (activeArchKey === 'hex63' ? 'DIFF-ATTN' : 'BIAS WEIGHT') +
           '</div><div class="text-primary-ink font-bold">' +
           attnScore +
@@ -4992,7 +5366,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
             : '8 FAMILIES · 32 SUB';
 
         const sliderRow = document.createElement('div');
-        sliderRow.className = 'flex items-center justify-between gap-2';
+        sliderRow.className = 'flex items-center justify-between gap-2 text-[11.5px]';
         sliderRow.innerHTML =
           '<span class="text-secondary-ink">' +
           (activeArchKey === 'hex63' ? 'Opponent Surprise Residual ||r_t||:' : 'Aerial / Mechanical Phase Intensity:') +
@@ -5040,13 +5414,13 @@ window.ARASHIKAGE_ARCHITECTURES = {
                 { name: 'Z_7: Speedflip Cancel', w: 0.24 }
               ];
         const expGrid = document.createElement('div');
-        expGrid.className = 'grid grid-cols-2 gap-1.5 pt-1';
+        expGrid.className = 'grid grid-cols-2 gap-1 pt-0.5';
         itemsList.forEach((ex) => {
           const pct = Math.round(ex.w * 100);
           const item = document.createElement('div');
-          item.className = 'p-1.5 rounded surface-root border border-hairline flex flex-col gap-1';
+          item.className = 'p-1.5 rounded surface-root border border-hairline flex flex-col gap-0.5';
           item.innerHTML =
-            '<div class="flex justify-between text-[11px] mono"><span class="text-secondary-ink">' +
+            '<div class="flex justify-between text-[10.5px] mono"><span class="text-secondary-ink">' +
             ex.name +
             '</span><span class="text-theme-accent font-bold">' +
             pct +
@@ -5092,10 +5466,10 @@ window.ARASHIKAGE_ARCHITECTURES = {
                 { k: 'Subticks 5..7 (Ticks 6..8)', v: 'FlipState Hold Release: jump = 0' }
               ];
         const tbl = document.createElement('div');
-        tbl.className = 'flex flex-col gap-1 mono text-[11px]';
+        tbl.className = 'flex flex-col gap-1 mono text-[10.5px]';
         rows.forEach((st) => {
           const r = document.createElement('div');
-          r.className = 'p-1.5 rounded surface-root border border-hairline flex items-center justify-between gap-2';
+          r.className = 'p-1 rounded surface-root border border-hairline flex items-center justify-between gap-2';
           r.innerHTML =
             '<span class="text-primary-ink font-semibold">' +
             st.k +
@@ -5124,10 +5498,8 @@ window.ARASHIKAGE_ARCHITECTURES = {
       activeMermaidDiagram = archDef.mermaidDiagram || '';
 
       rebuildLookupMaps();
+      syncArchGenPills();
 
-      if (selArchGen && selArchGen.value !== activeArchKey) {
-        selArchGen.value = activeArchKey;
-      }
       if (identityBadgeText) {
         identityBadgeText.textContent = archDef.shortBadge;
       }
@@ -5136,6 +5508,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       }
 
       populateTechDropdown();
+      populateNodeJumperDropdown();
       populateScenarioDropdown();
 
       if (!nodeMap[selectedNodeId] && nodes[0]) {
@@ -5146,27 +5519,32 @@ window.ARASHIKAGE_ARCHITECTURES = {
       }
       activeStepIdx = 0;
 
-      const meta = THEME_META[activeTheme] || THEME_META.neo_brutalism;
-      renderer.applyStagePaletteToNodes(nodes, meta.stageColors, activeColHeaders);
+      renderer.applyStagePaletteToNodes(nodes, getActiveStageColors(), activeColHeaders);
 
       updateTourTooltip();
       renderNodeInspector();
       if (activeRightView === 'tech') renderTechDeepDive();
+      syncThemeAlignedButtons();
       if (!skipHashSync) syncUrlHash();
     }
 
-    // Update Floating Walkthrough Tooltip Overlay on Canvas
+    // Update Docked Walkthrough HUD Bar (Above Canvas — Never Occludes Nodes)
     function updateTourTooltip() {
       if (activeScenarioKey === 'none' || !tourOverlayVisible || !scenarios[activeScenarioKey]) {
         tourTooltip.classList.add('hidden');
-        btnToggleTour.textContent = getGlyph('tourOff') + ' Show Tour';
-        btnToggleTour.className = 'no-wrap-btn px-2 py-1 rounded-lg text-[11.5px] font-medium surface-panel text-secondary-ink border border-hairline hover:text-primary-ink transition cursor-pointer';
+        btnToggleTour.textContent = getGlyph('tourOff') + ' Start Tour';
+        btnToggleTour.className =
+          'no-wrap-btn px-2.5 py-1 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer';
+        requestAnimationFrame(() => {
+          renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
+        });
         return;
       }
 
       tourTooltip.classList.remove('hidden');
-      btnToggleTour.textContent = getGlyph('tourOn') + ' Tour Active';
-      btnToggleTour.className = 'no-wrap-btn px-2 py-1 rounded-lg text-[11.5px] font-semibold btn-theme-accent border transition cursor-pointer';
+      btnToggleTour.textContent = getGlyph('tourOn') + ' Exit Tour';
+      btnToggleTour.className =
+        'no-wrap-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold surface-panel text-primary-ink border border-subtle transition cursor-pointer';
 
       const scen = scenarios[activeScenarioKey];
       const steps = scen.steps;
@@ -5190,29 +5568,9 @@ window.ARASHIKAGE_ARCHITECTURES = {
         }
       }
 
-      // Position tooltip smartly near the focused node inside #canvasAspectBox
-      const fn = nodeMap[step.focusNode] || nodes[0];
-      const boxRect = canvasAspectBox.getBoundingClientRect();
-      const scaleX = boxRect.width / renderer.BASE_W;
-      const scaleY = boxRect.height / renderer.BASE_H;
-
-      const nodeScreenX = fn.x * scaleX;
-      const nodeScreenY = fn.y * scaleY;
-      const tooltipW = tourTooltip.offsetWidth || 380;
-      const tooltipH = tourTooltip.offsetHeight || 220;
-
-      let leftPx = nodeScreenX + fn.w * 0.55 * scaleX + 16;
-      if (fn.col >= 3) {
-        leftPx = nodeScreenX - fn.w * 0.55 * scaleX - tooltipW - 16;
-      }
-      leftPx = Math.max(16, Math.min(boxRect.width - tooltipW - 16, leftPx));
-
-      let topPx = nodeScreenY - Math.round(tooltipH * 0.35);
-      topPx = Math.max(16, Math.min(boxRect.height - tooltipH - 16, topPx));
-
-      tourTooltip.style.left = Math.round(leftPx) + 'px';
-      tourTooltip.style.top = Math.round(topPx) + 'px';
-      tourTooltip.style.bottom = 'auto';
+      requestAnimationFrame(() => {
+        renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
+      });
     }
 
     function setPolarity(mode) {
@@ -5221,7 +5579,6 @@ window.ARASHIKAGE_ARCHITECTURES = {
       try {
         localStorage.setItem('arashikage_arch_polarity', activePolarity);
       } catch (_) {}
-      updatePolarityButtons();
       setTheme(activeTheme);
     }
 
@@ -5240,16 +5597,21 @@ window.ARASHIKAGE_ARCHITECTURES = {
       }
 
       const meta = THEME_META[themeKey];
+      const stageCols = getActiveStageColors();
+      const notesText = meta.name.toUpperCase() + ' (' + activePolarity.toUpperCase() + ') — ' + meta.notes;
       const notesEl = document.getElementById('themeStyleNotes');
       if (notesEl) {
-        notesEl.textContent = meta.name.toUpperCase() + ' (' + activePolarity.toUpperCase() + ') — ' + meta.notes;
+        notesEl.textContent = notesText;
+      }
+      if (selTheme) {
+        selTheme.title = notesText;
       }
       const brandDot = document.getElementById('brandDot');
       if (brandDot) {
-        brandDot.style.backgroundColor = meta.stageColors[0];
+        brandDot.style.backgroundColor = stageCols[0];
       }
 
-      renderer.applyStagePaletteToNodes(nodes, meta.stageColors, activeColHeaders);
+      renderer.applyStagePaletteToNodes(nodes, stageCols, activeColHeaders);
 
       syncThemeAlignedButtons();
       updatePolarityButtons();
@@ -5258,10 +5620,48 @@ window.ARASHIKAGE_ARCHITECTURES = {
       if (activeRightView === 'tech') renderTechDeepDive();
     }
 
-    // Event Listener: Platform Generation Switcher
+    // Event Listeners: Segmented 4-Generation Pill Bar & Select
+    document.querySelectorAll('.arch-gen-pill').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-arch-pill');
+        if (key) setArchitecture(key);
+      });
+    });
     if (selArchGen) {
       selArchGen.addEventListener('change', (e) => {
         setArchitecture(e.target.value);
+      });
+    }
+
+    // Event Listeners: Sequential Block Navigation in Block Inspector
+    if (selNodeJumper) {
+      selNodeJumper.addEventListener('change', (e) => {
+        if (nodeMap[e.target.value]) {
+          selectedNodeId = e.target.value;
+          renderNodeInspector();
+          syncThemeAlignedButtons();
+          syncUrlHash();
+        }
+      });
+    }
+    if (btnPrevNode) {
+      btnPrevNode.addEventListener('click', () => {
+        const curIdx = nodes.findIndex((n) => n.id === selectedNodeId);
+        const nextIdx = (curIdx - 1 + nodes.length) % nodes.length;
+        selectedNodeId = nodes[nextIdx].id;
+        renderNodeInspector();
+        syncThemeAlignedButtons();
+        syncUrlHash();
+      });
+    }
+    if (btnNextNode) {
+      btnNextNode.addEventListener('click', () => {
+        const curIdx = nodes.findIndex((n) => n.id === selectedNodeId);
+        const nextIdx = (curIdx + 1) % nodes.length;
+        selectedNodeId = nodes[nextIdx].id;
+        renderNodeInspector();
+        syncThemeAlignedButtons();
+        syncUrlHash();
       });
     }
 
@@ -5281,29 +5681,36 @@ window.ARASHIKAGE_ARCHITECTURES = {
       setTheme(THEME_ORDER[(idx + 1) % THEME_ORDER.length]);
     });
 
-    // Event Listeners: Scenario & Tour Tooltip
+    // Event Listeners: Scenario & Docked Walkthrough HUD Bar
     selScenario.addEventListener('change', (e) => {
       activeScenarioKey = e.target.value;
       activeStepIdx = 0;
       tourOverlayVisible = activeScenarioKey !== 'none';
       updateTourTooltip();
+      syncUrlHash();
     });
 
     btnToggleTour.addEventListener('click', () => {
-      if (activeScenarioKey === 'none') {
-        activeScenarioKey = 'tour';
-        selScenario.value = 'tour';
+      if (activeScenarioKey === 'none' || !tourOverlayVisible) {
+        activeScenarioKey = activeScenarioKey === 'none' ? 'tour' : activeScenarioKey;
+        selScenario.value = activeScenarioKey;
         activeStepIdx = 0;
         tourOverlayVisible = true;
       } else {
-        tourOverlayVisible = !tourOverlayVisible;
+        activeScenarioKey = 'none';
+        selScenario.value = 'none';
+        tourOverlayVisible = false;
       }
       updateTourTooltip();
+      syncUrlHash();
     });
 
     btnCloseTooltip.addEventListener('click', () => {
+      activeScenarioKey = 'none';
+      selScenario.value = 'none';
       tourOverlayVisible = false;
       updateTourTooltip();
+      syncUrlHash();
     });
 
     btnTtPrev.addEventListener('click', () => {
@@ -5337,9 +5744,6 @@ window.ARASHIKAGE_ARCHITECTURES = {
       setRightView('tech', selectedTechId);
       openSlideInDrawer();
     });
-    btnBackToNode.addEventListener('click', () => {
-      setRightView('node');
-    });
     selTechDropdown.addEventListener('change', (e) => {
       selectedTechId = e.target.value;
       renderTechDeepDive();
@@ -5360,18 +5764,6 @@ window.ARASHIKAGE_ARCHITECTURES = {
         renderTechDeepDive();
         syncUrlHash();
       });
-    });
-
-    document.getElementById('btnNodeQuickLearnMore').addEventListener('click', () => {
-      activeNTab = 'learn';
-      renderNodeInspector();
-      syncUrlHash();
-    });
-
-    document.getElementById('btnTechQuickLearnMore').addEventListener('click', () => {
-      activeTTab = 'learn';
-      renderTechDeepDive();
-      syncUrlHash();
     });
 
     // Event Listeners: Full Screen & Slide-Over Dismissal
@@ -5398,6 +5790,10 @@ window.ARASHIKAGE_ARCHITECTURES = {
       canvas.style.cursor = hit ? 'pointer' : 'default';
     });
 
+    canvas.addEventListener('mouseleave', () => {
+      hoveredNodeId = null;
+    });
+
     canvas.addEventListener('click', (e) => {
       const hit = renderer.getNodeAtCanvasCoords(canvas, e.clientX, e.clientY, nodes);
       if (hit) {
@@ -5413,12 +5809,10 @@ window.ARASHIKAGE_ARCHITECTURES = {
     if (typeof ResizeObserver !== 'undefined') {
       new ResizeObserver(() => {
         renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
-        if (tourOverlayVisible) updateTourTooltip();
       }).observe(canvasWrapper);
     }
     window.addEventListener('resize', () => {
       renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
-      if (tourOverlayVisible) updateTourTooltip();
     });
 
     // Standalone Single-File HTML Export, PNG Export & Mermaid Copy
@@ -5494,7 +5888,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const mmd = activeMermaidDiagram || '';
       navigator.clipboard.writeText(mmd).then(() => {
         const btn = document.getElementById('btnCopyMermaid');
-        btn.textContent = getGlyph('export') + ' Copied';
+        btn.textContent = 'Copied!';
         setTimeout(() => {
           syncThemeAlignedButtons();
         }, 1600);
@@ -5532,28 +5926,45 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
     setTheme(activeTheme);
     setPolarity(activePolarity);
-    const restoredFromHash = restoreStateFromUrlHash(setArchitecture);
+    const restoredFromHash = restoreStateFromUrlHash(setArchitecture, setTheme, setPolarity);
     if (restoredFromHash) {
+      if (selScenario) selScenario.value = activeScenarioKey;
+      updateTourTooltip();
       setRightView(activeRightView);
     } else {
       setArchitecture('hex63', true);
+      selScenario.value = 'none';
+      activeScenarioKey = 'none';
+      tourOverlayVisible = false;
+      updateTourTooltip();
       renderNodeInspector();
       renderTechDeepDive();
       syncUrlHash();
     }
 
     renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
-    setTimeout(updateTourTooltip, 60);
 
     function loop() {
       renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
       animTick += 0.016;
 
       let highlightSet = null;
+      let tourFocusNodeId = null;
+      let tourStepBadgeText = null;
+
       if (tourOverlayVisible && activeScenarioKey !== 'none' && scenarios[activeScenarioKey]) {
-        const step = scenarios[activeScenarioKey].steps[activeStepIdx];
-        if (step && step.highlight) {
-          highlightSet = new Set(step.highlight);
+        const steps = scenarios[activeScenarioKey].steps;
+        const step = steps[activeStepIdx];
+        if (step) {
+          if (step.highlight) highlightSet = new Set(step.highlight);
+          tourFocusNodeId = step.focusNode || null;
+          tourStepBadgeText = 'STEP ' + (activeStepIdx + 1) + '/' + steps.length;
+        }
+      } else if (activeRightView === 'tech' && techMap[selectedTechId]) {
+        // Automatically spotlight the subsystem blocks that implement the inspected technology!
+        const usedIn = techMap[selectedTechId].usedIn || [];
+        if (usedIn.length > 0) {
+          highlightSet = new Set(usedIn);
         }
       }
 
@@ -5567,6 +5978,8 @@ window.ARASHIKAGE_ARCHITECTURES = {
         selectedNodeId,
         hoveredNodeId,
         highlightSet,
+        tourFocusNodeId,
+        tourStepBadgeText,
         animTick
       });
       requestAnimationFrame(loop);
