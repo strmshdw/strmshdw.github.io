@@ -405,14 +405,14 @@
         ctx.strokeRect(laneX, 66, laneW, BASE_H - 80);
         ctx.restore();
 
-        ctx.font = '800 11px "Space Grotesk", "Inter", sans-serif';
+        ctx.font = '800 10.5px "Space Grotesk", "Inter", sans-serif';
         ctx.fillStyle = getContrastInk(ch.color, '#111111', '#ffffff');
         ctx.textAlign = 'center';
         drawFittedText(ctx, ch.title, ch.x, 31, laneW - 14);
 
         ctx.fillStyle = '#111111';
         ctx.fillRect(laneX + 8, 38, laneW - 16, 18);
-        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 9.8px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = '#ffffff';
         drawFittedText(ctx, ch.sub, ch.x, 51, laneW - 22);
 
@@ -429,15 +429,15 @@
         ctx.lineTo(laneX + laneW, 64);
         ctx.stroke();
 
-        ctx.font = '900 18px "Inter", "Helvetica Neue", Arial, sans-serif';
+        ctx.font = '900 17px "Inter", "Helvetica Neue", Arial, sans-serif';
         ctx.fillStyle = ch.color;
         ctx.textAlign = 'left';
         ctx.fillText('0' + (idx + 1), laneX + 8, 38);
 
-        ctx.font = '800 11px "Inter", "Helvetica Neue", sans-serif';
+        ctx.font = '800 10.5px "Inter", "Helvetica Neue", sans-serif';
         ctx.fillStyle = isLight ? '#09090b' : '#fafafa';
         drawFittedText(ctx, ch.title.replace('STAGE ' + (idx + 1) + ' // ', ''), laneX + 36, 32, laneW - 44);
-        ctx.font = '600 10px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '600 9.6px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = isLight ? '#3f3f46' : '#d4d4d8';
         drawFittedText(ctx, ch.sub, laneX + 36, 49, laneW - 44);
 
@@ -455,11 +455,11 @@
         ctx.lineWidth = 1.5;
         ctx.beginPath(); ctx.moveTo(laneX, 61); ctx.lineTo(laneX + laneW, 61); ctx.stroke();
 
-        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 10px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = ch.color;
         ctx.textAlign = 'left';
         drawFittedText(ctx, '[' + ch.title + ']', laneX + 8, 34, laneW - 16);
-        ctx.font = '500 10px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '500 9.5px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
         drawFittedText(ctx, ch.sub, laneX + 8, 52, laneW - 16);
 
@@ -486,12 +486,12 @@
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        ctx.font = '800 10.5px "Space Grotesk", sans-serif';
+        ctx.font = '800 10px "Space Grotesk", sans-serif';
         ctx.fillStyle = getContrastInk(ch.color, '#1e1b4b', '#ffffff');
         ctx.textAlign = 'center';
         drawFittedText(ctx, ch.title, ch.x, 38, laneW - 24);
         ctx.fillStyle = isLight ? '#1e1b4b' : '#f8fafc';
-        ctx.font = '700 10px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 9.6px "IBM Plex Mono", ui-monospace, monospace';
         drawFittedText(ctx, ch.sub, ch.x, 60, laneW - 18);
 
       } else if (activeTheme === 'pixel_art') {
@@ -509,11 +509,11 @@
         ctx.fillRect(laneX + 2, BASE_H - 20, 4, 4);
         ctx.fillRect(laneX + laneW - 6, BASE_H - 20, 4, 4);
 
-        ctx.font = '700 9px "Silkscreen", "IBM Plex Mono", monospace';
+        ctx.font = '700 8.8px "Silkscreen", "IBM Plex Mono", monospace';
         ctx.fillStyle = ch.color;
         ctx.textAlign = 'center';
         drawFittedText(ctx, ch.title, ch.x, 35, laneW - 16);
-        ctx.font = '600 10px "IBM Plex Mono", monospace';
+        ctx.font = '600 9.5px "IBM Plex Mono", monospace';
         ctx.fillStyle = isLight ? '#231f33' : '#c7d2fe';
         drawFittedText(ctx, ch.sub, ch.x, 53, laneW - 16);
 
@@ -530,11 +530,11 @@
         drawRoundedRect(ctx, laneX + 18, 21, laneW - 36, 3.5, 1.5);
         ctx.fill();
 
-        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 10px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = ch.color;
         ctx.textAlign = 'center';
         drawFittedText(ctx, ch.title, ch.x, 39, laneW - 16);
-        ctx.font = '600 10.5px "Plus Jakarta Sans", "Inter", sans-serif';
+        ctx.font = '600 9.8px "Plus Jakarta Sans", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
         drawFittedText(ctx, ch.sub, ch.x, 55, laneW - 16);
       }
@@ -758,7 +758,7 @@
         ctx.lineWidth = 2.2;
         ctx.beginPath(); ctx.moveTo(rx, ry + 25); ctx.lineTo(rx + n.w, ry + 25); ctx.stroke();
 
-        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 9.8px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = getContrastInk(n.color, '#111111', '#ffffff');
         ctx.textAlign = 'left';
         drawFittedText(
@@ -769,13 +769,13 @@
           showTourBadgeInHeader ? 42 : innerW
         );
 
-        ctx.font = '800 13px "Space Grotesk", "Inter", sans-serif';
+        ctx.font = '800 12.2px "Space Grotesk", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#111111' : '#fafafa';
         drawFittedText(ctx, n.title, rx + 8, ry + 47, innerW);
 
-        ctx.font = '600 11px "Space Grotesk", "Inter", sans-serif';
+        ctx.font = '600 10.2px "Space Grotesk", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#3f3f46' : '#d4d4d8';
-        drawWrappedSub(ctx, n.sub, rx + 8, ry + 66, innerW, 14);
+        drawWrappedSub(ctx, n.sub, rx + 8, ry + 66, innerW, 13.5);
 
       } else if (activeTheme === 'modular_typo') {
         ctx.fillStyle = isLight
@@ -806,32 +806,32 @@
         if (isSelected) {
           ctx.fillStyle = '#c81e00';
           ctx.fillRect(rx + 6, ry + 8, 22, 15);
-          ctx.font = '800 10px "Inter", sans-serif';
+          ctx.font = '800 9.6px "Inter", sans-serif';
           ctx.fillStyle = '#ffffff';
           ctx.textAlign = 'center';
           ctx.fillText(n.num, rx + 17, ry + 19);
         } else {
-          ctx.font = '800 11px "Inter", "Helvetica Neue", sans-serif';
+          ctx.font = '800 10.2px "Inter", "Helvetica Neue", sans-serif';
           ctx.fillStyle = n.color;
           ctx.textAlign = 'left';
           ctx.fillText(n.num, rx + 8, ry + 20);
         }
 
         if (!showTourBadgeInHeader) {
-          ctx.font = '600 10px "IBM Plex Mono", ui-monospace, monospace';
+          ctx.font = '600 9.6px "IBM Plex Mono", ui-monospace, monospace';
           ctx.fillStyle = isLight ? '#52525b' : '#d4d4d8';
           ctx.textAlign = 'right';
           drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 8, ry + 20, innerW - 28);
         }
 
-        ctx.font = '800 13px "Inter", "Helvetica Neue", sans-serif';
+        ctx.font = '800 12.2px "Inter", "Helvetica Neue", sans-serif';
         ctx.fillStyle = isLight ? '#09090b' : '#fafafa';
         ctx.textAlign = 'left';
         drawFittedText(ctx, n.title, rx + 8, ry + 48, innerW);
 
-        ctx.font = '500 11px "Inter", "Helvetica Neue", sans-serif';
+        ctx.font = '500 10.2px "Inter", "Helvetica Neue", sans-serif';
         ctx.fillStyle = isLight ? '#3f3f46' : '#d4d4d8';
-        drawWrappedSub(ctx, n.sub, rx + 8, ry + 67, innerW, 14);
+        drawWrappedSub(ctx, n.sub, rx + 8, ry + 67, innerW, 13.5);
 
       } else if (activeTheme === 'utilitarian') {
         ctx.fillStyle = isLight
@@ -847,7 +847,7 @@
 
         ctx.fillStyle = isLight ? '#e2e8f0' : '#0d1013';
         ctx.fillRect(rx + 1, ry + 1, n.w - 2, 22);
-        ctx.font = '700 10px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 9.5px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = n.color;
         ctx.textAlign = 'left';
         ctx.fillText('ID:' + n.num, rx + 8, ry + 16);
@@ -857,14 +857,14 @@
           drawFittedText(ctx, n.tag, rx + n.w - 8, ry + 16, innerW - 38);
         }
 
-        ctx.font = '700 12.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 11.8px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
         ctx.textAlign = 'left';
         drawFittedText(ctx, n.title, rx + 8, ry + 45, innerW);
 
-        ctx.font = '500 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '500 9.8px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
-        drawWrappedSub(ctx, n.sub, rx + 8, ry + 64, innerW, 14);
+        drawWrappedSub(ctx, n.sub, rx + 8, ry + 64, innerW, 13.5);
 
       } else if (activeTheme === 'memphis') {
         ctx.fillStyle = isSelected ? (isLight ? '#db2777' : '#facc15') : n.color;
@@ -889,7 +889,7 @@
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        ctx.font = '700 10px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 9.6px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = getContrastInk(n.color, '#1e1b4b', '#ffffff');
         ctx.textAlign = 'center';
         ctx.fillText(n.num, rx + 18, ry + 23);
@@ -900,14 +900,14 @@
           drawFittedText(ctx, n.tag, rx + n.w - 10, ry + 23, innerW - 28);
         }
 
-        ctx.font = '800 13px "Space Grotesk", sans-serif';
+        ctx.font = '800 12.2px "Space Grotesk", sans-serif';
         ctx.fillStyle = isLight ? '#1e1b4b' : '#ffffff';
         ctx.textAlign = 'left';
         drawFittedText(ctx, n.title, rx + 10, ry + 48, n.w - 20);
 
-        ctx.font = '600 11px "Space Grotesk", sans-serif';
+        ctx.font = '600 10.2px "Space Grotesk", sans-serif';
         ctx.fillStyle = isLight ? '#312e81' : '#c7d2fe';
-        drawWrappedSub(ctx, n.sub, rx + 10, ry + 66, n.w - 20, 14);
+        drawWrappedSub(ctx, n.sub, rx + 10, ry + 66, n.w - 20, 13.5);
 
       } else if (activeTheme === 'pixel_art') {
         ctx.fillStyle = isLight ? '#231f33' : '#05020a';
@@ -927,7 +927,7 @@
         ctx.fillStyle = n.color;
         ctx.fillRect(rx + 2, ry + 2, n.w - 4, 21);
 
-        ctx.font = '700 9.5px "Silkscreen", "IBM Plex Mono", monospace';
+        ctx.font = '700 9px "Silkscreen", "IBM Plex Mono", monospace';
         ctx.fillStyle = getContrastInk(n.color, '#161324', '#ffffff');
         ctx.textAlign = 'left';
         drawFittedText(
@@ -938,13 +938,13 @@
           showTourBadgeInHeader ? 42 : innerW
         );
 
-        ctx.font = '700 12px "IBM Plex Mono", monospace';
+        ctx.font = '700 11.4px "IBM Plex Mono", monospace';
         ctx.fillStyle = isLight ? '#161324' : '#ffffff';
         drawFittedText(ctx, n.title, rx + 8, ry + 44, innerW);
 
-        ctx.font = '600 10.5px "IBM Plex Mono", monospace';
+        ctx.font = '600 9.8px "IBM Plex Mono", monospace';
         ctx.fillStyle = isLight ? '#352f4f' : '#c7d2fe';
-        drawWrappedSub(ctx, n.sub, rx + 8, ry + 63, innerW, 14);
+        drawWrappedSub(ctx, n.sub, rx + 8, ry + 63, innerW, 13.5);
 
       } else {
         // Aurora (Light Pearl vs Dark Velvet)
@@ -967,7 +967,7 @@
         drawRoundedRect(ctx, rx + 5, ry + 10, 4, n.h - 20, 2);
         ctx.fill();
 
-        ctx.font = '700 10.5px "IBM Plex Mono", ui-monospace, monospace';
+        ctx.font = '700 9.8px "IBM Plex Mono", ui-monospace, monospace';
         ctx.fillStyle = n.color;
         ctx.textAlign = 'left';
         ctx.fillText('#' + n.num, rx + 14, ry + 22);
@@ -978,14 +978,14 @@
           drawFittedText(ctx, n.tag, rx + n.w - 10, ry + 22, innerW - 30);
         }
 
-        ctx.font = '700 13px "Plus Jakarta Sans", "Inter", sans-serif';
+        ctx.font = '700 12.2px "Plus Jakarta Sans", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
         ctx.textAlign = 'left';
         drawFittedText(ctx, n.title, rx + 14, ry + 47, n.w - 22);
 
-        ctx.font = '500 11px "Plus Jakarta Sans", "Inter", sans-serif';
+        ctx.font = '500 10.2px "Plus Jakarta Sans", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#334155' : '#94a3b8';
-        drawWrappedSub(ctx, n.sub, rx + 14, ry + 66, n.w - 22, 14);
+        drawWrappedSub(ctx, n.sub, rx + 14, ry + 66, n.w - 22, 13.5);
       }
 
       // Guided Tour Focus Callout Ring & In-Bounds Header Badge (Zero External Overlap)

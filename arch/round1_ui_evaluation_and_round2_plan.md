@@ -154,3 +154,46 @@ Following implementation across [`styles/themes.css`](file:///C:/Users/strms/.ge
 ![Round-2 Aurora Dark: Borealis radial plumes and luminous crystal card borders](C:/Users/strms/.gemini/antigravity/brain/638af9e9-6b33-49a1-9183-38119135f361/r2_verify_15_aurora_dark.png)
 ````
 
+---
+
+## 5. QHD `2560×1440` Proportional Scaling & Fluid Typography Audit
+
+### 5.1 Root Cause of the `2560×1440` Canvas vs. DOM Scale Disparity
+When audited at **`2560×1440` (`1440p` QHD)** via `/browser`, two compounding layout factors explained why the Canvas diagram appeared slightly oversized while all surrounding DOM text looked tiny:
+1. **Canvas Scaled Up by `1.784×` While DOM Remained Fixed at `1.00×`**:
+   - Because `#rightSidePanel` was locked at `540px` (`21.1%` of `2560px`), `#canvasAspectBox` expanded to `1998×1218px` (`1.784×` scale factor), scaling Canvas Node Titles (`13.5px` logical) up to **`24.1px` on screen** and even the smallest `9.5px` Edge Pills up to **`16.9px` on screen**.
+   - Meanwhile, all DOM text used static `16px` root sizing and hardcoded arbitrary pixel classes (`text-[8.5px]`..`text-[12px]`), keeping the Inspector's main `H2` title (`#inspTitle`) at **`14.0px`** (smaller than the Canvas's smallest edge label!) and body/chip text at **`8.5px–12.0px`** while leaving `38.6%` (`528px`) of `#rightSidePanel` empty at the bottom.
+
+### 5.2 Fluid Viewport-Proportional Solution (`1440×900` $\leftrightarrow$ `2560×1440`)
+1. **Proportional Right Inspector Allocation (`clamp(31rem, 33vw, 42rem)`)**:
+   - At `2560×1440`, `#rightSidePanel` expands proportionally to **`845px` (`33.0%` of viewport width)**, which naturally brings `#canvasAspectBox` from `1998×1218px` (`1.784×`) to **`1692×1032px` (`1.507×` scale — ~15.5% less oversized)**.
+2. **Fluid Root Typography (`font-size: clamp(0.95rem, 0.35rem + 0.62vw, 1.45rem)`) + `rem` Micro-Class Conversion + ~6% Logical Canvas Font Trim**:
+   - Evaluates to `15.52px` at `1600×900`, `17.50px` at `1920×1080`, and **`21.47px` at `2560×1440`**, aligning the DOM and Canvas into the exact same **`14.2px – 20.6px`** on-screen typographic band at QHD:
+
+| Visual Hierarchy Tier | `2560×1440` Before (DOM vs. Canvas) | `2560×1440` After (DOM vs. Canvas) | QHD Alignment & Balance |
+| :--- | :---: | :---: | :--- |
+| **Primary Block Heading** | `14.0px` DOM vs `24.1px` Canvas | **`20.6px` DOM (`#inspTitle` H2)** vs **`18.4px` Canvas Node Title** | Proper H2 hierarchy restored (`+35.6%` DOM, `-23.7%` Canvas) |
+| **Stage / Identity Heading & Body Prose** | `12.0px` DOM vs `20.5px` Canvas | **`17.2px` DOM (`#identityMainTitle`, `#ntabBody`, `#ttTitle`)** vs **`15.8px` Canvas Stage Title** | Crisp, effortless QHD reading (`+34%–43%` DOM) |
+| **Subtitles, Controls, Selects & Tabs** | `11.0px` DOM vs `19.6px` Canvas | **`15.9px–16.8px` DOM (Controls, Tabs, `#ttDesc`)** vs **`15.4px` Canvas Node Subtitle** | 1:1 visual parity between controls and diagram subtitles |
+| **Badges, Kickers, Chips & 4-Gen Matrix** | `8.5px–10.0px` DOM vs `16.9px` Canvas | **`14.2px–15.3px` DOM (Badges, Chips, Matrix)** vs **`14.3px–14.8px` Canvas Tags/Pills** | `+46%–67%` boost eliminates micro-text on QHD |
+| **`#rightSidePanel` Width & Vertical Fill** | `540px` W (`21.1%`) · `61.4%` H used | **`845px` W (`33.0%`) · `84.4%` H used (`1130 / 1338px`)** | Eliminates the `528px` blank bottom void while keeping `0px` scroll overflow |
+
+### 5.3 `2560×1440` Before vs. After Gallery
+
+````carousel
+![AFTER (2560×1440 Default): Harmonized 14.2px–20.6px DOM typography, 845px (33vw) Right Inspector filling 84.4% vertical height, and 1.51× scaled Canvas (18.4px node titles)](C:/Users/strms/.gemini/antigravity/brain/638af9e9-6b33-49a1-9183-38119135f361/qhd_v2_01_2560x1440_default.png)
+<!-- slide -->
+![BEFORE (2560×1440 Default): 1.78× Canvas (24.1px node titles) dwarfed the fixed 540px Right Inspector (8.5px–14px micro-text and 38.6% blank bottom whitespace)](C:/Users/strms/.gemini/antigravity/brain/638af9e9-6b33-49a1-9183-38119135f361/qhd_before_01_2560x1440_default.png)
+<!-- slide -->
+![AFTER (2560×1440 Guided Tour Step 1): 17.2px Tour Title & 16.8px Narrative with 120ch measure cap and balanced 2:1 workspace split](C:/Users/strms/.gemini/antigravity/brain/638af9e9-6b33-49a1-9183-38119135f361/qhd_v2_02_2560x1440_tour_step1.png)
+<!-- slide -->
+![BEFORE (2560×1440 Guided Tour Step 1): 11.5px Tour Narrative stretched 1990px wide across the bottom of the screen](C:/Users/strms/.gemini/antigravity/brain/638af9e9-6b33-49a1-9183-38119135f361/qhd_before_02_2560x1440_tour.png)
+<!-- slide -->
+![AFTER (2560×1440 Deep Dive): 20.6px Tech Heading, 17.2px Mechanism Prose, and 15.9px Stepper Controls](C:/Users/strms/.gemini/antigravity/brain/638af9e9-6b33-49a1-9183-38119135f361/qhd_v2_03_2560x1440_deep_dive.png)
+<!-- slide -->
+![AFTER (2560×1440 Tab 5 Papers): Full-sized 15.9px–17.2px White Paper Reference Cards](C:/Users/strms/.gemini/antigravity/brain/638af9e9-6b33-49a1-9183-38119135f361/qhd_v2_04_2560x1440_papers_tab.png)
+<!-- slide -->
+![AFTER (2560×1440 Aurora Dark): Proportional QHD scaling in Dark Velvet Borealis theme](C:/Users/strms/.gemini/antigravity/brain/638af9e9-6b33-49a1-9183-38119135f361/qhd_v2_05_2560x1440_aurora_dark.png)
+````
+
+

@@ -1,11 +1,65 @@
 /* ==========================================================================
    ARASHIKAGE (HEX63) — ARCHITECTURE EXPLORER STYLESHEET
-   Base Typography Scale (16px root) & 6-Style × Light/Dark Engine
+   Fluid Viewport-Proportional Typography Scale (1440p/QHD Aware) & 6-Theme Engine
    ========================================================================== */
 :root,
 html {
-  font-size: 16px;
+  /* Fluid root scale: ~15.2px at 1440px, ~15.6px at 1600px, ~17.5px at 1920px, ~21.5px at 2560px */
+  font-size: clamp(0.95rem, 0.35rem + 0.62vw, 1.45rem);
   color-scheme: light dark;
+}
+
+/* Proportional Right Inspector Width & Container Query Context on Desktop/QHD */
+@media (min-width: 1024px) {
+  #rightSidePanel {
+    width: clamp(31rem, 33vw, 42rem) !important;
+  }
+  @supports (container-type: inline-size) {
+    #rightSidePanel {
+      container-type: inline-size;
+      container-name: inspector;
+    }
+  }
+}
+
+/* Fluid REM Overrides for Arbitrary Pixel Utility Classes so DOM Scales Harmoniously with Canvas */
+.text-\[8\.5px\],
+.text-\[9px\],
+.text-\[9\.5px\] {
+  font-size: 0.66rem !important;
+  line-height: 1.35 !important;
+}
+.text-\[10px\] {
+  font-size: 0.68rem !important;
+  line-height: 1.35 !important;
+}
+.text-\[10\.5px\] {
+  font-size: 0.71rem !important;
+  line-height: 1.35 !important;
+}
+.text-\[11px\] {
+  font-size: 0.74rem !important;
+  line-height: 1.35 !important;
+}
+.text-\[11\.5px\] {
+  font-size: 0.78rem !important;
+  line-height: 1.4 !important;
+}
+.text-xs {
+  font-size: 0.80rem !important;
+  line-height: 1.48 !important;
+}
+.text-sm {
+  font-size: 0.96rem !important;
+  line-height: 1.35 !important;
+}
+#ntabBody,
+#ttabBody,
+#ttDesc {
+  text-wrap: pretty;
+}
+#ttDesc {
+  max-width: 120ch;
 }
 
 html[data-mode="light"],
@@ -295,12 +349,12 @@ body[data-theme="pixel_art"] .rounded-full {
 }
 body[data-theme="pixel_art"] h2 {
   font-family: var(--font-display);
-  font-size: 13px !important;
+  font-size: 0.85rem !important;
   letter-spacing: 0.02em;
 }
 body[data-theme="pixel_art"] .kicker {
   font-family: var(--font-display);
-  font-size: 9px !important;
+  font-size: 0.62rem !important;
   letter-spacing: 0.02em;
 }
 
@@ -454,11 +508,11 @@ h1, h2, h3, h4 {
 }
 
 .kicker {
-  font-size: 10px;
+  font-size: 0.68rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 /* Theme-native Secondary Callout Section inside Tab Cards */
