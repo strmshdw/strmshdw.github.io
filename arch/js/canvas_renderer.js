@@ -242,6 +242,21 @@
     return null;
   }
 
+  function getStageHeaderAtCanvasCoords(canvas, clientX, clientY) {
+    const rect = canvas.getBoundingClientRect();
+    const cx = (clientX - rect.left) * (BASE_W / rect.width);
+    const cy = (clientY - rect.top) * (BASE_H / rect.height);
+    if (cy < 10 || cy > 65) return null;
+    for (let i = 0; i < colHeaders.length; i++) {
+      const ch = colHeaders[i];
+      const laneW = 172;
+      if (cx >= ch.x - laneW / 2 && cx <= ch.x + laneW / 2) {
+        return i;
+      }
+    }
+    return null;
+  }
+
   // Test if a pill centered at (cx, cy) of size (tw, th) intersects any node box or swimlane header
   function overlapsNodeOrHeader(cx, cy, tw, th, nodes) {
     if (cy - th / 2 < 65 || cy + th / 2 > 654) return true;
@@ -355,6 +370,7 @@
       activeMode,
       selectedNodeId,
       hoveredNodeId,
+      hoveredStageCol,
       highlightSet,
       tourFocusNodeId,
       tourStepBadgeText,
@@ -845,6 +861,21 @@
         ctx.font = '600 9.8px "Plus Jakarta Sans", "Inter", sans-serif';
         ctx.fillStyle = isLight ? '#334155' : '#cbd5e1';
         drawFittedText(ctx, ch.sub, ch.x, 55, laneW - 16);
+      }
+
+      // Interactive Hover Highlight Rim when hovering a Stage Column Header
+      if (hoveredStageCol === idx) {
+        ctx.save();
+        ctx.strokeStyle = ch.color;
+        ctx.lineWidth = 2.4;
+        ctx.strokeRect(laneX - 1, 11, laneW + 2, 52);
+        ctx.fillStyle = ch.color;
+        ctx.fillRect(laneX + laneW - 44, 12, 43, 13);
+        ctx.font = '700 8px "IBM Plex Mono", monospace';
+        ctx.fillStyle = getContrastInk(ch.color, '#111111', '#ffffff');
+        ctx.textAlign = 'center';
+        ctx.fillText('STAGE ↗', laneX + laneW - 22.5, 21.5);
+        ctx.restore();
       }
     });
 
@@ -1552,14 +1583,32 @@
         drawWrappedSub(ctx, n.sub, rx + 14, ry + 66, n.w - 22, 13.5);
       }
 
-      // Guided Tour Focus Callout Ring & In-Bounds Header Badge (Zero External Overlap)
+      // Guided Tour Focus Callout Ring (Silhouette-Matched) & In-Bounds Header Badge
       if (isTourFocus) {
         const pulse = 2 + Math.sin(animTick * 4) * 1.5;
+        const fx = rx - pulse - 2;
+        const fy = ry - pulse - 2;
+        const fw = n.w + (pulse + 2) * 2;
+        const fh = n.h + (pulse + 2) * 2;
         ctx.save();
         ctx.strokeStyle = isLight ? '#111111' : '#ffffff';
         ctx.lineWidth = 2.2;
         ctx.setLineDash([5, 3]);
-        ctx.strokeRect(rx - pulse - 2, ry - pulse - 2, n.w + (pulse + 2) * 2, n.h + (pulse + 2) * 2);
+        if (activeTheme === 'cyberpunk') {
+          drawChamferedRect(ctx, fx, fy, fw, fh, 13);
+          ctx.stroke();
+        } else if (activeTheme === 'solarpunk') {
+          drawLeafRect(ctx, fx, fy, fw, fh, 18, 5);
+          ctx.stroke();
+        } else if (activeTheme === 'memphis' || activeTheme === 'aurora') {
+          drawRoundedRect(ctx, fx, fy, fw, fh, 15);
+          ctx.stroke();
+        } else if (activeTheme === 'braun_industrial') {
+          drawRoundedRect(ctx, fx, fy, fw, fh, 10);
+          ctx.stroke();
+        } else {
+          ctx.strokeRect(fx, fy, fw, fh);
+        }
         ctx.restore();
 
         if (tourStepBadgeText) {
@@ -1637,11 +1686,45 @@
           ctx.restore();
         }
 
-        ctx.fillStyle = isLight ? '#ffffff' : '#18181b';
-        ctx.fillRect(bx, by, tw, th);
+        // Theme-matched Edge Tensor Label Pill
+        const pillFill =
+          activeTheme === 'blueprint'
+            ? isLight ? '#f0f7ff' : '#0b2242'
+            : activeTheme === 'cyberpunk'
+              ? isLight ? '#ffffff' : '#0b0f19'
+              : activeTheme === 'solarpunk'
+                ? isLight ? '#ffffff' : '#0e1f16'
+                : isLight ? '#ffffff' : '#18181b';
+
+        if (activeTheme === 'neo_brutalism' || activeTheme === 'bauhaus') {
+          ctx.fillStyle = isLight ? '#111111' : lbl.color;
+          ctx.fillRect(bx + 2, by + 2, tw, th);
+        }
+
+        ctx.fillStyle = pillFill;
         ctx.strokeStyle = lbl.color;
         ctx.lineWidth = 1.5;
-        ctx.strokeRect(bx, by, tw, th);
+
+        if (activeTheme === 'cyberpunk') {
+          drawChamferedRect(ctx, bx, by, tw, th, 4);
+          ctx.fill();
+          ctx.stroke();
+        } else if (activeTheme === 'solarpunk') {
+          drawLeafRect(ctx, bx, by, tw, th, 6, 2);
+          ctx.fill();
+          ctx.stroke();
+        } else if (
+          activeTheme === 'memphis' ||
+          activeTheme === 'aurora' ||
+          activeTheme === 'braun_industrial'
+        ) {
+          drawRoundedRect(ctx, bx, by, tw, th, 6);
+          ctx.fill();
+          ctx.stroke();
+        } else {
+          ctx.fillRect(bx, by, tw, th);
+          ctx.strokeRect(bx, by, tw, th);
+        }
 
         ctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
         ctx.fillText(lbl.text, pos.x, by + 11);
@@ -1661,6 +1744,7 @@
     fitDiagramAspectRatio,
     applyStagePaletteToNodes,
     getNodeAtCanvasCoords,
+    getStageHeaderAtCanvasCoords,
     renderCanvas
   };
 })();

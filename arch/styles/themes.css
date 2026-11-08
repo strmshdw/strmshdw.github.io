@@ -829,7 +829,19 @@ h1, h2, h3, h4 {
   margin: 0;
   inset: auto;
 }
-#exportPopoverMenu:is(:popover-open, .\:popover-open) {
+#themeGalleryPopover,
+#searchPalettePopover {
+  margin: 4.5rem auto auto auto;
+  inset: 0;
+}
+#themeGalleryPopover::backdrop,
+#searchPalettePopover::backdrop {
+  background: rgba(9, 9, 11, 0.32);
+  backdrop-filter: blur(2px);
+}
+#exportPopoverMenu:is(:popover-open, .\:popover-open),
+#themeGalleryPopover:is(:popover-open, .\:popover-open),
+#searchPalettePopover:is(:popover-open, .\:popover-open) {
   display: flex;
 }
 

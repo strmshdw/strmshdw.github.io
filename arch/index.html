@@ -98,8 +98,8 @@
         </select>
       </div>
 
-      <!-- Cluster 2: Grouped Theme Switcher + Light/Dark Polarity -->
-      <div class="flex items-center gap-1.5 shrink-0">
+      <!-- Cluster 2: Grouped Theme Switcher, 12-Style Visual Gallery Popover + Light/Dark Polarity -->
+      <div class="flex items-center gap-1.5 shrink-0 relative">
         <div class="inline-flex items-center rounded-lg border border-hairline surface-panel p-0.5 gap-0.5">
           <button id="btnPrevTheme" title="Previous Design Theme ([)" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
             ◀
@@ -129,6 +129,28 @@
           <button id="btnNextTheme" title="Next Design Theme (])" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
             ▶
           </button>
+          <button id="btnThemeGalleryTrigger" type="button" popovertarget="themeGalleryPopover" title="Open Visual 12-Style Swatch Gallery" class="no-wrap-btn px-2 py-0.5 rounded text-[10.5px] font-bold surface-elevated text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
+            Gallery ▾
+          </button>
+        </div>
+
+        <!-- Visual 12-Theme Swatch Gallery Popover -->
+        <div id="themeGalleryPopover" popover class="surface-elevated border border-subtle rounded-xl p-3 flex-col gap-2.5 w-[44rem] max-w-[95vw] z-50 shadow-2xl">
+          <div class="flex items-center justify-between gap-2 pb-1.5 border-b border-hairline">
+            <div class="flex items-center gap-2">
+              <span class="kicker text-theme-accent">12 ICONIC DESIGN STYLES × 2 POLARITIES (24 STATES)</span>
+              <span class="mono text-[9.5px] text-muted-ink">Keys: 1..9, 0, -, = · Cycle: [ / ]</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <button type="button" id="btnGalleryLight" class="no-wrap-btn px-2 py-0.5 rounded text-[10px] font-bold surface-panel text-primary-ink border border-hairline cursor-pointer">
+                Light (L)
+              </button>
+              <button type="button" id="btnGalleryDark" class="no-wrap-btn px-2 py-0.5 rounded text-[10px] font-bold surface-panel text-primary-ink border border-hairline cursor-pointer">
+                Dark (D)
+              </button>
+            </div>
+          </div>
+          <div id="themeGalleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2"></div>
         </div>
 
         <div class="inline-flex items-center p-0.5 rounded-lg border border-hairline surface-panel gap-0.5">
@@ -141,8 +163,23 @@
         </div>
       </div>
 
-      <!-- Cluster 3: Full Screen & Compact Native Top-Layer Export Popover Menu -->
+      <!-- Cluster 3: Instant Search (/), Full Screen & Compact Native Top-Layer Export Popover Menu -->
       <div class="flex items-center gap-1.5 shrink-0 relative">
+        <button id="btnSearchTrigger" type="button" popovertarget="searchPalettePopover" title="Quick Search Blocks, Technologies, Tensors, Papers & Themes (Shortcut: /)" class="no-wrap-btn px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-hairline hover:border-subtle text-[11px] font-bold transition cursor-pointer gap-1">
+          <span>⌕ Find</span>
+          <kbd class="mono text-[9.5px] px-1 py-0.2 rounded surface-root text-muted-ink border border-hairline">/</kbd>
+        </button>
+
+        <!-- Instant Architecture Search / Command Palette Popover -->
+        <div id="searchPalettePopover" popover class="surface-elevated border border-subtle rounded-xl p-3 flex-col gap-2 w-[34rem] max-w-[94vw] z-50 shadow-2xl">
+          <div class="flex items-center gap-2 pb-1.5 border-b border-hairline">
+            <span class="mono text-xs font-bold text-theme-accent">⌕</span>
+            <input id="searchPaletteInput" type="search" placeholder="Search 17 blocks, 11 technologies, tensors (5,376B, FP32, C2v), papers, or 12 themes..." class="flex-1 bg-transparent text-xs font-semibold text-primary-ink focus:outline-none" autocomplete="off" />
+            <span class="mono text-[9.5px] text-muted-ink px-1.5 py-0.5 rounded surface-panel border border-hairline">ESC</span>
+          </div>
+          <div id="searchPaletteResults" class="flex flex-col gap-1 max-h-[22rem] overflow-y-auto pr-1"></div>
+        </div>
+
         <button id="btnToggleFullscreen" title="Focus Diagram in Full Screen Mode (Side panel slides in on click)" class="no-wrap-btn px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-subtle text-[11px] font-bold transition cursor-pointer">
           ⛶ Full Screen
         </button>
@@ -166,8 +203,11 @@
     <!-- Main Workspace: Left Diagram (Enforced 1120:680 Display Ratio) + Right Inspector/Deep-Dive Panel -->
     <div id="mainWorkspaceRow" class="flex-1 min-h-0 flex flex-col lg:flex-row relative overflow-hidden">
 
-      <!-- LEFT: Aspect-Ratio-Locked Dataflow Diagram Stage + Node-Anchored Floating Walkthrough Tooltip -->
+      <!-- LEFT: Aspect-Ratio-Locked Dataflow Diagram Stage + Pathway Telemetry Banner + Node-Anchored Floating Walkthrough Tooltip -->
       <div id="canvasStageContainer" class="flex-1 min-w-0 min-h-0 relative surface-root border-b lg:border-b-0 lg:border-r border-hairline flex flex-col justify-between items-center overflow-hidden">
+
+        <!-- Contextual Pathway Execution Contract & Bypassed Node Telemetry Strip -->
+        <div id="pathwayTelemetryBanner" class="w-full shrink-0 px-3 py-1 border-b border-hairline surface-panel flex flex-wrap items-center justify-between gap-2 text-[10.5px]"></div>
 
         <!-- Node-Anchored Floating Guided Walkthrough Popover Card (Positioned beside active block with pointer arrow) -->
         <div id="tourTooltip" class="hidden absolute z-30 w-[22rem] max-w-[92%] p-3 rounded-xl surface-elevated border border-subtle shadow-2xl flex flex-col gap-1.5 transition-all duration-150">
@@ -182,9 +222,14 @@
               </span>
               <span id="ttScenarioLabel" class="sr-only">END-TO-END TOUR</span>
             </div>
-            <button id="btnCloseTooltip" title="Exit guided tour and return to free exploration" class="no-wrap-btn px-1.5 py-0.5 rounded text-[10.5px] font-bold surface-panel text-secondary-ink border border-hairline hover:text-primary-ink transition cursor-pointer">
-              × Exit
-            </button>
+            <div class="flex items-center gap-1 shrink-0">
+              <button id="btnResumeTourStep" type="button" title="Return to active tour step" class="hidden no-wrap-btn px-1.5 py-0.5 rounded text-[10px] font-bold btn-theme-accent border transition cursor-pointer">
+                ↩ Resume Step
+              </button>
+              <button id="btnCloseTooltip" title="Exit guided tour and return to free exploration" class="no-wrap-btn px-1.5 py-0.5 rounded text-[10.5px] font-bold surface-panel text-secondary-ink border border-hairline hover:text-primary-ink transition cursor-pointer">
+                × Exit
+              </button>
+            </div>
           </div>
 
           <h4 id="ttTitle" class="text-xs font-bold text-primary-ink leading-snug"></h4>

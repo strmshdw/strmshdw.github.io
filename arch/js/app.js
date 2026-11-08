@@ -39,6 +39,10 @@
   let activeScenarioKey = 'none';
   let activeStepIdx = 0;
   let tourOverlayVisible = false;
+  let tourCustomFocusNodeId = null;
+  let hoveredStageCol = null;
+  let allModePathwayExpanded = false;
+  let activeSearchResultIdx = 0;
   let animTick = 0;
 
   // Fullscreen & Slide-In Drawer State
@@ -154,6 +158,21 @@
       stageColorsLight: ['#15803d', '#0f766e', '#b45309', '#c2410c', '#4d7c0f', '#0369a1'],
       stageColorsDark:  ['#34d399', '#2dd4bf', '#fbbf24', '#fb923c', '#a3e635', '#38bdf8']
     }
+  };
+
+  const THEME_SWATCH_PREVIEW = {
+    neo_brutalism:    { light: { root: '#f4f0e6', panel: '#ffffff', ink: '#111111', accent: '#ff4d00' }, dark: { root: '#121210', panel: '#1d1d1a', ink: '#f5f2eb', accent: '#ff5e1a' } },
+    modular_typo:     { light: { root: '#f7f7f5', panel: '#ffffff', ink: '#0a0a0a', accent: '#c81e00' }, dark: { root: '#0c0d0e', panel: '#141619', ink: '#f8fafc', accent: '#ff3b14' } },
+    bauhaus:          { light: { root: '#f3efe6', panel: '#faf7f0', ink: '#141413', accent: '#d92b2b' }, dark: { root: '#141416', panel: '#1e1f23', ink: '#f5f2eb', accent: '#ef4444' } },
+    utilitarian:      { light: { root: '#eef0f2', panel: '#f8f9fa', ink: '#0f172a', accent: '#b45309' }, dark: { root: '#0b0e11', panel: '#11161b', ink: '#e2e8f0', accent: '#f59e0b' } },
+    blueprint:        { light: { root: '#eef4fa', panel: '#f7faff', ink: '#0c2340', accent: '#0050b3' }, dark: { root: '#071936', panel: '#0b234a', ink: '#e6f2ff', accent: '#38bdf8' } },
+    braun_industrial: { light: { root: '#e6e5e0', panel: '#f3f2ee', ink: '#191918', accent: '#ea580c' }, dark: { root: '#181817', panel: '#222220', ink: '#f0efe9', accent: '#f97316' } },
+    memphis:          { light: { root: '#fff7e8', panel: '#ffffff', ink: '#181028', accent: '#db2777' }, dark: { root: '#150f24', panel: '#1f1735', ink: '#fcf8ff', accent: '#f472b6' } },
+    pixel_art:        { light: { root: '#e2e8d5', panel: '#eef2e6', ink: '#18241b', accent: '#1d4ed8' }, dark: { root: '#0d0f18', panel: '#161a29', ink: '#f1f5f9', accent: '#38bdf8' } },
+    art_deco:         { light: { root: '#f6f1e7', panel: '#fdfaf4', ink: '#171410', accent: '#9a6b16' }, dark: { root: '#0d0c0a', panel: '#161410', ink: '#f7efd8', accent: '#eab308' } },
+    aurora:           { light: { root: '#f3f5fa', panel: '#ffffff', ink: '#0f172a', accent: '#4f46e5' }, dark: { root: '#070a14', panel: '#0f1629', ink: '#f8fafc', accent: '#6366f1' } },
+    cyberpunk:        { light: { root: '#f0f2f7', panel: '#ffffff', ink: '#090b10', accent: '#e11d48' }, dark: { root: '#07060d', panel: '#100e1c', ink: '#f0f6ff', accent: '#00f0ff' } },
+    solarpunk:        { light: { root: '#f2efe6', panel: '#faf8f2', ink: '#152218', accent: '#15803d' }, dark: { root: '#0a1410', panel: '#112019', ink: '#ecfdf5', accent: '#34d399' } }
   };
 
   const THEME_GLYPHS = {
@@ -387,6 +406,18 @@
     const btnToggleFullscreen = document.getElementById('btnToggleFullscreen');
     const btnExportMenuTrigger = document.getElementById('btnExportMenuTrigger');
     const exportPopoverMenu = document.getElementById('exportPopoverMenu');
+    const btnThemeGalleryTrigger = document.getElementById('btnThemeGalleryTrigger');
+    const themeGalleryPopover = document.getElementById('themeGalleryPopover');
+    const themeGalleryGrid = document.getElementById('themeGalleryGrid');
+    const btnGalleryLight = document.getElementById('btnGalleryLight');
+    const btnGalleryDark = document.getElementById('btnGalleryDark');
+    const btnSearchTrigger = document.getElementById('btnSearchTrigger');
+    const searchPalettePopover = document.getElementById('searchPalettePopover');
+    const searchPaletteInput = document.getElementById('searchPaletteInput');
+    const searchPaletteResults = document.getElementById('searchPaletteResults');
+    const searchResultCount = document.getElementById('searchResultCount');
+    const pathwayTelemetryBanner = document.getElementById('pathwayTelemetryBanner');
+    const btnResumeTourStep = document.getElementById('btnResumeTourStep');
 
     // Docked Walkthrough HUD Bar DOM
     const tourTooltip = document.getElementById('tourTooltip');
@@ -510,10 +541,175 @@
       }
     }
 
+    function jumpToStageColumn(colIdx, pulseWidget) {
+      const stageNodes = nodes.filter((n) => n.col === colIdx);
+      if (stageNodes.length === 0) return;
+      const curInCol = stageNodes.find((n) => n.id === selectedNodeId);
+      const nextNode = curInCol
+        ? stageNodes[(stageNodes.indexOf(curInCol) + 1) % stageNodes.length]
+        : stageNodes[0];
+      selectedNodeId = nextNode.id;
+      setRightView('node');
+      openSlideInDrawer();
+      if (pulseWidget) {
+        const widgetCard = document.getElementById('stageWidgetCard');
+        if (widgetCard) {
+          widgetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          widgetCard.style.outline = '2px solid var(--accent-primary)';
+          setTimeout(() => {
+            widgetCard.style.outline = '';
+          }, 900);
+        }
+      }
+    }
+
+    function renderPathwayTelemetryBanner() {
+      if (!pathwayTelemetryBanner) return;
+      const isLight = activePolarity === 'light';
+      const total = nodes.length;
+      const activeNodes = nodes.filter((n) => isNodeActiveInMode(n, activeMode));
+      const bypassedNodes = nodes.filter((n) => !isNodeActiveInMode(n, activeMode));
+      const stageCols = getActiveStageColors();
+
+      const modeContractMap = {
+        all: {
+          badge: '● ALL PATHWAYS (' + total + '/' + total + ' ACTIVE)',
+          regime: 'Unified Inference (B=1 · <=5.5ms) + Training (B=12,512 · 4,096 Arenas) + Warm-Start Distillation',
+          badgeBg: isLight ? 'rgba(22,163,74,0.13)' : 'rgba(34,197,94,0.18)',
+          badgeCol: isLight ? '#15803d' : '#4ade80',
+          badgeBorder: isLight ? '#16a34a' : '#22c55e'
+        },
+        live: {
+          badge: '⚡ LIVE 5.5MS (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
+          regime: 'B=1 · 15Hz Policy / 60Hz Subtick / 120Hz Physics · CUDAGraph Locked · Zero Privileged/RL Overhead',
+          badgeBg: isLight ? 'rgba(2,132,199,0.13)' : 'rgba(56,189,248,0.18)',
+          badgeCol: isLight ? '#0369a1' : '#38bdf8',
+          badgeBorder: isLight ? '#0284c7' : '#38bdf8'
+        },
+        train: {
+          badge: '🔥 TRAIN 4,096 ARENAS (' + activeNodes.length + '/' + total + ' ACTIVE' + (bypassedNodes.length ? ' · ' + bypassedNodes.length + ' BYPASSED' : '') + ')',
+          regime: 'B=12,512 Cars (816 G=8 Cloned GRPO + 2,880 League PPO + 400 Boss) · Dual Critic + JEPA Active',
+          badgeBg: isLight ? 'rgba(22,163,74,0.13)' : 'rgba(34,197,94,0.18)',
+          badgeCol: isLight ? '#15803d' : '#4ade80',
+          badgeBorder: isLight ? '#16a34a' : '#22c55e'
+        },
+        distill: {
+          badge: '🧬 DISTILL WARM-START (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
+          regime: 'Offline Teacher (173,650 Steps) -> Student Behavioral Cloning & Value Alignment before RL',
+          badgeBg: isLight ? 'rgba(124,58,237,0.13)' : 'rgba(167,139,250,0.18)',
+          badgeCol: isLight ? '#6d28d9' : '#c4b5fd',
+          badgeBorder: isLight ? '#7c3aed' : '#a78bfa'
+        }
+      };
+
+      const contract = modeContractMap[activeMode] || modeContractMap.all;
+
+      let rightControlsHtml = '';
+      if (bypassedNodes.length > 0) {
+        rightControlsHtml =
+          '<div class="flex items-center gap-1 flex-wrap">' +
+          '<span class="mono text-[9.5px] font-bold text-muted-ink uppercase">Bypassed (Click why):</span>' +
+          bypassedNodes
+            .map(
+              (bn) =>
+                '<button type="button" data-telemetry-node="' +
+                bn.id +
+                '" class="no-wrap-btn mono text-[9.5px] font-bold px-1.5 py-0.5 rounded border cursor-pointer transition hover:opacity-90" style="background:' +
+                (isLight ? 'rgba(217,119,6,0.15)' : 'rgba(245,158,11,0.20)') +
+                ';color:' +
+                (isLight ? '#b45309' : '#fbbf24') +
+                ';border-color:#d97706" title="Inspect why #' +
+                bn.num +
+                ' ' +
+                bn.title +
+                ' is bypassed in ' +
+                activeMode.toUpperCase() +
+                '">⊘ #' +
+                bn.num +
+                ' ' +
+                bn.title +
+                '</button>'
+            )
+            .join('') +
+          '</div>';
+      } else {
+        rightControlsHtml =
+          '<div class="flex items-center gap-1 flex-wrap">' +
+          '<span class="mono text-[9.5px] font-bold text-muted-ink uppercase">Jump Stage:</span>' +
+          [0, 1, 2, 3, 4, 5]
+            .map((cIdx) => {
+              const sCol = stageCols[cIdx] || '#64748b';
+              const curNode = nodeMap[selectedNodeId];
+              const isCurStage = curNode && curNode.col === cIdx;
+              return (
+                '<button type="button" data-telemetry-stage="' +
+                cIdx +
+                '" class="no-wrap-btn mono text-[9.5px] font-bold px-1.5 py-0.5 rounded border cursor-pointer transition" style="background:' +
+                (isCurStage ? sCol + '24' : 'transparent') +
+                ';color:' +
+                sCol +
+                ';border-color:' +
+                (isCurStage ? sCol : sCol + '66') +
+                '" title="Select Stage ' +
+                (cIdx + 1) +
+                ' lead block & interactive simulator">S' +
+                (cIdx + 1) +
+                '</button>'
+              );
+            })
+            .join('') +
+          '</div>';
+      }
+
+      pathwayTelemetryBanner.innerHTML =
+        '<div class="flex items-center gap-2 min-w-0 flex-wrap">' +
+        '<span class="mono text-[10px] font-bold px-2 py-0.5 rounded border shrink-0" style="background:' +
+        contract.badgeBg +
+        ';color:' +
+        contract.badgeCol +
+        ';border-color:' +
+        contract.badgeBorder +
+        '">' +
+        contract.badge +
+        '</span>' +
+        '<span class="mono text-[10px] text-secondary-ink truncate">' +
+        contract.regime +
+        '</span>' +
+        '</div>' +
+        rightControlsHtml;
+
+      pathwayTelemetryBanner.querySelectorAll('[data-telemetry-node]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const nid = btn.getAttribute('data-telemetry-node');
+          if (nid && nodeMap[nid]) {
+            selectedNodeId = nid;
+            setRightView('node');
+            openSlideInDrawer();
+            const callout = document.getElementById('ntabCalloutBox');
+            if (callout) {
+              callout.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              callout.style.outline = '2px solid #f59e0b';
+              setTimeout(() => {
+                callout.style.outline = '';
+              }, 900);
+            }
+          }
+        });
+      });
+
+      pathwayTelemetryBanner.querySelectorAll('[data-telemetry-stage]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const cIdx = parseInt(btn.getAttribute('data-telemetry-stage'), 10);
+          if (!isNaN(cIdx)) jumpToStageColumn(cIdx, true);
+        });
+      });
+    }
+
     function setActivePathwayMode(modeKey) {
       if (!['all', 'live', 'train', 'distill'].includes(modeKey)) return;
       activeMode = modeKey;
       syncModeFilterPills();
+      renderPathwayTelemetryBanner();
       renderNodeInspector();
       if (activeRightView === 'tech') renderTechDeepDive();
       syncUrlHash();
@@ -859,8 +1055,13 @@
 
       if (activeMode === 'all') {
         const activeCount = ['live', 'train', 'distill'].filter((m) => modes.includes(m)).length;
-        ntabSubLabel.textContent =
-          'ROLE ACROSS PATHWAYS (' + activeCount + '/3 ACTIVE — CLICK ROW TO INSPECT)';
+        ntabSubLabel.innerHTML =
+          '<span>ROLE ACROSS PATHWAYS (' +
+          activeCount +
+          '/3 ACTIVE)</span>' +
+          '<button type="button" id="btnToggleAllModeExpand" class="ml-2 mono text-[9px] font-bold px-1.5 py-0.5 rounded surface-panel text-theme-accent border border-hairline hover:border-subtle cursor-pointer">' +
+          (allModePathwayExpanded ? '▴ Compact' : '▾ Expand Details') +
+          '</button>';
 
         const rowsHtml = ['live', 'train', 'distill']
           .map((m) => {
@@ -877,13 +1078,10 @@
             const shortMode = m === 'live' ? 'LIVE 5.5MS' : m === 'train' ? 'TRAIN (4K)' : 'DISTILL';
 
             return (
-              '<div data-switch-mode="' +
+              '<div data-toggle-all-expand="' +
               m +
-              '" class="px-2 py-1 rounded surface-panel border border-hairline hover:border-subtle transition cursor-pointer flex items-center justify-between gap-2" title="' +
-              spec.text.replace(/"/g, '&quot;') +
-              ' (Click to filter to ' +
-              modeNames[m] +
-              ')">' +
+              '" class="px-2 py-1 rounded surface-panel border border-hairline hover:border-subtle transition cursor-pointer flex flex-col gap-1" title="Click row to expand/collapse pathway explanation, or click Filter ↗">' +
+              '<div class="flex items-center justify-between gap-2">' +
               '<div class="flex items-center gap-1.5 shrink-0">' +
               '<span class="mono text-[9.5px] font-bold text-primary-ink w-[4.8rem]">' +
               shortMode +
@@ -901,7 +1099,17 @@
               '<span class="mono text-[9.5px] text-secondary-ink truncate flex-1 text-right">' +
               spec.regime +
               '</span>' +
-              '<span class="mono text-[9px] text-theme-accent font-bold shrink-0">↗</span>' +
+              '<button type="button" data-switch-mode="' +
+              m +
+              '" class="no-wrap-btn mono text-[9px] text-theme-accent font-bold px-1 rounded hover:underline shrink-0" title="Filter diagram to ' +
+              modeNames[m] +
+              '">Filter ↗</button>' +
+              '</div>' +
+              (allModePathwayExpanded
+                ? '<p class="text-[10.5px] text-secondary-ink leading-snug pt-0.5 border-t border-hairline">' +
+                  spec.text +
+                  '</p>'
+                : '') +
               '</div>'
             );
           })
@@ -997,8 +1205,26 @@
           '</div>';
       }
 
+      const btnExpand = document.getElementById('btnToggleAllModeExpand');
+      if (btnExpand) {
+        btnExpand.addEventListener('click', (e) => {
+          e.stopPropagation();
+          allModePathwayExpanded = !allModePathwayExpanded;
+          renderNodePathwayCallout(node, sigLabel, sigValue);
+        });
+      }
+
+      ntabSubContent.querySelectorAll('[data-toggle-all-expand]').forEach((rowEl) => {
+        rowEl.addEventListener('click', (e) => {
+          if (e.target && e.target.closest('[data-switch-mode]')) return;
+          allModePathwayExpanded = !allModePathwayExpanded;
+          renderNodePathwayCallout(node, sigLabel, sigValue);
+        });
+      });
+
       ntabSubContent.querySelectorAll('[data-switch-mode]').forEach((el) => {
-        el.addEventListener('click', () => {
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
           const targetMode = el.getAttribute('data-switch-mode');
           if (targetMode) setActivePathwayMode(targetMode);
         });
@@ -1009,6 +1235,8 @@
     function renderNodeInspector() {
       const n = nodeMap[selectedNodeId] || nodes[0];
       if (!n) return;
+
+      renderPathwayTelemetryBanner();
 
       if (selNodeJumper && selNodeJumper.value !== n.id) {
         selNodeJumper.value = n.id;
@@ -1850,9 +2078,11 @@
         selectedTechId = techLib[0].id;
       }
       activeStepIdx = 0;
+      tourCustomFocusNodeId = null;
 
       renderer.applyStagePaletteToNodes(nodes, getActiveStageColors(), activeColHeaders);
 
+      renderPathwayTelemetryBanner();
       updateTourTooltip();
       renderNodeInspector();
       if (activeRightView === 'tech') renderTechDeepDive();
@@ -1888,7 +2118,12 @@
       const step = steps[activeStepIdx] || steps[0];
       if (!step) return;
 
-      const focusNode = (step.focusNode && nodeMap[step.focusNode]) ? nodeMap[step.focusNode] : nodes[0];
+      const focusNode =
+        tourCustomFocusNodeId && nodeMap[tourCustomFocusNodeId]
+          ? nodeMap[tourCustomFocusNodeId]
+          : step.focusNode && nodeMap[step.focusNode]
+          ? nodeMap[step.focusNode]
+          : nodes[0];
       if (!focusNode) return;
 
       const stageContainer = document.getElementById('canvasStageContainer') || tourTooltip.offsetParent || canvasWrapper;
@@ -2068,17 +2303,35 @@
       if (activeStepIdx < 0) activeStepIdx = steps.length - 1;
 
       const step = steps[activeStepIdx];
-      ttStepBadge.textContent = 'STEP ' + (activeStepIdx + 1) + ' OF ' + steps.length;
-      ttScenarioLabel.textContent = scen.label;
-      ttTitle.textContent = step.title;
-      ttDesc.textContent = step.desc;
+      const customNode =
+        tourCustomFocusNodeId && nodeMap[tourCustomFocusNodeId] ? nodeMap[tourCustomFocusNodeId] : null;
+
+      if (customNode) {
+        ttStepBadge.textContent =
+          'INSPECTING #' + customNode.num + ' (STEP ' + (activeStepIdx + 1) + '/' + steps.length + ')';
+        ttScenarioLabel.textContent = scen.label;
+        ttTitle.textContent = '#' + customNode.num + ' · ' + customNode.title + ' (' + customNode.sub + ')';
+        ttDesc.textContent = customNode.how;
+        if (btnResumeTourStep) {
+          btnResumeTourStep.classList.remove('hidden');
+          btnResumeTourStep.textContent = '↩ Resume Step ' + (activeStepIdx + 1);
+        }
+      } else {
+        ttStepBadge.textContent = 'STEP ' + (activeStepIdx + 1) + ' OF ' + steps.length;
+        ttScenarioLabel.textContent = scen.label;
+        ttTitle.textContent = step.title;
+        ttDesc.textContent = step.desc;
+        if (btnResumeTourStep) {
+          btnResumeTourStep.classList.add('hidden');
+        }
+      }
 
       // Render interactive 1-click Step Progress Jumper Dots
       const dotsEl = document.getElementById('ttStepDots');
       if (dotsEl) {
         dotsEl.innerHTML = steps
           .map((st, sIdx) => {
-            const isAct = sIdx === activeStepIdx;
+            const isAct = sIdx === activeStepIdx && !customNode;
             const fn = st.focusNode && nodeMap[st.focusNode] ? nodeMap[st.focusNode] : null;
             return (
               '<button type="button" data-tour-step="' +
@@ -2099,6 +2352,7 @@
           .join('');
         dotsEl.querySelectorAll('[data-tour-step]').forEach((b) => {
           b.addEventListener('click', () => {
+            tourCustomFocusNodeId = null;
             activeStepIdx = parseInt(b.getAttribute('data-tour-step'), 10) || 0;
             updateTourTooltip();
             syncUrlHash();
@@ -2107,12 +2361,16 @@
       }
 
       // Sync focused node & right-hand inspector automatically
-      if (step.focusNode && nodeMap[step.focusNode]) {
-        selectedNodeId = step.focusNode;
+      const syncNodeId = customNode ? customNode.id : step.focusNode;
+      if (syncNodeId && nodeMap[syncNodeId]) {
+        selectedNodeId = syncNodeId;
         if (activeRightView === 'node') {
           renderNodeInspector();
-        } else if (step.techId) {
+        } else if (!customNode && step.techId) {
           selectedTechId = step.techId;
+          renderTechDeepDive();
+        } else if (customNode && customNode.techIds && customNode.techIds[0]) {
+          selectedTechId = customNode.techIds[0];
           renderTechDeepDive();
         }
       }
@@ -2120,6 +2378,264 @@
       requestAnimationFrame(() => {
         renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
         positionAnchoredTourTooltip(true);
+      });
+    }
+
+    function renderThemeGalleryPopover() {
+      if (!themeGalleryGrid) return;
+      const isLight = activePolarity === 'light';
+      const THEME_SHORTCUT_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
+
+      if (btnGalleryLight && btnGalleryDark) {
+        btnGalleryLight.className =
+          'no-wrap-btn px-2 py-0.5 rounded text-[10.5px] ' +
+          (isLight
+            ? 'font-bold surface-elevated text-primary-ink border border-subtle'
+            : 'font-semibold text-secondary-ink hover:text-primary-ink') +
+          ' cursor-pointer';
+        btnGalleryDark.className =
+          'no-wrap-btn px-2 py-0.5 rounded text-[10.5px] ' +
+          (!isLight
+            ? 'font-bold surface-elevated text-primary-ink border border-subtle'
+            : 'font-semibold text-secondary-ink hover:text-primary-ink') +
+          ' cursor-pointer';
+      }
+
+      themeGalleryGrid.innerHTML = THEME_ORDER.map((tKey, idx) => {
+        const meta = THEME_META[tKey];
+        const sw = (THEME_SWATCH_PREVIEW[tKey] && THEME_SWATCH_PREVIEW[tKey][activePolarity]) || {
+          root: '#111',
+          panel: '#222',
+          ink: '#fff',
+          accent: '#38bdf8'
+        };
+        const stageCols = isLight ? meta.stageColorsLight : meta.stageColorsDark;
+        const isAct = tKey === activeTheme;
+        const keyChar = THEME_SHORTCUT_KEYS[idx] || '';
+
+        const stageDotsHtml = (stageCols || [])
+          .map(
+            (sc) =>
+              '<span class="w-2.5 h-2 rounded-xs inline-block" style="background:' + sc + '"></span>'
+          )
+          .join('');
+
+        return (
+          '<button type="button" data-gallery-theme="' +
+          tKey +
+          '" class="p-2 rounded-lg text-left border transition cursor-pointer flex flex-col justify-between gap-1.5 ' +
+          (isAct
+            ? 'surface-elevated border-subtle ring-2 ring-[var(--accent-primary)]'
+            : 'surface-root border-hairline hover:border-subtle') +
+          '">' +
+          '<div class="flex items-center justify-between gap-1">' +
+          '<span class="text-[11px] font-bold text-primary-ink truncate">' +
+          (idx + 1) +
+          '. ' +
+          meta.name +
+          '</span>' +
+          '<span class="mono text-[9px] font-bold px-1.5 py-0.2 rounded surface-panel text-secondary-ink border border-hairline shrink-0">Key ' +
+          keyChar +
+          '</span>' +
+          '</div>' +
+          '<div class="text-[10px] text-secondary-ink leading-tight line-clamp-1">' +
+          meta.notes +
+          '</div>' +
+          '<div class="pt-1 border-t border-hairline flex items-center justify-between gap-1">' +
+          '<div class="flex items-center gap-1" title="Surface / Panel / Ink / Accent Swatches">' +
+          '<span class="w-3 h-3 rounded-full border border-subtle inline-block" style="background:' +
+          sw.root +
+          '"></span>' +
+          '<span class="w-3 h-3 rounded-full border border-subtle inline-block" style="background:' +
+          sw.panel +
+          '"></span>' +
+          '<span class="w-3 h-3 rounded-full border border-subtle inline-block" style="background:' +
+          sw.ink +
+          '"></span>' +
+          '<span class="w-3 h-3 rounded-full border border-subtle inline-block" style="background:' +
+          sw.accent +
+          '"></span>' +
+          '</div>' +
+          '<div class="flex items-center gap-0.5" title="6-Stage Palette">' +
+          stageDotsHtml +
+          '</div>' +
+          '</div>' +
+          '</button>'
+        );
+      }).join('');
+
+      themeGalleryGrid.querySelectorAll('[data-gallery-theme]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const targetTheme = btn.getAttribute('data-gallery-theme');
+          if (targetTheme) {
+            setTheme(targetTheme);
+          }
+        });
+      });
+    }
+
+    function buildSearchItems(rawQuery) {
+      const q = (rawQuery || '').trim().toLowerCase();
+      const results = [];
+
+      // 1. Subsystem Blocks
+      nodes.forEach((n) => {
+        const hay = (
+          '#' +
+          n.num +
+          ' ' +
+          n.title +
+          ' ' +
+          n.tag +
+          ' ' +
+          n.sub +
+          ' ' +
+          n.tensor +
+          ' ' +
+          n.how +
+          ' ' +
+          n.formula
+        ).toLowerCase();
+        if (!q || hay.includes(q)) {
+          results.push({
+            kind: 'BLOCK #' + n.num,
+            badgeColor: n.color,
+            title: n.title + ' (' + n.sub + ')',
+            subtitle: n.tag + ' · ' + n.tensor,
+            action: () => {
+              selectedNodeId = n.id;
+              setRightView('node', null, 'how');
+              openSlideInDrawer();
+            }
+          });
+        }
+      });
+
+      // 2. Core Technologies
+      techLib.forEach((t) => {
+        const hay = (t.short + ' ' + t.title + ' ' + t.how + ' ' + t.science).toLowerCase();
+        if (!q || hay.includes(q)) {
+          results.push({
+            kind: 'TECH DEEP DIVE',
+            badgeColor: '#0284c7',
+            title: t.short,
+            subtitle: t.title,
+            action: () => {
+              setRightView('tech', t.id, 'how');
+              openSlideInDrawer();
+            }
+          });
+        }
+      });
+
+      // 3. White Papers
+      Object.entries(TECH_EXTERNAL_RESOURCES || {}).forEach(([tid, pList]) => {
+        (pList || []).forEach((p) => {
+          const hay = (p.title + ' ' + p.authors + ' ' + p.badge + ' ' + p.desc).toLowerCase();
+          if (q && hay.includes(q)) {
+            results.push({
+              kind: 'PAPER · ' + p.badge,
+              badgeColor: '#7c3aed',
+              title: p.title,
+              subtitle: p.authors,
+              action: () => {
+                setRightView('tech', tid, 'learn');
+                openSlideInDrawer();
+              }
+            });
+          }
+        });
+      });
+
+      // 4. Design Styles
+      THEME_ORDER.forEach((tKey, idx) => {
+        const m = THEME_META[tKey];
+        const hay = ('style theme ' + m.name + ' ' + m.notes).toLowerCase();
+        if (q && hay.includes(q)) {
+          results.push({
+            kind: 'STYLE #' + (idx + 1),
+            badgeColor: '#15803d',
+            title: m.name,
+            subtitle: m.notes,
+            action: () => {
+              setTheme(tKey);
+            }
+          });
+        }
+      });
+
+      return results.slice(0, 24);
+    }
+
+    let currentSearchItems = [];
+
+    function renderSearchPaletteResults(rawQuery) {
+      if (!searchPaletteResults) return;
+      currentSearchItems = buildSearchItems(rawQuery);
+      if (activeSearchResultIdx >= currentSearchItems.length) activeSearchResultIdx = 0;
+      if (activeSearchResultIdx < 0) activeSearchResultIdx = 0;
+
+      if (searchResultCount) {
+        searchResultCount.textContent = currentSearchItems.length + ' matches';
+      }
+
+      if (currentSearchItems.length === 0) {
+        searchPaletteResults.innerHTML =
+          '<div class="p-3 text-xs text-secondary-ink mono">No matching blocks, technologies, tensors, or papers found.</div>';
+        return;
+      }
+
+      searchPaletteResults.innerHTML = currentSearchItems
+        .map((item, idx) => {
+          const isSel = idx === activeSearchResultIdx;
+          return (
+            '<button type="button" data-search-idx="' +
+            idx +
+            '" class="w-full px-2.5 py-1.5 rounded text-left border transition cursor-pointer flex items-center justify-between gap-2 ' +
+            (isSel
+              ? 'surface-elevated border-subtle'
+              : 'surface-root border-hairline hover:border-subtle') +
+            '">' +
+            '<div class="flex flex-col min-w-0 flex-1">' +
+            '<div class="flex items-center gap-1.5">' +
+            '<span class="mono text-[9px] font-bold px-1.5 py-0.2 rounded shrink-0" style="background:' +
+            item.badgeColor +
+            '20;color:' +
+            item.badgeColor +
+            ';border:1px solid ' +
+            item.badgeColor +
+            '">' +
+            item.kind +
+            '</span>' +
+            '<span class="text-xs font-bold text-primary-ink truncate">' +
+            item.title +
+            '</span>' +
+            '</div>' +
+            '<span class="mono text-[10px] text-secondary-ink truncate">' +
+            item.subtitle +
+            '</span>' +
+            '</div>' +
+            '<span class="mono text-[10px] text-theme-accent font-bold shrink-0">Jump ↵</span>' +
+            '</button>'
+          );
+        })
+        .join('');
+
+      searchPaletteResults.querySelectorAll('[data-search-idx]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx = parseInt(btn.getAttribute('data-search-idx'), 10);
+          const item = currentSearchItems[idx];
+          if (item && item.action) {
+            item.action();
+            if (searchPalettePopover && typeof searchPalettePopover.hidePopover === 'function') {
+              try {
+                searchPalettePopover.hidePopover();
+              } catch (_) {}
+            } else if (searchPalettePopover) {
+              searchPalettePopover.classList.remove(':popover-open');
+            }
+          }
+        });
       });
     }
 
@@ -2168,6 +2684,8 @@
 
       syncThemeAlignedButtons();
       updatePolarityButtons();
+      renderPathwayTelemetryBanner();
+      renderThemeGalleryPopover();
       updateTourTooltip();
       renderNodeInspector();
       if (activeRightView === 'tech') renderTechDeepDive();
@@ -2277,12 +2795,14 @@
     selScenario.addEventListener('change', (e) => {
       activeScenarioKey = e.target.value;
       activeStepIdx = 0;
+      tourCustomFocusNodeId = null;
       tourOverlayVisible = activeScenarioKey !== 'none';
       updateTourTooltip();
       syncUrlHash();
     });
 
     btnToggleTour.addEventListener('click', () => {
+      tourCustomFocusNodeId = null;
       if (activeScenarioKey === 'none' || !tourOverlayVisible) {
         activeScenarioKey = activeScenarioKey === 'none' ? 'tour' : activeScenarioKey;
         selScenario.value = activeScenarioKey;
@@ -2301,24 +2821,40 @@
       activeScenarioKey = 'none';
       selScenario.value = 'none';
       tourOverlayVisible = false;
+      tourCustomFocusNodeId = null;
       updateTourTooltip();
       syncUrlHash();
     });
 
     btnTtPrev.addEventListener('click', () => {
+      tourCustomFocusNodeId = null;
       activeStepIdx--;
       updateTourTooltip();
     });
 
     btnTtNext.addEventListener('click', () => {
+      tourCustomFocusNodeId = null;
       activeStepIdx++;
       updateTourTooltip();
     });
 
+    if (btnResumeTourStep) {
+      btnResumeTourStep.addEventListener('click', () => {
+        tourCustomFocusNodeId = null;
+        updateTourTooltip();
+      });
+    }
+
     btnTtDeepDive.addEventListener('click', () => {
       const scen = scenarios[activeScenarioKey];
       const step = scen ? scen.steps[activeStepIdx] : null;
-      const tid = step && step.techId ? step.techId : nodeMap[selectedNodeId].techIds[0] || 't0';
+      const customNode =
+        tourCustomFocusNodeId && nodeMap[tourCustomFocusNodeId] ? nodeMap[tourCustomFocusNodeId] : null;
+      const tid = customNode && customNode.techIds && customNode.techIds[0]
+        ? customNode.techIds[0]
+        : step && step.techId
+        ? step.techId
+        : nodeMap[selectedNodeId].techIds[0] || 't0';
       setRightView('tech', tid, 'how');
       openSlideInDrawer();
     });
@@ -2371,7 +2907,7 @@
       }
     });
 
-    // Tether Export Popover Menu below trigger button (+ fallback for browsers without HTMLElement.prototype.popover)
+    // Tether Export, Theme Gallery & Search Popover Menus below trigger buttons
     function positionExportPopover() {
       if (!btnExportMenuTrigger || !exportPopoverMenu) return;
       const r = btnExportMenuTrigger.getBoundingClientRect();
@@ -2389,15 +2925,92 @@
       });
     }
 
-    // Canvas Hit-Testing & Click
+    function positionThemeGalleryPopover() {
+      if (!btnThemeGalleryTrigger || !themeGalleryPopover) return;
+      renderThemeGalleryPopover();
+      const r = btnThemeGalleryTrigger.getBoundingClientRect();
+      const popW = Math.min(760, window.innerWidth - 20);
+      themeGalleryPopover.style.position = 'fixed';
+      themeGalleryPopover.style.top = Math.round(r.bottom + 6) + 'px';
+      themeGalleryPopover.style.left = Math.max(10, Math.min(window.innerWidth - popW - 10, Math.round(r.left - popW * 0.4))) + 'px';
+    }
+    if (themeGalleryPopover) {
+      themeGalleryPopover.addEventListener('beforetoggle', positionThemeGalleryPopover);
+    }
+    if (btnGalleryLight) {
+      btnGalleryLight.addEventListener('click', () => setPolarity('light'));
+    }
+    if (btnGalleryDark) {
+      btnGalleryDark.addEventListener('click', () => setPolarity('dark'));
+    }
+
+    function positionSearchPalettePopover() {
+      if (!btnSearchTrigger || !searchPalettePopover) return;
+      activeSearchResultIdx = 0;
+      renderSearchPaletteResults(searchPaletteInput ? searchPaletteInput.value : '');
+      const r = btnSearchTrigger.getBoundingClientRect();
+      const popW = Math.min(640, window.innerWidth - 20);
+      searchPalettePopover.style.position = 'fixed';
+      searchPalettePopover.style.top = Math.round(r.bottom + 6) + 'px';
+      searchPalettePopover.style.left = Math.max(10, Math.min(window.innerWidth - popW - 10, Math.round(r.right - popW))) + 'px';
+      requestAnimationFrame(() => {
+        if (searchPaletteInput) {
+          searchPaletteInput.focus();
+          searchPaletteInput.select();
+        }
+      });
+    }
+    if (searchPalettePopover) {
+      searchPalettePopover.addEventListener('beforetoggle', positionSearchPalettePopover);
+    }
+    if (searchPaletteInput) {
+      searchPaletteInput.addEventListener('input', (e) => {
+        activeSearchResultIdx = 0;
+        renderSearchPaletteResults(e.target.value);
+      });
+      searchPaletteInput.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (currentSearchItems.length > 0) {
+            activeSearchResultIdx = (activeSearchResultIdx + 1) % currentSearchItems.length;
+            renderSearchPaletteResults(searchPaletteInput.value);
+          }
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (currentSearchItems.length > 0) {
+            activeSearchResultIdx = (activeSearchResultIdx - 1 + currentSearchItems.length) % currentSearchItems.length;
+            renderSearchPaletteResults(searchPaletteInput.value);
+          }
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          const item = currentSearchItems[activeSearchResultIdx];
+          if (item && item.action) {
+            item.action();
+            if (searchPalettePopover && typeof searchPalettePopover.hidePopover === 'function') {
+              try {
+                searchPalettePopover.hidePopover();
+              } catch (_) {}
+            }
+          }
+        }
+      });
+    }
+
+    // Canvas Hit-Testing (Blocks + Stage 1..6 Swimlane Headers) & Bidirectional Tour Sync
     canvas.addEventListener('mousemove', (e) => {
       const hit = renderer.getNodeAtCanvasCoords(canvas, e.clientX, e.clientY, nodes);
       hoveredNodeId = hit ? hit.id : null;
-      canvas.style.cursor = hit ? 'pointer' : 'default';
+      hoveredStageCol = hit
+        ? null
+        : renderer.getStageHeaderAtCanvasCoords
+        ? renderer.getStageHeaderAtCanvasCoords(canvas, e.clientX, e.clientY)
+        : null;
+      canvas.style.cursor = hit || hoveredStageCol !== null ? 'pointer' : 'default';
     });
 
     canvas.addEventListener('mouseleave', () => {
       hoveredNodeId = null;
+      hoveredStageCol = null;
     });
 
     canvas.addEventListener('click', (e) => {
@@ -2406,7 +3019,31 @@
         selectedNodeId = hit.id;
         setRightView('node');
         openSlideInDrawer();
-      } else if (isFullscreenMode && isDrawerOpen) {
+        // Bidirectional Canvas <-> Tour Tooltip Synchronization
+        if (tourOverlayVisible && activeScenarioKey !== 'none' && scenarios[activeScenarioKey]) {
+          const steps = scenarios[activeScenarioKey].steps || [];
+          const matchingStepIdx = steps.findIndex((st) => st.focusNode === hit.id);
+          if (matchingStepIdx >= 0) {
+            activeStepIdx = matchingStepIdx;
+            tourCustomFocusNodeId = null;
+          } else {
+            tourCustomFocusNodeId = hit.id;
+          }
+          updateTourTooltip();
+          syncUrlHash();
+        }
+        return;
+      }
+
+      const stageColHit = renderer.getStageHeaderAtCanvasCoords
+        ? renderer.getStageHeaderAtCanvasCoords(canvas, e.clientX, e.clientY)
+        : null;
+      if (stageColHit !== null) {
+        jumpToStageColumn(stageColHit, true);
+        return;
+      }
+
+      if (isFullscreenMode && isDrawerOpen) {
         closeSlideInDrawer();
       }
     });
@@ -2507,9 +3144,20 @@
       });
     });
 
-    // Keyboard shortcuts: 1..9,0,-,= for 12 themes, [/] to cycle theme, L/D for Light/Dark, ArrowLeft/Right/Escape for Tour & Fullscreen
+    // Keyboard shortcuts: 1..9,0,-,= for 12 themes, [/] to cycle theme, / or Ctrl+K for Search, L/D for Light/Dark, ArrowLeft/Right/Escape for Tour & Fullscreen
     const THEME_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
     window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        if (searchPalettePopover && typeof searchPalettePopover.showPopover === 'function') {
+          positionSearchPalettePopover();
+          try {
+            searchPalettePopover.showPopover();
+          } catch (_) {}
+        }
+        return;
+      }
+
       if (e.key === 'Escape') {
         if (isFullscreenMode) {
           if (isDrawerOpen) {
@@ -2520,6 +3168,11 @@
           return;
         }
         if (tourOverlayVisible && activeScenarioKey !== 'none') {
+          if (tourCustomFocusNodeId) {
+            tourCustomFocusNodeId = null;
+            updateTourTooltip();
+            return;
+          }
           tourOverlayVisible = false;
           activeScenarioKey = 'none';
           if (selScenario) selScenario.value = 'none';
@@ -2530,8 +3183,20 @@
       }
       if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) return;
 
+      if (e.key === '/') {
+        e.preventDefault();
+        if (searchPalettePopover && typeof searchPalettePopover.showPopover === 'function') {
+          positionSearchPalettePopover();
+          try {
+            searchPalettePopover.showPopover();
+          } catch (_) {}
+        }
+        return;
+      }
+
       if (tourOverlayVisible && activeScenarioKey !== 'none' && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
         e.preventDefault();
+        tourCustomFocusNodeId = null;
         activeStepIdx += e.key === 'ArrowRight' ? 1 : -1;
         updateTourTooltip();
         syncUrlHash();
@@ -2568,6 +3233,7 @@
     const restoredFromHash = restoreStateFromUrlHash(setArchitecture, setTheme, setPolarity);
     if (restoredFromHash) {
       if (selScenario) selScenario.value = activeScenarioKey;
+      renderPathwayTelemetryBanner();
       updateTourTooltip();
       setRightView(activeRightView);
     } else {
@@ -2598,9 +3264,20 @@
         const steps = scenarios[activeScenarioKey].steps;
         const step = steps[activeStepIdx];
         if (step) {
-          if (step.highlight) highlightSet = new Set(step.highlight);
-          tourFocusNodeId = step.focusNode || null;
-          tourStepBadgeText = 'STEP ' + (activeStepIdx + 1) + '/' + steps.length;
+          if (step.highlight) {
+            highlightSet = new Set(step.highlight);
+            if (tourCustomFocusNodeId && nodeMap[tourCustomFocusNodeId]) {
+              highlightSet.add(tourCustomFocusNodeId);
+            }
+          }
+          tourFocusNodeId =
+            tourCustomFocusNodeId && nodeMap[tourCustomFocusNodeId]
+              ? tourCustomFocusNodeId
+              : step.focusNode || null;
+          tourStepBadgeText =
+            tourCustomFocusNodeId && nodeMap[tourCustomFocusNodeId]
+              ? 'INSPECT #' + nodeMap[tourCustomFocusNodeId].num
+              : 'STEP ' + (activeStepIdx + 1) + '/' + steps.length;
         }
       } else if (activeRightView === 'tech' && techMap[selectedTechId]) {
         const usedIn = techMap[selectedTechId].usedIn || [];
@@ -2618,6 +3295,7 @@
         activeMode,
         selectedNodeId,
         hoveredNodeId,
+        hoveredStageCol,
         highlightSet,
         tourFocusNodeId,
         tourStepBadgeText,
