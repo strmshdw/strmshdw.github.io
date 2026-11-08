@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light dark" />
-  <title>Arashikage (Hex63) — Systems &amp; Neural Architecture Explorer</title>
+  <title>Arashikage (Hex64) — Systems &amp; Neural Architecture Explorer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -21,7 +21,7 @@
       <div class="flex items-center gap-2 min-w-0 flex-1">
         <div class="flex items-center gap-1.5 shrink-0">
           <span id="brandDot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
-          <span id="identityBadgeText" class="mono text-[11px] font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX63</span>
+          <span id="identityBadgeText" class="mono text-[11px] font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX64</span>
         </div>
         <span class="text-muted-ink shrink-0">|</span>
         <h1 id="identityMainTitle" class="text-xs font-bold text-primary-ink tracking-tight truncate" title="60 Hz Subtick Action Chunking &amp; Multi-Horizon RL Architecture">
@@ -33,8 +33,8 @@
       <div class="flex items-center gap-1 shrink-0" role="tablist" aria-label="Platform Architecture Generation">
         <span class="mono text-[10px] font-bold text-muted-ink uppercase tracking-wider mr-0.5 hidden xl:inline">Platform:</span>
         <div id="genPillBar" class="inline-flex items-center p-0.5 rounded-lg border border-hairline surface-panel gap-0.5">
-          <button type="button" data-arch-pill="hex63" class="arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold btn-theme-accent transition cursor-pointer" title="Arashikage (Hex63 · Current Architecture)">
-            Hex63 · Current
+          <button type="button" data-arch-pill="hex64" class="arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold btn-theme-accent transition cursor-pointer" title="Arashikage (Hex64 · Current Architecture)">
+            Hex64 · Current
           </button>
           <button type="button" data-arch-pill="gen3_perceiver" class="arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer" title="Legacy Gen 3: ST-Perceiver + Conditional-31">
             Gen 3 · Perceiver
@@ -48,7 +48,7 @@
         </div>
         <!-- Synced select kept for programmatic / mobile accessibility -->
         <select id="selArchGen" aria-label="Switch Platform Architecture Generation" class="sr-only">
-          <option value="hex63" selected>Platform: Arashikage (Hex63 · Current)</option>
+          <option value="hex64" selected>Platform: Arashikage (Hex64 · Current)</option>
           <option value="gen3_perceiver">Platform: Legacy Gen 3 (ST-Perceiver)</option>
           <option value="gen2_factorized">Platform: Legacy Gen 2 (Factorized-684)</option>
           <option value="gen1_ret40">Platform: Legacy Gen 1 (RET-40 + PD)</option>
@@ -455,6 +455,7 @@
   <script src="./js/gen2_factorized.js"></script>
   <script src="./js/gen1_ret40.js"></script>
   <script src="./js/canvas_renderer.js"></script>
+  <script src="./js/splash_codex.js"></script>
   <script src="./js/app.js"></script>
 </body>
 </html>

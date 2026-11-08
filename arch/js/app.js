@@ -1,16 +1,16 @@
 // ============================================================================
-// ARASHIKAGE (HEX63 + LEGACY GEN 1..3) — INTERACTIVE ARCHITECTURE EXPLORER
+// ARASHIKAGE (HEX64 + LEGACY GEN 1..3) — INTERACTIVE ARCHITECTURE EXPLORER
 // ============================================================================
 (function () {
   const ARCH_REGISTRY = window.ARASHIKAGE_ARCHITECTURES || {};
-  let activeArchKey = 'hex63';
+  let activeArchKey = 'hex64';
   let nodes = window.ARASHIKAGE_NODES || [];
   let edges = window.ARASHIKAGE_EDGES || [];
   let scenarios = window.ARASHIKAGE_SCENARIOS || {};
   let techLib = window.ARASHIKAGE_TECH_LIBRARY || [];
   let TECH_EXTERNAL_RESOURCES = window.ARASHIKAGE_EXTERNAL_RESOURCES || {};
-  let activeColHeaders = (ARCH_REGISTRY.hex63 && ARCH_REGISTRY.hex63.colHeaders) || [];
-  let activeMermaidDiagram = (ARCH_REGISTRY.hex63 && ARCH_REGISTRY.hex63.mermaidDiagram) || '';
+  let activeColHeaders = (ARCH_REGISTRY.hex64 && ARCH_REGISTRY.hex64.colHeaders) || [];
+  let activeMermaidDiagram = (ARCH_REGISTRY.hex64 && ARCH_REGISTRY.hex64.mermaidDiagram) || '';
   const renderer = window.ArashikageCanvasRenderer;
 
   let nodeMap = {};
@@ -354,7 +354,8 @@
     if ((polParam === 'light' || polParam === 'dark') && setPolCallback) {
       setPolCallback(polParam);
     }
-    const archParam = params.get('arch');
+    const rawArchParam = params.get('arch');
+    const archParam = rawArchParam === 'hex63' ? 'hex64' : rawArchParam;
     if (archParam && ARCH_REGISTRY[archParam] && setArchCallback) {
       setArchCallback(archParam, true);
     }
@@ -968,11 +969,11 @@
     function getPathwayRoleSpec(node, archKey, mode) {
       const db = window.ARASHIKAGE_PATHWAY_ROLES || {};
       const archMap = db[archKey] || {};
-      const hexMap = db.hex63 || {};
+      const hexMap = db.hex64 || {};
       if (archMap[node.id] && archMap[node.id][mode]) {
         return archMap[node.id][mode];
       }
-      if (archKey === 'hex63' && hexMap[node.id] && hexMap[node.id][mode]) {
+      if (archKey === 'hex64' && hexMap[node.id] && hexMap[node.id][mode]) {
         return hexMap[node.id][mode];
       }
       // Generation-specific synthesis for active/bypassed legacy blocks not explicitly overridden
@@ -1504,42 +1505,42 @@
     const STAGE_EVOLUTION_BY_COL = [
       {
         title: 'STAGE 1 EVOLUTION // OBSERVATION MANIFOLD',
-        hex63: '5,376B Layout A (84×64B CL, 64 Entities, 8 BallRingBuffer480, C2v)',
+        hex64: '5,376B Layout A (84×64B CL, 64 Entities, 8 BallRingBuffer480, C2v)',
         gen3_perceiver: '700D (684D + 16D 4-Frame Wheel History) + 752D Critic',
         gen2_factorized: '171D×4 Egocentric R_car^T Stack (684D) + 68D Critic Tail',
         gen1_ret40: '41×25 EntityTokenPOD (4,100B) + 1,536B SoA (World Z-Up)'
       },
       {
         title: 'STAGE 2 EVOLUTION // RELATIONAL & TEMPORAL ENCODING',
-        hex63: 'On-Chip GPU 16×64×72D Pairwise Kernel + 2L Bipartite DiffAttn',
+        hex64: 'On-Chip GPU 16×64×72D Pairwise Kernel + 2L Bipartite DiffAttn',
         gen3_perceiver: 'Zero-Copy 144D Core Unpacker + Shared 34×7D BoostPad PointNet',
         gen2_factorized: 'K=4 Sliding Window (267ms) + 0..2 Tick Latency Randomizer',
         gen1_ret40: 'CPU AVX2 41×41×8 r_ij (53.7KB) + Trunk-Hoisted mlp_rel'
       },
       {
         title: 'STAGE 3 EVOLUTION // TEMPORAL MEMORY & SEQUENCE TRUNK',
-        hex63: '2×4×32×32 FP32 Titans Fast Weights (Log-Cosh Surprise, ||W||_F<=4)',
+        hex64: '2×4×32×32 FP32 Titans Fast Weights (Log-Cosh Surprise, ||W||_F<=4)',
         gen3_perceiver: '2L ST-Perceiver Cross-Attn (M=4×N=37 Latents, QK-RMSNorm)',
         gen2_factorized: '3-Block Residual MLP Trunk (684->512->512->256, SiLU)',
         gen1_ret40: '4-Layer Relational Entity Transformer RET-40 (d=128, H=4)'
       },
       {
         title: 'STAGE 4 EVOLUTION // LATENT REASONING & SKILL ROUTING',
-        hex63: 'Coconut K=4..6 Loop + Static 8×2 Soft-MoE + 8×125=1,000 FSQ',
+        hex64: 'Coconut K=4..6 Loop + Static 8×2 Soft-MoE + 8×125=1,000 FSQ',
         gen3_perceiver: '912D->256D SwiGLU Fusion + Aux Skill Head Z_t (8×32)',
         gen2_factorized: 'PSM-DCP Replay SeqScout Miner + Aux Skill Z_t (8×32)',
         gen1_ret40: 'Quaternion Target q*∈S^3 + ω* + 4 Exploiter Archetype Heads'
       },
       {
         title: 'STAGE 5 EVOLUTION // MOTOR DECODER & ACTUATION LOOP',
-        hex63: 'Stage-1 16-Way Binary + Stage-2 60Hz Flow-GRPO SDE (K_sub=4)',
+        hex64: 'Stage-1 16-Way Binary + Stage-2 60Hz Flow-GRPO SDE (K_sub=4)',
         gen3_perceiver: '2-Stage Autoregressive Cond-31 (Jump/Boost -> 5 Axes @ 15Hz)',
         gen2_factorized: 'Fused 31-Logit [B,7,7] Categorical + C++ 8-Subtick Flip FSM',
         gen1_ret40: '120Hz Geodesic SLERP Attitude PD + Schmitt Deadband'
       },
       {
         title: 'STAGE 6 EVOLUTION // CRITIC, WORLD MODEL & RL LEARNER',
-        hex63: 'Dual 4×51 Symlog HL-Gauss + JEPA Best-of-16 + G=8 Cloned GRPO',
+        hex64: 'Dual 4×51 Symlog HL-Gauss + JEPA Best-of-16 + G=8 Cloned GRPO',
         gen3_perceiver: '752D Asymmetric Perceiver Critic + 3-Horizon PopArt + KL Distill',
         gen2_factorized: '752D Privileged Critic + 5-Bounce Ballistics + Zero-Sum PBRS',
         gen1_ret40: '3-Horizon PopArt + 32-Quantile CVaR_β Risk-Averse PPO'
@@ -1560,7 +1561,7 @@
       box.appendChild(hdr);
 
       const gens = [
-        { key: 'hex63', short: 'Hex63 · Current' },
+        { key: 'hex64', short: 'Hex64 · Current' },
         { key: 'gen3_perceiver', short: 'Gen 3 · Perceiver' },
         { key: 'gen2_factorized', short: 'Gen 2 · MLP-684' },
         { key: 'gen1_ret40', short: 'Gen 1 · RET-40' }
@@ -1611,7 +1612,7 @@
 
       if (colIdx === 0) {
         // STAGE 1: OBSERVATION MEMORY / CACHE-LINE INSPECTOR
-        if (activeArchKey === 'hex63') {
+        if (activeArchKey === 'hex64') {
           wTitle.textContent = 'STAGE 1 // 5,376B CACHE-LINE INSPECTOR';
           wTag.textContent = '84 × 64B CL';
           const segments = [
@@ -1721,7 +1722,7 @@
       } else if (colIdx === 1) {
         // STAGE 2: PAIRWISE RELATIONAL / TEMPORAL ENCODING SIMULATOR
         wTitle.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? 'STAGE 2 // 16×64 PAIRWISE INTERCEPT SIMULATOR'
             : activeArchKey === 'gen3_perceiver'
             ? 'STAGE 2 // 144D CORE & 34×7D POINTNET SIMULATOR'
@@ -1729,7 +1730,7 @@
             ? 'STAGE 2 // K=4 FINITE-DIFFERENCE & JITTER SIMULATOR'
             : 'STAGE 2 // AVX2 41×41×8 PAIRWISE r_ij SIMULATOR';
         wTag.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? '1,024 PAIRS · 72D'
             : activeArchKey === 'gen3_perceiver'
             ? '34 PADS · 64D MAX'
@@ -1803,7 +1804,7 @@
           tReach +
           ' s</div></div>' +
           '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink text-[9px]">' +
-          (activeArchKey === 'hex63' ? 'DIFF-ATTN' : 'BIAS WEIGHT') +
+          (activeArchKey === 'hex64' ? 'DIFF-ATTN' : 'BIAS WEIGHT') +
           '</div><div class="text-primary-ink font-bold">' +
           attnScore +
           '</div></div>';
@@ -1811,7 +1812,7 @@
       } else if (colIdx === 2) {
         // STAGE 3: TEMPORAL MEMORY / TRUNK SIMULATOR (Distinct from Stage 4!)
         wTitle.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? 'STAGE 3 // FP32 TITANS FAST-WEIGHT MEMORY GATE'
             : activeArchKey === 'gen3_perceiver'
             ? 'STAGE 3 // 2L ST-PERCEIVER LATENT BOTTLENECK'
@@ -1819,7 +1820,7 @@
             ? 'STAGE 3 // 3-BLOCK RESIDUAL MLP TRUNK (SiLU)'
             : 'STAGE 3 // 4-LAYER RET-40 RELATIONAL TRUNK';
         wTag.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? '2×4×32×32 · ||W||_F<=4'
             : activeArchKey === 'gen3_perceiver'
             ? 'M=4 × N=37 · QK-NORM'
@@ -1831,7 +1832,7 @@
         sliderRow.className = 'flex items-center justify-between gap-2 text-[11px]';
         sliderRow.innerHTML =
           '<span class="text-secondary-ink">' +
-          (activeArchKey === 'hex63'
+          (activeArchKey === 'hex64'
             ? 'Opponent Surprise Residual ||W_prev^T k - v_t||:'
             : 'Input Kinematic Perturbation Magnitude:') +
           '</span><span class="mono font-bold text-theme-accent">' +
@@ -1858,7 +1859,7 @@
 
         const readoutGrid = document.createElement('div');
         readoutGrid.className = 'grid grid-cols-3 gap-1.5 mono text-[10.5px]';
-        if (activeArchKey === 'hex63') {
+        if (activeArchKey === 'hex64') {
           readoutGrid.innerHTML =
             '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink text-[9px]">LOG-COSH GATE</div><div class="text-primary-ink font-bold">g_t = ' +
             gateVal +
@@ -1885,13 +1886,13 @@
       } else if (colIdx === 3) {
         // STAGE 4: COCONUT RECURRENCE, 8x2 SOFT-MOE & 1,000 FSQ ROUTER (Distinct from Stage 3!)
         wTitle.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? 'STAGE 4 // COCONUT LOOP, 8×2 SOFT-MOE & FSQ'
             : activeArchKey === 'gen1_ret40'
             ? 'STAGE 4 // QUATERNION S^3 & 4 EXPLOITER HEADS'
             : 'STAGE 4 // SKILL TAXONOMY Z_t (8 × 32) & FUSION';
         wTag.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? 'K=4..6 · 1,000 FSQ'
             : activeArchKey === 'gen1_ret40'
             ? 'q*∈S^3 · 4 HEADS'
@@ -1929,7 +1930,7 @@
           '<div class="flex items-center justify-between"><span class="font-bold text-primary-ink">' +
           curP.label +
           '</span><span class="text-theme-accent font-bold">' +
-          (activeArchKey === 'hex63' ? 'Coconut K=' + curP.kPass + ' · FSQ ' + curP.fsq : 'Skill Family Z_t Active') +
+          (activeArchKey === 'hex64' ? 'Coconut K=' + curP.kPass + ' · FSQ ' + curP.fsq : 'Skill Family Z_t Active') +
           '</span></div>' +
           '<div class="grid grid-cols-3 gap-1">' +
           curP.exp
@@ -1945,20 +1946,20 @@
       } else if (colIdx === 4) {
         // STAGE 5: 60HZ SUBTICK ACTION CHUNK & MOTOR DECODER (Distinct from Stage 6!)
         wTitle.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? 'STAGE 5 // 60HZ SUBTICK ACTION CHUNK (K_sub=4)'
             : activeArchKey === 'gen1_ret40'
             ? 'STAGE 5 // 120HZ GEODESIC SLERP ATTITUDE PD'
             : 'STAGE 5 // 15HZ CATEGORICAL HEADS & FLIP FSM';
         wTag.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? '4 × 16.7ms (60Hz)'
             : activeArchKey === 'gen1_ret40'
             ? '120Hz PD TORQUE'
             : '8 TICKS (66.7ms)';
 
         const subticks =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? [
                 { lbl: 'Sub 1 (0–17ms)', bin: 'J=0 · m_dj=0 · B=1', cont: 'Pitch -0.85 · Yaw +0.18 · Roll -0.92 (Pre-Flip Align)' },
                 { lbl: 'Sub 2 (17–33ms)', bin: 'J=1 · m_dj=1 · B=1', cont: 'Pitch +0.02 · Yaw -0.04 · Roll +0.08 (0.12·tanh Stall Clamp)' },
@@ -2014,13 +2015,13 @@
       } else {
         // STAGE 6: 4-HORIZON SYMLOG HL-GAUSS CRITIC, JEPA SEARCH & G=8 GRPO (Distinct from Stage 5!)
         wTitle.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? 'STAGE 6 // 4-HORIZON SYMLOG CRITIC & JEPA SEARCH'
             : activeArchKey === 'gen1_ret40'
             ? 'STAGE 6 // 3-POPART & 32-QUANTILE CVaR CRITIC'
             : 'STAGE 6 // 752D ASYMMETRIC CRITIC & 3-POPART';
         wTag.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? '4×51 BINS · M=16 CVaR'
             : activeArchKey === 'gen1_ret40'
             ? '32 QUANTILES · τ_q'
@@ -2072,7 +2073,7 @@
       appendEvolutionComparisonStrip(wBody, colIdx);
     }
 
-    // Switch Active Platform Generation (Hex63 vs Gen 3 vs Gen 2 vs Gen 1)
+    // Switch Active Platform Generation (Hex64 vs Gen 3 vs Gen 2 vs Gen 1)
     function setArchitecture(archKey, skipHashSync) {
       const archDef = ARCH_REGISTRY[archKey];
       if (!archDef) return;
@@ -2718,6 +2719,9 @@
       updateTourTooltip();
       renderNodeInspector();
       if (activeRightView === 'tech') renderTechDeepDive();
+      if (splashCodexCtrl && splashCodexCtrl.refreshTheme) {
+        splashCodexCtrl.refreshTheme();
+      }
     }
 
     // Event Listeners: Segmented 4-Generation Pill Bar & Select
@@ -3093,7 +3097,7 @@
         try { exportPopoverMenu.hidePopover(); } catch (_) {}
       }
       try {
-        const [cssText, nodesJs, scenariosJs, gen3Js, gen2Js, gen1Js, rendererJs, appJs] = await Promise.all([
+        const [cssText, nodesJs, scenariosJs, gen3Js, gen2Js, gen1Js, rendererJs, splashJs, appJs] = await Promise.all([
           fetch('./styles/themes.css').then((r) => r.text()),
           fetch('./js/nodes_and_edges.js').then((r) => r.text()),
           fetch('./js/scenarios_and_tech.js').then((r) => r.text()),
@@ -3101,6 +3105,7 @@
           fetch('./js/gen2_factorized.js').then((r) => r.text()),
           fetch('./js/gen1_ret40.js').then((r) => r.text()),
           fetch('./js/canvas_renderer.js').then((r) => r.text()),
+          fetch('./js/splash_codex.js').then((r) => r.text()),
           fetch('./js/app.js').then((r) => r.text())
         ]);
         const clone = document.documentElement.cloneNode(true);
@@ -3118,6 +3123,7 @@
           'gen2_factorized.js': gen2Js,
           'gen1_ret40.js': gen1Js,
           'canvas_renderer.js': rendererJs,
+          'splash_codex.js': splashJs,
           'app.js': appJs
         };
         clone.querySelectorAll('script[src]').forEach((scr) => {
@@ -3249,6 +3255,7 @@
     });
 
     // Restore saved theme/polarity & URL hash state
+    let splashCodexCtrl = null;
     try {
       const savedTheme = localStorage.getItem('arashikage_arch_theme');
       const savedPol = localStorage.getItem('arashikage_arch_polarity');
@@ -3266,7 +3273,7 @@
       updateTourTooltip();
       setRightView(activeRightView);
     } else {
-      setArchitecture('hex63', true);
+      setArchitecture('hex64', true);
       selScenario.value = 'none';
       activeScenarioKey = 'none';
       tourOverlayVisible = false;
@@ -3274,6 +3281,21 @@
       setRightView('node');
       renderTechDeepDive();
       syncUrlHash();
+    }
+
+    if (window.ArashikageSplashCodex && window.ArashikageSplashCodex.initSplashCodex) {
+      splashCodexCtrl = window.ArashikageSplashCodex.initSplashCodex({
+        getActiveStageColors,
+        startGuidedTour: () => {
+          activeScenarioKey = 'tour';
+          if (selScenario) selScenario.value = 'tour';
+          activeStepIdx = 0;
+          tourCustomFocusNodeId = null;
+          tourOverlayVisible = true;
+          updateTourTooltip();
+          syncUrlHash();
+        }
+      });
     }
 
     renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);

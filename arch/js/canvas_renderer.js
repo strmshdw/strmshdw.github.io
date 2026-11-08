@@ -1,5 +1,5 @@
 // ============================================================================
-// ARASHIKAGE (HEX63) — BESPOKE 6-THEME × 2-POLARITY CANVAS RENDERER (1120 x 680)
+// ARASHIKAGE (HEX64) — BESPOKE 6-THEME × 2-POLARITY CANVAS RENDERER (1120 x 680)
 // ============================================================================
 (function () {
   const BASE_W = 1120;

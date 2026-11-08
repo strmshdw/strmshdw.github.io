@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light dark" />
-  <title>Arashikage (Hex63) — Systems &amp; Neural Architecture Explorer</title>
+  <title>Arashikage (Hex64) — Systems &amp; Neural Architecture Explorer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" />
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';document.head.appendChild(s);"></script>
   <style>
 /* ==========================================================================
-   ARASHIKAGE (HEX63) — ARCHITECTURE EXPLORER STYLESHEET
+   ARASHIKAGE (HEX64) — ARCHITECTURE EXPLORER STYLESHEET
    Fluid Viewport-Proportional Typography Scale (1440p/QHD Aware) & 6-Theme Engine
    ========================================================================== */
 :root,
@@ -914,7 +914,7 @@ h1, h2, h3, h4 {
       <div class="flex items-center gap-2 min-w-0 flex-1">
         <div class="flex items-center gap-1.5 shrink-0">
           <span id="brandDot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
-          <span id="identityBadgeText" class="mono text-[11px] font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX63</span>
+          <span id="identityBadgeText" class="mono text-[11px] font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX64</span>
         </div>
         <span class="text-muted-ink shrink-0">|</span>
         <h1 id="identityMainTitle" class="text-xs font-bold text-primary-ink tracking-tight truncate" title="60 Hz Subtick Action Chunking &amp; Multi-Horizon RL Architecture">
@@ -926,8 +926,8 @@ h1, h2, h3, h4 {
       <div class="flex items-center gap-1 shrink-0" role="tablist" aria-label="Platform Architecture Generation">
         <span class="mono text-[10px] font-bold text-muted-ink uppercase tracking-wider mr-0.5 hidden xl:inline">Platform:</span>
         <div id="genPillBar" class="inline-flex items-center p-0.5 rounded-lg border border-hairline surface-panel gap-0.5">
-          <button type="button" data-arch-pill="hex63" class="arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold btn-theme-accent transition cursor-pointer" title="Arashikage (Hex63 · Current Architecture)">
-            Hex63 · Current
+          <button type="button" data-arch-pill="hex64" class="arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold btn-theme-accent transition cursor-pointer" title="Arashikage (Hex64 · Current Architecture)">
+            Hex64 · Current
           </button>
           <button type="button" data-arch-pill="gen3_perceiver" class="arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer" title="Legacy Gen 3: ST-Perceiver + Conditional-31">
             Gen 3 · Perceiver
@@ -941,7 +941,7 @@ h1, h2, h3, h4 {
         </div>
         <!-- Synced select kept for programmatic / mobile accessibility -->
         <select id="selArchGen" aria-label="Switch Platform Architecture Generation" class="sr-only">
-          <option value="hex63" selected>Platform: Arashikage (Hex63 · Current)</option>
+          <option value="hex64" selected>Platform: Arashikage (Hex64 · Current)</option>
           <option value="gen3_perceiver">Platform: Legacy Gen 3 (ST-Perceiver)</option>
           <option value="gen2_factorized">Platform: Legacy Gen 2 (Factorized-684)</option>
           <option value="gen1_ret40">Platform: Legacy Gen 1 (RET-40 + PD)</option>
@@ -1344,7 +1344,7 @@ h1, h2, h3, h4 {
   <!-- Modular Static Architecture Scripts -->
   <script>
 // ============================================================================
-// ARASHIKAGE (HEX63) — 17 ARCHITECTURAL BLOCKS & 24 TENSOR EDGES (1120 x 680)
+// ARASHIKAGE (HEX64) — 17 ARCHITECTURAL BLOCKS & 24 TENSOR EDGES (1120 x 680)
 // ============================================================================
 window.ARASHIKAGE_NODES = [
   // --- COLUMN 0: STAGE 1 — C++20 OBSERVATION MANIFOLD (x = 96) ---
@@ -1354,7 +1354,7 @@ window.ARASHIKAGE_NODES = [
     color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
     techIds: ['t0', 't9'],
     role: 'Stage 1 · C++20 Host-to-GPU Zero-Copy DMA Boundary (15 Hz / 0.25 ms CPU)',
-    tensor: 'Hex63EntityNodeArenaSlice [B, 5376B] (84 × 64B cache lines)',
+    tensor: 'Hex64EntityNodeArenaSlice [B, 5376B] (84 × 64B cache lines)',
     formula: 'M_C2v = diag(-1, -1, +1) ∈ SO(3), det(M_C2v) = +1',
     how: 'Packs all 64 arena entities, bitmasks, and training context into a 64-byte-aligned 5,376B C++20 struct (84 CPU cache lines). When playing on Orange (team == 1), applies a 180° Z-rotation M_C2v = diag(-1, -1, +1) to arena coordinates while keeping car-local vectors untouched.',
     why: 'Eliminates Python dictionary marshalling overhead, guarantees single-DMA host-to-GPU transfers for 4,096 parallel arenas, and ensures the neural network only has to learn one canonical offensive direction (+Y).',
@@ -1599,7 +1599,7 @@ window.ARASHIKAGE_EDGES = [
 </script>
   <script>
 // ============================================================================
-// ARASHIKAGE (HEX63) — SCENARIOS, 10 DEEP DIVES & 36 EXTERNAL WHITE PAPERS
+// ARASHIKAGE (HEX64) — SCENARIOS, 10 DEEP DIVES & 36 EXTERNAL WHITE PAPERS
 // ============================================================================
 window.ARASHIKAGE_SCENARIOS = {
   tour: {
@@ -1608,7 +1608,7 @@ window.ARASHIKAGE_SCENARIOS = {
       {
         title: 'C++20 5,376B Cache-Line Observation Slice',
         focusNode: 'dma_slice', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
-        desc: 'Every 66.7 ms (15 Hz), Hex63ObsMapper packs all 64 arena entities into a 64-byte-aligned 5,376B struct (84 CPU cache lines). Orange team coordinates rotate 180° around Z via M_C2v = diag(-1,-1,+1) so the model always attacks toward +Y.'
+        desc: 'Every 66.7 ms (15 Hz), Hex64ObsMapper packs all 64 arena entities into a 64-byte-aligned 5,376B struct (84 CPU cache lines). Orange team coordinates rotate 180° around Z via M_C2v = diag(-1,-1,+1) so the model always attacks toward +Y.'
       },
       {
         title: '16 Dynamic Queries vs. 48 Context Keys',
@@ -1853,7 +1853,7 @@ window.ARASHIKAGE_TECH_LIBRARY = [
     id: 't9', short: 'ShadowTwin & JEPA Search',
     title: '120Hz C++20 RocketSimShadowTwin & Best-of-M JEPA Latent Search',
     usedIn: ['dma_slice', 'subtick_exec', 'jepa_search'],
-    how: 'In live RLBot matches, a local C++20 RocketSim instance steps forward 1 tick at 120 Hz alongside the game client, reconciling sensor packets via a 2-stage residual corrector and calling the exact same Hex63ObsMapper::BuildArenaSlice function used in training. When Tier 0/1 compute headroom is available, the policy samples M = 16 candidate action chunks, rolls them forward 1 step in the Dual-Stream JEPA latent predictor, and picks the chunk maximizing CVaR value under p_eval.',
+    how: 'In live RLBot matches, a local C++20 RocketSim instance steps forward 1 tick at 120 Hz alongside the game client, reconciling sensor packets via a 2-stage residual corrector and calling the exact same Hex64ObsMapper::BuildArenaSlice function used in training. When Tier 0/1 compute headroom is available, the policy samples M = 16 candidate action chunks, rolls them forward 1 step in the Dual-Stream JEPA latent predictor, and picks the chunk maximizing CVaR value under p_eval.',
     why: 'Live socket packets omit internal suspension states, wheel raycast normals, and 4.0s future ball bounce trajectories. Recomputing observations via ad-hoc Python math causes severe Sim-to-Live policy degradation.',
     contrib: 'Eliminates the Sim-to-Live observation gap by construction and filters out high-risk mechanical blunders before sending controls to the socket.',
     science: 'Dual-Stream JEPA predicts next-step ego and ball embeddings (z_hat_ego, z_hat_ball) = f_pred(h_ego, h_ball, u_chunk) supervised against a stop-gradient EMA target encoder (τ_ema = 0.996). Candidate chunks u^(m) are ranked by J(u^(m)) = w_eval^T v_eval + λ_cvar CVaR_α(v_sparse), governed by a 4-tier latency state machine keeping P99 <= 5.50 ms.',
@@ -1882,7 +1882,7 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
       badge: 'SYSTEMS & HPC REFERENCE // RED HAT',
       title: 'What Every Programmer Should Know About Memory (Cache Lines & DMA)',
       authors: 'Ulrich Drepper — Red Hat (2007)',
-      desc: 'Detailed hardware treatise on 64-byte CPU cache lines, false-sharing prevention, SIMD alignment (alignas(64)), and zero-copy DMA transfers that govern the 5,376B (84 cache line) Hex63EntityNodeArenaSlice layout.',
+      desc: 'Detailed hardware treatise on 64-byte CPU cache lines, false-sharing prevention, SIMD alignment (alignas(64)), and zero-copy DMA transfers that govern the 5,376B (84 cache line) Hex64EntityNodeArenaSlice layout.',
       url: 'https://people.freebsd.org/~lstewart/articles/cpumemory.pdf'
     },
     {
@@ -2176,11 +2176,11 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
       summary: 'Supervised warm-start phase that transfers mechanical execution and value calibration from frozen legacy teachers and replay trajectory shards before online RL updates begin.'
     }
   },
-  hex63: {
+  hex64: {
     dma_slice: {
       live: {
         regime: 'B=1 · RocketSimShadowTwin · c_priv Zero-Masked',
-        text: 'Constructed every 66.7 ms (15 Hz) from live RLBot v5 socket packets corrected by the 1-tick C++20 RocketSimShadowTwin. Uses the exact same Hex63ObsMapper::BuildArenaSlice C++ code as training, except bytes 4864..5375 (privileged_critic_ctx) are hardware zero-filled (m_priv=0) for tournament legality.'
+        text: 'Constructed every 66.7 ms (15 Hz) from live RLBot v5 socket packets corrected by the 1-tick C++20 RocketSimShadowTwin. Uses the exact same Hex64ObsMapper::BuildArenaSlice C++ code as training, except bytes 4864..5375 (privileged_critic_ctx) are hardware zero-filled (m_priv=0) for tournament legality.'
       },
       train: {
         regime: 'B=4,096 Arenas · 0.25ms OpenMP CPU -> Pinned DMA',
@@ -2188,7 +2188,7 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
       },
       distill: {
         regime: 'Paired Student (5,376B) + Teacher (700D) Views',
-        text: 'Generated from expert trajectory shards and warm-start rollout arenas alongside the legacy 700D teacher vector so the Hex63 student observes the exact same physical pitch state as the frozen teacher.'
+        text: 'Generated from expert trajectory shards and warm-start rollout arenas alongside the legacy 700D teacher vector so the Hex64 student observes the exact same physical pitch state as the frozen teacher.'
       }
     },
     dyn_nodes: {
@@ -2435,7 +2435,7 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
     fsq_bottleneck: {
       live: {
         regime: 'Stripped at TorchScript Export',
-        text: 'In Gen 3, Compositional Skill Head Z_t (#11) is an auxiliary training-only head attached as a side-branch to h_trunk. Unlike Hex63\'s in-graph FSQ bottleneck, it is stripped out during TorchScript export for zero live latency cost.'
+        text: 'In Gen 3, Compositional Skill Head Z_t (#11) is an auxiliary training-only head attached as a side-branch to h_trunk. Unlike Hex64\'s in-graph FSQ bottleneck, it is stripped out during TorchScript export for zero live latency cost.'
       },
       train: {
         regime: '8 Macro · 32 Sub-Skill Auxiliary Loss',
@@ -2449,7 +2449,7 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
     critic_heads: {
       live: {
         regime: 'Actor-Only Live Execution',
-        text: 'Gen 3 did not yet have Hex63\'s Dual-Head p_eval + JEPA test-time search (#16). The 752D ST-Perceiver Critic is used exclusively for GAE advantage estimation during training and distillation.'
+        text: 'Gen 3 did not yet have Hex64\'s Dual-Head p_eval + JEPA test-time search (#16). The 752D ST-Perceiver Critic is used exclusively for GAE advantage estimation during training and distillation.'
       },
       train: {
         regime: 'M=4 × N=43 Perceiver Critic + 3-Horizon PopArt',
@@ -2706,7 +2706,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       tensor: 'CanonicalObs700D [B, 700] + ActionMasks [B, 31]',
       formula: 'pos_c = (-x, -y, z), pad_idx = ORANGE_PAD_PERM[i] (team == 1)',
       how: 'Steps parallel RocketSim arenas in C++17 with OpenMP thread pools. For Orange team agents, mirrors world X/Y coordinates (-x, -y, z) and permutes the 34 boost pads via ORANGE_PAD_PERMUTATION so the policy always attacks toward +Y.',
-      why: 'Replaced Python-loop gym wrappers with contiguous C++ float buffers, though it still assembled flat feature vectors rather than Hex63\'s 64-byte-aligned 5,376B entity arena slice.',
+      why: 'Replaced Python-loop gym wrappers with contiguous C++ float buffers, though it still assembled flat feature vectors rather than Hex64\'s 64-byte-aligned 5,376B entity arena slice.',
       contrib: 'Delivered high-throughput 1v1 training rollouts and canonical team symmetry across all 34 boost pads.'
     },
     {
@@ -2718,7 +2718,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       tensor: 'X_ego ∈ R^[B, 4, 171] -> [B, 684] (frames t, t-1, t-2, t-3)',
       formula: 'v_rel^body = R_car^T (v_entity - v_car), g_local = R_car^T [0,0,-1]^T',
       how: 'Projects all velocities, relative ball/opponent positions, angular velocities, and 34×4 boost pad coordinates into the ego car\'s local body frame R_car^T and stacks the last K=4 steps (684 floats) using a deque buffer with 0..2 tick latency randomization.',
-      why: 'Before Hex63 introduced FP32 Titans fast weights and BallRingBuffer480, stacking K=4 frames was the primary way for the actor to infer ball acceleration and opponent boost consumption.',
+      why: 'Before Hex64 introduced FP32 Titans fast weights and BallRingBuffer480, stacking K=4 frames was the primary way for the actor to infer ball acceleration and opponent boost consumption.',
       contrib: 'Provided finite-difference velocity derivatives and immediate body-local steering/pitch alignment.'
     },
     {
@@ -2742,7 +2742,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       tensor: 'c_priv ∈ R^[B, 68] -> x_critic ∈ R^[B, 752]',
       formula: 'Δt_bounce ∈ {0.1, 0.25, 0.5, 1.0, 1.5} s (e_restitution = 0.6)',
       how: 'Appends 68 privileged floats for the training critic: 20D exact 4-wheel suspension compression, contact normals, and lateral slip ratios, 18D true world-frame velocities, and 30D 5-horizon analytical ball bounce predictions.',
-      why: 'Gave the training critic analytical wall/floor bounce lookahead before Hex63 moved 480-tick C++ ball trajectory integration directly into the shared actor-critic observation.',
+      why: 'Gave the training critic analytical wall/floor bounce lookahead before Hex64 moved 480-tick C++ ball trajectory integration directly into the shared actor-critic observation.',
       contrib: 'Stabilized value targets during wall reads and high aerials without requiring recurrent critic states.'
     },
 
@@ -2794,7 +2794,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       tensor: 'Q ∈ R^[B, 4, 192] × K,V ∈ R^[B, 37, 192] -> Q_out ∈ R^[B, 4, 192]',
       formula: 'Attn(Q,K,V) = softmax((RMSNorm(Q)·RMSNorm(K)^T)/√48 + B_full) V',
       how: 'Stacks 2 Perceiver Cross-Attention blocks (d=192, H=4, d_k=48) where M=4 latent queries (3 Core tokens [Self, Ball, Opp] + 1 learned Tactical Query token) attend over all N=37 entity tokens (3 Core + 34 Pads) with per-head QK-RMSNorm and SwiGLU FFNs.',
-      why: 'Reduced O(N^2) all-to-all self-attention (37×37 = 1,369 pairs) to O(M·N) cross-attention (4×37 = 148 pairs), laying the conceptual groundwork for Hex63\'s 16×64 Bipartite DiffAttn.',
+      why: 'Reduced O(N^2) all-to-all self-attention (37×37 = 1,369 pairs) to O(M·N) cross-attention (4×37 = 148 pairs), laying the conceptual groundwork for Hex64\'s 16×64 Bipartite DiffAttn.',
       contrib: 'Achieved sub-millisecond entity attention while preventing logit explosion during long PPO runs via QK-RMSNorm.'
     },
 
@@ -2832,7 +2832,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       tensor: 'z_macro[8], z_sub[32], z_phase[13] <- MLP(h_trunk)',
       formula: 'L_skill = CE(z_macro, y_fam) + CE(z_sub, y_sub) + MSE(z_phase, y_ph)',
       how: 'During training, predicts the structured skill taxonomy Z_t mined from pro replays: 8 Macro Skill Families (Strike, Dash, Carry/Flick, Air Dribble, Flip Reset, Backboard, Cancel), 32 Sub-Variants (Musty, Breezi, StallReset, ZapDash), and 13D continuous phase vectors.',
-      why: 'Prevented latent representation collapse into generic ball-chasing by forcing h_trunk to linearly separate 32 distinct mechanical sub-skills. (Hex63 later upgraded this into an active in-graph 1,000-code FSQ bottleneck).',
+      why: 'Prevented latent representation collapse into generic ball-chasing by forcing h_trunk to linearly separate 32 distinct mechanical sub-skills. (Hex64 later upgraded this into an active in-graph 1,000-code FSQ bottleneck).',
       contrib: 'Shaped the 256D trunk to encode mechanical phase progression without adding any runtime cost during live inference.'
     },
 
@@ -2870,7 +2870,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       tensor: 'a_cat[7] -> 8 × CarControls @ 120 Hz (66.7 ms outer step)',
       formula: 'sub=0: jump=0 (release) | sub=1..4: jump=1 (edge) | sub=5..7: jump=0',
       how: 'Translates the 7 discrete categorical indices into RocketSim controls held across 8 physics ticks (15 Hz). When a Dodge/Double-Jump is requested while jump was held, a hardcoded C++/Python FlipState machine forces subtick 0 to jump=0 so subtick 1 triggers a fresh rising edge.',
-      why: 'Because the Gen 2/3 policy only emitted 1 action tuple every 8 ticks (15 Hz), it could not release and re-press jump mid-step on its own. (Hex63 eliminated this macro via native K_sub=4 60 Hz action chunking).',
+      why: 'Because the Gen 2/3 policy only emitted 1 action tuple every 8 ticks (15 Hz), it could not release and re-press jump mid-step on its own. (Hex64 eliminated this macro via native K_sub=4 60 Hz action chunking).',
       contrib: 'Allowed 15 Hz categorical policies to reliably execute double-jumps and dodges in RocketSim and live RLBot matches.'
     },
 
@@ -2998,9 +2998,9 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
           desc: 'Unlike the actor, the 752D ST-Perceiver Critic receives 5 analytical bounce predictions (Δt ∈ {0.1, 0.25, 0.5, 1.0, 1.5}s with e=0.6 restitution) unpacked as 5 spatial 7D tokens in its N=43 Perceiver key set.'
         },
         {
-          title: 'Why Hex63 Moved BallRingBuffer480 into Shared Stage 1',
+          title: 'Why Hex64 Moved BallRingBuffer480 into Shared Stage 1',
           focusNode: 'titans_mem', highlight: ['titans_mem', 'critic_heads'], techId: 't2',
-          desc: 'Because only the Gen 3 critic saw explicit bounce tokens while the actor relied on 4-frame history, actor wall reads lagged behind critic value estimates — motivating Hex63\'s shared 8-node BallRingBuffer480 in Stage 1.'
+          desc: 'Because only the Gen 3 critic saw explicit bounce tokens while the actor relied on 4-frame history, actor wall reads lagged behind critic value estimates — motivating Hex64\'s shared 8-node BallRingBuffer480 in Stage 1.'
         },
         {
           title: 'Conditioned Aerial Alignment & Boost Commitment',
@@ -3048,9 +3048,9 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
           desc: 'Query 3 (TacticalQuery) cross-attends simultaneously to the Opponent token and the 34 Boost Pad tokens to see if the opponent is faking a challenge to grab a mid-field 100-pad.'
         },
         {
-          title: 'Why Hex63 Added FP32 Titans Fast-Weight Memory',
+          title: 'Why Hex64 Added FP32 Titans Fast-Weight Memory',
           focusNode: 'coconut_loop', highlight: ['titans_mem', 'coconut_loop'], techId: 't3',
-          desc: 'Gen 3\'s K=4 window only remembered 267 ms of history; if an opponent faked challenges every 30 seconds, weights could not adapt in-match — motivating Hex63\'s 2×4×32×32 FP32 Titans fast weights.'
+          desc: 'Gen 3\'s K=4 window only remembered 267 ms of history; if an opponent faked challenges every 30 seconds, weights could not adapt in-match — motivating Hex64\'s 2×4×32×32 FP32 Titans fast weights.'
         },
         {
           title: 'Stage-1 Handbrake Power-Slide Hook',
@@ -3095,7 +3095,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       why: 'Gen 2 (684D) hid wheel contact inside the privileged critic, leaving the actor blind to exact flip-reset 4-wheel ball touches and wavedash ground contacts.',
       contrib: 'Preserved backward compatibility with 684D teacher checkpoints (via [:684] slicing) while unlocking flip-reset awareness in the actor.',
       science: 'For any world vector v_w, the egocentric transformation v_b = R_car^T (v_w - p_car) ∈ R^3 is SE(2)-invariant to pitch orientation and Yaw, reducing sample complexity for local steering control.',
-      origins: 'Evolved from Gen 2\'s 684D stack; later superseded in Arashikage (Hex63) by the 64-byte-aligned 5,376B Layout A entity slice with 64 explicit arena tokens.'
+      origins: 'Evolved from Gen 2\'s 684D stack; later superseded in Arashikage (Hex64) by the 64-byte-aligned 5,376B Layout A entity slice with 64 explicit arena tokens.'
     },
     {
       id: 't1', short: 'Unpack & PointNet',
@@ -3117,7 +3117,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       why: 'Full self-attention over 37 tokens computes 1,369 pairs per layer; Perceiver cross-attention with M=4 queries computes only 148 pairs (a 9.2× reduction).',
       contrib: 'Introduced sub-millisecond entity attention to the platform while staying fast enough for 120 Hz/15 Hz RLBot inference.',
       science: 'Perceiver (Jaegle et al., 2021) projects a large byte/entity array X ∈ R^(N×D) into a compact latent bottleneck Q ∈ R^(M×D) via asymmetric cross-attention O(M·N).',
-      origins: 'Perceiver IO (Jaegle et al., ICML 2021); evolved into Hex63\'s 16×64 Bipartite Differential Attention.'
+      origins: 'Perceiver IO (Jaegle et al., ICML 2021); evolved into Hex64\'s 16×64 Bipartite Differential Attention.'
     },
     {
       id: 't3', short: 'QK-Norm & Pad Bias',
@@ -3128,7 +3128,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       why: 'Unbounded QK dot products drift upward over millions of PPO steps, causing attention entropy collapse; meanwhile, un-biased softmax wastes attention mass on depleted pads across the field.',
       contrib: 'Eliminated attention logit explosion in long PPO runs and gave each head tunable spatial horizon preferences.',
       science: 'QK-Norm (Dehghani et al., 2023) bounds pre-softmax logits by enforcing ||q_i||_2 ≈ √d_k and ||k_j||_2 ≈ √d_k prior to inner product evaluation.',
-      origins: 'Scaling Vision Transformers / Dehghani et al. (2023); upgraded in Hex63 to 72D Fused GPU Pairwise Fourier + Intercept biases.'
+      origins: 'Scaling Vision Transformers / Dehghani et al. (2023); upgraded in Hex64 to 72D Fused GPU Pairwise Fourier + Intercept biases.'
     },
     {
       id: 't4', short: '912D Skip & SwiGLU',
@@ -3150,7 +3150,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       why: 'Independent factorized heads P(a|s) = Π_i P(a_i|s) cannot coordinate multimodal joint actions (e.g., pitching forward for a speedflip only on the exact sample where Dodge fires).',
       contrib: 'Restored autoregressive joint action coordination between binary impulses and rotational axes with only a 64->256 linear bridge.',
       science: 'Autoregressive factorization P(a_J, a_B, a_dir | s) = P(a_J, a_B | h) · Π_{d} P(a_d | h, a_J, a_B) captures cross-head covariance while keeping categorical sampling O(1).',
-      origins: 'Vinyals et al. (AlphaStar Autoregressive Action Heads, 2019); precursor to Hex63\'s Stage-1 16-Way Binary + Stage-2 Flow-GRPO SDE.'
+      origins: 'Vinyals et al. (AlphaStar Autoregressive Action Heads, 2019); precursor to Hex64\'s Stage-1 16-Way Binary + Stage-2 Flow-GRPO SDE.'
     },
     {
       id: 't6', short: 'Skill Aux Head (Z_t)',
@@ -3161,7 +3161,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       why: 'Pure reward-driven PPO tends to collapse intermediate hidden representations into homogeneous value predictors, forgetting rare mechanical sub-skills.',
       contrib: 'Forced the 256D trunk to maintain linearly separable representations for 32 advanced Rocket League mechanics.',
       science: 'Multi-task auxiliary representation learning (Jaderberg et al., UNREAL, 2017) regularizes the shared trunk manifold without altering inference latency.',
-      origins: 'Mined via the SeqScout WRAcc MCTS replay miner; evolved in Hex63 into the active 8×125=1,000 FSQ bottleneck.'
+      origins: 'Mined via the SeqScout WRAcc MCTS replay miner; evolved in Hex64 into the active 8×125=1,000 FSQ bottleneck.'
     },
     {
       id: 't7', short: 'Masks & FlipState FSM',
@@ -3170,7 +3170,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       placement: 'Stage 5 Execution Boundary — enforces physics validity and 120 Hz jump edges.',
       how: 'Applies -10^8 logit masks when grounded (disabling Pitch/Roll and mapping Yaw->Steer), when boost==0, or when !has_flip. During the 8-subtick (15 Hz) step, a C++/Python FlipState machine forces subtick 0 to jump=0 so subticks 1..4 trigger a rising jump edge.',
       why: 'A 15 Hz policy holds one action for 8 physics ticks (66.7 ms) and therefore cannot release and re-press the jump button within a single policy step without an external edge macro.',
-      contrib: 'Pruned invalid exploration states and made 15 Hz double-jumps reliable — while revealing the 15 Hz control bottleneck that Hex63 solved with K_sub=4 (60 Hz) subtick action chunking.',
+      contrib: 'Pruned invalid exploration states and made 15 Hz double-jumps reliable — while revealing the 15 Hz control bottleneck that Hex64 solved with K_sub=4 (60 Hz) subtick action chunking.',
       science: 'Invalid action masking (Huang & Ontañón, 2020) sets logits of impossible actions to -∞, ensuring policy gradient updates are strictly zero on physically no-op controls.',
       origins: 'Huang & Ontañón (2020) + RocketSim Car::controls state machine.'
     },
@@ -3183,7 +3183,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       why: 'Giving the critic explicit spatial tokens for the next 1.5 seconds of wall/floor ball bounces eliminated value estimation lag during backboard reads.',
       contrib: 'Reduced GAE variance across γ ∈ {0.990, 0.995, 0.998} while keeping the deployed actor lightweight.',
       science: 'Asymmetric Actor-Critic (Pinto et al., 2017) + PopArt (van Hasselt et al., 2016) preserve output precision across changing reward scales via W_new = (σ_old/σ_new) W_old.',
-      origins: 'Pinto et al. (2017) & van Hasselt et al. (2016); upgraded in Hex63 to Dual-Head 4×51 Symlog HL-Gauss distributional critics.'
+      origins: 'Pinto et al. (2017) & van Hasselt et al. (2016); upgraded in Hex64 to Dual-Head 4×51 Symlog HL-Gauss distributional critics.'
     },
     {
       id: 't9', short: 'KL & PopArt Distiller',
@@ -3315,7 +3315,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       tensor: 'x_pads ∈ R^[B, 136] (34 pads × [rel_x, rel_y, rel_z, τ_avail])',
       formula: 'pad_order = ORANGE_PAD_PERMUTATION[0..33] when team == 1',
       how: 'Transforms all 34 canonical boost pad locations into the ego car\'s body frame and pairs each with its normalized availability fraction τ_avail ∈ [0, 1], permuting pad indices for Orange so pad slots remain symmetric.',
-      why: 'Allowed the MLP to see every boost pad\'s body-relative direction, though repeating 136 floats across 4 history frames consumed 544 of the 684 inputs (later solved by Gen 3\'s PointNet and Hex63\'s Bipartite Graph).',
+      why: 'Allowed the MLP to see every boost pad\'s body-relative direction, though repeating 136 floats across 4 history frames consumed 544 of the 684 inputs (later solved by Gen 3\'s PointNet and Hex64\'s Bipartite Graph).',
       contrib: 'Gave the policy full pitch boost awareness without requiring an entity transformer.'
     },
     {
@@ -3353,7 +3353,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       tensor: 's_obs(t) <- s_true(t - δ_lag), δ_lag ~ Uniform({0, 1, 2} ticks)',
       formula: 'Δt_jitter ∈ {0.0 ms, 8.33 ms, 16.67 ms}',
       how: 'During training rollouts, randomly delays observations by 0, 1, or 2 physics ticks via LatencyDomainRandomizer to mimic RLBot socket IPC jitter and frame-delivery variance.',
-      why: 'Policies trained on zero-lag simulator states often oscillate or miss tight challenges when deployed over live TCP/shared-memory sockets. (Hex63 later solved this deterministically via the 1-tick C++20 RocketSimShadowTwin).',
+      why: 'Policies trained on zero-lag simulator states often oscillate or miss tight challenges when deployed over live TCP/shared-memory sockets. (Hex64 later solved this deterministically via the 1-tick C++20 RocketSimShadowTwin).',
       contrib: 'Hardened the Gen 2 MLP against live match packet jitter.'
     },
 
@@ -3494,7 +3494,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       formula: 'P_match(i) ∝ p_win^p (1 - p_win)^q · (1 + β_u σ_i^2 / σ_0^2)',
       how: 'Samples arena initial states across 5 stratified curriculum branches (including 27D replay-mined aerial/flip-reset entry states) and matches agents via Prioritized Fictitious Self-Play (PFSP) weighted by Bayesian TrueSkill uncertainty σ_i^2.',
       why: 'Prevented forgetting of foundational kickoff/ground play while forcing high-density practice on hard-negative ring-buffer states and aerial initiation states.',
-      contrib: 'Established the curriculum and league foundation that Hex63 scaled to 4,096 arenas (816 G=8 GRPO + 2,880 League + 400 Boss).'
+      contrib: 'Established the curriculum and league foundation that Hex64 scaled to 4,096 arenas (816 G=8 GRPO + 2,880 League + 400 Boss).'
     }
   ],
   edges: [
@@ -3586,9 +3586,9 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
           desc: 'Because the 752D critic immediately sees the post-bounce ball location in front of the opponent net, its PopArt value surges as soon as the agent jumps for the backboard.'
         },
         {
-          title: 'Limitation that Led to Gen 3 & Hex63',
+          title: 'Limitation that Led to Gen 3 & Hex64',
           focusNode: 'titans_prior', highlight: ['env_nodes', 'titans_prior'], techId: 't2',
-          desc: 'Feeding 544 static pad floats alongside 140 dynamic floats into a dense 684->512 layer diluted spatial attention — motivating Gen 3\'s PointNet+Perceiver and Hex63\'s 5,376B Bipartite Graph.'
+          desc: 'Feeding 544 static pad floats alongside 140 dynamic floats into a dense 684->512 layer diluted spatial attention — motivating Gen 3\'s PointNet+Perceiver and Hex64\'s 5,376B Bipartite Graph.'
         }
       ]
     },
@@ -3755,7 +3755,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       why: 'Directly retired Gen 1\'s 120 Hz Attitude PD controller (which fought the policy during flip resets) while working around the 15 Hz outer step rate.',
       contrib: 'Gave the neural network direct categorical authority over Pitch/Yaw/Roll and reliable dodge edges.',
       science: 'Boolean action masking restricts policy support supp(π(·|s)) to the feasible physical control set A_valid(s).',
-      origins: 'Huang & Ontañón (2020); later superseded in Hex63 by native K_sub=4 (60 Hz) subtick action chunks.'
+      origins: 'Huang & Ontañón (2020); later superseded in Hex64 by native K_sub=4 (60 Hz) subtick action chunks.'
     },
     {
       id: 't8', short: '752D Privileged Critic',
@@ -3874,7 +3874,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       formula: 'Slots: [0] Ego | [1..2] Mates | [3..5] Opps | [6] Ball | [7..40] 34 Pads',
       how: 'Packs all 41 arena entities into 100-byte C++ POD structs: 3D position, 3D linear velocity, 3D forward & up unit vectors, 3D angular velocity, boost/timer scalars, 6D one-hot entity type flags, and channel 24 norm_time_to_go.',
       why: 'Represented the pitch as an unordered set of 41 physical objects with zero 1D positional encodings so the policy was permutation-equivariant across cars and pads.',
-      contrib: 'Pioneered the entity-token paradigm in rl-bot that later evolved into Hex63\'s 64-entity 5,376B Layout A slice.'
+      contrib: 'Pioneered the entity-token paradigm in rl-bot that later evolved into Hex64\'s 64-entity 5,376B Layout A slice.'
     },
     {
       id: 'dyn_nodes', num: '02', col: 0, x: 96, y: 265, w: 162, h: 92,
@@ -3910,7 +3910,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       formula: 'Writer: seq.fetch_add(1, release) -> memcpy -> seq.fetch_add(1, release)',
       how: 'Streams step metrics, SPS, and arena states out of the C++ batch engine into a 64-byte-aligned Seqlock shared memory ring buffer without mutex locks.',
       why: 'OS mutexes inside a 120 Hz / 1,024-arena OpenMP hot loop cause severe thread convoying.',
-      contrib: 'Established the lock-free Seqlock telemetry design that Hex63 expanded into the 256 KB Hex63TelemetrySharedMemory plane.'
+      contrib: 'Established the lock-free Seqlock telemetry design that Hex64 expanded into the 256 KB Hex64TelemetrySharedMemory plane.'
     },
 
     // --- COLUMN 1: STAGE 2 — AVX2 PAIRWISE RELATIONAL TENSOR & HOISTED BIAS (x = 282) ---
@@ -3923,7 +3923,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       tensor: 'RelationalTensorBlockPOD: r_ij ∈ R^[B, 41, 41, 8] (53,792 Bytes)',
       formula: 'inv_d = _mm256_rsqrt_ps(d2) · (1.5 - 0.5 · d2 · inv_d^2)',
       how: 'Executes ComputeRelationalTensorAVX2 in C++ across all 41×41 = 1,681 entity pairs, computing 8 pairwise physics features: Δp_xyz / 6000, Euclidean distance ||Δp|| / 6000 (via fast AVX2 reciprocal square root + 1 Newton-Raphson step), Δv_xyz / 2300, and closing speed.',
-      why: 'Provided explicit pairwise 3D geometry to every attention head — though transferring 53,792B per arena over PCIe became a bandwidth bottleneck that Hex63 solved by computing pairwise biases on-chip on the GPU.',
+      why: 'Provided explicit pairwise 3D geometry to every attention head — though transferring 53,792B per arena over PCIe became a bandwidth bottleneck that Hex64 solved by computing pairwise biases on-chip on the GPU.',
       contrib: 'Gave the RET-40 transformer exact relative kinematics for all 1,681 entity pairs.'
     },
     {
@@ -3999,7 +3999,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       tensor: '4 × (256 -> 128 -> 12D Action) + Archetype Intrinsic Rewards',
       formula: 'Archetypes: BALL_DENIAL | DEMOLITION | AERIAL_MECHANICS | BOOST_STARVATION',
       how: 'Attaches 4 specialized exploiter policy heads to the 256D trunk, each paired with an intrinsic reward generator (e.g., supersonic closing speed to opponent car for DEMOLITION, big-pad steals in opponent half for BOOST_STARVATION).',
-      why: 'Forced the main agent to defend against extreme specialist playstyles (heavy demo chasers, boost starvers, aerial freestylers). (Hex63 later internalized this via 8×2 Soft-MoE specialist experts).',
+      why: 'Forced the main agent to defend against extreme specialist playstyles (heavy demo chasers, boost starvers, aerial freestylers). (Hex64 later internalized this via 8×2 Soft-MoE specialist experts).',
       contrib: 'Hardened the policy against degenerate local optima and extreme adversarial styles.'
     },
 
@@ -4026,7 +4026,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       formula: 'e_pitch = atan2(f*·u, f*·f), e_yaw = atan2(f*·r, f*·f), e_roll = atan2(r*·u, u*·u)',
       how: 'Computes exact body-local pitch, yaw, and roll angle errors from the column basis vectors (f, r, u) of R(q) and R(q̃*), applies proportional-derivative + angular-velocity feedforward gains, and zeroes micro-oscillations inside a 0.04 rad Schmitt-trigger deadband.',
       why: 'Closed the control loop at the full 120 Hz physics rate while the heavy RET-40 transformer ran at 15–30 Hz.',
-      contrib: 'Delivered damped, zero-overshoot aerial aiming, though its restorative torque resisted intentional flip-reset stalls (inspiring Gen 2/3 direct heads and Hex63 60 Hz Flow-GRPO).'
+      contrib: 'Delivered damped, zero-overshoot aerial aiming, though its restorative torque resisted intentional flip-reset stalls (inspiring Gen 2/3 direct heads and Hex64 60 Hz Flow-GRPO).'
     },
     {
       id: 'subtick_exec', num: '14', col: 4, x: 840, y: 440, w: 162, h: 92,
@@ -4052,7 +4052,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       formula: 'A_t^total = w_1 A_t^(0.95) + w_2 A_t^(0.98) + w_3 A_t^(0.995)',
       how: 'Projects the 256D fused_context into 3 PopArt-normalized scalar value heads tracking short-term mechanical touches (γ=0.95), medium-term tactical outplays (γ=0.98), and long-term goal outcomes (γ=0.995).',
       why: 'Single-horizon γ=0.995 critics drown out immediate aerial touch feedback in long-horizon goal variance.',
-      contrib: 'Established the multi-horizon value decomposition that Hex63 expanded into the 4×51 Symlog HL-Gauss critic.'
+      contrib: 'Established the multi-horizon value decomposition that Hex64 expanded into the 4×51 Symlog HL-Gauss critic.'
     },
     {
       id: 'jepa_search', num: '16', col: 5, x: 1024, y: 295, w: 162, h: 92,
@@ -4063,7 +4063,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       tensor: 'θ_k = θ_1 + Σ_{j=2}^k softplus(Δ_j) ∈ R^[B, 32], CVaR_β = E[q | τ <= β]',
       formula: 'L_QR(u) = Σ_k |τ_k - I(u < 0)| · L_κ(u), τ_k = (2k - 1)/64',
       how: 'Predicts N=32 strictly non-decreasing return quantiles via cumulative softplus deltas and integrates the lower tail up to the actor\'s dynamic risk preference β(s) ∈ [0.05, 0.95] (playing conservatively when winning or last-man back).',
-      why: 'Prevented quantile crossing by construction and introduced risk-sensitive CVaR optimization to the platform (which Hex63 later paired with Best-of-16 JEPA world-model search).',
+      why: 'Prevented quantile crossing by construction and introduced risk-sensitive CVaR optimization to the platform (which Hex64 later paired with Best-of-16 JEPA world-model search).',
       contrib: 'Enabled score-and-clock-aware risk management.'
     },
     {
@@ -4163,9 +4163,9 @@ window.ARASHIKAGE_GEN1_RET40 = {
           desc: 'The 8D pairwise vector projects to 4 head biases B_rel[B,4,41,41] once and guides all 4 RET-40 layers.'
         },
         {
-          title: 'Why Hex63 Moved Pairwise Bias from CPU AVX2 to Fused GPU',
+          title: 'Why Hex64 Moved Pairwise Bias from CPU AVX2 to Fused GPU',
           focusNode: 'gpu_edges', highlight: ['dma_slice', 'gpu_edges'], techId: 't1',
-          desc: 'In Gen 1, transferring 41×41×8 floats (53.7 KB/arena) from CPU to GPU cost 220 MB/step at 4,096 arenas — motivating Hex63 to transfer only the 5,376B entity slice and compute 16×64×72D biases on-chip on the GPU.'
+          desc: 'In Gen 1, transferring 41×41×8 floats (53.7 KB/arena) from CPU to GPU cost 220 MB/step at 4,096 arenas — motivating Hex64 to transfer only the 5,376B entity slice and compute 16×64×72D biases on-chip on the GPU.'
         },
         {
           title: 'Target Quaternion Aims Car Nose at Intercept Point',
@@ -4193,7 +4193,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
           desc: 'Once error drops below 0.04 rad and angular velocity is damped, the Schmitt trigger zeroes torques to eliminate high-frequency limit-cycle chatter.'
         },
         {
-          title: 'Why Attitude PD Was Retired in Gen 2/3 & Hex63',
+          title: 'Why Attitude PD Was Retired in Gen 2/3 & Hex64',
           focusNode: 'subtick_exec', highlight: ['stage2_flow', 'subtick_exec'], techId: 't5',
           desc: 'During flip-reset stalls and Musty flicks, the PD controller treated intentional stall torques as attitude errors and fought the policy — leading to direct neural subtick control in later generations.'
         }
@@ -4218,9 +4218,9 @@ window.ARASHIKAGE_GEN1_RET40 = {
           desc: 'Playing against the 4 exploiter archetypes forces the RET-40 attention layers to track incoming demo threats even when the ball is elsewhere.'
         },
         {
-          title: 'Evolution into Hex63\'s Static 8×2 Soft-MoE',
+          title: 'Evolution into Hex64\'s Static 8×2 Soft-MoE',
           focusNode: 'fsq_bottleneck', highlight: ['fsq_bottleneck'], techId: 't8',
-          desc: 'Rather than keeping 4 separate outer policy heads, Hex63 internalized specialization inside the trunk via 8 static-shape Soft-MoE experts.'
+          desc: 'Rather than keeping 4 separate outer policy heads, Hex64 internalized specialization inside the trunk via 8 static-shape Soft-MoE experts.'
         }
       ]
     },
@@ -4243,9 +4243,9 @@ window.ARASHIKAGE_GEN1_RET40 = {
           desc: 'Trapezoidal quantile integration evaluates the conditional expectation over τ ∈ [0, β(s)] without Python loops inside the captured CUDA Graph.'
         },
         {
-          title: 'Evolution into Hex63\'s Best-of-16 JEPA + CVaR Search',
+          title: 'Evolution into Hex64\'s Best-of-16 JEPA + CVaR Search',
           focusNode: 'jepa_search', highlight: ['jepa_search'], techId: 't7',
-          desc: 'Hex63 combined Gen 1\'s CVaR tail-risk objective with a Dual-Stream JEPA latent world model to score 16 candidate action chunks at test time.'
+          desc: 'Hex64 combined Gen 1\'s CVaR tail-risk objective with a Dual-Stream JEPA latent world model to score 16 candidate action chunks at test time.'
         }
       ]
     }
@@ -4269,7 +4269,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       placement: 'Stage 2 Relational Geometry — bridges C++ SoA kinematics and RET-40 attention.',
       how: 'Uses 8-wide __m256 AVX2 intrinsics (_mm256_rsqrt_ps + Newton-Raphson refinement) to compute [Δp, ||Δp||, Δv, v_close] across all 1,681 pairs (53,792B), then projects 8->16->4 once per step via trunk-hoisted mlp_rel.',
       why: 'Attention dot products Q_i K_j^T in world coordinates do not directly compute Euclidean distances ||p_i - p_j||_2; explicit pairwise r_ij biases give exact spatial geometry.',
-      contrib: 'Cut relational bias compute by 4× via trunk hoisting while inspiring Hex63\'s on-chip GPU pairwise kernel.',
+      contrib: 'Cut relational bias compute by 4× via trunk hoisting while inspiring Hex64\'s on-chip GPU pairwise kernel.',
       science: 'One Newton-Raphson step y_{n+1} = y_n (1.5 - 0.5 x y_n^2) on _mm256_rsqrt_ps achieves ~22 bits of mantissa precision in 3 CPU cycles.',
       origins: 'C++ AVX2 Pairwise Relational Extractor + Shaw et al. (Relative Position Representations, NAACL 2018).'
     },
@@ -4280,7 +4280,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       placement: 'Stage 3 Policy & Critic Backbone — 4-Layer Relational Transformer (1.22M Params).',
       how: 'Stacks 4 Pre-LayerNorm RelationalAttentionBlocks (d=128, H=4, SwiGLU FFN d_ff=256) with additive pairwise relational bias B_rel and boolean key padding masks, pooling h_0 || c_global into 256D.',
       why: 'Enabled joint relational reasoning across cars, ball, and all 34 boost pads.',
-      contrib: 'Validated relational transformers + SwiGLU in RocketSim before Hex63 introduced asymmetric 16×64 Bipartite Differential Attention.',
+      contrib: 'Validated relational transformers + SwiGLU in RocketSim before Hex64 introduced asymmetric 16×64 Bipartite Differential Attention.',
       science: 'Relational Self-Attention A_ij = softmax(q_i^T k_j / √d + ϕ(r_ij)) conditions message passing on SE(3) pairwise invariants.',
       origins: 'Zambaldi et al. (DeepMind Relational Deep RL, ICLR 2019).'
     },
@@ -4313,7 +4313,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       placement: 'Stage 5B/C Low-Level Motor Cortex — runs at 120 Hz inside the physics loop.',
       how: 'Computes local pitch/yaw/roll errors from rotation matrix column basis vectors, applies Kp=(5.0, 5.0, 1.8), Kd=(0.65, 0.65, 0.22), Kff=(0.08, 0.08, 0.03), and zeroes chatter inside a 0.04 rad Schmitt-trigger deadband.',
       why: 'Provided 120 Hz closed-loop rotational damping when the neural policy only stepped at 15 Hz.',
-      contrib: 'Stabilized aerial flight in Gen 1, while teaching the key lesson that led to Hex63: advanced flip-reset stalls require direct 60 Hz neural subtick control rather than a restorative PD loop.',
+      contrib: 'Stabilized aerial flight in Gen 1, while teaching the key lesson that led to Hex64: advanced flip-reset stalls require direct 60 Hz neural subtick control rather than a restorative PD loop.',
       science: 'Geometric attitude control on SO(3) (Lee et al., CDC 2010) achieves almost-global exponential stability outside the 180° antipodal cut locus.',
       origins: 'Lee, Leok, & McClamroch (Geometric Tracking Control on SO(3), IEEE CDC 2010).'
     },
@@ -4357,7 +4357,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       placement: 'Stage 1 & Stage 6 Systems Infrastructure — Static CUDA Graph & Lockless Seqlock IPC.',
       how: 'Captures the E=1024 rollout step in a torch.cuda.CUDAGraph, stages updated PPO weights in-place (<5.56 ms) without changing device pointers, and exports C++ telemetry via a 64B-aligned odd/even atomic Seqlock.',
       why: 'Eliminated Python kernel launch overhead and OS mutex contention.',
-      contrib: 'Laid the systems engineering foundation for Hex63\'s 4,096-arena CUDAGraph loop and 256 KB Seqlock Command Center.',
+      contrib: 'Laid the systems engineering foundation for Hex64\'s 4,096-arena CUDAGraph loop and 256 KB Seqlock Command Center.',
       science: 'A Seqlock increments an atomic counter before and after writing; readers retry if seq_start is odd or seq_start != seq_end, achieving zero-lock wait-free reads.',
       origins: 'Linux Kernel Seqlock + PyTorch CUDAGraphs.'
     }
@@ -4427,13 +4427,13 @@ window.ARASHIKAGE_GEN1_RET40 = {
 };
 
 // ============================================================================
-// MASTER MULTI-GENERATION ARCHITECTURE REGISTRY (HEX63 + GEN 3 + GEN 2 + GEN 1)
+// MASTER MULTI-GENERATION ARCHITECTURE REGISTRY (HEX64 + GEN 3 + GEN 2 + GEN 1)
 // ============================================================================
 window.ARASHIKAGE_ARCHITECTURES = {
-  hex63: {
-    id: 'hex63',
-    shortBadge: 'ARASHIKAGE // HEX63 (CURRENT)',
-    dropdownLabel: 'Gen 4: Hex63 (Current · 60Hz Flow)',
+  hex64: {
+    id: 'hex64',
+    shortBadge: 'ARASHIKAGE // HEX64 (CURRENT)',
+    dropdownLabel: 'Gen 4: Hex64 (Current · 60Hz Flow)',
     identityTitle: 'Real-Time Physics & Neural Control — 60 Hz Flow-GRPO',
     colHeaders: [
       { col: 0, x: 96,  title: 'STAGE 1 // C++20 OBS',     sub: '5,376B Slice · C2v',       color: '#38bdf8' },
@@ -4486,7 +4486,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
 </script>
   <script>
 // ============================================================================
-// ARASHIKAGE (HEX63) — BESPOKE 6-THEME × 2-POLARITY CANVAS RENDERER (1120 x 680)
+// ARASHIKAGE (HEX64) — BESPOKE 6-THEME × 2-POLARITY CANVAS RENDERER (1120 x 680)
 // ============================================================================
 (function () {
   const BASE_W = 1120;
@@ -6239,18 +6239,1072 @@ window.ARASHIKAGE_ARCHITECTURES = {
 </script>
   <script>
 // ============================================================================
-// ARASHIKAGE (HEX63 + LEGACY GEN 1..3) — INTERACTIVE ARCHITECTURE EXPLORER
+// ARASHIKAGE · HEX64 — 12-CONCEPT INTERACTIVE I CHING SPLASH MODAL & CODEX
+// Hexagram 64 (䷿ 未濟 Wèi Jì — Fire ☲ over Water ☵: The 64th & Final Hexagram)
+// Top-to-Bottom Line Order: Solid (L6), Broken (L5), Solid (L4), Broken (L3), Solid (L2), Broken (L1)
+// ============================================================================
+
+(function () {
+  const STORAGE_KEY_HIDE_SPLASH = 'arashikage_hex64_splash_hide_v1';
+  const STORAGE_KEY_ACTIVE_CONCEPT = 'arashikage_hex64_splash_concept_v1';
+
+  // The 6 Bars of I Ching Hexagram 64 (䷿ 未濟 Wèi Jì — Fire ☲ over Water ☵)
+  // Top-to-Bottom: Row 0..5 -> Line 6..1 -> Stage 6..1
+  // Upper Trigram: Fire  ☲ (Lí:  Yang-Yin-Yang = Solid, Broken, Solid) -> Radiant Action, Foresight & Mastery
+  // Lower Trigram: Water ☵ (Kǎn: Yin-Yang-Yin = Broken, Solid, Broken) -> Deep C++20 Physics, 64-Token Manifold & Memory
+  // 2^6 = 64 Total Hexagrams (Hexagram 64 = The Final Form) <-> 64 Arena Entity Tokens (Slots 0..63) & 64B Cache Lines
+  const ICHING_BAR_SPECS = [
+    {
+      row: 0,
+      lineNum: 6,
+      stageIdx: 5,
+      stageCode: 'STAGE 6 · LINE 6 (上九)',
+      polarity: 'yang',
+      glyph: '⚊ SOLID YANG (APEX)',
+      trigram: '☲ FIRE (LÍ · RADIANT APEX)',
+      title: 'Crowning Multi-Horizon Critic, JEPA CVaR & G=8 GRPO',
+      splitLeft: 'Dual 4×51 Symlog HL-Gauss (γ=0.95..0.9995)',
+      splitRight: 'Best-of-16 JEPA Search + 4,096-Arena League',
+      detail:
+        'Top solid Yang bar (Line 6 of Hexagram 64 ䷿): crowns the architecture by unifying 4-horizon value estimation, test-time CVaR safety filtering, and G=8 cloned cohort optimization.'
+    },
+    {
+      row: 1,
+      lineNum: 5,
+      stageIdx: 4,
+      stageCode: 'STAGE 5 · LINE 5 (六五)',
+      polarity: 'yin',
+      glyph: '⚋ BROKEN YIN (DUAL-ACTUATION)',
+      trigram: '☲ FIRE (LÍ · RADIANT ACTION)',
+      title: 'Dual-Stage K_sub=4 (60 Hz) Subtick Action Heads',
+      splitLeft: 'Stage-1: 16-Way Autoregressive Binary Head',
+      splitRight: 'Stage-2: 4×5 Continuous Flow-Matching ODE',
+      detail:
+        'Fifth line (Broken Yin ⚋ at the center of Upper Trigram Fire ☲): splits 60 Hz subtick motor control into discrete binary impulses (jump/boost/handbrake, left) and continuous aerodynamic ODE flow (throttle/steer/pitch/yaw/roll, right).'
+    },
+    {
+      row: 2,
+      lineNum: 4,
+      stageIdx: 3,
+      stageCode: 'STAGE 4 · LINE 4 (九四)',
+      polarity: 'yang',
+      glyph: '⚊ SOLID YANG (FORESIGHT)',
+      trigram: '☲ FIRE (LÍ · RADIANT FORESIGHT)',
+      title: 'Unified Latent Foresight: 1,000 FSQ Skills & M=16 JEPA',
+      splitLeft: '8×125 = 1,000 Discrete FSQ Skill Codebook',
+      splitRight: 'M=16 Parallel Latent JEPA World Rollouts',
+      detail:
+        'Fourth line (Solid Yang ⚊ base of Upper Trigram Fire ☲): fuses discrete symbolic skill syntax (1,000 FSQ codes) with 16 parallel imagined future trajectories inside a single 5.5 ms CUDAGraph.'
+    },
+    {
+      row: 3,
+      lineNum: 3,
+      stageIdx: 2,
+      stageCode: 'STAGE 3 · LINE 3 (六三)',
+      polarity: 'yin',
+      glyph: '⚋ BROKEN YIN (MEMORY || MOE)',
+      trigram: '☵ WATER (KǍN · FLUID MEMORY)',
+      title: 'FP32 Titans Fast-Weight Memory || 8×2 Soft-MoE Routing',
+      splitLeft: '2×4×32×32 FP32 Titans (||W||_F <= 4.0) + Coconut',
+      splitRight: '8 Specialist Experts × 2 Slots Static Einsum',
+      detail:
+        'Third line (Broken Yin ⚋ crest of Lower Trigram Water ☵): pairs test-time synaptic plasticity (FP32 Titans fast weights adapting to opponent habits, left) with 8-expert Soft-MoE spatial routing (right).'
+    },
+    {
+      row: 4,
+      lineNum: 2,
+      stageIdx: 1,
+      stageCode: 'STAGE 2 · LINE 2 (九二)',
+      polarity: 'yang',
+      glyph: '⚊ SOLID YANG (64-TOKEN GRAPH)',
+      trigram: '☵ WATER (KǍN · DEEP MANIFOLD)',
+      title: 'Unified 64-Token Manifold & 16×48 Bipartite DiffAttn',
+      splitLeft: '16 Dynamic Physics Tokens × 64 Context Nodes',
+      splitRight: 'On-Chip 72D Pairwise Kinematic Geometry',
+      detail:
+        'Second line (Solid Yang ⚊ core of Lower Trigram Water ☵): binds all 64 arena entities (1 Ego + 63 Peers) into a unified 64×64 relational representation via Denoising Differential Attention.'
+    },
+    {
+      row: 5,
+      lineNum: 1,
+      stageIdx: 0,
+      stageCode: 'STAGE 1 · LINE 1 (初六)',
+      polarity: 'yin',
+      glyph: '⚋ BROKEN YIN (SIM || SHADOW TWIN)',
+      trigram: '☵ WATER (KǍN · FOUNDATION)',
+      title: '4,096-Arena Batch Sim || 1-Tick Live C++20 Shadow Twin',
+      splitLeft: 'Sim: 4,096 RocketSim Arenas (G=8 Clones)',
+      splitRight: 'Live: 1-Tick C++20 RocketSimShadowTwin',
+      detail:
+        'Foundation line (Broken Yin ⚋ base of Hexagram 64 ䷿): bridges parallel training (left) and live 120 Hz socket execution (right) through the exact same C++20 Hex64ObsMapper::BuildArenaSlice (5,376B = 84×64B) kernel.'
+    }
+  ];
+
+  // The 12 Splash Modal Concepts (01..12) — All featuring Hexagram 64 (䷿ 未濟: Fire ☲ over Water ☵)
+  const SPLASH_CONCEPTS = [
+    {
+      id: 'c01',
+      num: '01',
+      short: 'Hexagram 64 Codex',
+      title: 'THE I CHING HEX64 CODEX (䷿ 未濟) // FIRE ☲ OVER WATER ☵',
+      archetype: 'Sacred Geometry & 64-Entity Orbital Ring',
+      tagline: 'Hexagram 64 (The Final Form) · 2⁶ = 64 Arena Entities · 64-Byte Cache Lines',
+      hype:
+        'For 30 years, the I Ching hexagram has been the creator’s personal avatar—and the clan crest of Arashikage (Storm Shadow). Crowned in its final form as Hexagram 64 (䷿ 未濟 Wèi Jì — Fire ☲ over Water ☵), that 6-bar binary glyph becomes literal silicon: 6 neural stages (2⁶ = 64 states) attending to all 64 arena entities across 84 CPU cache lines, simulating 16 future timelines in 5.1 milliseconds so the strike is solved before the ball leaves the wall.',
+      metaphorTitle: 'HIDDEN CIPHER // WHY HEXAGRAM 64 (䷿) = THE FINAL FORM & 64-TOKEN MANIFOLD',
+      metaphorBody:
+        'In the I Ching, Hexagram 64 (䷿ 未濟 Wèi Jì: Fire ☲ above, Water ☵ below; top-to-bottom Solid, Broken, Solid, Broken, Solid, Broken) is the 64th and final hexagram—representing continuous evolution and unbounded mastery beyond static completion. Around the 6-bar seal orbit the exact 64 tokens of our architecture: Slot 0 (Ego Car at the 12 o’clock zenith) + 63 relational world peers (5 cars, 1 ball, 8 ballistic arc anchors, 1 match node, 34 boost pads, 6 goal posts, 4 wheels, 4 pitch surfaces = 64).'
+    },
+    {
+      id: 'c02',
+      num: '02',
+      short: 'Storm × Shadow',
+      title: 'STORM & SHADOW // THE TWIN-BLADE C2v DUALITY (嵐 × 影)',
+      archetype: 'Split-Diptych Across the Klein 4-Group Mirror Axis',
+      tagline: 'strmshdw → 嵐 (Arashi: Storm) + 影 (Kage: Shadow) · Hexagram 63 ↔ 64 Inversion',
+      hype:
+        'Born directly from the handle strmshdw (Storm Shadow), Arashikage fights with two mirrored blades. The Storm (嵐) is raw 120 Hz rigid-body kinetics forged across 4,096 parallel arenas and 60 Hz subtick impulses. The Shadow (影) is the 1-Tick C++20 RocketSimShadowTwin and 16-rollout JEPA world model—running in the dark to reconstruct hidden spin, torque, and 16 branching futures before committing a single frame in the light.',
+      metaphorTitle: 'HIDDEN CIPHER // KLEIN C2v SYMMETRY & THE HEXAGRAM 63 ↔ 64 MIRROR',
+      metaphorBody:
+        'In the I Ching, inverting Hexagram 63 by 180° transforms it directly into Hexagram 64 (䷿: Solid, Broken, Solid, Broken, Solid, Broken)—and the central negative-space channel of its 3 Broken Yin bars (Lines 1, 3, 5) forms the literal Klein 4-Group C2v Mirror Axis (diag(-1,-1,+1) in SO(3) for Team Orange/Blue + X-reflection for Left/Right sidewalls). A left-wall air dribble and a right-wall air dribble map to the exact same canonical 64-token neural state (< 1e-5 error).'
+    },
+    {
+      id: 'c03',
+      num: '03',
+      short: '66.7ms Chronograph',
+      title: '66.7 MILLISECONDS // THE TIME-DILATION CHRONOGRAPH',
+      archetype: 'Precision Motorsport & Aerospace Telemetry Instrument',
+      tagline: '250 ms Human Reaction vs. 5.1 ms Hex64 CUDAGraph Execution',
+      hype:
+        'It takes 250 milliseconds for a human Grand Champion’s optic nerve and motor cortex to react to a backboard read. In 5.1 milliseconds—nearly 50× faster than a human blink—Arashikage Hex64 ingests all 64 arena entities, adapts its own FP32 Titans fast weights to counter your habits, evaluates 16 future bounces across 4 discount horizons, and locks in 4 continuous 60 Hz subtick impulses.',
+      metaphorTitle: 'HIDDEN CIPHER // THE 6-BAR HEXAGRAM 64 SUBTICK TACHOMETER',
+      metaphorBody:
+        'Inside the chronograph dial, the 6 bars of Hexagram 64 (䷿) function as a sequential 6-stage microsecond power-reserve gauge rising from Water ☵ (S1 C++20 Shadow Twin 0.35 ms → S2 64-Token Bipartite Graph 1.10 ms → S3 FP32 Titans + Soft-MoE 1.85 ms) into Fire ☲ (S4 Coconut + 1,000 FSQ + 16 JEPA 3.40 ms → S5/S6 60 Hz Flow-Matching ODE & CVaR Filter 5.10 ms <= 5.50 ms SLA).'
+    },
+    {
+      id: 'c04',
+      num: '04',
+      short: 'Four Dojo Scrolls',
+      title: 'THE FOUR SCROLLS OF THE DOJO // SENSEI TO HEX64 LINEAGE',
+      archetype: '4-Generation Evolutionary Scroll & Progressive Hexagram 64 Seal',
+      tagline: 'Gen 1 RET-40 → Gen 2 Factorized → Gen 3 Perceiver Sensei → Gen 4 Hex64',
+      hype:
+        'Grand Champion intuition is never initialized from random noise. Every Arashikage Hex64 agent begins its life at the feet of its Gen 3 Perceiver Sensei—absorbing 173,650 steps of battle-tested aerial and positioning mastery during Warm-Start Distillation—before entering 4,096 parallel arenas with G=8 cloned cohorts to discover 60 Hz subtick mechanics no teacher ever knew.',
+      metaphorTitle: 'HIDDEN CIPHER // COMPLETING HEXAGRAM 64 (䷿) ACROSS 4 GENERATIONS',
+      metaphorBody:
+        'Each generation in the header switcher forged additional lines of Hexagram 64 (䷿): Gen 1 (RET-40) laid the first 2 bars (160D MLP + 32-quantile QR-PPO); Gen 2 (Factorized-684) completed the 3-bar Lower Trigram ☵ (24-entity tokens + PopArt); Gen 3 (Perceiver Step 173,650) added the 4th & 5th bars (latent cross-attention + skill head) and now serves as the Distill Sensei; Gen 4 (Hex64) crowns Line 6 (2⁶ = 64 tokens) in full equilibrium.'
+    },
+    {
+      id: 'c05',
+      num: '05',
+      short: '64-Fold Pitch Mandala',
+      title: 'THE 64-FOLD ARENA MANDALA // SPATIAL-TO-NEURAL BLUEPRINT',
+      archetype: 'Isometric Stadium Constellation & 6-Bar Field Projection',
+      tagline: '1 Ego + 5 Cars + 1 Ball + 8 Arcs + 1 Match + 34 Pads + 6 Posts + 4 Wheels + 4 Walls = 64',
+      hype:
+        'To a conventional RL bot, the stadium is a flat array of anonymous floats. To Arashikage Hex64, the pitch is a living 64-node geometric constellation where every boost pad respawn timer, suspension wheel contact, goal-post corner, and 4-second parabolic ball bounce is a first-class citizen in a 64×64 relational graph.',
+      metaphorTitle: 'HIDDEN CIPHER // COUNT THE STADIUM AROUND YOU: 64 ENTITIES = HEX64',
+      metaphorBody:
+        'Project the 6 bars of Hexagram 64 (䷿) across the [-4096, +4096] stadium floor: the 3 Broken Yin bars (Lines 1, 3, 5) part cleanly around the center axis where Slot 0 (Ego Car) sits, while the 63 surrounding world & proprioceptive entities populate concentric spatial orbits (16 dynamic physics entities + 48 static/field context nodes = 64 total tokens in the 16×48 Bipartite Graph).'
+    },
+    {
+      id: 'c06',
+      num: '06',
+      short: 'Master Trilogy Codex',
+      title: 'THE ARASHIKAGE · HEX64 MASTER CODEX // UNIFIED TRILOGY',
+      archetype: 'Interactive 9-Segment Hexagram 64 Crest + 3-Pillar Decoder & Launchpad',
+      tagline: 'Name: 嵐影 (Storm Shadow) · Version: Hex64 (䷿ 64th Hexagram & 64 Tokens) · Lineage: 4 Gens',
+      hype:
+        'Every 66.7 milliseconds, Arashikage Hex64 bridges two worlds: the 6-bar I Ching symmetry of Hexagram 64 (䷿ Fire ☲ over Water ☵) and a sub-5.5 ms C++20/CUDA neural-symbolic engine. Click any of the 9 segments of the Hexagram 64 crest to inspect how the 3 Broken Yin bars (S1, S3, S5) form dual-stream forks while the 3 Solid Yang bars (S2, S4, S6) form unified synthesis trunks.',
+      metaphorTitle: 'HIDDEN CIPHER // 3 BROKEN YIN DUAL-STREAMS × 3 SOLID YANG SYNTHESIS TRUNKS',
+      metaphorBody:
+        'Why does Hexagram 64 (䷿) alternate Broken (⚋) and Solid (⚊) bars from bottom to top? In Hex64, the odd lines (S1 Sim || Live ShadowTwin, S3 Titans Memory || Soft-MoE, S5 Binary || Continuous Flow Action Heads) are bifurcated dual-stream stages (⚋), while the even lines (S2 Unified 64-Token Bipartite Graph, S4 Unified FSQ+JEPA Foresight, S6 Multi-Horizon Critic & League Apex) are unified synthesis stages (⚊)!'
+    },
+    {
+      id: 'c07',
+      num: '07',
+      short: 'Hanko Vermilion Seal',
+      title: '嵐影之印 // THE CARVED HANKO SEAL & UKIYO-E MANIFESTO',
+      archetype: 'Japanese Cinnabar Hanko Stamp (判子) & Kintsugi Editorial Grid',
+      tagline: '30-Year Personal Inkan Seal (䷿) ≡ SCHEMA_CRC64 (0x185109A0FD5E64D3)',
+      hype:
+        'In Japan, a master craftsman’s Jitsuin (registered cinnabar Hanko seal) is their unforgeable signature of authenticity. Here, the creator’s 30-year I Ching emblem (Hexagram 64 ䷿) is carved in vermilion cinnabar and fused with SCHEMA_CRC64 = 0x185109A0FD5E64D3—stamping C++20, PyTorch CUDA, and TypeScript with a single immutable 64-bit cryptographic contract.',
+      metaphorTitle: 'HIDDEN CIPHER // KINTSUGI BYTE SEAMS & THE UNFORGEABLE 64-BIT ABI STAMP',
+      metaphorBody:
+        'Click [印 Toggle Kintsugi Stamp] below the artwork to trigger a physical Hanko impression: gold Kintsugi veins illuminate the exact byte boundaries of the 5,376B (84 × 64B) arena slice—showing how bytes 0..4863 (Public 64-Entity Manifold) and bytes 4864..5375 (512B Privileged Critic) are sealed together without a single magic-slice leak.'
+    },
+    {
+      id: 'c08',
+      num: '08',
+      short: 'Silicon Wafer ASIC',
+      title: 'HEX-64 DIE FLOORPLAN // 6-BAR METAL-1 BUS & L1 CACHE RING',
+      archetype: 'Sub-Nanometer GPU Photolithography & Cleanroom EDA Wafer Map',
+      tagline: '84 × 64B = 5,376B L1 Cache Slice · Physical Yin-Gap Memory Air-Gap',
+      hype:
+        'Viewed under an electron microscope, the 6 bars of Hexagram 64 (䷿) form the exact Metal-1 interconnect topology of a custom real-time RL processor: 3 full-width 512-bit SIMD crossbars (S2, S4, S6) interleaved with 3 split dual-bank SRAM arrays (S1, S3, S5), surrounded by a 64-pad L1 cache ring clocked at 120 Hz physics / 60 Hz subtick / 15 Hz policy.',
+      metaphorTitle: 'HIDDEN CIPHER // THE YIN GAP AS ZERO-LEAKAGE HARDWARE AIR-GAP',
+      metaphorBody:
+        'In competitive RLBot deployment, privileged training state (opponent boost, hidden flip torque, 512B critic context) must never leak into live inference. In the Hex-64 Silicon floorplan, the center dielectric trench cutting through the 3 Broken Yin bars (Lines 1, 3, 5) is the physical hardware air-gap isolating live inference streams from simulator-only training state.'
+    },
+    {
+      id: 'c09',
+      num: '09',
+      short: 'Bauhaus 6×3 Console',
+      title: 'ZURICH 6×3 SIGNAL CONSOLE // TENSOR MASTERING EQUALIZER',
+      archetype: 'Josef Müller-Brockmann Swiss Grid meets Braun TG-1000 Studio Desk',
+      tagline: '6 Hexagram 64 Fader Rows × 3 Pathway Columns (Live · Train · Distill) = 18 Blocks',
+      hype:
+        'Precision engineering is harmonic proportion made visible. Structured on a strict Swiss constructivist grid, the 6 bars of Hexagram 64 (䷿) become 6 tactile studio mastering faders spanning the 3 execution pathways (Live 5.5ms, Train 4,096 Arenas, Distill Warm-Start)—proving visually why 6 Stages × 3 Pathways = the 18 Subsystem Blocks on the canvas.',
+      metaphorTitle: 'HIDDEN CIPHER // MULTI-HORIZON FREQUENCY RESPONSE (120Hz → γ=0.9995)',
+      metaphorBody:
+        'Click any of the 6 I Ching fader rows to solo its frequency band: from the 120 Hz C++20 physics carrier wave (Line 1 / Stage 1) and 60 Hz subtick ODE modulation (Line 5 / Stage 5) to the 4 Symlog HL-Gauss discount horizons γ ∈ {0.95 (1.3s), 0.98 (3.3s), 0.995 (13s), 0.9995 (Match)} at the top Yang bar (Line 6 / Stage 6).'
+    },
+    {
+      id: 'c10',
+      num: '10',
+      short: 'Bagua C2v Astrolabe',
+      title: 'BAGUA × HEX64 ASTROLABE // THE OCTUPLE HARMONIC COMPASS',
+      archetype: 'Ancient Bronze Luo Pan (羅盤) Geomantic Compass & SO(3) Group Engine',
+      tagline: '8 Trigrams × 8 = 64 Hexagrams · 8 MoE Experts · 8 FSQ Triplets · G=8 Clones',
+      hype:
+        'In the I Ching, 8 fundamental Trigrams (2³ = 8) combine in pairs (8 × 8 = 64) to culminate in Hexagram 64 (䷿ 未濟). In Arashikage Hex64, 8 is the fundamental architectural harmonic: 8 physics ticks per policy step, 8 ballistic trajectory anchors, 8 Soft-MoE experts, 8 cyclic 3D FSQ skill triplets (8×5³ = 1,000 codes), G=8 Bullet3 clones, and 8×8 = 64 arena entity tokens.',
+      metaphorTitle: 'HIDDEN CIPHER // INVARIANT HEX64 CORE UNDER C2v ROTATION & REFLECTION',
+      metaphorBody:
+        'Use the interactive [↻ Rotate 180° Team C2v] button below the astrolabe: watch the outer 64-entity ring and 8-trigram bezel rotate 180° across the pitch while the central 6-bar Hexagram 64 core locks canonical team symmetry (det(M_C2v) = +1).'
+    },
+    {
+      id: 'c11',
+      num: '11',
+      short: 'Katana Tsuba-64',
+      title: '鍔 TSUBA-64 // FORGED DAMASCUS GUARD & DIFFERENTIAL QUENCH',
+      archetype: 'Edo-Period Sukashi-Tsuba Iron Hand-Guard & Yaki-ire Hamon Metallurgy',
+      tagline: '64-Fold Damascus Steel (2⁶ = 64) · Fire ☲ (Upper) & Water ☵ (Lower) Temper',
+      hype:
+        'A master swordsmith folds Tamahagane steel 6 times (2⁶ = 64 layers) and creates an unbreakable blade with a razor edge through Yaki-ire—uniting glowing Forge Fire (☲ Upper Trigram of Hexagram 64) and Deep Quench Water (☵ Lower Trigram of Hexagram 64). Arashikage Hex64 is forged the exact same way: 64 entity tokens tempered across 4,096 arenas into a sub-5.5 ms competitive edge.',
+      metaphorTitle: 'HIDDEN CIPHER // THE YIN GAPS AS KATANA TANG (NAKAGO-ANA) & TWIN SLOTS',
+      metaphorBody:
+        'Every traditional Japanese Tsuba hand-guard is pierced at its center by the Nakago-Ana (where the katana blade tang locks through) flanked by twin Kogai/Kozuka utility slots. In Tsuba-64, the central gaps of the 3 Broken Yin bars (Lines 1, 3, 5) form the exact blade tang channel, while the 3 Solid Yang bars (Lines 2, 4, 6) form the structural cross-guards.'
+    },
+    {
+      id: 'c12',
+      num: '12',
+      short: '3D 6-Strata Prism',
+      title: 'HEX-64 HOLOGRAPHIC STRATA // 2D AVATAR ↔ 3D ISOMETRIC STACK',
+      archetype: 'Exploded Isometric CAD Prism & Optical Data-Via Projection',
+      tagline: '2D Front Elevation = Hexagram 64 Avatar (䷿) · 3D Isometric = 6-Layer Stack',
+      hype:
+        'What looks like a flat 2D 6-bar I Ching symbol (Hexagram 64 ䷿) from the front elevation is revealed in 3D isometric space to be the exact orthographic projection of a 6-layer neural-symbolic compute stack—where the 3 Solid Yang bars (S2, S4, S6) extrude into unified monolithic slabs and the 3 Broken Yin bars (S1, S3, S5) extrude into bifurcated dual-stream slabs pierced by 3 vertical optical data-vias (Live, Train, Distill).',
+      metaphorTitle: 'HIDDEN CIPHER // TOGGLE 2D AVATAR ELEVATION ↔ 3D EXPLODED STRATA',
+      metaphorBody:
+        'Click [◰ Toggle 2D Seal ↔ 3D Strata] below the hologram to morph between the flat 30-year Hexagram 64 emblem and the 3D 6-plane isometric CAD assembly, or click any of the 6 glass strata planes to inspect its tensor contract.'
+    }
+  ];
+
+  // Shared 3-Pillar Deep Lore Data (always accessible in every concept)
+  const LORE_PILLARS = [
+    {
+      badge: 'PILLAR I // THE NAME CIPHER',
+      title: 'Why "Arashikage" (嵐影)?',
+      subtitle: 'strmshdw → Storm (嵐 Arashi) + Shadow (影 Kage)',
+      bullets: [
+        'Creator Handle Cipher: Direct Japanese translation of strmshdw (Storm Shadow) into 嵐 (Arashi: Mountain + Wind = Storm) and 影 (Kage: Light + Three Rays = Shadow).',
+        '嵐 The Kinetic Storm: 120 Hz rigid-body physics across 4,096 parallel RocketSim arenas, G=8 exact Bullet3 cloned cohorts, and K_sub=4 (60 Hz) continuous subtick control impulses.',
+        '影 The Latent Shadow: 1-Tick C++20 RocketSimShadowTwin reconciling live socket jitter + 512B Privileged Shadow Critic + M=16 JEPA Shadow Futures evaluated in < 5.5 ms.',
+        'Twin-Blade C2v Symmetry: Enforces Klein 4-Group equivariance (diag(-1,-1,+1)) so Blue/Orange and Left/Right sidewalls share 100% identical neural weights.'
+      ]
+    },
+    {
+      badge: 'PILLAR II // THE VERSION CIPHER',
+      title: 'Why "Hex64" (䷿ 未濟 · 六十四)?',
+      subtitle: 'Hexagram 64 (Final Form) · 2⁶ = 64 Arena Entities · 64B Cache ABI',
+      bullets: [
+        'Hexagram 64 (䷿ 未濟 Wèi Jì — Fire ☲ over Water ☵): The 64th and final hexagram of the I Ching (top-to-bottom Solid, Broken, Solid, Broken, Solid, Broken), symbolizing continuous evolution and unbounded mastery.',
+        '64 Arena Entity Tokens: Slots 0..63 in the 5,376B slice = 1 Ego Car + 5 Other Cars + 1 Ball + 8 Trajectory Anchors + 1 Match Node + 34 Boost Pads + 6 Goal Posts + 4 Wheels + 4 Surfaces = 64!',
+        '64-Byte Hardware Alignment: 5,376B = 84 × 64-byte CPU L1 cache lines (alignas(64)), 64×64 entity token matrix, and SCHEMA_CRC64 = 0x185109A0FD5E64D3.',
+        '6 Stages × 3 Pathways = 18 Blocks: 6 horizontal I Ching bars (Stages 1..6) × 3 trigram lines (Live, Train, Distill) = 18 subsystem blocks.'
+      ]
+    },
+    {
+      badge: 'PILLAR III // THE DOJO LINEAGE',
+      title: '4 Generations: Sensei to Student',
+      subtitle: 'Gen 1 RET-40 → Gen 2 MLP-684 → Gen 3 Perceiver → Gen 4 Hex64',
+      bullets: [
+        'Gen 1 · RET-40: 160D flat frame + 20-step ring buffer + 32-quantile QR-PPO & 120 Hz geodesic PD.',
+        'Gen 2 · Factorized-684: 24-entity scene tokens + 752D privileged critic + PopArt normalization + fused 122-logit head.',
+        'Gen 3 · ST-Perceiver (The Sensei · Step 173,650): 256D Perceiver latent bottleneck + GRU memory + Compositional Skill Head.',
+        'Gen 4 · Arashikage Hex64: Warm-started from Gen 3 Sensei in Distill mode, then unleashed into 4,096-arena G=8 Flow-GRPO + FP32 Titans + Coconut + 1,000 FSQ + 16-rollout JEPA.'
+      ]
+    }
+  ];
+
+  function createHeaderIChingEmblemSvg() {
+    // Crisp 6-bar Hexagram 64 (䷿ 未濟: Fire ☲ over Water ☵) icon for the Top Identity Header
+    // Top-to-bottom: Solid (L6), Broken (L5), Solid (L4) [Fire ☲] / Broken (L3), Solid (L2), Broken (L1) [Water ☵]
+    return (
+      '<svg viewBox="0 0 24 24" class="w-4 h-4 shrink-0" aria-hidden="true">' +
+      '<rect x="2" y="2" width="20" height="2.4" rx="0.6" fill="#f97316" />' +
+      '<rect x="2" y="5.8" width="8.2" height="2.4" rx="0.6" fill="#f97316" />' +
+      '<rect x="13.8" y="5.8" width="8.2" height="2.4" rx="0.6" fill="#f97316" />' +
+      '<rect x="2" y="9.6" width="20" height="2.4" rx="0.6" fill="#f97316" />' +
+      '<rect x="2" y="13.4" width="8.2" height="2.4" rx="0.6" fill="currentColor" />' +
+      '<rect x="13.8" y="13.4" width="8.2" height="2.4" rx="0.6" fill="currentColor" />' +
+      '<rect x="2" y="17.2" width="20" height="2.4" rx="0.6" fill="currentColor" />' +
+      '<rect x="2" y="21" width="8.2" height="2.4" rx="0.6" fill="currentColor" />' +
+      '<rect x="13.8" y="21" width="8.2" height="2.4" rx="0.6" fill="currentColor" />' +
+      '</svg>'
+    );
+  }
+
+  // Helper to render the canonical 6-bar Hexagram 64 (䷿) SVG group (clickable/hoverable bars)
+  function renderCanonicalIChingBarsSvg(opts) {
+    const cx = opts.cx || 180;
+    const cy = opts.cy || 150;
+    const width = opts.width || 156;
+    const barH = opts.barH || 15;
+    const gapY = opts.gapY || 11;
+    const gapX = opts.gapX || 24;
+    const activeBarIdx = typeof opts.activeBarIdx === 'number' ? opts.activeBarIdx : 0;
+    const stageCols = opts.stageCols || ['#0284c7', '#2563eb', '#7c3aed', '#d97706', '#059669', '#dc2626'];
+    const styleMode = opts.styleMode || 'standard'; // 'vermilion', 'silicon', 'fader', 'tsuba', 'strata3d'
+    const strata3d = Boolean(opts.strata3d);
+
+    const totalH = 6 * barH + 5 * gapY;
+    const startY = cy - totalH * 0.5;
+    const leftX = cx - width * 0.5;
+    const segW = (width - gapX) * 0.5;
+
+    let svg = '';
+    ICHING_BAR_SPECS.forEach((spec, rIdx) => {
+      const y = startY + rIdx * (barH + gapY);
+      const isSel = rIdx === activeBarIdx;
+      const stCol = stageCols[spec.stageIdx] || '#0284c7';
+      // Hexagram 64 (䷿): Upper Trigram (rIdx 0..2) = Fire ☲ (#f97316), Lower Trigram (rIdx 3..5) = Water ☵ (#0ea5e9)
+      const fireWaterCol = rIdx < 3 ? '#f97316' : '#0ea5e9';
+      const fillCol =
+        styleMode === 'vermilion'
+          ? isSel ? '#fbbf24' : '#dc2626'
+          : styleMode === 'silicon'
+          ? rIdx < 3 ? '#f59e0b' : '#00e5ff'
+          : styleMode === 'tsuba'
+          ? isSel ? '#38bdf8' : '#e2e8f0'
+          : isSel
+          ? stCol
+          : fireWaterCol;
+
+      const strokeCol = isSel ? '#ffffff' : stCol;
+      const strokeW = isSel ? 2.2 : 1.1;
+      const opacity = isSel ? 1.0 : 0.86;
+
+      if (strata3d) {
+        // 3D Isometric Extruded Slab for Concept 12
+        const isoY = cy - 78 + rIdx * 31;
+        const skewX = -22;
+        const slabW = width * 0.88;
+        const slabH = 14;
+        const sx = cx - slabW * 0.5 + 10;
+        if (spec.polarity === 'yang') {
+          const pts =
+            sx + ',' + isoY + ' ' +
+            (sx + slabW) + ',' + isoY + ' ' +
+            (sx + slabW + skewX) + ',' + (isoY + slabH) + ' ' +
+            (sx + skewX) + ',' + (isoY + slabH);
+          svg +=
+            '<g data-iching-bar="' + rIdx + '" class="cursor-pointer">' +
+            '<polygon points="' + pts + '" fill="' + fillCol + '" fill-opacity="' + (isSel ? '0.92' : '0.68') + '" stroke="' + strokeCol + '" stroke-width="' + strokeW + '" />' +
+            '<text x="' + (sx + slabW + 8) + '" y="' + (isoY + 10) + '" fill="' + stCol + '" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700">S' + (spec.stageIdx + 1) + '</text>' +
+            '</g>';
+        } else {
+          const sW = (slabW - 20) * 0.5;
+          const ptsL =
+            sx + ',' + isoY + ' ' +
+            (sx + sW) + ',' + isoY + ' ' +
+            (sx + sW + skewX) + ',' + (isoY + slabH) + ' ' +
+            (sx + skewX) + ',' + (isoY + slabH);
+          const rx = sx + sW + 20;
+          const ptsR =
+            rx + ',' + isoY + ' ' +
+            (rx + sW) + ',' + isoY + ' ' +
+            (rx + sW + skewX) + ',' + (isoY + slabH) + ' ' +
+            (rx + skewX) + ',' + (isoY + slabH);
+          svg +=
+            '<g data-iching-bar="' + rIdx + '" class="cursor-pointer">' +
+            '<polygon points="' + ptsL + '" fill="' + fillCol + '" fill-opacity="' + (isSel ? '0.92' : '0.68') + '" stroke="' + strokeCol + '" stroke-width="' + strokeW + '" />' +
+            '<polygon points="' + ptsR + '" fill="' + fillCol + '" fill-opacity="' + (isSel ? '0.92' : '0.68') + '" stroke="' + strokeCol + '" stroke-width="' + strokeW + '" />' +
+            '<text x="' + (sx + slabW + 8) + '" y="' + (isoY + 10) + '" fill="' + stCol + '" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700">S' + (spec.stageIdx + 1) + '</text>' +
+            '</g>';
+        }
+        return;
+      }
+
+      svg += '<g data-iching-bar="' + rIdx + '" class="cursor-pointer">';
+      if (spec.polarity === 'yang') {
+        svg +=
+          '<rect x="' + leftX + '" y="' + y + '" width="' + width + '" height="' + barH + '" rx="3" fill="' + fillCol + '" fill-opacity="' + opacity + '" stroke="' + strokeCol + '" stroke-width="' + strokeW + '" />';
+      } else {
+        svg +=
+          '<rect x="' + leftX + '" y="' + y + '" width="' + segW + '" height="' + barH + '" rx="3" fill="' + fillCol + '" fill-opacity="' + opacity + '" stroke="' + strokeCol + '" stroke-width="' + strokeW + '" />' +
+          '<rect x="' + (leftX + segW + gapX) + '" y="' + y + '" width="' + segW + '" height="' + barH + '" rx="3" fill="' + fillCol + '" fill-opacity="' + opacity + '" stroke="' + strokeCol + '" stroke-width="' + strokeW + '" />';
+      }
+
+      if (styleMode === 'fader') {
+        const knobX = leftX + width * (0.32 + ((5 - rIdx) * 0.11));
+        svg +=
+          '<rect x="' + knobX + '" y="' + (y - 3) + '" width="8" height="' + (barH + 6) + '" rx="1.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />';
+      }
+
+      svg +=
+        '<text x="' + (leftX + width + 10) + '" y="' + (y + barH * 0.74) + '" fill="' + (isSel ? stCol : '#94a3b8') + '" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="700">' +
+        'S' + (spec.stageIdx + 1) + (spec.polarity === 'yang' ? ' ⚊' : ' ⚋') +
+        '</text>';
+      svg += '</g>';
+    });
+    return svg;
+  }
+
+  // Render Concept-Specific Interactive SVG Artwork (356 x 286 viewBox)
+  function renderConceptArtworkSvg(conceptIdx, state, stageCols, isLight) {
+    const fg = isLight ? '#0f172a' : '#f8fafc';
+    const muted = isLight ? '#64748b' : '#94a3b8';
+    const panelBg = isLight ? '#f1f5f9' : '#0b1120';
+    const gridStroke = isLight ? 'rgba(15,23,42,0.12)' : 'rgba(148,163,184,0.16)';
+    const barIdx = state.activeBarIdx;
+
+    // Shared 64-Tick Orbital Ring generator (Slot 0 Ego Zenith + 63 Relational Peers = 64)
+    const build64OrbitalRing = (cx, cy, rOuter, rInner, rotDeg) => {
+      let ticks = '';
+      const rotRad = ((rotDeg || 0) * Math.PI) / 180;
+      for (let i = 0; i < 64; i++) {
+        const ang = -Math.PI * 0.5 + rotRad + (i * 2 * Math.PI) / 64;
+        const isEgo = i === 0;
+        const r1 = isEgo ? rInner - 5 : rInner;
+        const r2 = isEgo ? rOuter + 6 : i % 8 === 0 ? rOuter + 3 : rOuter;
+        const x1 = (cx + Math.cos(ang) * r1).toFixed(1);
+        const y1 = (cy + Math.sin(ang) * r1).toFixed(1);
+        const x2 = (cx + Math.cos(ang) * r2).toFixed(1);
+        const y2 = (cy + Math.sin(ang) * r2).toFixed(1);
+        const col = isEgo
+          ? '#eab308'
+          : i <= 5
+          ? '#38bdf8'
+          : i === 6
+          ? '#f97316'
+          : i <= 14
+          ? '#a855f7'
+          : i <= 49
+          ? '#10b981'
+          : '#ec4899';
+        ticks +=
+          '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' + col + '" stroke-width="' + (isEgo ? '3' : i % 8 === 0 ? '1.8' : '1.15') + '" />';
+      }
+      return ticks;
+    };
+
+    let inner = '';
+    const cNum = conceptIdx + 1;
+
+    if (cNum === 1) {
+      // 01: The I Ching Hex64 Orbital Codex (Hexagram 64 ䷿ 未濟: Fire ☲ over Water ☵ + 64-Tick Ring)
+      inner =
+        '<circle cx="172" cy="145" r="124" fill="none" stroke="' + gridStroke + '" stroke-width="1" stroke-dasharray="3 3" />' +
+        '<circle cx="172" cy="145" r="108" fill="none" stroke="' + gridStroke + '" stroke-width="1.2" />' +
+        build64OrbitalRing(172, 145, 120, 108, 0) +
+        '<text x="172" y="15" text-anchor="middle" fill="#eab308" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700">▼ HEXAGRAM 64 (䷿ 未濟) · 64 ARENA ENTITY TOKENS</text>' +
+        '<line x1="65" y1="145" x2="279" y2="145" stroke="' + muted + '" stroke-width="1" stroke-dasharray="4 3" />' +
+        '<text x="48" y="96" text-anchor="end" fill="#f97316" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="700">☲ FIRE</text>' +
+        '<text x="48" y="108" text-anchor="end" fill="' + muted + '" font-family="IBM Plex Mono, monospace" font-size="8.5">S4..S6 APEX</text>' +
+        '<text x="48" y="192" text-anchor="end" fill="#0ea5e9" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="700">☵ WATER</text>' +
+        '<text x="48" y="204" text-anchor="end" fill="' + muted + '" font-family="IBM Plex Mono, monospace" font-size="8.5">S1..S3 BASE</text>' +
+        renderCanonicalIChingBarsSvg({ cx: 168, cy: 145, width: 132, barH: 13, gapY: 9, gapX: 22, activeBarIdx: barIdx, stageCols: stageCols });
+    } else if (cNum === 2) {
+      // 02: Storm & Shadow Twin-Blade Duality (C2v Mirror Axis through Yin Center Gap of Hexagram 64)
+      const mir = state.c2vMirrored ? -1 : 1;
+      inner =
+        '<rect x="14" y="22" width="154" height="246" rx="8" fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.35)" stroke-width="1" />' +
+        '<rect x="176" y="22" width="170" height="246" rx="8" fill="rgba(14,165,233,0.08)" stroke="rgba(14,165,233,0.35)" stroke-width="1" />' +
+        '<text x="90" y="42" text-anchor="middle" fill="#f97316" font-family="Space Grotesk, sans-serif" font-size="13" font-weight="800">' + (mir === 1 ? '嵐 ARASHI // STORM' : '影 KAGE // SHADOW') + '</text>' +
+        '<text x="90" y="55" text-anchor="middle" fill="' + muted + '" font-family="IBM Plex Mono, monospace" font-size="8.5">' + (mir === 1 ? '4,096 Arenas · 60Hz ODE' : '1-Tick Twin · 16 JEPA') + '</text>' +
+        '<text x="256" y="42" text-anchor="middle" fill="#0ea5e9" font-family="Space Grotesk, sans-serif" font-size="13" font-weight="800">' + (mir === 1 ? '影 KAGE // SHADOW' : '嵐 ARASHI // STORM') + '</text>' +
+        '<text x="256" y="55" text-anchor="middle" fill="' + muted + '" font-family="IBM Plex Mono, monospace" font-size="8.5">' + (mir === 1 ? '1-Tick Twin · 16 JEPA' : '4,096 Arenas · 60Hz ODE') + '</text>' +
+        renderCanonicalIChingBarsSvg({ cx: 172, cy: 152, width: 152, barH: 14, gapY: 10, gapX: 28, activeBarIdx: barIdx, stageCols: stageCols }) +
+        '<line x1="172" y1="16" x2="172" y2="274" stroke="#eab308" stroke-width="2" stroke-dasharray="5 3" />' +
+        '<rect x="108" y="262" width="128" height="18" rx="4" fill="#eab308" />' +
+        '<text x="172" y="274" text-anchor="middle" fill="#0f172a" font-family="IBM Plex Mono, monospace" font-size="9" font-weight="700">C2v MIRROR AXIS (det=+1)</text>';
+    } else if (cNum === 3) {
+      // 03: 66.7ms Time-Dilation Chronograph (Hexagram 64 Tachometer)
+      inner =
+        '<circle cx="172" cy="145" r="122" fill="none" stroke="' + muted + '" stroke-width="1.5" />' +
+        '<path d="M 172 23 A 122 122 0 1 1 52 170" fill="none" stroke="rgba(239,68,68,0.35)" stroke-width="7" />' +
+        '<path d="M 172 23 A 122 122 0 0 1 258 58" fill="none" stroke="#10b981" stroke-width="8" />' +
+        '<text x="172" y="14" text-anchor="middle" fill="#10b981" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700">⚡ HEX64: 5.1ms CUDAGRAPH vs 250ms HUMAN REACTION</text>' +
+        '<circle cx="172" cy="145" r="100" fill="none" stroke="' + gridStroke + '" stroke-width="1" stroke-dasharray="2 4" />' +
+        renderCanonicalIChingBarsSvg({ cx: 168, cy: 146, width: 124, barH: 12.5, gapY: 8.5, gapX: 20, activeBarIdx: barIdx, stageCols: stageCols }) +
+        '<text x="172" y="255" text-anchor="middle" fill="' + fg + '" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700">15Hz POLICY (66.7ms) · 60Hz SUBTICK · 120Hz SIM</text>';
+    } else if (cNum === 4) {
+      // 04: Four Scrolls of the Dojo (Progressive 2 -> 3 -> 5 -> 6 Bar Hexagram 64 ䷿ Evolution)
+      const gens = [
+        { code: 'GEN 1', name: 'RET-40', bars: 2, tok: '160D MLP', col: '#64748b' },
+        { code: 'GEN 2', name: 'MLP-684', bars: 3, tok: '24-Token', col: '#0284c7' },
+        { code: 'GEN 3', name: 'SENSEI', bars: 5, tok: 'Perceiver', col: '#a855f7' },
+        { code: 'GEN 4', name: 'HEX64', bars: 6, tok: '64-Token', col: '#f97316' }
+      ];
+      gens.forEach((g, idx) => {
+        const x = 16 + idx * 84;
+        const isHex = idx === 3;
+        inner +=
+          '<rect x="' + x + '" y="24" width="76" height="238" rx="6" fill="' + (isHex ? 'rgba(249,115,22,0.12)' : 'rgba(148,163,184,0.07)') + '" stroke="' + g.col + '" stroke-width="' + (isHex ? '2' : '1.2') + '" />' +
+          '<text x="' + (x + 38) + '" y="44" text-anchor="middle" fill="' + g.col + '" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700">' + g.code + '</text>' +
+          '<text x="' + (x + 38) + '" y="58" text-anchor="middle" fill="' + fg + '" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="800">' + g.name + '</text>';
+        // Hexagram 64 (䷿) top-to-bottom: b=0 Solid, b=1 Broken, b=2 Solid, b=3 Broken, b=4 Solid, b=5 Broken
+        for (let b = 0; b < 6; b++) {
+          const by = 78 + b * 22;
+          const activeInGen = (5 - b) < g.bars;
+          const isYin = ICHING_BAR_SPECS[b].polarity === 'yin';
+          const bCol = activeInGen ? g.col : gridStroke;
+          if (!isYin) {
+            inner += '<rect x="' + (x + 12) + '" y="' + by + '" width="52" height="11" rx="2" fill="' + bCol + '" data-iching-bar="' + b + '" class="cursor-pointer" />';
+          } else {
+            inner +=
+              '<rect x="' + (x + 12) + '" y="' + by + '" width="22" height="11" rx="2" fill="' + bCol + '" data-iching-bar="' + b + '" class="cursor-pointer" />' +
+              '<rect x="' + (x + 42) + '" y="' + by + '" width="22" height="11" rx="2" fill="' + bCol + '" data-iching-bar="' + b + '" class="cursor-pointer" />';
+          }
+        }
+        inner +=
+          '<text x="' + (x + 38) + '" y="226" text-anchor="middle" fill="' + muted + '" font-family="IBM Plex Mono, monospace" font-size="8.5" font-weight="700">' + g.bars + '/6 BARS</text>' +
+          '<text x="' + (x + 38) + '" y="242" text-anchor="middle" fill="' + fg + '" font-family="IBM Plex Mono, monospace" font-size="9" font-weight="700">' + g.tok + '</text>';
+      });
+    } else if (cNum === 5) {
+      // 05: 64-Fold Pitch Mandala (Isometric Stadium + 6 Hexagram 64 Field Lines + 64 Entities)
+      inner =
+        '<polygon points="62,30 282,30 332,256 12,256" fill="rgba(16,185,129,0.07)" stroke="#10b981" stroke-width="1.5" />' +
+        '<ellipse cx="172" cy="144" rx="44" ry="26" fill="none" stroke="#eab308" stroke-width="1.4" stroke-dasharray="4 2" />' +
+        '<circle cx="172" cy="144" r="6" fill="#eab308" />' +
+        '<text x="172" y="19" text-anchor="middle" fill="#10b981" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700">64-ENTITY STADIUM MANIFOLD (1 EGO + 63 PEERS = 64)</text>' +
+        renderCanonicalIChingBarsSvg({ cx: 168, cy: 144, width: 150, barH: 13, gapY: 11, gapX: 34, activeBarIdx: barIdx, stageCols: stageCols }) +
+        '<text x="172" y="276" text-anchor="middle" fill="' + fg + '" font-family="IBM Plex Mono, monospace" font-size="9" font-weight="700">6 CARS · 1 BALL · 8 ARCS · 1 MATCH · 34 PADS · 6 POSTS · 4 WHEELS · 4 WALLS</text>';
+    } else if (cNum === 6) {
+      // 06: The Master Codex (Unified Trilogy: Octagonal Shield + 64-Tick Bezel + Hexagram 64 Seal)
+      inner =
+        '<polygon points="122,18 222,18 292,88 292,198 222,268 122,268 52,198 52,88" fill="rgba(2,132,199,0.07)" stroke="#0284c7" stroke-width="1.8" />' +
+        build64OrbitalRing(172, 143, 114, 103, 0) +
+        '<text x="172" y="42" text-anchor="middle" fill="#eab308" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="800">嵐影 ARASHIKAGE · HEX64 (䷿)</text>' +
+        renderCanonicalIChingBarsSvg({ cx: 168, cy: 146, width: 128, barH: 13, gapY: 9, gapX: 22, activeBarIdx: barIdx, stageCols: stageCols }) +
+        '<text x="172" y="256" text-anchor="middle" fill="' + muted + '" font-family="IBM Plex Mono, monospace" font-size="9" font-weight="700">2⁶ = 64 ENTITIES · 6 STAGES × 3 PATHWAYS</text>';
+    } else if (cNum === 7) {
+      // 07: Hanko Vermilion Seal & Ukiyo-e Woodblock Manifesto (嵐影之印 · Hexagram 64 ䷿)
+      const stamped = state.hankoStamped;
+      inner =
+        '<rect x="52" y="20" width="236" height="244" rx="18" fill="rgba(220,38,38,0.10)" stroke="#dc2626" stroke-width="' + (stamped ? '5' : '3') + '" />' +
+        '<rect x="60" y="28" width="220" height="228" rx="12" fill="none" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="6 3" />' +
+        '<text x="30" y="85" text-anchor="middle" fill="#dc2626" font-family="Space Grotesk, sans-serif" font-size="22" font-weight="900">嵐</text>' +
+        '<text x="30" y="115" text-anchor="middle" fill="#dc2626" font-family="Space Grotesk, sans-serif" font-size="22" font-weight="900">影</text>' +
+        '<text x="30" y="155" text-anchor="middle" fill="' + fg + '" font-family="Space Grotesk, sans-serif" font-size="18" font-weight="800">六</text>' +
+        '<text x="30" y="180" text-anchor="middle" fill="' + fg + '" font-family="Space Grotesk, sans-serif" font-size="18" font-weight="800">十</text>' +
+        '<text x="30" y="205" text-anchor="middle" fill="' + fg + '" font-family="Space Grotesk, sans-serif" font-size="18" font-weight="800">四</text>' +
+        renderCanonicalIChingBarsSvg({ cx: 166, cy: 138, width: 144, barH: 15, gapY: 10, gapX: 24, activeBarIdx: barIdx, stageCols: stageCols, styleMode: 'vermilion' }) +
+        (stamped
+          ? '<path d="M 65 142 L 155 136 L 205 148 L 270 139" fill="none" stroke="#fbbf24" stroke-width="2" />'
+          : '') +
+        '<text x="170" y="250" text-anchor="middle" fill="#dc2626" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700">印 HEXAGRAM 64 (䷿) · CRC64 0x185109A0FD5E64D3</text>';
+    } else if (cNum === 8) {
+      // 08: NVLink Silicon Wafer Die-Shot (HEX-64 ASIC: 84x64B L1 Pad Ring + Yin Memory Air-Gap)
+      inner =
+        '<rect x="36" y="18" width="272" height="250" rx="6" fill="#070b14" stroke="#00e5ff" stroke-width="1.5" />' +
+        build64OrbitalRing(172, 143, 118, 108, 0) +
+        '<rect x="161" y="42" width="14" height="198" fill="rgba(234,179,8,0.16)" stroke="#eab308" stroke-width="1" stroke-dasharray="3 2" />' +
+        renderCanonicalIChingBarsSvg({ cx: 168, cy: 142, width: 144, barH: 14, gapY: 10, gapX: 24, activeBarIdx: barIdx, stageCols: stageCols, styleMode: 'silicon' }) +
+        '<text x="172" y="34" text-anchor="middle" fill="#00e5ff" font-family="IBM Plex Mono, monospace" font-size="9" font-weight="700">DIE: HEX64-ASIC // 4,864B ACTOR | 512B CRITIC AIR-GAP</text>' +
+        '<text x="172" y="260" text-anchor="middle" fill="#eab308" font-family="IBM Plex Mono, monospace" font-size="9" font-weight="700">64-PIN L1 CACHE RING (84 × 64B = 5,376B SLICE)</text>';
+    } else if (cNum === 9) {
+      // 09: Bauhaus / Zurich 6×3 Signal Equalizer Console
+      inner =
+        '<rect x="28" y="20" width="292" height="246" fill="none" stroke="' + fg + '" stroke-width="2" />' +
+        '<line x1="125" y1="20" x2="125" y2="244" stroke="' + gridStroke + '" stroke-width="1.5" stroke-dasharray="3 3" />' +
+        '<line x1="222" y1="20" x2="222" y2="244" stroke="' + gridStroke + '" stroke-width="1.5" stroke-dasharray="3 3" />' +
+        '<text x="76" y="36" text-anchor="middle" fill="#0ea5e9" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700">COL 1: LIVE</text>' +
+        '<text x="173" y="36" text-anchor="middle" fill="#10b981" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700">COL 2: TRAIN</text>' +
+        '<text x="270" y="36" text-anchor="middle" fill="#a855f7" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700">COL 3: DISTILL</text>' +
+        renderCanonicalIChingBarsSvg({ cx: 168, cy: 142, width: 220, barH: 14, gapY: 11, gapX: 28, activeBarIdx: barIdx, stageCols: stageCols, styleMode: 'fader' }) +
+        '<text x="174" y="258" text-anchor="middle" fill="' + fg + '" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700">6 HEXAGRAM 64 ROWS × 3 PATHWAYS = 18 BLOCKS</text>';
+    } else if (cNum === 10) {
+      // 10: Bagua Octagonal Astrolabe & C2v Mirror Compass (8 Trigrams x 8 = 64)
+      const rot = state.astrolabeRot || 0;
+      const trigrams = ['☲ FIRE', '☶', '☳', '☴', '☵ WATER', '☷', '兑', '☰'];
+      let baguaLabels = '';
+      for (let k = 0; k < 8; k++) {
+        const a = -Math.PI * 0.5 + ((rot * Math.PI) / 180) + (k * Math.PI) / 4;
+        const tx = (172 + Math.cos(a) * 116).toFixed(1);
+        const ty = (145 + Math.sin(a) * 116 + 3).toFixed(1);
+        baguaLabels +=
+          '<text x="' + tx + '" y="' + ty + '" text-anchor="middle" fill="' + (k === 0 ? '#f97316' : k === 4 ? '#0ea5e9' : muted) + '" font-family="IBM Plex Mono, monospace" font-size="9" font-weight="700">' + trigrams[k] + '</text>';
+      }
+      inner =
+        '<polygon points="130,38 214,38 274,98 274,192 214,252 130,252 70,192 70,98" fill="none" stroke="#eab308" stroke-width="1.6" />' +
+        build64OrbitalRing(172, 145, 102, 92, rot) +
+        baguaLabels +
+        renderCanonicalIChingBarsSvg({ cx: 168, cy: 145, width: 112, barH: 12, gapY: 8, gapX: 18, activeBarIdx: barIdx, stageCols: stageCols }) +
+        '<text x="172" y="278" text-anchor="middle" fill="#eab308" font-family="IBM Plex Mono, monospace" font-size="9" font-weight="700">8 TRIGRAMS × 8 = 64 · 8 MoE · 8 FSQ · G=8 CLONES</text>';
+    } else if (cNum === 11) {
+      // 11: Katana Tsuba Sword-Guard (Sukashi-Tsuba + Yaki-ire Differential Quench Wave)
+      inner =
+        '<circle cx="172" cy="144" r="120" fill="#0f172a" stroke="#94a3b8" stroke-width="4" />' +
+        '<circle cx="172" cy="144" r="112" fill="none" stroke="#eab308" stroke-width="1" stroke-dasharray="6 3" />' +
+        '<polygon points="166,46 178,46 175,242 169,242" fill="rgba(56,189,248,0.18)" stroke="#38bdf8" stroke-width="1.5" />' +
+        '<path d="M 60 144 Q 95 128 130 144 T 200 144 T 284 144" fill="none" stroke="#38bdf8" stroke-width="2.2" />' +
+        renderCanonicalIChingBarsSvg({ cx: 168, cy: 144, width: 136, barH: 13.5, gapY: 9.5, gapX: 24, activeBarIdx: barIdx, stageCols: stageCols, styleMode: 'tsuba' }) +
+        '<text x="172" y="18" text-anchor="middle" fill="#38bdf8" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700">鍔 TSUBA-64 // 2⁶ = 64 DAMASCUS FOLDS · YAKI-IRE QUENCH</text>';
+    } else {
+      // 12: Holographic 6-Strata Isometric Prism (2D Hexagram 64 Seal <-> 3D Exploded 6-Layer Stack)
+      const is3d = state.strata3dMode !== false;
+      inner =
+        '<rect x="24" y="18" width="304" height="252" rx="8" fill="rgba(2,132,199,0.06)" stroke="' + gridStroke + '" stroke-width="1.2" />' +
+        (is3d
+          ? '<line x1="112" y1="32" x2="112" y2="254" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="3 3" />' +
+            '<line x1="172" y1="32" x2="172" y2="254" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3 3" />' +
+            '<line x1="232" y1="32" x2="232" y2="254" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="3 3" />'
+          : '') +
+        renderCanonicalIChingBarsSvg({
+          cx: 168,
+          cy: 144,
+          width: 152,
+          barH: 14,
+          gapY: 10,
+          gapX: 24,
+          activeBarIdx: barIdx,
+          stageCols: stageCols,
+          strata3d: is3d
+        }) +
+        '<text x="172" y="34" text-anchor="middle" fill="#0ea5e9" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700">' +
+        (is3d ? '3D ISOMETRIC 6-STRATA STACK (3 OPTICAL VIAS)' : '2D ORTHOGRAPHIC ELEVATION (HEXAGRAM 64 ䷿ SEAL)') +
+        '</text>';
+    }
+
+    return (
+      '<svg viewBox="0 0 356 286" class="w-full h-auto select-none" role="img" aria-label="Arashikage Hex64 I Ching Interactive Emblem">' +
+      '<rect x="2" y="2" width="352" height="282" rx="10" fill="' + panelBg + '" fill-opacity="0.55" stroke="' + gridStroke + '" stroke-width="1" />' +
+      inner +
+      '</svg>'
+    );
+  }
+
+  function initSplashCodex(api) {
+    // Inject Header Trigger & Modal DOM if not present
+    const topIdentityBar = document.getElementById('topIdentityBar');
+    const brandDot = document.getElementById('brandDot');
+    if (brandDot) {
+      const emblemWrap = document.createElement('span');
+      emblemWrap.id = 'brandIChingEmblem';
+      emblemWrap.className = 'inline-flex items-center justify-center text-theme-accent';
+      emblemWrap.innerHTML = createHeaderIChingEmblemSvg();
+      brandDot.replaceWith(emblemWrap);
+    }
+
+    // Make the entire left identity title cluster clickable to launch the Splash Codex + add explicit button
+    if (topIdentityBar) {
+      const leftCluster = topIdentityBar.firstElementChild;
+      if (leftCluster) {
+        leftCluster.classList.add('cursor-pointer', 'group');
+        leftCluster.title = 'Click to open Arashikage · Hex64 (䷿ 未濟) I Ching Lore & Architecture Splash Codex';
+        const codexBtn = document.createElement('button');
+        codexBtn.type = 'button';
+        codexBtn.id = 'btnOpenSplashCodex';
+        codexBtn.className =
+          'no-wrap-btn ml-1.5 px-2 py-0.5 rounded-md text-[10.5px] mono font-bold btn-theme-accent border transition cursor-pointer shrink-0 gap-1';
+        codexBtn.title = 'Open Arashikage · Hex64 Lore, I Ching Hexagram 64 (䷿) Symbolism & 12 Splash Concepts';
+        codexBtn.innerHTML = '<span>䷿</span><span>Lore &amp; Hex64 Codex</span>';
+        leftCluster.appendChild(codexBtn);
+
+        leftCluster.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openSplashModal();
+        });
+      }
+    }
+
+    // Create Modal Overlay in document.body
+    const modalBackdrop = document.createElement('div');
+    modalBackdrop.id = 'splashCodexModal';
+    modalBackdrop.setAttribute('role', 'dialog');
+    modalBackdrop.setAttribute('aria-modal', 'true');
+    modalBackdrop.setAttribute('aria-label', 'Arashikage Hex64 I Ching Lore & Architecture Splash Modal');
+    modalBackdrop.className =
+      'fixed inset-0 z-50 flex items-center justify-center p-3 lg:p-6 bg-black/75 backdrop-blur-md transition-opacity hidden';
+
+    modalBackdrop.innerHTML =
+      '<div id="splashCodexCard" class="surface-elevated border-2 border-subtle rounded-2xl shadow-2xl w-full max-w-[1380px] max-h-[93vh] flex flex-col overflow-hidden">' +
+      '  <!-- Top Bar: Brand Identity + 12-Concept Live Switcher + Close -->' +
+      '  <div class="shrink-0 px-4 py-2.5 border-b border-hairline surface-root flex flex-wrap items-center justify-between gap-2">' +
+      '    <div class="flex items-center gap-2">' +
+      '      <span class="px-2 py-0.5 rounded text-[10.5px] mono font-bold btn-theme-accent">嵐影 ARASHIKAGE · HEX64 (䷿ 未濟)</span>' +
+      '      <span class="mono text-[11px] font-bold text-secondary-ink hidden sm:inline">I CHING HEXAGRAM 64 (FIRE ☲ OVER WATER ☵) — LIVE 12-CONCEPT GALLERY</span>' +
+      '    </div>' +
+      '    <div class="flex items-center gap-1.5">' +
+      '      <button type="button" id="btnSplashPrevConcept" class="no-wrap-btn px-2 py-0.5 rounded surface-panel border border-hairline hover:border-subtle mono text-[10.5px] font-bold text-primary-ink cursor-pointer" title="Previous Concept (Shift+Left)">◀ Prev</button>' +
+      '      <span id="splashConceptCounter" class="mono text-[10.5px] font-bold text-theme-accent px-1.5">CONCEPT 01 / 12</span>' +
+      '      <button type="button" id="btnSplashNextConcept" class="no-wrap-btn px-2 py-0.5 rounded surface-panel border border-hairline hover:border-subtle mono text-[10.5px] font-bold text-primary-ink cursor-pointer" title="Next Concept (Shift+Right)">Next ▶</button>' +
+      '      <button type="button" id="btnSplashCloseTop" class="no-wrap-btn ml-2 px-2.5 py-0.5 rounded surface-panel border border-subtle mono text-[11px] font-bold text-primary-ink hover:text-theme-accent cursor-pointer" title="Close Splash Modal (Esc)">✕ Close</button>' +
+      '    </div>' +
+      '  </div>' +
+      '  <!-- 12-Concept Pill Ribbon -->' +
+      '  <div id="splashConceptRibbon" class="shrink-0 px-3 py-1.5 border-b border-hairline surface-panel grid grid-cols-3 sm:grid-cols-6 xl:grid-cols-12 gap-1"></div>' +
+      '  <!-- Main Body: Left Interactive I Ching Artwork + Right Lore, Hype & 3-Pillar Cipher -->' +
+      '  <div class="flex-1 min-h-0 overflow-y-auto p-4 lg:p-5 grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">' +
+      '    <!-- Left Column (5 cols): Interactive I Ching Hexagram 64 Emblem & Bar Inspector -->' +
+      '    <div class="lg:col-span-5 flex flex-col gap-2.5 surface-card border border-hairline rounded-xl p-3">' +
+      '      <div class="flex items-center justify-between gap-2">' +
+      '        <span id="splashArchetypeBadge" class="mono text-[10px] font-bold text-theme-accent uppercase tracking-wider"></span>' +
+      '        <span class="mono text-[9.5px] text-secondary-ink">Click any of the 6 Hex64 bars (S1..S6)</span>' +
+      '      </div>' +
+      '      <div id="splashArtworkStage" class="w-full"></div>' +
+      '      <div id="splashConceptInteractiveControls" class="flex flex-wrap items-center justify-between gap-1.5"></div>' +
+      '      <!-- Selected I Ching Bar -> Stage Telemetry Readout -->' +
+      '      <div id="splashBarReadout" class="p-2.5 rounded-lg surface-root border border-subtle flex flex-col gap-1"></div>' +
+      '    </div>' +
+      '    <!-- Right Column (7 cols): Hype Blurb, Concept Hidden Metaphor & 3-Pillar Cipher Grid -->' +
+      '    <div class="lg:col-span-7 flex flex-col gap-3">' +
+      '      <div class="surface-card border border-hairline rounded-xl p-3.5 flex flex-col gap-1.5">' +
+      '        <div class="flex flex-wrap items-center justify-between gap-2">' +
+      '          <span id="splashTagline" class="mono text-[10.5px] font-bold text-theme-accent"></span>' +
+      '          <span class="mono text-[10px] font-bold px-2 py-0.5 rounded surface-root border border-hairline text-primary-ink">䷿ 2⁶ = 64 TOKENS · 84×64B CACHE · <=5.5ms LIVE</span>' +
+      '        </div>' +
+      '        <h2 id="splashConceptTitle" class="text-lg lg:text-xl font-extrabold text-primary-ink tracking-tight"></h2>' +
+      '        <p id="splashHypeBlurb" class="text-xs lg:text-[13px] text-primary-ink leading-relaxed font-medium"></p>' +
+      '        <div class="mt-1 p-2.5 rounded-lg surface-root border border-hairline flex flex-col gap-0.5">' +
+      '          <span id="splashMetaphorTitle" class="mono text-[10px] font-bold text-theme-accent uppercase"></span>' +
+      '          <p id="splashMetaphorBody" class="text-[11.5px] text-secondary-ink leading-snug"></p>' +
+      '        </div>' +
+      '      </div>' +
+      '      <!-- 3-Pillar Name / Version / Lineage Cards -->' +
+      '      <div id="splashThreePillarsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-2.5"></div>' +
+      '    </div>' +
+      '  </div>' +
+      '  <!-- Footer Bar: Startup Toggle + Quick Launch Actions -->' +
+      '  <div class="shrink-0 px-4 py-2.5 border-t border-hairline surface-root flex flex-wrap items-center justify-between gap-2">' +
+      '    <label class="inline-flex items-center gap-2 text-xs font-semibold text-secondary-ink cursor-pointer select-none">' +
+      '      <input type="checkbox" id="chkShowSplashOnStartup" class="rounded cursor-pointer" checked />' +
+      '      <span>Show I Ching Hex64 Splash Codex on first visit / startup (always accessible from Title header)</span>' +
+      '    </label>' +
+      '    <div class="flex flex-wrap items-center gap-2">' +
+      '      <button type="button" id="btnSplashLaunchTour" class="no-wrap-btn px-3 py-1 rounded-lg text-xs font-bold surface-panel text-primary-ink border border-subtle hover:border-current transition cursor-pointer">▶ Start 8-Step Guided Tour</button>' +
+      '      <button type="button" id="btnSplashEnterExplorer" class="no-wrap-btn px-3.5 py-1 rounded-lg text-xs font-bold btn-theme-accent border transition cursor-pointer">⚡ Enter Hex64 Architecture Explorer</button>' +
+      '    </div>' +
+      '  </div>' +
+      '</div>';
+
+    document.body.appendChild(modalBackdrop);
+
+    let activeConceptIdx = 0;
+    try {
+      const savedIdx = parseInt(localStorage.getItem(STORAGE_KEY_ACTIVE_CONCEPT) || '0', 10);
+      if (!isNaN(savedIdx) && savedIdx >= 0 && savedIdx < SPLASH_CONCEPTS.length) {
+        activeConceptIdx = savedIdx;
+      }
+    } catch (_) {}
+
+    const state = {
+      activeBarIdx: 0,
+      c2vMirrored: false,
+      hankoStamped: true,
+      astrolabeRot: 0,
+      strata3dMode: true
+    };
+
+    const chkStartup = document.getElementById('chkShowSplashOnStartup');
+    try {
+      chkStartup.checked = localStorage.getItem(STORAGE_KEY_HIDE_SPLASH) !== '1';
+    } catch (_) {}
+    chkStartup.addEventListener('change', () => {
+      try {
+        if (chkStartup.checked) {
+          localStorage.removeItem(STORAGE_KEY_HIDE_SPLASH);
+        } else {
+          localStorage.setItem(STORAGE_KEY_HIDE_SPLASH, '1');
+        }
+      } catch (_) {}
+    });
+
+    function renderThreePillars() {
+      const grid = document.getElementById('splashThreePillarsGrid');
+      if (!grid) return;
+      grid.innerHTML = LORE_PILLARS.map((p) => {
+        const itemsHtml = p.bullets
+          .map(
+            (b) =>
+              '<li class="text-[11px] text-secondary-ink leading-snug flex items-start gap-1.5">' +
+              '<span class="text-theme-accent font-bold shrink-0">▪</span>' +
+              '<span>' + b + '</span>' +
+              '</li>'
+          )
+          .join('');
+        return (
+          '<div class="surface-card border border-hairline rounded-xl p-3 flex flex-col gap-1.5">' +
+          '<span class="mono text-[9.5px] font-bold text-theme-accent uppercase">' + p.badge + '</span>' +
+          '<h3 class="text-xs font-extrabold text-primary-ink">' + p.title + '</h3>' +
+          '<div class="mono text-[10px] font-semibold text-secondary-ink pb-1 border-b border-hairline">' + p.subtitle + '</div>' +
+          '<ul class="flex flex-col gap-1">' + itemsHtml + '</ul>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    function renderSplashConcept() {
+      const c = SPLASH_CONCEPTS[activeConceptIdx] || SPLASH_CONCEPTS[0];
+      const stageCols = api && api.getActiveStageColors ? api.getActiveStageColors() : ['#0284c7', '#2563eb', '#7c3aed', '#d97706', '#059669', '#dc2626'];
+      const isLight = (document.body.getAttribute('data-mode') || 'light') === 'light';
+
+      document.getElementById('splashConceptCounter').textContent =
+        'CONCEPT ' + c.num + ' / 12';
+      document.getElementById('splashArchetypeBadge').textContent =
+        '#' + c.num + ' · ' + c.archetype;
+      document.getElementById('splashTagline').textContent = c.tagline;
+      document.getElementById('splashConceptTitle').textContent = c.title;
+      document.getElementById('splashHypeBlurb').textContent = c.hype;
+      document.getElementById('splashMetaphorTitle').textContent = c.metaphorTitle;
+      document.getElementById('splashMetaphorBody').textContent = c.metaphorBody;
+
+      // Render 12-Concept Ribbon
+      const ribbon = document.getElementById('splashConceptRibbon');
+      ribbon.innerHTML = SPLASH_CONCEPTS.map((sc, idx) => {
+        const isAct = idx === activeConceptIdx;
+        return (
+          '<button type="button" data-splash-concept="' +
+          idx +
+          '" class="no-wrap-btn px-1.5 py-1 rounded text-[10px] mono font-bold border transition cursor-pointer truncate ' +
+          (isAct
+            ? 'btn-theme-accent'
+            : 'surface-root text-secondary-ink border-hairline hover:text-primary-ink hover:border-subtle') +
+          '" title="' +
+          sc.num +
+          ' · ' +
+          sc.title +
+          '">' +
+          sc.num +
+          ' · ' +
+          sc.short +
+          '</button>'
+        );
+      }).join('');
+
+      ribbon.querySelectorAll('[data-splash-concept]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          activeConceptIdx = parseInt(btn.getAttribute('data-splash-concept'), 10) || 0;
+          try {
+            localStorage.setItem(STORAGE_KEY_ACTIVE_CONCEPT, String(activeConceptIdx));
+          } catch (_) {}
+          renderSplashConcept();
+        });
+      });
+
+      // Render Interactive SVG Centerpiece
+      const artStage = document.getElementById('splashArtworkStage');
+      artStage.innerHTML = renderConceptArtworkSvg(activeConceptIdx, state, stageCols, isLight);
+
+      artStage.querySelectorAll('[data-iching-bar]').forEach((el) => {
+        el.addEventListener('click', () => {
+          state.activeBarIdx = parseInt(el.getAttribute('data-iching-bar'), 10) || 0;
+          renderSplashConcept();
+        });
+        el.addEventListener('mouseenter', () => {
+          state.activeBarIdx = parseInt(el.getAttribute('data-iching-bar'), 10) || 0;
+          renderBarReadout(stageCols);
+        });
+      });
+
+      // Concept-specific interactive controls + 6-bar quick pills
+      const ctrlWrap = document.getElementById('splashConceptInteractiveControls');
+      const barButtonsHtml = ICHING_BAR_SPECS.map((bs, bIdx) => {
+        const isSel = bIdx === state.activeBarIdx;
+        return (
+          '<button type="button" data-select-bar="' +
+          bIdx +
+          '" class="no-wrap-btn px-1.5 py-0.5 rounded mono text-[9.5px] font-bold border cursor-pointer ' +
+          (isSel ? 'btn-theme-accent' : 'surface-root text-secondary-ink border-hairline hover:text-primary-ink') +
+          '">' +
+          'L' +
+          bs.lineNum +
+          ' (S' +
+          (bs.stageIdx + 1) +
+          (bs.polarity === 'yang' ? ' ⚊' : ' ⚋') +
+          ')</button>'
+        );
+      }).join('');
+
+      let extraBtnHtml = '';
+      if (activeConceptIdx === 1) {
+        extraBtnHtml =
+          '<button type="button" id="btnConceptActionC2v" class="no-wrap-btn px-2 py-0.5 rounded mono text-[9.5px] font-bold surface-elevated border border-subtle text-theme-accent cursor-pointer">⇄ Flip C2v Mirror Axis</button>';
+      } else if (activeConceptIdx === 6) {
+        extraBtnHtml =
+          '<button type="button" id="btnConceptActionHanko" class="no-wrap-btn px-2 py-0.5 rounded mono text-[9.5px] font-bold surface-elevated border border-subtle text-theme-accent cursor-pointer">印 Toggle Kintsugi Stamp</button>';
+      } else if (activeConceptIdx === 9) {
+        extraBtnHtml =
+          '<button type="button" id="btnConceptActionAstrolabe" class="no-wrap-btn px-2 py-0.5 rounded mono text-[9.5px] font-bold surface-elevated border border-subtle text-theme-accent cursor-pointer">↻ Rotate 180° Team C2v</button>';
+      } else if (activeConceptIdx === 11) {
+        extraBtnHtml =
+          '<button type="button" id="btnConceptActionStrata" class="no-wrap-btn px-2 py-0.5 rounded mono text-[9.5px] font-bold surface-elevated border border-subtle text-theme-accent cursor-pointer">◰ Toggle 2D Seal ↔ 3D Strata</button>';
+      }
+
+      ctrlWrap.innerHTML =
+        '<div class="flex flex-wrap items-center gap-1">' + barButtonsHtml + '</div>' + extraBtnHtml;
+
+      ctrlWrap.querySelectorAll('[data-select-bar]').forEach((b) => {
+        b.addEventListener('click', () => {
+          state.activeBarIdx = parseInt(b.getAttribute('data-select-bar'), 10) || 0;
+          renderSplashConcept();
+        });
+      });
+
+      const btnC2v = document.getElementById('btnConceptActionC2v');
+      if (btnC2v) {
+        btnC2v.addEventListener('click', () => {
+          state.c2vMirrored = !state.c2vMirrored;
+          renderSplashConcept();
+        });
+      }
+      const btnHanko = document.getElementById('btnConceptActionHanko');
+      if (btnHanko) {
+        btnHanko.addEventListener('click', () => {
+          state.hankoStamped = !state.hankoStamped;
+          renderSplashConcept();
+        });
+      }
+      const btnAstro = document.getElementById('btnConceptActionAstrolabe');
+      if (btnAstro) {
+        btnAstro.addEventListener('click', () => {
+          state.astrolabeRot = (state.astrolabeRot + 180) % 360;
+          renderSplashConcept();
+        });
+      }
+      const btnStrata = document.getElementById('btnConceptActionStrata');
+      if (btnStrata) {
+        btnStrata.addEventListener('click', () => {
+          state.strata3dMode = !state.strata3dMode;
+          renderSplashConcept();
+        });
+      }
+
+      renderBarReadout(stageCols);
+      renderThreePillars();
+    }
+
+    function renderBarReadout(stageCols) {
+      const box = document.getElementById('splashBarReadout');
+      if (!box) return;
+      const spec = ICHING_BAR_SPECS[state.activeBarIdx] || ICHING_BAR_SPECS[0];
+      const stCol = stageCols[spec.stageIdx] || '#0284c7';
+      box.innerHTML =
+        '<div class="flex flex-wrap items-center justify-between gap-1">' +
+        '  <span class="mono text-[10px] font-bold" style="color:' + stCol + '">' + spec.stageCode + ' · ' + spec.glyph + '</span>' +
+        '  <span class="mono text-[9.5px] font-bold text-secondary-ink">' + spec.trigram + '</span>' +
+        '</div>' +
+        '<div class="text-xs font-bold text-primary-ink">' + spec.title + '</div>' +
+        '<div class="grid grid-cols-2 gap-1.5 pt-0.5">' +
+        '  <div class="px-2 py-1 rounded surface-panel border border-hairline mono text-[9.5px] text-primary-ink truncate" title="' + spec.splitLeft + '">▪ ' + spec.splitLeft + '</div>' +
+        '  <div class="px-2 py-1 rounded surface-panel border border-hairline mono text-[9.5px] text-primary-ink truncate" title="' + spec.splitRight + '">▪ ' + spec.splitRight + '</div>' +
+        '</div>' +
+        '<p class="text-[11px] text-secondary-ink leading-snug">' + spec.detail + '</p>';
+    }
+
+    function openSplashModal(conceptIdxOpt) {
+      if (typeof conceptIdxOpt === 'number' && conceptIdxOpt >= 0 && conceptIdxOpt < SPLASH_CONCEPTS.length) {
+        activeConceptIdx = conceptIdxOpt;
+      }
+      modalBackdrop.classList.remove('hidden');
+      renderSplashConcept();
+    }
+
+    function closeSplashModal() {
+      modalBackdrop.classList.add('hidden');
+    }
+
+    document.getElementById('btnSplashPrevConcept').addEventListener('click', () => {
+      activeConceptIdx = (activeConceptIdx - 1 + SPLASH_CONCEPTS.length) % SPLASH_CONCEPTS.length;
+      try {
+        localStorage.setItem(STORAGE_KEY_ACTIVE_CONCEPT, String(activeConceptIdx));
+      } catch (_) {}
+      renderSplashConcept();
+    });
+
+    document.getElementById('btnSplashNextConcept').addEventListener('click', () => {
+      activeConceptIdx = (activeConceptIdx + 1) % SPLASH_CONCEPTS.length;
+      try {
+        localStorage.setItem(STORAGE_KEY_ACTIVE_CONCEPT, String(activeConceptIdx));
+      } catch (_) {}
+      renderSplashConcept();
+    });
+
+    document.getElementById('btnSplashCloseTop').addEventListener('click', closeSplashModal);
+    document.getElementById('btnSplashEnterExplorer').addEventListener('click', closeSplashModal);
+    document.getElementById('btnSplashLaunchTour').addEventListener('click', () => {
+      closeSplashModal();
+      if (api && api.startGuidedTour) {
+        api.startGuidedTour();
+      }
+    });
+
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) {
+        closeSplashModal();
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (modalBackdrop.classList.contains('hidden')) return;
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        closeSplashModal();
+      } else if (e.shiftKey && e.key === 'ArrowRight') {
+        e.preventDefault();
+        activeConceptIdx = (activeConceptIdx + 1) % SPLASH_CONCEPTS.length;
+        renderSplashConcept();
+      } else if (e.shiftKey && e.key === 'ArrowLeft') {
+        e.preventDefault();
+        activeConceptIdx = (activeConceptIdx - 1 + SPLASH_CONCEPTS.length) % SPLASH_CONCEPTS.length;
+        renderSplashConcept();
+      }
+    });
+
+    // Auto-show on first visit (unless user explicitly unchecked startup toggle)
+    let hideOnStartup = false;
+    try {
+      hideOnStartup = localStorage.getItem(STORAGE_KEY_HIDE_SPLASH) === '1';
+    } catch (_) {}
+
+    if (!hideOnStartup || window.location.hash.includes('splash=')) {
+      openSplashModal();
+    }
+
+    return {
+      openSplashModal,
+      closeSplashModal,
+      refreshTheme: () => {
+        if (!modalBackdrop.classList.contains('hidden')) {
+          renderSplashConcept();
+        }
+      }
+    };
+  }
+
+  window.ArashikageSplashCodex = {
+    initSplashCodex,
+    SPLASH_CONCEPTS
+  };
+})();
+
+</script>
+  <script>
+// ============================================================================
+// ARASHIKAGE (HEX64 + LEGACY GEN 1..3) — INTERACTIVE ARCHITECTURE EXPLORER
 // ============================================================================
 (function () {
   const ARCH_REGISTRY = window.ARASHIKAGE_ARCHITECTURES || {};
-  let activeArchKey = 'hex63';
+  let activeArchKey = 'hex64';
   let nodes = window.ARASHIKAGE_NODES || [];
   let edges = window.ARASHIKAGE_EDGES || [];
   let scenarios = window.ARASHIKAGE_SCENARIOS || {};
   let techLib = window.ARASHIKAGE_TECH_LIBRARY || [];
   let TECH_EXTERNAL_RESOURCES = window.ARASHIKAGE_EXTERNAL_RESOURCES || {};
-  let activeColHeaders = (ARCH_REGISTRY.hex63 && ARCH_REGISTRY.hex63.colHeaders) || [];
-  let activeMermaidDiagram = (ARCH_REGISTRY.hex63 && ARCH_REGISTRY.hex63.mermaidDiagram) || '';
+  let activeColHeaders = (ARCH_REGISTRY.hex64 && ARCH_REGISTRY.hex64.colHeaders) || [];
+  let activeMermaidDiagram = (ARCH_REGISTRY.hex64 && ARCH_REGISTRY.hex64.mermaidDiagram) || '';
   const renderer = window.ArashikageCanvasRenderer;
 
   let nodeMap = {};
@@ -6594,7 +7648,8 @@ window.ARASHIKAGE_ARCHITECTURES = {
     if ((polParam === 'light' || polParam === 'dark') && setPolCallback) {
       setPolCallback(polParam);
     }
-    const archParam = params.get('arch');
+    const rawArchParam = params.get('arch');
+    const archParam = rawArchParam === 'hex63' ? 'hex64' : rawArchParam;
     if (archParam && ARCH_REGISTRY[archParam] && setArchCallback) {
       setArchCallback(archParam, true);
     }
@@ -7208,11 +8263,11 @@ window.ARASHIKAGE_ARCHITECTURES = {
     function getPathwayRoleSpec(node, archKey, mode) {
       const db = window.ARASHIKAGE_PATHWAY_ROLES || {};
       const archMap = db[archKey] || {};
-      const hexMap = db.hex63 || {};
+      const hexMap = db.hex64 || {};
       if (archMap[node.id] && archMap[node.id][mode]) {
         return archMap[node.id][mode];
       }
-      if (archKey === 'hex63' && hexMap[node.id] && hexMap[node.id][mode]) {
+      if (archKey === 'hex64' && hexMap[node.id] && hexMap[node.id][mode]) {
         return hexMap[node.id][mode];
       }
       // Generation-specific synthesis for active/bypassed legacy blocks not explicitly overridden
@@ -7744,42 +8799,42 @@ window.ARASHIKAGE_ARCHITECTURES = {
     const STAGE_EVOLUTION_BY_COL = [
       {
         title: 'STAGE 1 EVOLUTION // OBSERVATION MANIFOLD',
-        hex63: '5,376B Layout A (84×64B CL, 64 Entities, 8 BallRingBuffer480, C2v)',
+        hex64: '5,376B Layout A (84×64B CL, 64 Entities, 8 BallRingBuffer480, C2v)',
         gen3_perceiver: '700D (684D + 16D 4-Frame Wheel History) + 752D Critic',
         gen2_factorized: '171D×4 Egocentric R_car^T Stack (684D) + 68D Critic Tail',
         gen1_ret40: '41×25 EntityTokenPOD (4,100B) + 1,536B SoA (World Z-Up)'
       },
       {
         title: 'STAGE 2 EVOLUTION // RELATIONAL & TEMPORAL ENCODING',
-        hex63: 'On-Chip GPU 16×64×72D Pairwise Kernel + 2L Bipartite DiffAttn',
+        hex64: 'On-Chip GPU 16×64×72D Pairwise Kernel + 2L Bipartite DiffAttn',
         gen3_perceiver: 'Zero-Copy 144D Core Unpacker + Shared 34×7D BoostPad PointNet',
         gen2_factorized: 'K=4 Sliding Window (267ms) + 0..2 Tick Latency Randomizer',
         gen1_ret40: 'CPU AVX2 41×41×8 r_ij (53.7KB) + Trunk-Hoisted mlp_rel'
       },
       {
         title: 'STAGE 3 EVOLUTION // TEMPORAL MEMORY & SEQUENCE TRUNK',
-        hex63: '2×4×32×32 FP32 Titans Fast Weights (Log-Cosh Surprise, ||W||_F<=4)',
+        hex64: '2×4×32×32 FP32 Titans Fast Weights (Log-Cosh Surprise, ||W||_F<=4)',
         gen3_perceiver: '2L ST-Perceiver Cross-Attn (M=4×N=37 Latents, QK-RMSNorm)',
         gen2_factorized: '3-Block Residual MLP Trunk (684->512->512->256, SiLU)',
         gen1_ret40: '4-Layer Relational Entity Transformer RET-40 (d=128, H=4)'
       },
       {
         title: 'STAGE 4 EVOLUTION // LATENT REASONING & SKILL ROUTING',
-        hex63: 'Coconut K=4..6 Loop + Static 8×2 Soft-MoE + 8×125=1,000 FSQ',
+        hex64: 'Coconut K=4..6 Loop + Static 8×2 Soft-MoE + 8×125=1,000 FSQ',
         gen3_perceiver: '912D->256D SwiGLU Fusion + Aux Skill Head Z_t (8×32)',
         gen2_factorized: 'PSM-DCP Replay SeqScout Miner + Aux Skill Z_t (8×32)',
         gen1_ret40: 'Quaternion Target q*∈S^3 + ω* + 4 Exploiter Archetype Heads'
       },
       {
         title: 'STAGE 5 EVOLUTION // MOTOR DECODER & ACTUATION LOOP',
-        hex63: 'Stage-1 16-Way Binary + Stage-2 60Hz Flow-GRPO SDE (K_sub=4)',
+        hex64: 'Stage-1 16-Way Binary + Stage-2 60Hz Flow-GRPO SDE (K_sub=4)',
         gen3_perceiver: '2-Stage Autoregressive Cond-31 (Jump/Boost -> 5 Axes @ 15Hz)',
         gen2_factorized: 'Fused 31-Logit [B,7,7] Categorical + C++ 8-Subtick Flip FSM',
         gen1_ret40: '120Hz Geodesic SLERP Attitude PD + Schmitt Deadband'
       },
       {
         title: 'STAGE 6 EVOLUTION // CRITIC, WORLD MODEL & RL LEARNER',
-        hex63: 'Dual 4×51 Symlog HL-Gauss + JEPA Best-of-16 + G=8 Cloned GRPO',
+        hex64: 'Dual 4×51 Symlog HL-Gauss + JEPA Best-of-16 + G=8 Cloned GRPO',
         gen3_perceiver: '752D Asymmetric Perceiver Critic + 3-Horizon PopArt + KL Distill',
         gen2_factorized: '752D Privileged Critic + 5-Bounce Ballistics + Zero-Sum PBRS',
         gen1_ret40: '3-Horizon PopArt + 32-Quantile CVaR_β Risk-Averse PPO'
@@ -7800,7 +8855,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       box.appendChild(hdr);
 
       const gens = [
-        { key: 'hex63', short: 'Hex63 · Current' },
+        { key: 'hex64', short: 'Hex64 · Current' },
         { key: 'gen3_perceiver', short: 'Gen 3 · Perceiver' },
         { key: 'gen2_factorized', short: 'Gen 2 · MLP-684' },
         { key: 'gen1_ret40', short: 'Gen 1 · RET-40' }
@@ -7851,7 +8906,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
       if (colIdx === 0) {
         // STAGE 1: OBSERVATION MEMORY / CACHE-LINE INSPECTOR
-        if (activeArchKey === 'hex63') {
+        if (activeArchKey === 'hex64') {
           wTitle.textContent = 'STAGE 1 // 5,376B CACHE-LINE INSPECTOR';
           wTag.textContent = '84 × 64B CL';
           const segments = [
@@ -7961,7 +9016,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       } else if (colIdx === 1) {
         // STAGE 2: PAIRWISE RELATIONAL / TEMPORAL ENCODING SIMULATOR
         wTitle.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? 'STAGE 2 // 16×64 PAIRWISE INTERCEPT SIMULATOR'
             : activeArchKey === 'gen3_perceiver'
             ? 'STAGE 2 // 144D CORE & 34×7D POINTNET SIMULATOR'
@@ -7969,7 +9024,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
             ? 'STAGE 2 // K=4 FINITE-DIFFERENCE & JITTER SIMULATOR'
             : 'STAGE 2 // AVX2 41×41×8 PAIRWISE r_ij SIMULATOR';
         wTag.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? '1,024 PAIRS · 72D'
             : activeArchKey === 'gen3_perceiver'
             ? '34 PADS · 64D MAX'
@@ -8043,7 +9098,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
           tReach +
           ' s</div></div>' +
           '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink text-[9px]">' +
-          (activeArchKey === 'hex63' ? 'DIFF-ATTN' : 'BIAS WEIGHT') +
+          (activeArchKey === 'hex64' ? 'DIFF-ATTN' : 'BIAS WEIGHT') +
           '</div><div class="text-primary-ink font-bold">' +
           attnScore +
           '</div></div>';
@@ -8051,7 +9106,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       } else if (colIdx === 2) {
         // STAGE 3: TEMPORAL MEMORY / TRUNK SIMULATOR (Distinct from Stage 4!)
         wTitle.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? 'STAGE 3 // FP32 TITANS FAST-WEIGHT MEMORY GATE'
             : activeArchKey === 'gen3_perceiver'
             ? 'STAGE 3 // 2L ST-PERCEIVER LATENT BOTTLENECK'
@@ -8059,7 +9114,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
             ? 'STAGE 3 // 3-BLOCK RESIDUAL MLP TRUNK (SiLU)'
             : 'STAGE 3 // 4-LAYER RET-40 RELATIONAL TRUNK';
         wTag.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? '2×4×32×32 · ||W||_F<=4'
             : activeArchKey === 'gen3_perceiver'
             ? 'M=4 × N=37 · QK-NORM'
@@ -8071,7 +9126,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
         sliderRow.className = 'flex items-center justify-between gap-2 text-[11px]';
         sliderRow.innerHTML =
           '<span class="text-secondary-ink">' +
-          (activeArchKey === 'hex63'
+          (activeArchKey === 'hex64'
             ? 'Opponent Surprise Residual ||W_prev^T k - v_t||:'
             : 'Input Kinematic Perturbation Magnitude:') +
           '</span><span class="mono font-bold text-theme-accent">' +
@@ -8098,7 +9153,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
         const readoutGrid = document.createElement('div');
         readoutGrid.className = 'grid grid-cols-3 gap-1.5 mono text-[10.5px]';
-        if (activeArchKey === 'hex63') {
+        if (activeArchKey === 'hex64') {
           readoutGrid.innerHTML =
             '<div class="p-1.5 rounded surface-root border border-hairline"><div class="text-muted-ink text-[9px]">LOG-COSH GATE</div><div class="text-primary-ink font-bold">g_t = ' +
             gateVal +
@@ -8125,13 +9180,13 @@ window.ARASHIKAGE_ARCHITECTURES = {
       } else if (colIdx === 3) {
         // STAGE 4: COCONUT RECURRENCE, 8x2 SOFT-MOE & 1,000 FSQ ROUTER (Distinct from Stage 3!)
         wTitle.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? 'STAGE 4 // COCONUT LOOP, 8×2 SOFT-MOE & FSQ'
             : activeArchKey === 'gen1_ret40'
             ? 'STAGE 4 // QUATERNION S^3 & 4 EXPLOITER HEADS'
             : 'STAGE 4 // SKILL TAXONOMY Z_t (8 × 32) & FUSION';
         wTag.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? 'K=4..6 · 1,000 FSQ'
             : activeArchKey === 'gen1_ret40'
             ? 'q*∈S^3 · 4 HEADS'
@@ -8169,7 +9224,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
           '<div class="flex items-center justify-between"><span class="font-bold text-primary-ink">' +
           curP.label +
           '</span><span class="text-theme-accent font-bold">' +
-          (activeArchKey === 'hex63' ? 'Coconut K=' + curP.kPass + ' · FSQ ' + curP.fsq : 'Skill Family Z_t Active') +
+          (activeArchKey === 'hex64' ? 'Coconut K=' + curP.kPass + ' · FSQ ' + curP.fsq : 'Skill Family Z_t Active') +
           '</span></div>' +
           '<div class="grid grid-cols-3 gap-1">' +
           curP.exp
@@ -8185,20 +9240,20 @@ window.ARASHIKAGE_ARCHITECTURES = {
       } else if (colIdx === 4) {
         // STAGE 5: 60HZ SUBTICK ACTION CHUNK & MOTOR DECODER (Distinct from Stage 6!)
         wTitle.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? 'STAGE 5 // 60HZ SUBTICK ACTION CHUNK (K_sub=4)'
             : activeArchKey === 'gen1_ret40'
             ? 'STAGE 5 // 120HZ GEODESIC SLERP ATTITUDE PD'
             : 'STAGE 5 // 15HZ CATEGORICAL HEADS & FLIP FSM';
         wTag.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? '4 × 16.7ms (60Hz)'
             : activeArchKey === 'gen1_ret40'
             ? '120Hz PD TORQUE'
             : '8 TICKS (66.7ms)';
 
         const subticks =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? [
                 { lbl: 'Sub 1 (0–17ms)', bin: 'J=0 · m_dj=0 · B=1', cont: 'Pitch -0.85 · Yaw +0.18 · Roll -0.92 (Pre-Flip Align)' },
                 { lbl: 'Sub 2 (17–33ms)', bin: 'J=1 · m_dj=1 · B=1', cont: 'Pitch +0.02 · Yaw -0.04 · Roll +0.08 (0.12·tanh Stall Clamp)' },
@@ -8254,13 +9309,13 @@ window.ARASHIKAGE_ARCHITECTURES = {
       } else {
         // STAGE 6: 4-HORIZON SYMLOG HL-GAUSS CRITIC, JEPA SEARCH & G=8 GRPO (Distinct from Stage 5!)
         wTitle.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? 'STAGE 6 // 4-HORIZON SYMLOG CRITIC & JEPA SEARCH'
             : activeArchKey === 'gen1_ret40'
             ? 'STAGE 6 // 3-POPART & 32-QUANTILE CVaR CRITIC'
             : 'STAGE 6 // 752D ASYMMETRIC CRITIC & 3-POPART';
         wTag.textContent =
-          activeArchKey === 'hex63'
+          activeArchKey === 'hex64'
             ? '4×51 BINS · M=16 CVaR'
             : activeArchKey === 'gen1_ret40'
             ? '32 QUANTILES · τ_q'
@@ -8312,7 +9367,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       appendEvolutionComparisonStrip(wBody, colIdx);
     }
 
-    // Switch Active Platform Generation (Hex63 vs Gen 3 vs Gen 2 vs Gen 1)
+    // Switch Active Platform Generation (Hex64 vs Gen 3 vs Gen 2 vs Gen 1)
     function setArchitecture(archKey, skipHashSync) {
       const archDef = ARCH_REGISTRY[archKey];
       if (!archDef) return;
@@ -8958,6 +10013,9 @@ window.ARASHIKAGE_ARCHITECTURES = {
       updateTourTooltip();
       renderNodeInspector();
       if (activeRightView === 'tech') renderTechDeepDive();
+      if (splashCodexCtrl && splashCodexCtrl.refreshTheme) {
+        splashCodexCtrl.refreshTheme();
+      }
     }
 
     // Event Listeners: Segmented 4-Generation Pill Bar & Select
@@ -9333,7 +10391,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
         try { exportPopoverMenu.hidePopover(); } catch (_) {}
       }
       try {
-        const [cssText, nodesJs, scenariosJs, gen3Js, gen2Js, gen1Js, rendererJs, appJs] = await Promise.all([
+        const [cssText, nodesJs, scenariosJs, gen3Js, gen2Js, gen1Js, rendererJs, splashJs, appJs] = await Promise.all([
           fetch('./styles/themes.css').then((r) => r.text()),
           fetch('./js/nodes_and_edges.js').then((r) => r.text()),
           fetch('./js/scenarios_and_tech.js').then((r) => r.text()),
@@ -9341,6 +10399,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
           fetch('./js/gen2_factorized.js').then((r) => r.text()),
           fetch('./js/gen1_ret40.js').then((r) => r.text()),
           fetch('./js/canvas_renderer.js').then((r) => r.text()),
+          fetch('./js/splash_codex.js').then((r) => r.text()),
           fetch('./js/app.js').then((r) => r.text())
         ]);
         const clone = document.documentElement.cloneNode(true);
@@ -9358,6 +10417,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
           'gen2_factorized.js': gen2Js,
           'gen1_ret40.js': gen1Js,
           'canvas_renderer.js': rendererJs,
+          'splash_codex.js': splashJs,
           'app.js': appJs
         };
         clone.querySelectorAll('script[src]').forEach((scr) => {
@@ -9489,6 +10549,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
     });
 
     // Restore saved theme/polarity & URL hash state
+    let splashCodexCtrl = null;
     try {
       const savedTheme = localStorage.getItem('arashikage_arch_theme');
       const savedPol = localStorage.getItem('arashikage_arch_polarity');
@@ -9506,7 +10567,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       updateTourTooltip();
       setRightView(activeRightView);
     } else {
-      setArchitecture('hex63', true);
+      setArchitecture('hex64', true);
       selScenario.value = 'none';
       activeScenarioKey = 'none';
       tourOverlayVisible = false;
@@ -9514,6 +10575,21 @@ window.ARASHIKAGE_ARCHITECTURES = {
       setRightView('node');
       renderTechDeepDive();
       syncUrlHash();
+    }
+
+    if (window.ArashikageSplashCodex && window.ArashikageSplashCodex.initSplashCodex) {
+      splashCodexCtrl = window.ArashikageSplashCodex.initSplashCodex({
+        getActiveStageColors,
+        startGuidedTour: () => {
+          activeScenarioKey = 'tour';
+          if (selScenario) selScenario.value = 'tour';
+          activeStepIdx = 0;
+          tourCustomFocusNodeId = null;
+          tourOverlayVisible = true;
+          updateTourTooltip();
+          syncUrlHash();
+        }
+      });
     }
 
     renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);

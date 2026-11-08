@@ -1,5 +1,5 @@
 // ============================================================================
-// ARASHIKAGE (HEX63) — 17 ARCHITECTURAL BLOCKS & 24 TENSOR EDGES (1120 x 680)
+// ARASHIKAGE (HEX64) — 17 ARCHITECTURAL BLOCKS & 24 TENSOR EDGES (1120 x 680)
 // ============================================================================
 window.ARASHIKAGE_NODES = [
   // --- COLUMN 0: STAGE 1 — C++20 OBSERVATION MANIFOLD (x = 96) ---
@@ -9,7 +9,7 @@ window.ARASHIKAGE_NODES = [
     color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
     techIds: ['t0', 't9'],
     role: 'Stage 1 · C++20 Host-to-GPU Zero-Copy DMA Boundary (15 Hz / 0.25 ms CPU)',
-    tensor: 'Hex63EntityNodeArenaSlice [B, 5376B] (84 × 64B cache lines)',
+    tensor: 'Hex64EntityNodeArenaSlice [B, 5376B] (84 × 64B cache lines)',
     formula: 'M_C2v = diag(-1, -1, +1) ∈ SO(3), det(M_C2v) = +1',
     how: 'Packs all 64 arena entities, bitmasks, and training context into a 64-byte-aligned 5,376B C++20 struct (84 CPU cache lines). When playing on Orange (team == 1), applies a 180° Z-rotation M_C2v = diag(-1, -1, +1) to arena coordinates while keeping car-local vectors untouched.',
     why: 'Eliminates Python dictionary marshalling overhead, guarantees single-DMA host-to-GPU transfers for 4,096 parallel arenas, and ensures the neural network only has to learn one canonical offensive direction (+Y).',

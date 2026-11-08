@@ -1,5 +1,5 @@
 // ============================================================================
-// ARASHIKAGE (HEX63) — SCENARIOS, 10 DEEP DIVES & 36 EXTERNAL WHITE PAPERS
+// ARASHIKAGE (HEX64) — SCENARIOS, 10 DEEP DIVES & 36 EXTERNAL WHITE PAPERS
 // ============================================================================
 window.ARASHIKAGE_SCENARIOS = {
   tour: {
@@ -8,7 +8,7 @@ window.ARASHIKAGE_SCENARIOS = {
       {
         title: 'C++20 5,376B Cache-Line Observation Slice',
         focusNode: 'dma_slice', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
-        desc: 'Every 66.7 ms (15 Hz), Hex63ObsMapper packs all 64 arena entities into a 64-byte-aligned 5,376B struct (84 CPU cache lines). Orange team coordinates rotate 180° around Z via M_C2v = diag(-1,-1,+1) so the model always attacks toward +Y.'
+        desc: 'Every 66.7 ms (15 Hz), Hex64ObsMapper packs all 64 arena entities into a 64-byte-aligned 5,376B struct (84 CPU cache lines). Orange team coordinates rotate 180° around Z via M_C2v = diag(-1,-1,+1) so the model always attacks toward +Y.'
       },
       {
         title: '16 Dynamic Queries vs. 48 Context Keys',
@@ -253,7 +253,7 @@ window.ARASHIKAGE_TECH_LIBRARY = [
     id: 't9', short: 'ShadowTwin & JEPA Search',
     title: '120Hz C++20 RocketSimShadowTwin & Best-of-M JEPA Latent Search',
     usedIn: ['dma_slice', 'subtick_exec', 'jepa_search'],
-    how: 'In live RLBot matches, a local C++20 RocketSim instance steps forward 1 tick at 120 Hz alongside the game client, reconciling sensor packets via a 2-stage residual corrector and calling the exact same Hex63ObsMapper::BuildArenaSlice function used in training. When Tier 0/1 compute headroom is available, the policy samples M = 16 candidate action chunks, rolls them forward 1 step in the Dual-Stream JEPA latent predictor, and picks the chunk maximizing CVaR value under p_eval.',
+    how: 'In live RLBot matches, a local C++20 RocketSim instance steps forward 1 tick at 120 Hz alongside the game client, reconciling sensor packets via a 2-stage residual corrector and calling the exact same Hex64ObsMapper::BuildArenaSlice function used in training. When Tier 0/1 compute headroom is available, the policy samples M = 16 candidate action chunks, rolls them forward 1 step in the Dual-Stream JEPA latent predictor, and picks the chunk maximizing CVaR value under p_eval.',
     why: 'Live socket packets omit internal suspension states, wheel raycast normals, and 4.0s future ball bounce trajectories. Recomputing observations via ad-hoc Python math causes severe Sim-to-Live policy degradation.',
     contrib: 'Eliminates the Sim-to-Live observation gap by construction and filters out high-risk mechanical blunders before sending controls to the socket.',
     science: 'Dual-Stream JEPA predicts next-step ego and ball embeddings (z_hat_ego, z_hat_ball) = f_pred(h_ego, h_ball, u_chunk) supervised against a stop-gradient EMA target encoder (τ_ema = 0.996). Candidate chunks u^(m) are ranked by J(u^(m)) = w_eval^T v_eval + λ_cvar CVaR_α(v_sparse), governed by a 4-tier latency state machine keeping P99 <= 5.50 ms.',
@@ -282,7 +282,7 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
       badge: 'SYSTEMS & HPC REFERENCE // RED HAT',
       title: 'What Every Programmer Should Know About Memory (Cache Lines & DMA)',
       authors: 'Ulrich Drepper — Red Hat (2007)',
-      desc: 'Detailed hardware treatise on 64-byte CPU cache lines, false-sharing prevention, SIMD alignment (alignas(64)), and zero-copy DMA transfers that govern the 5,376B (84 cache line) Hex63EntityNodeArenaSlice layout.',
+      desc: 'Detailed hardware treatise on 64-byte CPU cache lines, false-sharing prevention, SIMD alignment (alignas(64)), and zero-copy DMA transfers that govern the 5,376B (84 cache line) Hex64EntityNodeArenaSlice layout.',
       url: 'https://people.freebsd.org/~lstewart/articles/cpumemory.pdf'
     },
     {
@@ -576,11 +576,11 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
       summary: 'Supervised warm-start phase that transfers mechanical execution and value calibration from frozen legacy teachers and replay trajectory shards before online RL updates begin.'
     }
   },
-  hex63: {
+  hex64: {
     dma_slice: {
       live: {
         regime: 'B=1 · RocketSimShadowTwin · c_priv Zero-Masked',
-        text: 'Constructed every 66.7 ms (15 Hz) from live RLBot v5 socket packets corrected by the 1-tick C++20 RocketSimShadowTwin. Uses the exact same Hex63ObsMapper::BuildArenaSlice C++ code as training, except bytes 4864..5375 (privileged_critic_ctx) are hardware zero-filled (m_priv=0) for tournament legality.'
+        text: 'Constructed every 66.7 ms (15 Hz) from live RLBot v5 socket packets corrected by the 1-tick C++20 RocketSimShadowTwin. Uses the exact same Hex64ObsMapper::BuildArenaSlice C++ code as training, except bytes 4864..5375 (privileged_critic_ctx) are hardware zero-filled (m_priv=0) for tournament legality.'
       },
       train: {
         regime: 'B=4,096 Arenas · 0.25ms OpenMP CPU -> Pinned DMA',
@@ -588,7 +588,7 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
       },
       distill: {
         regime: 'Paired Student (5,376B) + Teacher (700D) Views',
-        text: 'Generated from expert trajectory shards and warm-start rollout arenas alongside the legacy 700D teacher vector so the Hex63 student observes the exact same physical pitch state as the frozen teacher.'
+        text: 'Generated from expert trajectory shards and warm-start rollout arenas alongside the legacy 700D teacher vector so the Hex64 student observes the exact same physical pitch state as the frozen teacher.'
       }
     },
     dyn_nodes: {
@@ -835,7 +835,7 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
     fsq_bottleneck: {
       live: {
         regime: 'Stripped at TorchScript Export',
-        text: 'In Gen 3, Compositional Skill Head Z_t (#11) is an auxiliary training-only head attached as a side-branch to h_trunk. Unlike Hex63\'s in-graph FSQ bottleneck, it is stripped out during TorchScript export for zero live latency cost.'
+        text: 'In Gen 3, Compositional Skill Head Z_t (#11) is an auxiliary training-only head attached as a side-branch to h_trunk. Unlike Hex64\'s in-graph FSQ bottleneck, it is stripped out during TorchScript export for zero live latency cost.'
       },
       train: {
         regime: '8 Macro · 32 Sub-Skill Auxiliary Loss',
@@ -849,7 +849,7 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
     critic_heads: {
       live: {
         regime: 'Actor-Only Live Execution',
-        text: 'Gen 3 did not yet have Hex63\'s Dual-Head p_eval + JEPA test-time search (#16). The 752D ST-Perceiver Critic is used exclusively for GAE advantage estimation during training and distillation.'
+        text: 'Gen 3 did not yet have Hex64\'s Dual-Head p_eval + JEPA test-time search (#16). The 752D ST-Perceiver Critic is used exclusively for GAE advantage estimation during training and distillation.'
       },
       train: {
         regime: 'M=4 × N=43 Perceiver Critic + 3-Horizon PopArt',

@@ -49,7 +49,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       tensor: 'x_pads ∈ R^[B, 136] (34 pads × [rel_x, rel_y, rel_z, τ_avail])',
       formula: 'pad_order = ORANGE_PAD_PERMUTATION[0..33] when team == 1',
       how: 'Transforms all 34 canonical boost pad locations into the ego car\'s body frame and pairs each with its normalized availability fraction τ_avail ∈ [0, 1], permuting pad indices for Orange so pad slots remain symmetric.',
-      why: 'Allowed the MLP to see every boost pad\'s body-relative direction, though repeating 136 floats across 4 history frames consumed 544 of the 684 inputs (later solved by Gen 3\'s PointNet and Hex63\'s Bipartite Graph).',
+      why: 'Allowed the MLP to see every boost pad\'s body-relative direction, though repeating 136 floats across 4 history frames consumed 544 of the 684 inputs (later solved by Gen 3\'s PointNet and Hex64\'s Bipartite Graph).',
       contrib: 'Gave the policy full pitch boost awareness without requiring an entity transformer.'
     },
     {
@@ -87,7 +87,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       tensor: 's_obs(t) <- s_true(t - δ_lag), δ_lag ~ Uniform({0, 1, 2} ticks)',
       formula: 'Δt_jitter ∈ {0.0 ms, 8.33 ms, 16.67 ms}',
       how: 'During training rollouts, randomly delays observations by 0, 1, or 2 physics ticks via LatencyDomainRandomizer to mimic RLBot socket IPC jitter and frame-delivery variance.',
-      why: 'Policies trained on zero-lag simulator states often oscillate or miss tight challenges when deployed over live TCP/shared-memory sockets. (Hex63 later solved this deterministically via the 1-tick C++20 RocketSimShadowTwin).',
+      why: 'Policies trained on zero-lag simulator states often oscillate or miss tight challenges when deployed over live TCP/shared-memory sockets. (Hex64 later solved this deterministically via the 1-tick C++20 RocketSimShadowTwin).',
       contrib: 'Hardened the Gen 2 MLP against live match packet jitter.'
     },
 
@@ -228,7 +228,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       formula: 'P_match(i) ∝ p_win^p (1 - p_win)^q · (1 + β_u σ_i^2 / σ_0^2)',
       how: 'Samples arena initial states across 5 stratified curriculum branches (including 27D replay-mined aerial/flip-reset entry states) and matches agents via Prioritized Fictitious Self-Play (PFSP) weighted by Bayesian TrueSkill uncertainty σ_i^2.',
       why: 'Prevented forgetting of foundational kickoff/ground play while forcing high-density practice on hard-negative ring-buffer states and aerial initiation states.',
-      contrib: 'Established the curriculum and league foundation that Hex63 scaled to 4,096 arenas (816 G=8 GRPO + 2,880 League + 400 Boss).'
+      contrib: 'Established the curriculum and league foundation that Hex64 scaled to 4,096 arenas (816 G=8 GRPO + 2,880 League + 400 Boss).'
     }
   ],
   edges: [
@@ -320,9 +320,9 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
           desc: 'Because the 752D critic immediately sees the post-bounce ball location in front of the opponent net, its PopArt value surges as soon as the agent jumps for the backboard.'
         },
         {
-          title: 'Limitation that Led to Gen 3 & Hex63',
+          title: 'Limitation that Led to Gen 3 & Hex64',
           focusNode: 'titans_prior', highlight: ['env_nodes', 'titans_prior'], techId: 't2',
-          desc: 'Feeding 544 static pad floats alongside 140 dynamic floats into a dense 684->512 layer diluted spatial attention — motivating Gen 3\'s PointNet+Perceiver and Hex63\'s 5,376B Bipartite Graph.'
+          desc: 'Feeding 544 static pad floats alongside 140 dynamic floats into a dense 684->512 layer diluted spatial attention — motivating Gen 3\'s PointNet+Perceiver and Hex64\'s 5,376B Bipartite Graph.'
         }
       ]
     },
@@ -489,7 +489,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       why: 'Directly retired Gen 1\'s 120 Hz Attitude PD controller (which fought the policy during flip resets) while working around the 15 Hz outer step rate.',
       contrib: 'Gave the neural network direct categorical authority over Pitch/Yaw/Roll and reliable dodge edges.',
       science: 'Boolean action masking restricts policy support supp(π(·|s)) to the feasible physical control set A_valid(s).',
-      origins: 'Huang & Ontañón (2020); later superseded in Hex63 by native K_sub=4 (60 Hz) subtick action chunks.'
+      origins: 'Huang & Ontañón (2020); later superseded in Hex64 by native K_sub=4 (60 Hz) subtick action chunks.'
     },
     {
       id: 't8', short: '752D Privileged Critic',

@@ -26,7 +26,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       formula: 'Slots: [0] Ego | [1..2] Mates | [3..5] Opps | [6] Ball | [7..40] 34 Pads',
       how: 'Packs all 41 arena entities into 100-byte C++ POD structs: 3D position, 3D linear velocity, 3D forward & up unit vectors, 3D angular velocity, boost/timer scalars, 6D one-hot entity type flags, and channel 24 norm_time_to_go.',
       why: 'Represented the pitch as an unordered set of 41 physical objects with zero 1D positional encodings so the policy was permutation-equivariant across cars and pads.',
-      contrib: 'Pioneered the entity-token paradigm in rl-bot that later evolved into Hex63\'s 64-entity 5,376B Layout A slice.'
+      contrib: 'Pioneered the entity-token paradigm in rl-bot that later evolved into Hex64\'s 64-entity 5,376B Layout A slice.'
     },
     {
       id: 'dyn_nodes', num: '02', col: 0, x: 96, y: 265, w: 162, h: 92,
@@ -62,7 +62,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       formula: 'Writer: seq.fetch_add(1, release) -> memcpy -> seq.fetch_add(1, release)',
       how: 'Streams step metrics, SPS, and arena states out of the C++ batch engine into a 64-byte-aligned Seqlock shared memory ring buffer without mutex locks.',
       why: 'OS mutexes inside a 120 Hz / 1,024-arena OpenMP hot loop cause severe thread convoying.',
-      contrib: 'Established the lock-free Seqlock telemetry design that Hex63 expanded into the 256 KB Hex63TelemetrySharedMemory plane.'
+      contrib: 'Established the lock-free Seqlock telemetry design that Hex64 expanded into the 256 KB Hex64TelemetrySharedMemory plane.'
     },
 
     // --- COLUMN 1: STAGE 2 — AVX2 PAIRWISE RELATIONAL TENSOR & HOISTED BIAS (x = 282) ---
@@ -75,7 +75,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       tensor: 'RelationalTensorBlockPOD: r_ij ∈ R^[B, 41, 41, 8] (53,792 Bytes)',
       formula: 'inv_d = _mm256_rsqrt_ps(d2) · (1.5 - 0.5 · d2 · inv_d^2)',
       how: 'Executes ComputeRelationalTensorAVX2 in C++ across all 41×41 = 1,681 entity pairs, computing 8 pairwise physics features: Δp_xyz / 6000, Euclidean distance ||Δp|| / 6000 (via fast AVX2 reciprocal square root + 1 Newton-Raphson step), Δv_xyz / 2300, and closing speed.',
-      why: 'Provided explicit pairwise 3D geometry to every attention head — though transferring 53,792B per arena over PCIe became a bandwidth bottleneck that Hex63 solved by computing pairwise biases on-chip on the GPU.',
+      why: 'Provided explicit pairwise 3D geometry to every attention head — though transferring 53,792B per arena over PCIe became a bandwidth bottleneck that Hex64 solved by computing pairwise biases on-chip on the GPU.',
       contrib: 'Gave the RET-40 transformer exact relative kinematics for all 1,681 entity pairs.'
     },
     {
@@ -151,7 +151,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       tensor: '4 × (256 -> 128 -> 12D Action) + Archetype Intrinsic Rewards',
       formula: 'Archetypes: BALL_DENIAL | DEMOLITION | AERIAL_MECHANICS | BOOST_STARVATION',
       how: 'Attaches 4 specialized exploiter policy heads to the 256D trunk, each paired with an intrinsic reward generator (e.g., supersonic closing speed to opponent car for DEMOLITION, big-pad steals in opponent half for BOOST_STARVATION).',
-      why: 'Forced the main agent to defend against extreme specialist playstyles (heavy demo chasers, boost starvers, aerial freestylers). (Hex63 later internalized this via 8×2 Soft-MoE specialist experts).',
+      why: 'Forced the main agent to defend against extreme specialist playstyles (heavy demo chasers, boost starvers, aerial freestylers). (Hex64 later internalized this via 8×2 Soft-MoE specialist experts).',
       contrib: 'Hardened the policy against degenerate local optima and extreme adversarial styles.'
     },
 
@@ -178,7 +178,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       formula: 'e_pitch = atan2(f*·u, f*·f), e_yaw = atan2(f*·r, f*·f), e_roll = atan2(r*·u, u*·u)',
       how: 'Computes exact body-local pitch, yaw, and roll angle errors from the column basis vectors (f, r, u) of R(q) and R(q̃*), applies proportional-derivative + angular-velocity feedforward gains, and zeroes micro-oscillations inside a 0.04 rad Schmitt-trigger deadband.',
       why: 'Closed the control loop at the full 120 Hz physics rate while the heavy RET-40 transformer ran at 15–30 Hz.',
-      contrib: 'Delivered damped, zero-overshoot aerial aiming, though its restorative torque resisted intentional flip-reset stalls (inspiring Gen 2/3 direct heads and Hex63 60 Hz Flow-GRPO).'
+      contrib: 'Delivered damped, zero-overshoot aerial aiming, though its restorative torque resisted intentional flip-reset stalls (inspiring Gen 2/3 direct heads and Hex64 60 Hz Flow-GRPO).'
     },
     {
       id: 'subtick_exec', num: '14', col: 4, x: 840, y: 440, w: 162, h: 92,
@@ -204,7 +204,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       formula: 'A_t^total = w_1 A_t^(0.95) + w_2 A_t^(0.98) + w_3 A_t^(0.995)',
       how: 'Projects the 256D fused_context into 3 PopArt-normalized scalar value heads tracking short-term mechanical touches (γ=0.95), medium-term tactical outplays (γ=0.98), and long-term goal outcomes (γ=0.995).',
       why: 'Single-horizon γ=0.995 critics drown out immediate aerial touch feedback in long-horizon goal variance.',
-      contrib: 'Established the multi-horizon value decomposition that Hex63 expanded into the 4×51 Symlog HL-Gauss critic.'
+      contrib: 'Established the multi-horizon value decomposition that Hex64 expanded into the 4×51 Symlog HL-Gauss critic.'
     },
     {
       id: 'jepa_search', num: '16', col: 5, x: 1024, y: 295, w: 162, h: 92,
@@ -215,7 +215,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       tensor: 'θ_k = θ_1 + Σ_{j=2}^k softplus(Δ_j) ∈ R^[B, 32], CVaR_β = E[q | τ <= β]',
       formula: 'L_QR(u) = Σ_k |τ_k - I(u < 0)| · L_κ(u), τ_k = (2k - 1)/64',
       how: 'Predicts N=32 strictly non-decreasing return quantiles via cumulative softplus deltas and integrates the lower tail up to the actor\'s dynamic risk preference β(s) ∈ [0.05, 0.95] (playing conservatively when winning or last-man back).',
-      why: 'Prevented quantile crossing by construction and introduced risk-sensitive CVaR optimization to the platform (which Hex63 later paired with Best-of-16 JEPA world-model search).',
+      why: 'Prevented quantile crossing by construction and introduced risk-sensitive CVaR optimization to the platform (which Hex64 later paired with Best-of-16 JEPA world-model search).',
       contrib: 'Enabled score-and-clock-aware risk management.'
     },
     {
@@ -315,9 +315,9 @@ window.ARASHIKAGE_GEN1_RET40 = {
           desc: 'The 8D pairwise vector projects to 4 head biases B_rel[B,4,41,41] once and guides all 4 RET-40 layers.'
         },
         {
-          title: 'Why Hex63 Moved Pairwise Bias from CPU AVX2 to Fused GPU',
+          title: 'Why Hex64 Moved Pairwise Bias from CPU AVX2 to Fused GPU',
           focusNode: 'gpu_edges', highlight: ['dma_slice', 'gpu_edges'], techId: 't1',
-          desc: 'In Gen 1, transferring 41×41×8 floats (53.7 KB/arena) from CPU to GPU cost 220 MB/step at 4,096 arenas — motivating Hex63 to transfer only the 5,376B entity slice and compute 16×64×72D biases on-chip on the GPU.'
+          desc: 'In Gen 1, transferring 41×41×8 floats (53.7 KB/arena) from CPU to GPU cost 220 MB/step at 4,096 arenas — motivating Hex64 to transfer only the 5,376B entity slice and compute 16×64×72D biases on-chip on the GPU.'
         },
         {
           title: 'Target Quaternion Aims Car Nose at Intercept Point',
@@ -345,7 +345,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
           desc: 'Once error drops below 0.04 rad and angular velocity is damped, the Schmitt trigger zeroes torques to eliminate high-frequency limit-cycle chatter.'
         },
         {
-          title: 'Why Attitude PD Was Retired in Gen 2/3 & Hex63',
+          title: 'Why Attitude PD Was Retired in Gen 2/3 & Hex64',
           focusNode: 'subtick_exec', highlight: ['stage2_flow', 'subtick_exec'], techId: 't5',
           desc: 'During flip-reset stalls and Musty flicks, the PD controller treated intentional stall torques as attitude errors and fought the policy — leading to direct neural subtick control in later generations.'
         }
@@ -370,9 +370,9 @@ window.ARASHIKAGE_GEN1_RET40 = {
           desc: 'Playing against the 4 exploiter archetypes forces the RET-40 attention layers to track incoming demo threats even when the ball is elsewhere.'
         },
         {
-          title: 'Evolution into Hex63\'s Static 8×2 Soft-MoE',
+          title: 'Evolution into Hex64\'s Static 8×2 Soft-MoE',
           focusNode: 'fsq_bottleneck', highlight: ['fsq_bottleneck'], techId: 't8',
-          desc: 'Rather than keeping 4 separate outer policy heads, Hex63 internalized specialization inside the trunk via 8 static-shape Soft-MoE experts.'
+          desc: 'Rather than keeping 4 separate outer policy heads, Hex64 internalized specialization inside the trunk via 8 static-shape Soft-MoE experts.'
         }
       ]
     },
@@ -395,9 +395,9 @@ window.ARASHIKAGE_GEN1_RET40 = {
           desc: 'Trapezoidal quantile integration evaluates the conditional expectation over τ ∈ [0, β(s)] without Python loops inside the captured CUDA Graph.'
         },
         {
-          title: 'Evolution into Hex63\'s Best-of-16 JEPA + CVaR Search',
+          title: 'Evolution into Hex64\'s Best-of-16 JEPA + CVaR Search',
           focusNode: 'jepa_search', highlight: ['jepa_search'], techId: 't7',
-          desc: 'Hex63 combined Gen 1\'s CVaR tail-risk objective with a Dual-Stream JEPA latent world model to score 16 candidate action chunks at test time.'
+          desc: 'Hex64 combined Gen 1\'s CVaR tail-risk objective with a Dual-Stream JEPA latent world model to score 16 candidate action chunks at test time.'
         }
       ]
     }
@@ -421,7 +421,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       placement: 'Stage 2 Relational Geometry — bridges C++ SoA kinematics and RET-40 attention.',
       how: 'Uses 8-wide __m256 AVX2 intrinsics (_mm256_rsqrt_ps + Newton-Raphson refinement) to compute [Δp, ||Δp||, Δv, v_close] across all 1,681 pairs (53,792B), then projects 8->16->4 once per step via trunk-hoisted mlp_rel.',
       why: 'Attention dot products Q_i K_j^T in world coordinates do not directly compute Euclidean distances ||p_i - p_j||_2; explicit pairwise r_ij biases give exact spatial geometry.',
-      contrib: 'Cut relational bias compute by 4× via trunk hoisting while inspiring Hex63\'s on-chip GPU pairwise kernel.',
+      contrib: 'Cut relational bias compute by 4× via trunk hoisting while inspiring Hex64\'s on-chip GPU pairwise kernel.',
       science: 'One Newton-Raphson step y_{n+1} = y_n (1.5 - 0.5 x y_n^2) on _mm256_rsqrt_ps achieves ~22 bits of mantissa precision in 3 CPU cycles.',
       origins: 'C++ AVX2 Pairwise Relational Extractor + Shaw et al. (Relative Position Representations, NAACL 2018).'
     },
@@ -432,7 +432,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       placement: 'Stage 3 Policy & Critic Backbone — 4-Layer Relational Transformer (1.22M Params).',
       how: 'Stacks 4 Pre-LayerNorm RelationalAttentionBlocks (d=128, H=4, SwiGLU FFN d_ff=256) with additive pairwise relational bias B_rel and boolean key padding masks, pooling h_0 || c_global into 256D.',
       why: 'Enabled joint relational reasoning across cars, ball, and all 34 boost pads.',
-      contrib: 'Validated relational transformers + SwiGLU in RocketSim before Hex63 introduced asymmetric 16×64 Bipartite Differential Attention.',
+      contrib: 'Validated relational transformers + SwiGLU in RocketSim before Hex64 introduced asymmetric 16×64 Bipartite Differential Attention.',
       science: 'Relational Self-Attention A_ij = softmax(q_i^T k_j / √d + ϕ(r_ij)) conditions message passing on SE(3) pairwise invariants.',
       origins: 'Zambaldi et al. (DeepMind Relational Deep RL, ICLR 2019).'
     },
@@ -465,7 +465,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       placement: 'Stage 5B/C Low-Level Motor Cortex — runs at 120 Hz inside the physics loop.',
       how: 'Computes local pitch/yaw/roll errors from rotation matrix column basis vectors, applies Kp=(5.0, 5.0, 1.8), Kd=(0.65, 0.65, 0.22), Kff=(0.08, 0.08, 0.03), and zeroes chatter inside a 0.04 rad Schmitt-trigger deadband.',
       why: 'Provided 120 Hz closed-loop rotational damping when the neural policy only stepped at 15 Hz.',
-      contrib: 'Stabilized aerial flight in Gen 1, while teaching the key lesson that led to Hex63: advanced flip-reset stalls require direct 60 Hz neural subtick control rather than a restorative PD loop.',
+      contrib: 'Stabilized aerial flight in Gen 1, while teaching the key lesson that led to Hex64: advanced flip-reset stalls require direct 60 Hz neural subtick control rather than a restorative PD loop.',
       science: 'Geometric attitude control on SO(3) (Lee et al., CDC 2010) achieves almost-global exponential stability outside the 180° antipodal cut locus.',
       origins: 'Lee, Leok, & McClamroch (Geometric Tracking Control on SO(3), IEEE CDC 2010).'
     },
@@ -509,7 +509,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       placement: 'Stage 1 & Stage 6 Systems Infrastructure — Static CUDA Graph & Lockless Seqlock IPC.',
       how: 'Captures the E=1024 rollout step in a torch.cuda.CUDAGraph, stages updated PPO weights in-place (<5.56 ms) without changing device pointers, and exports C++ telemetry via a 64B-aligned odd/even atomic Seqlock.',
       why: 'Eliminated Python kernel launch overhead and OS mutex contention.',
-      contrib: 'Laid the systems engineering foundation for Hex63\'s 4,096-arena CUDAGraph loop and 256 KB Seqlock Command Center.',
+      contrib: 'Laid the systems engineering foundation for Hex64\'s 4,096-arena CUDAGraph loop and 256 KB Seqlock Command Center.',
       science: 'A Seqlock increments an atomic counter before and after writing; readers retry if seq_start is odd or seq_start != seq_end, achieving zero-lock wait-free reads.',
       origins: 'Linux Kernel Seqlock + PyTorch CUDAGraphs.'
     }
@@ -579,13 +579,13 @@ window.ARASHIKAGE_GEN1_RET40 = {
 };
 
 // ============================================================================
-// MASTER MULTI-GENERATION ARCHITECTURE REGISTRY (HEX63 + GEN 3 + GEN 2 + GEN 1)
+// MASTER MULTI-GENERATION ARCHITECTURE REGISTRY (HEX64 + GEN 3 + GEN 2 + GEN 1)
 // ============================================================================
 window.ARASHIKAGE_ARCHITECTURES = {
-  hex63: {
-    id: 'hex63',
-    shortBadge: 'ARASHIKAGE // HEX63 (CURRENT)',
-    dropdownLabel: 'Gen 4: Hex63 (Current · 60Hz Flow)',
+  hex64: {
+    id: 'hex64',
+    shortBadge: 'ARASHIKAGE // HEX64 (CURRENT)',
+    dropdownLabel: 'Gen 4: Hex64 (Current · 60Hz Flow)',
     identityTitle: 'Real-Time Physics & Neural Control — 60 Hz Flow-GRPO',
     colHeaders: [
       { col: 0, x: 96,  title: 'STAGE 1 // C++20 OBS',     sub: '5,376B Slice · C2v',       color: '#38bdf8' },

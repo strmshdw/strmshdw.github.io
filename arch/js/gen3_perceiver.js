@@ -25,7 +25,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       tensor: 'CanonicalObs700D [B, 700] + ActionMasks [B, 31]',
       formula: 'pos_c = (-x, -y, z), pad_idx = ORANGE_PAD_PERM[i] (team == 1)',
       how: 'Steps parallel RocketSim arenas in C++17 with OpenMP thread pools. For Orange team agents, mirrors world X/Y coordinates (-x, -y, z) and permutes the 34 boost pads via ORANGE_PAD_PERMUTATION so the policy always attacks toward +Y.',
-      why: 'Replaced Python-loop gym wrappers with contiguous C++ float buffers, though it still assembled flat feature vectors rather than Hex63\'s 64-byte-aligned 5,376B entity arena slice.',
+      why: 'Replaced Python-loop gym wrappers with contiguous C++ float buffers, though it still assembled flat feature vectors rather than Hex64\'s 64-byte-aligned 5,376B entity arena slice.',
       contrib: 'Delivered high-throughput 1v1 training rollouts and canonical team symmetry across all 34 boost pads.'
     },
     {
@@ -37,7 +37,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       tensor: 'X_ego ∈ R^[B, 4, 171] -> [B, 684] (frames t, t-1, t-2, t-3)',
       formula: 'v_rel^body = R_car^T (v_entity - v_car), g_local = R_car^T [0,0,-1]^T',
       how: 'Projects all velocities, relative ball/opponent positions, angular velocities, and 34×4 boost pad coordinates into the ego car\'s local body frame R_car^T and stacks the last K=4 steps (684 floats) using a deque buffer with 0..2 tick latency randomization.',
-      why: 'Before Hex63 introduced FP32 Titans fast weights and BallRingBuffer480, stacking K=4 frames was the primary way for the actor to infer ball acceleration and opponent boost consumption.',
+      why: 'Before Hex64 introduced FP32 Titans fast weights and BallRingBuffer480, stacking K=4 frames was the primary way for the actor to infer ball acceleration and opponent boost consumption.',
       contrib: 'Provided finite-difference velocity derivatives and immediate body-local steering/pitch alignment.'
     },
     {
@@ -61,7 +61,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       tensor: 'c_priv ∈ R^[B, 68] -> x_critic ∈ R^[B, 752]',
       formula: 'Δt_bounce ∈ {0.1, 0.25, 0.5, 1.0, 1.5} s (e_restitution = 0.6)',
       how: 'Appends 68 privileged floats for the training critic: 20D exact 4-wheel suspension compression, contact normals, and lateral slip ratios, 18D true world-frame velocities, and 30D 5-horizon analytical ball bounce predictions.',
-      why: 'Gave the training critic analytical wall/floor bounce lookahead before Hex63 moved 480-tick C++ ball trajectory integration directly into the shared actor-critic observation.',
+      why: 'Gave the training critic analytical wall/floor bounce lookahead before Hex64 moved 480-tick C++ ball trajectory integration directly into the shared actor-critic observation.',
       contrib: 'Stabilized value targets during wall reads and high aerials without requiring recurrent critic states.'
     },
 
@@ -113,7 +113,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       tensor: 'Q ∈ R^[B, 4, 192] × K,V ∈ R^[B, 37, 192] -> Q_out ∈ R^[B, 4, 192]',
       formula: 'Attn(Q,K,V) = softmax((RMSNorm(Q)·RMSNorm(K)^T)/√48 + B_full) V',
       how: 'Stacks 2 Perceiver Cross-Attention blocks (d=192, H=4, d_k=48) where M=4 latent queries (3 Core tokens [Self, Ball, Opp] + 1 learned Tactical Query token) attend over all N=37 entity tokens (3 Core + 34 Pads) with per-head QK-RMSNorm and SwiGLU FFNs.',
-      why: 'Reduced O(N^2) all-to-all self-attention (37×37 = 1,369 pairs) to O(M·N) cross-attention (4×37 = 148 pairs), laying the conceptual groundwork for Hex63\'s 16×64 Bipartite DiffAttn.',
+      why: 'Reduced O(N^2) all-to-all self-attention (37×37 = 1,369 pairs) to O(M·N) cross-attention (4×37 = 148 pairs), laying the conceptual groundwork for Hex64\'s 16×64 Bipartite DiffAttn.',
       contrib: 'Achieved sub-millisecond entity attention while preventing logit explosion during long PPO runs via QK-RMSNorm.'
     },
 
@@ -151,7 +151,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       tensor: 'z_macro[8], z_sub[32], z_phase[13] <- MLP(h_trunk)',
       formula: 'L_skill = CE(z_macro, y_fam) + CE(z_sub, y_sub) + MSE(z_phase, y_ph)',
       how: 'During training, predicts the structured skill taxonomy Z_t mined from pro replays: 8 Macro Skill Families (Strike, Dash, Carry/Flick, Air Dribble, Flip Reset, Backboard, Cancel), 32 Sub-Variants (Musty, Breezi, StallReset, ZapDash), and 13D continuous phase vectors.',
-      why: 'Prevented latent representation collapse into generic ball-chasing by forcing h_trunk to linearly separate 32 distinct mechanical sub-skills. (Hex63 later upgraded this into an active in-graph 1,000-code FSQ bottleneck).',
+      why: 'Prevented latent representation collapse into generic ball-chasing by forcing h_trunk to linearly separate 32 distinct mechanical sub-skills. (Hex64 later upgraded this into an active in-graph 1,000-code FSQ bottleneck).',
       contrib: 'Shaped the 256D trunk to encode mechanical phase progression without adding any runtime cost during live inference.'
     },
 
@@ -189,7 +189,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       tensor: 'a_cat[7] -> 8 × CarControls @ 120 Hz (66.7 ms outer step)',
       formula: 'sub=0: jump=0 (release) | sub=1..4: jump=1 (edge) | sub=5..7: jump=0',
       how: 'Translates the 7 discrete categorical indices into RocketSim controls held across 8 physics ticks (15 Hz). When a Dodge/Double-Jump is requested while jump was held, a hardcoded C++/Python FlipState machine forces subtick 0 to jump=0 so subtick 1 triggers a fresh rising edge.',
-      why: 'Because the Gen 2/3 policy only emitted 1 action tuple every 8 ticks (15 Hz), it could not release and re-press jump mid-step on its own. (Hex63 eliminated this macro via native K_sub=4 60 Hz action chunking).',
+      why: 'Because the Gen 2/3 policy only emitted 1 action tuple every 8 ticks (15 Hz), it could not release and re-press jump mid-step on its own. (Hex64 eliminated this macro via native K_sub=4 60 Hz action chunking).',
       contrib: 'Allowed 15 Hz categorical policies to reliably execute double-jumps and dodges in RocketSim and live RLBot matches.'
     },
 
@@ -317,9 +317,9 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
           desc: 'Unlike the actor, the 752D ST-Perceiver Critic receives 5 analytical bounce predictions (Δt ∈ {0.1, 0.25, 0.5, 1.0, 1.5}s with e=0.6 restitution) unpacked as 5 spatial 7D tokens in its N=43 Perceiver key set.'
         },
         {
-          title: 'Why Hex63 Moved BallRingBuffer480 into Shared Stage 1',
+          title: 'Why Hex64 Moved BallRingBuffer480 into Shared Stage 1',
           focusNode: 'titans_mem', highlight: ['titans_mem', 'critic_heads'], techId: 't2',
-          desc: 'Because only the Gen 3 critic saw explicit bounce tokens while the actor relied on 4-frame history, actor wall reads lagged behind critic value estimates — motivating Hex63\'s shared 8-node BallRingBuffer480 in Stage 1.'
+          desc: 'Because only the Gen 3 critic saw explicit bounce tokens while the actor relied on 4-frame history, actor wall reads lagged behind critic value estimates — motivating Hex64\'s shared 8-node BallRingBuffer480 in Stage 1.'
         },
         {
           title: 'Conditioned Aerial Alignment & Boost Commitment',
@@ -367,9 +367,9 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
           desc: 'Query 3 (TacticalQuery) cross-attends simultaneously to the Opponent token and the 34 Boost Pad tokens to see if the opponent is faking a challenge to grab a mid-field 100-pad.'
         },
         {
-          title: 'Why Hex63 Added FP32 Titans Fast-Weight Memory',
+          title: 'Why Hex64 Added FP32 Titans Fast-Weight Memory',
           focusNode: 'coconut_loop', highlight: ['titans_mem', 'coconut_loop'], techId: 't3',
-          desc: 'Gen 3\'s K=4 window only remembered 267 ms of history; if an opponent faked challenges every 30 seconds, weights could not adapt in-match — motivating Hex63\'s 2×4×32×32 FP32 Titans fast weights.'
+          desc: 'Gen 3\'s K=4 window only remembered 267 ms of history; if an opponent faked challenges every 30 seconds, weights could not adapt in-match — motivating Hex64\'s 2×4×32×32 FP32 Titans fast weights.'
         },
         {
           title: 'Stage-1 Handbrake Power-Slide Hook',
@@ -414,7 +414,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       why: 'Gen 2 (684D) hid wheel contact inside the privileged critic, leaving the actor blind to exact flip-reset 4-wheel ball touches and wavedash ground contacts.',
       contrib: 'Preserved backward compatibility with 684D teacher checkpoints (via [:684] slicing) while unlocking flip-reset awareness in the actor.',
       science: 'For any world vector v_w, the egocentric transformation v_b = R_car^T (v_w - p_car) ∈ R^3 is SE(2)-invariant to pitch orientation and Yaw, reducing sample complexity for local steering control.',
-      origins: 'Evolved from Gen 2\'s 684D stack; later superseded in Arashikage (Hex63) by the 64-byte-aligned 5,376B Layout A entity slice with 64 explicit arena tokens.'
+      origins: 'Evolved from Gen 2\'s 684D stack; later superseded in Arashikage (Hex64) by the 64-byte-aligned 5,376B Layout A entity slice with 64 explicit arena tokens.'
     },
     {
       id: 't1', short: 'Unpack & PointNet',
@@ -436,7 +436,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       why: 'Full self-attention over 37 tokens computes 1,369 pairs per layer; Perceiver cross-attention with M=4 queries computes only 148 pairs (a 9.2× reduction).',
       contrib: 'Introduced sub-millisecond entity attention to the platform while staying fast enough for 120 Hz/15 Hz RLBot inference.',
       science: 'Perceiver (Jaegle et al., 2021) projects a large byte/entity array X ∈ R^(N×D) into a compact latent bottleneck Q ∈ R^(M×D) via asymmetric cross-attention O(M·N).',
-      origins: 'Perceiver IO (Jaegle et al., ICML 2021); evolved into Hex63\'s 16×64 Bipartite Differential Attention.'
+      origins: 'Perceiver IO (Jaegle et al., ICML 2021); evolved into Hex64\'s 16×64 Bipartite Differential Attention.'
     },
     {
       id: 't3', short: 'QK-Norm & Pad Bias',
@@ -447,7 +447,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       why: 'Unbounded QK dot products drift upward over millions of PPO steps, causing attention entropy collapse; meanwhile, un-biased softmax wastes attention mass on depleted pads across the field.',
       contrib: 'Eliminated attention logit explosion in long PPO runs and gave each head tunable spatial horizon preferences.',
       science: 'QK-Norm (Dehghani et al., 2023) bounds pre-softmax logits by enforcing ||q_i||_2 ≈ √d_k and ||k_j||_2 ≈ √d_k prior to inner product evaluation.',
-      origins: 'Scaling Vision Transformers / Dehghani et al. (2023); upgraded in Hex63 to 72D Fused GPU Pairwise Fourier + Intercept biases.'
+      origins: 'Scaling Vision Transformers / Dehghani et al. (2023); upgraded in Hex64 to 72D Fused GPU Pairwise Fourier + Intercept biases.'
     },
     {
       id: 't4', short: '912D Skip & SwiGLU',
@@ -469,7 +469,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       why: 'Independent factorized heads P(a|s) = Π_i P(a_i|s) cannot coordinate multimodal joint actions (e.g., pitching forward for a speedflip only on the exact sample where Dodge fires).',
       contrib: 'Restored autoregressive joint action coordination between binary impulses and rotational axes with only a 64->256 linear bridge.',
       science: 'Autoregressive factorization P(a_J, a_B, a_dir | s) = P(a_J, a_B | h) · Π_{d} P(a_d | h, a_J, a_B) captures cross-head covariance while keeping categorical sampling O(1).',
-      origins: 'Vinyals et al. (AlphaStar Autoregressive Action Heads, 2019); precursor to Hex63\'s Stage-1 16-Way Binary + Stage-2 Flow-GRPO SDE.'
+      origins: 'Vinyals et al. (AlphaStar Autoregressive Action Heads, 2019); precursor to Hex64\'s Stage-1 16-Way Binary + Stage-2 Flow-GRPO SDE.'
     },
     {
       id: 't6', short: 'Skill Aux Head (Z_t)',
@@ -480,7 +480,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       why: 'Pure reward-driven PPO tends to collapse intermediate hidden representations into homogeneous value predictors, forgetting rare mechanical sub-skills.',
       contrib: 'Forced the 256D trunk to maintain linearly separable representations for 32 advanced Rocket League mechanics.',
       science: 'Multi-task auxiliary representation learning (Jaderberg et al., UNREAL, 2017) regularizes the shared trunk manifold without altering inference latency.',
-      origins: 'Mined via the SeqScout WRAcc MCTS replay miner; evolved in Hex63 into the active 8×125=1,000 FSQ bottleneck.'
+      origins: 'Mined via the SeqScout WRAcc MCTS replay miner; evolved in Hex64 into the active 8×125=1,000 FSQ bottleneck.'
     },
     {
       id: 't7', short: 'Masks & FlipState FSM',
@@ -489,7 +489,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       placement: 'Stage 5 Execution Boundary — enforces physics validity and 120 Hz jump edges.',
       how: 'Applies -10^8 logit masks when grounded (disabling Pitch/Roll and mapping Yaw->Steer), when boost==0, or when !has_flip. During the 8-subtick (15 Hz) step, a C++/Python FlipState machine forces subtick 0 to jump=0 so subticks 1..4 trigger a rising jump edge.',
       why: 'A 15 Hz policy holds one action for 8 physics ticks (66.7 ms) and therefore cannot release and re-press the jump button within a single policy step without an external edge macro.',
-      contrib: 'Pruned invalid exploration states and made 15 Hz double-jumps reliable — while revealing the 15 Hz control bottleneck that Hex63 solved with K_sub=4 (60 Hz) subtick action chunking.',
+      contrib: 'Pruned invalid exploration states and made 15 Hz double-jumps reliable — while revealing the 15 Hz control bottleneck that Hex64 solved with K_sub=4 (60 Hz) subtick action chunking.',
       science: 'Invalid action masking (Huang & Ontañón, 2020) sets logits of impossible actions to -∞, ensuring policy gradient updates are strictly zero on physically no-op controls.',
       origins: 'Huang & Ontañón (2020) + RocketSim Car::controls state machine.'
     },
@@ -502,7 +502,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       why: 'Giving the critic explicit spatial tokens for the next 1.5 seconds of wall/floor ball bounces eliminated value estimation lag during backboard reads.',
       contrib: 'Reduced GAE variance across γ ∈ {0.990, 0.995, 0.998} while keeping the deployed actor lightweight.',
       science: 'Asymmetric Actor-Critic (Pinto et al., 2017) + PopArt (van Hasselt et al., 2016) preserve output precision across changing reward scales via W_new = (σ_old/σ_new) W_old.',
-      origins: 'Pinto et al. (2017) & van Hasselt et al. (2016); upgraded in Hex63 to Dual-Head 4×51 Symlog HL-Gauss distributional critics.'
+      origins: 'Pinto et al. (2017) & van Hasselt et al. (2016); upgraded in Hex64 to Dual-Head 4×51 Symlog HL-Gauss distributional critics.'
     },
     {
       id: 't9', short: 'KL & PopArt Distiller',
