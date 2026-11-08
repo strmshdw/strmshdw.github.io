@@ -267,37 +267,37 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       label: 'GEN 3 END-TO-END 66.7ms TOUR',
       steps: [
         {
-          title: 'Step 1/7: 700D Egocentric K=4 Stack + 16D Wheel History',
+          title: '700D Egocentric K=4 Stack + 16D Wheel History',
           focusNode: 'dyn_nodes', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
           desc: 'Every 66.7 ms (15 Hz), the agent rotates world coordinates into the ego car\'s local body frame R_car^T, stacks the last K=4 frames (684D), and appends 16D of 4-wheel suspension contact history to form a 700D vector.'
         },
         {
-          title: 'Step 2/7: Zero-Copy Entity Unpacking & Shared BoostPad PointNet',
+          title: 'Zero-Copy Entity Unpacking & Shared BoostPad PointNet',
           focusNode: 'bipartite_enc', highlight: ['gpu_edges', 'bipartite_enc'], techId: 't1',
-          desc: 'Rather than feeding 700 floats into a monolithic MLP, unpack_canonical_700d splits out a 144D temporal core (Self, Ball w/ finite-diff accel, Opp w/ boost burn delta) and encodes all 34 boost pads via a weight-shared 7D->192D PointNet.'
+          desc: 'Rather than feeding 700 floats into a monolithic MLP, the zero-copy 700D entity unpacker splits out a 144D temporal core (Self, Ball w/ finite-diff accel, Opp w/ boost burn delta) and encodes all 34 boost pads via a weight-shared 7D->192D PointNet.'
         },
         {
-          title: 'Step 3/7: Physics-Biased Perceiver Cross-Attention (M=4 × N=37)',
+          title: 'Physics-Biased Perceiver Cross-Attention (M=4 × N=37)',
           focusNode: 'titans_mem', highlight: ['titans_prior', 'titans_mem'], techId: 't2',
           desc: 'Four latent queries [Self, Ball, Opp, TacticalQuery] attend over all 37 entity tokens using Pre-RMSNorm and per-head QK-Norm, guided by learned per-head spatial distance (-w_dist·d_j) and pad cooldown (-w_cd·(1-τ_j)) biases.'
         },
         {
-          title: 'Step 4/7: 912D Skip-Concatenation & Residual SwiGLU Trunk',
+          title: '912D Skip-Concatenation & Residual SwiGLU Trunk',
           focusNode: 'soft_moe', highlight: ['coconut_loop', 'soft_moe'], techId: 't4',
-          desc: 'The 4×192 Perceiver queries (768D) concatenate with the raw 144D core kinematics (912D total) and project into a 256D Pre-RMSNorm Residual SwiGLU trunk so local steering/pitch angles remain razor-sharp.'
+          desc: 'The 4×192 Perceiver queries (768D) concatenate with the raw 144D core kinematics (912D total) and project into a 256D Pre-RMSNorm Residual SwiGLU trunk so local steering and pitch angles remain unattenuated.'
         },
         {
-          title: 'Step 5/7: Compositional Skill Auxiliary Supervision (Z_t)',
+          title: 'Compositional Skill Auxiliary Supervision (Z_t)',
           focusNode: 'fsq_bottleneck', highlight: ['soft_moe', 'fsq_bottleneck'], techId: 't6',
           desc: 'During training, an auxiliary head on h_trunk predicts 8 Macro Skill Families, 32 Sub-Skills (Musty, StallReset, ZapDash), and 13D continuous phase vectors mined from replays to prevent representation collapse.'
         },
         {
-          title: 'Step 6/7: Two-Stage Autoregressive Conditioned Action Heads (31 Logits)',
+          title: 'Two-Stage Autoregressive Conditioned Action Heads (31 Logits)',
           focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow', 'subtick_exec'], techId: 't5',
           desc: 'Stage 1 samples Jump/Dodge[4] and Boost/Brake[4] with boolean physics masks. Stage 2 embeds those discrete choices into h_dir = RMSNorm(h_trunk + Δ_cond) before evaluating Throttle[3], Steer[7], Pitch[5], Yaw[5], and Roll[3].'
         },
         {
-          title: 'Step 7/7: 752D ST-Perceiver Critic & Gen2->Gen3 KL Distillation',
+          title: '752D ST-Perceiver Critic & Gen2->Gen3 KL Distillation',
           focusNode: 'critic_heads', highlight: ['priv_ctx', 'critic_heads', 'jepa_search', 'ppo_grpo_opt'], techId: 't8',
           desc: 'The asymmetric 752D critic converts 5 analytical ball bounces into spatial tokens (M=4×N=43) for 3-horizon PopArt GAE, warm-started from the Gen 2 MLP via exact 7-head categorical KL distillation.'
         }
@@ -307,22 +307,22 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       label: 'SCENARIO 1: CRITIC 5-BOUNCE TOKEN READ',
       steps: [
         {
-          title: '1/4: Finite-Difference Ball Acceleration in Actor (40D)',
+          title: 'Finite-Difference Ball Acceleration in Actor (40D)',
           focusNode: 'gpu_edges', highlight: ['dyn_nodes', 'gpu_edges'], techId: 't1',
           desc: 'The actor infers ball curve from the 4-frame egocentric stack (t..t-3) plus explicit finite-difference acceleration a_ball = v_t - v_{t-1} inside the 144D core unpacker.'
         },
         {
-          title: '2/4: Critic 5-Horizon Analytical Ballistic Tokens (752D)',
+          title: 'Critic 5-Horizon Analytical Ballistic Tokens (752D)',
           focusNode: 'priv_ctx', highlight: ['priv_ctx', 'critic_heads'], techId: 't8',
           desc: 'Unlike the actor, the 752D ST-Perceiver Critic receives 5 analytical bounce predictions (Δt ∈ {0.1, 0.25, 0.5, 1.0, 1.5}s with e=0.6 restitution) unpacked as 5 spatial 7D tokens in its N=43 Perceiver key set.'
         },
         {
-          title: '3/4: Why Hex63 Moved BallRingBuffer480 into Shared Stage 1',
+          title: 'Why Hex63 Moved BallRingBuffer480 into Shared Stage 1',
           focusNode: 'titans_mem', highlight: ['titans_mem', 'critic_heads'], techId: 't2',
           desc: 'Because only the Gen 3 critic saw explicit bounce tokens while the actor relied on 4-frame history, actor wall reads lagged behind critic value estimates — motivating Hex63\'s shared 8-node BallRingBuffer480 in Stage 1.'
         },
         {
-          title: '4/4: Conditioned Aerial Alignment & Boost Commitment',
+          title: 'Conditioned Aerial Alignment & Boost Commitment',
           focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow'], techId: 't5',
           desc: 'Once Stage 1 commits to Boost (a_boost=1), the conditioning bridge shifts h_dir so Stage 2 pitches and air-rolls toward the intercept window.'
         }
@@ -332,22 +332,22 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       label: 'SCENARIO 2: AUTOREGRESSIVE DODGE FLICK',
       steps: [
         {
-          title: '1/4: 16D Wheel Contact History Detects Flip Reset',
+          title: '16D Wheel Contact History Detects Flip Reset',
           focusNode: 'env_nodes', highlight: ['env_nodes', 'gpu_edges'], techId: 't0',
           desc: 'Bytes 684..700 expose 4 frames of 4-wheel suspension contact to the actor, signaling that all 4 wheels touched the ball and restored the airborne dodge flag.'
         },
         {
-          title: '2/4: Stage-1 Samples Dodge Action (a_jump = 3)',
+          title: 'Stage-1 Samples Dodge Action (a_jump = 3)',
           focusNode: 'stage1_bin', highlight: ['soft_moe', 'stage1_bin'], techId: 't5',
           desc: 'With has_flip == True in the RocketSim boolean mask, Stage 1 evaluates Jump/Dodge[4] and samples a_jump = 3 (Dodge/DoubleJump).'
         },
         {
-          title: '3/4: Conditioning Bridge Shifts Directional Latent h_dir',
+          title: 'Conditioning Bridge Shifts Directional Latent h_dir',
           focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow'], techId: 't5',
           desc: 'The 32D embedding for a_jump=3 projects into h_dir = RMSNorm(h_trunk + Δ_cond), flipping Pitch[5] and Yaw[5] from smooth aerial tracking to a crisp diagonal dodge flick.'
         },
         {
-          title: '4/4: 8-Subtick FlipState FSM Fires Rising Jump Edge',
+          title: '8-Subtick FlipState FSM Fires Rising Jump Edge',
           focusNode: 'subtick_exec', highlight: ['stage2_flow', 'subtick_exec'], techId: 't7',
           desc: 'Because the outer step runs at 15 Hz (8 ticks), the C++ FlipState macro forces subtick 0 to jump=0 and subticks 1..4 to jump=1 so RocketSim registers a fresh dodge impulse.'
         }
@@ -357,22 +357,22 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       label: 'SCENARIO 3: OPPONENT BOOST BURN TRACKING',
       steps: [
         {
-          title: '1/4: 4-Frame Opponent Boost Delta (Δb_opp)',
+          title: '4-Frame Opponent Boost Delta (Δb_opp)',
           focusNode: 'gpu_edges', highlight: ['dyn_nodes', 'gpu_edges'], techId: 't1',
           desc: 'Inside the 42D Opponent core unpacker, Gen 3 computes Δb_opp = b_opp(t) - b_opp(t-3) over the 267 ms sliding window to detect whether the opponent is actively burning boost into a challenge.'
         },
         {
-          title: '2/4: Perceiver Tactical Query Cross-Attends to Opponent & Pads',
+          title: 'Perceiver Tactical Query Cross-Attends to Opponent & Pads',
           focusNode: 'titans_mem', highlight: ['titans_prior', 'titans_mem'], techId: 't2',
           desc: 'Query 3 (TacticalQuery) cross-attends simultaneously to the Opponent token and the 34 Boost Pad tokens to see if the opponent is faking a challenge to grab a mid-field 100-pad.'
         },
         {
-          title: '3/4: Why Hex63 Added FP32 Titans Fast-Weight Memory',
+          title: 'Why Hex63 Added FP32 Titans Fast-Weight Memory',
           focusNode: 'coconut_loop', highlight: ['titans_mem', 'coconut_loop'], techId: 't3',
           desc: 'Gen 3\'s K=4 window only remembered 267 ms of history; if an opponent faked challenges every 30 seconds, weights could not adapt in-match — motivating Hex63\'s 2×4×32×32 FP32 Titans fast weights.'
         },
         {
-          title: '4/4: Stage-1 Handbrake Power-Slide Hook',
+          title: 'Stage-1 Handbrake Power-Slide Hook',
           focusNode: 'stage1_bin', highlight: ['stage1_bin', 'stage2_flow'], techId: 't5',
           desc: 'Stage 1 selects Drift (a_boost=2), conditioning Stage 2 to snap Steer[7] into a tight hook turn.'
         }
@@ -382,22 +382,22 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       label: 'SCENARIO 4: GEN 2 -> GEN 3 KL WARM-START',
       steps: [
         {
-          title: '1/4: Teacher Forward Pass on 684D Slice',
+          title: 'Teacher Forward Pass on 684D Slice',
           focusNode: 'jepa_search', highlight: ['dyn_nodes', 'jepa_search'], techId: 't9',
           desc: 'During distillation, the frozen Gen 2 FactorizedActor evaluates the first 684 floats of the 700D observation to produce teacher probability distributions across all 7 categorical heads.'
         },
         {
-          title: '2/4: Student Forward Pass with Teacher Action Conditioning',
+          title: 'Student Forward Pass with Teacher Action Conditioning',
           focusNode: 'stage2_flow', highlight: ['titans_mem', 'stage1_bin', 'stage2_flow', 'jepa_search'], techId: 't9',
           desc: 'The Gen 3 ST-Perceiver evaluates the full 700D observation, conditioning its Stage-2 directional heads on the teacher\'s Stage-1 action so all 7 heads align cleanly.'
         },
         {
-          title: '3/4: Exact Analytic 7-Head Categorical KL Loss',
+          title: 'Exact Analytic 7-Head Categorical KL Loss',
           focusNode: 'jepa_search', highlight: ['stage2_flow', 'jepa_search'], techId: 't9',
           desc: 'Gen2ToGen3Distiller minimizes the exact analytic sum of per-head KL divergences without Monte Carlo sampling noise.'
         },
         {
-          title: '4/4: PopArt Moment Transfer & Online PPO Handover',
+          title: 'PopArt Moment Transfer & Online PPO Handover',
           focusNode: 'critic_heads', highlight: ['critic_heads', 'jepa_search', 'ppo_grpo_opt'], techId: 't8',
           desc: 'Running mean and variance buffers (μ, σ) from Gen 2\'s PopArt heads are copied directly into the ST-Perceiver Critic so online PPO resumes with zero value-scale shock.'
         }
@@ -406,7 +406,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
   },
   techLibrary: [
     {
-      id: 't0', short: 'T0 · 700D Canonical Obs',
+      id: 't0', short: '700D Canonical Obs',
       title: '700D Egocentric K=4 History + 16D Wheel Contact Observation',
       usedIn: ['dma_slice', 'dyn_nodes', 'env_nodes'],
       placement: 'Stage 1 Input Boundary — bridges C++17 NativeBatchEngine and the zero-copy entity unpacker.',
@@ -417,7 +417,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       origins: 'Evolved from Gen 2\'s 684D stack; later superseded in Arashikage (Hex63) by the 64-byte-aligned 5,376B Layout A entity slice with 64 explicit arena tokens.'
     },
     {
-      id: 't1', short: 'T1 · Unpack & PointNet',
+      id: 't1', short: 'Unpack & PointNet',
       title: 'Zero-Copy 144D Core Unpacker & Shared 34×7D BoostPad PointNet',
       usedIn: ['dyn_nodes', 'gpu_edges', 'bipartite_enc'],
       placement: 'Stage 2 Tokenization — sits between the flat 700D buffer and the Perceiver Cross-Attention blocks.',
@@ -428,7 +428,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       origins: 'PointNet (Qi et al., CVPR 2017); customized in the Gen 3 ST-Perceiver Actor.'
     },
     {
-      id: 't2', short: 'T2 · ST-Perceiver M=4×N=37',
+      id: 't2', short: 'ST-Perceiver M=4×N=37',
       title: 'Spatial-Temporal Perceiver Cross-Attention (M=4 Queries × N=37 Keys)',
       usedIn: ['gpu_edges', 'bipartite_enc', 'titans_prior', 'titans_mem'],
       placement: 'Stage 3 Entity Backbone — compresses 37 arena entities into 4 latent queries.',
@@ -439,7 +439,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       origins: 'Perceiver IO (Jaegle et al., ICML 2021); evolved into Hex63\'s 16×64 Bipartite Differential Attention.'
     },
     {
-      id: 't3', short: 'T3 · QK-Norm & Pad Bias',
+      id: 't3', short: 'QK-Norm & Pad Bias',
       title: 'Per-Head QK-RMSNorm & Physics-Informed Distance/Cooldown Bias',
       usedIn: ['titans_prior', 'titans_mem', 'coconut_loop'],
       placement: 'Stage 3 Attention Stabilizer — inside every PerceiverCrossAttentionBlock.',
@@ -450,7 +450,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       origins: 'Scaling Vision Transformers / Dehghani et al. (2023); upgraded in Hex63 to 72D Fused GPU Pairwise Fourier + Intercept biases.'
     },
     {
-      id: 't4', short: 'T4 · 912D Skip & SwiGLU',
+      id: 't4', short: '912D Skip & SwiGLU',
       title: '912D Core Skip-Concatenation & Pre-RMSNorm Residual SwiGLU Trunk',
       usedIn: ['coconut_loop', 'soft_moe'],
       placement: 'Stage 4 Feature Fusion — merges global Perceiver queries with local core kinematics.',
@@ -461,7 +461,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       origins: 'GLU Variants Improve Transformer (Shazeer, 2020).'
     },
     {
-      id: 't5', short: 'T5 · 2-Stage Cond-31 Heads',
+      id: 't5', short: '2-Stage Cond-31 Heads',
       title: 'Two-Stage Autoregressive Action-Conditioned Categorical Heads (31 Logits)',
       usedIn: ['stage1_bin', 'stage2_flow'],
       placement: 'Stage 5 Action Decoder — converts the 256D trunk into 7 coordinated discrete controls.',
@@ -472,7 +472,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       origins: 'Vinyals et al. (AlphaStar Autoregressive Action Heads, 2019); precursor to Hex63\'s Stage-1 16-Way Binary + Stage-2 Flow-GRPO SDE.'
     },
     {
-      id: 't6', short: 'T6 · Skill Aux Head (Z_t)',
+      id: 't6', short: 'Skill Aux Head (Z_t)',
       title: 'Compositional Skill Auxiliary Head (8 Macro Families · 32 Sub-Skills)',
       usedIn: ['fsq_bottleneck', 'ppo_grpo_opt'],
       placement: 'Stage 4C Training Auxiliary Branch — attached to h_trunk during training only.',
@@ -480,10 +480,10 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       why: 'Pure reward-driven PPO tends to collapse intermediate hidden representations into homogeneous value predictors, forgetting rare mechanical sub-skills.',
       contrib: 'Forced the 256D trunk to maintain linearly separable representations for 32 advanced Rocket League mechanics.',
       science: 'Multi-task auxiliary representation learning (Jaderberg et al., UNREAL, 2017) regularizes the shared trunk manifold without altering inference latency.',
-      origins: 'Mined via trainer_v3/replay/skillshot_miner.py (SeqScout WRAcc MCTS); evolved in Hex63 into the active 8×125=1,000 FSQ bottleneck.'
+      origins: 'Mined via the SeqScout WRAcc MCTS replay miner; evolved in Hex63 into the active 8×125=1,000 FSQ bottleneck.'
     },
     {
-      id: 't7', short: 'T7 · Masks & FlipState FSM',
+      id: 't7', short: 'Masks & FlipState FSM',
       title: 'RocketSim Boolean Physics Logit Masking & 8-Subtick FlipState FSM',
       usedIn: ['stage1_bin', 'stage2_flow', 'subtick_exec'],
       placement: 'Stage 5 Execution Boundary — enforces physics validity and 120 Hz jump edges.',
@@ -494,7 +494,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       origins: 'Huang & Ontañón (2020) + RocketSim Car::controls state machine.'
     },
     {
-      id: 't8', short: 'T8 · 752D Perceiver Critic',
+      id: 't8', short: '752D Perceiver Critic',
       title: 'Asymmetric 752D ST-Perceiver Critic with 5 Ballistic Bounce Tokens & PopArt',
       usedIn: ['env_nodes', 'priv_ctx', 'critic_heads', 'ppo_grpo_opt'],
       placement: 'Stage 6 Value Estimator — training-only omniscient critic.',
@@ -505,7 +505,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       origins: 'Pinto et al. (2017) & van Hasselt et al. (2016); upgraded in Hex63 to Dual-Head 4×51 Symlog HL-Gauss distributional critics.'
     },
     {
-      id: 't9', short: 'T9 · KL & PopArt Distiller',
+      id: 't9', short: 'KL & PopArt Distiller',
       title: 'Exact 7-Head Categorical KL & PopArt Moment Distillation (Gen 2 -> Gen 3)',
       usedIn: ['dma_slice', 'priv_ctx', 'jepa_search'],
       placement: 'Stage 6B Warm-Start Bridge — transfers Gen 2 MLP mastery into Gen 3 ST-Perceiver.',

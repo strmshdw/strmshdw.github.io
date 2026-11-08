@@ -422,7 +422,6 @@
     // Docked Walkthrough HUD Bar DOM
     const tourTooltip = document.getElementById('tourTooltip');
     const ttStepBadge = document.getElementById('ttStepBadge');
-    const ttScenarioLabel = document.getElementById('ttScenarioLabel');
     const btnCloseTooltip = document.getElementById('btnCloseTooltip');
     const ttTitle = document.getElementById('ttTitle');
     const ttDesc = document.getElementById('ttDesc');
@@ -522,6 +521,11 @@
     }
 
     function syncModeFilterPills() {
+      const isLight = activePolarity === 'light';
+      const curNode = nodeMap[selectedNodeId] || nodes[0];
+      const curModes = curNode && curNode.modes ? curNode.modes : ['live', 'train', 'distill'];
+      const activeCount = ['live', 'train', 'distill'].filter((m) => curModes.includes(m)).length;
+
       document.querySelectorAll('.mode-filter-pill').forEach((btn) => {
         const key = btn.getAttribute('data-mode-pill');
         const isAct = key === activeMode;
@@ -533,8 +537,31 @@
         const key = btn.getAttribute('data-inline-mode');
         const isAct = key === activeMode;
         btn.className = isAct
-          ? 'inline-mode-pill no-wrap-btn px-1.5 py-0.5 rounded text-[9.5px] font-bold btn-theme-accent transition cursor-pointer'
-          : 'inline-mode-pill no-wrap-btn px-1.5 py-0.5 rounded text-[9.5px] font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer';
+          ? 'inline-mode-pill no-wrap-btn px-1.5 py-0.5 rounded text-[9.5px] font-bold btn-theme-accent transition cursor-pointer gap-1'
+          : 'inline-mode-pill no-wrap-btn px-1.5 py-0.5 rounded text-[9.5px] font-semibold text-secondary-ink hover:text-primary-ink transition cursor-pointer gap-1';
+
+        if (btn.closest('#ntabCalloutBox') && curNode) {
+          if (key === 'all') {
+            btn.textContent = 'All (' + activeCount + '/3)';
+          } else {
+            const mAct = curModes.includes(key);
+            const dotCol = isAct
+              ? 'currentColor'
+              : mAct
+              ? isLight ? '#15803d' : '#4ade80'
+              : isLight ? '#b45309' : '#fbbf24';
+            const label = key === 'live' ? 'Live 5.5ms' : key === 'train' ? 'Train' : 'Distill';
+            btn.innerHTML =
+              '<span style="color:' +
+              dotCol +
+              '">' +
+              (mAct ? '●' : '⊘') +
+              '</span><span>' +
+              label +
+              '</span>';
+            btn.title = label + ': ' + (mAct ? 'Active in this pathway' : 'Bypassed in this pathway');
+          }
+        }
       });
       if (selMode && selMode.value !== activeMode) {
         selMode.value = activeMode;
@@ -953,7 +980,7 @@
       if (mode === 'live') {
         return isAct
           ? {
-              regime: 'ACTIVE · Live 15Hz / 120Hz Forward Inference',
+              regime: 'Live 15Hz / 120Hz Forward Inference',
               text:
                 'Executes inside the deployed real-time RLBot inference loop (' +
                 node.tag +
@@ -962,9 +989,8 @@
                 ' with frozen weights and deterministic / low-temperature action selection.'
             }
           : {
-              regime: 'DISABLED IN LIVE (Training / Distillation Only)',
+              regime: 'Training / Distillation Only',
               text:
-                'WHY DISABLED IN LIVE: ' +
                 node.title +
                 ' relies on simulator-only privileged state or training-time optimization and is omitted from the live tournament inference path.'
             };
@@ -972,32 +998,30 @@
       if (mode === 'train') {
         return isAct
           ? {
-              regime: 'ACTIVE · Parallel Batch Arena Rollout & PPO',
+              regime: 'Parallel Batch Arena Rollout & PPO',
               text:
                 'Executes across parallel RocketSim training arenas (' +
                 node.tensor +
                 '). Participates in batched forward rollouts and receives policy/value gradients during PPO epochs.'
             }
           : {
-              regime: 'BYPASSED IN TRAIN (Used in Live / Distill)',
+              regime: 'Used in Live / Distill',
               text:
-                'WHY BYPASSED IN TRAIN: ' +
                 node.title +
                 ' is a dedicated migration or test-time module and is bypassed during standard RL self-play rollouts.'
             };
       }
       return isAct
         ? {
-            regime: 'ACTIVE · Teacher -> Student Warm-Start Distillation',
+            regime: 'Teacher -> Student Warm-Start Distillation',
             text:
               'Active during supervised policy & value distillation (' +
               node.tensor +
               '), aligning student representations and action heads with the teacher checkpoint before RL fine-tuning.'
           }
         : {
-            regime: 'BYPASSED IN DISTILL (Used in Online RL / Live)',
+            regime: 'Used in Online RL / Live',
             text:
-              'WHY BYPASSED IN DISTILL: ' +
               node.title +
               ' operates on online RL rollout rewards or live test-time search and is bypassed during supervised teacher cloning.'
           };
@@ -1131,8 +1155,7 @@
         const isAct = modes.includes(activeMode);
         const spec = getPathwayRoleSpec(node, activeArchKey, activeMode);
         const mLabel = modeNames[activeMode] || activeMode.toUpperCase();
-        ntabSubLabel.textContent =
-          'ROLE IN ' + mLabel.toUpperCase() + (isAct ? ' · ● ACTIVE' : ' · ⊘ BYPASSED ON DIAGRAM');
+        ntabSubLabel.textContent = 'ROLE IN ' + mLabel.toUpperCase();
 
         const bannerBg = isAct
           ? isLight ? 'rgba(22,163,74,0.12)' : 'rgba(34,197,94,0.16)'
@@ -1141,31 +1164,6 @@
           ? isLight ? '#15803d' : '#4ade80'
           : isLight ? '#b45309' : '#fbbf24';
         const bannerBorder = isAct ? '#16a34a' : '#d97706';
-
-        const otherModesHtml = ['live', 'train', 'distill']
-          .map((m) => {
-            const mAct = modes.includes(m);
-            const isCur = m === activeMode;
-            return (
-              '<button type="button" data-switch-mode="' +
-              m +
-              '" class="no-wrap-btn mono text-[9.5px] px-1.5 py-0.5 rounded border border-hairline ' +
-              (isCur ? 'surface-elevated font-bold text-primary-ink' : 'surface-panel text-secondary-ink hover:text-primary-ink') +
-              ' cursor-pointer gap-1">' +
-              '<span style="color:' +
-              (mAct ? (isLight ? '#15803d' : '#4ade80') : isLight ? '#b45309' : '#fbbf24') +
-              '">' +
-              (mAct ? '●' : '⊘') +
-              '</span>' +
-              '<span>' +
-              (m === 'live' ? 'Live' : m === 'train' ? 'Train' : 'Distill') +
-              ': ' +
-              (mAct ? 'Active' : 'Bypassed') +
-              '</span>' +
-              '</button>'
-            );
-          })
-          .join('');
 
         ntabSubContent.innerHTML =
           '<div class="flex flex-col gap-1.5">' +
@@ -1178,7 +1176,7 @@
           '<span class="mono text-[10px] font-bold" style="color:' +
           bannerCol +
           '">' +
-          (isAct ? '● ACTIVE IN ' + mLabel.toUpperCase() : '⊘ DISABLED / BYPASSED IN ' + mLabel.toUpperCase()) +
+          (isAct ? '● ACTIVE' : '⊘ BYPASSED ON DIAGRAM') +
           '</span>' +
           '<span class="mono text-[9.5px] font-semibold text-primary-ink">' +
           spec.regime +
@@ -1187,12 +1185,6 @@
           '<p class="text-[11px] text-primary-ink leading-snug">' +
           spec.text +
           '</p>' +
-          '</div>' +
-          '<div class="flex flex-wrap items-center justify-between gap-1 pt-0.5">' +
-          '<span class="mono text-[9.5px] font-bold text-muted-ink uppercase">Block Status Across Tasks:</span>' +
-          '<div class="flex flex-wrap items-center gap-1">' +
-          otherModesHtml +
-          '</div>' +
           '</div>' +
           '<div class="pt-1 border-t border-hairline flex flex-wrap items-baseline justify-between gap-1 mono text-[10px]">' +
           '<span class="font-bold text-muted-ink uppercase">' +
@@ -1231,11 +1223,12 @@
       });
     }
 
-    // Render Block Inspector View (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Papers)
+    // Render Block Inspector View (5 Tabs: How | Why | Impact | Math | Papers)
     function renderNodeInspector() {
       const n = nodeMap[selectedNodeId] || nodes[0];
       if (!n) return;
 
+      syncModeFilterPills();
       renderPathwayTelemetryBanner();
 
       if (selNodeJumper && selNodeJumper.value !== n.id) {
@@ -1304,7 +1297,7 @@
       const ntabCalloutBox = document.getElementById('ntabCalloutBox');
 
       if (activeNTab === 'learn') {
-        ntabHeading.textContent = '05 // PRIMARY LITERATURE & WHITE PAPERS';
+        ntabHeading.textContent = 'PRIMARY LITERATURE & WHITE PAPERS';
         const papers = getExternalResourcesForNode(n);
         ntabBody.innerHTML = renderLearnMoreCardsHtml(papers);
         ntabCalloutBox.classList.add('hidden');
@@ -1315,22 +1308,22 @@
         let sigValue = (n.role || '') + ' — ' + n.tensor;
 
         if (activeNTab === 'how') {
-          ntabHeading.textContent = '01 // HOW IT WORKS (MECHANISM)';
+          ntabHeading.textContent = 'HOW IT WORKS // MECHANISM';
           ntabBody.textContent = n.how;
           sigLabel = 'DATAFLOW PLACEMENT & TENSOR';
           sigValue = (n.role || '') + ' — ' + n.tensor;
         } else if (activeNTab === 'why') {
-          ntabHeading.textContent = '02 // WHY IT IS USED (ENGINEERING RATIONALE)';
+          ntabHeading.textContent = 'WHY IT IS USED // ENGINEERING RATIONALE';
           ntabBody.textContent = n.why;
           sigLabel = 'MATHEMATICAL IDENTITY & INVARIANT';
           sigValue = n.formula;
         } else if (activeNTab === 'contrib') {
-          ntabHeading.textContent = '03 // WHAT IT CONTRIBUTES TO SYSTEM GOAL';
+          ntabHeading.textContent = 'SYSTEM IMPACT // CONTRIBUTION TO GOAL';
           ntabBody.textContent = n.contrib;
           sigLabel = 'DATAFLOW PLACEMENT';
           sigValue = n.role || n.sub;
         } else {
-          ntabHeading.textContent = '04 // MATHEMATICAL FORMULATION & TENSOR ABI';
+          ntabHeading.textContent = 'MATHEMATICAL FORMULATION & TENSOR ABI';
           ntabBody.textContent = n.formula;
           sigLabel = 'IN / OUT TENSOR SIGNATURE';
           sigValue = n.tensor;
@@ -1342,14 +1335,14 @@
       renderContextualWidget(n);
     }
 
-    // Render Deep Dive View (5 Tabs: 1. How | 2. Why | 3. Impact | 4. Math | 5. Papers)
+    // Render Deep Dive View (5 Tabs: How | Why | Impact | Math | Papers)
     function renderTechDeepDive() {
       const t = techMap[selectedTechId] || techLib[0];
       if (!t) return;
       selTechDropdown.value = t.id;
       document.getElementById('techTitle').textContent = t.title;
 
-      // Update 1-2-3-4-5 Tabs in Deep Dive
+      // Update 5 Tabs in Deep Dive
       document.querySelectorAll('.ttab-btn').forEach((btn) => {
         const isAct = btn.getAttribute('data-ttab') === activeTTab;
         btn.className = isAct
@@ -1364,42 +1357,77 @@
       const ttabSubContent = document.getElementById('ttabSubContent');
 
       if (activeTTab === 'learn') {
-        ttabHeading.textContent = '05 // FOUNDATIONAL WHITE PAPERS & SOURCES';
+        ttabHeading.textContent = 'PRIMARY LITERATURE & WHITE PAPERS';
         const resList = TECH_EXTERNAL_RESOURCES[t.id] || [];
         ttabBody.innerHTML = renderLearnMoreCardsHtml(resList);
         ttabCalloutBox.classList.add('hidden');
       } else {
         ttabCalloutBox.classList.remove('hidden');
 
-        let sigLabel = 'WHY IT SITS HERE IN THE DATAFLOW';
+        let sigLabel = 'DATAFLOW PLACEMENT';
         let sigValue = t.placement;
 
         if (activeTTab === 'how') {
-          ttabHeading.textContent = '01 // HOW IT WORKS (MECHANISM)';
+          ttabHeading.textContent = 'HOW IT WORKS // MECHANISM';
           ttabBody.textContent = t.how;
-          sigLabel = 'WHY IT SITS HERE IN THE DATAFLOW';
+          sigLabel = 'DATAFLOW PLACEMENT';
           sigValue = t.placement;
         } else if (activeTTab === 'why') {
-          ttabHeading.textContent = '02 // WHY IT IS USED (PROBLEM SOLVED)';
+          ttabHeading.textContent = 'WHY IT IS USED // ENGINEERING RATIONALE';
           ttabBody.textContent = t.why;
           sigLabel = 'RESEARCH ORIGINS & EVOLUTION';
           sigValue = t.origins;
         } else if (activeTTab === 'contrib') {
-          ttabHeading.textContent = '03 // WHAT IT CONTRIBUTES TO SYSTEM GOAL';
+          ttabHeading.textContent = 'SYSTEM IMPACT // CONTRIBUTION TO GOAL';
           ttabBody.textContent = t.contrib;
-          sigLabel = 'WHY IT SITS HERE IN THE DATAFLOW';
+          sigLabel = 'DATAFLOW PLACEMENT';
           sigValue = t.placement;
         } else {
-          ttabHeading.textContent = '04 // UNDERLYING SCIENCE & MATHEMATICAL MECHANISM';
+          ttabHeading.textContent = 'UNDERLYING SCIENCE & MATHEMATICAL MECHANISM';
           ttabBody.textContent = t.science;
           sigLabel = 'RESEARCH ORIGINS & EVOLUTION';
           sigValue = t.origins;
         }
 
         const usedNodes = (t.usedIn || []).map((nid) => nodeMap[nid]).filter(Boolean);
-        if (activeMode === 'all' || usedNodes.length === 0) {
+        if (usedNodes.length === 0) {
           ttabSubLabel.textContent = sigLabel;
           ttabSubContent.textContent = sigValue;
+        } else if (activeMode === 'all') {
+          ttabSubLabel.textContent = 'PATHWAY FOOTPRINT ACROSS BLOCKS & ' + sigLabel;
+          const summaryHtml = usedNodes
+            .map((un) => {
+              const mList = ['live', 'train', 'distill'].filter((m) => (un.modes || []).includes(m));
+              const isAll3 = mList.length === 3;
+              const badgeCol = isAll3 ? '#10b981' : '#f59e0b';
+              return (
+                '<div class="px-2 py-1 rounded border surface-root flex items-center justify-between gap-2 mono text-[10px]" style="border-color:' +
+                (isAll3 ? 'rgba(16,185,129,0.28)' : 'rgba(245,158,11,0.35)') +
+                '">' +
+                '<span class="font-bold text-primary-ink truncate">#' +
+                un.num +
+                ' ' +
+                un.title +
+                '</span>' +
+                '<span class="font-bold shrink-0" style="color:' +
+                badgeCol +
+                '">' +
+                (isAll3 ? '● 3/3 Pathways' : '◐ ' + mList.map((m) => m.toUpperCase()).join('+') + ' Only') +
+                '</span>' +
+                '</div>'
+              );
+            })
+            .join('');
+          ttabSubContent.innerHTML =
+            '<div class="flex flex-col gap-1">' +
+            summaryHtml +
+            '<div class="pt-1 border-t border-hairline mono text-[10px] text-secondary-ink">' +
+            '<span class="font-bold text-muted-ink">' +
+            sigLabel +
+            ': </span>' +
+            sigValue +
+            '</div>' +
+            '</div>';
         } else {
           const mLabel = MODE_LABELS[activeMode] || activeMode.toUpperCase();
           ttabSubLabel.textContent = 'PATHWAY ROLE (' + mLabel.toUpperCase() + ') & ' + sigLabel;
@@ -2000,7 +2028,7 @@
 
         const horizons = [
           { lbl: 'γ₁=0.95 (1.3s)', role: 'Micro Touch & Challenge Horizon', priv: '+1.84 symlog', evalVal: '+1.72 symlog · CVaR₀.₂₅ = +1.15' },
-          { lbl: 'γ₂=0.98 (3.3s)', role: 'Tactical Outplay & Boost Horizon', priv: '+2.45 symlog', evalVal: '+2.31 symlog · Best-of-16 #04' },
+          { lbl: 'γ₂=0.98 (3.3s)', role: 'Tactical Outplay & Boost Horizon', priv: '+2.45 symlog', evalVal: '+2.31 symlog · Best-of-16 #16' },
           { lbl: 'γ₃=0.995 (13s)', role: 'Possession & Rotation Horizon', priv: '+3.12 symlog', evalVal: '+2.98 symlog · σ_HL = 0.30' },
           { lbl: 'γ_sp=0.9995', role: 'Sparse Goal & Match Win Probability', priv: 'P(Goal) = +0.64', evalVal: 'G=8 GRPO Advantage A_i = +1.42σ' }
         ];
@@ -2309,7 +2337,6 @@
       if (customNode) {
         ttStepBadge.textContent =
           'INSPECTING #' + customNode.num + ' (STEP ' + (activeStepIdx + 1) + '/' + steps.length + ')';
-        ttScenarioLabel.textContent = scen.label;
         ttTitle.textContent = '#' + customNode.num + ' · ' + customNode.title + ' (' + customNode.sub + ')';
         ttDesc.textContent = customNode.how;
         if (btnResumeTourStep) {
@@ -2318,7 +2345,6 @@
         }
       } else {
         ttStepBadge.textContent = 'STEP ' + (activeStepIdx + 1) + ' OF ' + steps.length;
-        ttScenarioLabel.textContent = scen.label;
         ttTitle.textContent = step.title;
         ttDesc.textContent = step.desc;
         if (btnResumeTourStep) {
@@ -2665,12 +2691,15 @@
       }
 
       const meta = THEME_META[themeKey];
+      const themeIdx = THEME_ORDER.indexOf(themeKey);
       const stageCols = getActiveStageColors();
       const notesText = meta.name.toUpperCase() + ' (' + activePolarity.toUpperCase() + ') — ' + meta.notes;
-      const notesEl = document.getElementById('themeStyleNotes');
-      if (notesEl) {
-        notesEl.textContent = meta.notes;
-        notesEl.title = notesText;
+      const activeThemePillLabel = document.getElementById('activeThemePillLabel');
+      if (activeThemePillLabel) {
+        activeThemePillLabel.textContent = String(themeIdx + 1).padStart(2, '0') + ' · ' + meta.name;
+      }
+      if (btnThemeGalleryTrigger) {
+        btnThemeGalleryTrigger.title = notesText + ' — Click to open 12-Style Visual Swatch Gallery';
       }
       if (selTheme) {
         selTheme.title = notesText;

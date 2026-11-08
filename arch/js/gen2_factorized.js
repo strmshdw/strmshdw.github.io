@@ -140,7 +140,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       formula: 'dot(-u_car, (p_ball - p_car)/d) > 0.45 ∧ Δω_surge -> FlipReset',
       how: 'Detects flip resets in replay telemetry via a dual-mode detector: checking explicit DodgeRefreshed telemetry flags when present, or falling back to a 5-gate physics heuristic (airborne z>110, car-ball center distance 18..62 uu, undercarriage normal dot>0.45, and post-contact angular velocity surge).',
       why: 'Standard replay parsers frequently drop transient 1-tick wheel-contact flags during mid-air ball touches.',
-      contrib: 'Recovered ribuan of authentic PopReset, MaktufReset, and StallReset trajectories from pro replays.'
+      contrib: 'Recovered thousands of authentic PopReset, MaktufReset, and StallReset trajectories from pro replays.'
     },
     {
       id: 'fsq_bottleneck', num: '11', col: 3, x: 654, y: 440, w: 162, h: 92,
@@ -158,13 +158,13 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
     // --- COLUMN 4: STAGE 5 — FUSED 31-LOGIT FACTORIZED HEADS & SUBTICK FSM (x = 840) ---
     {
       id: 'stage1_bin', num: '12', col: 4, x: 840, y: 150, w: 162, h: 92,
-      title: '_FusedHeadLinearFn', sub: '256->31 Single GEMM · Zero Cat', tag: 'Custom Autograd',
+      title: 'Fused 31-Logit Head', sub: '256->31 Single GEMM · Zero Cat', tag: 'Custom Autograd',
       color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
       techIds: ['t5'],
       role: 'Stage 5A · Custom Autograd Fused 7-Head Linear Projection (31 Logits)',
       tensor: 'W_cat ∈ R^[31, 256] -> Logits_flat ∈ R^[B, 31] (Zero torch.cat)',
       formula: 'Heads = (Throttle:3, Steer:7, Pitch:5, Yaw:5, Roll:3, Jump:4, Boost:4)',
-      how: 'Concatenates the 7 orthogonal-initialized (gain=0.01) action head weight matrices into a single [31, 256] buffer at load time and executes one fused GEMM via a custom torch.autograd.Function (_FusedHeadLinearFn).',
+      how: 'Concatenates the 7 orthogonal-initialized (gain=0.01) action head weight matrices into a single [31, 256] buffer at load time and executes one fused GEMM via a custom autograd projection.',
       why: 'Launching 7 separate small linear kernels and calling torch.cat created significant CUDA launch overhead inside the 1,024-env rollout loop.',
       contrib: 'Evaluated all 31 discrete action logits across 7 factorized heads in a single matrix multiply.'
     },
@@ -176,7 +176,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       role: 'Stage 5B · Vectorized Padded [B, 7, 7] Log-Softmax & Physics Logit Masker',
       tensor: 'Logits_pad ∈ R^[B, 7, 7] + Mask_31 (-10^8) -> Actions ∈ Z^[B, 7]',
       formula: 'Π_{i=1}^7 dims = 3 × 7 × 5 × 5 × 3 × 4 × 4 = 25,200 combinations',
-      how: 'Applies RocketSim boolean physics masks (-10^8 on illegal bins), pads the ragged 31 logits into a uniform [B, 7, 7] tensor using _LOGIT_SCATTER_INDICES, and computes log_softmax, entropy, and categorical sampling across all 7 heads in one vectorized kernel.',
+      how: 'Applies RocketSim boolean physics masks (-10^8 on illegal bins), pads the ragged 31 logits into a uniform [B, 7, 7] tensor using pre-computed scatter indices, and computes log_softmax, entropy, and categorical sampling across all 7 heads in one vectorized kernel.',
       why: 'Standard PyTorch Split + 7× Categorical() objects allocate dozens of temporary tensors and Python loops per step.',
       contrib: 'Made 7-head categorical sampling and PPO log-prob evaluation 100% static-shape and CUDAGraph-compatible.'
     },
@@ -203,7 +203,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       tensor: 'x_priv[752] -> MLP(512,512,256) -> 3 PopArt Heads (γ=0.95,0.98,0.995)',
       formula: 'V_raw = σ_h · V_norm + μ_h, w_New = (σ_old / σ_new) w_old',
       how: 'Feeds the 752D omniscient observation (684D ego stack + 68D wheel slip/true velocities/5-horizon ball bounces) through a 4-layer LayerNorm-SiLU MLP into 3 PopArt-normalized value heads (short γ=0.95, medium γ=0.98, long γ=0.995).',
-      why: 'Decoupled actor observability (684D legal features) from critic observability (752D omniscient physics) to slash GAE variance.',
+      why: 'Decoupled actor observability (684D legal features) from critic observability (752D omniscient physics) to reduce GAE variance.',
       contrib: 'Provided stable multi-horizon value baselines across both dense touch shaping and sparse goal outcomes.'
     },
     {
@@ -265,37 +265,37 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       label: 'GEN 2 END-TO-END 66.7ms TOUR',
       steps: [
         {
-          title: 'Step 1/7: 171D Egocentric Car Body-Frame Projection (R_car^T)',
+          title: '171D Egocentric Car Body-Frame Projection (R_car^T)',
           focusNode: 'dma_slice', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
           desc: 'At 15 Hz, world coordinates rotate into the ego car\'s instantaneous body frame R_car^T: packing 35D core combat kinematics (Self, Ball, Opp, Goal vectors) and 136D boost pad coordinates/timers.'
         },
         {
-          title: 'Step 2/7: K=4 Sliding Window (684D) & Latency Randomization',
+          title: 'K=4 Sliding Window (684D) & Latency Randomization',
           focusNode: 'gpu_edges', highlight: ['gpu_edges', 'bipartite_enc'], techId: 't1',
           desc: 'Four consecutive 171D frames [t, t-1, t-2, t-3] are stacked into a 684D flat vector (covering 267 ms of motion), injected with 0..2 ticks of random latency jitter during training.'
         },
         {
-          title: 'Step 3/7: Orthogonal 684->512->512->256 LayerNorm-SiLU MLP',
+          title: 'Orthogonal 684->512->512->256 LayerNorm-SiLU MLP',
           focusNode: 'titans_prior', highlight: ['titans_prior', 'titans_mem'], techId: 't2',
-          desc: 'A 4-layer dense MLP with LayerNorm and SiLU activations maps the 684D history stack into a compact 256D policy latent representation h_trunk at ultra-high CUDA Graph throughput.'
+          desc: 'A 4-layer dense MLP with LayerNorm and SiLU activations maps the 684D history stack into a compact 256D policy latent representation h_trunk at high CUDA Graph throughput.'
         },
         {
-          title: 'Step 4/7: Offline SeqScout Replay Miner & Compositional Skill Z_t',
+          title: 'Offline SeqScout Replay Miner & Compositional Skill Z_t',
           focusNode: 'coconut_loop', highlight: ['coconut_loop', 'soft_moe', 'fsq_bottleneck'], techId: 't4',
           desc: 'During training, h_trunk predicts 8 Macro Skill Families and 32 Sub-Skills (PopReset, StallReset, MustyFlick, ZapDash) mined from pro replays via SeqScout WRAcc MCTS and the Dual-Mode Flip Reset Detector.'
         },
         {
-          title: 'Step 5/7: Fused 31-Logit Projection & Padded [B,7,7] Masked Sampler',
+          title: 'Fused 31-Logit Projection & Padded [B,7,7] Masked Sampler',
           focusNode: 'stage1_bin', highlight: ['stage1_bin', 'stage2_flow'], techId: 't5',
-          desc: '_FusedHeadLinearFn projects h_trunk into 31 logits across 7 categorical heads in one GEMM, applies RocketSim boolean physics masks (-10^8), and samples actions from a padded [B,7,7] tensor.'
+          desc: 'The fused 31-logit projection maps h_trunk into 7 categorical heads in one GEMM, applies RocketSim boolean physics masks (-10^8), and samples actions from a padded [B,7,7] tensor.'
         },
         {
-          title: 'Step 6/7: 8-Subtick Action Repeat & C++ FlipState Edge Macro',
+          title: '8-Subtick Action Repeat & C++ FlipState Edge Macro',
           focusNode: 'subtick_exec', highlight: ['stage2_flow', 'subtick_exec'], techId: 't7',
           desc: 'The 7 chosen categorical bin indices are held for 8 physics ticks (120 Hz), with the C++ FlipState machine forcing subtick 0 to jump=0 when a dodge edge is requested.'
         },
         {
-          title: 'Step 7/7: 752D Privileged Critic, Zero-Sum PBRS & 5-Way Curriculum',
+          title: '752D Privileged Critic, Zero-Sum PBRS & 5-Way Curriculum',
           focusNode: 'critic_heads', highlight: ['priv_ctx', 'critic_heads', 'jepa_search', 'ppo_grpo_opt'], techId: 't8',
           desc: 'An asymmetric 752D MLP critic (with 5-horizon ball bounce lookahead) outputs 3 PopArt values trained under Coupled Zero-Sum PBRS and the 5-way Stratified Curriculum.'
         }
@@ -305,22 +305,22 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       label: 'SCENARIO 1: ASYMMETRIC 5-BOUNCE CRITIC',
       steps: [
         {
-          title: '1/4: Actor Infers Spin & Curve from 4-Frame 684D Stack',
+          title: 'Actor Infers Spin & Curve from 4-Frame 684D Stack',
           focusNode: 'gpu_edges', highlight: ['dyn_nodes', 'gpu_edges', 'titans_prior'], techId: 't1',
           desc: 'The 684D actor observes ball position, linear velocity, and angular velocity across [t, t-1, t-2, t-3] in body coordinates to estimate the wall bounce.'
         },
         {
-          title: '2/4: 752D Privileged Critic Computes 5 Analytical Bounces',
+          title: '752D Privileged Critic Computes 5 Analytical Bounces',
           focusNode: 'priv_ctx', highlight: ['priv_ctx', 'critic_heads'], techId: 't8',
           desc: 'For the training critic, C++/Python integrates a 5-horizon ballistic bounce trajectory (Δt ∈ {0.1, 0.25, 0.5, 1.0, 1.5}s) with wall/floor restitution e = 0.60.'
         },
         {
-          title: '3/4: Coupled Zero-Sum PBRS Rewards Early Pre-Jump',
+          title: 'Coupled Zero-Sum PBRS Rewards Early Pre-Jump',
           focusNode: 'jepa_search', highlight: ['critic_heads', 'jepa_search'], techId: 't6',
           desc: 'Because the 752D critic immediately sees the post-bounce ball location in front of the opponent net, its PopArt value surges as soon as the agent jumps for the backboard.'
         },
         {
-          title: '4/4: Limitation that Led to Gen 3 & Hex63',
+          title: 'Limitation that Led to Gen 3 & Hex63',
           focusNode: 'titans_prior', highlight: ['env_nodes', 'titans_prior'], techId: 't2',
           desc: 'Feeding 544 static pad floats alongside 140 dynamic floats into a dense 684->512 layer diluted spatial attention — motivating Gen 3\'s PointNet+Perceiver and Hex63\'s 5,376B Bipartite Graph.'
         }
@@ -330,22 +330,22 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       label: 'SCENARIO 2: MINED FLIP-RESET INITIATION',
       steps: [
         {
-          title: '1/4: Dual-Mode Detector Extracts Pro Flip-Reset Replays',
+          title: 'Dual-Mode Detector Extracts Pro Flip-Reset Replays',
           focusNode: 'soft_moe', highlight: ['coconut_loop', 'soft_moe'], techId: 't4',
           desc: 'SkillshotMiner scans pro replays for airborne car-ball undercarriage touches (distance 18..62 uu, belly dot > 0.45) followed by an angular velocity surge.'
         },
         {
-          title: '2/4: Seeding Arena from 27D SkillshotInitiationBank (10% Branch)',
+          title: 'Seeding Arena from 27D SkillshotInitiationBank (10% Branch)',
           focusNode: 'ppo_grpo_opt', highlight: ['coconut_loop', 'ppo_grpo_opt'], techId: 't6',
           desc: 'In the 5-way Stratified Curriculum, 10% of episodes initialize cars and ball directly into mined mid-air setup states 0.5s before the flip reset.'
         },
         {
-          title: '3/4: Auxiliary Z_t Head Guides Trunk to Sub-Skill #18 (StallReset)',
+          title: 'Auxiliary Z_t Head Guides Trunk to Sub-Skill #18 (StallReset)',
           focusNode: 'fsq_bottleneck', highlight: ['titans_mem', 'fsq_bottleneck'], techId: 't3',
           desc: 'CompositionalSkillAuxiliaryHead supervises h_trunk to classify Macro Family 5 (Flip Reset) and Sub-Variant StallReset.'
         },
         {
-          title: '4/4: Factorized 31-Logit Head Fires Dodge Flick',
+          title: 'Factorized 31-Logit Head Fires Dodge Flick',
           focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow', 'subtick_exec'], techId: 't5',
           desc: 'Once the 4 wheels touch the ball and RocketSim unmasks has_flip, the Jump head (bin 3) and Pitch head (bin 0) fire the follow-up flick.'
         }
@@ -355,22 +355,22 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       label: 'SCENARIO 3: HARD-NEGATIVE RING BUFFER',
       steps: [
         {
-          title: '1/4: Detecting High-TD-Error Defensive Breakdowns',
+          title: 'Detecting High-TD-Error Defensive Breakdowns',
           focusNode: 'critic_heads', highlight: ['critic_heads', 'ppo_grpo_opt'], techId: 't8',
           desc: 'Whenever an opponent fake-challenge leads to a goal against the agent, the large negative TD error flags the preceding state in the Failure Ring Buffer.'
         },
         {
-          title: '2/4: 25% Hard-Negative Curriculum Replay',
+          title: '25% Hard-Negative Curriculum Replay',
           focusNode: 'ppo_grpo_opt', highlight: ['ppo_grpo_opt', 'dma_slice'], techId: 't6',
           desc: 'StratifiedCurriculum allocates 25% of arena resets to re-running recent failure states with Gaussian kinematic perturbations (20% branch).'
         },
         {
-          title: '3/4: Zero-Sum Coupling Penalizes Over-Commit',
+          title: 'Zero-Sum Coupling Penalizes Over-Commit',
           focusNode: 'jepa_search', highlight: ['jepa_search', 'ppo_grpo_opt'], techId: 't6',
           desc: 'Coupled Zero-Sum PBRS subtracts κ·(r_i + r_opp)/2 so diving past the ball immediately yields negative shaped reward as the opponent gains open-net potential.'
         },
         {
-          title: '4/4: Why Gen 3 Added Autoregressive Action Conditioning',
+          title: 'Why Gen 3 Added Autoregressive Action Conditioning',
           focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow'], techId: 't5',
           desc: 'In Gen 2, independent sampling of Jump[4] and Pitch[5] occasionally caused accidental backflips during shadow defense — solved in Gen 3 by conditioning Stage-2 axes on Stage-1 Jump/Boost.'
         }
@@ -380,22 +380,22 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       label: 'SCENARIO 4: LIVE CANONICAL AGENT (120HZ)',
       steps: [
         {
-          title: '1/4: Live GameTickPacket -> 171D Egocentric Transform',
+          title: 'Live GameTickPacket -> 171D Egocentric Transform',
           focusNode: 'dma_slice', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
           desc: 'In live RLBot matches, CanonicalAgent converts the GameTickPacket into the 171D body-frame observation and pushes it into the K=4 deque.'
         },
         {
-          title: '2/4: TorchScript / CUDAGraph Forward Pass (< 0.4 ms)',
+          title: 'TorchScript / CUDAGraph Forward Pass (< 0.4 ms)',
           focusNode: 'titans_mem', highlight: ['gpu_edges', 'titans_prior', 'titans_mem', 'stage1_bin'], techId: 't2',
-          desc: 'The 4-layer MLP and _FusedHeadLinearFn evaluate the 31 action logits in under 0.4 ms.'
+          desc: 'The 4-layer MLP and fused 31-logit linear head evaluate all action logits in under 0.4 ms.'
         },
         {
-          title: '3/4: Physics Boolean Masking Prevents Dead-Air Flips',
+          title: 'Physics Boolean Masking Prevents Dead-Air Flips',
           focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow'], techId: 't7',
-          desc: 'compute_action_masks disables illegal Dodge/Boost bins before argmax/temperature selection.'
+          desc: 'The boolean physics mask generator disables illegal Dodge and Boost bins before argmax or temperature selection.'
         },
         {
-          title: '4/4: 8-Subtick FlipState Holds Save Control Across 66.7ms',
+          title: '8-Subtick FlipState Holds Save Control Across 66.7ms',
           focusNode: 'subtick_exec', highlight: ['stage2_flow', 'subtick_exec'], techId: 't7',
           desc: 'The live bridge steps the FlipState machine at 120 Hz across the 8 physics ticks until the next outer policy decision.'
         }
@@ -404,18 +404,18 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
   },
   techLibrary: [
     {
-      id: 't0', short: 'T0 · 171D Egocentric Frame',
+      id: 't0', short: '171D Egocentric Frame',
       title: '171D Egocentric Body-Frame Coordinate Transformation (R_car^T)',
       usedIn: ['dma_slice', 'dyn_nodes', 'env_nodes'],
       placement: 'Stage 1 Observation Builder — transforms world physics into ego-car local coordinates.',
       how: 'Projects relative positions, linear/angular velocities, gravity, goal vectors (35D), and 34 boost pads (136D) into the ego car\'s orthonormal basis R_car^T = [forward, right, up]^T, applying ORANGE_PAD_PERMUTATION when team == 1.',
-      why: 'World-frame coordinates require the network to mentally rotate steering/pitch commands by the car\'s current 3D orientation; body-frame coordinates align inputs directly with car-local actuators.',
-      contrib: 'Dramatically accelerated early-stage steering, aerial aiming, and shadow defense convergence.',
+      why: 'World-frame coordinates require the network to learn redundant rotational symmetries across 3D car orientations; body-frame coordinates align inputs directly with car-local actuators.',
+      contrib: 'Accelerated early-stage steering, aerial aiming, and shadow defense convergence.',
       science: 'Given car rotation R_car ∈ SO(3), mapping Δp_b = R_car^T(p_target - p_car) ensures equivariance under global SE(3) car rigid-body transformations.',
-      origins: 'Canonical Observation Spec (trainer_v3/policy/canonical_obs.py).'
+      origins: 'Gen 2 Egocentric Observation Manifold Specification.'
     },
     {
-      id: 't1', short: 'T1 · K=4 History & Jitter',
+      id: 't1', short: 'K=4 History & Jitter',
       title: '4-Step Temporal Stack (684D) & 0..2 Tick Latency Domain Randomization',
       usedIn: ['env_nodes', 'gpu_edges', 'bipartite_enc'],
       placement: 'Stage 2 Temporal Buffer — sits between single-frame 171D extraction and the MLP.',
@@ -426,18 +426,18 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       origins: 'DQN Frame Stacking (Mnih et al., Nature 2015) + Sim-to-Real Latency Randomization (Tan et al., RSS 2018).'
     },
     {
-      id: 't2', short: 'T2 · 684->512->512->256 MLP',
+      id: 't2', short: '684->512->512->256 MLP',
       title: 'Orthogonal LayerNorm-SiLU Dense MLP Backbone (820K Params)',
       usedIn: ['titans_prior', 'titans_mem'],
       placement: 'Stage 3 Policy Trunk — maps 684D history to 256D policy latent.',
       how: 'Three hidden layers (684 -> 512 -> 512 -> 256) with LayerNorm, SiLU activations, and √2-gain orthogonal weight initialization.',
       why: 'Delivered maximum possible CUDA Graph steps-per-second (SPS) on a single GPU with zero attention or recurrent state overhead.',
-      contrib: 'Served as the high-throughput workhorse policy and later the distillation teacher for Gen 3.',
+      contrib: 'Served as the primary production policy and later the distillation teacher for Gen 3.',
       science: 'Orthogonal initialization (Saxe et al., 2014) preserves dynamical isometry (singular values σ_i = 1) across deep nonlinear layers at initialization.',
       origins: 'Saxe et al. (ICLR 2014) & Ramachandran et al. (Swish/SiLU, 2017).'
     },
     {
-      id: 't3', short: 'T3 · Compositional Skill Z_t',
+      id: 't3', short: 'Compositional Skill Z_t',
       title: 'Training-Only Compositional Skill Auxiliary Head (8 Macro · 32 Sub-Skills)',
       usedIn: ['titans_mem', 'fsq_bottleneck'],
       placement: 'Stage 4C Auxiliary Branch — attached to the 256D trunk during training.',
@@ -448,29 +448,29 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       origins: 'Jaderberg et al. (UNREAL, ICLR 2017).'
     },
     {
-      id: 't4', short: 'T4 · SeqScout Replay Miner',
+      id: 't4', short: 'SeqScout Replay Miner',
       title: 'SeqScout WRAcc MCTS Replay Miner & Dual-Mode Flip-Reset Detector',
       usedIn: ['coconut_loop', 'soft_moe', 'fsq_bottleneck'],
       placement: 'Stage 4A/B Offline Replay Pipeline — mines .replay files at 30–60 Hz.',
       how: 'Uses Weighted Relative Accuracy (WRAcc) + Jaccard diversity in Monte Carlo Tree Search over symbolic replay streams, paired with a 5-gate physics heuristic + telemetry flag detector for flip resets.',
-      why: 'Random exploration in 1v1 self-play has near-zero probability of stumbling upon a Maktuf reset or Breezi flick without replay-mined initiation states and skill labels.',
+      why: 'Random exploration in 1v1 self-play has near-zero probability of discovering a Maktuf reset or Breezi flick without replay-mined initiation states and skill labels.',
       contrib: 'Extracted thousands of verified pro mechanical trajectories and 27D arena initiation seeds.',
       science: 'Subgroup Discovery via WRAcc(S) = P(S)·(P(Goal|S) - P(Goal)) identifies statistically significant tactical action sequences.',
-      origins: 'SeqScout Subgroup Discovery + trainer_v3/replay/skillshot_miner.py.'
+      origins: 'SeqScout Subgroup Discovery (Herrera et al., 2009) & WRAcc MCTS Replay Mining.'
     },
     {
-      id: 't5', short: 'T5 · Fused 31-Logit Sampler',
-      title: '_FusedHeadLinearFn & Vectorized Padded [B, 7, 7] Categorical Sampler',
+      id: 't5', short: 'Fused 31-Logit Sampler',
+      title: 'Fused 31-Logit Linear Projection & Vectorized Padded [B, 7, 7] Categorical Sampler',
       usedIn: ['stage1_bin', 'stage2_flow'],
       placement: 'Stage 5 Action Projection — converts 256D trunk into 7 discrete control bins.',
       how: 'Packs all 7 head weight matrices (3+7+5+5+3+4+4 = 31 rows) into a single [31, 256] GEMM via custom autograd, scatters into a padded [B, 7, 7] tensor, and evaluates masked log-softmax in one kernel.',
       why: 'Eliminated 7× separate linear layers, torch.cat allocations, and Python loop overhead during 1,024-arena rollouts.',
       contrib: 'Enabled 25,200 factorized action combinations with sub-0.1ms GPU overhead.',
       science: 'Factorized categorical policies represent a 7D control hypercube using 31 logits instead of 25,200 joint atomic logits.',
-      origins: 'OpenAI Five / RLGym Factorized Action Spaces; custom CUDA-Graph-safe autograd in factorized_actor.py.'
+      origins: 'OpenAI Five / RLGym Factorized Action Spaces with CUDA-Graph-safe fused autograd.'
     },
     {
-      id: 't6', short: 'T6 · Zero-Sum PBRS & Bank',
+      id: 't6', short: 'Zero-Sum PBRS & Bank',
       title: 'Coupled Zero-Sum 1v1 PBRS & 5-Way Stratified Skillshot Curriculum',
       usedIn: ['coconut_loop', 'jepa_search', 'ppo_grpo_opt'],
       placement: 'Stage 6 Reward & Reset Engine — governs arena seeding and step rewards.',
@@ -481,7 +481,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       origins: 'Ng et al. (1999) + Prioritized Level Replay (Jiang et al., ICML 2021).'
     },
     {
-      id: 't7', short: 'T7 · Physics Masks & Flip FSM',
+      id: 't7', short: 'Physics Masks & Flip FSM',
       title: 'RocketSim Boolean Logit Masking & 8-Subtick C++ FlipState Machine',
       usedIn: ['stage2_flow', 'subtick_exec'],
       placement: 'Stage 5 Control Executor — bridges 15 Hz categorical bins to 120 Hz physics.',
@@ -492,7 +492,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       origins: 'Huang & Ontañón (2020); later superseded in Hex63 by native K_sub=4 (60 Hz) subtick action chunks.'
     },
     {
-      id: 't8', short: 'T8 · 752D Privileged Critic',
+      id: 't8', short: '752D Privileged Critic',
       title: 'Asymmetric 752D Privileged MLP Critic with 5-Horizon Ballistics & PopArt',
       usedIn: ['priv_ctx', 'critic_heads'],
       placement: 'Stage 6A Training Value Network — omniscient 752D critic.',
@@ -500,10 +500,10 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       why: 'Allowed the critic to see exact wheel slip and 1.5s of future ball bounces without leaking illegal simulator internals to the deployed 684D actor.',
       contrib: 'Stabilized multi-horizon GAE advantage estimates during complex wall and aerial plays.',
       science: 'Asymmetric Actor-Critic (Pinto et al., 2017) + PopArt target normalization (van Hasselt et al., 2016).',
-      origins: 'trainer_v3/ml/privileged_critic.py.'
+      origins: 'Pinto et al. (RSS 2018) & van Hasselt et al. (PopArt, 2016).'
     },
     {
-      id: 't9', short: 'T9 · Tri-Role PFSP League',
+      id: 't9', short: 'Tri-Role PFSP League',
       title: 'Tri-Role Bayesian TrueSkill & Prioritized Fictitious Self-Play League',
       usedIn: ['bipartite_enc', 'jepa_search', 'ppo_grpo_opt'],
       placement: 'Stage 6C Matchmaking Coordinator — governs multi-agent self-play opponents.',
@@ -567,7 +567,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
     N8 & N10 -.-> N11["11. Compositional Skill Z_t (8/32)"]
   end
   subgraph S5["Stage 5: Fused 31-Logit Heads"]
-    N8 --> N12["12. _FusedHeadLinearFn (256->31)"]
+    N8 --> N12["12. Fused 31-Logit Head (256->31)"]
     N12 --> N13["13. Padded [B,7,7] Masked Sampler"]
     N13 --> N14["14. 8-Subtick FlipState FSM (15Hz)"]
   end

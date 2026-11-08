@@ -25,7 +25,7 @@ window.ARASHIKAGE_NODES = [
     formula: 'tau_k ∈ {4, 8, 12, 16, 24, 32, 40, 48} ticks @ 120Hz',
     how: 'Projects the 16 rapidly moving entities into 384D query tokens: 6 Cars (64 floats each: kinematics, airborne timers, dodge/flip locks, wheel shocks), 1 Ball (32 floats), 8 BallRingBuffer480 trajectory nodes (4.0s spin/curve/post-bounce preview), and 1 Match Context node (κ_Δt, score, clock).',
     why: 'Separates the 16 dynamic moving entities that need to query the pitch from the 48 static/semi-static environment features.',
-    contrib: 'Gives the policy immediate access to 4.0 seconds of ball bounce geometry and exact car resource timers without burning neural layers on Newtonian curve integration.'
+    contrib: 'Gives the policy immediate access to 4.0 seconds of ball bounce geometry and exact car resource timers without expending network capacity on Newtonian curve integration.'
   },
   {
     id: 'env_nodes', num: '03', col: 0, x: 96, y: 405, w: 162, h: 92,
@@ -101,7 +101,7 @@ window.ARASHIKAGE_NODES = [
     formula: 'g_t = tanh(W_prev^T k_prev - v_t) ⊗ k_prev, ||W||_F <= 4.0',
     how: 'At every step during inference, compares what the fast weights W_prev predicted on the previous step against the current observation v_t. Updates W_t in-place using a smooth Log-Cosh surprise gradient with momentum M_t and retracts each head onto a Frobenius ball of radius 4.0.',
     why: 'Fixed network weights cannot adapt mid-match to an opponent who fakes challenges or steals boost. Updating a 32×32 matrix per head in FP32 gives test-time learning in 0.12 ms.',
-    contrib: 'Enables rapid in-match adaptation to opponent aggression, boost-starve habits, and demo tendencies without catastrophic forgetting.'
+    contrib: 'Enables rapid in-match adaptation to opponent aggression, boost-starve habits, and demo tendencies without representation drift.'
   },
 
   // --- COLUMN 3: STAGE 4 — COCONUT RECURRENCE, SOFT-MOE & FSQ (x = 654) ---
@@ -202,7 +202,7 @@ window.ARASHIKAGE_NODES = [
     tensor: 'M ∈ {16, 8, 1} candidates -> argmax J_CVaR(u^(m))',
     formula: 'J(u^(m)) = w_eval^T v_eval + λ_cvar · CVaR_α(v_sparse)',
     how: 'In live play at Tier 0/1, fans out the ego latent state into M = 16 or 8 candidate action chunks from the Stage-1/Stage-2 decoder, rolls them forward 1 step in the Dual-Stream JEPA latent predictor, and selects the trajectory maximizing risk-adjusted value under p_eval.',
-    why: 'Single-sample policy decoding can occasionally pick a risky 50/50 challenge when last-man back. Latent search filters out catastrophic tail risks in 0.8 ms.',
+    why: 'Single-sample policy decoding can occasionally pick a high-variance 50/50 challenge when last-man back. Latent search filters out downside tail risks in 0.8 ms.',
     contrib: 'Delivers test-time tactical verification on high-leverage saves and goal-line challenges within the 5.5 ms hard real-time budget.'
   },
   {
@@ -215,7 +215,7 @@ window.ARASHIKAGE_NODES = [
     formula: 'A_i^GRPO = (R_i - μ_G) / (σ_G + 1e-5) across G=8 clones',
     how: 'Partitions 4,096 RocketSim arenas into 816 G=8 lockstep-cloned GRPO mechanics drills (critic-free intra-group normalized returns), 2,880 full-match PFSP self-play arenas (4-horizon GAE + Flow-PPO), and 400 Boss evaluation arenas, warm-started from the frozen Teacher policy.',
     why: 'Fine-grained aerial mechanics learn fastest via critic-free G=8 cohort comparisons from identical physics seeds, while team positioning requires full-match self-play.',
-    contrib: 'Unifies surgical mechanical mastery (flip resets, double taps) and grand-champion game sense in a single end-to-end training loop.'
+    contrib: 'Unifies subtick mechanical precision (flip resets, double taps) and full-match tactical positioning in a single end-to-end training loop.'
   }
 ];
 

@@ -61,7 +61,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       tensor: 'LocklessTelemetryBuffer (alignas(64) std::atomic<uint64_t> seq)',
       formula: 'Writer: seq.fetch_add(1, release) -> memcpy -> seq.fetch_add(1, release)',
       how: 'Streams step metrics, SPS, and arena states out of the C++ batch engine into a 64-byte-aligned Seqlock shared memory ring buffer without mutex locks.',
-      why: 'OS mutexes inside a 120 Hz / 1,024-arena OpenMP hot loop cause catastrophic thread convoying.',
+      why: 'OS mutexes inside a 120 Hz / 1,024-arena OpenMP hot loop cause severe thread convoying.',
       contrib: 'Established the lock-free Seqlock telemetry design that Hex63 expanded into the 256 KB Hex63TelemetrySharedMemory plane.'
     },
 
@@ -139,7 +139,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       tensor: 'logit_jump ∈ R^[B, 1] (bias = -3.80), gates ∈ R^[B, 3]',
       formula: 'p_jump(0) = σ(-3.80) ≈ 0.0219 (prevents early jump-spamming)',
       how: 'Separates jump initiation into a dedicated 1-logit BernoulliJumpHead initialized with bias b_0 = -3.80 (initial jump probability ~2.2%) alongside 3 discrete gate logits for [boost, handbrake, dodge] and surface [throttle, steer].',
-      why: 'Standard 0-bias initialization causes untrained agents to jump 50% of ticks, spending the entire match helplessly airborne.',
+      why: 'Standard 0-bias initialization causes untrained agents to jump 50% of ticks, causing uncontrolled airborne drift.',
       contrib: 'Kept early-stage agents grounded long enough to learn driving and ball striking.'
     },
     {
@@ -152,7 +152,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       formula: 'Archetypes: BALL_DENIAL | DEMOLITION | AERIAL_MECHANICS | BOOST_STARVATION',
       how: 'Attaches 4 specialized exploiter policy heads to the 256D trunk, each paired with an intrinsic reward generator (e.g., supersonic closing speed to opponent car for DEMOLITION, big-pad steals in opponent half for BOOST_STARVATION).',
       why: 'Forced the main agent to defend against extreme specialist playstyles (heavy demo chasers, boost starvers, aerial freestylers). (Hex63 later internalized this via 8×2 Soft-MoE specialist experts).',
-      contrib: 'Hardened the policy against cheese tactics and extreme adversarial styles.'
+      contrib: 'Hardened the policy against degenerate local optima and extreme adversarial styles.'
     },
 
     // --- COLUMN 4: STAGE 5 — 120HZ GEODESIC SLERP & ATTITUDE PD CORTEX (x = 840) ---
@@ -165,7 +165,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       tensor: 'q_ref(τ) = SLERP(q_current, q̃*, τ) ∈ S^3 across 120 Hz ticks',
       formula: 'q̃* = sign(<q*, q_curr>) · q* (shortest great-circle arc on S^3)',
       how: 'Flips the target quaternion q* if its inner product with current car attitude q_curr is negative (solving the q ≡ -q double-cover unwinding bug) and interpolates smooth intermediate reference quaternions along the S^3 geodesic.',
-      why: 'Feeding a 180° step-change quaternion directly into a high-gain PD controller saturates actuators and induces violent overshoot.',
+      why: 'Feeding a 180° step-change quaternion directly into a high-gain PD controller saturates actuators and induces high-frequency oscillation.',
       contrib: 'Generated smooth, shortest-path rotational trajectories at 120 Hz.'
     },
     {
@@ -178,7 +178,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       formula: 'e_pitch = atan2(f*·u, f*·f), e_yaw = atan2(f*·r, f*·f), e_roll = atan2(r*·u, u*·u)',
       how: 'Computes exact body-local pitch, yaw, and roll angle errors from the column basis vectors (f, r, u) of R(q) and R(q̃*), applies proportional-derivative + angular-velocity feedforward gains, and zeroes micro-oscillations inside a 0.04 rad Schmitt-trigger deadband.',
       why: 'Closed the control loop at the full 120 Hz physics rate while the heavy RET-40 transformer ran at 15–30 Hz.',
-      contrib: 'Delivered rock-steady aerial aiming, though its restorative torque resisted intentional flip-reset stalls (inspiring Gen 2/3 direct heads and Hex63 60 Hz Flow-GRPO).'
+      contrib: 'Delivered damped, zero-overshoot aerial aiming, though its restorative torque resisted intentional flip-reset stalls (inspiring Gen 2/3 direct heads and Hex63 60 Hz Flow-GRPO).'
     },
     {
       id: 'subtick_exec', num: '14', col: 4, x: 840, y: 440, w: 162, h: 92,
@@ -227,7 +227,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       tensor: 'torch.cuda.CUDAGraph (E=1024) + In-Place param.data.copy_ (< 5.56 ms)',
       formula: 'Zero pointer changes -> CUDAGraph remains valid across PPO updates',
       how: 'Captures the entire E=1024 RET-40 forward pass and quantile critic into a static CUDA Graph and updates rollout weights after each PPO epoch via in-place tensor buffer copies without invalidating captured graph memory addresses.',
-      why: 'Re-capturing a CUDA Graph after every PPO gradient step takes数百 milliseconds and leaks GPU memory pools.',
+      why: 'Re-capturing a CUDA Graph after every PPO gradient step takes hundreds of milliseconds and leaks GPU memory pools.',
       contrib: 'Pioneered the static-shape CUDA Graph execution discipline carried forward across all subsequent generations.'
     }
   ],
@@ -265,37 +265,37 @@ window.ARASHIKAGE_GEN1_RET40 = {
       label: 'GEN 1 END-TO-END CYCLE TOUR',
       steps: [
         {
-          title: 'Step 1/7: 41×25 EntityTokenPOD & 1,536B SIMD Kinematics SoA',
+          title: '41×25 EntityTokenPOD & 1,536B SIMD Kinematics SoA',
           focusNode: 'dma_slice', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
           desc: 'C++ packs all 41 arena entities (1 Ego, 2 Mates, 3 Opps, 1 Ball, 34 Boost Pads) into 100-byte POD structs and transposes positions/velocities into a 64-byte-aligned Structure-of-Arrays (SoA) buffer.'
         },
         {
-          title: 'Step 2/7: AVX2 41×41×8 Pairwise Relational Tensor & Hoisted Bias',
+          title: 'AVX2 41×41×8 Pairwise Relational Tensor & Hoisted Bias',
           focusNode: 'gpu_edges', highlight: ['dyn_nodes', 'gpu_edges', 'bipartite_enc'], techId: 't1',
           desc: 'ComputeRelationalTensorAVX2 evaluates 8 pairwise kinematic features across all 1,681 entity pairs using 8-wide AVX2 intrinsics. A trunk-hoisted mlp_rel projects r_ij into 4 attention-head bias maps once per step.'
         },
         {
-          title: 'Step 3/7: 4-Layer Relational Transformer RET-40 (d=128, SwiGLU)',
+          title: '4-Layer Relational Transformer RET-40 (d=128, SwiGLU)',
           focusNode: 'titans_prior', highlight: ['bipartite_enc', 'titans_prior', 'titans_mem'], techId: 't2',
           desc: 'Four permutation-equivariant RelationalAttentionBlocks process the 41 tokens with zero positional encodings, concatenating the Ego token h_0 (128D) and mask-aware global mean pool c_global (128D) into a 256D vector.'
         },
         {
-          title: 'Step 4/7: Target Quaternion q* ∈ S^3, ω* & BernoulliJumpHead',
+          title: 'Target Quaternion q* ∈ S^3, ω* & BernoulliJumpHead',
           focusNode: 'coconut_loop', highlight: ['coconut_loop', 'soft_moe'], techId: 't3',
           desc: 'The actor predicts a continuous target 3D attitude quaternion q* ∈ S^3, target angular velocity ω* ∈ [-5.5, 5.5]^3, and a 1-logit BernoulliJumpHead initialized at b_0 = -3.80 (p ≈ 0.022).'
         },
         {
-          title: 'Step 5/7: 4 Multi-Archetype Neural Exploiter Heads',
+          title: '4 Multi-Archetype Neural Exploiter Heads',
           focusNode: 'fsq_bottleneck', highlight: ['titans_mem', 'fsq_bottleneck'], techId: 't8',
           desc: 'During league training, 4 specialist exploiter heads (BALL_DENIAL, DEMOLITION, AERIAL_MECHANICS, BOOST_STARVATION) train on archetype-specific intrinsic rewards.'
         },
         {
-          title: 'Step 6/7: 120 Hz Geodesic SLERP & Nonlinear Attitude PD Cortex',
+          title: '120 Hz Geodesic SLERP & Nonlinear Attitude PD Cortex',
           focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow', 'subtick_exec'], techId: 't5',
           desc: 'At 120 Hz, SlerpTrajectoryGenerator interpolates shortest-arc waypoints on S^3 and VectorizedAttitudePD converts column-basis angle errors into [pitch, yaw, roll] torques with a 0.04 rad Schmitt-trigger deadband.'
         },
         {
-          title: 'Step 7/7: 3-Horizon PopArt, 32-Quantile CVaR_β & Weight Staging',
+          title: '3-Horizon PopArt, 32-Quantile CVaR_β & Weight Staging',
           focusNode: 'jepa_search', highlight: ['critic_heads', 'jepa_search', 'ppo_grpo_opt'], techId: 't7',
           desc: 'MultiHorizonPopArtCritic and the 32-quantile MonotonicQuantileCriticHead evaluate risk-sensitive CVaR_β(s) inside an E=1024 static CUDA Graph updated via <5.56 ms in-place weight staging.'
         }
@@ -305,24 +305,24 @@ window.ARASHIKAGE_GEN1_RET40 = {
       label: 'SCENARIO 1: AVX2 PAIRWISE INTERCEPT',
       steps: [
         {
-          title: '1/4: 8-Wide AVX2 Pairwise Distance & Closing Speed',
+          title: '8-Wide AVX2 Pairwise Distance & Closing Speed',
           focusNode: 'gpu_edges', highlight: ['dyn_nodes', 'gpu_edges'], techId: 't1',
           desc: 'For all 41×41 pairs, C++ computes Δp/6000, fast rsqrt_ps Euclidean distance, and relative closing velocity in 256-bit YMM registers.'
         },
         {
-          title: '2/4: Trunk-Hoisted mlp_rel Injects Spatial Bias into All 4 Layers',
+          title: 'Trunk-Hoisted mlp_rel Injects Spatial Bias into All 4 Layers',
           focusNode: 'bipartite_enc', highlight: ['gpu_edges', 'bipartite_enc', 'titans_prior'], techId: 't2',
           desc: 'The 8D pairwise vector projects to 4 head biases B_rel[B,4,41,41] once and guides all 4 RET-40 layers.'
         },
         {
-          title: '3/4: Why Hex63 Moved Pairwise Bias from CPU AVX2 to Fused GPU',
+          title: 'Why Hex63 Moved Pairwise Bias from CPU AVX2 to Fused GPU',
           focusNode: 'gpu_edges', highlight: ['dma_slice', 'gpu_edges'], techId: 't1',
           desc: 'In Gen 1, transferring 41×41×8 floats (53.7 KB/arena) from CPU to GPU cost 220 MB/step at 4,096 arenas — motivating Hex63 to transfer only the 5,376B entity slice and compute 16×64×72D biases on-chip on the GPU.'
         },
         {
-          title: '4/4: Target Quaternion Aims Car Nose at Intercept Point',
+          title: 'Target Quaternion Aims Car Nose at Intercept Point',
           focusNode: 'coconut_loop', highlight: ['titans_mem', 'coconut_loop', 'stage2_flow'], techId: 't3',
-          desc: 'quat_head outputs q* aligned with the aerial intercept vector, and the 120 Hz PD loop rotates the car onto target.'
+          desc: 'The quaternion head outputs q* aligned with the aerial intercept vector, and the 120 Hz PD loop rotates the car onto target.'
         }
       ]
     },
@@ -330,22 +330,22 @@ window.ARASHIKAGE_GEN1_RET40 = {
       label: 'SCENARIO 2: 120HZ SLERP & PD AERIAL',
       steps: [
         {
-          title: '1/4: Antipodal Hemisphere Alignment (q̃* = sign(<q*,q>)·q*)',
+          title: 'Antipodal Hemisphere Alignment (q̃* = sign(<q*,q>)·q*)',
           focusNode: 'stage1_bin', highlight: ['coconut_loop', 'stage1_bin'], techId: 't4',
           desc: 'Because q and -q represent the exact same 3D rotation in SO(3), SlerpTrajectoryGenerator checks the 4D dot product and flips q* if negative so the car never unwinds 360° the wrong way.'
         },
         {
-          title: '2/4: Column-Basis Angle Error Extraction',
+          title: 'Column-Basis Angle Error Extraction',
           focusNode: 'stage2_flow', highlight: ['stage1_bin', 'stage2_flow'], techId: 't5',
           desc: 'VectorizedAttitudePD extracts body-local pitch, yaw, and roll errors via atan2 projections of the target forward/right/up basis vectors onto the current car axes.'
         },
         {
-          title: '3/4: Schmitt-Trigger Deadband (0.04 rad) Prevents Chatter',
+          title: 'Schmitt-Trigger Deadband (0.04 rad) Prevents Chatter',
           focusNode: 'stage2_flow', highlight: ['stage2_flow', 'subtick_exec'], techId: 't5',
           desc: 'Once error drops below 0.04 rad and angular velocity is damped, the Schmitt trigger zeroes torques to eliminate high-frequency limit-cycle chatter.'
         },
         {
-          title: '4/4: Why Attitude PD Was Retired in Gen 2/3 & Hex63',
+          title: 'Why Attitude PD Was Retired in Gen 2/3 & Hex63',
           focusNode: 'subtick_exec', highlight: ['stage2_flow', 'subtick_exec'], techId: 't5',
           desc: 'During flip-reset stalls and Musty flicks, the PD controller treated intentional stall torques as attitude errors and fought the policy — leading to direct neural subtick control in later generations.'
         }
@@ -355,22 +355,22 @@ window.ARASHIKAGE_GEN1_RET40 = {
       label: 'SCENARIO 3: 4 NEURAL EXPLOITER HEADS',
       steps: [
         {
-          title: '1/4: Shared 256D RET-40 Trunk Feeds 4 Specialist Heads',
+          title: 'Shared 256D RET-40 Trunk Feeds 4 Specialist Heads',
           focusNode: 'fsq_bottleneck', highlight: ['titans_mem', 'fsq_bottleneck'], techId: 't8',
           desc: 'Four distinct 256->128->12D NeuralExploiterPolicyHeads branch off the shared RET-40 trunk.'
         },
         {
-          title: '2/4: DEMOLITION & BOOST_STARVATION Intrinsic Rewards',
+          title: 'DEMOLITION & BOOST_STARVATION Intrinsic Rewards',
           focusNode: 'fsq_bottleneck', highlight: ['fsq_bottleneck', 'ppo_grpo_opt'], techId: 't8',
           desc: 'The Demolition head receives dense closing-speed bonuses toward opponent cars at supersonic speed, while Boost Starvation is rewarded for denying 100-pads in the opponent half.'
         },
         {
-          title: '3/4: Main Policy Learns Evasion & Low-Boost Defense',
+          title: 'Main Policy Learns Evasion & Low-Boost Defense',
           focusNode: 'titans_prior', highlight: ['titans_prior', 'titans_mem'], techId: 't2',
           desc: 'Playing against the 4 exploiter archetypes forces the RET-40 attention layers to track incoming demo threats even when the ball is elsewhere.'
         },
         {
-          title: '4/4: Evolution into Hex63\'s Static 8×2 Soft-MoE',
+          title: 'Evolution into Hex63\'s Static 8×2 Soft-MoE',
           focusNode: 'fsq_bottleneck', highlight: ['fsq_bottleneck'], techId: 't8',
           desc: 'Rather than keeping 4 separate outer policy heads, Hex63 internalized specialization inside the trunk via 8 static-shape Soft-MoE experts.'
         }
@@ -380,22 +380,22 @@ window.ARASHIKAGE_GEN1_RET40 = {
       label: 'SCENARIO 4: 32-QUANTILE CVaR RISK SHIFT',
       steps: [
         {
-          title: '1/4: Monotonic 32-Quantile Return Distribution',
+          title: 'Monotonic 32-Quantile Return Distribution',
           focusNode: 'jepa_search', highlight: ['titans_mem', 'jepa_search'], techId: 't7',
           desc: 'MonotonicQuantileCriticHead predicts 32 strictly non-decreasing return quantiles θ_1 <= θ_2 <= ... <= θ_32 using cumulative softplus increments.'
         },
         {
-          title: '2/4: Dynamic Risk Preference β(s) ∈ [0.05, 0.95]',
+          title: 'Dynamic Risk Preference β(s) ∈ [0.05, 0.95]',
           focusNode: 'coconut_loop', highlight: ['coconut_loop', 'jepa_search'], techId: 't7',
           desc: 'When defending a 1-goal lead in the final 30 seconds, the actor lowers β(s) -> 0.15 to focus on the worst 15% tail outcomes.'
         },
         {
-          title: '3/4: Vectorized Trapezoidal CVaR_β Integration',
+          title: 'Vectorized Trapezoidal CVaR_β Integration',
           focusNode: 'jepa_search', highlight: ['jepa_search', 'ppo_grpo_opt'], techId: 't7',
-          desc: 'compute_cvar integrates the quantile function over τ ∈ [0, β(s)] without Python loops inside the captured CUDA Graph.'
+          desc: 'Trapezoidal quantile integration evaluates the conditional expectation over τ ∈ [0, β(s)] without Python loops inside the captured CUDA Graph.'
         },
         {
-          title: '4/4: Evolution into Hex63\'s Best-of-16 JEPA + CVaR Search',
+          title: 'Evolution into Hex63\'s Best-of-16 JEPA + CVaR Search',
           focusNode: 'jepa_search', highlight: ['jepa_search'], techId: 't7',
           desc: 'Hex63 combined Gen 1\'s CVaR tail-risk objective with a Dual-Stream JEPA latent world model to score 16 candidate action chunks at test time.'
         }
@@ -404,10 +404,10 @@ window.ARASHIKAGE_GEN1_RET40 = {
   },
   techLibrary: [
     {
-      id: 't0', short: 'T0 · 41×25 EntityTokenPOD',
+      id: 't0', short: '41×25 EntityTokenPOD',
       title: '41-Entity Permutation-Equivariant Token Representation & 1,536B SoA',
       usedIn: ['dma_slice', 'dyn_nodes', 'env_nodes'],
-      placement: 'Stage 1 C++ Observation Builder — src/native_batch_engine.h & relational_extractor.h.',
+      placement: 'Stage 1 C++ Observation Builder — 41-Entity POD & SIMD Structure-of-Arrays Boundary.',
       how: 'Encodes 1 Ego car, 2 Teammates, 3 Opponents, 1 Ball, and 34 Boost Pads as 41 × 25-float tokens (100B POD each) with 6D one-hot type flags and channel-24 norm_time_to_go, plus a 64-byte-aligned 1,536B Structure-of-Arrays buffer.',
       why: 'Allowed a single network architecture to represent 1v1, 2v2, and 3v3 arenas without changing input dimensions or relying on arbitrary car slot ordering.',
       contrib: 'Established the entity-centric representation philosophy of the platform.',
@@ -415,7 +415,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       origins: 'Deep Sets (Zaheer et al., 2017) & Entity-Based RL (OpenAI Five / AlphaStar).'
     },
     {
-      id: 't1', short: 'T1 · AVX2 41×41×8 r_ij',
+      id: 't1', short: 'AVX2 41×41×8 r_ij',
       title: 'C++ AVX2 Intrinsics Pairwise Relational Extractor & Trunk-Hoisted mlp_rel',
       usedIn: ['dyn_nodes', 'gpu_edges', 'bipartite_enc'],
       placement: 'Stage 2 Relational Geometry — bridges C++ SoA kinematics and RET-40 attention.',
@@ -423,13 +423,13 @@ window.ARASHIKAGE_GEN1_RET40 = {
       why: 'Attention dot products Q_i K_j^T in world coordinates do not directly compute Euclidean distances ||p_i - p_j||_2; explicit pairwise r_ij biases give exact spatial geometry.',
       contrib: 'Cut relational bias compute by 4× via trunk hoisting while inspiring Hex63\'s on-chip GPU pairwise kernel.',
       science: 'One Newton-Raphson step y_{n+1} = y_n (1.5 - 0.5 x y_n^2) on _mm256_rsqrt_ps achieves ~22 bits of mantissa precision in 3 CPU cycles.',
-      origins: 'src/relational_extractor.h + Shaw et al. (Relative Position Representations, NAACL 2018).'
+      origins: 'C++ AVX2 Pairwise Relational Extractor + Shaw et al. (Relative Position Representations, NAACL 2018).'
     },
     {
-      id: 't2', short: 'T2 · RET-40 Transformer',
+      id: 't2', short: 'RET-40 Transformer',
       title: '4-Layer Relational Entity Transformer (RET-40, d=128, H=4, SwiGLU)',
       usedIn: ['bipartite_enc', 'titans_prior', 'titans_mem'],
-      placement: 'Stage 3 Policy & Critic Backbone — trainer_v3/policy/transformer.py (1.22M Params).',
+      placement: 'Stage 3 Policy & Critic Backbone — 4-Layer Relational Transformer (1.22M Params).',
       how: 'Stacks 4 Pre-LayerNorm RelationalAttentionBlocks (d=128, H=4, SwiGLU FFN d_ff=256) with additive pairwise relational bias B_rel and boolean key padding masks, pooling h_0 || c_global into 256D.',
       why: 'Enabled joint relational reasoning across cars, ball, and all 34 boost pads.',
       contrib: 'Validated relational transformers + SwiGLU in RocketSim before Hex63 introduced asymmetric 16×64 Bipartite Differential Attention.',
@@ -437,7 +437,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       origins: 'Zambaldi et al. (DeepMind Relational Deep RL, ICLR 2019).'
     },
     {
-      id: 't3', short: 'T3 · Quat q* & Jump Prior',
+      id: 't3', short: 'Quat q* & Jump Prior',
       title: 'Target Attitude Quaternion Head (q* ∈ S^3) & BernoulliJumpHead (b_0 = -3.80)',
       usedIn: ['coconut_loop', 'soft_moe'],
       placement: 'Stage 4A/B Action Heads — outputs high-level attitude setpoints and impulse gates.',
@@ -445,13 +445,13 @@ window.ARASHIKAGE_GEN1_RET40 = {
       why: 'Decoupled 15 Hz high-level orientation planning from 120 Hz low-level rotational stabilization while preventing early random jump-spamming.',
       contrib: 'Allowed rapid early-stage aerial orientation learning.',
       science: 'Unit quaternions S^3 ⊂ R^4 provide a singularity-free double cover of SO(3), avoiding Euler-angle gimbal lock at ±90° pitch.',
-      origins: 'trainer_v3/policy/transformer.py (ContinuousActionHead & BernoulliJumpHead).'
+      origins: 'Continuous SO(3) Attitude Setpoint & Anti-Spam Bernoulli Jump Heads.'
     },
     {
-      id: 't4', short: 'T4 · Geodesic S^3 SLERP',
+      id: 't4', short: 'Geodesic S^3 SLERP',
       title: 'Antipodal-Safe Geodesic S^3 Spherical Linear Interpolation (SLERP)',
       usedIn: ['coconut_loop', 'stage1_bin'],
-      placement: 'Stage 5A Trajectory Generator — trainer_v3/motor/attitude.py.',
+      placement: 'Stage 5A Trajectory Generator — 120 Hz Geodesic Quaternion Interpolator.',
       how: 'Enforces shortest-path hemisphere alignment q̃* = sign(<q*, q_curr>)·q* and evaluates constant-angular-velocity waypoints along the S^3 great-circle arc at 120 Hz.',
       why: 'Without antipodal sign alignment, a policy commanding q* near -q_curr forces the PD controller to spin the car 350° instead of 10°.',
       contrib: 'Guaranteed minimum-time, zero-unwinding rotational trajectories.',
@@ -459,7 +459,7 @@ window.ARASHIKAGE_GEN1_RET40 = {
       origins: 'Shoemake (Animating Rotation with Quaternion Curves, SIGGRAPH 1985).'
     },
     {
-      id: 't5', short: 'T5 · 120Hz Attitude PD',
+      id: 't5', short: '120Hz Attitude PD',
       title: 'Vectorized 120 Hz Nonlinear Attitude PD + Feedforward & Schmitt Deadband',
       usedIn: ['stage1_bin', 'stage2_flow', 'subtick_exec'],
       placement: 'Stage 5B/C Low-Level Motor Cortex — runs at 120 Hz inside the physics loop.',
@@ -470,32 +470,32 @@ window.ARASHIKAGE_GEN1_RET40 = {
       origins: 'Lee, Leok, & McClamroch (Geometric Tracking Control on SO(3), IEEE CDC 2010).'
     },
     {
-      id: 't6', short: 'T6 · 3-Horizon PopArt',
+      id: 't6', short: '3-Horizon PopArt',
       title: 'Multi-Horizon PopArt Value Critic (γ ∈ {0.95, 0.98, 0.995})',
       usedIn: ['critic_heads'],
-      placement: 'Stage 6A Value Head — trainer_v3/ml/critic.py.',
+      placement: 'Stage 6A Value Head — Multi-Horizon Adaptive PopArt Critic.',
       how: 'Maintains running mean μ_h and standard deviation σ_h across 3 discount horizons (1s, 2.5s, 10s) and rescales linear head weights W_new = (σ_old/σ_new)W_old whenever statistics update.',
       why: 'Allowed simultaneous dense micro-touch shaping and sparse goal credit assignment without manual reward weight retuning.',
       contrib: 'Became a permanent multi-horizon pillar across all subsequent generations.',
-      science: 'PopArt (Preserving Outputs Precisely, while Adaptively Rescaling Targets) prevents value network catastrophic forgetting when reward magnitudes shift.',
+      science: 'PopArt (Preserving Outputs Precisely, while Adaptively Rescaling Targets) prevents value network representation drift when reward magnitudes shift.',
       origins: 'van Hasselt et al. (2016) & Hessel et al. (AAAI 2019).'
     },
     {
-      id: 't7', short: 'T7 · 32-Quantile CVaR_β',
+      id: 't7', short: '32-Quantile CVaR_β',
       title: 'Monotonic 32-Quantile Distributional Critic & Dynamic CVaR_β(s)',
       usedIn: ['jepa_search'],
-      placement: 'Stage 6B Risk-Sensitive Critic — trainer_v3/ml/critic.py.',
+      placement: 'Stage 6B Risk-Sensitive Critic — 32-Quantile Distributional Value Head.',
       how: 'Parameterizes 32 quantiles via θ_k = θ_1 + Σ_{j=2}^k softplus(Δ_j) (guaranteeing θ_1 <= ... <= θ_32), trained with Huber quantile regression loss, and computes trapezoidal Conditional Value-at-Risk CVaR_β(s).',
-      why: 'Standard expected-value critics ignore tail risk (e.g., a low-probability catastrophic own-goal or over-commit when leading by 1 goal).',
+      why: 'Standard expected-value critics ignore tail risk (e.g., a low-probability own-goal or over-commit when leading by 1 goal).',
       contrib: 'Introduced distributional RL and CVaR risk sensitivity to the platform.',
       science: 'By enforcing ∂θ_k/∂k >= 0 via softplus deltas, the inverse CDF F_Z^{-1}(τ) is strictly monotonic, eliminating non-monotonic quantile crossing.',
       origins: 'Dabney et al. (QR-DQN / IQN, ICML 2018) + Monotonic Spline Quantiles.'
     },
     {
-      id: 't8', short: 'T8 · 4 Exploiter Heads',
+      id: 't8', short: '4 Exploiter Heads',
       title: 'Multi-Archetype NeuralExploiterPolicyHead & Intrinsic Reward Shapers',
       usedIn: ['fsq_bottleneck', 'ppo_grpo_opt'],
-      placement: 'Stage 4C Adversarial League Branch — trainer_v3/policy/transformer.py.',
+      placement: 'Stage 4C Adversarial League Branch — 4 Multi-Archetype Exploiter Heads.',
       how: 'Four specialist policy heads (BALL_DENIAL, DEMOLITION, AERIAL_MECHANICS, BOOST_STARVATION) paired with dense archetype-specific intrinsic rewards.',
       why: 'Injected diverse adversarial strategies into self-play before replay mining and Soft-MoE existed.',
       contrib: 'Prevented early self-play policies from converging to fragile, passive equilibrium.',
@@ -503,10 +503,10 @@ window.ARASHIKAGE_GEN1_RET40 = {
       origins: 'AlphaStar Exploiter Agents (Vinyals et al., 2019).'
     },
     {
-      id: 't9', short: 'T9 · CUDA Graph & Seqlock',
+      id: 't9', short: 'CUDA Graph & Seqlock',
       title: 'StaticCUDAPolicyRunner (E=1024), InPlaceWeightStaging & Lockless Seqlock SHM',
       usedIn: ['priv_ctx', 'ppo_grpo_opt'],
-      placement: 'Stage 1 & Stage 6 Systems Infrastructure — ppo.py & lockless_telemetry.h.',
+      placement: 'Stage 1 & Stage 6 Systems Infrastructure — Static CUDA Graph & Lockless Seqlock IPC.',
       how: 'Captures the E=1024 rollout step in a torch.cuda.CUDAGraph, stages updated PPO weights in-place (<5.56 ms) without changing device pointers, and exports C++ telemetry via a 64B-aligned odd/even atomic Seqlock.',
       why: 'Eliminated Python kernel launch overhead and OS mutex contention.',
       contrib: 'Laid the systems engineering foundation for Hex63\'s 4,096-arena CUDAGraph loop and 256 KB Seqlock Command Center.',

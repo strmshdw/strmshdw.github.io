@@ -27,7 +27,6 @@
         <h1 id="identityMainTitle" class="text-xs font-bold text-primary-ink tracking-tight truncate" title="60 Hz Subtick Action Chunking &amp; Multi-Horizon RL Architecture">
           60 Hz Subtick Action Chunking &amp; Multi-Horizon RL Architecture
         </h1>
-        <span id="themeStyleNotes" class="hidden 2xl:inline-flex items-center px-2 py-0.5 rounded surface-card border border-hairline mono text-[10px] text-secondary-ink truncate max-w-[28rem]"></span>
       </div>
 
       <!-- Primary 1-Click Platform Generation Segmented Pill Bar -->
@@ -98,13 +97,17 @@
         </select>
       </div>
 
-      <!-- Cluster 2: Grouped Theme Switcher, 12-Style Visual Gallery Popover + Light/Dark Polarity -->
+      <!-- Cluster 2: Unified Theme Switcher (Opens 12-Style Visual Swatch Gallery) + Light/Dark Polarity -->
       <div class="flex items-center gap-1.5 shrink-0 relative">
         <div class="inline-flex items-center rounded-lg border border-hairline surface-panel p-0.5 gap-0.5">
           <button id="btnPrevTheme" title="Previous Design Theme ([)" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
             ◀
           </button>
-          <select id="selTheme" aria-label="Design Theme (12 Iconic Styles)" class="bg-transparent text-primary-ink px-1.5 py-0.5 text-[11px] font-bold focus:outline-none cursor-pointer">
+          <button id="btnThemeGalleryTrigger" type="button" popovertarget="themeGalleryPopover" title="Open 12-Style Visual Swatch Gallery" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold text-primary-ink hover:bg-black/5 dark:hover:bg-white/10 transition cursor-pointer gap-1">
+            <span id="activeThemePillLabel">01 · Neo-Brutalism</span>
+            <span class="text-[9.5px] text-muted-ink">▾</span>
+          </button>
+          <select id="selTheme" aria-label="Design Theme (12 Iconic Styles)" class="sr-only">
             <optgroup label="I. Constructivist &amp; Editorial Grids">
               <option value="neo_brutalism">01 · Neo-Brutalism</option>
               <option value="modular_typo">02 · Modular Typography</option>
@@ -128,9 +131,6 @@
           </select>
           <button id="btnNextTheme" title="Next Design Theme (])" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
             ▶
-          </button>
-          <button id="btnThemeGalleryTrigger" type="button" popovertarget="themeGalleryPopover" title="Open Visual 12-Style Swatch Gallery" class="no-wrap-btn px-2 py-0.5 rounded text-[10.5px] font-bold surface-elevated text-primary-ink border border-hairline hover:border-subtle transition cursor-pointer">
-            Gallery ▾
           </button>
         </div>
 
@@ -174,7 +174,8 @@
         <div id="searchPalettePopover" popover class="surface-elevated border border-subtle rounded-xl p-3 flex-col gap-2 w-[34rem] max-w-[94vw] z-50 shadow-2xl">
           <div class="flex items-center gap-2 pb-1.5 border-b border-hairline">
             <span class="mono text-xs font-bold text-theme-accent">⌕</span>
-            <input id="searchPaletteInput" type="search" placeholder="Search 17 blocks, 11 technologies, tensors (5,376B, FP32, C2v), papers, or 12 themes..." class="flex-1 bg-transparent text-xs font-semibold text-primary-ink focus:outline-none" autocomplete="off" />
+            <input id="searchPaletteInput" type="search" placeholder="Search 17 blocks, 10 technologies, tensors (5,376B, FP32, C2v), papers, or 12 themes..." class="flex-1 bg-transparent text-xs font-semibold text-primary-ink focus:outline-none" autocomplete="off" />
+            <span id="searchResultCount" class="mono text-[9.5px] text-secondary-ink shrink-0"></span>
             <span class="mono text-[9.5px] text-muted-ink px-1.5 py-0.5 rounded surface-panel border border-hairline">ESC</span>
           </div>
           <div id="searchPaletteResults" class="flex flex-col gap-1 max-h-[22rem] overflow-y-auto pr-1"></div>
@@ -220,7 +221,6 @@
               <span id="ttAnchorBadge" class="mono text-[10px] font-bold px-1.5 py-0.5 rounded surface-panel text-primary-ink border border-hairline truncate">
                 ◀ #01
               </span>
-              <span id="ttScenarioLabel" class="sr-only">END-TO-END TOUR</span>
             </div>
             <div class="flex items-center gap-1 shrink-0">
               <button id="btnResumeTourStep" type="button" title="Return to active tour step" class="hidden no-wrap-btn px-1.5 py-0.5 rounded text-[10px] font-bold btn-theme-accent border transition cursor-pointer">
@@ -343,7 +343,6 @@
                   ▶
                 </button>
               </div>
-              <button id="btnBackToNode" class="hidden"></button>
             </div>
 
             <h2 id="techTitle" class="text-sm font-bold text-primary-ink tracking-tight leading-snug"></h2>
@@ -373,10 +372,7 @@
         <div id="inspectorNodeView" class="p-2.5 flex-1 flex flex-col gap-2">
           <!-- Card 1: Tab Content Box (How / Why / Impact / Math / Papers) -->
           <div class="surface-card border border-hairline rounded-xl p-2.5 flex flex-col gap-1.5">
-            <div class="flex items-center justify-between gap-2">
-              <div id="ntabHeading" class="kicker text-theme-accent">01 // HOW IT WORKS (MECHANISM)</div>
-              <button id="btnNodeQuickLearnMore" class="hidden"></button>
-            </div>
+            <div id="ntabHeading" class="kicker text-theme-accent">HOW IT WORKS // MECHANISM</div>
             <div id="ntabBody" class="text-xs text-primary-ink leading-relaxed"></div>
 
             <!-- Pathway-Aware Role & Execution Context Callout Container -->
@@ -407,7 +403,7 @@
           </div>
 
           <!-- Card 3: Distinct 6-Stage Interactive Explorer + 2x2 4-Gen Stage Evolution Matrix -->
-          <div class="surface-card border border-hairline rounded-xl p-2.5 flex flex-col gap-1.5">
+          <div id="stageWidgetCard" class="surface-card border border-hairline rounded-xl p-2.5 flex flex-col gap-1.5">
             <div class="flex items-center justify-between gap-2">
               <span id="ctxWidgetTitle" class="kicker text-theme-accent">INTERACTIVE STAGE EXPLORER</span>
               <span id="ctxWidgetTag" class="mono text-[10.5px] text-muted-ink"></span>
@@ -420,10 +416,7 @@
         <div id="inspectorTechView" class="p-2.5 flex-1 hidden flex-col gap-2">
           <!-- Tab Content Box -->
           <div class="surface-card border border-hairline rounded-xl p-2.5 flex flex-col gap-1.5">
-            <div class="flex items-center justify-between gap-2">
-              <div id="ttabHeading" class="kicker text-theme-accent">01 // HOW IT WORKS (MECHANISM)</div>
-              <button id="btnTechQuickLearnMore" class="hidden"></button>
-            </div>
+            <div id="ttabHeading" class="kicker text-theme-accent">HOW IT WORKS // MECHANISM</div>
             <div id="ttabBody" class="text-xs text-primary-ink leading-relaxed"></div>
 
             <!-- Pathway-Aware Callout Container in Deep Dive -->
