@@ -889,3 +889,19 @@ h1, h2, h3, h4 {
   ::-webkit-scrollbar-track { background: var(--bg-root); }
   ::-webkit-scrollbar-thumb { background: var(--border-sub); }
 }
+
+
+/* Quick Start & Navigation Guide Modal */
+#quickStartModalCard {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-sub) var(--bg-root);
+  background-color: var(--bg-elevated);
+  color: var(--text-primary);
+  border: var(--border-w) solid var(--border-sub);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-elevated), 0 24px 48px -12px rgba(0, 0, 0, 0.45);
+}
+#quickStartModalBackdrop {
+  background: rgba(9, 10, 15, 0.62);
+  backdrop-filter: blur(4px);
+}

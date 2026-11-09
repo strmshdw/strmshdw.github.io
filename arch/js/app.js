@@ -3174,11 +3174,132 @@
       });
     });
 
-    // Keyboard shortcuts: 1..9,0,-,= for 12 themes, [/] to cycle theme, / or Ctrl+K for Search, L/D for Light/Dark, ArrowLeft/Right/Escape for Tour & Fullscreen
+    // Quick Start & Navigation Guide Modal Wiring (First-Time Auto-Open + On-Demand via Header or '?')
+    const quickStartBackdrop = document.getElementById('quickStartModalBackdrop');
+    const quickStartCard = document.getElementById('quickStartModalCard');
+    const btnOpenQuickStart = document.getElementById('btnOpenQuickStart');
+    const identityBrandTrigger = document.getElementById('identityBrandTrigger');
+    const btnCloseQuickStartTop = document.getElementById('btnCloseQuickStartTop');
+    const btnCloseQuickStartBottom = document.getElementById('btnCloseQuickStartBottom');
+    const chkQuickStartAutoShow = document.getElementById('chkQuickStartAutoShow');
+    const QS_SEEN_KEY = 'arashikage_arch_quickstart_seen_v1';
+    const QS_ALWAYS_KEY = 'arashikage_arch_quickstart_always_v1';
+
+    function isQuickStartOpen() {
+      return Boolean(quickStartBackdrop && !quickStartBackdrop.classList.contains('hidden'));
+    }
+
+    function openQuickStartModal() {
+      if (!quickStartBackdrop) return;
+      try {
+        if (chkQuickStartAutoShow) {
+          chkQuickStartAutoShow.checked = localStorage.getItem(QS_ALWAYS_KEY) === '1';
+        }
+      } catch (_) {}
+      quickStartBackdrop.classList.remove('hidden');
+      quickStartBackdrop.classList.add('flex');
+    }
+
+    function closeQuickStartModal() {
+      if (!quickStartBackdrop) return;
+      quickStartBackdrop.classList.add('hidden');
+      quickStartBackdrop.classList.remove('flex');
+      try {
+        localStorage.setItem(QS_SEEN_KEY, '1');
+        if (chkQuickStartAutoShow) {
+          localStorage.setItem(QS_ALWAYS_KEY, chkQuickStartAutoShow.checked ? '1' : '0');
+        }
+      } catch (_) {}
+    }
+
+    if (btnOpenQuickStart) {
+      btnOpenQuickStart.addEventListener('click', () => {
+        if (isQuickStartOpen()) closeQuickStartModal();
+        else openQuickStartModal();
+      });
+    }
+    if (identityBrandTrigger) {
+      identityBrandTrigger.addEventListener('click', () => {
+        openQuickStartModal();
+      });
+    }
+    if (btnCloseQuickStartTop) {
+      btnCloseQuickStartTop.addEventListener('click', closeQuickStartModal);
+    }
+    if (btnCloseQuickStartBottom) {
+      btnCloseQuickStartBottom.addEventListener('click', closeQuickStartModal);
+    }
+    if (chkQuickStartAutoShow) {
+      chkQuickStartAutoShow.addEventListener('change', () => {
+        try {
+          localStorage.setItem(QS_ALWAYS_KEY, chkQuickStartAutoShow.checked ? '1' : '0');
+        } catch (_) {}
+      });
+    }
+    if (quickStartBackdrop) {
+      quickStartBackdrop.addEventListener('click', (e) => {
+        if (e.target === quickStartBackdrop) {
+          closeQuickStartModal();
+        }
+      });
+    }
+    if (quickStartCard) {
+      quickStartCard.querySelectorAll('[data-qs-scenario]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const scKey = btn.getAttribute('data-qs-scenario') || 'tour';
+          closeQuickStartModal();
+          activeScenarioKey = scKey;
+          if (selScenario) selScenario.value = scKey;
+          activeStepIdx = 0;
+          tourCustomFocusNodeId = null;
+          tourOverlayVisible = true;
+          updateTourTooltip();
+          syncUrlHash();
+        });
+      });
+
+      quickStartCard.querySelectorAll('[data-qs-action]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const act = btn.getAttribute('data-qs-action');
+          closeQuickStartModal();
+          if (act === 'open-tech') {
+            setRightView('tech');
+            renderTechDeepDive();
+            syncUrlHash();
+          } else if (act === 'inspect-node') {
+            tourOverlayVisible = false;
+            activeScenarioKey = 'none';
+            if (selScenario) selScenario.value = 'none';
+            selectedNodeId = 'dma_slice';
+            setRightView('node');
+            updateNodeInspector();
+            updateTourTooltip();
+            syncUrlHash();
+          } else if (act === 'open-search') {
+            if (searchPalettePopover && typeof searchPalettePopover.showPopover === 'function') {
+              positionSearchPalettePopover();
+              try {
+                searchPalettePopover.showPopover();
+              } catch (_) {}
+            }
+          } else if (act === 'open-themes') {
+            if (themeGalleryPopover && typeof themeGalleryPopover.showPopover === 'function') {
+              positionThemeGalleryPopover();
+              try {
+                themeGalleryPopover.showPopover();
+              } catch (_) {}
+            }
+          }
+        });
+      });
+    }
+
+    // Keyboard shortcuts: 1..9,0,-,= for 12 themes, [/] to cycle theme, / or Ctrl+K for Search, ? for Quick Start, L/D for Light/Dark, ArrowLeft/Right/Escape for Tour & Fullscreen
     const THEME_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
     window.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
         e.preventDefault();
+        if (isQuickStartOpen()) closeQuickStartModal();
         if (searchPalettePopover && typeof searchPalettePopover.showPopover === 'function') {
           positionSearchPalettePopover();
           try {
@@ -3189,6 +3310,10 @@
       }
 
       if (e.key === 'Escape') {
+        if (isQuickStartOpen()) {
+          closeQuickStartModal();
+          return;
+        }
         if (isFullscreenMode) {
           if (isDrawerOpen) {
             closeSlideInDrawer();
@@ -3213,8 +3338,16 @@
       }
       if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) return;
 
+      if (e.key === '?') {
+        e.preventDefault();
+        if (isQuickStartOpen()) closeQuickStartModal();
+        else openQuickStartModal();
+        return;
+      }
+
       if (e.key === '/') {
         e.preventDefault();
+        if (isQuickStartOpen()) closeQuickStartModal();
         if (searchPalettePopover && typeof searchPalettePopover.showPopover === 'function') {
           positionSearchPalettePopover();
           try {
@@ -3275,6 +3408,17 @@
       setRightView('node');
       renderTechDeepDive();
       syncUrlHash();
+    }
+
+    // Automatically open Quick Start Guide on first visit (or when "Show on startup" is enabled)
+    try {
+      const seenOnce = localStorage.getItem(QS_SEEN_KEY) === '1';
+      const alwaysShow = localStorage.getItem(QS_ALWAYS_KEY) === '1';
+      if (!seenOnce || alwaysShow) {
+        openQuickStartModal();
+      }
+    } catch (_) {
+      openQuickStartModal();
     }
 
     renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);

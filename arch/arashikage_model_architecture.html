@@ -902,6 +902,22 @@ h1, h2, h3, h4 {
   ::-webkit-scrollbar-thumb { background: var(--border-sub); }
 }
 
+
+/* Quick Start & Navigation Guide Modal */
+#quickStartModalCard {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-sub) var(--bg-root);
+  background-color: var(--bg-elevated);
+  color: var(--text-primary);
+  border: var(--border-w) solid var(--border-sub);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-elevated), 0 24px 48px -12px rgba(0, 0, 0, 0.45);
+}
+#quickStartModalBackdrop {
+  background: rgba(9, 10, 15, 0.62);
+  backdrop-filter: blur(4px);
+}
+
 </style>
 </head>
 <body data-theme="bauhaus" data-mode="light" class="surface-root antialiased lg:h-screen lg:w-screen lg:overflow-hidden flex flex-col">
@@ -909,22 +925,30 @@ h1, h2, h3, h4 {
   <!-- Full-Viewport Application Shell -->
   <div class="w-full flex-1 min-h-0 surface-panel flex flex-col overflow-hidden">
 
-    <!-- Dedicated Top Identity Banner + Theme Ethos Badge + 1-Click Segmented Generation Switcher -->
+    <!-- Dedicated Top Identity Banner + Quick Start Guide Trigger + 1-Click Segmented Generation Switcher -->
     <div id="topIdentityBar" class="shrink-0 px-3 py-1 border-b border-hairline surface-root flex items-center justify-between gap-2">
       <div class="flex items-center gap-2 min-w-0 flex-1">
-        <div class="flex items-center gap-1.5 shrink-0">
+        <button id="identityBrandTrigger" type="button" title="Open Quick Start &amp; Navigation Guide (Shortcut: ?)" class="flex items-center gap-1.5 shrink-0 cursor-pointer hover:opacity-85 transition">
           <span id="brandDot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
           <span id="identityBadgeText" class="mono text-[11px] font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX64</span>
-        </div>
+        </button>
         <span class="text-muted-ink shrink-0">|</span>
         <h1 id="identityMainTitle" class="text-xs font-bold text-primary-ink tracking-tight truncate" title="60 Hz Subtick Action Chunking &amp; Multi-Horizon RL Architecture">
           60 Hz Subtick Action Chunking &amp; Multi-Horizon RL Architecture
         </h1>
       </div>
 
-      <!-- Primary 1-Click Platform Generation Segmented Pill Bar -->
-      <div class="flex items-center gap-1 shrink-0" role="tablist" aria-label="Platform Architecture Generation">
-        <span class="mono text-[10px] font-bold text-muted-ink uppercase tracking-wider mr-0.5 hidden xl:inline">Platform:</span>
+      <!-- Quick Start / User Guide Trigger + Primary 1-Click Platform Generation Segmented Pill Bar -->
+      <div class="flex items-center gap-2 shrink-0">
+        <button id="btnOpenQuickStart" type="button" title="Open Quick Start &amp; How-To-Use Guide (Shortcut: ?)" class="no-wrap-btn px-2.5 py-0.5 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer gap-1 shrink-0">
+          <span>? Quick Start / Guide</span>
+          <kbd class="mono text-[9.5px] px-1 py-0.2 rounded bg-black/15 dark:bg-white/15 border border-current/25">?</kbd>
+        </button>
+
+        <div class="h-3.5 w-[1px] bg-current opacity-20"></div>
+
+        <div class="flex items-center gap-1 shrink-0" role="tablist" aria-label="Platform Architecture Generation">
+          <span class="mono text-[10px] font-bold text-muted-ink uppercase tracking-wider mr-0.5 hidden xl:inline">Platform:</span>
         <div id="genPillBar" class="inline-flex items-center p-0.5 rounded-lg border border-hairline surface-panel gap-0.5">
           <button type="button" data-arch-pill="hex64" class="arch-gen-pill no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold btn-theme-accent transition cursor-pointer" title="Arashikage (Hex64 · Current Architecture)">
             Hex64 · Current
@@ -946,6 +970,7 @@ h1, h2, h3, h4 {
           <option value="gen2_factorized">Platform: Legacy Gen 2 (Factorized-684)</option>
           <option value="gen1_ret40">Platform: Legacy Gen 1 (RET-40 + PD)</option>
         </select>
+        </div>
       </div>
     </div>
 
@@ -1338,6 +1363,227 @@ h1, h2, h3, h4 {
         </div>
 
       </aside>
+    </div>
+  </div>
+
+  <!-- First-Time & On-Demand Quick Start / User Guide Modal -->
+  <div id="quickStartModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="quickStartModalTitle" class="fixed inset-0 z-[70] hidden items-center justify-center p-2.5 sm:p-4">
+    <div id="quickStartModalCard" class="w-full max-w-[68rem] max-h-[93vh] overflow-y-auto flex flex-col">
+
+      <!-- Modal Top Header -->
+      <div class="px-4 py-3 border-b border-hairline surface-card flex items-start justify-between gap-3 sticky top-0 z-10">
+        <div class="min-w-0">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="mono text-[10px] font-bold px-2 py-0.5 rounded btn-theme-accent border">QUICK START &amp; USER GUIDE</span>
+            <span class="mono text-[10px] font-bold text-muted-ink">6 STAGES · 17 SUBSYSTEMS · 4 GENERATIONS · 36 WHITE PAPERS</span>
+          </div>
+          <h2 id="quickStartModalTitle" class="text-sm sm:text-base font-extrabold text-primary-ink tracking-tight mt-1">
+            How to Navigate the Arashikage (Hex64) Architecture Explorer
+          </h2>
+          <p class="text-[11.5px] text-secondary-ink leading-snug mt-0.5">
+            This interactive explorer maps the real-time physics, neural memory, and 60 Hz RL control architecture across 4 platform generations. Choose a starting path below or review the 6 interface surfaces.
+          </p>
+        </div>
+        <button id="btnCloseQuickStartTop" type="button" title="Close Guide (Esc)" class="no-wrap-btn px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-subtle text-[11px] font-bold hover:opacity-90 transition cursor-pointer shrink-0 gap-1">
+          <span>× Close</span>
+          <kbd class="mono text-[9.5px] px-1 py-0.2 rounded surface-root text-muted-ink border border-hairline">ESC</kbd>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-3.5 sm:p-4 flex flex-col gap-3.5">
+
+        <!-- Section 1: Best Way to Start (3 Interactive Launchpad Cards) -->
+        <div>
+          <div class="flex items-center justify-between gap-2 mb-1.5">
+            <span class="kicker text-theme-accent">1. RECOMMENDED STARTING PATHS (CLICK ANY BUTTON TO LAUNCH IMMEDIATELY)</span>
+            <span class="mono text-[10px] text-muted-ink hidden sm:inline">Tip: You can reopen this guide anytime via &ldquo;? Quick Start / Guide&rdquo;</span>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-2.5">
+            <!-- Path 1: 8-Step Guided Tour -->
+            <div class="surface-card border border-subtle rounded-xl p-3 flex flex-col justify-between gap-2">
+              <div>
+                <div class="flex items-center justify-between gap-1.5 mb-1">
+                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded btn-theme-accent">BEST FIRST STEP · 3 MIN</span>
+                  <span class="mono text-[9.5px] font-bold text-muted-ink">8 STEPS</span>
+                </div>
+                <h3 class="text-xs font-extrabold text-primary-ink">Take the 66.7ms End-to-End Guided Tour</h3>
+                <p class="text-[11px] text-secondary-ink leading-snug mt-1">
+                  Follows a single 15 Hz outer control cycle from the <strong>5,376B Rust Observation Slice (Stage 1)</strong> through <strong>Bipartite DiffAttn</strong>, <strong>FP32 Titans Memory</strong>, <strong>Coconut &amp; Soft-MoE</strong>, and <strong>60 Hz Flow-GRPO Control</strong> to the <strong>Dual 4×51 Symlog Critic (Stage 6)</strong>.
+                </p>
+                <p class="text-[10.5px] text-muted-ink leading-snug mt-1">
+                  Use <kbd class="mono px-1 rounded surface-panel border border-hairline">←</kbd> / <kbd class="mono px-1 rounded surface-panel border border-hairline">→</kbd> to step. Click any other block mid-tour to inspect a detour, then click <strong>↺ Resume Step</strong>.
+                </p>
+              </div>
+              <button type="button" data-qs-scenario="tour" class="no-wrap-btn w-full py-1.5 px-3 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer">
+                ▶ Launch 8-Step Guided Tour
+              </button>
+            </div>
+
+            <!-- Path 2: 4 Tactical Match Scenarios -->
+            <div class="surface-card border border-hairline rounded-xl p-3 flex flex-col justify-between gap-2">
+              <div>
+                <div class="flex items-center justify-between gap-1.5 mb-1">
+                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded surface-panel text-theme-accent border border-hairline">IN-GAME MECHANICS</span>
+                  <span class="mono text-[9.5px] font-bold text-muted-ink">4 SCENARIOS</span>
+                </div>
+                <h3 class="text-xs font-extrabold text-primary-ink">Step Through a Live Match Scenario</h3>
+                <p class="text-[11px] text-secondary-ink leading-snug mt-1">
+                  See how concrete Rocket League situations route through trajectory buffers, test-time surprise gradients, specialist experts, and 60 Hz subtick clamps:
+                </p>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                <button type="button" data-qs-scenario="bounce" class="no-wrap-btn justify-start px-2 py-1.5 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
+                  ▶ 1 · Corner Double-Tap
+                </button>
+                <button type="button" data-qs-scenario="aerial" class="no-wrap-btn justify-start px-2 py-1.5 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
+                  ▶ 2 · Fast Aerial Stall Guard
+                </button>
+                <button type="button" data-qs-scenario="fake" class="no-wrap-btn justify-start px-2 py-1.5 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
+                  ▶ 3 · Adapting to Fake
+                </button>
+                <button type="button" data-qs-scenario="save" class="no-wrap-btn justify-start px-2 py-1.5 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
+                  ▶ 4 · Goal-Line Save
+                </button>
+              </div>
+            </div>
+
+            <!-- Path 3: Self-Paced Deep Dive, Tech Index & Search -->
+            <div class="surface-card border border-hairline rounded-xl p-3 flex flex-col justify-between gap-2">
+              <div>
+                <div class="flex items-center justify-between gap-1.5 mb-1">
+                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded surface-panel text-theme-accent border border-hairline">SELF-PACED DEEP DIVE</span>
+                  <span class="mono text-[9.5px] font-bold text-muted-ink">10 TECHS · 36 PAPERS</span>
+                </div>
+                <h3 class="text-xs font-extrabold text-primary-ink">Inspect Blocks, Math &amp; Research Papers</h3>
+                <p class="text-[11px] text-secondary-ink leading-snug mt-1">
+                  Click any block <strong>#01..#17</strong> on the diagram to inspect its tensor shapes and interactive simulator, or open the <strong>10-Technology Library</strong> for scientific derivations and peer-reviewed papers:
+                </p>
+              </div>
+              <div class="flex flex-col gap-1.5">
+                <button type="button" data-qs-action="open-tech" class="no-wrap-btn w-full py-1.5 px-2.5 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
+                  ◈ Browse 10 Core Technologies &amp; 36 Papers
+                </button>
+                <div class="grid grid-cols-2 gap-1.5">
+                  <button type="button" data-qs-action="inspect-node" class="no-wrap-btn py-1.5 px-2 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
+                    ▣ Inspect Block #01
+                  </button>
+                  <button type="button" data-qs-action="open-search" class="no-wrap-btn py-1.5 px-2 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
+                    ⌕ Instant Search (/)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Anatomy of the 6 Core Interface Surfaces -->
+        <div>
+          <div class="flex items-center justify-between gap-2 mb-1.5">
+            <span class="kicker text-theme-accent">2. ANATOMY OF THE INTERFACE (HOW EVERY PANEL &amp; CONTROL WORKS)</span>
+            <span class="mono text-[10px] text-muted-ink hidden sm:inline">Every view updates dynamically with zero page reloads</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+            <!-- Surface 1 -->
+            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+              <div class="flex items-center justify-between gap-1">
+                <span class="mono text-[10px] font-bold text-theme-accent">01 · LEFT DATAFLOW CANVAS</span>
+                <span class="mono text-[9.5px] text-muted-ink">17 Blocks · 24 Edges</span>
+              </div>
+              <p class="text-[11px] text-secondary-ink leading-snug">
+                Organized into <strong>6 Columns (Stage 1..6)</strong> flowing left-to-right. <strong>Hover</strong> any block to highlight its incoming/outgoing tensor edges; <strong>Click</strong> any block to load its full breakdown in the Right Inspector.
+              </p>
+            </div>
+
+            <!-- Surface 2 -->
+            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+              <div class="flex items-center justify-between gap-1">
+                <span class="mono text-[10px] font-bold text-theme-accent">02 · PATHWAY FILTER PILLS</span>
+                <span class="mono text-[9.5px] text-muted-ink">All · Live · Train · Distill</span>
+              </div>
+              <p class="text-[11px] text-secondary-ink leading-snug">
+                Filters the graph by runtime regime. <strong>Pro Tip:</strong> Dimmed/dashed blocks (<span class="mono text-[10px]">BYPASSED</span>) remain clickable—click <strong>#04 Privileged Context</strong> in <strong>Live 5.5ms</strong> to see why it is zero-masked in tournaments.
+              </p>
+            </div>
+
+            <!-- Surface 3 -->
+            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+              <div class="flex items-center justify-between gap-1">
+                <span class="mono text-[10px] font-bold text-theme-accent">03 · RIGHT INSPECTOR &amp; TECH INDEX</span>
+                <span class="mono text-[9.5px] text-muted-ink">5 Tabs · 36 Papers</span>
+              </div>
+              <p class="text-[11px] text-secondary-ink leading-snug">
+                Toggle between <strong>▣ Block</strong> (5 tabs: <em>How, Why, Impact, Math, Learn</em>) and <strong>◈ Tech Index (10)</strong>. In Tech Index, selecting any technology highlights every canvas block that uses it.
+              </p>
+            </div>
+
+            <!-- Surface 4 -->
+            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+              <div class="flex items-center justify-between gap-1">
+                <span class="mono text-[10px] font-bold text-theme-accent">04 · 6 LIVE STAGE SIMULATORS</span>
+                <span class="mono text-[9.5px] text-muted-ink">Bottom-Right Card</span>
+              </div>
+              <p class="text-[11px] text-secondary-ink leading-snug">
+                Adapts to the active Stage (<strong>S1</strong> 5,376B Memory Map, <strong>S2</strong> 16×64 Pairwise Bias, <strong>S3</strong> Titans Surprise Slider, <strong>S4</strong> Coconut/MoE/FSQ, <strong>S5</strong> 60Hz Subtick Scrubber, <strong>S6</strong> Symlog Critic) + a <strong>4-Gen Evolution Matrix</strong>.
+              </p>
+            </div>
+
+            <!-- Surface 5 -->
+            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+              <div class="flex items-center justify-between gap-1">
+                <span class="mono text-[10px] font-bold text-theme-accent">05 · 4-GENERATION SWITCHER</span>
+                <span class="mono text-[9.5px] text-muted-ink">Top-Right Bar</span>
+              </div>
+              <p class="text-[11px] text-secondary-ink leading-snug">
+                Switch live between <strong>Hex64 · Current</strong> (Rust RocketSim + 60Hz Flow-GRPO) and legacy architectures (<strong>Gen 3 · Perceiver</strong>, <strong>Gen 2 · MLP-684</strong>, <strong>Gen 1 · RET-40</strong>) to compare every stage across history.
+              </p>
+            </div>
+
+            <!-- Surface 6 -->
+            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+              <div class="flex items-center justify-between gap-1">
+                <span class="mono text-[10px] font-bold text-theme-accent">06 · 12 THEMES, FULL SCREEN &amp; EXPORT</span>
+                <span class="mono text-[9.5px] text-muted-ink">24 Visual Modes</span>
+              </div>
+              <p class="text-[11px] text-secondary-ink leading-snug">
+                Click <strong>03 · Bauhaus Constructivism ▾</strong> to browse 12 iconic design styles × Light/Dark. Use <strong>⛶ Full Screen</strong> for a 100%-width canvas with a slide-over drawer, or <strong>Export ▾</strong> for HTML/PNG/Mermaid.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Keyboard Shortcuts Strip -->
+        <div class="surface-card border border-hairline rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2">
+          <span class="kicker text-muted-ink">KEYBOARD SHORTCUTS</span>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10.5px] text-secondary-ink">
+            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">?</kbd> Open Guide</span>
+            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">/</kbd> or <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">Ctrl+K</kbd> Search</span>
+            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">←</kbd> <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">→</kbd> Tour Step</span>
+            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">[</kbd> <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">]</kbd> or <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">1..9,0,-,=</kbd> 12 Themes</span>
+            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">L</kbd> / <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">D</kbd> Light / Dark</span>
+            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">Esc</kbd> Close / Exit</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-4 py-2.5 border-t border-hairline surface-card flex flex-wrap items-center justify-between gap-2 sticky bottom-0 z-10">
+        <label class="inline-flex items-center gap-2 text-[11px] font-semibold text-secondary-ink cursor-pointer select-none">
+          <input id="chkQuickStartAutoShow" type="checkbox" class="rounded border-subtle cursor-pointer" />
+          <span>Show this Quick Start Guide automatically on startup</span>
+        </label>
+        <div class="flex items-center gap-2">
+          <button type="button" data-qs-action="open-themes" class="no-wrap-btn px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-hairline hover:border-subtle text-[11px] font-bold transition cursor-pointer">
+            🎨 Browse 12 Design Styles
+          </button>
+          <button id="btnCloseQuickStartBottom" type="button" class="no-wrap-btn px-3.5 py-1 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer">
+            Start Exploring →
+          </button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -9414,11 +9660,132 @@ window.ARASHIKAGE_ARCHITECTURES = {
       });
     });
 
-    // Keyboard shortcuts: 1..9,0,-,= for 12 themes, [/] to cycle theme, / or Ctrl+K for Search, L/D for Light/Dark, ArrowLeft/Right/Escape for Tour & Fullscreen
+    // Quick Start & Navigation Guide Modal Wiring (First-Time Auto-Open + On-Demand via Header or '?')
+    const quickStartBackdrop = document.getElementById('quickStartModalBackdrop');
+    const quickStartCard = document.getElementById('quickStartModalCard');
+    const btnOpenQuickStart = document.getElementById('btnOpenQuickStart');
+    const identityBrandTrigger = document.getElementById('identityBrandTrigger');
+    const btnCloseQuickStartTop = document.getElementById('btnCloseQuickStartTop');
+    const btnCloseQuickStartBottom = document.getElementById('btnCloseQuickStartBottom');
+    const chkQuickStartAutoShow = document.getElementById('chkQuickStartAutoShow');
+    const QS_SEEN_KEY = 'arashikage_arch_quickstart_seen_v1';
+    const QS_ALWAYS_KEY = 'arashikage_arch_quickstart_always_v1';
+
+    function isQuickStartOpen() {
+      return Boolean(quickStartBackdrop && !quickStartBackdrop.classList.contains('hidden'));
+    }
+
+    function openQuickStartModal() {
+      if (!quickStartBackdrop) return;
+      try {
+        if (chkQuickStartAutoShow) {
+          chkQuickStartAutoShow.checked = localStorage.getItem(QS_ALWAYS_KEY) === '1';
+        }
+      } catch (_) {}
+      quickStartBackdrop.classList.remove('hidden');
+      quickStartBackdrop.classList.add('flex');
+    }
+
+    function closeQuickStartModal() {
+      if (!quickStartBackdrop) return;
+      quickStartBackdrop.classList.add('hidden');
+      quickStartBackdrop.classList.remove('flex');
+      try {
+        localStorage.setItem(QS_SEEN_KEY, '1');
+        if (chkQuickStartAutoShow) {
+          localStorage.setItem(QS_ALWAYS_KEY, chkQuickStartAutoShow.checked ? '1' : '0');
+        }
+      } catch (_) {}
+    }
+
+    if (btnOpenQuickStart) {
+      btnOpenQuickStart.addEventListener('click', () => {
+        if (isQuickStartOpen()) closeQuickStartModal();
+        else openQuickStartModal();
+      });
+    }
+    if (identityBrandTrigger) {
+      identityBrandTrigger.addEventListener('click', () => {
+        openQuickStartModal();
+      });
+    }
+    if (btnCloseQuickStartTop) {
+      btnCloseQuickStartTop.addEventListener('click', closeQuickStartModal);
+    }
+    if (btnCloseQuickStartBottom) {
+      btnCloseQuickStartBottom.addEventListener('click', closeQuickStartModal);
+    }
+    if (chkQuickStartAutoShow) {
+      chkQuickStartAutoShow.addEventListener('change', () => {
+        try {
+          localStorage.setItem(QS_ALWAYS_KEY, chkQuickStartAutoShow.checked ? '1' : '0');
+        } catch (_) {}
+      });
+    }
+    if (quickStartBackdrop) {
+      quickStartBackdrop.addEventListener('click', (e) => {
+        if (e.target === quickStartBackdrop) {
+          closeQuickStartModal();
+        }
+      });
+    }
+    if (quickStartCard) {
+      quickStartCard.querySelectorAll('[data-qs-scenario]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const scKey = btn.getAttribute('data-qs-scenario') || 'tour';
+          closeQuickStartModal();
+          activeScenarioKey = scKey;
+          if (selScenario) selScenario.value = scKey;
+          activeStepIdx = 0;
+          tourCustomFocusNodeId = null;
+          tourOverlayVisible = true;
+          updateTourTooltip();
+          syncUrlHash();
+        });
+      });
+
+      quickStartCard.querySelectorAll('[data-qs-action]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const act = btn.getAttribute('data-qs-action');
+          closeQuickStartModal();
+          if (act === 'open-tech') {
+            setRightView('tech');
+            renderTechDeepDive();
+            syncUrlHash();
+          } else if (act === 'inspect-node') {
+            tourOverlayVisible = false;
+            activeScenarioKey = 'none';
+            if (selScenario) selScenario.value = 'none';
+            selectedNodeId = 'dma_slice';
+            setRightView('node');
+            updateNodeInspector();
+            updateTourTooltip();
+            syncUrlHash();
+          } else if (act === 'open-search') {
+            if (searchPalettePopover && typeof searchPalettePopover.showPopover === 'function') {
+              positionSearchPalettePopover();
+              try {
+                searchPalettePopover.showPopover();
+              } catch (_) {}
+            }
+          } else if (act === 'open-themes') {
+            if (themeGalleryPopover && typeof themeGalleryPopover.showPopover === 'function') {
+              positionThemeGalleryPopover();
+              try {
+                themeGalleryPopover.showPopover();
+              } catch (_) {}
+            }
+          }
+        });
+      });
+    }
+
+    // Keyboard shortcuts: 1..9,0,-,= for 12 themes, [/] to cycle theme, / or Ctrl+K for Search, ? for Quick Start, L/D for Light/Dark, ArrowLeft/Right/Escape for Tour & Fullscreen
     const THEME_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
     window.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
         e.preventDefault();
+        if (isQuickStartOpen()) closeQuickStartModal();
         if (searchPalettePopover && typeof searchPalettePopover.showPopover === 'function') {
           positionSearchPalettePopover();
           try {
@@ -9429,6 +9796,10 @@ window.ARASHIKAGE_ARCHITECTURES = {
       }
 
       if (e.key === 'Escape') {
+        if (isQuickStartOpen()) {
+          closeQuickStartModal();
+          return;
+        }
         if (isFullscreenMode) {
           if (isDrawerOpen) {
             closeSlideInDrawer();
@@ -9453,8 +9824,16 @@ window.ARASHIKAGE_ARCHITECTURES = {
       }
       if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) return;
 
+      if (e.key === '?') {
+        e.preventDefault();
+        if (isQuickStartOpen()) closeQuickStartModal();
+        else openQuickStartModal();
+        return;
+      }
+
       if (e.key === '/') {
         e.preventDefault();
+        if (isQuickStartOpen()) closeQuickStartModal();
         if (searchPalettePopover && typeof searchPalettePopover.showPopover === 'function') {
           positionSearchPalettePopover();
           try {
@@ -9515,6 +9894,17 @@ window.ARASHIKAGE_ARCHITECTURES = {
       setRightView('node');
       renderTechDeepDive();
       syncUrlHash();
+    }
+
+    // Automatically open Quick Start Guide on first visit (or when "Show on startup" is enabled)
+    try {
+      const seenOnce = localStorage.getItem(QS_SEEN_KEY) === '1';
+      const alwaysShow = localStorage.getItem(QS_ALWAYS_KEY) === '1';
+      if (!seenOnce || alwaysShow) {
+        openQuickStartModal();
+      }
+    } catch (_) {
+      openQuickStartModal();
     }
 
     renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
