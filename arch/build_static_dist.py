@@ -14,7 +14,6 @@ def build_single_file_bundle(arch_dir: Path) -> str:
     gen2_js = (arch_dir / "js" / "gen2_factorized.js").read_text(encoding="utf-8")
     gen1_js = (arch_dir / "js" / "gen1_ret40.js").read_text(encoding="utf-8")
     renderer_js = (arch_dir / "js" / "canvas_renderer.js").read_text(encoding="utf-8")
-    splash_js = (arch_dir / "js" / "splash_codex.js").read_text(encoding="utf-8")
     app_js = (arch_dir / "js" / "app.js").read_text(encoding="utf-8")
 
     bundled = index_html.replace(
@@ -44,10 +43,6 @@ def build_single_file_bundle(arch_dir: Path) -> str:
     bundled = bundled.replace(
         '<script src="./js/canvas_renderer.js"></script>',
         f"<script>\n{renderer_js}\n</script>",
-    )
-    bundled = bundled.replace(
-        '<script src="./js/splash_codex.js"></script>',
-        f"<script>\n{splash_js}\n</script>",
     )
     bundled = bundled.replace(
         '<script src="./js/app.js"></script>',

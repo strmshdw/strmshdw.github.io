@@ -2719,9 +2719,6 @@
       updateTourTooltip();
       renderNodeInspector();
       if (activeRightView === 'tech') renderTechDeepDive();
-      if (splashCodexCtrl && splashCodexCtrl.refreshTheme) {
-        splashCodexCtrl.refreshTheme();
-      }
     }
 
     // Event Listeners: Segmented 4-Generation Pill Bar & Select
@@ -3097,7 +3094,7 @@
         try { exportPopoverMenu.hidePopover(); } catch (_) {}
       }
       try {
-        const [cssText, nodesJs, scenariosJs, gen3Js, gen2Js, gen1Js, rendererJs, splashJs, appJs] = await Promise.all([
+        const [cssText, nodesJs, scenariosJs, gen3Js, gen2Js, gen1Js, rendererJs, appJs] = await Promise.all([
           fetch('./styles/themes.css').then((r) => r.text()),
           fetch('./js/nodes_and_edges.js').then((r) => r.text()),
           fetch('./js/scenarios_and_tech.js').then((r) => r.text()),
@@ -3105,7 +3102,6 @@
           fetch('./js/gen2_factorized.js').then((r) => r.text()),
           fetch('./js/gen1_ret40.js').then((r) => r.text()),
           fetch('./js/canvas_renderer.js').then((r) => r.text()),
-          fetch('./js/splash_codex.js').then((r) => r.text()),
           fetch('./js/app.js').then((r) => r.text())
         ]);
         const clone = document.documentElement.cloneNode(true);
@@ -3123,7 +3119,6 @@
           'gen2_factorized.js': gen2Js,
           'gen1_ret40.js': gen1Js,
           'canvas_renderer.js': rendererJs,
-          'splash_codex.js': splashJs,
           'app.js': appJs
         };
         clone.querySelectorAll('script[src]').forEach((scr) => {
@@ -3255,7 +3250,6 @@
     });
 
     // Restore saved theme/polarity & URL hash state
-    let splashCodexCtrl = null;
     try {
       const savedTheme = localStorage.getItem('arashikage_arch_theme');
       const savedPol = localStorage.getItem('arashikage_arch_polarity');
@@ -3281,21 +3275,6 @@
       setRightView('node');
       renderTechDeepDive();
       syncUrlHash();
-    }
-
-    if (window.ArashikageSplashCodex && window.ArashikageSplashCodex.initSplashCodex) {
-      splashCodexCtrl = window.ArashikageSplashCodex.initSplashCodex({
-        getActiveStageColors,
-        startGuidedTour: () => {
-          activeScenarioKey = 'tour';
-          if (selScenario) selScenario.value = 'tour';
-          activeStepIdx = 0;
-          tourCustomFocusNodeId = null;
-          tourOverlayVisible = true;
-          updateTourTooltip();
-          syncUrlHash();
-        }
-      });
     }
 
     renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
