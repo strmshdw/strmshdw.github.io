@@ -15,7 +15,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
     { col: 5, x: 1024, title: 'STAGE 6 // 752D CRITIC',   sub: 'M=4×N=43 · Distill · PPO', color: '#34d399' }
   ],
   nodes: [
-    // --- COLUMN 0: STAGE 1 — C++20 SIM & 700D CANONICAL OBS (x = 96) ---
+    // --- COLUMN 0: STAGE 1 — C++17 SIM & 700D CANONICAL OBS (x = 96) ---
     {
       id: 'dma_slice', num: '01', col: 0, x: 96, y: 125, w: 162, h: 92,
       title: 'C++17 Batch Engine', sub: 'OpenMP Arenas · Z-Up Mirror', tag: 'NativeBatchEngine',
@@ -61,7 +61,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       tensor: 'c_priv ∈ R^[B, 68] -> x_critic ∈ R^[B, 752]',
       formula: 'Δt_bounce ∈ {0.1, 0.25, 0.5, 1.0, 1.5} s (e_restitution = 0.6)',
       how: 'Appends 68 privileged floats for the training critic: 20D exact 4-wheel suspension compression, contact normals, and lateral slip ratios, 18D true world-frame velocities, and 30D 5-horizon analytical ball bounce predictions.',
-      why: 'Gave the training critic analytical wall/floor bounce lookahead before Hex64 moved 480-tick C++ ball trajectory integration directly into the shared actor-critic observation.',
+      why: 'Gave the training critic analytical wall/floor bounce lookahead before Hex64 moved 480-tick Rust ball trajectory integration directly into the shared actor-critic observation.',
       contrib: 'Stabilized value targets during wall reads and high aerials without requiring recurrent critic states.'
     },
 

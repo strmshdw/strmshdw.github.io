@@ -2,16 +2,16 @@
 // ARASHIKAGE (HEX64) — 17 ARCHITECTURAL BLOCKS & 24 TENSOR EDGES (1120 x 680)
 // ============================================================================
 window.ARASHIKAGE_NODES = [
-  // --- COLUMN 0: STAGE 1 — C++20 OBSERVATION MANIFOLD (x = 96) ---
+  // --- COLUMN 0: STAGE 1 — RUST OBSERVATION MANIFOLD (x = 96) ---
   {
     id: 'dma_slice', num: '01', col: 0, x: 96, y: 125, w: 162, h: 92,
     title: '5,376B Arena Slice', sub: '84×64B Cache Lines · C2v', tag: 'Layout A DMA',
     color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
     techIds: ['t0', 't9'],
-    role: 'Stage 1 · C++20 Host-to-GPU Zero-Copy DMA Boundary (15 Hz / 0.25 ms CPU)',
+    role: 'Stage 1 · Rust Host-to-GPU Zero-Copy DMA Boundary (15 Hz / 0.25 ms CPU)',
     tensor: 'Hex64EntityNodeArenaSlice [B, 5376B] (84 × 64B cache lines)',
     formula: 'M_C2v = diag(-1, -1, +1) ∈ SO(3), det(M_C2v) = +1',
-    how: 'Packs all 64 arena entities, bitmasks, and training context into a 64-byte-aligned 5,376B C++20 struct (84 CPU cache lines). When playing on Orange (team == 1), applies a 180° Z-rotation M_C2v = diag(-1, -1, +1) to arena coordinates while keeping car-local vectors untouched.',
+    how: 'Packs all 64 arena entities, bitmasks, and training context into a 64-byte-aligned #[repr(C, align(64))] 5,376B Rust struct (84 CPU cache lines). When playing on Orange (team == 1), applies a 180° Z-rotation M_C2v = diag(-1, -1, +1) to arena coordinates while keeping car-local vectors untouched.',
     why: 'Eliminates Python dictionary marshalling overhead, guarantees single-DMA host-to-GPU transfers for 4,096 parallel arenas, and ensures the neural network only has to learn one canonical offensive direction (+Y).',
     contrib: 'Reduces observation construction to 0.25 ms across 4,096 arenas on CPU and guarantees bit-exact parity between training (BatchArenaEngine) and live play (RocketSimShadowTwin).'
   },
@@ -172,11 +172,11 @@ window.ARASHIKAGE_NODES = [
     title: '60Hz Subtick Executor', sub: 'K_sub=4 (2 Ticks) · 192B Acc', tag: 'Zero Hijack',
     color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
     techIds: ['t7', 't9'],
-    role: 'Stage 5C · C++20 60 Hz Subtick Physics Executor & Event Accumulator',
+    role: 'Stage 5C · Rust 60 Hz Subtick Physics Executor & Event Accumulator',
     tensor: 'SubtickActionChunk[4] -> 192B SubtickEventAccumulator',
     formula: '8 physics ticks (15Hz) = 4 subticks × 2 ticks (60Hz)',
-    how: 'Applies the 4-subtick action chunk across 8 RocketSim physics ticks (2 ticks = 16.67 ms per subtick) with zero C++ FlipState overrides. Records exact ball-touch impulses, subtick touch masks, and demo events into the 192B SubtickEventAccumulator.',
-    why: 'Standard 15 Hz action repeat locks controls for 66.7 ms, making 33 ms speedflip pitch cancels physically impossible without hardcoded C++ macros.',
+    how: 'Applies the 4-subtick action chunk across 8 Rust RocketSim physics ticks (2 ticks = 16.67 ms per subtick) with zero FlipState overrides. Records exact ball-touch impulses, subtick touch masks, and demo events into the 192B SubtickEventAccumulator.',
+    why: 'Standard 15 Hz action repeat locks controls for 66.7 ms, making 33 ms speedflip pitch cancels physically impossible without hardcoded FlipState macros.',
     contrib: 'Gives the neural policy native 60 Hz mechanical resolution while running the heavy backbone only at 15–30 Hz.'
   },
 

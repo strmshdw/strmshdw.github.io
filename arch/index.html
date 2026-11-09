@@ -11,7 +11,7 @@
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';document.head.appendChild(s);"></script>
   <link rel="stylesheet" href="./styles/themes.css" />
 </head>
-<body data-theme="neo_brutalism" data-mode="light" class="surface-root antialiased lg:h-screen lg:w-screen lg:overflow-hidden flex flex-col">
+<body data-theme="bauhaus" data-mode="light" class="surface-root antialiased lg:h-screen lg:w-screen lg:overflow-hidden flex flex-col">
 
   <!-- Full-Viewport Application Shell -->
   <div class="w-full flex-1 min-h-0 surface-panel flex flex-col overflow-hidden">
@@ -104,14 +104,14 @@
             ◀
           </button>
           <button id="btnThemeGalleryTrigger" type="button" popovertarget="themeGalleryPopover" title="Open 12-Style Visual Swatch Gallery" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold text-primary-ink hover:bg-black/5 dark:hover:bg-white/10 transition cursor-pointer gap-1">
-            <span id="activeThemePillLabel">01 · Neo-Brutalism</span>
+            <span id="activeThemePillLabel">03 · Bauhaus Constructivism</span>
             <span class="text-[9.5px] text-muted-ink">▾</span>
           </button>
           <select id="selTheme" aria-label="Design Theme (12 Iconic Styles)" class="sr-only">
             <optgroup label="I. Constructivist &amp; Editorial Grids">
               <option value="neo_brutalism">01 · Neo-Brutalism</option>
               <option value="modular_typo">02 · Modular Typography</option>
-              <option value="bauhaus">03 · Bauhaus Constructivism</option>
+              <option value="bauhaus" selected>03 · Bauhaus Constructivism</option>
             </optgroup>
             <optgroup label="II. Engineering &amp; Hardware Consoles">
               <option value="utilitarian">04 · Utilitarian CAD</option>

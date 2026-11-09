@@ -6,9 +6,9 @@ window.ARASHIKAGE_SCENARIOS = {
     label: 'END-TO-END 66.7ms TOUR',
     steps: [
       {
-        title: 'C++20 5,376B Cache-Line Observation Slice',
+        title: 'Rust 5,376B Cache-Line Observation Slice',
         focusNode: 'dma_slice', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
-        desc: 'Every 66.7 ms (15 Hz), Hex64ObsMapper packs all 64 arena entities into a 64-byte-aligned 5,376B struct (84 CPU cache lines). Orange team coordinates rotate 180° around Z via M_C2v = diag(-1,-1,+1) so the model always attacks toward +Y.'
+        desc: 'Every 66.7 ms (15 Hz), v5_obs_mapper::build_arena_slice packs all 64 arena entities into a 64-byte-aligned #[repr(C, align(64))] 5,376B Rust struct (84 CPU cache lines). Orange team coordinates rotate 180° around Z via M_C2v = diag(-1,-1,+1) so the model always attacks toward +Y.'
       },
       {
         title: '16 Dynamic Queries vs. 48 Context Keys',
@@ -53,7 +53,7 @@ window.ARASHIKAGE_SCENARIOS = {
       {
         title: '4.0-Second BallRingBuffer480 Trajectory Samples',
         focusNode: 'dyn_nodes', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
-        desc: 'As the ball flies toward the curved Orange corner wall at 2,300 uu/s, C++ steps a lightweight ball-only copy forward 480 ticks (4.0s), populating Slots 7..14 with exact post-bounce positions and spin vectors.'
+        desc: 'As the ball flies toward the curved Orange corner wall at 2,300 uu/s, Rust steps a lightweight ball-only scratch arena forward 480 ticks (4.0s), populating Slots 7..14 with exact post-bounce positions and spin vectors.'
       },
       {
         title: 'Pairwise Intercept Margin & Surface OBB Alignment',
@@ -91,9 +91,9 @@ window.ARASHIKAGE_SCENARIOS = {
         desc: 'While pulling pitch back (-0.95) to climb on Subticks 1 & 2, firing Jump on Subtick 3 without zeroing pitch would cause an accidental backflip. Because m_dj,3 = 1, Stage-2 automatically clamps Subtick 3 pitch/yaw/roll via 0.12·tanh(u) inside the dodge deadzone (< 0.5).'
       },
       {
-        title: 'Native 60Hz Execution in RocketSim Without C++ Hijacking',
+        title: 'Native 60Hz Execution in Rust RocketSim Without Flip Hijacking',
         focusNode: 'subtick_exec', highlight: ['stage2_flow', 'subtick_exec'], techId: 't7',
-        desc: 'SubtickPhysicsExecutor passes all 4 subticks directly to Car::controls every 2 physics ticks (16.67 ms), executing a frame-perfect fast aerial climb.'
+        desc: 'step_arena_subticks passes all 4 subticks directly to Car::controls every 2 physics ticks (16.67 ms) in Rust RocketSim v0.3.5, executing a frame-perfect fast aerial climb.'
       }
     ]
   },
@@ -154,12 +154,12 @@ window.ARASHIKAGE_TECH_LIBRARY = [
     id: 't0', short: '5,376B Layout A & C2v',
     title: '64-Byte Cache-Line Aligned Schema & Klein 4-Group (C2v) Equivariance',
     usedIn: ['dma_slice', 'dyn_nodes', 'env_nodes', 'priv_ctx'],
-    how: 'All 64 arena entities are written directly by C++20 into a flat 5,376-byte structure (84 × 64-byte CPU cache lines) verified by SCHEMA_CRC64 = 0x185109A0FD5E64D3. When building observations for an Orange-team car (team == 1), arena-frame positions and velocities are multiplied by M_C2v = diag(-1, -1, +1) (a 180° rotation around the Z axis), while body-local vectors (vel_local, ang_vel_local) remain unchanged.',
+    how: 'All 64 arena entities are written directly by Rust (#[repr(C, align(64))]) into a flat 5,376-byte structure (84 × 64-byte CPU cache lines) verified by SCHEMA_CRC64 = 0x185109A0FD5E64D3. When building observations for an Orange-team car (team == 1), arena-frame positions and velocities are multiplied by M_C2v = diag(-1, -1, +1) (a 180° rotation around the Z axis), while body-local vectors (vel_local, ang_vel_local) remain unchanged.',
     why: 'First, Python object serialization across 4,096 parallel arenas would bottleneck CPU-to-GPU PCIe bandwidth. Second, Rocket League pitches are symmetric between Blue (-Y) and Orange (+Y), and left (-X) vs. right (+X). Without coordinate normalization, the model must learn every mechanic twice.',
     contrib: 'Shrinks CPU observation building to 0.25 ms for 4,096 arenas, doubles sample efficiency via exact spatial symmetry, and guarantees 0-ULP observation parity between training and live matches.',
     science: 'Rocket League uses a Left-Handed Z-Up coordinate system (+X right sidewall, +Y Orange goal, +Z up). Naive Y-negation flips handedness (det = -1), corrupting cross products and angular velocities. Rotating 180° around Z via M_C2v = diag(-1,-1,+1) ∈ SO(3) has determinant +1, preserving Left-Handed chirality. Combined with lateral X-reflection M_lat (which flips roll, yaw, and steer signs), this forms the Klein 4-group C_2v = {I, M_C2v, M_lat, M_C2v M_lat}.',
     origins: 'Grounded in Geometric Deep Learning and group-equivariant networks (Cohen & Welling, 2016; Bronstein et al., 2021) paired with High-Performance Computing (HPC) cache-line alignment practices.',
-    placement: 'Executed at the C++20 boundary (Stage 1) before bytes cross PCIe so every downstream GPU kernel, attention head, and critic operates exclusively in canonical coordinates.'
+    placement: 'Executed at the Rust/PyO3 boundary (Stage 1) before bytes cross PCIe so every downstream GPU kernel, attention head, and critic operates exclusively in canonical coordinates.'
   },
   {
     id: 't1', short: '16×64 Bipartite Graph',
@@ -251,9 +251,9 @@ window.ARASHIKAGE_TECH_LIBRARY = [
   },
   {
     id: 't9', short: 'ShadowTwin & JEPA Search',
-    title: '120Hz C++20 RocketSimShadowTwin & Best-of-M JEPA Latent Search',
+    title: '120Hz Rust RocketSimShadowTwin & Best-of-M JEPA Latent Search',
     usedIn: ['dma_slice', 'subtick_exec', 'jepa_search'],
-    how: 'In live RLBot matches, a local C++20 RocketSim instance steps forward 1 tick at 120 Hz alongside the game client, reconciling sensor packets via a 2-stage residual corrector and calling the exact same Hex64ObsMapper::BuildArenaSlice function used in training. When Tier 0/1 compute headroom is available, the policy samples M = 16 candidate action chunks, rolls them forward 1 step in the Dual-Stream JEPA latent predictor, and picks the chunk maximizing CVaR value under p_eval.',
+    how: 'In live RLBot matches, a local Rust RocketSim v0.3.5 instance steps forward 1 tick at 120 Hz alongside the game client, reconciling sensor packets via a 2-stage residual corrector and calling the exact same v5_obs_mapper::build_arena_slice function used in training. When Tier 0/1 compute headroom is available, the policy samples M = 16 candidate action chunks, rolls them forward 1 step in the Dual-Stream JEPA latent predictor, and picks the chunk maximizing CVaR value under p_eval.',
     why: 'Live socket packets omit internal suspension states, wheel raycast normals, and 4.0s future ball bounce trajectories. Recomputing observations via ad-hoc Python math causes severe Sim-to-Live policy degradation.',
     contrib: 'Eliminates the Sim-to-Live observation gap by construction and filters out high-risk mechanical blunders before sending controls to the socket.',
     science: 'Dual-Stream JEPA predicts next-step ego and ball embeddings (z_hat_ego, z_hat_ball) = f_pred(h_ego, h_ball, u_chunk) supervised against a stop-gradient EMA target encoder (τ_ema = 0.996). Candidate chunks u^(m) are ranked by J(u^(m)) = w_eval^T v_eval + λ_cvar CVaR_α(v_sparse), governed by a 4-tier latency state machine keeping P99 <= 5.50 ms.',
@@ -282,7 +282,7 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
       badge: 'SYSTEMS & HPC REFERENCE // RED HAT',
       title: 'What Every Programmer Should Know About Memory (Cache Lines & DMA)',
       authors: 'Ulrich Drepper — Red Hat (2007)',
-      desc: 'Detailed hardware treatise on 64-byte CPU cache lines, false-sharing prevention, SIMD alignment (alignas(64)), and zero-copy DMA transfers that govern the 5,376B (84 cache line) Hex64EntityNodeArenaSlice layout.',
+      desc: 'Detailed hardware treatise on 64-byte CPU cache lines, false-sharing prevention, SIMD alignment (#[repr(C, align(64))]), and zero-copy DMA transfers that govern the 5,376B (84 cache line) Hex64EntityNodeArenaSlice layout.',
       url: 'https://people.freebsd.org/~lstewart/articles/cpumemory.pdf'
     },
     {
@@ -535,10 +535,10 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
       url: 'https://sites.math.washington.edu/~rtr/papers/rtr179-CVaR1.pdf'
     },
     {
-      badge: 'SYSTEMS REPOSITORY // C++20 BULLET3',
-      title: 'RocketSim: High-Performance C++ Physics Engine for Rocket League',
-      authors: 'ZealanL (Open-Source C++20 / Bullet3 Physics Engine)',
-      desc: 'Underlying 120 Hz rigid-body vehicle and arena collision engine powering both our 4,096-arena OpenMP BatchArenaEngine and the 1-tick live RocketSimShadowTwin.',
+      badge: 'SYSTEMS REPOSITORY // RUST ROCKETSIM V0.3.5',
+      title: 'RocketSim: High-Performance Physics Engine for Rocket League (Pure-Rust Port v0.3.5)',
+      authors: 'ZealanL / Arashikage Pure-Rust Edition 2024 Port (glam SIMD + Rayon)',
+      desc: 'Underlying 120 Hz rigid-body vehicle and arena collision engine (ported to Pure Rust v0.3.5 with glam SIMD) powering both our 4,096-arena Rayon BatchArenaEngine and the 1-tick live RocketSimShadowTwin.',
       url: 'https://github.com/ZealanL/RocketSim'
     }
   ]
@@ -561,13 +561,13 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
       name: 'Live 5.5ms Tournament Inference',
       short: 'Live 5.5ms',
       regime: 'B=1 Arena · 15Hz / 60Hz Subtick · ≤5.50ms P99 SLA',
-      summary: 'Hard real-time forward inference via RLBot v5 sockets and the 1-tick C++20 RocketSimShadowTwin. Blocks that rely on omniscient simulator state (#04) or gradient/cloner updates (#17) are disabled.'
+      summary: 'Hard real-time forward inference via RLBot v5 sockets and the 1-tick Rust RocketSimShadowTwin. Blocks that rely on omniscient simulator state (#04) or gradient/cloner updates (#17) are disabled.'
     },
     train: {
       name: '4,096-Arena Hybrid RL Training',
       short: 'Train',
       regime: 'B=4,096 Arenas (816 G=8 GRPO + 2,880 PPO + 400 Boss)',
-      summary: 'Parallel OpenMP rollout & learning loop combining critic-free G=8 cloned mechanics drills, 4-horizon Symlog GAE Flow-PPO self-play, and omniscient 512B critic supervision.'
+      summary: 'Parallel Rayon rollout & learning loop combining critic-free G=8 cloned mechanics drills, 4-horizon Symlog GAE Flow-PPO self-play, and omniscient 512B critic supervision.'
     },
     distill: {
       name: 'Teacher Warm-Start Distillation',
@@ -580,10 +580,10 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
     dma_slice: {
       live: {
         regime: 'B=1 · RocketSimShadowTwin · c_priv Zero-Masked',
-        text: 'Constructed every 66.7 ms (15 Hz) from live RLBot v5 socket packets corrected by the 1-tick C++20 RocketSimShadowTwin. Uses the exact same Hex64ObsMapper::BuildArenaSlice C++ code as training, except bytes 4864..5375 (privileged_critic_ctx) are hardware zero-filled (m_priv=0) for tournament legality.'
+        text: 'Constructed every 66.7 ms (15 Hz) from live RLBot v5 socket packets corrected by the 1-tick Rust RocketSimShadowTwin. Uses the exact same v5_obs_mapper::build_arena_slice Rust code as training, except bytes 4864..5375 (privileged_critic_ctx) are hardware zero-filled (m_priv=0) for tournament legality.'
       },
       train: {
-        regime: 'B=4,096 Arenas · 0.25ms OpenMP CPU -> Pinned DMA',
+        regime: 'B=4,096 Arenas · 0.25ms Rayon CPU -> Pinned DMA',
         text: 'Assembled in parallel across all 4,096 RocketSim arenas in 0.25 ms total CPU time and streamed to the GPU in a single 22 MB pinned-memory DMA transfer, with bytes 4864..5375 populated with full omniscient physics and curriculum drill metadata.'
       },
       distill: {
@@ -608,7 +608,7 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
     env_nodes: {
       live: {
         regime: 'B=1 · 1-Tick ShadowTwin Wheel Raycasts',
-        text: 'Supplies 34 boost pad timers, 6 goal posts, 4 nearest wall OBBs, and 4 ego wheel suspension raycasts reconstructed by the local C++20 ShadowTwin—giving zero-lag flip-reset detection even over UDP/TCP sockets.'
+        text: 'Supplies 34 boost pad timers, 6 goal posts, 4 nearest wall OBBs, and 4 ego wheel suspension raycasts reconstructed by the local Rust ShadowTwin—giving zero-lag flip-reset detection even over UDP/TCP sockets.'
       },
       train: {
         regime: 'B=4,096 · Direct Bullet3 Raycast & Pad State',
@@ -765,8 +765,8 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
         text: 'Streams the 4 subtick controls across 8 live 120 Hz frames (holding each subtick for 2 ticks = 16.67 ms) directly to RLBot v5 sockets while stepping the local RocketSimShadowTwin in lockstep.'
       },
       train: {
-        regime: 'B=4,096 · OpenMP C++20 Subtick Stepping & 192B Acc',
-        text: 'Executes all 4 subticks (8 Bullet3 physics ticks) inside C++20 across 4,096 arenas with zero FlipState hijacking and records subtick touch masks, ball impulses, and demos into the 192B SubtickEventAccumulator.'
+        regime: 'B=4,096 · Rayon Rust Subtick Stepping & 192B Acc',
+        text: 'Executes all 4 subticks (8 Rust RocketSim physics ticks) across 4,096 arenas via Rayon with zero FlipState hijacking and records subtick touch masks, ball impulses, and demos into the 192B SubtickEventAccumulator.'
       },
       distill: {
         regime: 'Online DAgger Rollout Verification',

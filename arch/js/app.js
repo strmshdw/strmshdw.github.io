@@ -238,16 +238,16 @@
     }
   };
 
-  let activeTheme = 'neo_brutalism';
+  let activeTheme = 'bauhaus';
   let activePolarity = 'light'; // 'light' | 'dark'
 
   function getGlyph(key) {
-    const g = THEME_GLYPHS[activeTheme] || THEME_GLYPHS.neo_brutalism;
+    const g = THEME_GLYPHS[activeTheme] || THEME_GLYPHS.bauhaus;
     return g[key] || '';
   }
 
   function getActiveStageColors() {
-    const meta = THEME_META[activeTheme] || THEME_META.neo_brutalism;
+    const meta = THEME_META[activeTheme] || THEME_META.bauhaus;
     return activePolarity === 'light' ? meta.stageColorsLight : meta.stageColorsDark;
   }
 

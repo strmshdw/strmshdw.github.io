@@ -904,7 +904,7 @@ h1, h2, h3, h4 {
 
 </style>
 </head>
-<body data-theme="neo_brutalism" data-mode="light" class="surface-root antialiased lg:h-screen lg:w-screen lg:overflow-hidden flex flex-col">
+<body data-theme="bauhaus" data-mode="light" class="surface-root antialiased lg:h-screen lg:w-screen lg:overflow-hidden flex flex-col">
 
   <!-- Full-Viewport Application Shell -->
   <div class="w-full flex-1 min-h-0 surface-panel flex flex-col overflow-hidden">
@@ -997,14 +997,14 @@ h1, h2, h3, h4 {
             ◀
           </button>
           <button id="btnThemeGalleryTrigger" type="button" popovertarget="themeGalleryPopover" title="Open 12-Style Visual Swatch Gallery" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold text-primary-ink hover:bg-black/5 dark:hover:bg-white/10 transition cursor-pointer gap-1">
-            <span id="activeThemePillLabel">01 · Neo-Brutalism</span>
+            <span id="activeThemePillLabel">03 · Bauhaus Constructivism</span>
             <span class="text-[9.5px] text-muted-ink">▾</span>
           </button>
           <select id="selTheme" aria-label="Design Theme (12 Iconic Styles)" class="sr-only">
             <optgroup label="I. Constructivist &amp; Editorial Grids">
               <option value="neo_brutalism">01 · Neo-Brutalism</option>
               <option value="modular_typo">02 · Modular Typography</option>
-              <option value="bauhaus">03 · Bauhaus Constructivism</option>
+              <option value="bauhaus" selected>03 · Bauhaus Constructivism</option>
             </optgroup>
             <optgroup label="II. Engineering &amp; Hardware Consoles">
               <option value="utilitarian">04 · Utilitarian CAD</option>
@@ -1347,16 +1347,16 @@ h1, h2, h3, h4 {
 // ARASHIKAGE (HEX64) — 17 ARCHITECTURAL BLOCKS & 24 TENSOR EDGES (1120 x 680)
 // ============================================================================
 window.ARASHIKAGE_NODES = [
-  // --- COLUMN 0: STAGE 1 — C++20 OBSERVATION MANIFOLD (x = 96) ---
+  // --- COLUMN 0: STAGE 1 — RUST OBSERVATION MANIFOLD (x = 96) ---
   {
     id: 'dma_slice', num: '01', col: 0, x: 96, y: 125, w: 162, h: 92,
     title: '5,376B Arena Slice', sub: '84×64B Cache Lines · C2v', tag: 'Layout A DMA',
     color: '#38bdf8', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'mem',
     techIds: ['t0', 't9'],
-    role: 'Stage 1 · C++20 Host-to-GPU Zero-Copy DMA Boundary (15 Hz / 0.25 ms CPU)',
+    role: 'Stage 1 · Rust Host-to-GPU Zero-Copy DMA Boundary (15 Hz / 0.25 ms CPU)',
     tensor: 'Hex64EntityNodeArenaSlice [B, 5376B] (84 × 64B cache lines)',
     formula: 'M_C2v = diag(-1, -1, +1) ∈ SO(3), det(M_C2v) = +1',
-    how: 'Packs all 64 arena entities, bitmasks, and training context into a 64-byte-aligned 5,376B C++20 struct (84 CPU cache lines). When playing on Orange (team == 1), applies a 180° Z-rotation M_C2v = diag(-1, -1, +1) to arena coordinates while keeping car-local vectors untouched.',
+    how: 'Packs all 64 arena entities, bitmasks, and training context into a 64-byte-aligned #[repr(C, align(64))] 5,376B Rust struct (84 CPU cache lines). When playing on Orange (team == 1), applies a 180° Z-rotation M_C2v = diag(-1, -1, +1) to arena coordinates while keeping car-local vectors untouched.',
     why: 'Eliminates Python dictionary marshalling overhead, guarantees single-DMA host-to-GPU transfers for 4,096 parallel arenas, and ensures the neural network only has to learn one canonical offensive direction (+Y).',
     contrib: 'Reduces observation construction to 0.25 ms across 4,096 arenas on CPU and guarantees bit-exact parity between training (BatchArenaEngine) and live play (RocketSimShadowTwin).'
   },
@@ -1517,11 +1517,11 @@ window.ARASHIKAGE_NODES = [
     title: '60Hz Subtick Executor', sub: 'K_sub=4 (2 Ticks) · 192B Acc', tag: 'Zero Hijack',
     color: '#fbbf24', modes: ['all', 'live', 'train', 'distill'], stageGroup: 'control',
     techIds: ['t7', 't9'],
-    role: 'Stage 5C · C++20 60 Hz Subtick Physics Executor & Event Accumulator',
+    role: 'Stage 5C · Rust 60 Hz Subtick Physics Executor & Event Accumulator',
     tensor: 'SubtickActionChunk[4] -> 192B SubtickEventAccumulator',
     formula: '8 physics ticks (15Hz) = 4 subticks × 2 ticks (60Hz)',
-    how: 'Applies the 4-subtick action chunk across 8 RocketSim physics ticks (2 ticks = 16.67 ms per subtick) with zero C++ FlipState overrides. Records exact ball-touch impulses, subtick touch masks, and demo events into the 192B SubtickEventAccumulator.',
-    why: 'Standard 15 Hz action repeat locks controls for 66.7 ms, making 33 ms speedflip pitch cancels physically impossible without hardcoded C++ macros.',
+    how: 'Applies the 4-subtick action chunk across 8 Rust RocketSim physics ticks (2 ticks = 16.67 ms per subtick) with zero FlipState overrides. Records exact ball-touch impulses, subtick touch masks, and demo events into the 192B SubtickEventAccumulator.',
+    why: 'Standard 15 Hz action repeat locks controls for 66.7 ms, making 33 ms speedflip pitch cancels physically impossible without hardcoded FlipState macros.',
     contrib: 'Gives the neural policy native 60 Hz mechanical resolution while running the heavy backbone only at 15–30 Hz.'
   },
 
@@ -1606,9 +1606,9 @@ window.ARASHIKAGE_SCENARIOS = {
     label: 'END-TO-END 66.7ms TOUR',
     steps: [
       {
-        title: 'C++20 5,376B Cache-Line Observation Slice',
+        title: 'Rust 5,376B Cache-Line Observation Slice',
         focusNode: 'dma_slice', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
-        desc: 'Every 66.7 ms (15 Hz), Hex64ObsMapper packs all 64 arena entities into a 64-byte-aligned 5,376B struct (84 CPU cache lines). Orange team coordinates rotate 180° around Z via M_C2v = diag(-1,-1,+1) so the model always attacks toward +Y.'
+        desc: 'Every 66.7 ms (15 Hz), v5_obs_mapper::build_arena_slice packs all 64 arena entities into a 64-byte-aligned #[repr(C, align(64))] 5,376B Rust struct (84 CPU cache lines). Orange team coordinates rotate 180° around Z via M_C2v = diag(-1,-1,+1) so the model always attacks toward +Y.'
       },
       {
         title: '16 Dynamic Queries vs. 48 Context Keys',
@@ -1653,7 +1653,7 @@ window.ARASHIKAGE_SCENARIOS = {
       {
         title: '4.0-Second BallRingBuffer480 Trajectory Samples',
         focusNode: 'dyn_nodes', highlight: ['dma_slice', 'dyn_nodes', 'env_nodes'], techId: 't0',
-        desc: 'As the ball flies toward the curved Orange corner wall at 2,300 uu/s, C++ steps a lightweight ball-only copy forward 480 ticks (4.0s), populating Slots 7..14 with exact post-bounce positions and spin vectors.'
+        desc: 'As the ball flies toward the curved Orange corner wall at 2,300 uu/s, Rust steps a lightweight ball-only scratch arena forward 480 ticks (4.0s), populating Slots 7..14 with exact post-bounce positions and spin vectors.'
       },
       {
         title: 'Pairwise Intercept Margin & Surface OBB Alignment',
@@ -1691,9 +1691,9 @@ window.ARASHIKAGE_SCENARIOS = {
         desc: 'While pulling pitch back (-0.95) to climb on Subticks 1 & 2, firing Jump on Subtick 3 without zeroing pitch would cause an accidental backflip. Because m_dj,3 = 1, Stage-2 automatically clamps Subtick 3 pitch/yaw/roll via 0.12·tanh(u) inside the dodge deadzone (< 0.5).'
       },
       {
-        title: 'Native 60Hz Execution in RocketSim Without C++ Hijacking',
+        title: 'Native 60Hz Execution in Rust RocketSim Without Flip Hijacking',
         focusNode: 'subtick_exec', highlight: ['stage2_flow', 'subtick_exec'], techId: 't7',
-        desc: 'SubtickPhysicsExecutor passes all 4 subticks directly to Car::controls every 2 physics ticks (16.67 ms), executing a frame-perfect fast aerial climb.'
+        desc: 'step_arena_subticks passes all 4 subticks directly to Car::controls every 2 physics ticks (16.67 ms) in Rust RocketSim v0.3.5, executing a frame-perfect fast aerial climb.'
       }
     ]
   },
@@ -1754,12 +1754,12 @@ window.ARASHIKAGE_TECH_LIBRARY = [
     id: 't0', short: '5,376B Layout A & C2v',
     title: '64-Byte Cache-Line Aligned Schema & Klein 4-Group (C2v) Equivariance',
     usedIn: ['dma_slice', 'dyn_nodes', 'env_nodes', 'priv_ctx'],
-    how: 'All 64 arena entities are written directly by C++20 into a flat 5,376-byte structure (84 × 64-byte CPU cache lines) verified by SCHEMA_CRC64 = 0x185109A0FD5E64D3. When building observations for an Orange-team car (team == 1), arena-frame positions and velocities are multiplied by M_C2v = diag(-1, -1, +1) (a 180° rotation around the Z axis), while body-local vectors (vel_local, ang_vel_local) remain unchanged.',
+    how: 'All 64 arena entities are written directly by Rust (#[repr(C, align(64))]) into a flat 5,376-byte structure (84 × 64-byte CPU cache lines) verified by SCHEMA_CRC64 = 0x185109A0FD5E64D3. When building observations for an Orange-team car (team == 1), arena-frame positions and velocities are multiplied by M_C2v = diag(-1, -1, +1) (a 180° rotation around the Z axis), while body-local vectors (vel_local, ang_vel_local) remain unchanged.',
     why: 'First, Python object serialization across 4,096 parallel arenas would bottleneck CPU-to-GPU PCIe bandwidth. Second, Rocket League pitches are symmetric between Blue (-Y) and Orange (+Y), and left (-X) vs. right (+X). Without coordinate normalization, the model must learn every mechanic twice.',
     contrib: 'Shrinks CPU observation building to 0.25 ms for 4,096 arenas, doubles sample efficiency via exact spatial symmetry, and guarantees 0-ULP observation parity between training and live matches.',
     science: 'Rocket League uses a Left-Handed Z-Up coordinate system (+X right sidewall, +Y Orange goal, +Z up). Naive Y-negation flips handedness (det = -1), corrupting cross products and angular velocities. Rotating 180° around Z via M_C2v = diag(-1,-1,+1) ∈ SO(3) has determinant +1, preserving Left-Handed chirality. Combined with lateral X-reflection M_lat (which flips roll, yaw, and steer signs), this forms the Klein 4-group C_2v = {I, M_C2v, M_lat, M_C2v M_lat}.',
     origins: 'Grounded in Geometric Deep Learning and group-equivariant networks (Cohen & Welling, 2016; Bronstein et al., 2021) paired with High-Performance Computing (HPC) cache-line alignment practices.',
-    placement: 'Executed at the C++20 boundary (Stage 1) before bytes cross PCIe so every downstream GPU kernel, attention head, and critic operates exclusively in canonical coordinates.'
+    placement: 'Executed at the Rust/PyO3 boundary (Stage 1) before bytes cross PCIe so every downstream GPU kernel, attention head, and critic operates exclusively in canonical coordinates.'
   },
   {
     id: 't1', short: '16×64 Bipartite Graph',
@@ -1851,9 +1851,9 @@ window.ARASHIKAGE_TECH_LIBRARY = [
   },
   {
     id: 't9', short: 'ShadowTwin & JEPA Search',
-    title: '120Hz C++20 RocketSimShadowTwin & Best-of-M JEPA Latent Search',
+    title: '120Hz Rust RocketSimShadowTwin & Best-of-M JEPA Latent Search',
     usedIn: ['dma_slice', 'subtick_exec', 'jepa_search'],
-    how: 'In live RLBot matches, a local C++20 RocketSim instance steps forward 1 tick at 120 Hz alongside the game client, reconciling sensor packets via a 2-stage residual corrector and calling the exact same Hex64ObsMapper::BuildArenaSlice function used in training. When Tier 0/1 compute headroom is available, the policy samples M = 16 candidate action chunks, rolls them forward 1 step in the Dual-Stream JEPA latent predictor, and picks the chunk maximizing CVaR value under p_eval.',
+    how: 'In live RLBot matches, a local Rust RocketSim v0.3.5 instance steps forward 1 tick at 120 Hz alongside the game client, reconciling sensor packets via a 2-stage residual corrector and calling the exact same v5_obs_mapper::build_arena_slice function used in training. When Tier 0/1 compute headroom is available, the policy samples M = 16 candidate action chunks, rolls them forward 1 step in the Dual-Stream JEPA latent predictor, and picks the chunk maximizing CVaR value under p_eval.',
     why: 'Live socket packets omit internal suspension states, wheel raycast normals, and 4.0s future ball bounce trajectories. Recomputing observations via ad-hoc Python math causes severe Sim-to-Live policy degradation.',
     contrib: 'Eliminates the Sim-to-Live observation gap by construction and filters out high-risk mechanical blunders before sending controls to the socket.',
     science: 'Dual-Stream JEPA predicts next-step ego and ball embeddings (z_hat_ego, z_hat_ball) = f_pred(h_ego, h_ball, u_chunk) supervised against a stop-gradient EMA target encoder (τ_ema = 0.996). Candidate chunks u^(m) are ranked by J(u^(m)) = w_eval^T v_eval + λ_cvar CVaR_α(v_sparse), governed by a 4-tier latency state machine keeping P99 <= 5.50 ms.',
@@ -1882,7 +1882,7 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
       badge: 'SYSTEMS & HPC REFERENCE // RED HAT',
       title: 'What Every Programmer Should Know About Memory (Cache Lines & DMA)',
       authors: 'Ulrich Drepper — Red Hat (2007)',
-      desc: 'Detailed hardware treatise on 64-byte CPU cache lines, false-sharing prevention, SIMD alignment (alignas(64)), and zero-copy DMA transfers that govern the 5,376B (84 cache line) Hex64EntityNodeArenaSlice layout.',
+      desc: 'Detailed hardware treatise on 64-byte CPU cache lines, false-sharing prevention, SIMD alignment (#[repr(C, align(64))]), and zero-copy DMA transfers that govern the 5,376B (84 cache line) Hex64EntityNodeArenaSlice layout.',
       url: 'https://people.freebsd.org/~lstewart/articles/cpumemory.pdf'
     },
     {
@@ -2135,10 +2135,10 @@ window.ARASHIKAGE_EXTERNAL_RESOURCES = {
       url: 'https://sites.math.washington.edu/~rtr/papers/rtr179-CVaR1.pdf'
     },
     {
-      badge: 'SYSTEMS REPOSITORY // C++20 BULLET3',
-      title: 'RocketSim: High-Performance C++ Physics Engine for Rocket League',
-      authors: 'ZealanL (Open-Source C++20 / Bullet3 Physics Engine)',
-      desc: 'Underlying 120 Hz rigid-body vehicle and arena collision engine powering both our 4,096-arena OpenMP BatchArenaEngine and the 1-tick live RocketSimShadowTwin.',
+      badge: 'SYSTEMS REPOSITORY // RUST ROCKETSIM V0.3.5',
+      title: 'RocketSim: High-Performance Physics Engine for Rocket League (Pure-Rust Port v0.3.5)',
+      authors: 'ZealanL / Arashikage Pure-Rust Edition 2024 Port (glam SIMD + Rayon)',
+      desc: 'Underlying 120 Hz rigid-body vehicle and arena collision engine (ported to Pure Rust v0.3.5 with glam SIMD) powering both our 4,096-arena Rayon BatchArenaEngine and the 1-tick live RocketSimShadowTwin.',
       url: 'https://github.com/ZealanL/RocketSim'
     }
   ]
@@ -2161,13 +2161,13 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
       name: 'Live 5.5ms Tournament Inference',
       short: 'Live 5.5ms',
       regime: 'B=1 Arena · 15Hz / 60Hz Subtick · ≤5.50ms P99 SLA',
-      summary: 'Hard real-time forward inference via RLBot v5 sockets and the 1-tick C++20 RocketSimShadowTwin. Blocks that rely on omniscient simulator state (#04) or gradient/cloner updates (#17) are disabled.'
+      summary: 'Hard real-time forward inference via RLBot v5 sockets and the 1-tick Rust RocketSimShadowTwin. Blocks that rely on omniscient simulator state (#04) or gradient/cloner updates (#17) are disabled.'
     },
     train: {
       name: '4,096-Arena Hybrid RL Training',
       short: 'Train',
       regime: 'B=4,096 Arenas (816 G=8 GRPO + 2,880 PPO + 400 Boss)',
-      summary: 'Parallel OpenMP rollout & learning loop combining critic-free G=8 cloned mechanics drills, 4-horizon Symlog GAE Flow-PPO self-play, and omniscient 512B critic supervision.'
+      summary: 'Parallel Rayon rollout & learning loop combining critic-free G=8 cloned mechanics drills, 4-horizon Symlog GAE Flow-PPO self-play, and omniscient 512B critic supervision.'
     },
     distill: {
       name: 'Teacher Warm-Start Distillation',
@@ -2180,10 +2180,10 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
     dma_slice: {
       live: {
         regime: 'B=1 · RocketSimShadowTwin · c_priv Zero-Masked',
-        text: 'Constructed every 66.7 ms (15 Hz) from live RLBot v5 socket packets corrected by the 1-tick C++20 RocketSimShadowTwin. Uses the exact same Hex64ObsMapper::BuildArenaSlice C++ code as training, except bytes 4864..5375 (privileged_critic_ctx) are hardware zero-filled (m_priv=0) for tournament legality.'
+        text: 'Constructed every 66.7 ms (15 Hz) from live RLBot v5 socket packets corrected by the 1-tick Rust RocketSimShadowTwin. Uses the exact same v5_obs_mapper::build_arena_slice Rust code as training, except bytes 4864..5375 (privileged_critic_ctx) are hardware zero-filled (m_priv=0) for tournament legality.'
       },
       train: {
-        regime: 'B=4,096 Arenas · 0.25ms OpenMP CPU -> Pinned DMA',
+        regime: 'B=4,096 Arenas · 0.25ms Rayon CPU -> Pinned DMA',
         text: 'Assembled in parallel across all 4,096 RocketSim arenas in 0.25 ms total CPU time and streamed to the GPU in a single 22 MB pinned-memory DMA transfer, with bytes 4864..5375 populated with full omniscient physics and curriculum drill metadata.'
       },
       distill: {
@@ -2208,7 +2208,7 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
     env_nodes: {
       live: {
         regime: 'B=1 · 1-Tick ShadowTwin Wheel Raycasts',
-        text: 'Supplies 34 boost pad timers, 6 goal posts, 4 nearest wall OBBs, and 4 ego wheel suspension raycasts reconstructed by the local C++20 ShadowTwin—giving zero-lag flip-reset detection even over UDP/TCP sockets.'
+        text: 'Supplies 34 boost pad timers, 6 goal posts, 4 nearest wall OBBs, and 4 ego wheel suspension raycasts reconstructed by the local Rust ShadowTwin—giving zero-lag flip-reset detection even over UDP/TCP sockets.'
       },
       train: {
         regime: 'B=4,096 · Direct Bullet3 Raycast & Pad State',
@@ -2365,8 +2365,8 @@ window.ARASHIKAGE_PATHWAY_ROLES = {
         text: 'Streams the 4 subtick controls across 8 live 120 Hz frames (holding each subtick for 2 ticks = 16.67 ms) directly to RLBot v5 sockets while stepping the local RocketSimShadowTwin in lockstep.'
       },
       train: {
-        regime: 'B=4,096 · OpenMP C++20 Subtick Stepping & 192B Acc',
-        text: 'Executes all 4 subticks (8 Bullet3 physics ticks) inside C++20 across 4,096 arenas with zero FlipState hijacking and records subtick touch masks, ball impulses, and demos into the 192B SubtickEventAccumulator.'
+        regime: 'B=4,096 · Rayon Rust Subtick Stepping & 192B Acc',
+        text: 'Executes all 4 subticks (8 Rust RocketSim physics ticks) across 4,096 arenas via Rayon with zero FlipState hijacking and records subtick touch masks, ball impulses, and demos into the 192B SubtickEventAccumulator.'
       },
       distill: {
         regime: 'Online DAgger Rollout Verification',
@@ -2696,7 +2696,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
     { col: 5, x: 1024, title: 'STAGE 6 // 752D CRITIC',   sub: 'M=4×N=43 · Distill · PPO', color: '#34d399' }
   ],
   nodes: [
-    // --- COLUMN 0: STAGE 1 — C++20 SIM & 700D CANONICAL OBS (x = 96) ---
+    // --- COLUMN 0: STAGE 1 — C++17 SIM & 700D CANONICAL OBS (x = 96) ---
     {
       id: 'dma_slice', num: '01', col: 0, x: 96, y: 125, w: 162, h: 92,
       title: 'C++17 Batch Engine', sub: 'OpenMP Arenas · Z-Up Mirror', tag: 'NativeBatchEngine',
@@ -2742,7 +2742,7 @@ window.ARASHIKAGE_GEN3_PERCEIVER = {
       tensor: 'c_priv ∈ R^[B, 68] -> x_critic ∈ R^[B, 752]',
       formula: 'Δt_bounce ∈ {0.1, 0.25, 0.5, 1.0, 1.5} s (e_restitution = 0.6)',
       how: 'Appends 68 privileged floats for the training critic: 20D exact 4-wheel suspension compression, contact normals, and lateral slip ratios, 18D true world-frame velocities, and 30D 5-horizon analytical ball bounce predictions.',
-      why: 'Gave the training critic analytical wall/floor bounce lookahead before Hex64 moved 480-tick C++ ball trajectory integration directly into the shared actor-critic observation.',
+      why: 'Gave the training critic analytical wall/floor bounce lookahead before Hex64 moved 480-tick Rust ball trajectory integration directly into the shared actor-critic observation.',
       contrib: 'Stabilized value targets during wall reads and high aerials without requiring recurrent critic states.'
     },
 
@@ -3353,7 +3353,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       tensor: 's_obs(t) <- s_true(t - δ_lag), δ_lag ~ Uniform({0, 1, 2} ticks)',
       formula: 'Δt_jitter ∈ {0.0 ms, 8.33 ms, 16.67 ms}',
       how: 'During training rollouts, randomly delays observations by 0, 1, or 2 physics ticks via LatencyDomainRandomizer to mimic RLBot socket IPC jitter and frame-delivery variance.',
-      why: 'Policies trained on zero-lag simulator states often oscillate or miss tight challenges when deployed over live TCP/shared-memory sockets. (Hex64 later solved this deterministically via the 1-tick C++20 RocketSimShadowTwin).',
+      why: 'Policies trained on zero-lag simulator states often oscillate or miss tight challenges when deployed over live TCP/shared-memory sockets. (Hex64 later solved this deterministically via the 1-tick Rust RocketSimShadowTwin).',
       contrib: 'Hardened the Gen 2 MLP against live match packet jitter.'
     },
 
@@ -4436,7 +4436,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
     dropdownLabel: 'Gen 4: Hex64 (Current · 60Hz Flow)',
     identityTitle: 'Real-Time Physics & Neural Control — 60 Hz Flow-GRPO',
     colHeaders: [
-      { col: 0, x: 96,  title: 'STAGE 1 // C++20 OBS',     sub: '5,376B Slice · C2v',       color: '#38bdf8' },
+      { col: 0, x: 96,  title: 'STAGE 1 // RUST OBS',      sub: '5,376B Slice · C2v',       color: '#38bdf8' },
       { col: 1, x: 282, title: 'STAGE 2 // BIPARTITE',     sub: '16×64 Graph · DiffAttn',   color: '#22d3ee' },
       { col: 2, x: 468, title: 'STAGE 3 // TITANS MEM',    sub: '2×4×32×32 FP32 Fast W',    color: '#a78bfa' },
       { col: 3, x: 654, title: 'STAGE 4 // COCONUT & MOE', sub: 'K=4..6 Loop · 8×2 MoE',    color: '#f472b6' },
@@ -4449,7 +4449,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
     techLibrary: window.ARASHIKAGE_TECH_LIBRARY || [],
     externalResources: window.ARASHIKAGE_EXTERNAL_RESOURCES || {},
     mermaidDiagram: `flowchart LR
-  subgraph S1["Stage 1: C++20 Observation (5,376B)"]
+  subgraph S1["Stage 1: Rust Observation (5,376B)"]
     N1["01. 5,376B Arena Slice (84x64B CL, C2v)"] --> N2["02. 16 Dynamic Queries"]
     N1 --> N3["03. 48 Context Keys"]
     N1 -.-> N4["04. 512B Privileged Critic Ctx"]
@@ -4493,7 +4493,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
   const BASE_H = 680;
 
   const colHeaders = [
-    { col: 0, x: 96,  title: 'STAGE 1 // C++20 OBS',     sub: '5,376B Slice · C2v',       color: '#38bdf8' },
+    { col: 0, x: 96,  title: 'STAGE 1 // RUST OBS',      sub: '5,376B Slice · C2v',       color: '#38bdf8' },
     { col: 1, x: 282, title: 'STAGE 2 // BIPARTITE',     sub: '16×64 Graph · DiffAttn',   color: '#22d3ee' },
     { col: 2, x: 468, title: 'STAGE 3 // TITANS MEM',    sub: '2×4×32×32 FP32 Fast W',    color: '#a78bfa' },
     { col: 3, x: 654, title: 'STAGE 4 // COCONUT & MOE', sub: 'K=4..6 Loop · 8×2 MoE',    color: '#f472b6' },
@@ -6478,16 +6478,16 @@ window.ARASHIKAGE_ARCHITECTURES = {
     }
   };
 
-  let activeTheme = 'neo_brutalism';
+  let activeTheme = 'bauhaus';
   let activePolarity = 'light'; // 'light' | 'dark'
 
   function getGlyph(key) {
-    const g = THEME_GLYPHS[activeTheme] || THEME_GLYPHS.neo_brutalism;
+    const g = THEME_GLYPHS[activeTheme] || THEME_GLYPHS.bauhaus;
     return g[key] || '';
   }
 
   function getActiveStageColors() {
-    const meta = THEME_META[activeTheme] || THEME_META.neo_brutalism;
+    const meta = THEME_META[activeTheme] || THEME_META.bauhaus;
     return activePolarity === 'light' ? meta.stageColorsLight : meta.stageColorsDark;
   }
 

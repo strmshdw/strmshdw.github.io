@@ -87,7 +87,7 @@ window.ARASHIKAGE_GEN2_FACTORIZED = {
       tensor: 's_obs(t) <- s_true(t - δ_lag), δ_lag ~ Uniform({0, 1, 2} ticks)',
       formula: 'Δt_jitter ∈ {0.0 ms, 8.33 ms, 16.67 ms}',
       how: 'During training rollouts, randomly delays observations by 0, 1, or 2 physics ticks via LatencyDomainRandomizer to mimic RLBot socket IPC jitter and frame-delivery variance.',
-      why: 'Policies trained on zero-lag simulator states often oscillate or miss tight challenges when deployed over live TCP/shared-memory sockets. (Hex64 later solved this deterministically via the 1-tick C++20 RocketSimShadowTwin).',
+      why: 'Policies trained on zero-lag simulator states often oscillate or miss tight challenges when deployed over live TCP/shared-memory sockets. (Hex64 later solved this deterministically via the 1-tick Rust RocketSimShadowTwin).',
       contrib: 'Hardened the Gen 2 MLP against live match packet jitter.'
     },
 
