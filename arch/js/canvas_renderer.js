@@ -388,7 +388,41 @@
     // ====================================================================
     // 1. THEME + POLARITY SPECIFIC BACKGROUND FIELD
     // ====================================================================
-    if (activeTheme === 'neo_brutalism') {
+    if (activeTheme === 'arashikage_monolith') {
+      // Arashikage Monolith (嵐影 · 銀座碑文): Stratum 0 Mounting Ground + Stratum 1 Scroll Canvas + Stepped Ziggurat Frame + Kentō Marks
+      ctx.fillStyle = isLight ? '#ebe5d9' : '#0a0908';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+
+      ctx.fillStyle = isLight ? '#f4efe6' : '#171412';
+      ctx.fillRect(6, 6, BASE_W - 12, BASE_H - 12);
+
+      // Subtle 1px horizontal incised ledger rules (--am-rule)
+      ctx.strokeStyle = isLight ? 'rgba(28, 25, 23, 0.055)' : 'rgba(216, 208, 197, 0.042)';
+      ctx.lineWidth = 1;
+      for (let gy = 68; gy < BASE_H - 8; gy += 36) {
+        ctx.beginPath(); ctx.moveTo(8, gy); ctx.lineTo(BASE_W - 8, gy); ctx.stroke();
+      }
+
+      // Low-opacity Sumi-e typographic watermark (嵐影 · ䷿)
+      ctx.save();
+      ctx.font = '900 104px "Noto Serif JP", serif';
+      ctx.fillStyle = isLight ? 'rgba(28, 25, 23, 0.028)' : 'rgba(244, 239, 230, 0.026)';
+      ctx.textAlign = 'right';
+      ctx.fillText('嵐影 · ䷿', BASE_W - 26, BASE_H - 28);
+      ctx.restore();
+
+      // Stepped Art Deco Ziggurat Outer Frame (1px outer rule + 4px ground moat + 1.5px primary monolith outline)
+      ctx.strokeStyle = isLight ? '#cfc7b8' : '#36302a';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(2, 2, BASE_W - 4, BASE_H - 4);
+      ctx.strokeStyle = isLight ? '#1c1917' : '#d8d0c5';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(6, 6, BASE_W - 12, BASE_H - 12);
+
+      // Woodblock Kentō (見当) corner registration notches in Shu-iro Vermilion
+      const kentoCol = isLight ? '#b81d13' : '#d4261d';
+      drawCornerBrackets(ctx, 6, 6, BASE_W - 12, BASE_H - 12, 12, kentoCol);
+    } else if (activeTheme === 'neo_brutalism') {
       ctx.fillStyle = isLight ? '#f3efe6' : '#111113';
       ctx.fillRect(0, 0, BASE_W, BASE_H);
       ctx.fillStyle = isLight ? 'rgba(17, 17, 17, 0.16)' : 'rgba(250, 250, 250, 0.12)';
@@ -561,7 +595,54 @@
       const laneW = 172;
       const laneX = ch.x - laneW / 2;
 
-      if (activeTheme === 'neo_brutalism') {
+      if (activeTheme === 'arashikage_monolith') {
+        // Arashikage Monolith Column: Stratum 2 Carved Plaque (--am-plaque) + Kanji Seal Prefix Cartouche (礎 双 戒 録 印 鎖)
+        const stageKanji = ['礎', '双', '戒', '録', '印', '鎖'][idx % 6];
+        const ruleCol = isLight ? '#cfc7b8' : '#36302a';
+        const outlineCol = isLight ? '#1c1917' : '#d8d0c5';
+
+        ctx.fillStyle = isLight ? 'rgba(252, 250, 246, 0.88)' : 'rgba(13, 11, 10, 0.86)';
+        ctx.fillRect(laneX, 12, laneW, BASE_H - 24);
+        ctx.strokeStyle = ruleCol;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(laneX, 12, laneW, BASE_H - 24);
+
+        // Header monolith box
+        ctx.fillStyle = isLight ? '#e6dfd3' : '#211d1a';
+        ctx.fillRect(laneX, 12, laneW, 50);
+        ctx.fillStyle = ch.color;
+        ctx.fillRect(laneX, 12, laneW, 2.5);
+        ctx.strokeStyle = outlineCol;
+        ctx.lineWidth = 1.4;
+        ctx.strokeRect(laneX, 12, laneW, 50);
+        ctx.strokeStyle = ruleCol;
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(laneX, 41); ctx.lineTo(laneX + laneW, 41); ctx.stroke();
+
+        // Carved Kanji Seal Prefix Cartouche (Voice 4: Noto Serif JP)
+        ctx.fillStyle = isLight ? '#1c1917' : '#0d0b0a';
+        ctx.fillRect(laneX + 6, 17, 20, 20);
+        ctx.strokeStyle = ch.color;
+        ctx.lineWidth = 1.2;
+        ctx.strokeRect(laneX + 6, 17, 20, 20);
+        ctx.font = '900 11px "Noto Serif JP", serif';
+        ctx.fillStyle = isLight ? '#fbf9f5' : ch.color;
+        ctx.textAlign = 'center';
+        ctx.fillText(stageKanji, laneX + 16, 31);
+
+        // Voice 1: Josefin Sans Geometric Display Header
+        ctx.font = '700 9.6px "Josefin Sans", "Space Grotesk", sans-serif';
+        ctx.fillStyle = isLight ? '#090807' : '#fbf9f5';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, ch.title, laneX + 31, 31, laneW - 37);
+
+        // Voice 3: JetBrains Mono Tabular Subtitle
+        ctx.font = '600 9.3px "JetBrains Mono", "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#362f28' : '#c9c0b1';
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, ch.sub, ch.x, 55, laneW - 14);
+
+      } else if (activeTheme === 'neo_brutalism') {
         const borderCol = isLight ? '#111111' : '#f4f4f5';
         ctx.fillStyle = '#111111';
         ctx.fillRect(laneX + 4, 16, laneW, 48);
@@ -883,6 +964,7 @@
     // 3. DRAW DIRECTED EDGES, DATAFLOW PULSES & CONTEXTUAL TENSOR LABELS
     // ====================================================================
     const useOrthogonalTraces =
+      activeTheme === 'arashikage_monolith' ||
       activeTheme === 'utilitarian' ||
       activeTheme === 'modular_typo' ||
       activeTheme === 'pixel_art' ||
@@ -1045,6 +1127,7 @@
 
         ctx.fillStyle = n1.color;
         if (
+          activeTheme === 'arashikage_monolith' ||
           activeTheme === 'pixel_art' ||
           activeTheme === 'utilitarian' ||
           activeTheme === 'neo_brutalism' ||
@@ -1091,7 +1174,98 @@
       else if (!inTourSpotlight) ctx.globalAlpha = 0.28;
       else ctx.globalAlpha = 1.0;
 
-      if (activeTheme === 'neo_brutalism') {
+      if (activeTheme === 'arashikage_monolith') {
+        // Arashikage Monolith Node (90/10 Pigment Law):
+        // - Unselected (90%): Incised 1px Stratum 2 mineral plaque (--am-plaque) + 3px left stage spine + unified --am-ink-strong title
+        // - Selected (10%): Stepped Ziggurat frame + Inverted Monolith Header (.am-slab-primary) + Square Carved Shu-iro Hanko Stamp (#b81d13)
+        const ruleCol = isLight ? '#cfc7b8' : '#36302a';
+        const outlineCol = isLight ? '#1c1917' : '#d8d0c5';
+
+        if (isSelected) {
+          // Stepped Ziggurat outer Kentō frame around selected monolith
+          ctx.fillStyle = isLight ? '#ebe5d9' : '#0a0908';
+          ctx.fillRect(rx - 3, ry - 3, n.w + 6, n.h + 6);
+          ctx.strokeStyle = isLight ? '#b81d13' : '#d4261d';
+          ctx.lineWidth = 1.2;
+          ctx.strokeRect(rx - 4, ry - 4, n.w + 8, n.h + 8);
+        }
+
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fcfaf6' : isHovered ? '#f4efe6' : '#fcfaf6'
+          : isSelected ? '#171412' : isHovered ? '#211d1a' : '#0d0b0a';
+        ctx.fillRect(rx, ry, n.w, n.h);
+
+        if (isSelected) {
+          // Inverted Monolith Header Slab (.am-slab-primary)
+          ctx.fillStyle = isLight ? '#1c1917' : '#f4efe6';
+          ctx.fillRect(rx, ry, n.w, 25);
+
+          // Square Carved Shu-iro Vermilion Hanko Stamp (#b81d13) on left of header
+          ctx.fillStyle = '#b81d13';
+          ctx.fillRect(rx, ry, 29, 25);
+          ctx.strokeStyle = 'rgba(251, 249, 245, 0.45)';
+          ctx.lineWidth = 1;
+          ctx.strokeRect(rx + 2.5, ry + 2.5, 24, 20);
+
+          // Left vertical Shu-iro Vermilion spine below header
+          ctx.fillStyle = '#b81d13';
+          ctx.fillRect(rx, ry + 25, 3.5, n.h - 25);
+
+          ctx.strokeStyle = outlineCol;
+          ctx.lineWidth = 1.8;
+          ctx.strokeRect(rx, ry, n.w, n.h);
+          ctx.beginPath(); ctx.moveTo(rx, ry + 25); ctx.lineTo(rx + n.w, ry + 25); ctx.stroke();
+
+          ctx.font = '700 9.6px "JetBrains Mono", "IBM Plex Mono", monospace';
+          ctx.fillStyle = '#fbf9f5';
+          ctx.textAlign = 'center';
+          ctx.fillText(n.num, rx + 14.5, ry + 16.5);
+
+          if (!showTourBadgeInHeader) {
+            ctx.font = '700 9.1px "JetBrains Mono", "IBM Plex Mono", monospace';
+            ctx.fillStyle = isLight ? '#fbf9f5' : '#12100e';
+            ctx.textAlign = 'right';
+            drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 7, ry + 16.5, innerW - 28);
+          }
+        } else {
+          // Subtle header band + 3px left stage mineral chisel spine
+          ctx.fillStyle = isLight ? '#f4efe6' : '#151210';
+          ctx.fillRect(rx, ry, n.w, 24);
+          ctx.fillStyle = n.color;
+          ctx.fillRect(rx, ry, 3, n.h);
+
+          ctx.strokeStyle = isHovered ? outlineCol : ruleCol;
+          ctx.lineWidth = isHovered ? 1.5 : 1.1;
+          ctx.strokeRect(rx, ry, n.w, n.h);
+          ctx.strokeStyle = ruleCol;
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(rx, ry + 24); ctx.lineTo(rx + n.w, ry + 24); ctx.stroke();
+
+          ctx.font = '700 9.5px "JetBrains Mono", "IBM Plex Mono", monospace';
+          ctx.fillStyle = n.color;
+          ctx.textAlign = 'left';
+          ctx.fillText('#' + n.num, rx + 8, ry + 16);
+
+          if (!showTourBadgeInHeader) {
+            ctx.font = '600 9.1px "JetBrains Mono", "IBM Plex Mono", monospace';
+            ctx.fillStyle = isLight ? '#615548' : '#9e9384';
+            ctx.textAlign = 'right';
+            drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 7, ry + 16, innerW - 30);
+          }
+        }
+
+        // Voice 1: Josefin Sans Geometric Display Title in Unified --am-ink-strong (Anti-Rainbow Law)
+        ctx.font = '700 12px "Josefin Sans", "Space Grotesk", sans-serif';
+        ctx.fillStyle = isLight ? '#090807' : '#fbf9f5';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 9, ry + 46, innerW - 2);
+
+        // Voice 2: IBM Plex Sans Editorial Subtitle in --am-ink-secondary
+        ctx.font = '500 10px "IBM Plex Sans", "Inter", sans-serif';
+        ctx.fillStyle = isLight ? '#362f28' : '#c9c0b1';
+        drawWrappedSub(ctx, n.sub, rx + 9, ry + 65, innerW - 2, 13.5);
+
+      } else if (activeTheme === 'neo_brutalism') {
         const shOff = isSelected ? 6 : 4;
         ctx.fillStyle = isLight ? '#111111' : n.color;
         ctx.fillRect(rx + shOff, ry + shOff, n.w, n.h);
@@ -1688,7 +1862,9 @@
 
         // Theme-matched Edge Tensor Label Pill
         const pillFill =
-          activeTheme === 'blueprint'
+          activeTheme === 'arashikage_monolith'
+            ? isLight ? '#fcfaf6' : '#0d0b0a'
+            : activeTheme === 'blueprint'
             ? isLight ? '#f0f7ff' : '#0b2242'
             : activeTheme === 'cyberpunk'
               ? isLight ? '#ffffff' : '#0b0f19'

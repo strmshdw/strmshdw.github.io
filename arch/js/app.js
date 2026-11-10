@@ -58,8 +58,9 @@
   let selectedSubtickIdx = 1;
   let selectedCriticHorizonIdx = 1;
 
-  // 12-Style × 2-Polarity Theme Engine Metadata (WCAG AA >= 4.5:1 Verified Across All 24 States)
+  // Signature Arashikage Monolith + 12-Style × 2-Polarity Theme Engine Metadata (WCAG AA >= 4.5:1 Verified Across All 26 States)
   const THEME_ORDER = [
+    'arashikage_monolith',
     'neo_brutalism',
     'modular_typo',
     'bauhaus',
@@ -86,6 +87,12 @@
   }
 
   const THEME_META = {
+    arashikage_monolith: {
+      name: 'Arashikage Monolith (嵐影 · 銀座碑文)',
+      notes: '版画 Hanga (Dark) / 和紙 Washi (Light) · 90/10 Sumi & Shu-iro Hanko Seal · Stepped Ziggurat Frame',
+      stageColorsLight: ['#1c1917', '#1b4965', '#8c5604', '#6b4c1b', '#b81d13', '#1e523b'],
+      stageColorsDark:  ['#d8d0c5', '#7da8c4', '#deb052', '#c89d54', '#d4261d', '#82a890']
+    },
     neo_brutalism: {
       name: 'Neo-Brutalism',
       notes: '2.5px ink borders · Hard offset shadows',
@@ -161,6 +168,7 @@
   };
 
   const THEME_SWATCH_PREVIEW = {
+    arashikage_monolith: { light: { root: '#ebe5d9', panel: '#fcfaf6', ink: '#090807', accent: '#b81d13' }, dark: { root: '#0a0908', panel: '#171412', ink: '#fbf9f5', accent: '#b81d13' } },
     neo_brutalism:    { light: { root: '#f4f0e6', panel: '#ffffff', ink: '#111111', accent: '#ff4d00' }, dark: { root: '#121210', panel: '#1d1d1a', ink: '#f5f2eb', accent: '#ff5e1a' } },
     modular_typo:     { light: { root: '#f7f7f5', panel: '#ffffff', ink: '#0a0a0a', accent: '#c81e00' }, dark: { root: '#0c0d0e', panel: '#141619', ink: '#f8fafc', accent: '#ff3b14' } },
     bauhaus:          { light: { root: '#f3efe6', panel: '#faf7f0', ink: '#141413', accent: '#d92b2b' }, dark: { root: '#141416', panel: '#1e1f23', ink: '#f5f2eb', accent: '#ef4444' } },
@@ -176,6 +184,11 @@
   };
 
   const THEME_GLYPHS = {
+    arashikage_monolith: {
+      prev: '◂', next: '▸', light: '陽', dark: '陰',
+      node: '礎', tech: '録', tourOn: '印', tourOff: '▸',
+      export: '↗', close: '✕', open: '↗', fs: '⊞', fsExit: '✕'
+    },
     neo_brutalism: {
       prev: '◀', next: '▶', light: '■', dark: '□',
       node: '▣', tech: '◈', tourOn: '■', tourOff: '▶',
@@ -238,16 +251,16 @@
     }
   };
 
-  let activeTheme = 'bauhaus';
-  let activePolarity = 'light'; // 'light' | 'dark'
+  let activeTheme = 'arashikage_monolith';
+  let activePolarity = 'dark'; // 'light' | 'dark' (Default: 版画 · Hanga Sumi Woodblock)
 
   function getGlyph(key) {
-    const g = THEME_GLYPHS[activeTheme] || THEME_GLYPHS.bauhaus;
+    const g = THEME_GLYPHS[activeTheme] || THEME_GLYPHS.arashikage_monolith;
     return g[key] || '';
   }
 
   function getActiveStageColors() {
-    const meta = THEME_META[activeTheme] || THEME_META.bauhaus;
+    const meta = THEME_META[activeTheme] || THEME_META.arashikage_monolith;
     return activePolarity === 'light' ? meta.stageColorsLight : meta.stageColorsDark;
   }
 
@@ -2411,7 +2424,7 @@
     function renderThemeGalleryPopover() {
       if (!themeGalleryGrid) return;
       const isLight = activePolarity === 'light';
-      const THEME_SHORTCUT_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
+      const THEME_SHORTCUT_KEYS = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
 
       if (btnGalleryLight && btnGalleryDark) {
         btnGalleryLight.className =
@@ -2447,6 +2460,55 @@
           )
           .join('');
 
+        if (tKey === 'arashikage_monolith') {
+          return (
+            '<button type="button" data-gallery-theme="' +
+            tKey +
+            '" class="col-span-1 sm:col-span-2 lg:col-span-3 p-2.5 rounded-lg text-left border transition cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-2 ' +
+            (isAct
+              ? 'surface-elevated border-subtle ring-2 ring-[var(--accent-primary)]'
+              : 'surface-root border-hairline hover:border-subtle') +
+            '">' +
+            '<div class="flex items-center gap-2.5 min-w-0">' +
+            '<span class="inline-grid place-items-center w-7 h-7 shrink-0 font-black text-[9px] leading-none" style="background:#b81d13;color:#fbf9f5;font-family:\'Noto Serif JP\',serif;outline:1px solid rgba(251,249,245,0.42);outline-offset:-2.5px">嵐影<br/>之印</span>' +
+            '<div class="flex flex-col min-w-0">' +
+            '<div class="flex items-center gap-1.5 flex-wrap">' +
+            '<span class="mono text-[9px] font-bold px-1.5 py-0.2 rounded" style="background:#b81d13;color:#fbf9f5">★ SIGNATURE PRIMARY</span>' +
+            '<span class="text-xs font-extrabold text-primary-ink truncate">' +
+            meta.name +
+            '</span>' +
+            '</div>' +
+            '<div class="text-[10px] text-secondary-ink leading-tight truncate">' +
+            meta.notes +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="flex items-center justify-between sm:justify-end gap-2.5 shrink-0 pt-1 sm:pt-0 border-t sm:border-t-0 border-hairline">' +
+            '<div class="flex items-center gap-1" title="Ground / Canvas / Ink / Hanko Vermilion">' +
+            '<span class="w-3.5 h-3.5 border border-subtle inline-block" style="background:' +
+            sw.root +
+            '"></span>' +
+            '<span class="w-3.5 h-3.5 border border-subtle inline-block" style="background:' +
+            sw.panel +
+            '"></span>' +
+            '<span class="w-3.5 h-3.5 border border-subtle inline-block" style="background:' +
+            sw.ink +
+            '"></span>' +
+            '<span class="w-3.5 h-3.5 border border-subtle inline-block" style="background:' +
+            sw.accent +
+            '"></span>' +
+            '</div>' +
+            '<div class="flex items-center gap-0.5" title="6-Stage Mineral Palette">' +
+            stageDotsHtml +
+            '</div>' +
+            '<span class="mono text-[9px] font-bold px-1.5 py-0.5 rounded surface-panel text-secondary-ink border border-hairline shrink-0">Key ' +
+            keyChar +
+            '</span>' +
+            '</div>' +
+            '</button>'
+          );
+        }
+
         return (
           '<button type="button" data-gallery-theme="' +
           tKey +
@@ -2457,7 +2519,7 @@
           '">' +
           '<div class="flex items-center justify-between gap-1">' +
           '<span class="text-[11px] font-bold text-primary-ink truncate">' +
-          (idx + 1) +
+          idx +
           '. ' +
           meta.name +
           '</span>' +
@@ -2580,8 +2642,8 @@
         const hay = ('style theme ' + m.name + ' ' + m.notes).toLowerCase();
         if (q && hay.includes(q)) {
           results.push({
-            kind: 'STYLE #' + (idx + 1),
-            badgeColor: '#15803d',
+            kind: tKey === 'arashikage_monolith' ? '★ SIGNATURE' : 'STYLE #' + idx,
+            badgeColor: tKey === 'arashikage_monolith' ? '#b81d13' : '#15803d',
             title: m.name,
             subtitle: m.notes,
             action: () => {
@@ -2671,7 +2733,7 @@
       document.documentElement.setAttribute('data-mode', activePolarity);
       document.body.setAttribute('data-mode', activePolarity);
       try {
-        localStorage.setItem('arashikage_arch_polarity', activePolarity);
+        localStorage.setItem('arashikage_arch_polarity_v2', activePolarity);
       } catch (_) {}
       setTheme(activeTheme);
     }
@@ -2684,7 +2746,7 @@
       document.body.setAttribute('data-mode', activePolarity);
 
       try {
-        localStorage.setItem('arashikage_arch_theme', activeTheme);
+        localStorage.setItem('arashikage_arch_theme_v2', activeTheme);
       } catch (_) {}
 
       if (selTheme && selTheme.value !== activeTheme) {
@@ -2697,10 +2759,13 @@
       const notesText = meta.name.toUpperCase() + ' (' + activePolarity.toUpperCase() + ') — ' + meta.notes;
       const activeThemePillLabel = document.getElementById('activeThemePillLabel');
       if (activeThemePillLabel) {
-        activeThemePillLabel.textContent = String(themeIdx + 1).padStart(2, '0') + ' · ' + meta.name;
+        activeThemePillLabel.textContent =
+          themeKey === 'arashikage_monolith'
+            ? '★ · Arashikage Monolith'
+            : String(themeIdx).padStart(2, '0') + ' · ' + meta.name;
       }
       if (btnThemeGalleryTrigger) {
-        btnThemeGalleryTrigger.title = notesText + ' — Click to open 12-Style Visual Swatch Gallery';
+        btnThemeGalleryTrigger.title = notesText + ' — Click to open 13-Style Visual Swatch Gallery';
       }
       if (selTheme) {
         selTheme.title = notesText;
@@ -3294,8 +3359,8 @@
       });
     }
 
-    // Keyboard shortcuts: 1..9,0,-,= for 12 themes, [/] to cycle theme, / or Ctrl+K for Search, ? for Quick Start, L/D for Light/Dark, ArrowLeft/Right/Escape for Tour & Fullscreen
-    const THEME_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
+    // Keyboard shortcuts: `,1..9,0,-,= for 13 themes, [/] to cycle theme, / or Ctrl+K for Search, ? for Quick Start, L/D for Light/Dark, ArrowLeft/Right/Escape for Tour & Fullscreen
+    const THEME_KEYS = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
     window.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
         e.preventDefault();
@@ -3366,7 +3431,7 @@
         return;
       }
 
-      const keyIdx = THEME_KEYS.indexOf(e.key);
+      const keyIdx = e.key === '~' ? 0 : THEME_KEYS.indexOf(e.key);
       if (keyIdx >= 0 && keyIdx < THEME_ORDER.length) {
         setTheme(THEME_ORDER[keyIdx]);
       } else if (e.key === '[') {
@@ -3382,10 +3447,10 @@
       }
     });
 
-    // Restore saved theme/polarity & URL hash state
+    // Restore saved theme/polarity & URL hash state (v2 defaults to Arashikage Monolith · Hanga Dark)
     try {
-      const savedTheme = localStorage.getItem('arashikage_arch_theme');
-      const savedPol = localStorage.getItem('arashikage_arch_polarity');
+      const savedTheme = localStorage.getItem('arashikage_arch_theme_v2');
+      const savedPol = localStorage.getItem('arashikage_arch_polarity_v2');
       if (savedTheme && THEME_META[savedTheme]) activeTheme = savedTheme;
       if (savedPol === 'dark' || savedPol === 'light') activePolarity = savedPol;
     } catch (_) {}

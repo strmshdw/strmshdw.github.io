@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-mode="light">
+<html lang="en" data-mode="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,7 +7,7 @@
   <title>Arashikage (Hex64) — Systems &amp; Neural Architecture Explorer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700;800&family=Josefin+Sans:wght@600;700&family=Noto+Serif+JP:wght@600;700;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" />
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';document.head.appendChild(s);"></script>
   <style>
 /* ==========================================================================
@@ -82,6 +82,190 @@ body[data-mode="light"] {
 html[data-mode="dark"],
 body[data-mode="dark"] {
   color-scheme: dark;
+}
+
+/* Default state for Hanko seal outside Arashikage Monolith theme */
+.am-hanko-seal {
+  display: none;
+}
+
+@keyframes am-hanko-strike {
+  0% {
+    opacity: 0;
+    transform: scale(1.14);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --- 0. ARASHIKAGE MONOLITH (嵐影 · 銀座碑文 — PRIMARY SIGNATURE THEME) ---
+   版画 · Hanga (Sumi Woodblock — Default Dark) & 和紙 · Washi (Mulberry Parchment — Light)
+   90/10 Pigment Law (九分墨・一分朱) · Stepped Art Deco Ziggurat Frame · Carved Hanko Seal */
+body[data-theme="arashikage_monolith"][data-mode="dark"] {
+  --am-ground: #0a0908;
+  --am-canvas: #171412;
+  --am-plaque: #0d0b0a;
+  --am-canvas-subtle: #211d1a;
+  --am-rule: #36302a;
+  --am-outline: #d8d0c5;
+  --am-frieze: #cfc6b8;
+  --am-ink: #f4efe6;
+  --am-ink-strong: #fbf9f5;
+  --am-ink-secondary: #c9c0b1;
+  --am-ink-muted: #8f8476;
+  --am-slab-primary: #f4efe6;
+  --am-slab-primary-ink: #12100e;
+  --am-slab-counter: #b81d13;
+  --am-slab-counter-ink: #fbf9f5;
+  --am-vermilion: #d4261d;
+  --am-gold: #deb052;
+  --am-steel: #7da8c4;
+  --am-celadon: #82a890;
+
+  --bg-root: #0a0908;
+  --bg-panel: #171412;
+  --bg-card: #0d0b0a;
+  --bg-elevated: #211d1a;
+  --border-hair: #36302a;
+  --border-sub: #d8d0c5;
+  --ink-primary: #fbf9f5;
+  --ink-secondary: #c9c0b1;
+  --ink-muted: #9e9384;
+  --accent-main: #d4261d;
+  --accent-ink: #fbf9f5;
+  --accent-tint: rgba(212, 38, 29, 0.14);
+  --font-display: "Josefin Sans", "Space Grotesk", "Inter", sans-serif;
+  --font-body: "IBM Plex Sans", "Inter", system-ui, -apple-system, sans-serif;
+  --card-shadow: none;
+  --elevated-shadow: 0 0 0 1px #36302a;
+  --border-w: 1px;
+  --radius-card: 0px;
+}
+
+body[data-theme="arashikage_monolith"][data-mode="light"] {
+  --am-ground: #ebe5d9;
+  --am-canvas: #f4efe6;
+  --am-plaque: #fcfaf6;
+  --am-canvas-subtle: #e6dfd3;
+  --am-rule: #cfc7b8;
+  --am-outline: #1c1917;
+  --am-frieze: #4a3f33;
+  --am-ink: #171412;
+  --am-ink-strong: #090807;
+  --am-ink-secondary: #362f28;
+  --am-ink-muted: #615548;
+  --am-slab-primary: #1c1917;
+  --am-slab-primary-ink: #fbf9f5;
+  --am-slab-counter: #b81d13;
+  --am-slab-counter-ink: #fbf9f5;
+  --am-vermilion: #b81d13;
+  --am-gold: #8c5604;
+  --am-steel: #1b4965;
+  --am-celadon: #1e523b;
+
+  --bg-root: #ebe5d9;
+  --bg-panel: #f4efe6;
+  --bg-card: #fcfaf6;
+  --bg-elevated: #e6dfd3;
+  --border-hair: #cfc7b8;
+  --border-sub: #1c1917;
+  --ink-primary: #090807;
+  --ink-secondary: #362f28;
+  --ink-muted: #615548;
+  --accent-main: #b81d13;
+  --accent-ink: #fbf9f5;
+  --accent-tint: rgba(184, 29, 19, 0.10);
+  --font-display: "Josefin Sans", "Space Grotesk", "Inter", sans-serif;
+  --font-body: "IBM Plex Sans", "Inter", system-ui, -apple-system, sans-serif;
+  --card-shadow: none;
+  --elevated-shadow: 0 0 0 1px #cfc7b8;
+  --border-w: 1px;
+  --radius-card: 0px;
+}
+
+/* Law 05: 0px Chisel-Cut Monolith Geometry */
+body[data-theme="arashikage_monolith"] .rounded-2xl,
+body[data-theme="arashikage_monolith"] .rounded-xl,
+body[data-theme="arashikage_monolith"] .rounded-lg,
+body[data-theme="arashikage_monolith"] .rounded-md,
+body[data-theme="arashikage_monolith"] .rounded-sm,
+body[data-theme="arashikage_monolith"] .rounded {
+  border-radius: 0px !important;
+}
+
+/* Four-Voice Typographic Hierarchy: Voice 1 (Josefin Display), Voice 3 (JetBrains Mono Tabular), Voice 4 (Noto Serif JP Hanko Seal) */
+body[data-theme="arashikage_monolith"] h1,
+body[data-theme="arashikage_monolith"] h2,
+body[data-theme="arashikage_monolith"] .kicker {
+  font-family: "Josefin Sans", "Space Grotesk", sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+body[data-theme="arashikage_monolith"] .mono {
+  font-family: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+/* Carved Square Shu-iro Vermilion Hanko Stamp ([嵐影 / 之印]) */
+body[data-theme="arashikage_monolith"] #brandDot {
+  display: none !important;
+}
+body[data-theme="arashikage_monolith"] .am-hanko-seal {
+  display: inline-grid;
+  place-items: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  background-color: #b81d13;
+  color: #fbf9f5;
+  font-family: "Noto Serif JP", "Hiragino Mincho ProN", serif;
+  font-weight: 900;
+  font-size: 0.48rem;
+  line-height: 1.04;
+  letter-spacing: 0.04em;
+  text-align: center;
+  outline: 1px solid rgba(251, 249, 245, 0.42);
+  outline-offset: -2.5px;
+  border-radius: 0px;
+  flex-shrink: 0;
+  user-select: none;
+  animation: am-hanko-strike 180ms cubic-bezier(0.12, 0.98, 0.24, 1) both;
+}
+
+/* Law 01 & Law 04: 90/10 Pigment Allocation (九分墨・一分朱)
+   Active segmented pills use Inverted Monolith Slab Polarity (--am-slab-primary);
+   Primary Hanko action triggers retain Shu-iro Vermilion (#b81d13) with carved inner rim */
+body[data-theme="arashikage_monolith"] #genPillBar .btn-theme-accent,
+body[data-theme="arashikage_monolith"] #modePillBar .btn-theme-accent {
+  background-color: var(--am-slab-primary) !important;
+  color: var(--am-slab-primary-ink) !important;
+  border-color: var(--am-outline) !important;
+}
+body[data-theme="arashikage_monolith"] #btnToggleTour.btn-theme-accent,
+body[data-theme="arashikage_monolith"] #btnOpenQuickStart.btn-theme-accent,
+body[data-theme="arashikage_monolith"] #btnCloseQuickStartBottom.btn-theme-accent,
+body[data-theme="arashikage_monolith"] #ttStepBadge.btn-theme-accent,
+body[data-theme="arashikage_monolith"] #btnResumeTourStep.btn-theme-accent {
+  background-color: #b81d13 !important;
+  color: #fbf9f5 !important;
+  border-color: var(--am-outline) !important;
+  outline: 1px solid rgba(251, 249, 245, 0.36);
+  outline-offset: -2px;
+}
+
+/* Stepped Art Deco Ziggurat Frame on Top-Level Monolith Overlays Only (Anti-Claustrophobia Law) */
+body[data-theme="arashikage_monolith"] #themeGalleryPopover,
+body[data-theme="arashikage_monolith"] #searchPalettePopover,
+body[data-theme="arashikage_monolith"] #quickStartModalCard,
+body[data-theme="arashikage_monolith"] #tourTooltip,
+body[data-theme="arashikage_monolith"] #exportPopoverMenu {
+  border: 1.5px solid var(--am-outline) !important;
+  box-shadow:
+    0 0 0 4px var(--am-ground),
+    0 0 0 5.5px var(--am-rule),
+    0 24px 48px rgba(0, 0, 0, 0.55) !important;
 }
 
 /* --- 1. NEO-BRUTALISM (LIGHT & DARK) --- */
@@ -920,7 +1104,7 @@ h1, h2, h3, h4 {
 
 </style>
 </head>
-<body data-theme="bauhaus" data-mode="light" class="surface-root antialiased lg:h-screen lg:w-screen lg:overflow-hidden flex flex-col">
+<body data-theme="arashikage_monolith" data-mode="dark" class="surface-root antialiased lg:h-screen lg:w-screen lg:overflow-hidden flex flex-col">
 
   <!-- Full-Viewport Application Shell -->
   <div class="w-full flex-1 min-h-0 surface-panel flex flex-col overflow-hidden">
@@ -929,6 +1113,7 @@ h1, h2, h3, h4 {
     <div id="topIdentityBar" class="shrink-0 px-3 py-1 border-b border-hairline surface-root flex items-center justify-between gap-2">
       <div class="flex items-center gap-2 min-w-0 flex-1">
         <button id="identityBrandTrigger" type="button" title="Open Quick Start &amp; Navigation Guide (Shortcut: ?)" class="flex items-center gap-1.5 shrink-0 cursor-pointer hover:opacity-85 transition">
+          <span id="hankoBrandSeal" class="am-hanko-seal" aria-hidden="true">嵐影<br/>之印</span>
           <span id="brandDot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
           <span id="identityBadgeText" class="mono text-[11px] font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX64</span>
         </button>
@@ -1021,15 +1206,18 @@ h1, h2, h3, h4 {
           <button id="btnPrevTheme" title="Previous Design Theme ([)" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
             ◀
           </button>
-          <button id="btnThemeGalleryTrigger" type="button" popovertarget="themeGalleryPopover" title="Open 12-Style Visual Swatch Gallery" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold text-primary-ink hover:bg-black/5 dark:hover:bg-white/10 transition cursor-pointer gap-1">
-            <span id="activeThemePillLabel">03 · Bauhaus Constructivism</span>
+          <button id="btnThemeGalleryTrigger" type="button" popovertarget="themeGalleryPopover" title="Open Design System &amp; 13-Style Visual Swatch Gallery" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold text-primary-ink hover:bg-black/5 dark:hover:bg-white/10 transition cursor-pointer gap-1">
+            <span id="activeThemePillLabel">★ · Arashikage Monolith</span>
             <span class="text-[9.5px] text-muted-ink">▾</span>
           </button>
-          <select id="selTheme" aria-label="Design Theme (12 Iconic Styles)" class="sr-only">
+          <select id="selTheme" aria-label="Design Theme (Signature Arashikage Monolith + 12 Iconic Styles)" class="sr-only">
+            <optgroup label="0. Signature Design System (嵐影 · 銀座碑文)">
+              <option value="arashikage_monolith" selected>★ · Arashikage Monolith (版画 Hanga / 和紙 Washi)</option>
+            </optgroup>
             <optgroup label="I. Constructivist &amp; Editorial Grids">
               <option value="neo_brutalism">01 · Neo-Brutalism</option>
               <option value="modular_typo">02 · Modular Typography</option>
-              <option value="bauhaus" selected>03 · Bauhaus Constructivism</option>
+              <option value="bauhaus">03 · Bauhaus Constructivism</option>
             </optgroup>
             <optgroup label="II. Engineering &amp; Hardware Consoles">
               <option value="utilitarian">04 · Utilitarian CAD</option>
@@ -1056,8 +1244,8 @@ h1, h2, h3, h4 {
         <div id="themeGalleryPopover" popover class="surface-elevated border border-subtle rounded-xl p-3 flex-col gap-2.5 w-[44rem] max-w-[95vw] z-50 shadow-2xl">
           <div class="flex items-center justify-between gap-2 pb-1.5 border-b border-hairline">
             <div class="flex items-center gap-2">
-              <span class="kicker text-theme-accent">12 ICONIC DESIGN STYLES × 2 POLARITIES (24 STATES)</span>
-              <span class="mono text-[9.5px] text-muted-ink">Keys: 1..9, 0, -, = · Cycle: [ / ]</span>
+              <span class="kicker text-theme-accent">SIGNATURE ARASHIKAGE MONOLITH + 12 ICONIC STYLES × 2 POLARITIES</span>
+              <span class="mono text-[9.5px] text-muted-ink">Keys: `, 1..9, 0, -, = · Cycle: [ / ]</span>
             </div>
             <div class="flex items-center gap-1">
               <button type="button" id="btnGalleryLight" class="no-wrap-btn px-2 py-0.5 rounded text-[10px] font-bold surface-panel text-primary-ink border border-hairline cursor-pointer">
@@ -1544,11 +1732,11 @@ h1, h2, h3, h4 {
             <!-- Surface 6 -->
             <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
               <div class="flex items-center justify-between gap-1">
-                <span class="mono text-[10px] font-bold text-theme-accent">06 · 12 THEMES, FULL SCREEN &amp; EXPORT</span>
-                <span class="mono text-[9.5px] text-muted-ink">24 Visual Modes</span>
+                <span class="mono text-[10px] font-bold text-theme-accent">06 · SIGNATURE MONOLITH + 12 THEMES &amp; EXPORT</span>
+                <span class="mono text-[9.5px] text-muted-ink">26 Visual Modes</span>
               </div>
               <p class="text-[11px] text-secondary-ink leading-snug">
-                Click <strong>03 · Bauhaus Constructivism ▾</strong> to browse 12 iconic design styles × Light/Dark. Use <strong>⛶ Full Screen</strong> for a 100%-width canvas with a slide-over drawer, or <strong>Export ▾</strong> for HTML/PNG/Mermaid.
+                Click <strong>★ · Arashikage Monolith ▾</strong> to switch between the signature <em>版画 Hanga / 和紙 Washi</em> monolith and 12 iconic design styles × Light/Dark. Use <strong>⛶ Full Screen</strong> or <strong>Export ▾</strong> for HTML/PNG/Mermaid.
               </p>
             </div>
           </div>
@@ -1561,7 +1749,7 @@ h1, h2, h3, h4 {
             <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">?</kbd> Open Guide</span>
             <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">/</kbd> or <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">Ctrl+K</kbd> Search</span>
             <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">←</kbd> <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">→</kbd> Tour Step</span>
-            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">[</kbd> <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">]</kbd> or <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">1..9,0,-,=</kbd> 12 Themes</span>
+            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">[</kbd> <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">]</kbd> or <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">`,1..9,0,-,=</kbd> 13 Themes</span>
             <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">L</kbd> / <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">D</kbd> Light / Dark</span>
             <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">Esc</kbd> Close / Exit</span>
           </div>
@@ -1576,7 +1764,7 @@ h1, h2, h3, h4 {
         </label>
         <div class="flex items-center gap-2">
           <button type="button" data-qs-action="open-themes" class="no-wrap-btn px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-hairline hover:border-subtle text-[11px] font-bold transition cursor-pointer">
-            🎨 Browse 12 Design Styles
+            🎨 Browse 13 Design Styles
           </button>
           <button id="btnCloseQuickStartBottom" type="button" class="no-wrap-btn px-3.5 py-1 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer">
             Start Exploring →
@@ -5121,7 +5309,41 @@ window.ARASHIKAGE_ARCHITECTURES = {
     // ====================================================================
     // 1. THEME + POLARITY SPECIFIC BACKGROUND FIELD
     // ====================================================================
-    if (activeTheme === 'neo_brutalism') {
+    if (activeTheme === 'arashikage_monolith') {
+      // Arashikage Monolith (嵐影 · 銀座碑文): Stratum 0 Mounting Ground + Stratum 1 Scroll Canvas + Stepped Ziggurat Frame + Kentō Marks
+      ctx.fillStyle = isLight ? '#ebe5d9' : '#0a0908';
+      ctx.fillRect(0, 0, BASE_W, BASE_H);
+
+      ctx.fillStyle = isLight ? '#f4efe6' : '#171412';
+      ctx.fillRect(6, 6, BASE_W - 12, BASE_H - 12);
+
+      // Subtle 1px horizontal incised ledger rules (--am-rule)
+      ctx.strokeStyle = isLight ? 'rgba(28, 25, 23, 0.055)' : 'rgba(216, 208, 197, 0.042)';
+      ctx.lineWidth = 1;
+      for (let gy = 68; gy < BASE_H - 8; gy += 36) {
+        ctx.beginPath(); ctx.moveTo(8, gy); ctx.lineTo(BASE_W - 8, gy); ctx.stroke();
+      }
+
+      // Low-opacity Sumi-e typographic watermark (嵐影 · ䷿)
+      ctx.save();
+      ctx.font = '900 104px "Noto Serif JP", serif';
+      ctx.fillStyle = isLight ? 'rgba(28, 25, 23, 0.028)' : 'rgba(244, 239, 230, 0.026)';
+      ctx.textAlign = 'right';
+      ctx.fillText('嵐影 · ䷿', BASE_W - 26, BASE_H - 28);
+      ctx.restore();
+
+      // Stepped Art Deco Ziggurat Outer Frame (1px outer rule + 4px ground moat + 1.5px primary monolith outline)
+      ctx.strokeStyle = isLight ? '#cfc7b8' : '#36302a';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(2, 2, BASE_W - 4, BASE_H - 4);
+      ctx.strokeStyle = isLight ? '#1c1917' : '#d8d0c5';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(6, 6, BASE_W - 12, BASE_H - 12);
+
+      // Woodblock Kentō (見当) corner registration notches in Shu-iro Vermilion
+      const kentoCol = isLight ? '#b81d13' : '#d4261d';
+      drawCornerBrackets(ctx, 6, 6, BASE_W - 12, BASE_H - 12, 12, kentoCol);
+    } else if (activeTheme === 'neo_brutalism') {
       ctx.fillStyle = isLight ? '#f3efe6' : '#111113';
       ctx.fillRect(0, 0, BASE_W, BASE_H);
       ctx.fillStyle = isLight ? 'rgba(17, 17, 17, 0.16)' : 'rgba(250, 250, 250, 0.12)';
@@ -5294,7 +5516,54 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const laneW = 172;
       const laneX = ch.x - laneW / 2;
 
-      if (activeTheme === 'neo_brutalism') {
+      if (activeTheme === 'arashikage_monolith') {
+        // Arashikage Monolith Column: Stratum 2 Carved Plaque (--am-plaque) + Kanji Seal Prefix Cartouche (礎 双 戒 録 印 鎖)
+        const stageKanji = ['礎', '双', '戒', '録', '印', '鎖'][idx % 6];
+        const ruleCol = isLight ? '#cfc7b8' : '#36302a';
+        const outlineCol = isLight ? '#1c1917' : '#d8d0c5';
+
+        ctx.fillStyle = isLight ? 'rgba(252, 250, 246, 0.88)' : 'rgba(13, 11, 10, 0.86)';
+        ctx.fillRect(laneX, 12, laneW, BASE_H - 24);
+        ctx.strokeStyle = ruleCol;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(laneX, 12, laneW, BASE_H - 24);
+
+        // Header monolith box
+        ctx.fillStyle = isLight ? '#e6dfd3' : '#211d1a';
+        ctx.fillRect(laneX, 12, laneW, 50);
+        ctx.fillStyle = ch.color;
+        ctx.fillRect(laneX, 12, laneW, 2.5);
+        ctx.strokeStyle = outlineCol;
+        ctx.lineWidth = 1.4;
+        ctx.strokeRect(laneX, 12, laneW, 50);
+        ctx.strokeStyle = ruleCol;
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(laneX, 41); ctx.lineTo(laneX + laneW, 41); ctx.stroke();
+
+        // Carved Kanji Seal Prefix Cartouche (Voice 4: Noto Serif JP)
+        ctx.fillStyle = isLight ? '#1c1917' : '#0d0b0a';
+        ctx.fillRect(laneX + 6, 17, 20, 20);
+        ctx.strokeStyle = ch.color;
+        ctx.lineWidth = 1.2;
+        ctx.strokeRect(laneX + 6, 17, 20, 20);
+        ctx.font = '900 11px "Noto Serif JP", serif';
+        ctx.fillStyle = isLight ? '#fbf9f5' : ch.color;
+        ctx.textAlign = 'center';
+        ctx.fillText(stageKanji, laneX + 16, 31);
+
+        // Voice 1: Josefin Sans Geometric Display Header
+        ctx.font = '700 9.6px "Josefin Sans", "Space Grotesk", sans-serif';
+        ctx.fillStyle = isLight ? '#090807' : '#fbf9f5';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, ch.title, laneX + 31, 31, laneW - 37);
+
+        // Voice 3: JetBrains Mono Tabular Subtitle
+        ctx.font = '600 9.3px "JetBrains Mono", "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#362f28' : '#c9c0b1';
+        ctx.textAlign = 'center';
+        drawFittedText(ctx, ch.sub, ch.x, 55, laneW - 14);
+
+      } else if (activeTheme === 'neo_brutalism') {
         const borderCol = isLight ? '#111111' : '#f4f4f5';
         ctx.fillStyle = '#111111';
         ctx.fillRect(laneX + 4, 16, laneW, 48);
@@ -5616,6 +5885,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
     // 3. DRAW DIRECTED EDGES, DATAFLOW PULSES & CONTEXTUAL TENSOR LABELS
     // ====================================================================
     const useOrthogonalTraces =
+      activeTheme === 'arashikage_monolith' ||
       activeTheme === 'utilitarian' ||
       activeTheme === 'modular_typo' ||
       activeTheme === 'pixel_art' ||
@@ -5778,6 +6048,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
         ctx.fillStyle = n1.color;
         if (
+          activeTheme === 'arashikage_monolith' ||
           activeTheme === 'pixel_art' ||
           activeTheme === 'utilitarian' ||
           activeTheme === 'neo_brutalism' ||
@@ -5824,7 +6095,98 @@ window.ARASHIKAGE_ARCHITECTURES = {
       else if (!inTourSpotlight) ctx.globalAlpha = 0.28;
       else ctx.globalAlpha = 1.0;
 
-      if (activeTheme === 'neo_brutalism') {
+      if (activeTheme === 'arashikage_monolith') {
+        // Arashikage Monolith Node (90/10 Pigment Law):
+        // - Unselected (90%): Incised 1px Stratum 2 mineral plaque (--am-plaque) + 3px left stage spine + unified --am-ink-strong title
+        // - Selected (10%): Stepped Ziggurat frame + Inverted Monolith Header (.am-slab-primary) + Square Carved Shu-iro Hanko Stamp (#b81d13)
+        const ruleCol = isLight ? '#cfc7b8' : '#36302a';
+        const outlineCol = isLight ? '#1c1917' : '#d8d0c5';
+
+        if (isSelected) {
+          // Stepped Ziggurat outer Kentō frame around selected monolith
+          ctx.fillStyle = isLight ? '#ebe5d9' : '#0a0908';
+          ctx.fillRect(rx - 3, ry - 3, n.w + 6, n.h + 6);
+          ctx.strokeStyle = isLight ? '#b81d13' : '#d4261d';
+          ctx.lineWidth = 1.2;
+          ctx.strokeRect(rx - 4, ry - 4, n.w + 8, n.h + 8);
+        }
+
+        ctx.fillStyle = isLight
+          ? isSelected ? '#fcfaf6' : isHovered ? '#f4efe6' : '#fcfaf6'
+          : isSelected ? '#171412' : isHovered ? '#211d1a' : '#0d0b0a';
+        ctx.fillRect(rx, ry, n.w, n.h);
+
+        if (isSelected) {
+          // Inverted Monolith Header Slab (.am-slab-primary)
+          ctx.fillStyle = isLight ? '#1c1917' : '#f4efe6';
+          ctx.fillRect(rx, ry, n.w, 25);
+
+          // Square Carved Shu-iro Vermilion Hanko Stamp (#b81d13) on left of header
+          ctx.fillStyle = '#b81d13';
+          ctx.fillRect(rx, ry, 29, 25);
+          ctx.strokeStyle = 'rgba(251, 249, 245, 0.45)';
+          ctx.lineWidth = 1;
+          ctx.strokeRect(rx + 2.5, ry + 2.5, 24, 20);
+
+          // Left vertical Shu-iro Vermilion spine below header
+          ctx.fillStyle = '#b81d13';
+          ctx.fillRect(rx, ry + 25, 3.5, n.h - 25);
+
+          ctx.strokeStyle = outlineCol;
+          ctx.lineWidth = 1.8;
+          ctx.strokeRect(rx, ry, n.w, n.h);
+          ctx.beginPath(); ctx.moveTo(rx, ry + 25); ctx.lineTo(rx + n.w, ry + 25); ctx.stroke();
+
+          ctx.font = '700 9.6px "JetBrains Mono", "IBM Plex Mono", monospace';
+          ctx.fillStyle = '#fbf9f5';
+          ctx.textAlign = 'center';
+          ctx.fillText(n.num, rx + 14.5, ry + 16.5);
+
+          if (!showTourBadgeInHeader) {
+            ctx.font = '700 9.1px "JetBrains Mono", "IBM Plex Mono", monospace';
+            ctx.fillStyle = isLight ? '#fbf9f5' : '#12100e';
+            ctx.textAlign = 'right';
+            drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 7, ry + 16.5, innerW - 28);
+          }
+        } else {
+          // Subtle header band + 3px left stage mineral chisel spine
+          ctx.fillStyle = isLight ? '#f4efe6' : '#151210';
+          ctx.fillRect(rx, ry, n.w, 24);
+          ctx.fillStyle = n.color;
+          ctx.fillRect(rx, ry, 3, n.h);
+
+          ctx.strokeStyle = isHovered ? outlineCol : ruleCol;
+          ctx.lineWidth = isHovered ? 1.5 : 1.1;
+          ctx.strokeRect(rx, ry, n.w, n.h);
+          ctx.strokeStyle = ruleCol;
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(rx, ry + 24); ctx.lineTo(rx + n.w, ry + 24); ctx.stroke();
+
+          ctx.font = '700 9.5px "JetBrains Mono", "IBM Plex Mono", monospace';
+          ctx.fillStyle = n.color;
+          ctx.textAlign = 'left';
+          ctx.fillText('#' + n.num, rx + 8, ry + 16);
+
+          if (!showTourBadgeInHeader) {
+            ctx.font = '600 9.1px "JetBrains Mono", "IBM Plex Mono", monospace';
+            ctx.fillStyle = isLight ? '#615548' : '#9e9384';
+            ctx.textAlign = 'right';
+            drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 7, ry + 16, innerW - 30);
+          }
+        }
+
+        // Voice 1: Josefin Sans Geometric Display Title in Unified --am-ink-strong (Anti-Rainbow Law)
+        ctx.font = '700 12px "Josefin Sans", "Space Grotesk", sans-serif';
+        ctx.fillStyle = isLight ? '#090807' : '#fbf9f5';
+        ctx.textAlign = 'left';
+        drawFittedText(ctx, n.title, rx + 9, ry + 46, innerW - 2);
+
+        // Voice 2: IBM Plex Sans Editorial Subtitle in --am-ink-secondary
+        ctx.font = '500 10px "IBM Plex Sans", "Inter", sans-serif';
+        ctx.fillStyle = isLight ? '#362f28' : '#c9c0b1';
+        drawWrappedSub(ctx, n.sub, rx + 9, ry + 65, innerW - 2, 13.5);
+
+      } else if (activeTheme === 'neo_brutalism') {
         const shOff = isSelected ? 6 : 4;
         ctx.fillStyle = isLight ? '#111111' : n.color;
         ctx.fillRect(rx + shOff, ry + shOff, n.w, n.h);
@@ -6421,7 +6783,9 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
         // Theme-matched Edge Tensor Label Pill
         const pillFill =
-          activeTheme === 'blueprint'
+          activeTheme === 'arashikage_monolith'
+            ? isLight ? '#fcfaf6' : '#0d0b0a'
+            : activeTheme === 'blueprint'
             ? isLight ? '#f0f7ff' : '#0b2242'
             : activeTheme === 'cyberpunk'
               ? isLight ? '#ffffff' : '#0b0f19'
@@ -6544,8 +6908,9 @@ window.ARASHIKAGE_ARCHITECTURES = {
   let selectedSubtickIdx = 1;
   let selectedCriticHorizonIdx = 1;
 
-  // 12-Style × 2-Polarity Theme Engine Metadata (WCAG AA >= 4.5:1 Verified Across All 24 States)
+  // Signature Arashikage Monolith + 12-Style × 2-Polarity Theme Engine Metadata (WCAG AA >= 4.5:1 Verified Across All 26 States)
   const THEME_ORDER = [
+    'arashikage_monolith',
     'neo_brutalism',
     'modular_typo',
     'bauhaus',
@@ -6572,6 +6937,12 @@ window.ARASHIKAGE_ARCHITECTURES = {
   }
 
   const THEME_META = {
+    arashikage_monolith: {
+      name: 'Arashikage Monolith (嵐影 · 銀座碑文)',
+      notes: '版画 Hanga (Dark) / 和紙 Washi (Light) · 90/10 Sumi & Shu-iro Hanko Seal · Stepped Ziggurat Frame',
+      stageColorsLight: ['#1c1917', '#1b4965', '#8c5604', '#6b4c1b', '#b81d13', '#1e523b'],
+      stageColorsDark:  ['#d8d0c5', '#7da8c4', '#deb052', '#c89d54', '#d4261d', '#82a890']
+    },
     neo_brutalism: {
       name: 'Neo-Brutalism',
       notes: '2.5px ink borders · Hard offset shadows',
@@ -6647,6 +7018,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
   };
 
   const THEME_SWATCH_PREVIEW = {
+    arashikage_monolith: { light: { root: '#ebe5d9', panel: '#fcfaf6', ink: '#090807', accent: '#b81d13' }, dark: { root: '#0a0908', panel: '#171412', ink: '#fbf9f5', accent: '#b81d13' } },
     neo_brutalism:    { light: { root: '#f4f0e6', panel: '#ffffff', ink: '#111111', accent: '#ff4d00' }, dark: { root: '#121210', panel: '#1d1d1a', ink: '#f5f2eb', accent: '#ff5e1a' } },
     modular_typo:     { light: { root: '#f7f7f5', panel: '#ffffff', ink: '#0a0a0a', accent: '#c81e00' }, dark: { root: '#0c0d0e', panel: '#141619', ink: '#f8fafc', accent: '#ff3b14' } },
     bauhaus:          { light: { root: '#f3efe6', panel: '#faf7f0', ink: '#141413', accent: '#d92b2b' }, dark: { root: '#141416', panel: '#1e1f23', ink: '#f5f2eb', accent: '#ef4444' } },
@@ -6662,6 +7034,11 @@ window.ARASHIKAGE_ARCHITECTURES = {
   };
 
   const THEME_GLYPHS = {
+    arashikage_monolith: {
+      prev: '◂', next: '▸', light: '陽', dark: '陰',
+      node: '礎', tech: '録', tourOn: '印', tourOff: '▸',
+      export: '↗', close: '✕', open: '↗', fs: '⊞', fsExit: '✕'
+    },
     neo_brutalism: {
       prev: '◀', next: '▶', light: '■', dark: '□',
       node: '▣', tech: '◈', tourOn: '■', tourOff: '▶',
@@ -6724,16 +7101,16 @@ window.ARASHIKAGE_ARCHITECTURES = {
     }
   };
 
-  let activeTheme = 'bauhaus';
-  let activePolarity = 'light'; // 'light' | 'dark'
+  let activeTheme = 'arashikage_monolith';
+  let activePolarity = 'dark'; // 'light' | 'dark' (Default: 版画 · Hanga Sumi Woodblock)
 
   function getGlyph(key) {
-    const g = THEME_GLYPHS[activeTheme] || THEME_GLYPHS.bauhaus;
+    const g = THEME_GLYPHS[activeTheme] || THEME_GLYPHS.arashikage_monolith;
     return g[key] || '';
   }
 
   function getActiveStageColors() {
-    const meta = THEME_META[activeTheme] || THEME_META.bauhaus;
+    const meta = THEME_META[activeTheme] || THEME_META.arashikage_monolith;
     return activePolarity === 'light' ? meta.stageColorsLight : meta.stageColorsDark;
   }
 
@@ -8897,7 +9274,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
     function renderThemeGalleryPopover() {
       if (!themeGalleryGrid) return;
       const isLight = activePolarity === 'light';
-      const THEME_SHORTCUT_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
+      const THEME_SHORTCUT_KEYS = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
 
       if (btnGalleryLight && btnGalleryDark) {
         btnGalleryLight.className =
@@ -8933,6 +9310,55 @@ window.ARASHIKAGE_ARCHITECTURES = {
           )
           .join('');
 
+        if (tKey === 'arashikage_monolith') {
+          return (
+            '<button type="button" data-gallery-theme="' +
+            tKey +
+            '" class="col-span-1 sm:col-span-2 lg:col-span-3 p-2.5 rounded-lg text-left border transition cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-2 ' +
+            (isAct
+              ? 'surface-elevated border-subtle ring-2 ring-[var(--accent-primary)]'
+              : 'surface-root border-hairline hover:border-subtle') +
+            '">' +
+            '<div class="flex items-center gap-2.5 min-w-0">' +
+            '<span class="inline-grid place-items-center w-7 h-7 shrink-0 font-black text-[9px] leading-none" style="background:#b81d13;color:#fbf9f5;font-family:\'Noto Serif JP\',serif;outline:1px solid rgba(251,249,245,0.42);outline-offset:-2.5px">嵐影<br/>之印</span>' +
+            '<div class="flex flex-col min-w-0">' +
+            '<div class="flex items-center gap-1.5 flex-wrap">' +
+            '<span class="mono text-[9px] font-bold px-1.5 py-0.2 rounded" style="background:#b81d13;color:#fbf9f5">★ SIGNATURE PRIMARY</span>' +
+            '<span class="text-xs font-extrabold text-primary-ink truncate">' +
+            meta.name +
+            '</span>' +
+            '</div>' +
+            '<div class="text-[10px] text-secondary-ink leading-tight truncate">' +
+            meta.notes +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="flex items-center justify-between sm:justify-end gap-2.5 shrink-0 pt-1 sm:pt-0 border-t sm:border-t-0 border-hairline">' +
+            '<div class="flex items-center gap-1" title="Ground / Canvas / Ink / Hanko Vermilion">' +
+            '<span class="w-3.5 h-3.5 border border-subtle inline-block" style="background:' +
+            sw.root +
+            '"></span>' +
+            '<span class="w-3.5 h-3.5 border border-subtle inline-block" style="background:' +
+            sw.panel +
+            '"></span>' +
+            '<span class="w-3.5 h-3.5 border border-subtle inline-block" style="background:' +
+            sw.ink +
+            '"></span>' +
+            '<span class="w-3.5 h-3.5 border border-subtle inline-block" style="background:' +
+            sw.accent +
+            '"></span>' +
+            '</div>' +
+            '<div class="flex items-center gap-0.5" title="6-Stage Mineral Palette">' +
+            stageDotsHtml +
+            '</div>' +
+            '<span class="mono text-[9px] font-bold px-1.5 py-0.5 rounded surface-panel text-secondary-ink border border-hairline shrink-0">Key ' +
+            keyChar +
+            '</span>' +
+            '</div>' +
+            '</button>'
+          );
+        }
+
         return (
           '<button type="button" data-gallery-theme="' +
           tKey +
@@ -8943,7 +9369,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
           '">' +
           '<div class="flex items-center justify-between gap-1">' +
           '<span class="text-[11px] font-bold text-primary-ink truncate">' +
-          (idx + 1) +
+          idx +
           '. ' +
           meta.name +
           '</span>' +
@@ -9066,8 +9492,8 @@ window.ARASHIKAGE_ARCHITECTURES = {
         const hay = ('style theme ' + m.name + ' ' + m.notes).toLowerCase();
         if (q && hay.includes(q)) {
           results.push({
-            kind: 'STYLE #' + (idx + 1),
-            badgeColor: '#15803d',
+            kind: tKey === 'arashikage_monolith' ? '★ SIGNATURE' : 'STYLE #' + idx,
+            badgeColor: tKey === 'arashikage_monolith' ? '#b81d13' : '#15803d',
             title: m.name,
             subtitle: m.notes,
             action: () => {
@@ -9157,7 +9583,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       document.documentElement.setAttribute('data-mode', activePolarity);
       document.body.setAttribute('data-mode', activePolarity);
       try {
-        localStorage.setItem('arashikage_arch_polarity', activePolarity);
+        localStorage.setItem('arashikage_arch_polarity_v2', activePolarity);
       } catch (_) {}
       setTheme(activeTheme);
     }
@@ -9170,7 +9596,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       document.body.setAttribute('data-mode', activePolarity);
 
       try {
-        localStorage.setItem('arashikage_arch_theme', activeTheme);
+        localStorage.setItem('arashikage_arch_theme_v2', activeTheme);
       } catch (_) {}
 
       if (selTheme && selTheme.value !== activeTheme) {
@@ -9183,10 +9609,13 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const notesText = meta.name.toUpperCase() + ' (' + activePolarity.toUpperCase() + ') — ' + meta.notes;
       const activeThemePillLabel = document.getElementById('activeThemePillLabel');
       if (activeThemePillLabel) {
-        activeThemePillLabel.textContent = String(themeIdx + 1).padStart(2, '0') + ' · ' + meta.name;
+        activeThemePillLabel.textContent =
+          themeKey === 'arashikage_monolith'
+            ? '★ · Arashikage Monolith'
+            : String(themeIdx).padStart(2, '0') + ' · ' + meta.name;
       }
       if (btnThemeGalleryTrigger) {
-        btnThemeGalleryTrigger.title = notesText + ' — Click to open 12-Style Visual Swatch Gallery';
+        btnThemeGalleryTrigger.title = notesText + ' — Click to open 13-Style Visual Swatch Gallery';
       }
       if (selTheme) {
         selTheme.title = notesText;
@@ -9780,8 +10209,8 @@ window.ARASHIKAGE_ARCHITECTURES = {
       });
     }
 
-    // Keyboard shortcuts: 1..9,0,-,= for 12 themes, [/] to cycle theme, / or Ctrl+K for Search, ? for Quick Start, L/D for Light/Dark, ArrowLeft/Right/Escape for Tour & Fullscreen
-    const THEME_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
+    // Keyboard shortcuts: `,1..9,0,-,= for 13 themes, [/] to cycle theme, / or Ctrl+K for Search, ? for Quick Start, L/D for Light/Dark, ArrowLeft/Right/Escape for Tour & Fullscreen
+    const THEME_KEYS = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
     window.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
         e.preventDefault();
@@ -9852,7 +10281,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
         return;
       }
 
-      const keyIdx = THEME_KEYS.indexOf(e.key);
+      const keyIdx = e.key === '~' ? 0 : THEME_KEYS.indexOf(e.key);
       if (keyIdx >= 0 && keyIdx < THEME_ORDER.length) {
         setTheme(THEME_ORDER[keyIdx]);
       } else if (e.key === '[') {
@@ -9868,10 +10297,10 @@ window.ARASHIKAGE_ARCHITECTURES = {
       }
     });
 
-    // Restore saved theme/polarity & URL hash state
+    // Restore saved theme/polarity & URL hash state (v2 defaults to Arashikage Monolith · Hanga Dark)
     try {
-      const savedTheme = localStorage.getItem('arashikage_arch_theme');
-      const savedPol = localStorage.getItem('arashikage_arch_polarity');
+      const savedTheme = localStorage.getItem('arashikage_arch_theme_v2');
+      const savedPol = localStorage.getItem('arashikage_arch_polarity_v2');
       if (savedTheme && THEME_META[savedTheme]) activeTheme = savedTheme;
       if (savedPol === 'dark' || savedPol === 'light') activePolarity = savedPol;
     } catch (_) {}
