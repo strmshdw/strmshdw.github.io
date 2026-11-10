@@ -294,32 +294,141 @@
       background-color: var(--t-page);
     }
 
-    /* Native <dialog> discrete top-layer transition */
-    dialog.dossier-dialog {
+    /* Native <dialog> discrete top-layer transition & Shōji Screen Unfurl Choreography */
+    dialog:modal {
+      overscroll-behavior: contain;
+    }
+
+    dialog::backdrop {
+      overflow: hidden;
+      overscroll-behavior: contain;
+    }
+
+    dialog.dossier-dialog,
+    dialog.shoji-prologue-dialog {
       background: transparent;
       border: none;
       padding: 0;
+      opacity: 0;
+      transition-property: opacity, transform, display, overlay;
+      transition-duration: 0.24s;
+      transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      transition-behavior: allow-discrete;
+    }
+
+    dialog.dossier-dialog {
       max-width: 100vw;
       max-height: 100vh;
       width: 100vw;
       height: 100vh;
-      opacity: 0;
-      transition:
-        opacity 0.18s ease-out,
-        display 0.18s allow-discrete,
-        overlay 0.18s allow-discrete;
     }
-    dialog.dossier-dialog[open] {
-      opacity: 1;
+
+    dialog.shoji-prologue-dialog {
+      width: min(880px, calc(100vw - 2rem));
+      max-width: 880px;
+      max-height: calc(100vh - 2rem);
+      margin: auto;
+      overflow: auto;
     }
-    @starting-style {
-      dialog.dossier-dialog[open] {
-        opacity: 0;
+
+    @media (prefers-reduced-motion: no-preference) {
+      dialog.dossier-dialog,
+      dialog.shoji-prologue-dialog {
+        transform: translateY(10px) scale(0.985);
       }
     }
+
+    :is(dialog.dossier-dialog[open], dialog.shoji-prologue-dialog[open]):where(:not([data-closing])) {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        transform: translateY(0) scale(1);
+
+        @starting-style {
+          transform: translateY(10px) scale(0.985);
+        }
+      }
+    }
+
+    dialog.dossier-dialog::backdrop,
+    dialog.shoji-prologue-dialog::backdrop {
+      opacity: 0;
+      transition-property: opacity, background-color, display, overlay;
+      transition-duration: 0.24s;
+      transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      transition-behavior: allow-discrete;
+    }
+
     dialog.dossier-dialog::backdrop {
       background: rgba(5, 7, 12, 0.78);
       backdrop-filter: blur(4px);
+    }
+
+    /* Authentic Shōji-Style Faded Backdrop (障子 · 組子 Kumiko Lattice & Washi/Sumi Paper Veil) */
+    dialog.shoji-prologue-dialog::backdrop {
+      background-color: color-mix(in oklab, var(--t-page) 84%, transparent);
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          color-mix(in oklab, var(--t-line) 58%, transparent) 0px,
+          color-mix(in oklab, var(--t-line) 58%, transparent) 1px,
+          transparent 1px,
+          transparent 160px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          color-mix(in oklab, var(--t-line) 58%, transparent) 0px,
+          color-mix(in oklab, var(--t-line) 58%, transparent) 1px,
+          transparent 1px,
+          transparent 104px
+        ),
+        radial-gradient(
+          circle at 50% 42%,
+          color-mix(in oklab, var(--t-panel) 30%, transparent) 0%,
+          color-mix(in oklab, var(--t-page) 92%, transparent) 100%
+        );
+      backdrop-filter: blur(2.5px);
+    }
+
+    :is(dialog.dossier-dialog[open], dialog.shoji-prologue-dialog[open]):where(:not([data-closing]))::backdrop {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      @keyframes hanko-strike {
+        0% {
+          opacity: 0;
+          transform: scale(1.16);
+        }
+        70% {
+          opacity: 1;
+          transform: scale(0.97);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      dialog.shoji-prologue-dialog[open] .prologue-hanko-seal {
+        animation: hanko-strike 0.22s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      dialog.dossier-dialog,
+      dialog.shoji-prologue-dialog,
+      dialog.dossier-dialog::backdrop,
+      dialog.shoji-prologue-dialog::backdrop {
+        transition-duration: 0.1s;
+      }
     }
 
     /* Scroll-driven entry reveal with progressive enhancement */
@@ -389,6 +498,9 @@
 
         <!-- Section Jump Links (Ordered by Feature Hype Hierarchy) -->
         <nav aria-label="Update Sections" class="hidden xl:flex items-center gap-0.5 ml-1.5 pl-2.5 border-l border-line f-display font-bold text-xs tracking-wider uppercase whitespace-nowrap">
+          <button type="button" commandfor="prologue-shoji-modal" command="show-modal" onclick="openPrologueModal()" class="px-2 py-0.5 mr-1 surface-page border border-outline f-display font-bold text-xs tracking-wider uppercase text-strong hover:opacity-90 transition-opacity cursor-pointer flex items-center gap-1" title="Open Booth 104 Shōji Prologue Modal">
+            <span class="text-vermilion">印</span>·PROLOGUE
+          </button>
           <a href="#radar" class="px-1.5 py-1 hover:text-strong text-ink-2 transition-colors">01·Radar</a>
           <a href="#blackbox" class="px-1.5 py-1 hover:text-strong text-ink-2 transition-colors">02·Telemetry</a>
           <a href="#dossiers" class="px-1.5 py-1 hover:text-strong text-ink-2 transition-colors">03·Scouting</a>
@@ -617,8 +729,13 @@
           <p class="text-sm sm:text-base leading-relaxed text-ink-2 font-medium max-w-4xl">
             "For months, our broadcast booth operators have complained about three things: squinting from four feet away at microscopic stat numbers, waiting until the end of the next match for Rocket League to admit they gained 11 MMR, and getting flip-reset on by a 'Champion III' in Doubles who happens to be a 1,890 MMR Supersonic Legend in 3v3. Today we're fixing all three."
           </p>
-          <footer class="f-mono text-xs font-extrabold uppercase tracking-widest text-frieze shrink-0 sm:text-right">
-            — LEAD TELEMETRY ANALYST<br><span class="text-muted">DFH STADIUM DESK (BOOTH 104)</span>
+          <footer class="f-mono text-xs font-extrabold uppercase tracking-widest text-frieze shrink-0 sm:text-right flex flex-col sm:items-end gap-2">
+            <div>
+              — LEAD TELEMETRY ANALYST<br><span class="text-muted">DFH STADIUM DESK (BOOTH 104)</span>
+            </div>
+            <button type="button" commandfor="prologue-shoji-modal" command="show-modal" onclick="openPrologueModal()" class="badge-pill bg-blue-slab f-display font-bold text-[11px] uppercase cursor-pointer hover:opacity-90">
+              <span>印</span> VIEW SHŌJI PROLOGUE ↗
+            </button>
           </footer>
         </blockquote>
       </div>
@@ -1133,9 +1250,152 @@
   </main>
 
   <!-- =====================================================================
+       SHŌJI-STYLE BOOTH 104 PROLOGUE MODAL (<dialog closedby="any">)
+       ===================================================================== -->
+  <dialog id="prologue-shoji-modal" class="shoji-prologue-dialog" closedby="any" aria-labelledby="prologue-modal-title">
+    <div class="w-full surface-panel ziggurat-plaque t-rad overflow-hidden relative">
+      <!-- Subtle Architectural Watermark -->
+      <div class="pointer-events-none select-none absolute right-5 top-10 opacity-[0.035] flex items-center gap-3 z-0" aria-hidden="true">
+        <div class="f-display font-bold text-[104px] leading-none">嵐影</div>
+        <svg width="88" height="96" viewBox="0 0 22 24" fill="none">
+          <rect x="1" y="1.2" width="20" height="2.4" fill="currentColor" />
+          <rect x="1" y="5.1" width="8.2" height="2.4" fill="currentColor" />
+          <rect x="12.8" y="5.1" width="8.2" height="2.4" fill="currentColor" />
+          <rect x="1" y="9.0" width="20" height="2.4" fill="currentColor" />
+          <rect x="1" y="12.9" width="8.2" height="2.4" fill="currentColor" />
+          <rect x="12.8" y="12.9" width="8.2" height="2.4" fill="currentColor" />
+          <rect x="1" y="16.8" width="20" height="2.4" fill="currentColor" />
+          <rect x="1" y="20.7" width="8.2" height="2.4" fill="currentColor" />
+          <rect x="12.8" y="20.7" width="8.2" height="2.4" fill="currentColor" />
+        </svg>
+      </div>
+
+      <div class="team-split-rule"></div>
+
+      <!-- Top Colophon Bar -->
+      <div class="relative z-10 surface-panel-2 border-b border-line px-5 sm:px-7 py-2 flex flex-wrap items-center justify-between gap-2 text-[11px] f-mono font-bold">
+        <div class="flex items-center gap-2">
+          <span class="text-vermilion">◆</span>
+          <span class="text-strong uppercase tracking-wider">SHŌJI PROLOGUE SCREEN // DFH STADIUM BROADCAST DESK · BOOTH 104</span>
+        </div>
+        <span class="text-frieze uppercase tracking-wider">障子 · STAGE-SETTING FIELD BRIEFING</span>
+      </div>
+
+      <div class="relative z-10 p-6 sm:p-8 flex flex-col gap-6">
+        <!-- Stratum 1: Carved Hanko Masthead + Dismiss Control -->
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
+          <div class="flex items-center gap-3.5">
+            <div class="hanko-square-stamp prologue-hanko-seal" title="Arashikage Carved Vermilion Seal">
+              <span>嵐影<br>之印</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="f-display font-bold text-xs tracking-[0.2em] uppercase text-strong">
+                PROLOGUE DISPATCH // PATCH V2.0 FIELD MANDATE
+              </span>
+              <span class="f-mono text-[11px] font-bold text-frieze uppercase tracking-wider mt-0.5">
+                ARASHIKAGE MONOLITH SUITE · GINZA DECO × HANKO SCROLL ARCHITECTURE
+              </span>
+            </div>
+          </div>
+
+          <button type="button" commandfor="prologue-shoji-modal" command="close" onclick="closePrologueModal()" class="px-3 py-1.5 surface-page border border-outline f-display font-bold text-xs text-strong uppercase tracking-wider cursor-pointer hover:opacity-90">
+            ESC · SKIP ✕
+          </button>
+        </div>
+
+        <!-- Stratum 2: Monumental Unified Prologue Headline -->
+        <div class="flex flex-col gap-2">
+          <div class="f-mono text-xs font-extrabold text-frieze uppercase tracking-widest">
+            DFH STADIUM DESK // PRE-BROADCAST BRIEFING
+          </div>
+          <h2 id="prologue-modal-title" class="f-display font-bold text-3xl sm:text-5xl uppercase text-strong leading-[0.96]" style="letter-spacing: 0.06em;">
+            THE "EYES ON THE FIELD"<br>BROADCAST MANDATE
+          </h2>
+        </div>
+
+        <!-- Stratum 3: Centerpiece Booth 104 Analyst Quote Plaque -->
+        <blockquote class="surface-plaque border border-line p-5 sm:p-6 flex flex-col gap-4" style="border-left: 4px solid var(--t-orange-slab);">
+          <p class="text-base sm:text-xl leading-relaxed text-strong font-medium">
+            "For months, our broadcast booth operators have complained about three things: squinting from four feet away at microscopic stat numbers, waiting until the end of the next match for Rocket League to admit they gained 11 MMR, and getting flip-reset on by a 'Champion III' in Doubles who happens to be a 1,890 MMR Supersonic Legend in 3v3. Today we're fixing all three."
+          </p>
+          <footer class="border-t border-line pt-3.5 flex flex-wrap items-center justify-between gap-3">
+            <span class="badge-pill bg-blue-slab f-mono text-[11px] font-extrabold uppercase">
+              録 · OFFICIAL BOOTH 104 TRANSCRIPT
+            </span>
+            <div class="f-mono text-xs font-extrabold uppercase tracking-widest text-frieze sm:text-right">
+              — LEAD TELEMETRY ANALYST · <span class="text-strong">DFH STADIUM DESK (BOOTH 104)</span>
+            </div>
+          </footer>
+        </blockquote>
+
+        <!-- Stratum 4: The 3-Column Mandate Ledger ("Today We're Fixing All Three") -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 border-y border-line divide-y sm:divide-y-0 sm:divide-x divide-[#38332d] t-num">
+          <!-- Mandate 01: 4-Foot Legibility -->
+          <button type="button" onclick="jumpFromPrologue('#antisquint')" class="text-left p-4 hover:opacity-95 transition-opacity cursor-pointer flex flex-col justify-start gap-2.5">
+            <div class="w-full min-h-[24px] flex items-center justify-between gap-2">
+              <span class="badge-pill bg-blue-slab f-display font-bold text-[11px] uppercase">礎 · MANDATE I</span>
+              <span class="f-mono text-xs font-bold text-frieze">04·HUD ↗</span>
+            </div>
+            <div>
+              <div class="f-display font-bold text-base uppercase text-strong leading-tight">
+                4-FOOT ANTI-SQUINT MONUMENTS
+              </div>
+              <p class="text-xs text-ink-2 mt-1 leading-relaxed">
+                Tabular 4-digit MMR monuments and a <strong class="f-mono text-strong">+15% XL</strong> broadcast scale built for couch &amp; desk distance.
+              </p>
+            </div>
+          </button>
+
+          <!-- Mandate 02: 25s Post-Whistle MMR Lock -->
+          <button type="button" onclick="jumpFromPrologue('#top')" class="text-left p-4 hover:opacity-95 transition-opacity cursor-pointer flex flex-col justify-start gap-2.5">
+            <div class="w-full min-h-[24px] flex items-center justify-between gap-2">
+              <span class="badge-pill bg-gold f-display font-bold text-[11px] uppercase">戒 · MANDATE II</span>
+              <span class="f-mono text-xs font-bold text-gold">+9s LOCK ↗</span>
+            </div>
+            <div>
+              <div class="f-display font-bold text-base uppercase text-strong leading-tight">
+                25s POST-WHISTLE MMR BURST
+              </div>
+              <p class="text-xs text-ink-2 mt-1 leading-relaxed">
+                Interrogates PsyNet for 25s after the final whistle so your <strong class="f-mono text-gold">+11 MMR</strong> lands immediately—never a game late.
+              </p>
+            </div>
+          </button>
+
+          <!-- Mandate 03: Pre-Kickoff Smurf Seal Lock (10% Solid Vermilion Seal) -->
+          <button type="button" onclick="jumpFromPrologue('#radar')" class="text-left p-4 hover:opacity-95 transition-opacity cursor-pointer flex flex-col justify-start gap-2.5">
+            <div class="w-full min-h-[24px] flex items-center justify-between gap-2">
+              <span class="badge-pill bg-loss f-display font-bold text-[11px] uppercase">印 · MANDATE III</span>
+              <span class="f-mono text-xs font-bold text-vermilion">01·RADAR ↗</span>
+            </div>
+            <div>
+              <div class="f-display font-bold text-base uppercase text-strong leading-tight">
+                PRE-KICKOFF SMURF SEAL LOCK
+              </div>
+              <p class="text-xs text-ink-2 mt-1 leading-relaxed">
+                Stamps <strong class="f-mono text-vermilion">1,890 SSL</strong> 3v3 players hiding in <strong class="f-mono text-strong">1,414 C3</strong> Doubles before kickoff finishes.
+              </p>
+            </div>
+          </button>
+        </div>
+
+        <!-- Stratum 5: Ceremonial Unfurl Footer -->
+        <div class="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+          <div class="f-mono text-[11px] font-bold text-muted uppercase tracking-wider whitespace-nowrap">
+            ◆ SHŌJI LATTICE OVERLAY · CLICK OUTSIDE OR ESC TO DISMISS
+          </div>
+          <button type="button" commandfor="prologue-shoji-modal" command="close" onclick="closePrologueModal()" class="bg-blue-slab px-5 py-2.5 f-display font-bold text-xs sm:text-sm tracking-widest uppercase cursor-pointer hover:opacity-95 t-rad shrink-0 whitespace-nowrap">
+            UNFURL PATCH v2.0 SCROLL →
+          </button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- =====================================================================
        INTERACTIVE QUICK SCOUTING OVERLAY MODAL (<dialog>)
        ===================================================================== -->
-  <dialog id="dossier-modal" class="dossier-dialog" aria-labelledby="dossier-modal-title">
+  <dialog id="dossier-modal" class="dossier-dialog" closedby="any" aria-labelledby="dossier-modal-title">
     <div id="dossier-backdrop" class="min-h-full w-full flex items-center justify-center p-4 sm:p-6">
       <div class="w-full max-w-[980px] surface-panel ziggurat-plaque t-rad overflow-hidden" onclick="event.stopPropagation()">
         <div class="team-split-rule"></div>
@@ -2003,15 +2263,103 @@
       }
     }
 
+    let supportsDisplayTransition;
+    function canTransitionDisplay() {
+      if (supportsDisplayTransition !== undefined) return supportsDisplayTransition;
+      if (!window.CSS?.supports?.('transition-behavior', 'allow-discrete') || !document.body) {
+        return false;
+      }
+      const probe = document.createElement('div');
+      probe.style.cssText = 'transition: display 1s allow-discrete !important; display: block;';
+      document.body.appendChild(probe);
+      getComputedStyle(probe).display;
+      probe.style.display = 'none';
+      supportsDisplayTransition = getComputedStyle(probe).display === 'block';
+      probe.remove();
+      return supportsDisplayTransition;
+    }
+
+    function supportsTopLayerExit() {
+      return window.CSS?.supports?.('overlay', 'auto') && canTransitionDisplay();
+    }
+
+    async function closeTopLayer(element) {
+      if (!element || !element.open) return;
+      if (!supportsTopLayerExit()) {
+        element.setAttribute('data-closing', '');
+        const animations = element.getAnimations({ subtree: true });
+        if (animations.length > 0) {
+          await Promise.race([
+            Promise.allSettled(animations.map((a) => a.finished)),
+            new Promise((r) => setTimeout(r, 2000)),
+          ]);
+        }
+        if (!element.hasAttribute('data-closing')) return;
+        element.removeAttribute('data-closing');
+      }
+      element.close();
+    }
+
+    function openPrologueModal() {
+      const dialog = document.getElementById('prologue-shoji-modal');
+      if (!dialog || dialog.open) return;
+      if (typeof dialog.showModal === 'function') dialog.showModal();
+      else dialog.setAttribute('open', '');
+    }
+
+    function closePrologueModal() {
+      const dialog = document.getElementById('prologue-shoji-modal');
+      if (dialog && dialog.open) closeTopLayer(dialog);
+    }
+
+    function jumpFromPrologue(targetHash) {
+      closePrologueModal();
+      if (targetHash) {
+        const el = document.querySelector(targetHash);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Progressive enhancement fallbacks for <dialog closedby="any"> and top-layer cancel transitions
+    document.querySelectorAll('dialog').forEach((dlg) => {
+      dlg.addEventListener('cancel', (event) => {
+        event.preventDefault();
+        closeTopLayer(dlg);
+      });
+
+      if (!('closedBy' in HTMLDialogElement.prototype)) {
+        dlg.addEventListener('click', (event) => {
+          if (event.target !== dlg) return;
+          const rect = dlg.getBoundingClientRect();
+          const isDialogContent = (
+            rect.top <= event.clientY &&
+            event.clientY <= rect.top + rect.height &&
+            rect.left <= event.clientX &&
+            event.clientX <= rect.left + rect.width
+          );
+          if (isDialogContent) return;
+          closeTopLayer(dlg);
+        });
+      }
+    });
+
     document.getElementById('theme-select')?.addEventListener('change', (e) => {
       selectTheme(e.target.value);
     });
 
-    // Initialize interactive demos on load
+    // Initialize interactive demos on load & open Booth 104 Shōji Prologue Modal
     applyPalette();
     setStatMode('avg');
     setBlackBoxTab(1);
     setQuotaDemo('warn');
+    if (!new URLSearchParams(window.location.search).has('noprologue')) {
+      openPrologueModal();
+    }
+  </script>
+  <script type="module">
+    if (!('commandForElement' in HTMLButtonElement.prototype)) {
+      import('https://esm.run/invokers-polyfill').catch(() => {});
+    }
   </script>
 </body>
 </html>
