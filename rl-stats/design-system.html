@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-expression="hanga">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <script>
+    try {
+      document.querySelector('meta[name="color-scheme"]').content =
+        localStorage.getItem('am-color-scheme') ?? 'light dark';
+    } catch (_) {}
+  </script>
+  <title>ARASHIKAGE MONOLITH (嵐影 · 銀座碑文) — Definitive Design Language, Material Physics &amp; Motion Specification</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700;800&family=Josefin+Sans:wght@600;700&family=Noto+Serif+JP:wght@600;700;900&family=Space+Grotesk:wght@600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';document.head.appendChild(s);"></script>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --am-font-display: 'Josefin Sans', 'Space Grotesk', sans-serif;
+      --am-font-serif: 'Noto Serif JP', serif;
+      --am-font-sans: 'IBM Plex Sans', sans-serif;
+      --am-font-mono: 'JetBrains Mono', monospace;
+
+      /* Canonical Motion Physics Tokens */
+      --motion-scale: 1;
+      --ease-hanko-strike: cubic-bezier(0.12, 0.98, 0.24, 1);
+      --dur-hanko-strike: calc(160ms * var(--motion-scale));
+      --ease-shoji-enter: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-shoji-exit: cubic-bezier(0.4, 0, 0.85, 0.15);
+      --dur-shoji-enter: calc(220ms * var(--motion-scale));
+      --dur-shoji-exit: calc(160ms * var(--motion-scale));
+      --ease-chisel-snap: cubic-bezier(0.05, 0.9, 0.1, 1);
+      --dur-chisel-snap: calc(100ms * var(--motion-scale));
+
+      /* Default Expression: 版画 · HANGA (Sumi Woodblock — Default Dark Polarity) */
+      --am-ground: #0a0908;
+      --am-canvas: #171412;
+      --am-plaque: #0d0b0a;
+      --am-canvas-subtle: #211d1a;
+      --am-rule: #36302a;
+      --am-outline: #d8d0c5;
+      --am-frieze: #cfc6b8;
+      --am-ink: #f4efe6;
+      --am-ink-secondary: #c9c0b1;
+      --am-ink-muted: #8f8476;
+      --am-ink-strong: #fbf9f5;
+      --am-slab-primary: #f4efe6;
+      --am-slab-primary-ink: #12100e;
+      --am-slab-counter: #b81d13;
+      --am-slab-counter-ink: #fbf9f5;
+      --am-vermilion: #d4261d;
+      --am-gold: #deb052;
+      --am-gold-rule: #7a5c22;
+      --am-steel: #7da8c4;
+      --am-steel-rule: #2d556e;
+      --am-celadon: #82a890;
+      --am-celadon-rule: #2d523d;
+
+      &:has(> head > meta[name="color-scheme"][content="dark"]) {
+        color-scheme: dark;
+      }
+      &:has(> head > meta[name="color-scheme"][content="light"]) {
+        color-scheme: light;
+      }
+    }
+
+    /* Expression 02: 漆 · URUSHI (Roiro Lacquer & Kintsugi Brass — Gilded Dark Polarity) */
+    html[data-theme="dark"][data-expression="urushi"] {
+      --am-ground: #050403;
+      --am-canvas: #080705;
+      --am-plaque: #14110c;
+      --am-canvas-subtle: #1c1710;
+      --am-rule: #3b2e1d;
+      --am-outline: #c89d54;
+      --am-frieze: #d4a853;
+      --am-ink: #f4ede1;
+      --am-ink-secondary: #cbbda6;
+      --am-ink-muted: #968367;
+      --am-ink-strong: #fffdf9;
+      --am-slab-primary: #ebe0cc;
+      --am-slab-primary-ink: #120f0c;
+      --am-slab-counter: #a8180e;
+      --am-slab-counter-ink: #fffdf9;
+      --am-vermilion: #d4261d;
+      --am-gold: #e5b85c;
+      --am-gold-rule: #856428;
+      --am-steel: #7da8c4;
+      --am-steel-rule: #2d556e;
+      --am-celadon: #82a890;
+      --am-celadon-rule: #2d523d;
+    }
+
+    /* Expression 03: 硯 · SUZURI (Carved Inkstone — Low-Glare Dark Polarity) */
+    html[data-theme="dark"][data-expression="suzuri"] {
+      --am-ground: #0b0908;
+      --am-canvas: #14110e;
+      --am-plaque: #1c1814;
+      --am-canvas-subtle: #241f1a;
+      --am-rule: #362e26;
+      --am-outline: #a89a86;
+      --am-frieze: #bfb29e;
+      --am-ink: #ede6d8;
+      --am-ink-secondary: #bfb5a2;
+      --am-ink-muted: #8f8270;
+      --am-ink-strong: #fbf8f3;
+      --am-slab-primary: #e6dfd3;
+      --am-slab-primary-ink: #12100e;
+      --am-slab-counter: #b81d13;
+      --am-slab-counter-ink: #fbf8f3;
+      --am-vermilion: #d4261d;
+      --am-gold: #deb052;
+      --am-gold-rule: #7a5c22;
+      --am-steel: #7da8c4;
+      --am-steel-rule: #2d556e;
+      --am-celadon: #82a890;
+      --am-celadon-rule: #2d523d;
+    }
+
+    /* Expression 04: 和紙 · WASHI (Mulberry Parchment & Sumi Ink — Light Polarity) */
+    html[data-theme="light"] {
+      --am-ground: #ebe5d9;
+      --am-canvas: #f4efe6;
+      --am-plaque: #fcfaf6;
+      --am-canvas-subtle: #e6dfd3;
+      --am-rule: #cfc7b8;
+      --am-outline: #1c1917;
+      --am-frieze: #4a3f33;
+      --am-ink: #171412;
+      --am-ink-secondary: #362f28;
+      --am-ink-muted: #615548;
+      --am-ink-strong: #090807;
+      --am-slab-primary: #1c1917;
+      --am-slab-primary-ink: #fbf9f5;
+      --am-slab-counter: #b81d13;
+      --am-slab-counter-ink: #fbf9f5;
+      --am-vermilion: #b81d13;
+      --am-gold: #8c5604;
+      --am-gold-rule: #b48a3e;
+      --am-steel: #1b4965;
+      --am-steel-rule: #6b9ab8;
+      --am-celadon: #1e523b;
+      --am-celadon-rule: #63a38a;
+    }
+
+    body {
+      background-color: var(--am-ground);
+      color: var(--am-ink);
+      font-family: var(--am-font-sans);
+      margin: 0;
+    }
+
+    .f-display {
+      font-family: var(--am-font-display);
+      letter-spacing: 0.11em;
+      font-style: normal !important;
+    }
+    .f-serif-jp { font-family: var(--am-font-serif); }
+    .f-mono { font-family: var(--am-font-mono); font-variant-numeric: tabular-nums; }
+    .t-num { font-variant-numeric: tabular-nums; }
+
+    .surface-ground { background-color: var(--am-ground); }
+    .surface-canvas { background-color: var(--am-canvas); }
+    .surface-plaque { background-color: var(--am-plaque); }
+    .surface-subtle { background-color: var(--am-canvas-subtle); }
+    .border-rule { border-color: var(--am-rule); }
+    .border-outline { border-color: var(--am-outline); }
+    .border-counter { border-color: var(--am-slab-counter); }
+    .am-divide-y > * + * { border-top: 1px solid var(--am-rule); }
+    .am-divide-x > * + * { border-left: 1px solid var(--am-rule); }
+    .text-strong { color: var(--am-ink-strong); }
+    .text-frieze { color: var(--am-frieze); }
+    .text-ink { color: var(--am-ink); }
+    .text-secondary { color: var(--am-ink-secondary); }
+    .text-muted { color: var(--am-ink-muted); }
+    .text-vermilion { color: var(--am-vermilion); }
+    .text-gold { color: var(--am-gold); }
+    .text-steel { color: var(--am-steel); }
+    .text-celadon { color: var(--am-celadon); }
+
+    .am-slab-primary {
+      background-color: var(--am-slab-primary);
+      color: var(--am-slab-primary-ink) !important;
+    }
+    .am-slab-counter {
+      background-color: var(--am-slab-counter);
+      color: var(--am-slab-counter-ink) !important;
+    }
+
+    .am-monolith {
+      position: relative;
+      border: 1.5px solid var(--am-outline);
+      box-shadow:
+        0 0 0 4px var(--am-ground),
+        0 0 0 5.5px var(--am-rule);
+    }
+
+    .deco-frieze {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-family: var(--am-font-display);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--am-frieze);
+    }
+    .deco-frieze::before,
+    .deco-frieze::after {
+      content: "";
+      flex: 1;
+      height: 3px;
+      border-top: 1px solid var(--am-outline);
+      border-bottom: 1px solid var(--am-rule);
+    }
+
+    /* Authentic Square Carved Hanko Stamp (判子 / 落款) */
+    .am-hanko-stamp {
+      display: inline-grid;
+      place-items: center;
+      width: 2.35rem;
+      height: 2.35rem;
+      background-color: var(--am-slab-counter);
+      color: var(--am-slab-counter-ink);
+      font-family: var(--am-font-serif);
+      font-weight: 900;
+      font-size: 0.72rem;
+      line-height: 1.05;
+      letter-spacing: 0.04em;
+      text-align: center;
+      flex-shrink: 0;
+      outline: 1px solid color-mix(in oklab, currentColor 42%, transparent);
+      outline-offset: -3px;
+      user-select: none;
+    }
+
+    .am-seal-vermilion {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background-color: var(--am-slab-counter);
+      color: var(--am-slab-counter-ink);
+      font-family: var(--am-font-display);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.16rem 0.6rem;
+      outline: 1px solid color-mix(in oklab, currentColor 40%, transparent);
+      outline-offset: -2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .am-cartouche {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.12rem 0.5rem;
+      font-family: var(--am-font-display);
+      font-weight: 700;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background-color: var(--am-ground);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .am-cartouche-gold { color: var(--am-gold); border: 1px solid var(--am-gold-rule); }
+    .am-cartouche-steel { color: var(--am-steel); border: 1px solid var(--am-steel-rule); }
+    .am-cartouche-celadon { color: var(--am-celadon); border: 1px solid var(--am-celadon-rule); }
+    .am-cartouche-mono { color: var(--am-ink-secondary); border: 1px solid var(--am-rule); }
+    .am-cartouche-monolith { color: var(--am-ink-strong); border: 1px solid var(--am-outline); }
+
+    /* Form Instrumentation (.am-input, .am-select, .am-toggle) */
+    .am-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background-color: var(--am-ground);
+      border: 1px solid var(--am-rule);
+      transition: border-color var(--dur-chisel-snap) var(--ease-chisel-snap);
+    }
+    .am-input-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 3px;
+      background-color: var(--am-slab-counter);
+      transform: scaleY(0);
+      transition: transform var(--dur-chisel-snap) var(--ease-chisel-snap);
+    }
+    .am-input-wrap:focus-within {
+      border-color: var(--am-outline);
+    }
+    .am-input-wrap:focus-within::before {
+      transform: scaleY(1);
+    }
+    .am-input {
+      width: 100%;
+      background: transparent;
+      color: var(--am-ink-strong);
+      font-family: var(--am-font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.45rem 0.65rem;
+      border: none;
+      outline: none;
+    }
+
+    /* CHOREOGRAPHY 1: THE HANKO STRIKE (判子押し) */
+    @keyframes am-hanko-strike {
+      0% {
+        opacity: 0;
+        transform: scale(1.22) translateY(-4px);
+        outline-color: transparent;
+        outline-offset: 5px;
+      }
+      45% {
+        opacity: 1;
+        transform: scale(0.985) translateY(0);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        outline-color: color-mix(in oklab, currentColor 42%, transparent);
+        outline-offset: -3px;
+      }
+    }
+    .strike-anim {
+      animation: am-hanko-strike var(--dur-hanko-strike) var(--ease-hanko-strike) both;
+    }
+
+    /* CHOREOGRAPHY 2: MECHANICAL CHRONOGRAPH DETENT (定刻刻み) */
+    @keyframes am-chrono-scan {
+      0%   { clip-path: inset(0 80% 0 0); }
+      100% { clip-path: inset(0 0 0 0); }
+    }
+    .sequencer-cell {
+      position: relative;
+      transition:
+        background-color var(--dur-chisel-snap) var(--ease-chisel-snap),
+        color var(--dur-chisel-snap) var(--ease-chisel-snap),
+        border-color var(--dur-chisel-snap) var(--ease-chisel-snap);
+    }
+    .sequencer-cell[data-state="scanning"]::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 2.5px;
+      background-color: var(--am-gold);
+      animation: am-chrono-scan calc(550ms * var(--motion-scale)) steps(5, end) infinite;
+    }
+    .sequencer-cell[data-state="locked"] {
+      background-color: var(--am-slab-primary);
+      color: var(--am-slab-primary-ink);
+      font-weight: 800;
+    }
+
+    /* CHOREOGRAPHY 3: SHOJI UNFURL TOP-LAYER DIALOG & DRAWER */
+    dialog.am-dossier {
+      background-color: var(--am-canvas);
+      color: var(--am-ink);
+      border: 1.5px solid var(--am-outline);
+      box-shadow: 0 0 0 4px var(--am-ground), 0 0 0 5.5px var(--am-rule);
+      padding: 0;
+      max-width: 680px;
+      width: 92vw;
+      opacity: 0;
+      transform: translateY(10px);
+      transition-property: opacity, transform, overlay, display;
+      transition-duration: var(--dur-shoji-exit);
+      transition-timing-function: var(--ease-shoji-exit);
+      transition-behavior: allow-discrete;
+    }
+    dialog.am-dossier[open] {
+      opacity: 1;
+      transform: translateY(0);
+      transition-duration: var(--dur-shoji-enter);
+      transition-timing-function: var(--ease-shoji-enter);
+    }
+    @starting-style {
+      dialog.am-dossier[open] {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+    }
+    dialog.am-dossier::backdrop {
+      background-color: rgb(10 9 8 / 0%);
+      transition-property: background-color, overlay, display;
+      transition-duration: var(--dur-shoji-exit);
+      transition-timing-function: linear;
+      transition-behavior: allow-discrete;
+    }
+    dialog.am-dossier[open]::backdrop {
+      background-color: rgb(10 9 8 / 78%);
+    }
+    @starting-style {
+      dialog.am-dossier[open]::backdrop {
+        background-color: rgb(10 9 8 / 0%);
+      }
+    }
+
+    .am-shoji-drawer {
+      display: block;
+      opacity: 1;
+      translate: 0 0;
+      transition:
+        display var(--dur-shoji-enter),
+        opacity var(--dur-shoji-enter) var(--ease-shoji-enter),
+        translate var(--dur-shoji-enter) var(--ease-shoji-enter);
+      transition-behavior: allow-discrete;
+    }
+    @starting-style {
+      .am-shoji-drawer {
+        opacity: 0;
+        translate: 0 -10px;
+      }
+    }
+    .am-shoji-drawer[hidden] {
+      display: none;
+      opacity: 0;
+      translate: 0 -10px;
+    }
+
+    /* CHOREOGRAPHY 5: INCISED CHISEL MICRO-INTERACTIONS (彫り込み) */
+    .am-interactive {
+      position: relative;
+      transition:
+        background-color var(--dur-chisel-snap) var(--ease-chisel-snap),
+        border-color var(--dur-chisel-snap) var(--ease-chisel-snap),
+        transform 60ms var(--ease-chisel-snap);
+    }
+    .am-interactive::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 3px;
+      background-color: var(--am-slab-counter);
+      transform: scaleY(0);
+      transform-origin: center;
+      transition: transform var(--dur-chisel-snap) var(--ease-chisel-snap);
+    }
+    .am-interactive:hover {
+      border-color: var(--am-outline);
+      background-color: var(--am-canvas-subtle);
+    }
+    .am-interactive:hover::before {
+      transform: scaleY(1);
+    }
+    .am-interactive:hover .chisel-arrow {
+      transform: translate(2px, -2px);
+    }
+    .am-interactive:active {
+      transform: translate(1px, 1px);
+    }
+    .am-interactive:focus-visible {
+      outline: 2px solid var(--am-outline);
+      outline-offset: 2px;
+      box-shadow: inset 0 0 0 2px var(--am-slab-counter);
+    }
+    .chisel-arrow {
+      display: inline-block;
+      transition: transform var(--dur-chisel-snap) var(--ease-chisel-snap);
+    }
+
+    /* Woodblock Hatching for Sumi-Line Instrumentation */
+    .am-hatch-primary {
+      background-image: repeating-linear-gradient(
+        -45deg,
+        color-mix(in oklab, var(--am-ink) 24%, transparent) 0px,
+        color-mix(in oklab, var(--am-ink) 24%, transparent) 1.5px,
+        transparent 1.5px,
+        transparent 6px
+      );
+    }
+    .am-hatch-counter {
+      background-image: repeating-linear-gradient(
+        45deg,
+        color-mix(in oklab, var(--am-slab-counter) 34%, transparent) 0px,
+        color-mix(in oklab, var(--am-slab-counter) 34%, transparent) 1.5px,
+        transparent 1.5px,
+        transparent 6px
+      );
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .strike-anim,
+      .sequencer-cell[data-state="scanning"]::before {
+        animation: none !important;
+      }
+      .am-shoji-drawer,
+      dialog.am-dossier,
+      .am-interactive {
+        transition-duration: 0.01ms !important;
+        translate: none !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- TOP ARCHITECTURAL NAVIGATION & MATERIAL EXPRESSION CONTROL BAR -->
+  <header class="sticky top-0 z-50 surface-canvas border-b border-outline px-6 py-2">
+    <div class="max-w-[1640px] mx-auto flex flex-wrap xl:flex-nowrap items-center justify-between gap-2">
+      <div class="flex items-center gap-3 min-w-0 shrink-0">
+        <div class="flex items-center gap-2 whitespace-nowrap">
+          <div class="p-1 border border-outline surface-ground shrink-0">
+            <svg width="15" height="17" viewBox="0 0 22 24" fill="none" aria-hidden="true">
+              <rect x="1" y="1.2" width="20" height="2.4" fill="var(--am-vermilion)" />
+              <rect x="1" y="5.1" width="8.2" height="2.4" fill="var(--am-vermilion)" />
+              <rect x="12.8" y="5.1" width="8.2" height="2.4" fill="var(--am-vermilion)" />
+              <rect x="1" y="9.0" width="20" height="2.4" fill="var(--am-vermilion)" />
+              <rect x="1" y="12.9" width="8.2" height="2.4" fill="var(--am-vermilion)" />
+              <rect x="12.8" y="12.9" width="8.2" height="2.4" fill="var(--am-vermilion)" />
+              <rect x="1" y="16.8" width="20" height="2.4" fill="var(--am-vermilion)" />
+              <rect x="1" y="20.7" width="8.2" height="2.4" fill="var(--am-vermilion)" />
+              <rect x="12.8" y="20.7" width="8.2" height="2.4" fill="var(--am-vermilion)" />
+            </svg>
+          </div>
+          <span class="f-display font-bold text-sm tracking-widest text-strong whitespace-nowrap">ARASHIKAGE MONOLITH</span>
+          <span class="text-vermilion text-xs">◆</span>
+          <span class="f-serif-jp font-black text-xs text-vermilion whitespace-nowrap">嵐影 · 銀座碑文</span>
+        </div>
+
+        <nav aria-label="Design System Pillars" class="hidden xl:flex items-center gap-0.5 pl-3 border-l border-rule f-display font-bold text-[11px] uppercase whitespace-nowrap">
+          <a href="#philosophy" class="px-1.5 py-1 text-secondary hover:text-strong whitespace-nowrap">01·PHILOSOPHY</a>
+          <a href="#materials" class="px-1.5 py-1 text-secondary hover:text-strong whitespace-nowrap">02·MATERIALS</a>
+          <a href="#typography" class="px-1.5 py-1 text-secondary hover:text-strong whitespace-nowrap">03·TYPOGRAPHY</a>
+          <a href="#components" class="px-1.5 py-1 text-secondary hover:text-strong whitespace-nowrap">04·COMPONENTS</a>
+          <a href="#motion" class="px-1.5 py-1 text-secondary hover:text-strong whitespace-nowrap">05·MOTION</a>
+          <a href="#dataviz" class="px-1.5 py-1 text-secondary hover:text-strong whitespace-nowrap">06·DATA VIZ</a>
+          <a href="#tokens" class="px-1.5 py-1 text-secondary hover:text-strong whitespace-nowrap">07·TOKENS</a>
+          <a href="#governance" class="px-1.5 py-1 text-secondary hover:text-strong whitespace-nowrap">08·GOVERNANCE</a>
+        </nav>
+      </div>
+
+      <div class="flex items-center gap-1.5 shrink-0">
+        <!-- 4 Canonical Material Expressions -->
+        <div class="inline-flex border border-outline surface-ground p-0.5 gap-0.5 whitespace-nowrap" role="group" aria-label="Material Expression Selector">
+          <button type="button" id="btn-hanga" onclick="setMaterialExpression('hanga', 'dark')" class="px-2 py-1 f-display font-bold text-[11px] uppercase cursor-pointer whitespace-nowrap am-slab-primary">
+            01 · 版画 HANGA
+          </button>
+          <button type="button" id="btn-urushi" onclick="setMaterialExpression('urushi', 'dark')" class="px-2 py-1 f-display font-bold text-[11px] uppercase cursor-pointer whitespace-nowrap text-secondary">
+            02 · 漆 URUSHI
+          </button>
+          <button type="button" id="btn-suzuri" onclick="setMaterialExpression('suzuri', 'dark')" class="px-2 py-1 f-display font-bold text-[11px] uppercase cursor-pointer whitespace-nowrap text-secondary">
+            03 · 硯 SUZURI
+          </button>
+          <button type="button" id="btn-washi" onclick="setMaterialExpression('washi', 'light')" class="px-2 py-1 f-display font-bold text-[11px] uppercase cursor-pointer whitespace-nowrap text-secondary">
+            04 · 和紙 WASHI
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-[1640px] w-full mx-auto px-6 py-7 flex flex-col gap-8">
+
+    <!-- =====================================================================
+         01 · PHILOSOPHY, HERITAGE & THE FOUR FOUNDATIONAL TENETS (思想と起源)
+         ===================================================================== -->
+    <section id="philosophy" class="surface-canvas am-monolith p-7 flex flex-col gap-6 relative overflow-hidden">
+      <div class="deco-frieze">
+        <span><span class="text-vermilion">◆</span> 01 // PHILOSOPHY &amp; HERITAGE · WOODBLOCK RELIEF, DOCUMENTARY HANKO AUTHORITY &amp; GINZA GEOMETRIC ART DECO <span class="text-vermilion">◆</span></span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-stretch">
+        <div class="lg:col-span-7 flex flex-col justify-between gap-5">
+          <div class="flex flex-col gap-3.5">
+            <div class="flex items-center gap-3.5 border-b border-rule pb-3">
+              <div class="am-hanko-stamp strike-anim" id="hero-hanko-stamp">
+                <span>嵐影<br>之印</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="f-display font-bold text-xs tracking-[0.2em] uppercase text-strong">
+                  DEFINITIVE DESIGN LANGUAGE &amp; MATERIAL SPECIFICATION
+                </span>
+                <span class="f-mono text-[11px] font-bold text-frieze uppercase tracking-wider mt-0.5">
+                  3-STRATUM MINERAL RELIEF · 90% MONOCOLOR SCROLL · 10% SHU-IRO VERMILION SEALS · ORTHOGRAPHIC MOTION
+                </span>
+              </div>
+            </div>
+
+            <h1 class="f-display font-bold text-4xl sm:text-5xl leading-[0.95] uppercase text-strong" style="letter-spacing: 0.06em;">
+              ARASHIKAGE MONOLITH<br>DESIGN SYSTEM
+            </h1>
+
+            <p class="text-sm sm:text-base text-secondary leading-relaxed max-w-[66ch]">
+              <strong>Arashikage Monolith (嵐影 · 銀座碑文)</strong> is a universal design language founded on <strong>carved permanence, orthographic clarity, ceremonial restraint, and mechanical consequence</strong>. Born from the synthesis of traditional Japanese woodblock printmaking (<strong>木版画</strong>), the documentary authority of carved vermilion seals (<strong>判子</strong>) on hand-laid mulberry scrolls (<strong>巻物</strong>), and 1920s Tokyo <strong>Ginza Geometric Art Deco</strong> architecture, the system treats the digital viewport as an engraved architectural monolith.
+            </p>
+          </div>
+
+          <!-- The Four Foundational Tenets Ledger -->
+          <div class="surface-plaque border border-rule overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="border-b border-rule f-display font-bold text-[11px] text-muted uppercase">
+                  <th class="py-2 px-3">TENET</th>
+                  <th class="py-2 px-3">JAPANESE PRINCIPLE</th>
+                  <th class="py-2 px-3 text-strong">ARCHITECTURAL MANDATE</th>
+                </tr>
+              </thead>
+              <tbody class="f-mono am-divide-y">
+                <tr>
+                  <td class="py-2 px-3 font-bold text-frieze whitespace-nowrap">I. MATERIAL HONESTY</td>
+                  <td class="py-2 px-3 text-muted whitespace-nowrap">物質の誠実 · Busshitsu</td>
+                  <td class="py-2 px-3 font-bold text-strong">Opaque 3-stratum mineral relief &amp; stepped ziggurat rules—zero blur or drop-shadows</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-3 font-bold text-frieze whitespace-nowrap">II. 90/10 RESTRAINT</td>
+                  <td class="py-2 px-3 text-muted whitespace-nowrap">九分墨・一分朱 · Kubu Sumi</td>
+                  <td class="py-2 px-3 font-bold text-strong">90% Washi, Sumi &amp; incised hairlines; ≤10% solid Shu-iro vermilion authority seals</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-3 font-bold text-frieze whitespace-nowrap">III. ORTHOGRAPHIC RIGOR</td>
+                  <td class="py-2 px-3 text-muted whitespace-nowrap">幾何学的規律 · Kikagaku</td>
+                  <td class="py-2 px-3 font-bold text-strong">Razor-sharp 0px right angles, upright tracked display capitals &amp; tabular numerals</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-3 font-bold text-frieze whitespace-nowrap">IV. SOLID MECHANICS</td>
+                  <td class="py-2 px-3 text-muted whitespace-nowrap">機構的応答 · Kikōteki</td>
+                  <td class="py-2 px-3 font-bold text-strong">Decisive Hanko ink strikes, Shōji track glides &amp; discrete chronograph detents</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right 5 Cols: Interactive 3-Stratum Mineral Depth & 90/10 Seal Anatomy Diagram (Single border—obeys Non-Nested Ziggurat Law!) -->
+        <div class="lg:col-span-5 surface-plaque border border-outline p-5 flex flex-col justify-between gap-3.5">
+          <div class="border-b-2 border-outline pb-2.5 flex items-center justify-between gap-2">
+            <div>
+              <div class="f-mono text-[10px] font-bold text-frieze uppercase tracking-widest">STRUCTURAL ANATOMY // THREE-STRATUM RELIEF</div>
+              <h2 class="f-display font-bold text-xl uppercase text-strong mt-0.5">MINERAL DEPTH &amp; THE 90/10 SEAL LAW</h2>
+            </div>
+            <span class="am-cartouche am-cartouche-monolith">0PX BLUR · 0PX RADIUS</span>
+          </div>
+
+          <!-- Nested 3-Stratum Visual Demonstration -->
+          <div class="surface-ground border border-rule p-3 flex flex-col gap-2">
+            <div class="flex items-center justify-between f-mono text-[11px]">
+              <span class="text-muted font-bold">STRATUM 0 · MOUNTING GROUND (--am-ground)</span>
+              <span id="lbl-stratum0" class="text-strong font-bold">#0a0908 (Outer Stone)</span>
+            </div>
+            <div class="surface-canvas border border-outline p-3 flex flex-col gap-2">
+              <div class="flex items-center justify-between f-mono text-[11px]">
+                <span class="text-frieze font-bold">STRATUM 1 · SCROLL CANVAS (--am-canvas + .am-monolith)</span>
+                <span id="lbl-stratum1" class="text-strong font-bold">#171412 (Warm Sumi Slate)</span>
+              </div>
+              <div class="surface-plaque border border-rule p-3 flex flex-col gap-2">
+                <div class="flex items-center justify-between f-mono text-[11px]">
+                  <span class="text-strong font-bold">STRATUM 2 · CARVED PLAQUE (--am-plaque)</span>
+                  <span id="lbl-stratum2" class="text-strong font-bold">#0d0b0a (Kokutan Ebony)</span>
+                </div>
+                <div class="border-t border-rule pt-2 flex flex-wrap items-center justify-between gap-2">
+                  <span class="am-seal-vermilion text-[11px]">印 · 10% VERMILION SEAL</span>
+                  <div class="flex items-center gap-1.5">
+                    <span class="am-cartouche am-cartouche-gold">戒 · THRESHOLD</span>
+                    <span class="am-cartouche am-cartouche-steel">双 · VARIANCE</span>
+                    <span class="am-cartouche am-cartouche-celadon">鎖 · VERIFIED</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ziggurat Cross-Section & Ma Spatial Scale -->
+          <div class="surface-ground border border-rule px-3 py-2 flex flex-col gap-1.5 f-mono text-[11px]">
+            <div class="flex items-center justify-between text-frieze font-bold">
+              <span>ZIGGURAT CROSS-SECTION (5.5PX STEPPED RELIEF)</span>
+              <span>MA (間) SPATIAL MODULE: 4PX / 8PX</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-[10px] text-secondary">
+              <div><strong class="text-strong">1.5px</strong> Inner Outline</div>
+              <div><strong class="text-strong">4.0px</strong> Recessed Moat (間)</div>
+              <div><strong class="text-strong">1.5px</strong> Kentō Hairline (見当)</div>
+            </div>
+          </div>
+
+          <div class="f-mono text-[11px] text-secondary leading-snug border-t border-rule pt-2">
+            <strong class="text-strong">THE NON-NESTED ZIGGURAT LAW:</strong> Only top-level monoliths receive the stepped double-rule frame. Internal modules rest on open plaque strata divided by <code class="text-strong">1px</code> hairlines.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         02 · THE FOUR CANONICAL MATERIAL EXPRESSIONS (四つの素材表現)
+         ===================================================================== -->
+    <section id="materials" class="surface-canvas am-monolith p-7 flex flex-col gap-6">
+      <div class="border-b-2 border-outline pb-4 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <div class="f-mono text-xs font-extrabold text-frieze uppercase tracking-widest">PILLAR 02 // TWO-SIDED WOODBLOCK POLARITY (陰陽) &amp; PHYSICAL MEDIA</div>
+          <h2 class="f-display font-bold text-3xl uppercase text-strong mt-1">
+            [ 02 ] THE FOUR CANONICAL MATERIAL EXPRESSIONS
+          </h2>
+        </div>
+        <span class="f-mono text-xs text-muted uppercase">CLICK ANY EXPRESSION PLAQUE TO TRANSITION THE ENTIRE SPECIFICATION</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+        <!-- Material 01: Hanga -->
+        <button type="button" onclick="setMaterialExpression('hanga', 'dark')" id="card-hanga" class="am-interactive text-left surface-plaque border-2 border-outline p-5 flex flex-col justify-between gap-4 cursor-pointer">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="f-mono text-xs font-extrabold text-frieze">EXPRESSION 01 · DEFAULT DARK</span>
+              <span class="am-cartouche am-cartouche-monolith">版画 · HANGA</span>
+            </div>
+            <h3 class="f-display font-bold text-xl uppercase text-strong mt-2">SUMI WOODBLOCK &amp; WASHI BONE</h3>
+            <p class="text-xs text-secondary leading-relaxed mt-1.5">
+              Carved cherrywood block inked with warm carbon Sumi (<code class="f-mono text-strong">#171412</code>), recessed Kokutan ebony plaques (<code class="f-mono text-strong">#0d0b0a</code>), and crisp Washi bone rules (<code class="f-mono text-strong">#d8d0c5</code>).
+            </p>
+          </div>
+          <div class="grid grid-cols-6 h-5 border border-rule overflow-hidden">
+            <span style="background:#0a0908" title="Ground #0a0908"></span>
+            <span style="background:#171412" title="Canvas #171412"></span>
+            <span style="background:#0d0b0a" title="Plaque #0d0b0a"></span>
+            <span style="background:#d8d0c5" title="Outline #d8d0c5"></span>
+            <span style="background:#f4efe6" title="Primary Slab #f4efe6"></span>
+            <span style="background:#b81d13" title="Vermilion #b81d13"></span>
+          </div>
+        </button>
+
+        <!-- Material 02: Urushi -->
+        <button type="button" onclick="setMaterialExpression('urushi', 'dark')" id="card-urushi" class="am-interactive text-left surface-plaque border border-rule p-5 flex flex-col justify-between gap-4 cursor-pointer">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="f-mono text-xs font-extrabold text-frieze">EXPRESSION 02 · GILDED DARK</span>
+              <span class="am-cartouche am-cartouche-gold">漆 · URUSHI</span>
+            </div>
+            <h3 class="f-display font-bold text-xl uppercase text-strong mt-2">ROIRO LACQUER &amp; KINTSUGI BRASS</h3>
+            <p class="text-xs text-secondary leading-relaxed mt-1.5">
+              Mirror-black Roiro-urushi lacquer (<code class="f-mono text-strong">#080705</code>) with elevated smoked umber plaques (<code class="f-mono text-strong">#14110c</code>) and inlaid burnished Kintsugi brass rules (<code class="f-mono text-strong">#c89d54</code>).
+            </p>
+          </div>
+          <div class="grid grid-cols-6 h-5 border border-rule overflow-hidden">
+            <span style="background:#050403" title="Ground #050403"></span>
+            <span style="background:#080705" title="Canvas #080705"></span>
+            <span style="background:#14110c" title="Plaque #14110c"></span>
+            <span style="background:#c89d54" title="Outline #c89d54"></span>
+            <span style="background:#ebe0cc" title="Primary Slab #ebe0cc"></span>
+            <span style="background:#a8180e" title="Vermilion #a8180e"></span>
+          </div>
+        </button>
+
+        <!-- Material 03: Suzuri -->
+        <button type="button" onclick="setMaterialExpression('suzuri', 'dark')" id="card-suzuri" class="am-interactive text-left surface-plaque border border-rule p-5 flex flex-col justify-between gap-4 cursor-pointer">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="f-mono text-xs font-extrabold text-frieze">EXPRESSION 03 · LOW-GLARE DARK</span>
+              <span class="am-cartouche am-cartouche-mono">硯 · SUZURI</span>
+            </div>
+            <h3 class="f-display font-bold text-xl uppercase text-strong mt-2">CARVED INKSTONE &amp; MINERAL SLATE</h3>
+            <p class="text-xs text-secondary leading-relaxed mt-1.5">
+              Weathered Suzuri inkstone slate (<code class="f-mono text-strong">#14110e</code>) paired with warm stone-bone rules (<code class="f-mono text-strong">#a89a86</code>) for extended low-ambient operation.
+            </p>
+          </div>
+          <div class="grid grid-cols-6 h-5 border border-rule overflow-hidden">
+            <span style="background:#0b0908" title="Ground #0b0908"></span>
+            <span style="background:#14110e" title="Canvas #14110e"></span>
+            <span style="background:#1c1814" title="Plaque #1c1814"></span>
+            <span style="background:#a89a86" title="Outline #a89a86"></span>
+            <span style="background:#e6dfd3" title="Primary Slab #e6dfd3"></span>
+            <span style="background:#b81d13" title="Vermilion #b81d13"></span>
+          </div>
+        </button>
+
+        <!-- Material 04: Washi -->
+        <button type="button" onclick="setMaterialExpression('washi', 'light')" id="card-washi" class="am-interactive text-left surface-plaque border border-rule p-5 flex flex-col justify-between gap-4 cursor-pointer">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="f-mono text-xs font-extrabold text-frieze">EXPRESSION 04 · LIGHT POLARITY</span>
+              <span class="am-cartouche am-cartouche-monolith">和紙 · WASHI</span>
+            </div>
+            <h3 class="f-display font-bold text-xl uppercase text-strong mt-2">MULBERRY PARCHMENT &amp; SUMI INK</h3>
+            <p class="text-xs text-secondary leading-relaxed mt-1.5">
+              Unbleached hand-laid Kōzo mulberry parchment (<code class="f-mono text-strong">#f4efe6</code>), luminous ivory plaques (<code class="f-mono text-strong">#fcfaf6</code>), and dense carbon Sumi framing (<code class="f-mono text-strong">#1c1917</code>).
+            </p>
+          </div>
+          <div class="grid grid-cols-6 h-5 border border-rule overflow-hidden">
+            <span style="background:#ebe5d9" title="Ground #ebe5d9"></span>
+            <span style="background:#f4efe6" title="Canvas #f4efe6"></span>
+            <span style="background:#fcfaf6" title="Plaque #fcfaf6"></span>
+            <span style="background:#1c1917" title="Outline #1c1917"></span>
+            <span style="background:#1c1917" title="Primary Slab #1c1917"></span>
+            <span style="background:#b81d13" title="Vermilion #b81d13"></span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         03 · TYPOGRAPHIC ARCHITECTURE & CARVED HERALDRY (文字組版と印章)
+         ===================================================================== -->
+    <section id="typography" class="surface-canvas am-monolith p-7 flex flex-col gap-6">
+      <div class="border-b-2 border-outline pb-4 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <div class="f-mono text-xs font-extrabold text-frieze uppercase tracking-widest">PILLAR 03 // ORTHOGRAPHIC AUTHORITY, FOUR VOICES &amp; DUAL-CHANNEL SEALS</div>
+          <h2 class="f-display font-bold text-3xl uppercase text-strong mt-1">
+            [ 03 ] TYPOGRAPHIC SCALE &amp; CARVED SEAL ANATOMY
+          </h2>
+        </div>
+        <span class="f-mono text-xs text-muted uppercase">UPRIGHT DISPLAY CAPITALS · TABULAR NUMERALS · SQUARE RAKKAN PROPORTIONS</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <!-- Left 7 Cols: 4-Voice Type Specimen & Scale -->
+        <div class="lg:col-span-7 surface-plaque border border-outline p-5 flex flex-col justify-between gap-4">
+          <div class="flex items-center justify-between border-b border-rule pb-2.5">
+            <span class="f-display font-bold text-sm uppercase text-strong">THE FOUR TYPOGRAPHIC VOICES &amp; ORTHOGRAPHIC SCALE</span>
+            <span class="f-mono text-xs text-frieze">4PX / 8PX SPATIAL GRID</span>
+          </div>
+
+          <div class="am-divide-y flex flex-col">
+            <div class="py-2.5 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+              <div class="f-mono text-[11px] text-muted shrink-0 w-44">01 · DISPLAY MONUMENT<br><span class="text-frieze">Josefin Sans · 700 · +0.06em</span></div>
+              <div class="f-display font-bold text-2xl sm:text-3xl uppercase text-strong" style="letter-spacing:0.06em;">ARCHITECTURAL PERMANENCE</div>
+            </div>
+            <div class="py-2.5 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+              <div class="f-mono text-[11px] text-muted shrink-0 w-44">02 · CARVED SEAL SERIF<br><span class="text-frieze">Noto Serif JP · 900</span></div>
+              <div class="f-serif-jp font-black text-xl text-strong tracking-widest">嵐影之印 · 木版画と銀座碑文の規律</div>
+            </div>
+            <div class="py-2.5 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+              <div class="f-mono text-[11px] text-muted shrink-0 w-44">03 · EDITORIAL PROSE<br><span class="text-frieze">IBM Plex Sans · 400 · 1.6</span></div>
+              <div class="text-sm text-secondary leading-relaxed max-w-[54ch]">
+                Long-form analytical prose is set in a calm 60–68 character measure, allowing dense technical narratives to breathe against the mineral plaque.
+              </div>
+            </div>
+            <div class="py-2.5 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+              <div class="f-mono text-[11px] text-muted shrink-0 w-44">04 · INSTRUMENT MONO<br><span class="text-frieze">JetBrains Mono · tabular-nums</span></div>
+              <div class="flex items-baseline gap-4 f-mono">
+                <div>
+                  <div class="text-2xl font-extrabold text-strong leading-none">99.984%</div>
+                  <div class="text-[10px] text-muted mt-0.5">QUORUM INTEGRITY</div>
+                </div>
+                <div>
+                  <div class="text-2xl font-extrabold text-celadon leading-none">+42.8 MS</div>
+                  <div class="text-[10px] text-muted mt-0.5">DELTA VARIANCE</div>
+                </div>
+                <div>
+                  <div class="text-2xl font-extrabold text-vermilion leading-none">1,480 OPS</div>
+                  <div class="text-[10px] text-muted mt-0.5">THROUGHPUT LOCK</div>
+                </div>
+              </div>
+            </div>
+            <div class="pt-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div class="f-mono text-[11px] text-muted shrink-0 w-44">05 · HERALDIC SIGNIFIERS<br><span class="text-frieze">Zero Rounded Icons / Emoji</span></div>
+              <div class="flex flex-wrap items-center gap-2 f-mono text-xs">
+                <span class="px-2 py-0.5 surface-ground border border-rule text-strong">判子 RAKKAN SEALS</span>
+                <span class="px-2 py-0.5 surface-ground border border-rule text-strong">印 · 戒 · 双 · 鎖 · 録 · 礎</span>
+                <span class="px-2 py-0.5 surface-ground border border-rule text-frieze">◆ ↗ ✕ ⇅ ⟳ Δ ䷿ (90°/45°)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right 5 Cols: 3-Tier Semantic Seal & Cartouche Anatomy -->
+        <div class="lg:col-span-5 surface-plaque border border-outline p-5 flex flex-col justify-between gap-4">
+          <div class="flex items-center justify-between border-b border-rule pb-2.5">
+            <span class="f-display font-bold text-sm uppercase text-strong">THREE-TIER SEMANTIC SEAL HIERARCHY</span>
+            <span class="f-mono text-xs text-muted">DUAL-CHANNEL KANJI + BORDER</span>
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <div class="surface-ground border border-rule p-3 flex flex-col gap-2">
+              <div class="flex items-center justify-between f-mono text-[11px]">
+                <span class="text-vermilion font-bold">TIER 1 · SOLID SHU-IRO VERMILION SEALS (≤10%)</span>
+                <span class="text-muted">outline-offset: -3px</span>
+              </div>
+              <div class="flex flex-wrap items-center gap-2.5">
+                <span class="am-hanko-stamp"><span>嵐影<br>之印</span></span>
+                <span class="am-hanko-stamp" style="width:1.95rem;height:1.95rem;font-size:0.65rem;">定刻</span>
+                <span class="am-seal-vermilion text-xs">印 · CRITICAL ANOMALY</span>
+              </div>
+            </div>
+
+            <div class="surface-ground border border-rule p-3 flex flex-col gap-2">
+              <div class="flex items-center justify-between f-mono text-[11px]">
+                <span class="text-frieze font-bold">TIER 2 · INVERTED MONOLITH SLABS (COUNTERWEIGHT)</span>
+                <span class="text-muted">--am-slab-primary</span>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-3 py-1 am-slab-primary f-display font-bold text-xs uppercase">陽 PRIMARY ENTITY SLAB</span>
+                <span class="px-2.5 py-1 am-slab-primary f-mono font-extrabold text-xs">+09s ◆ COMMITTED</span>
+              </div>
+            </div>
+
+            <div class="surface-ground border border-rule p-3 flex flex-col gap-2">
+              <div class="flex items-center justify-between f-mono text-[11px]">
+                <span class="text-frieze font-bold">TIER 3 · 1PX INCISED MINERAL CARTOUCHES (90%)</span>
+                <span class="text-muted">1px solid hairline</span>
+              </div>
+              <div class="flex flex-wrap items-center gap-1.5">
+                <span class="am-cartouche am-cartouche-gold">戒 · THRESHOLD</span>
+                <span class="am-cartouche am-cartouche-steel">双 · VARIANCE</span>
+                <span class="am-cartouche am-cartouche-celadon">鎖 · VERIFIED</span>
+                <span class="am-cartouche am-cartouche-mono">録 · ARCHIVE</span>
+                <span class="am-cartouche am-cartouche-monolith">礎 · SOVEREIGN</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         04 · SPATIAL ARCHITECTURE, CONTROLS, FORMS & BILATERAL DIPTYCHS (構成要素)
+         ===================================================================== -->
+    <section id="components" class="surface-canvas am-monolith p-7 flex flex-col gap-6">
+      <div class="border-b-2 border-outline pb-4 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <div class="f-mono text-xs font-extrabold text-frieze uppercase tracking-widest">PILLAR 04 // UNIVERSAL INTERFACE ARCHETYPES &amp; FORM INSTRUMENTATION</div>
+          <h2 class="f-display font-bold text-3xl uppercase text-strong mt-1">
+            [ 04 ] CONTROLS, STEPPED INPUTS &amp; BILATERAL DIPTYCHS
+          </h2>
+        </div>
+        <span class="f-mono text-xs text-muted uppercase">APPLICATION-AGNOSTIC BUILDING BLOCKS</span>
+      </div>
+
+      <!-- Top Row: Controls, Stepped Form Inputs & Mechanical Detent Toggles -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <!-- Archetype A: Action Triggers & Segmented Switch -->
+        <div class="surface-plaque border border-outline p-5 flex flex-col justify-between gap-4">
+          <div class="border-b border-rule pb-2.5 flex items-center justify-between">
+            <span class="f-display font-bold text-sm uppercase text-strong">ACTION TRIGGERS &amp; SEGMENTED BAR</span>
+            <span class="f-mono text-[11px] text-muted">0PX RADIUS</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button type="button" class="px-3.5 py-1.5 am-slab-primary f-display font-bold text-xs uppercase cursor-pointer">
+              COMMIT STATE
+            </button>
+            <button type="button" class="am-seal-vermilion text-xs py-1.5 px-3 cursor-pointer">
+              印 · SEAL OVERRIDE
+            </button>
+            <button type="button" class="am-interactive px-3 py-1.5 surface-ground border border-outline f-display font-bold text-xs uppercase text-strong cursor-pointer">
+              EXPORT LEDGER <span class="chisel-arrow">↗</span>
+            </button>
+          </div>
+          <div>
+            <div class="f-mono text-[10px] font-bold text-muted uppercase mb-1.5">ZERO-GAP SEGMENTED POLARITY SWITCH</div>
+            <div class="inline-flex border border-outline surface-ground w-full">
+              <button type="button" id="seg-1" onclick="setDemoSegment(1)" class="flex-1 py-1.5 f-display font-bold text-xs uppercase am-slab-primary cursor-pointer">REALTIME</button>
+              <button type="button" id="seg-2" onclick="setDemoSegment(2)" class="flex-1 py-1.5 f-display font-bold text-xs uppercase text-secondary border-l border-rule cursor-pointer">HISTORICAL</button>
+              <button type="button" id="seg-3" onclick="setDemoSegment(3)" class="flex-1 py-1.5 f-display font-bold text-xs uppercase text-secondary border-l border-rule cursor-pointer">ARCHIVE</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Archetype B: Stepped Form Inputs -->
+        <div class="surface-plaque border border-outline p-5 flex flex-col justify-between gap-4">
+          <div class="border-b border-rule pb-2.5 flex items-center justify-between">
+            <span class="f-display font-bold text-sm uppercase text-strong">INCISED FORM INSTRUMENTATION</span>
+            <span class="f-mono text-[11px] text-muted">3PX FOCUS SPINE</span>
+          </div>
+          <div class="flex flex-col gap-3">
+            <div>
+              <label for="demo-cmd-input" class="f-display font-bold text-[11px] uppercase text-frieze block mb-1">CLUSTER ENDPOINT // THRESHOLD CEILING</label>
+              <div class="am-input-wrap">
+                <input id="demo-cmd-input" type="text" value="node-tokyo-01.arashikage.internal" class="am-input" />
+                <span class="f-mono text-[11px] text-muted px-2.5 border-l border-rule">TLS 1.3</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label for="demo-select" class="f-display font-bold text-[11px] uppercase text-frieze block mb-1">CADENCE</label>
+                <select id="demo-select" class="w-full surface-ground border border-rule text-strong f-mono text-xs font-bold px-2.5 py-1.5 focus:outline-none">
+                  <option>INTERVAL: 250 MS</option>
+                  <option>INTERVAL: 1,000 MS</option>
+                  <option>INTERVAL: MANUAL</option>
+                </select>
+              </div>
+              <div>
+                <span class="f-display font-bold text-[11px] uppercase text-frieze block mb-1">DETENT LOCK</span>
+                <button type="button" id="demo-detent-toggle" onclick="toggleDemoDetent()" class="w-full border border-outline surface-ground p-0.5 flex items-center justify-between f-mono text-xs font-bold cursor-pointer">
+                  <span id="detent-on" class="px-2 py-1 am-slab-primary flex-1 text-center">ARMED</span>
+                  <span id="detent-off" class="px-2 py-1 text-muted flex-1 text-center">STANDBY</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Archetype C: Sovereign Interrupt Banner -->
+        <div class="surface-plaque border border-outline p-5 flex flex-col justify-between gap-4">
+          <div class="border-b border-rule pb-2.5 flex items-center justify-between">
+            <span class="f-display font-bold text-sm uppercase text-strong">SOVEREIGN INTERRUPT STRATUM</span>
+            <span class="am-seal-vermilion text-[10px]">印 · PRIORITY 01</span>
+          </div>
+          <div class="surface-ground border-l-4 border-counter border border-rule p-3.5 flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <span class="f-display font-bold text-xs uppercase text-strong">QUORUM DRIFT DETECTED ON PARTITION 04</span>
+              <span class="f-mono text-xs font-bold text-vermilion">+48.2 MS Δ</span>
+            </div>
+            <p class="text-xs text-secondary leading-snug">
+              High-priority interrupts use a 4px carved Cinnabar spine and tabular telemetry readouts rather than floating toast balloons.
+            </p>
+          </div>
+          <div class="f-mono text-[11px] text-muted flex justify-between">
+            <span>LATENCY: 142.4 MS</span>
+            <span class="text-frieze">ACTION: AUTOMATIC FAILOVER ARMED</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Row: Bilateral Comparative Diptych (陽 Primary vs. 陰 Counterparty) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <!-- Left Monolith: Primary Entity (陽) -->
+        <div class="surface-plaque border border-outline flex flex-col overflow-hidden">
+          <div class="am-slab-primary px-4 py-3 flex items-center justify-between gap-3 border-b border-rule">
+            <div>
+              <div class="f-mono text-[10px] font-bold tracking-widest uppercase opacity-75">陽 PRIMARY ENTITY // ACTIVE AUTHORITY</div>
+              <div class="f-display font-bold text-2xl tracking-wider uppercase leading-none mt-0.5">TOKYO-GINZA-01 <span class="f-mono text-xs font-bold opacity-75 ml-1">REGION-AP-EAST</span></div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="f-mono font-extrabold text-xl leading-none">99.98% SLA</div>
+              <div class="f-display font-bold text-[11px] tracking-widest uppercase opacity-85 mt-0.5">TIER I · SOVEREIGN</div>
+            </div>
+          </div>
+          <div class="px-4 py-2 border-b border-rule flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-1.5">
+              <span class="am-cartouche am-cartouche-monolith">礎 · PRIMARY ACTIVE</span>
+              <span class="am-cartouche am-cartouche-celadon">鎖 · QUORUM 16/16</span>
+            </div>
+            <span class="f-mono text-xs font-bold text-celadon">EPOCH DELTA: -1.4 MS</span>
+          </div>
+          <div class="px-4 py-2.5 grid grid-cols-4 gap-2 f-mono text-xs border-b border-rule">
+            <div><span class="text-muted text-[10px] block">THROUGHPUT</span><span class="text-strong font-extrabold text-base">14,820/s</span></div>
+            <div><span class="text-muted text-[10px] block">P99 LATENCY</span><span class="text-strong font-extrabold text-base">8.4 MS</span></div>
+            <div><span class="text-muted text-[10px] block">ERROR RATE</span><span class="text-celadon font-extrabold text-base">0.001%</span></div>
+            <div><span class="text-muted text-[10px] block">SATURATION</span><span class="text-secondary font-extrabold text-base">42.1%</span></div>
+          </div>
+          <div class="px-4 py-2 f-mono text-xs">
+            <div class="grid grid-cols-6 text-[10px] font-bold text-muted uppercase pb-1 border-b border-rule">
+              <span class="col-span-2">HIST (AVG)</span>
+              <span class="text-right">OPS/S</span>
+              <span class="text-right">P99</span>
+              <span class="text-right">ERR%</span>
+              <span class="text-right">SAT%</span>
+            </div>
+            <div class="grid grid-cols-6 py-1.5 border-b border-rule font-bold">
+              <span class="col-span-2 text-celadon">NOMINAL EPOCHS</span>
+              <span class="text-right text-strong">15,110</span>
+              <span class="text-right text-celadon">7.9ms</span>
+              <span class="text-right text-secondary">0.00%</span>
+              <span class="text-right text-muted">39%</span>
+            </div>
+            <div class="grid grid-cols-6 pt-1.5 font-bold">
+              <span class="col-span-2 text-vermilion">PEAK EPOCHS</span>
+              <span class="text-right text-strong">14,240</span>
+              <span class="text-right text-secondary">9.6ms</span>
+              <span class="text-right text-secondary">0.01%</span>
+              <span class="text-right text-muted">48%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Monolith: Counterparty Entity (陰) -->
+        <div class="surface-plaque border border-outline flex flex-col overflow-hidden">
+          <div class="am-slab-counter px-4 py-3 flex items-center justify-between gap-3 border-b border-rule">
+            <div>
+              <div class="f-mono text-[10px] font-bold tracking-widest uppercase opacity-80">陰 COUNTERPARTY ENTITY // ANOMALY TARGET</div>
+              <div class="f-display font-bold text-2xl tracking-wider uppercase leading-none mt-0.5">OSAKA-MIRROR-04 <span class="f-mono text-xs font-bold opacity-80 ml-1">REGION-AP-WEST</span></div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="f-mono font-extrabold text-xl leading-none">94.12% SLA</div>
+              <div class="f-display font-bold text-[11px] tracking-widest uppercase opacity-90 mt-0.5">TIER II · DEGRADED</div>
+            </div>
+          </div>
+          <div class="px-4 py-2 border-b border-rule flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-1.5">
+              <span class="am-seal-vermilion text-[11px]">印 · CRITICAL DRIFT</span>
+              <span class="am-cartouche am-cartouche-gold">戒 · THRESHOLD +48 MS</span>
+              <span class="am-cartouche am-cartouche-steel">双 · ASYMMETRIC LOAD</span>
+            </div>
+            <span class="f-mono text-xs font-bold text-vermilion">QUORUM 11/16</span>
+          </div>
+          <div class="px-4 py-2.5 grid grid-cols-4 gap-2 f-mono text-xs border-b border-rule">
+            <div><span class="text-muted text-[10px] block">THROUGHPUT</span><span class="text-secondary font-extrabold text-base">9,140/s</span></div>
+            <div><span class="text-muted text-[10px] block">P99 LATENCY</span><span class="text-vermilion font-extrabold text-base">56.6 MS</span></div>
+            <div><span class="text-muted text-[10px] block">ERROR RATE</span><span class="text-gold font-extrabold text-base">1.840%</span></div>
+            <div><span class="text-muted text-[10px] block">SATURATION</span><span class="text-vermilion font-extrabold text-base">91.8%</span></div>
+          </div>
+          <div class="px-4 py-2 f-mono text-xs">
+            <div class="grid grid-cols-6 text-[10px] font-bold text-muted uppercase pb-1 border-b border-rule">
+              <span class="col-span-2">HIST (AVG)</span>
+              <span class="text-right">OPS/S</span>
+              <span class="text-right">P99</span>
+              <span class="text-right">ERR%</span>
+              <span class="text-right">SAT%</span>
+            </div>
+            <div class="grid grid-cols-6 py-1.5 border-b border-rule font-bold">
+              <span class="col-span-2 text-strong">NOMINAL EPOCHS</span>
+              <span class="text-right text-strong">12,480</span>
+              <span class="text-right text-secondary">14.2ms</span>
+              <span class="text-right text-secondary">0.12%</span>
+              <span class="text-right text-muted">64%</span>
+            </div>
+            <div class="grid grid-cols-6 pt-1.5 font-bold">
+              <span class="col-span-2 text-vermilion">PEAK EPOCHS</span>
+              <span class="text-right text-strong">9,140</span>
+              <span class="text-right text-vermilion">56.6ms</span>
+              <span class="text-right text-gold">1.84%</span>
+              <span class="text-right text-vermilion">92%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         05 · INTERACTIVE MOTION & CHOREOGRAPHY LABORATORY (動態と所作)
+         ===================================================================== -->
+    <section id="motion" class="surface-canvas am-monolith p-7 flex flex-col gap-6">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b-2 border-outline pb-4">
+        <div>
+          <div class="f-mono text-xs font-extrabold text-frieze uppercase tracking-widest">PILLAR 05 // SOLID MECHANICS, SHŌJI GLIDES &amp; HANKO INK STRIKE CHOREOGRAPHY</div>
+          <h2 class="f-display font-bold text-3xl uppercase text-strong mt-1">
+            [ 05 ] INTERACTIVE MOTION &amp; TRANSITION LABORATORY
+          </h2>
+        </div>
+
+        <!-- Slow-Motion Inspector Toggle -->
+        <div class="flex items-center gap-2">
+          <span class="f-mono text-xs text-muted uppercase">INSPECTOR SPEED:</span>
+          <button type="button" id="btn-speed-1x" onclick="setMotionSpeed(1)" class="px-3 py-1 f-display font-bold text-xs uppercase am-slab-primary cursor-pointer">
+            1.0× REALTIME (160ms)
+          </button>
+          <button type="button" id="btn-speed-slow" onclick="setMotionSpeed(4.5)" class="px-3 py-1 f-display font-bold text-xs uppercase surface-ground border border-outline text-secondary cursor-pointer">
+            0.22× SLOW-MOTION (720ms)
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- LAB 1: THE HANKO STRIKE (判子押し) -->
+        <div class="surface-plaque border border-outline p-5 flex flex-col justify-between gap-4">
+          <div class="flex items-start justify-between gap-3 border-b border-rule pb-3">
+            <div>
+              <span class="f-mono text-[11px] font-bold text-frieze uppercase">CHOREOGRAPHY 01 // 判子押し (HANKO STRIKE)</span>
+              <h3 class="f-display font-bold text-xl uppercase text-strong mt-0.5">DECISIVE SEAL IMPACT (ZERO OVERSHOOT)</h3>
+            </div>
+            <button type="button" onclick="replayHankoStrike()" class="am-seal-vermilion text-xs cursor-pointer hover:opacity-90">
+              ⟳ STRIKE HANKO SEALS
+            </button>
+          </div>
+
+          <p class="text-xs text-secondary leading-relaxed">
+            Primary vermilion seals never fade in softly or bounce like elastic springs. They descend from <code class="f-mono text-strong">scale(1.22)</code> to <code class="f-mono text-strong">scale(1.0)</code> along <code class="f-mono text-strong">cubic-bezier(0.12, 0.98, 0.24, 1)</code> in <code class="f-mono text-strong">160ms</code> while the carved inner rim snaps from <code class="f-mono text-strong">+5px</code> to <code class="f-mono text-strong">-3px</code> on contact.
+          </p>
+
+          <div id="hanko-strike-stage" class="surface-ground border border-rule p-4 flex flex-wrap items-center justify-around gap-4 min-h-[92px]">
+            <div class="flex items-center gap-3">
+              <div class="am-hanko-stamp strike-target"><span>嵐影<br>之印</span></div>
+              <div class="f-mono text-xs">
+                <div class="text-strong font-bold">SOVEREIGN SEAL</div>
+                <div class="text-muted text-[11px]">2.35rem SQUARE</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="am-hanko-stamp strike-target" style="width:1.95rem;height:1.95rem;font-size:0.65rem;">定刻</div>
+              <div class="f-mono text-xs">
+                <div class="text-strong font-bold">EPOCH SEAL</div>
+                <div class="text-muted text-[11px]">1.95rem SQUARE</div>
+              </div>
+            </div>
+            <span class="am-seal-vermilion text-xs strike-target">印 · CRITICAL ANOMALY (+48.2 MS)</span>
+          </div>
+
+          <div class="f-mono text-[11px] text-muted flex justify-between border-t border-rule pt-2">
+            <span>CURVE: cubic-bezier(0.12, 0.98, 0.24, 1)</span>
+            <span class="text-frieze">OVERSHOOT: 0.0% (DEAD-STOP ON PAPER)</span>
+          </div>
+        </div>
+
+        <!-- LAB 2: MECHANICAL CHRONOGRAPH DETENT (定刻刻み) -->
+        <div class="surface-plaque border border-outline p-5 flex flex-col justify-between gap-4">
+          <div class="flex items-start justify-between gap-3 border-b border-rule pb-3">
+            <div>
+              <span class="f-mono text-[11px] font-bold text-frieze uppercase">CHOREOGRAPHY 02 // 定刻刻み (CHRONOGRAPH DETENT)</span>
+              <h3 class="f-display font-bold text-xl uppercase text-strong mt-0.5">ASYNCHRONOUS STATE COMMIT SEQUENCER</h3>
+            </div>
+            <button type="button" onclick="simulateStateSequencer()" class="px-3 py-1 am-slab-primary f-display font-bold text-xs uppercase cursor-pointer">
+              ⟳ RUN STATE SEQUENCER
+            </button>
+          </div>
+
+          <p class="text-xs text-secondary leading-relaxed">
+            Verification timelines use discrete <code class="f-mono text-strong">steps(5, end)</code> shutter ticks along a <code class="f-mono text-strong">2.5px</code> top rule. The exact millisecond a quorum state commits, the active cell snaps in <code class="f-mono text-strong">100ms</code> into <strong>Inverted Monolith Polarity</strong> (<code class="f-mono text-strong">--am-slab-primary</code>).
+          </p>
+
+          <div class="flex flex-col gap-2.5">
+            <div class="flex items-center justify-between f-mono text-xs">
+              <span id="seq-status-label" class="text-frieze font-bold">◆ STATUS: COMMITTED AT STAGE 03 (QUORUM LOCKED)</span>
+              <span id="seq-odometer" class="text-strong font-extrabold">REVISION #4,812 (+42 Δ)</span>
+            </div>
+            <div id="seq-grid" class="grid grid-cols-5 border border-rule surface-ground text-center f-mono text-xs font-bold am-divide-x">
+              <div class="sequencer-cell py-2.5 text-muted" data-step="0">01 · INIT</div>
+              <div class="sequencer-cell py-2.5 text-muted" data-step="1">02 · VERIFY</div>
+              <div class="sequencer-cell py-2.5" data-step="2" data-state="locked">03 ◆ COMMIT</div>
+              <div class="sequencer-cell py-2.5 text-muted opacity-55" data-step="3">04 · STANDBY</div>
+              <div class="sequencer-cell py-2.5 text-muted opacity-55" data-step="4">05 · STANDBY</div>
+            </div>
+          </div>
+
+          <div class="f-mono text-[11px] text-muted flex justify-between border-t border-rule pt-2">
+            <span>SCAN: steps(5, end) · LOCK: 100ms chisel-snap</span>
+            <span class="text-frieze">POLARITY: INVERTED WASHI/SUMI SLAB</span>
+          </div>
+        </div>
+
+        <!-- LAB 3: SHOJI UNFURL & TOP-LAYER DOSSIER (@starting-style + allow-discrete) -->
+        <div class="surface-plaque border border-outline p-5 flex flex-col justify-between gap-4">
+          <div class="flex items-start justify-between gap-3 border-b border-rule pb-3">
+            <div>
+              <span class="f-mono text-[11px] font-bold text-frieze uppercase">CHOREOGRAPHY 03 &amp; 04 // 巻物展開 &amp; 同体転移</span>
+              <h3 class="f-display font-bold text-xl uppercase text-strong mt-0.5">SHŌJI STRATA UNFURL &amp; TOP-LAYER DOSSIER</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="toggleShojiDrawer()" class="px-2.5 py-1 surface-ground border border-outline f-display font-bold text-xs text-strong uppercase cursor-pointer">
+                ⇅ TOGGLE DRAWER
+              </button>
+              <button type="button" onclick="openLabDossier()" class="px-2.5 py-1 am-slab-primary f-display font-bold text-xs uppercase cursor-pointer">
+                ↗ OPEN DOSSIER
+              </button>
+            </div>
+          </div>
+
+          <p class="text-xs text-secondary leading-relaxed">
+            Drawers and <code class="f-mono text-strong">&lt;dialog&gt;</code> dossiers use <code class="f-mono text-strong">@starting-style</code>, <code class="f-mono text-strong">transition-behavior: allow-discrete</code>, and <code class="f-mono text-strong">overlay</code> for zero-JS entry animations, paired with <code class="f-mono text-strong">canTransitionDisplay()</code> exit fallbacks.
+          </p>
+
+          <div id="demo-shoji-drawer" class="am-shoji-drawer surface-ground border border-outline p-3.5">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="am-cartouche am-cartouche-gold">戒 · THRESHOLD +48 MS</span>
+                <span class="am-cartouche am-cartouche-steel">双 · VARIANCE 1.84%</span>
+                <span class="am-seal-vermilion text-[11px]">印 · PARTITION DRIFT</span>
+              </div>
+              <span class="f-mono text-xs text-frieze">STRATUM OPEN</span>
+            </div>
+            <div class="f-mono text-xs text-secondary mt-2">
+              Unfurls along the orthographic Y-axis (<code class="text-strong">translate: 0 -10px → 0 0</code>) with <code class="text-strong">transition-behavior: allow-discrete</code>.
+            </div>
+          </div>
+
+          <div class="f-mono text-[11px] text-muted flex justify-between border-t border-rule pt-2">
+            <span>ENTER: 220ms cubic-bezier(0.22, 1, 0.36, 1)</span>
+            <span class="text-frieze">EXIT: 160ms allow-discrete + overlay</span>
+          </div>
+        </div>
+
+        <!-- LAB 4: INCISED CHISEL MICRO-INTERACTIONS (彫り込み) -->
+        <div class="surface-plaque border border-outline p-5 flex flex-col justify-between gap-4">
+          <div class="flex items-start justify-between gap-3 border-b border-rule pb-3">
+            <div>
+              <span class="f-mono text-[11px] font-bold text-frieze uppercase">CHOREOGRAPHY 05 // 彫り込み (INCISED CHISEL STATES)</span>
+              <h3 class="f-display font-bold text-xl uppercase text-strong mt-0.5">HOVER SPINE LOCK, ACTIVE DETENT &amp; FOCUS RING</h3>
+            </div>
+            <span class="am-cartouche am-cartouche-mono">HOVER · CLICK · TAB</span>
+          </div>
+
+          <p class="text-xs text-secondary leading-relaxed">
+            Hovering an interactive stratum snaps the border from <code class="f-mono text-strong">--am-rule</code> to <code class="f-mono text-strong">--am-outline</code>, locks a <code class="f-mono text-strong">3px</code> vermilion spine along the left edge, and nudges directional glyphs <code class="f-mono text-strong">(2px, -2px)</code>.
+          </p>
+
+          <div class="flex flex-col gap-2">
+            <button type="button" onclick="openLabDossier()" class="am-interactive w-full text-left surface-ground border border-rule px-4 py-3 flex items-center justify-between cursor-pointer">
+              <div class="flex items-center gap-2.5">
+                <span class="am-seal-vermilion text-xs">印 · INSPECT NODE</span>
+                <span class="f-display font-bold text-base text-strong uppercase">OSAKA-MIRROR-04 <span class="chisel-arrow">↗</span></span>
+              </div>
+              <div class="f-mono text-right">
+                <span class="text-base font-extrabold text-vermilion">94.12% SLA</span>
+                <span class="text-[11px] text-muted block">HOVER OR TAB TO INSPECT CHISEL STATE</span>
+              </div>
+            </button>
+          </div>
+
+          <div class="f-mono text-[11px] text-muted flex justify-between border-t border-rule pt-2">
+            <span>HOVER: 100ms chisel-snap · ACTIVE: translate(1px, 1px)</span>
+            <span class="text-frieze">FOCUS: 2px STEPPED DOUBLE-OUTLINE</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         06 · SUMI-LINE DATA VISUALIZATION (墨線図) & WOODBLOCK HATCHING
+         ===================================================================== -->
+    <section id="dataviz" class="surface-canvas am-monolith p-7 flex flex-col gap-6">
+      <div class="border-b-2 border-outline pb-4 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <div class="f-mono text-xs font-extrabold text-frieze uppercase tracking-widest">PILLAR 06 // 墨線図 (SUMI-SEN-ZU) ARCHITECTURAL INSTRUMENTATION</div>
+          <h2 class="f-display font-bold text-3xl uppercase text-strong mt-1">
+            [ 06 ] SUMI-LINE DATA VISUALIZATION &amp; WOODBLOCK HATCHING
+          </h2>
+        </div>
+        <span class="f-mono text-xs text-muted uppercase">MITER POLYLINE STROKES · 45° WOODBLOCK HATCHING · ZERO BLUR GRADIENTS</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <!-- Left 7 Cols: Miter Polyline Trajectory Chart -->
+        <div class="lg:col-span-7 surface-plaque border border-outline p-5 flex flex-col justify-between gap-4">
+          <div class="flex items-center justify-between gap-2 border-b border-rule pb-2.5">
+            <span class="f-display font-bold text-sm uppercase text-strong whitespace-nowrap">CLUSTER THROUGHPUT TRAJECTORY (MITER POLYLINE)</span>
+            <span class="f-mono text-xs font-bold text-frieze whitespace-nowrap">PEAK: 14,820 OPS/S · 99.98% SLA</span>
+          </div>
+
+          <svg viewBox="0 0 600 150" class="w-full h-40 surface-ground border border-rule p-2" role="img" aria-label="Cluster Throughput Miter Polyline Chart">
+            <line x1="0" y1="35" x2="600" y2="35" stroke="var(--am-gold-rule)" stroke-width="1" stroke-dasharray="4 4" />
+            <line x1="0" y1="75" x2="600" y2="75" stroke="var(--am-rule)" stroke-width="1" />
+            <line x1="0" y1="115" x2="600" y2="115" stroke="var(--am-rule)" stroke-width="1" />
+            <polyline
+              fill="none"
+              stroke="var(--am-outline)"
+              stroke-width="2.5"
+              stroke-linejoin="miter"
+              stroke-linecap="square"
+              points="20,120 110,98 200,108 290,74 380,52 470,62 575,24"
+            />
+            <rect x="16" y="116" width="8" height="8" fill="var(--am-ground)" stroke="var(--am-outline)" stroke-width="2" />
+            <rect x="106" y="94" width="8" height="8" fill="var(--am-ground)" stroke="var(--am-outline)" stroke-width="2" />
+            <rect x="196" y="104" width="8" height="8" fill="var(--am-slab-counter)" stroke="var(--am-outline)" stroke-width="1.5" />
+            <rect x="286" y="70" width="8" height="8" fill="var(--am-ground)" stroke="var(--am-outline)" stroke-width="2" />
+            <rect x="376" y="48" width="8" height="8" fill="var(--am-ground)" stroke="var(--am-outline)" stroke-width="2" />
+            <rect x="466" y="58" width="8" height="8" fill="var(--am-slab-counter)" stroke="var(--am-outline)" stroke-width="1.5" />
+            <rect x="571" y="20" width="8" height="8" fill="var(--am-slab-primary)" stroke="var(--am-outline)" stroke-width="2" />
+            <text x="12" y="28" fill="var(--am-gold)" font-family="JetBrains Mono" font-size="10" font-weight="700">◆ SLA CAPACITY CEILING (14,500 OPS/S THRESHOLD)</text>
+          </svg>
+
+          <div class="f-mono text-[11px] text-muted flex justify-between">
+            <span>STROKE: 2.5px square/miter (never smoothed spline)</span>
+            <span>ANOMALY NODES: SHU-IRO VERMILION SQUARES</span>
+          </div>
+        </div>
+
+        <!-- Right 5 Cols: 50/50 Woodblock Hatched Bilateral Allocation Bars -->
+        <div class="lg:col-span-5 surface-plaque border border-outline p-5 flex flex-col justify-between gap-4">
+          <div class="flex items-center justify-between gap-2 border-b border-rule pb-2.5">
+            <span class="f-display font-bold text-sm uppercase text-strong whitespace-nowrap">BILATERAL RESOURCE ALLOCATION</span>
+            <span class="f-mono text-xs text-muted whitespace-nowrap">陽 PRIMARY vs. 陰 COUNTERPARTY</span>
+          </div>
+
+          <div class="flex flex-col gap-4 my-auto">
+            <div>
+              <div class="flex justify-between gap-2 f-mono text-[11px] font-extrabold mb-1.5 whitespace-nowrap">
+                <span class="text-strong">陽 PRIMARY · 14.8K (62%)</span>
+                <span class="text-muted">COMPUTE SHARE</span>
+                <span class="text-vermilion">(38%) 9.1K · COUNTER 陰</span>
+              </div>
+              <div class="h-5 flex items-center gap-1 surface-ground p-0.5 border border-rule">
+                <div class="h-full am-slab-primary" style="width:62%"></div>
+                <div class="h-full am-slab-counter" style="width:38%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between gap-2 f-mono text-[11px] font-extrabold mb-1.5 whitespace-nowrap">
+                <span class="text-strong">陽 PRIMARY · 64 GB/S (54%)</span>
+                <span class="text-muted">MEMORY BANDWIDTH</span>
+                <span class="text-vermilion">(46%) 55 GB/S · COUNTER 陰</span>
+              </div>
+              <div class="h-5 flex items-center gap-1 surface-ground p-0.5 border border-rule">
+                <div class="h-full am-hatch-primary border-r-2 border-outline" style="width:54%"></div>
+                <div class="h-full am-hatch-counter border-l-2 border-counter" style="width:46%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="f-mono text-[11px] text-muted border-t border-rule pt-2">
+            Uses 45° repeating linear woodblock hatching instead of blurry alpha gradients.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         07 · CANONICAL TOKEN MATRIX & ACCESSIBILITY (トークン仕様)
+         ===================================================================== -->
+    <section id="tokens" class="surface-canvas am-monolith p-7 flex flex-col gap-6">
+      <div class="border-b-2 border-outline pb-4 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <div class="f-mono text-xs font-extrabold text-frieze uppercase tracking-widest">PILLAR 07 // IMPLEMENTATION-AGNOSTIC CSS CUSTOM PROPERTIES (--am-*)</div>
+          <h2 class="f-display font-bold text-3xl uppercase text-strong mt-1">
+            [ 07 ] CANONICAL DESIGN TOKEN MATRIX
+          </h2>
+        </div>
+        <span class="f-mono text-xs text-muted uppercase">WCAG AA/AAA VERIFIED · FORCED-COLORS &amp; REDUCED-MOTION READY</span>
+      </div>
+
+      <div class="surface-plaque border border-outline overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b-2 border-outline f-display font-bold text-[11px] text-frieze uppercase">
+              <th class="py-2.5 px-3.5">CANONICAL TOKEN</th>
+              <th class="py-2.5 px-3.5">版画 · HANGA (WOODBLOCK DEFAULT)</th>
+              <th class="py-2.5 px-3.5">漆 · URUSHI (LACQUER &amp; BRASS)</th>
+              <th class="py-2.5 px-3.5">硯 · SUZURI (INKSTONE)</th>
+              <th class="py-2.5 px-3.5">和紙 · WASHI (PARCHMENT LIGHT)</th>
+              <th class="py-2.5 px-3.5">ARCHITECTURAL ROLE</th>
+            </tr>
+          </thead>
+          <tbody class="f-mono am-divide-y">
+            <tr><td class="py-2 px-3.5 font-bold text-strong">--am-ground</td><td class="py-2 px-3.5">#0a0908</td><td class="py-2 px-3.5">#050403</td><td class="py-2 px-3.5">#0b0908</td><td class="py-2 px-3.5">#ebe5d9</td><td class="py-2 px-3.5 text-secondary">Stratum 0 Mounting Ground</td></tr>
+            <tr><td class="py-2 px-3.5 font-bold text-strong">--am-canvas</td><td class="py-2 px-3.5">#171412</td><td class="py-2 px-3.5">#080705</td><td class="py-2 px-3.5">#14110e</td><td class="py-2 px-3.5">#f4efe6</td><td class="py-2 px-3.5 text-secondary">Stratum 1 Scroll Canvas</td></tr>
+            <tr><td class="py-2 px-3.5 font-bold text-strong">--am-plaque</td><td class="py-2 px-3.5">#0d0b0a</td><td class="py-2 px-3.5">#14110c</td><td class="py-2 px-3.5">#1c1814</td><td class="py-2 px-3.5">#fcfaf6</td><td class="py-2 px-3.5 text-secondary">Stratum 2 Carved Monolith Plaque</td></tr>
+            <tr><td class="py-2 px-3.5 font-bold text-strong">--am-rule</td><td class="py-2 px-3.5">#36302a</td><td class="py-2 px-3.5">#3b2e1d</td><td class="py-2 px-3.5">#362e26</td><td class="py-2 px-3.5">#cfc7b8</td><td class="py-2 px-3.5 text-secondary">1px Internal Ledger Hairline</td></tr>
+            <tr><td class="py-2 px-3.5 font-bold text-strong">--am-outline</td><td class="py-2 px-3.5">#d8d0c5</td><td class="py-2 px-3.5">#c89d54</td><td class="py-2 px-3.5">#a89a86</td><td class="py-2 px-3.5">#1c1917</td><td class="py-2 px-3.5 text-secondary">1.5px Monolith &amp; Ziggurat Frame</td></tr>
+            <tr><td class="py-2 px-3.5 font-bold text-strong">--am-ink-strong</td><td class="py-2 px-3.5">#fbf9f5</td><td class="py-2 px-3.5">#fffdf9</td><td class="py-2 px-3.5">#fbf8f3</td><td class="py-2 px-3.5">#090807</td><td class="py-2 px-3.5 text-secondary">Monumental Headlines &amp; Figures</td></tr>
+            <tr><td class="py-2 px-3.5 font-bold text-strong">--am-slab-primary</td><td class="py-2 px-3.5">#f4efe6</td><td class="py-2 px-3.5">#ebe0cc</td><td class="py-2 px-3.5">#e6dfd3</td><td class="py-2 px-3.5">#1c1917</td><td class="py-2 px-3.5 text-secondary">Primary Entity (陽) Monolith Slab</td></tr>
+            <tr><td class="py-2 px-3.5 font-bold text-strong">--am-slab-counter</td><td class="py-2 px-3.5">#b81d13</td><td class="py-2 px-3.5">#a8180e</td><td class="py-2 px-3.5">#b81d13</td><td class="py-2 px-3.5">#b81d13</td><td class="py-2 px-3.5 text-secondary">Counterparty (陰) &amp; Hanko Seal Fill</td></tr>
+            <tr><td class="py-2 px-3.5 font-bold text-gold">--am-gold</td><td class="py-2 px-3.5">#deb052</td><td class="py-2 px-3.5">#e5b85c</td><td class="py-2 px-3.5">#deb052</td><td class="py-2 px-3.5">#8c5604</td><td class="py-2 px-3.5 text-secondary">戒 · THRESHOLD Kintsugi Gold Ink</td></tr>
+            <tr><td class="py-2 px-3.5 font-bold text-steel">--am-steel</td><td class="py-2 px-3.5">#7da8c4</td><td class="py-2 px-3.5">#7da8c4</td><td class="py-2 px-3.5">#7da8c4</td><td class="py-2 px-3.5">#1b4965</td><td class="py-2 px-3.5 text-secondary">双 · VARIANCE Aizome Steel Ink</td></tr>
+            <tr><td class="py-2 px-3.5 font-bold text-celadon">--am-celadon</td><td class="py-2 px-3.5">#82a890</td><td class="py-2 px-3.5">#82a890</td><td class="py-2 px-3.5">#82a890</td><td class="py-2 px-3.5">#1e523b</td><td class="py-2 px-3.5 text-secondary">鎖 · VERIFIED Seiji Celadon Ink</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         08 · THE 10 PRINCIPLES OF ARASHIKAGE CRAFT (設計規律)
+         ===================================================================== -->
+    <section id="governance" class="surface-canvas am-monolith p-7 flex flex-col gap-5">
+      <div class="border-b-2 border-outline pb-4 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <div class="f-mono text-xs font-extrabold text-frieze uppercase tracking-widest">PILLAR 08 // DESIGN GOVERNANCE &amp; ARCHITECTURAL INTEGRITY</div>
+          <h2 class="f-display font-bold text-3xl uppercase text-strong mt-1">
+            [ 08 ] THE 10 PRINCIPLES OF ARASHIKAGE CRAFT
+          </h2>
+        </div>
+        <a href="ARASHIKAGE_DESIGN_SYSTEM.md" class="px-3 py-1 am-slab-primary f-display font-bold text-xs uppercase">
+          ↗ VIEW MARKDOWN SPECIFICATION
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <div class="surface-plaque border border-outline p-4 flex flex-col gap-2">
+          <div class="f-display font-bold text-sm text-strong uppercase">✓ DO (ARASHIKAGE MONOLITH STANDARD)</div>
+          <ul class="f-mono text-secondary space-y-1.5 list-disc pl-4">
+            <li>Maintain the 90/10 pigment ratio: 90% Washi, Sumi, and Kintsugi Brass; reserve solid Shu-iro Vermilion (≤10%) strictly for carved Hanko stamps (<code class="text-strong">[嵐影之印]</code>), critical anomalies (<code class="text-strong">[印]</code>), and counterparty slabs (<code class="text-strong">陰</code>).</li>
+            <li>Encode secondary classifications (<code class="text-strong">戒 THRESHOLD</code>, <code class="text-strong">双 VARIANCE</code>, <code class="text-strong">鎖 VERIFIED</code>, <code class="text-strong">録 ARCHIVE</code>) as <code class="text-strong">1px</code> incised mineral cartouches.</li>
+            <li>Set monumental headlines in <strong>100% unified Washi Ivory / Sumi Ink</strong> so adjacent square Hanko stamps command the focal point.</li>
+            <li>Maintain single-line cartouche strips and row-for-row horizontal symmetry across bilateral comparative diptychs.</li>
+            <li>Use decisive, zero-overshoot motion curves (<code class="text-strong">--ease-hanko-strike</code>, <code class="text-strong">--ease-shoji-enter</code>, <code class="text-strong">steps()</code>).</li>
+          </ul>
+        </div>
+
+        <div class="surface-plaque border border-counter p-4 flex flex-col gap-2">
+          <div class="f-display font-bold text-sm text-vermilion uppercase">✕ DON'T (FORBIDDEN ANTI-PATTERNS)</div>
+          <ul class="f-mono text-secondary space-y-1.5 list-disc pl-4">
+            <li>Never render multiple solid-fill colored status pills in a row or rely on color without a paired Kanji/geometric prefix.</li>
+            <li>Never use saturated neon text on dark surfaces next to vermilion Hanko seals.</li>
+            <li>Never split display headlines into two colors across line breaks or stretch a Hanko seal into a full-width horizontal sentence ribbon.</li>
+            <li>Never nest double-bordered ziggurat frames inside double-bordered frames.</li>
+            <li>Never use optical blur (<code class="text-strong">backdrop-filter</code>), diffused drop shadows, faux-slanted italics, or elastic spring overshoots.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- TOP-LAYER ARCHITECTURAL DOSSIER MODAL FOR MOTION LAB 3 & 4 -->
+  <dialog id="lab-dossier-dialog" class="am-dossier" aria-labelledby="lab-dossier-title">
+    <div class="surface-subtle border-b border-outline px-5 py-3.5 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <span class="am-seal-vermilion text-xs">印 · NODE DOSSIER</span>
+        <h3 id="lab-dossier-title" class="f-display font-bold text-xl uppercase text-strong">OSAKA-MIRROR-04 // TOP-LAYER SHŌJI UNFURL</h3>
+      </div>
+      <button type="button" onclick="closeLabDossier()" class="px-2.5 py-1 surface-ground border border-outline f-mono text-xs font-bold text-strong cursor-pointer">
+        ESC ✕
+      </button>
+    </div>
+    <div class="p-5 flex flex-col gap-4 text-xs">
+      <p class="text-secondary leading-relaxed">
+        This <code class="f-mono text-strong">&lt;dialog&gt;</code> animates into and out of the browser Top Layer using <code class="f-mono text-strong">@starting-style</code>, <code class="f-mono text-strong">transition-behavior: allow-discrete</code>, and <code class="f-mono text-strong">overlay</code>—with zero optical blur and a feature-detected <code class="f-mono text-strong">canTransitionDisplay()</code> exit helper.
+      </p>
+      <div class="grid grid-cols-3 gap-3 f-mono">
+        <div class="surface-plaque border border-rule p-3">
+          <div class="text-muted text-[10px]">SLA AVAILABILITY</div>
+          <div class="text-vermilion font-extrabold text-base mt-0.5">94.12% (DEGRADED)</div>
+        </div>
+        <div class="surface-plaque border border-rule p-3">
+          <div class="text-muted text-[10px]">P99 LATENCY</div>
+          <div class="text-strong font-extrabold text-base mt-0.5">56.6 MS (+48.2 Δ)</div>
+        </div>
+        <div class="surface-plaque border border-rule p-3">
+          <div class="text-muted text-[10px]">LOAD VARIANCE</div>
+          <div class="text-steel font-extrabold text-base mt-0.5">+18.4% ASYMMETRIC</div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    const STRATUM_LABELS = {
+      'hanga:dark':  ['#0a0908 (Outer Stone)', '#171412 (Warm Sumi Slate)', '#0d0b0a (Kokutan Ebony)'],
+      'urushi:dark': ['#050403 (Lacquer Void)', '#080705 (Roiro-Urushi Black)', '#14110c (Smoked Umber)'],
+      'suzuri:dark': ['#0b0908 (Mineral Void)', '#14110e (Suzuri Inkstone)', '#1c1814 (Carved Slate)'],
+      'washi:light': ['#ebe5d9 (Raw Mulberry)', '#f4efe6 (Washi Silk Scroll)', '#fcfaf6 (Luminous Ivory)']
+    };
+
+    function setMaterialExpression(expression, mode) {
+      const apply = () => {
+        const root = document.documentElement;
+        root.setAttribute('data-expression', expression);
+        root.setAttribute('data-theme', mode);
+        const meta = document.querySelector('meta[name="color-scheme"]');
+        if (meta) meta.content = mode;
+        try { localStorage.setItem('am-color-scheme', mode); } catch (_) {}
+
+        const buttons = {
+          'btn-hanga': expression === 'hanga' && mode === 'dark',
+          'btn-urushi': expression === 'urushi' && mode === 'dark',
+          'btn-suzuri': expression === 'suzuri' && mode === 'dark',
+          'btn-washi': mode === 'light'
+        };
+        Object.entries(buttons).forEach(([id, active]) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.className = active
+              ? 'px-2 py-1 f-display font-bold text-[11px] uppercase cursor-pointer whitespace-nowrap am-slab-primary'
+              : 'px-2 py-1 f-display font-bold text-[11px] uppercase cursor-pointer whitespace-nowrap text-secondary';
+          }
+        });
+
+        const cards = {
+          'card-hanga': expression === 'hanga' && mode === 'dark',
+          'card-urushi': expression === 'urushi' && mode === 'dark',
+          'card-suzuri': expression === 'suzuri' && mode === 'dark',
+          'card-washi': mode === 'light'
+        };
+        Object.entries(cards).forEach(([id, active]) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.className = active
+              ? 'am-interactive text-left surface-plaque border-2 border-outline p-5 flex flex-col justify-between gap-4 cursor-pointer'
+              : 'am-interactive text-left surface-plaque border border-rule p-5 flex flex-col justify-between gap-4 cursor-pointer';
+          }
+        });
+
+        const strata = STRATUM_LABELS[`${expression}:${mode}`] || STRATUM_LABELS['hanga:dark'];
+        document.getElementById('lbl-stratum0').textContent = strata[0];
+        document.getElementById('lbl-stratum1').textContent = strata[1];
+        document.getElementById('lbl-stratum2').textContent = strata[2];
+      };
+
+      if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.startViewTransition(apply);
+      } else {
+        apply();
+      }
+    }
+
+    function setDemoSegment(idx) {
+      [1, 2, 3].forEach((n) => {
+        const btn = document.getElementById(`seg-${n}`);
+        if (!btn) return;
+        btn.className = n === idx
+          ? 'flex-1 py-1.5 f-display font-bold text-xs uppercase am-slab-primary cursor-pointer'
+          : 'flex-1 py-1.5 f-display font-bold text-xs uppercase text-secondary border-l border-rule cursor-pointer';
+      });
+    }
+
+    let detentArmed = true;
+    function toggleDemoDetent() {
+      detentArmed = !detentArmed;
+      document.getElementById('detent-on').className = detentArmed
+        ? 'px-2 py-1 am-slab-primary flex-1 text-center'
+        : 'px-2 py-1 text-muted flex-1 text-center';
+      document.getElementById('detent-off').className = !detentArmed
+        ? 'px-2 py-1 am-slab-primary flex-1 text-center'
+        : 'px-2 py-1 text-muted flex-1 text-center';
+    }
+
+    function setMotionSpeed(scale) {
+      document.documentElement.style.setProperty('--motion-scale', String(scale));
+      document.getElementById('btn-speed-1x').className = scale === 1
+        ? 'px-3 py-1 f-display font-bold text-xs uppercase am-slab-primary cursor-pointer'
+        : 'px-3 py-1 f-display font-bold text-xs uppercase surface-ground border border-outline text-secondary cursor-pointer';
+      document.getElementById('btn-speed-slow').className = scale > 1
+        ? 'px-3 py-1 f-display font-bold text-xs uppercase am-slab-primary cursor-pointer'
+        : 'px-3 py-1 f-display font-bold text-xs uppercase surface-ground border border-outline text-secondary cursor-pointer';
+    }
+
+    function replayHankoStrike() {
+      document.querySelectorAll('.strike-target, #hero-hanko-stamp').forEach((el) => {
+        el.classList.remove('strike-anim');
+        void el.offsetWidth;
+        el.classList.add('strike-anim');
+      });
+    }
+
+    let seqTimer = null;
+    function simulateStateSequencer() {
+      if (seqTimer) clearInterval(seqTimer);
+      const cells = Array.from(document.querySelectorAll('#seq-grid .sequencer-cell'));
+      const status = document.getElementById('seq-status-label');
+      const odo = document.getElementById('seq-odometer');
+      const scale = Number(getComputedStyle(document.documentElement).getPropertyValue('--motion-scale')) || 1;
+      const stepMs = Math.round(380 * scale);
+
+      const labels = ['01 · INIT', '02 · VERIFY', '03 · WAIT', '04 · STANDBY', '05 · STANDBY'];
+      cells.forEach((c, idx) => {
+        c.removeAttribute('data-state');
+        c.textContent = labels[idx];
+      });
+
+      let step = 0;
+      status.textContent = '⟳ INTERROGATING QUORUM STAGE 01 (INIT)...';
+      odo.textContent = 'REVISION #4,811 (±0 Δ)';
+      cells[0].setAttribute('data-state', 'scanning');
+      cells[0].textContent = '01 · SCAN';
+
+      seqTimer = setInterval(() => {
+        step++;
+        if (step === 1) {
+          cells[0].removeAttribute('data-state');
+          cells[0].textContent = '01 · INIT';
+          cells[1].setAttribute('data-state', 'scanning');
+          cells[1].textContent = '02 · SCAN';
+          status.textContent = '⟳ INTERROGATING QUORUM STAGE 02 (VERIFY)...';
+        } else if (step === 2) {
+          cells[1].removeAttribute('data-state');
+          cells[1].textContent = '02 · VERIFY';
+          cells[2].setAttribute('data-state', 'locked');
+          cells[2].textContent = '03 ◆ COMMIT';
+          status.textContent = '◆ STATUS: COMMITTED AT STAGE 03 (QUORUM LOCKED)';
+          odo.textContent = 'REVISION #4,812 (+42 Δ)';
+          clearInterval(seqTimer);
+          seqTimer = null;
+        }
+      }, stepMs);
+    }
+
+    let supportsDisplayTransition;
+    function canTransitionDisplay() {
+      if (supportsDisplayTransition !== undefined) return supportsDisplayTransition;
+      if (!window.CSS?.supports?.('transition-behavior', 'allow-discrete') || !document.body) {
+        return false;
+      }
+      const probe = document.createElement('div');
+      probe.style.cssText = 'transition: display 1s allow-discrete !important; display: block;';
+      document.body.appendChild(probe);
+      getComputedStyle(probe).display;
+      probe.style.display = 'none';
+      supportsDisplayTransition = getComputedStyle(probe).display === 'block';
+      probe.remove();
+      return supportsDisplayTransition;
+    }
+
+    function toggleShojiDrawer() {
+      const drawer = document.getElementById('demo-shoji-drawer');
+      if (!drawer) return;
+      drawer.hidden = !drawer.hidden;
+    }
+
+    function openLabDossier() {
+      const d = document.getElementById('lab-dossier-dialog');
+      if (d && !d.open) d.showModal();
+    }
+
+    function closeLabDossier() {
+      const d = document.getElementById('lab-dossier-dialog');
+      if (d && d.open) d.close();
+    }
+  </script>
+</body>
+</html>

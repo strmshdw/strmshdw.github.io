@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="en" data-style="broadcast" data-mode="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <script>
+    try {
+      document.querySelector('meta[name="color-scheme"]').content =
+        localStorage.getItem('color-scheme') ?? 'light dark';
+    } catch (_) {}
+  </script>
+  <title>THE "EYES ON THE FIELD" UPDATE — RL-Sync Competitive Intel &amp; Broadcast Patch Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Cinzel:wght@600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&family=Josefin+Sans:wght@600;700&family=Marcellus&family=Noto+Serif+JP:wght@600;700;900&family=Space+Grotesk:wght@600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';document.head.appendChild(s);"></script>
+  <style>
+    :root {
+      color-scheme: light dark;
+      /* Default #01 Signature Style: D2-K3 · 版画 Ginza Deco: Sumi Woodblock & Inverted Washi */
+      --t-page: #0a0908;
+      --t-panel: #181614;
+      --t-plaque: #0f0d0b;
+      --t-panel-2: #221f1c;
+      --t-line: #38332d;
+      --t-outline: #e2dbd0;
+      --t-frieze: #d8d0c5;
+      --t-ink: #f2efe9;
+      --t-ink-2: #cfc7b8;
+      --t-muted: #918779;
+      --t-strong: #fbf9f5;
+      --t-blue-slab: #f2efe9;
+      --t-blue-on-slab: #12100e;
+      --t-blue-ink: #f2efe9;
+      --t-orange-slab: #b81d13;
+      --t-orange-on-slab: #fbf9f5;
+      --t-orange-ink: #d9382e;
+      --t-vermilion-display: #d4261d;
+      --t-win-slab: #166548;
+      --t-win-on-slab: #fbf9f5;
+      --t-win: #82a890;
+      --t-loss-slab: #b81d13;
+      --t-loss: #d9382e;
+      --t-gold-slab: #b47b18;
+      --t-gold-on-slab: #141210;
+      --t-gold: #deb052;
+      --t-carry-slab: #1b4d6e;
+      --t-carry-ink: #7da8c4;
+      --t-tag-slab: #3a342e;
+      --t-tag-ink: #b8afa0;
+      --t-radius: 0px;
+      --t-font-display: 'Josefin Sans', 'Space Grotesk', sans-serif;
+      --t-font-serif: 'Noto Serif JP', serif;
+      --t-font-sans: 'IBM Plex Sans', 'Space Grotesk', sans-serif;
+      --t-font-mono: 'JetBrains Mono', monospace;
+      --base-scale: 16px;
+
+      &:has(> head > meta[name="color-scheme"][content="dark"]) {
+        color-scheme: dark;
+      }
+      &:has(> head > meta[name="color-scheme"][content="light"]) {
+        color-scheme: light;
+      }
+    }
+
+    html {
+      font-size: var(--base-scale);
+      scroll-behavior: smooth;
+      background-color: var(--t-page);
+      color: var(--t-ink);
+      font-family: var(--t-font-sans);
+    }
+
+    body {
+      background-color: var(--t-page);
+      color: var(--t-ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .f-display {
+      font-family: var(--t-font-display);
+      font-style: normal !important;
+      letter-spacing: 0.11em;
+    }
+    .f-serif-jp { font-family: var(--t-font-serif); }
+    .f-sans { font-family: var(--t-font-sans); }
+    .f-mono { font-family: var(--t-font-mono); font-variant-numeric: tabular-nums; }
+    .t-num { font-variant-numeric: tabular-nums; }
+
+    .surface-page { background-color: var(--t-page); }
+    .surface-panel { background-color: var(--t-panel); }
+    .surface-plaque { background-color: var(--t-plaque, var(--t-page)); }
+    .surface-panel-2 { background-color: var(--t-panel-2); }
+    .border-line { border-color: var(--t-line); }
+    .border-outline { border-color: var(--t-outline); }
+    .text-strong { color: var(--t-strong); }
+    .text-frieze { color: var(--t-frieze, var(--t-gold)); }
+    .text-ink { color: var(--t-ink); }
+    .text-ink-2 { color: var(--t-ink-2); }
+    .text-muted { color: var(--t-muted); }
+    .text-blue { color: var(--t-blue-ink); }
+    .text-orange { color: var(--t-orange-ink); }
+    .text-vermilion { color: var(--t-vermilion-display); }
+    .text-win { color: var(--t-win); }
+    .text-loss { color: var(--t-loss); }
+    .text-gold { color: var(--t-gold); }
+    .bg-blue-slab { background-color: var(--t-blue-slab); color: var(--t-blue-on-slab) !important; }
+    .bg-orange-slab { background-color: var(--t-orange-slab); color: var(--t-orange-on-slab) !important; }
+    .bg-win { background-color: var(--t-win-slab); color: var(--t-win-on-slab) !important; }
+    .bg-loss { background-color: var(--t-loss-slab); color: #fbf8f3 !important; }
+    .bg-gold { background-color: var(--t-gold-slab); color: var(--t-gold-on-slab) !important; }
+    .bg-carry-slab { background-color: var(--t-carry-slab); color: #fbf8f3 !important; }
+    .text-carry { color: var(--t-carry-ink); }
+    .border-carry { border-color: var(--t-carry-ink); }
+    .bg-tag-slab { background-color: var(--t-tag-slab); color: #fbf8f3 !important; }
+    .text-tag { color: var(--t-tag-ink); }
+    .border-tag { border-color: var(--t-tag-ink); }
+    .t-rad { border-radius: var(--t-radius); }
+
+    /* Stepped Art Deco Ziggurat Frame (Reserved for Primary Monoliths — Zero Nested Box Clutter) */
+    .reticle-card,
+    .ziggurat-plaque {
+      position: relative;
+      border: 1.5px solid var(--t-outline);
+      box-shadow:
+        0 0 0 4px var(--t-page),
+        0 0 0 5.5px var(--t-line);
+    }
+
+    /* Single-Hairline Architectural Ledger Stratum (Eliminates 3-Layer Box-in-Box Claustrophobia) */
+    .deco-plaque {
+      background-color: var(--t-page);
+      border: 1px solid var(--t-line);
+    }
+
+    /* Authentic Square Carved Hanko Stamp (判子 / 落款) */
+    .hanko-square-stamp {
+      display: inline-grid;
+      place-items: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      background-color: var(--t-orange-slab);
+      color: var(--t-orange-on-slab);
+      font-family: var(--t-font-serif);
+      font-weight: 900;
+      font-size: 0.72rem;
+      line-height: 1.05;
+      letter-spacing: 0.04em;
+      text-align: center;
+      flex-shrink: 0;
+      outline: 1px solid color-mix(in oklab, currentColor 42%, transparent);
+      outline-offset: -3px;
+      user-select: none;
+    }
+
+    .deco-medallion-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-family: var(--t-font-display);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--t-frieze, var(--t-gold));
+    }
+    .deco-medallion-bar::before,
+    .deco-medallion-bar::after {
+      content: "";
+      flex: 1;
+      height: 3px;
+      border-top: 1px solid var(--t-outline);
+      border-bottom: 1px solid var(--t-line);
+    }
+
+    .telemetry-chip {
+      font-family: var(--t-font-mono);
+      font-weight: 700;
+      font-size: 0.85em;
+      background-color: var(--t-panel-2);
+      border: 1px solid var(--t-line);
+      color: var(--t-strong);
+      padding: 0.06rem 0.38rem;
+      border-radius: var(--t-radius);
+      white-space: nowrap;
+    }
+
+    /* 90/10 Monocolor + Vermilion Seal Law:
+       - ONLY .bg-loss and .bg-orange-slab badges get a solid Shu-iro Vermilion Hanko Stamp fill.
+       - All other .badge-pill channels (.bg-gold, .bg-carry-slab, .bg-win, .bg-tag-slab, .bg-blue-slab)
+         render as crisp Incised Architectural Cartouches on --t-page with 1px mineral borders! */
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-style: normal !important;
+      letter-spacing: 0.11em;
+      padding: 0.15rem 0.55rem;
+    }
+
+    .badge-pill.bg-loss,
+    .badge-pill.bg-orange-slab {
+      background-color: var(--t-orange-slab) !important;
+      color: var(--t-orange-on-slab) !important;
+      outline: 1px solid color-mix(in oklab, currentColor 38%, transparent);
+      outline-offset: -2px;
+    }
+
+    .badge-pill.bg-gold {
+      background-color: var(--t-page) !important;
+      color: var(--t-gold) !important;
+      border: 1px solid color-mix(in oklab, var(--t-gold) 52%, var(--t-line));
+      outline: none;
+    }
+
+    .badge-pill.bg-carry-slab {
+      background-color: var(--t-page) !important;
+      color: var(--t-carry-ink) !important;
+      border: 1px solid color-mix(in oklab, var(--t-carry-ink) 52%, var(--t-line));
+      outline: none;
+    }
+
+    .badge-pill.bg-win {
+      background-color: var(--t-page) !important;
+      color: var(--t-win) !important;
+      border: 1px solid color-mix(in oklab, var(--t-win) 52%, var(--t-line));
+      outline: none;
+    }
+
+    .badge-pill.bg-tag-slab {
+      background-color: var(--t-page) !important;
+      color: var(--t-tag-ink) !important;
+      border: 1px solid color-mix(in oklab, var(--t-tag-ink) 52%, var(--t-line));
+      outline: none;
+    }
+
+    .badge-pill.bg-blue-slab {
+      background-color: var(--t-page) !important;
+      color: var(--t-strong) !important;
+      border: 1px solid var(--t-outline);
+      outline: none;
+    }
+
+    .arena-pitch-backdrop {
+      position: relative;
+    }
+
+    /* Carved Hanko Seal Cartouches (Upright Monumental, Zero Skew, Zero Legacy Gradients) */
+    .broadcast-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background-color: var(--t-orange-slab);
+      color: var(--t-orange-on-slab);
+      padding: 0.22rem 0.75rem;
+      font-family: var(--t-font-display);
+      font-weight: 700;
+      font-style: normal;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+      outline: 1px solid color-mix(in oklab, currentColor 34%, transparent);
+      outline-offset: -2px;
+    }
+
+    .intel-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background-color: var(--t-panel-2);
+      border: 1px solid var(--t-outline);
+      color: var(--t-gold);
+      padding: 0.2rem 0.7rem;
+      font-family: var(--t-font-display);
+      font-weight: 700;
+      font-style: normal;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Symmetrical Art Deco Double-Ruled Frieze (Replaces 50/50 Broadcast Split Bar) */
+    .team-split-rule {
+      height: 5px;
+      width: 100%;
+      border-top: 2px solid var(--t-outline);
+      border-bottom: 1px solid var(--t-gold);
+      background-color: var(--t-page);
+    }
+
+    /* Native <dialog> discrete top-layer transition */
+    dialog.dossier-dialog {
+      background: transparent;
+      border: none;
+      padding: 0;
+      max-width: 100vw;
+      max-height: 100vh;
+      width: 100vw;
+      height: 100vh;
+      opacity: 0;
+      transition:
+        opacity 0.18s ease-out,
+        display 0.18s allow-discrete,
+        overlay 0.18s allow-discrete;
+    }
+    dialog.dossier-dialog[open] {
+      opacity: 1;
+    }
+    @starting-style {
+      dialog.dossier-dialog[open] {
+        opacity: 0;
+      }
+    }
+    dialog.dossier-dialog::backdrop {
+      background: rgba(5, 7, 12, 0.78);
+      backdrop-filter: blur(4px);
+    }
+
+    /* Scroll-driven entry reveal with progressive enhancement */
+    @media (prefers-reduced-motion: no-preference) {
+      @supports ((animation-timeline: view()) and (animation-range: entry)) {
+        @keyframes card-enter {
+          from {
+            opacity: 0.18;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .reveal-on-scroll {
+          animation: card-enter auto ease-out backwards;
+          animation-timeline: view(block);
+          animation-range: entry 0% cover 20%;
+        }
+      }
+    }
+
+    @media (forced-colors: active) {
+      .surface-panel,
+      .surface-panel-2,
+      .badge-pill,
+      .telemetry-chip {
+        border: 1px solid CanvasText !important;
+      }
+    }
+  </style>
+</head>
+<body class="selection:bg-blue-600 selection:text-white">
+
+  <!-- =====================================================================
+       SINGLE-ROW STICKY ESPORTS BROADCAST & INTEL CONTROL BAR (1920x1080)
+       ===================================================================== -->
+  <header class="sticky top-0 z-50 surface-panel border-b-2 border-line backdrop-blur-md bg-opacity-95">
+    <div class="team-split-rule"></div>
+    <div class="max-w-[1680px] mx-auto px-4 sm:px-6 py-2 flex flex-wrap xl:flex-nowrap items-center justify-between gap-2">
+      <!-- Brand + Arashikage Hexagram 64 (䷿) Emblem + Hype Hierarchy Jump Links -->
+      <div class="flex items-center gap-2.5 min-w-0 shrink-0">
+        <a href="#top" class="flex items-center gap-2.5 shrink-0">
+          <div class="inline-flex items-center justify-center p-1 border border-outline surface-page shrink-0" title="Arashikage Clan · Hexagram 64 (䷿ 未濟)">
+            <svg width="20" height="22" viewBox="0 0 22 24" fill="none" aria-hidden="true">
+              <rect x="1" y="1.2" width="20" height="2.4" fill="var(--t-orange-ink)" />
+              <rect x="1" y="5.1" width="8.2" height="2.4" fill="var(--t-orange-ink)" />
+              <rect x="12.8" y="5.1" width="8.2" height="2.4" fill="var(--t-orange-ink)" />
+              <rect x="1" y="9.0" width="20" height="2.4" fill="var(--t-orange-ink)" />
+              <rect x="1" y="12.9" width="8.2" height="2.4" fill="var(--t-orange-ink)" />
+              <rect x="12.8" y="12.9" width="8.2" height="2.4" fill="var(--t-orange-ink)" />
+              <rect x="1" y="16.8" width="20" height="2.4" fill="var(--t-orange-ink)" />
+              <rect x="1" y="20.7" width="8.2" height="2.4" fill="var(--t-orange-ink)" />
+              <rect x="12.8" y="20.7" width="8.2" height="2.4" fill="var(--t-orange-ink)" />
+            </svg>
+          </div>
+          <div class="flex flex-col">
+            <span class="f-display font-bold text-xl leading-none tracking-wider text-strong whitespace-nowrap">
+              RL-SYNC <span class="text-gold">◆</span> <span class="text-orange">嵐影之印</span>
+            </span>
+            <span class="f-mono text-[10px] font-bold tracking-widest text-muted uppercase whitespace-nowrap">
+              STRMSHDW · GINZA GEOMETRIC MONOLITH SUITE
+            </span>
+          </div>
+        </a>
+
+        <!-- Section Jump Links (Ordered by Feature Hype Hierarchy) -->
+        <nav aria-label="Update Sections" class="hidden xl:flex items-center gap-0.5 ml-1.5 pl-2.5 border-l border-line f-display font-bold text-xs tracking-wider uppercase whitespace-nowrap">
+          <a href="#radar" class="px-1.5 py-1 hover:text-strong text-ink-2 transition-colors">01·Radar</a>
+          <a href="#blackbox" class="px-1.5 py-1 hover:text-strong text-ink-2 transition-colors">02·Telemetry</a>
+          <a href="#dossiers" class="px-1.5 py-1 hover:text-strong text-ink-2 transition-colors">03·Scouting</a>
+          <a href="#antisquint" class="px-1.5 py-1 hover:text-strong text-ink-2 transition-colors">04·HUD</a>
+          <a href="#themes" class="px-1.5 py-1 hover:text-strong text-ink-2 transition-colors">05·Themes</a>
+          <a href="#bugfixes" class="px-1.5 py-1 hover:text-strong text-ink-2 transition-colors">06·Fixes</a>
+          <a href="design-system.html" class="px-1.5 py-1 text-frieze hover:underline transition-colors">◆ Design System ↗</a>
+        </nav>
+      </div>
+
+      <!-- Live Theme, Mode, Text-Scale & Sync Controls -->
+      <div class="flex flex-wrap xl:flex-nowrap items-center gap-1.5 text-xs font-bold shrink-0 whitespace-nowrap">
+        <!-- Theme Picker -->
+        <label class="flex items-center gap-1.5 surface-page border border-outline px-2 py-1 t-rad whitespace-nowrap">
+          <span class="f-display font-bold text-muted uppercase tracking-wider">STYLE:</span>
+          <select id="theme-select" aria-label="Select Broadcast Theme" class="bg-transparent text-strong f-display font-bold text-xs uppercase outline-none cursor-pointer">
+            <option value="broadcast">01 · 版画 Ginza Deco: Sumi Woodblock (D2-K3 Default)</option>
+            <option value="tactical">02 · 漆 Ginza Deco: Urushi &amp; Brass (D2-K2)</option>
+            <option value="swiss">03 · 硯 Ginza Deco: Suzuri Inkstone (D2-K1)</option>
+            <option value="arashi">04 · 嵐 Ginza Deco: Arashi Washi &amp; Sumi (D2 Light)</option>
+            <option value="arena">05 · Glass Arena</option>
+            <option value="carbon">06 · Carbon Telemetry</option>
+            <option value="synthwave">07 · Neo-Tokyo Synth</option>
+            <option value="editorial">08 · Press Box Editorial</option>
+            <option value="nordic">09 · Nordic Slate</option>
+            <option value="terminal">10 · Retro CRT Terminal</option>
+            <option value="solar">11 · Solarized Warm</option>
+            <option value="industrial">12 · High-Contrast Industrial</option>
+            <option value="oled">13 · Pure OLED Pitch</option>
+          </select>
+        </label>
+
+        <!-- Dark / Light Stadium Lighting Toggle -->
+        <div class="inline-flex surface-page border border-outline t-rad overflow-hidden shrink-0" role="group" aria-label="Stadium Lighting Mode">
+          <button type="button" id="btn-mode-dark" onclick="setColorMode('dark')" class="px-2.5 py-1 f-display font-bold text-xs tracking-wider uppercase cursor-pointer whitespace-nowrap">
+            影 DARK
+          </button>
+          <button type="button" id="btn-mode-light" onclick="setColorMode('light')" class="px-2.5 py-1 f-display font-bold text-xs tracking-wider uppercase cursor-pointer whitespace-nowrap">
+            嵐 LIGHT
+          </button>
+        </div>
+
+        <!-- Anti-Squint Text Scale Toggle -->
+        <button type="button" id="btn-scale-toggle" onclick="toggleTextScale()" class="surface-page border border-outline px-2.5 py-1 f-display font-bold text-xs tracking-wider uppercase text-blue hover:opacity-90 t-rad cursor-pointer whitespace-nowrap shrink-0">
+          ◆ TEXT: LARGE (100%)
+        </button>
+
+        <!-- Interactive Sync Now Button -->
+        <button type="button" id="btn-sync-now" onclick="triggerSyncJoke()" class="bg-blue-slab px-3 py-1 f-display font-bold text-xs tracking-wider uppercase hover:opacity-95 t-rad cursor-pointer whitespace-nowrap shrink-0">
+          ⟳ SYNC NOW
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top" class="max-w-[1680px] mx-auto px-4 sm:px-6 py-7 flex flex-col gap-9">
+
+    <!-- =====================================================================
+         HERO POSTER: GINZA GEOMETRIC MONOLITH & S-TIER PRE-KICKOFF RADAR
+         ===================================================================== -->
+    <section class="surface-panel border-2 border-outline t-rad reticle-card overflow-hidden relative">
+      <!-- Subtle Low-Opacity Arashikage / Hex64 (嵐影 · ䷿) Maker's Mark Watermark -->
+      <div class="pointer-events-none select-none absolute right-6 bottom-4 opacity-[0.04] flex items-center gap-4 z-0" aria-hidden="true">
+        <div class="f-display font-bold text-[130px] leading-none">嵐影</div>
+        <svg width="110" height="120" viewBox="0 0 22 24" fill="none">
+          <rect x="1" y="1.2" width="20" height="2.4" fill="currentColor" />
+          <rect x="1" y="5.1" width="8.2" height="2.4" fill="currentColor" />
+          <rect x="12.8" y="5.1" width="8.2" height="2.4" fill="currentColor" />
+          <rect x="1" y="9.0" width="20" height="2.4" fill="currentColor" />
+          <rect x="1" y="12.9" width="8.2" height="2.4" fill="currentColor" />
+          <rect x="12.8" y="12.9" width="8.2" height="2.4" fill="currentColor" />
+          <rect x="1" y="16.8" width="20" height="2.4" fill="currentColor" />
+          <rect x="1" y="20.7" width="8.2" height="2.4" fill="currentColor" />
+          <rect x="12.8" y="20.7" width="8.2" height="2.4" fill="currentColor" />
+        </svg>
+      </div>
+
+      <!-- Top Architectural Colophon Ticker Strip (Quiet Monocolor Discipline) -->
+      <div class="relative z-10 surface-panel-2 border-b border-line px-5 py-2 flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 text-xs f-mono font-bold">
+        <div class="flex items-center gap-2.5 whitespace-nowrap">
+          <span class="text-vermilion">◆</span>
+          <span class="text-strong">ARASHIKAGE TELEMETRY SCROLL // SEASON UPDATE v2.0</span>
+          <span class="text-muted">·</span>
+          <span class="text-ink-2">90% MONOCOLOR SCROLL &amp; INCISED CARTOUCHES · 10% SHU-IRO VERMILION SEALS</span>
+        </div>
+        <div id="sync-toast" class="text-frieze font-extrabold whitespace-nowrap shrink-0">
+          ◆ POST-GAME MMR INTERROGATOR: ARMED (25s POST-WHISTLE)
+        </div>
+      </div>
+
+      <div class="relative z-10 px-6 sm:px-10 pt-5">
+        <div class="deco-medallion-bar">
+          <span><span class="text-vermilion">◆</span> 嵐影之印 · ䷿ · ARASHIKAGE HEX64 · HANKO SCROLL TYPOGRAPHY × ART DECO MONOLITH <span class="text-vermilion">◆</span></span>
+        </div>
+      </div>
+
+      <div class="relative z-10 p-6 sm:p-10 pt-5 sm:pt-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch arena-pitch-backdrop">
+        <!-- Left 7 Cols: Square Hanko Stamp Kicker, Pure Ivory/Sumi Calligraphy Headline & Integrated 25s MMR Frieze -->
+        <div class="lg:col-span-7 flex flex-col justify-between gap-5">
+          <div class="flex flex-col gap-4">
+            <!-- Authentic Square Carved Hanko Stamp + Open Art Deco Kicker Lockup -->
+            <div class="flex items-center gap-3.5 border-b border-line pb-3">
+              <div class="hanko-square-stamp" title="Arashikage Carved Vermilion Seal">
+                <span>嵐影<br>之印</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="f-display font-bold text-xs tracking-[0.2em] uppercase text-strong">
+                  COMPETITIVE INTEL UPDATE // PATCH V2.0
+                </span>
+                <span class="f-mono text-[11px] font-bold text-frieze uppercase tracking-wider mt-0.5">
+                  APPLIES AUTOMATICALLY ON RESTART (OR IF YOU MASH SYNC HARD ENOUGH)
+                </span>
+              </div>
+            </div>
+
+            <!-- Monumental Pure Washi Ivory / Sumi Calligraphy Headline (Lets the Carved Hanko Stamp Command the Vermilion Focal Point!) -->
+            <h1 class="f-display font-bold text-4xl sm:text-5xl xl:text-6xl leading-[0.95] uppercase text-strong" style="letter-spacing: 0.06em;">
+              THE "EYES ON<br>THE FIELD" UPDATE
+            </h1>
+
+            <p class="f-sans text-base sm:text-lg text-ink-2 leading-relaxed">
+              Pre-kickoff Threat, Carry &amp; Smurf seal lock, a 25-second post-whistle MMR burst interrogator, 5-tab Ballchasing replay analytics, and dual scouting dossiers—crafted in our Ginza Geometric Monolith × Hanko Scroll architecture.
+            </p>
+          </div>
+
+          <!-- Integrated Architectural Frieze: 25-Second Post-Game MMR Sync Delay Fix (Pure Monocolor + Vermilion Stamp — Zero Mint-Green Clash) -->
+          <div class="border-t-2 border-b border-outline py-4 flex flex-col gap-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <span class="hanko-square-stamp" style="width:1.85rem;height:1.85rem;font-size:0.66rem;">定刻</span>
+                <div>
+                  <div class="f-mono text-[11px] font-bold text-frieze uppercase tracking-widest">HEADLINE FIX // 25-SECOND POST-WHISTLE MMR INTERROGATOR</div>
+                  <div class="f-display font-bold text-lg uppercase text-strong leading-tight">
+                    ZERO "ONE-GAME-BEHIND" MMR DELAY
+                  </div>
+                </div>
+              </div>
+              <span class="badge-pill bg-blue-slab f-mono text-xs font-extrabold">
+                ◆ LOCKED AT +9s POST-WHISTLE
+              </span>
+            </div>
+            <p class="text-xs sm:text-sm text-ink-2 leading-snug">
+              Previously, querying PsyNet <span class="f-mono font-bold text-strong">1.5s</span> after the final whistle meant Rocket League hadn't committed your match skill yet—leaving your MMR stuck until the <em>next</em> match ended. Our new <strong>25-second burst interrogator</strong> locks onto the exact second PsyNet hands over your delta:
+            </p>
+            <div class="grid grid-cols-5 border border-line surface-plaque text-center f-mono text-xs font-bold divide-x divide-[#38332d]">
+              <div class="py-1.5 text-muted">+2s · WAIT</div>
+              <div class="py-1.5 text-muted">+5s · WAIT</div>
+              <div class="py-1.5 bg-blue-slab font-extrabold">+9s ◆ +11 MMR</div>
+              <div class="py-1.5 text-muted opacity-65">+15s · IDLE</div>
+              <div class="py-1.5 text-muted opacity-65">+25s · IDLE</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right 5 Cols: S-TIER HEADLINE FEATURE — PRE-KICKOFF THREAT, CARRY & SMURF RADAR MONOLITH -->
+        <div class="lg:col-span-5 surface-plaque ziggurat-plaque t-rad overflow-hidden flex flex-col justify-between p-5 sm:p-6 gap-4">
+          <div class="flex items-start justify-between gap-3 border-b-2 border-outline pb-3">
+            <div class="min-w-0">
+              <div class="f-mono text-xs font-extrabold text-frieze uppercase tracking-widest">S-TIER HEADLINE // PRE-KICKOFF LOBBY RADAR</div>
+              <h2 class="f-display font-bold text-2xl uppercase text-strong leading-tight mt-0.5">
+                THREAT, CARRY &amp; SMURF SEAL LOCK
+              </h2>
+            </div>
+            <span class="badge-pill bg-blue-slab f-mono font-extrabold text-xs uppercase">
+              ䷿ 3 SEALS ARMED
+            </span>
+          </div>
+
+          <!-- 3 Open Architectural Strata (Separated by 1px Hairlines — Zero Nested Box Clutter) -->
+          <div class="flex flex-col divide-y divide-[#38332d] border-b border-line t-num">
+            <!-- Stratum 1: THREAT (Incised Kintsugi Gold Cartouche) -->
+            <div class="py-3.5 flex items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2.5">
+                  <span class="badge-pill bg-gold f-display font-bold text-xs uppercase">戒 · THREAT</span>
+                  <span class="f-display font-bold text-base text-strong uppercase">VORTEX_RL</span>
+                </div>
+                <div class="text-xs text-ink-2 mt-1">Opponent outranks your active playlist MMR (<strong class="f-mono text-gold">+95 MMR VS YOU</strong>)</div>
+              </div>
+              <div class="text-right f-mono">
+                <div class="text-xl font-extrabold text-gold">1,580</div>
+                <div class="text-[11px] text-muted">GC I · DIV IV</div>
+              </div>
+            </div>
+
+            <!-- Stratum 2: CARRYING (Incised Aizome Steel-Indigo Cartouche) -->
+            <div class="py-3.5 flex items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2.5">
+                  <span class="badge-pill bg-carry-slab f-display font-bold text-xs uppercase">双 · CARRYING</span>
+                  <span class="f-display font-bold text-base text-strong uppercase">VORTEX_RL + BOOSTED_BOB</span>
+                </div>
+                <div class="text-xs text-ink-2 mt-1"><strong class="f-mono text-carry">+166 MMR</strong> above their queued party partner (<strong class="f-mono text-ink">1,414 C3</strong>)</div>
+              </div>
+              <div class="text-right f-mono">
+                <div class="text-xl font-extrabold text-carry">+166 Δ</div>
+                <div class="text-[11px] text-muted">PARTY SPREAD</div>
+              </div>
+            </div>
+
+            <!-- Stratum 3: SMURF ALERT (10% Solid Shu-iro Vermilion Hanko Stamp — Maximum Lethal Impact!) -->
+            <div role="button" tabindex="0" onclick="openDossierModal('VORTEX_RL')" class="py-3.5 flex items-center justify-between gap-3 cursor-pointer hover:opacity-95">
+              <div>
+                <div class="flex items-center gap-2.5">
+                  <span class="badge-pill bg-loss f-display font-bold text-xs uppercase">印 · SMURF ALERT</span>
+                  <span class="f-display font-bold text-base text-strong uppercase">VORTEX_RL ↗</span>
+                </div>
+                <div class="text-xs text-ink-2 mt-1">1,414 C3 in 2v2, but <strong class="f-mono text-vermilion">1,890 SSL in 3v3 (+430 MMR)</strong></div>
+              </div>
+              <div class="text-right f-mono">
+                <div class="text-xl font-extrabold text-vermilion">1,890</div>
+                <div class="text-[11px] text-muted">3V3 SSL PEAK</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quiet Architectural Colophon -->
+          <div class="flex items-center justify-between gap-2 f-mono text-[11px] text-muted uppercase">
+            <span>90% MONOCOLOR SCROLL · 10% VERMILION SEAL</span>
+            <span class="text-frieze">CLICK SMURF SEAL FOR DOSSIER ↗</span>
+          </div>
+        </div>
+
+        <!-- Full-Width Architectural Broadcast Analyst Desk Frieze Quote -->
+        <blockquote class="lg:col-span-12 border-t border-line pt-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <p class="text-sm sm:text-base leading-relaxed text-ink-2 font-medium max-w-4xl">
+            "For months, our broadcast booth operators have complained about three things: squinting from four feet away at microscopic stat numbers, waiting until the end of the next match for Rocket League to admit they gained 11 MMR, and getting flip-reset on by a 'Champion III' in Doubles who happens to be a 1,890 MMR Supersonic Legend in 3v3. Today we're fixing all three."
+          </p>
+          <footer class="f-mono text-xs font-extrabold uppercase tracking-widest text-frieze shrink-0 sm:text-right">
+            — LEAD TELEMETRY ANALYST<br><span class="text-muted">DFH STADIUM DESK (BOOTH 104)</span>
+          </footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         01 · PRE-GAME LOBBY INTEL: THREAT, CARRY & SMURF DETECTION
+         ===================================================================== -->
+    <section id="radar" class="reveal-on-scroll surface-panel ziggurat-plaque p-6 sm:p-8 t-rad flex flex-col gap-6">
+      <div class="flex flex-wrap items-end justify-between gap-4 border-b-2 border-line pb-4">
+        <div>
+          <span class="f-mono text-xs font-extrabold text-frieze uppercase tracking-widest">COMPETITIVE INTEL 01 // PRE-KICKOFF LOBBY SCOUTING</span>
+          <h2 class="f-display font-bold text-3xl sm:text-4xl uppercase text-strong mt-1">
+            [ 01 ] LIVE LOBBY THREAT, CARRY &amp; SMURF SEAL LOCK
+          </h2>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="f-mono text-xs font-bold text-muted uppercase hidden sm:inline">CLICK OPPONENT CARD FOR QUICK SCOUTING OVERLAY →</span>
+          <button type="button" id="btn-toggle-live-hist" onclick="toggleLiveHistDemo()" class="surface-plaque border border-outline px-3.5 py-2 f-display font-bold text-sm uppercase text-strong hover:opacity-90 t-rad cursor-pointer whitespace-nowrap">
+            HISTORICAL DATA: SHOWN (CLICK TO HIDE)
+          </button>
+        </div>
+      </div>
+
+      <!-- 3 Open Architectural Strata Explanations (Divided by Hairlines — Zero Nested Box Clutter) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 border-y border-line md:divide-x divide-[#38332d]">
+        <div class="py-4 md:pr-5 flex flex-col gap-1.5">
+          <div class="flex items-center gap-2">
+            <span class="badge-pill bg-gold f-display font-bold text-xs uppercase">
+              戒 · HIGHER MMR (+95 VS YOU)
+            </span>
+          </div>
+          <p class="text-sm text-ink-2 mt-1">
+            Incised in <strong class="text-gold">Kintsugi Gold</strong> when an opposing driver on the pitch has a higher rating than you in the active playlist.
+          </p>
+        </div>
+
+        <div class="py-4 md:px-5 flex flex-col gap-1.5">
+          <div class="flex items-center gap-2">
+            <span class="badge-pill bg-carry-slab f-display font-bold text-xs uppercase">
+              双 · CARRYING (+166 MMR VS MATE)
+            </span>
+          </div>
+          <p class="text-sm text-ink-2 mt-1">
+            Incised in <strong class="text-carry">Aizome Steel-Indigo</strong> when a player outranks their own party teammate(s) by <strong class="f-mono text-strong">80+ MMR</strong>—giving clear visual separation from Smurf Alert.
+          </p>
+        </div>
+
+        <div class="py-4 md:pl-5 flex flex-col gap-1.5">
+          <div class="flex items-center gap-2">
+            <span class="badge-pill bg-loss f-display font-bold text-xs uppercase">
+              印 · SMURF · 3V3 SSL (1890 · +430 VS YOU)
+            </span>
+          </div>
+          <p class="text-sm text-ink-2 mt-1">
+            Stamped in <strong class="text-vermilion">Shu-iro Vermilion</strong> when a player's rank in another playlist is <strong class="f-mono text-strong">120+ MMR</strong> higher than yours and <strong class="f-mono text-strong">80+ MMR</strong> above their current disguise.
+          </p>
+        </div>
+      </div>
+
+      <!-- Interactive Live Roster Preview (Ally Washi/Sumi Monolith vs Rival Hanko Cinnabar Seal — 100% Row-for-Row Diptych Alignment) -->
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 t-num items-stretch">
+        <!-- Ally Card: YOU (Full-Width Woodblock Monolith Header Slab) -->
+        <div class="surface-plaque border border-outline overflow-hidden flex flex-col justify-between">
+          <!-- Full-Width Woodblock Monolith Header Slab (Washi Ivory in Dark / Sumi Black in Light) -->
+          <div class="px-4 py-2.5 bg-blue-slab border-b border-outline flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="f-display font-bold text-lg tracking-wider uppercase">嵐 STORM // YOU (LOCAL DRIVER)</span>
+              <span class="f-mono text-[11px] font-bold opacity-80 uppercase">LOCAL MONOLITH</span>
+            </div>
+            <span class="f-mono text-xs font-extrabold uppercase">1,485 MMR · GC I · DIV II</span>
+          </div>
+
+          <div class="p-4 flex flex-col gap-3">
+            <div class="flex items-center justify-between gap-2 whitespace-nowrap overflow-x-auto">
+              <div class="flex items-center gap-2">
+                <span class="badge-pill bg-blue-slab f-display font-bold text-xs uppercase">嵐 YOU · NO SELF-RIVAL BUG</span>
+                <span class="badge-pill bg-win f-display font-bold text-xs uppercase">鎖 · SESSION 4W–1L (+29 MMR)</span>
+              </div>
+              <span class="f-mono text-xs text-muted uppercase">2V2 DOUBLES</span>
+            </div>
+
+            <div class="live-hist-demo surface-panel border border-line">
+              <div class="grid grid-cols-9 px-3 py-1.5 border-b border-line f-display font-bold text-xs text-muted uppercase text-right">
+                <span class="text-left col-span-2 whitespace-nowrap">SESSION (AVG/G)</span>
+                <span>GMS</span><span>PTS</span><span>G</span><span>A</span><span>SV</span><span>SH%</span><span>DEM</span>
+              </div>
+              <div class="grid grid-cols-9 px-3 py-2 border-b border-line f-mono text-sm font-bold text-right">
+                <span class="text-left col-span-2 text-ink-2 font-extrabold">IN WINS (4G)</span>
+                <span>4</span><span class="text-strong">518</span><span>2.2</span><span>1.3</span><span>2.1</span><span class="text-strong">45%</span><span class="text-orange">1.8</span>
+              </div>
+              <div class="grid grid-cols-9 px-3 py-2 f-mono text-sm font-bold text-right">
+                <span class="text-left col-span-2 text-loss font-extrabold">IN LOSSES (1G)</span>
+                <span>1</span><span class="text-strong">365</span><span>1.0</span><span>0.5</span><span>1.5</span><span>29%</span><span>0.8</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rival Card: Opponent with Full-Width Hanko Cinnabar Header Slab + Single-Line Badge Strip -->
+        <div role="button" tabindex="0" onclick="openDossierModal('VORTEX_RL')" class="surface-plaque border border-outline overflow-hidden flex flex-col justify-between cursor-pointer hover:opacity-95 transition-opacity">
+          <!-- Full-Width Hanko Cinnabar Target Seal Header Slab -->
+          <div class="px-4 py-2.5 bg-orange-slab border-b border-outline flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="f-display font-bold text-lg tracking-wider uppercase">影 RIVAL // VORTEX_RL ↗</span>
+              <span class="f-mono text-[11px] font-bold opacity-85 uppercase">SEAL LOCKED · CLICK FOR DOSSIER</span>
+            </div>
+            <span class="f-mono text-xs font-extrabold uppercase">1,414 MMR · CHAMP III · DIV IV</span>
+          </div>
+
+          <div class="p-4 flex flex-col gap-3">
+            <div class="flex items-center justify-between gap-2 whitespace-nowrap overflow-x-auto">
+              <div class="flex items-center gap-1.5">
+                <span class="badge-pill bg-gold f-display font-bold text-xs uppercase">戒 · THREAT +95</span>
+                <span class="badge-pill bg-carry-slab f-display font-bold text-xs uppercase">双 · CARRY +166</span>
+                <span class="badge-pill bg-loss f-display font-bold text-xs uppercase">印 · SMURF 3V3 SSL (1890)</span>
+              </div>
+              <span class="badge-pill bg-tag-slab f-display font-bold text-xs uppercase">録 · RIVAL</span>
+            </div>
+
+            <div class="live-hist-demo surface-panel border border-line">
+              <div class="grid grid-cols-9 px-3 py-1.5 border-b border-line f-display font-bold text-xs text-muted uppercase text-right">
+                <span class="text-left col-span-2">HISTORICAL (AVG/G)</span>
+                <span>GMS</span><span>PTS</span><span>G</span><span>A</span><span>SV</span><span>SH%</span><span>DEM</span>
+              </div>
+              <div class="grid grid-cols-9 px-3 py-2 border-b border-line f-mono text-sm font-bold text-right">
+                <span class="text-left col-span-2 text-blue font-extrabold">WITH YOU (1–0)</span>
+                <span>1</span><span class="text-strong">410</span><span>1.0</span><span>1.0</span><span>2.0</span><span>33%</span><span>1.0</span>
+              </div>
+              <div class="grid grid-cols-9 px-3 py-2 f-mono text-sm font-bold text-right">
+                <span class="text-left col-span-2 text-orange font-extrabold">AGAINST (2–3)</span>
+                <span>5</span><span class="text-strong">468</span><span>1.8</span><span>1.0</span><span>2.2</span><span class="text-strong">41%</span><span class="text-orange">1.6</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         02 · 5-TAB BALLCHASING REPLAY ANALYTICS SUITE (A-TIER HEADLINE)
+         ===================================================================== -->
+    <section id="blackbox" class="reveal-on-scroll surface-panel ziggurat-plaque p-6 sm:p-8 t-rad flex flex-col gap-5">
+      <div class="flex flex-wrap items-end justify-between gap-4 border-b-2 border-line pb-4">
+        <div>
+          <span class="f-mono text-xs font-extrabold text-gold uppercase tracking-widest">A-TIER DEEP TELEMETRY 02 // FULL BALLCHASING PARSING</span>
+          <h2 class="f-display font-bold text-3xl sm:text-4xl uppercase text-strong mt-1">
+            [ 02 ] 5-TAB BALLCHASING REPLAY ANALYTICS SUITE
+          </h2>
+        </div>
+        <span class="f-mono text-xs font-bold text-win uppercase">
+          CLICK ANY TAB BELOW TO INSPECT THE TELEMETRY RECORDED PER MATCH
+        </span>
+      </div>
+
+      <!-- Interactive 5-Tab Bar -->
+      <div class="flex flex-wrap gap-1.5 border-b border-line pb-3" role="tablist" aria-label="Ballchasing Telemetry Tabs">
+        <button type="button" onclick="setBlackBoxTab(1)" id="bb-tab-1" class="px-4 py-2 bg-blue-slab f-display font-bold text-sm uppercase t-rad cursor-pointer">
+          Ⅰ · CORE &amp; MECHANICS
+        </button>
+        <button type="button" onclick="setBlackBoxTab(2)" id="bb-tab-2" class="px-4 py-2 surface-page border border-line text-ink-2 f-display font-bold text-sm uppercase t-rad cursor-pointer">
+          Ⅱ · BOOST ECONOMY &amp; PADS
+        </button>
+        <button type="button" onclick="setBlackBoxTab(3)" id="bb-tab-3" class="px-4 py-2 surface-page border border-line text-ink-2 f-display font-bold text-sm uppercase t-rad cursor-pointer">
+          Ⅲ · SPEED &amp; MOVEMENT
+        </button>
+        <button type="button" onclick="setBlackBoxTab(4)" id="bb-tab-4" class="px-4 py-2 surface-page border border-line text-ink-2 f-display font-bold text-sm uppercase t-rad cursor-pointer">
+          Ⅳ · POSITIONING &amp; ROTATION
+        </button>
+        <button type="button" onclick="setBlackBoxTab(5)" id="bb-tab-5" class="px-4 py-2 surface-page border border-line text-ink-2 f-display font-bold text-sm uppercase t-rad cursor-pointer">
+          Ⅴ · TEAM HEAD-TO-HEAD
+        </button>
+      </div>
+
+      <!-- Tab Content Container -->
+      <div id="bb-panel" class="deco-plaque p-5 t-num overflow-x-auto">
+        <!-- Populated by JS setBlackBoxTab() -->
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         03 · PINNED RIVALS & DUAL SCOUTING PROFILES (A-TIER HEADLINE)
+         ===================================================================== -->
+    <section id="dossiers" class="reveal-on-scroll surface-panel ziggurat-plaque p-6 sm:p-8 t-rad flex flex-col gap-6">
+      <div class="flex flex-wrap items-end justify-between gap-4 border-b-2 border-line pb-4">
+        <div>
+          <span class="f-mono text-xs font-extrabold text-gold uppercase tracking-widest">A-TIER OPPONENT &amp; TEAMMATE INTEL 03 // MATCHUP HISTORY</span>
+          <h2 class="f-display font-bold text-3xl sm:text-4xl uppercase text-strong mt-1">
+            [ 03 ] PINNED RIVALS &amp; DUAL SCOUTING PROFILES
+          </h2>
+        </div>
+        <button type="button" onclick="openDossierModal('AEROPULSE')" class="px-3.5 py-2 bg-blue-slab f-display font-bold text-sm uppercase t-rad cursor-pointer hover:opacity-95">
+          ◆ LAUNCH INTERACTIVE SCOUTING OVERLAY ↗
+        </button>
+      </div>
+
+      <!-- 3 Clickable Pinned Spotlight Plaques -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 t-num">
+        <div role="button" tabindex="0" onclick="openDossierModal('AEROPULSE')" class="surface-page border border-outline p-4 flex flex-col gap-3 cursor-pointer hover:-translate-y-0.5 transition-transform">
+          <div class="flex items-center justify-between gap-2">
+            <span class="badge-pill bg-win f-display font-bold text-xs uppercase">鎖 · PINNED #1 · PRIME DUO</span>
+            <span class="f-mono text-xs font-bold text-blue whitespace-nowrap">1,502 MMR · GC I · DIV III</span>
+          </div>
+          <div class="flex items-baseline justify-between gap-2">
+            <h3 class="f-display font-bold text-2xl text-strong uppercase">AEROPULSE ↗</h3>
+            <span class="f-mono font-extrabold text-lg text-win whitespace-nowrap">4–1 WITH YOU (80%)</span>
+          </div>
+          <p class="text-xs text-ink-2">
+            Automatically stamped <strong class="text-strong">PRIME DUO</strong> based on your <code class="telemetry-chip">80%</code> win rate together across Ranked Doubles. Click to inspect scouting profile.
+          </p>
+        </div>
+
+        <div role="button" tabindex="0" onclick="openDossierModal('VORTEX_RL')" class="surface-page border border-outline p-4 flex flex-col gap-3 cursor-pointer hover:-translate-y-0.5 transition-transform">
+          <div class="flex items-center justify-between gap-2">
+            <span class="badge-pill bg-gold f-display font-bold text-xs uppercase">戒 · PINNED #2 · ARCH-RIVAL</span>
+            <span class="f-mono text-xs font-bold text-blue whitespace-nowrap">1,414 MMR · C3 · DIV IV</span>
+          </div>
+          <div class="flex items-baseline justify-between gap-2">
+            <h3 class="f-display font-bold text-2xl text-strong uppercase">VORTEX_RL ↗</h3>
+            <span class="f-mono font-extrabold text-lg text-orange whitespace-nowrap">2–3 VS YOU (5 GMS)</span>
+          </div>
+          <p class="text-xs text-ink-2">
+            Automatically stamped <strong class="text-strong">ARCH-RIVAL</strong> when a frequent opponent goes toe-to-toe with you in repeated series. Click to inspect scouting profile.
+          </p>
+        </div>
+
+        <div role="button" tabindex="0" onclick="openDossierModal('DANIEL_RL')" class="surface-page border border-outline p-4 flex flex-col gap-3 cursor-pointer hover:-translate-y-0.5 transition-transform">
+          <div class="flex items-center justify-between gap-2">
+            <span class="badge-pill bg-loss f-display font-bold text-xs uppercase">印 · PINNED #3 · NEMESIS</span>
+            <span class="f-mono text-xs font-bold text-blue whitespace-nowrap">1,810 MMR · GC III · DIV IV</span>
+          </div>
+          <div class="flex items-baseline justify-between gap-2">
+            <h3 class="f-display font-bold text-2xl text-strong uppercase">DANIEL_RL ↗</h3>
+            <span class="f-mono font-extrabold text-lg text-vermilion whitespace-nowrap">0–3 VS YOU (0%)</span>
+          </div>
+          <p class="text-xs text-ink-2">
+            Automatically stamped <strong class="text-strong">NEMESIS</strong>. Has taken your lunch money in 3 consecutive appearances. Click to inspect scouting profile.
+          </p>
+        </div>
+      </div>
+
+      <!-- Dual Scouting Mode Explanation -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div role="button" tabindex="0" onclick="openDossierModal('VORTEX_RL')" class="deco-plaque p-5 flex flex-col gap-2 cursor-pointer hover:opacity-95 transition-opacity">
+          <div class="flex items-center justify-between gap-2">
+            <span class="f-display font-bold text-lg text-blue uppercase">Ⅰ · QUICK SCOUTING POP-UP (CLICK TO DEMO ↗)</span>
+            <span class="badge-pill f-mono text-xs font-bold text-muted">IN-GAME OVERLAY</span>
+          </div>
+          <p class="text-sm text-ink-2">
+            Clicking any player name during a <strong class="text-strong">Live Match</strong> or inside a <strong class="text-strong">Match Box Score</strong> opens an instant overlay with breadcrumb navigation—so you can hop from teammate to opponent and return to the live scoreboard without losing your tab.
+          </p>
+        </div>
+
+        <div class="deco-plaque p-5 flex flex-col gap-2">
+          <div class="flex items-center justify-between gap-2">
+            <span class="f-display font-bold text-lg text-orange uppercase">Ⅱ · FULL-PAGE PLAYER PROFILE (PLAYERS TAB)</span>
+            <span class="badge-pill f-mono text-xs font-bold text-muted">FULL VIEW</span>
+          </div>
+          <p class="text-sm text-ink-2">
+            Clicking a player from the <strong class="text-strong">Players Directory</strong> opens their dedicated full-page scouting view: Core <code class="telemetry-chip">3v3</code> / <code class="telemetry-chip">2v2</code> / <code class="telemetry-chip">1v1</code> Rank Cards (plus Extra Modes), Scouting Notes &amp; Tags, and a searchable, sortable match history against them.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         04 · THE "ANTI-SQUINT" BROADCAST OVERHAUL & BEFORE/AFTER SQUINT DEMO
+         ===================================================================== -->
+    <section id="antisquint" class="reveal-on-scroll surface-panel ziggurat-plaque p-6 sm:p-8 t-rad flex flex-col gap-6">
+      <div class="flex flex-wrap items-end justify-between gap-4 border-b-2 border-line pb-4">
+        <div>
+          <span class="f-mono text-xs font-extrabold text-gold uppercase tracking-widest">B-TIER BROADCAST UX 04 // SECOND-SCREEN TYPOGRAPHY &amp; ALIGNMENT</span>
+          <h2 class="f-display font-bold text-3xl sm:text-4xl uppercase text-strong mt-1">
+            [ 04 ] THE "ANTI-SQUINT" BROADCAST OVERHAUL
+          </h2>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- Interactive Before (v1.0 Squint Mode) vs After (v2.0 Broadcast Desk) Button -->
+          <button type="button" id="btn-squint-compare" onclick="toggleLegacySquintDemo()" class="px-3.5 py-1.5 surface-page border-2 border-outline text-gold f-display font-bold text-sm uppercase cursor-pointer hover:opacity-90 t-rad whitespace-nowrap">
+            ◆ PEEK AT v1.0 LEGACY SQUINT MODE (BEFORE)
+          </button>
+
+          <!-- AVG / G vs TOTALS Interactive Switcher -->
+          <div class="inline-flex surface-page border border-outline t-rad overflow-hidden">
+            <button type="button" id="btn-stat-avg" onclick="setStatMode('avg')" class="px-3.5 py-1.5 bg-blue-slab f-display font-bold text-sm uppercase cursor-pointer whitespace-nowrap">
+              PER-GAME AVERAGES (AVG / G)
+            </button>
+            <button type="button" id="btn-stat-tot" onclick="setStatMode('tot')" class="px-3.5 py-1.5 text-ink-2 f-display font-bold text-sm uppercase cursor-pointer whitespace-nowrap">
+              CUMULATIVE TOTALS (TOTALS)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="lg:col-span-4 flex flex-col gap-3">
+          <div class="deco-plaque p-4 flex flex-col gap-2">
+            <span class="f-mono text-xs font-extrabold text-win uppercase">◆ SHARED COLUMN HEADERS</span>
+            <p class="text-sm text-ink-2">
+              Replaced repeated inline stat labels with shared broadcast headers. Even when switching to <strong class="text-strong">CUMULATIVE TOTALS</strong> after 50+ matches, 5-digit point totals never knock adjacent columns out of alignment.
+            </p>
+          </div>
+          <div class="deco-plaque p-4 flex flex-col gap-2">
+            <span class="f-mono text-xs font-extrabold text-blue uppercase">◆ MMR BEFORE RANK &amp; DIVISION</span>
+            <p class="text-sm text-ink-2">
+              Every box score and player table now places <strong class="text-strong">MMR</strong> immediately before <strong class="text-strong">RANK · DIV</strong> so you can read the exact rating first.
+            </p>
+          </div>
+        </div>
+
+        <!-- Live Shared-Header FOR vs AGAINST Table + Box Score Preview -->
+        <div class="lg:col-span-8 flex flex-col gap-4 t-num">
+          <div id="split-demo-container" class="surface-page border border-outline overflow-x-auto">
+            <!-- Populated by JS renderSplitDemo() -->
+          </div>
+
+          <!-- Box Score Column Order Preview (MMR before RANK · DIV) -->
+          <div class="surface-page ziggurat-plaque overflow-x-auto">
+            <div class="px-4 py-2.5 bg-blue-slab border-b border-outline flex items-center justify-between f-display font-bold text-sm uppercase">
+              <span>嵐 STORM SQUAD · BOX SCORE COLUMN ORDER</span>
+              <span>MMR PLACED BEFORE RANK · DIV</span>
+            </div>
+            <table class="w-full text-right f-mono text-sm font-bold border-collapse">
+              <thead>
+                <tr class="surface-panel-2 border-b border-line f-display font-bold text-xs text-muted uppercase">
+                  <th class="py-2 px-4 text-left">PLAYER</th>
+                  <th class="py-2 px-3 text-blue">MMR (1ST)</th>
+                  <th class="py-2 px-3 text-left">RANK · DIV (2ND)</th>
+                  <th class="py-2 px-3">PTS</th>
+                  <th class="py-2 px-3">G</th>
+                  <th class="py-2 px-3">A</th>
+                  <th class="py-2 px-3">SV</th>
+                  <th class="py-2 px-3">SH</th>
+                  <th class="py-2 px-4">DEM</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="surface-panel border-b border-line">
+                  <td class="py-2.5 px-4 text-left f-display font-bold text-lg text-strong uppercase">
+                    YOU <span class="ml-1.5 px-1.5 py-0.5 bg-gold text-xs font-bold">◆ MVP</span>
+                  </td>
+                  <td class="py-2.5 px-3 text-blue font-extrabold text-base">1,485</td>
+                  <td class="py-2.5 px-3 text-left f-display font-bold text-sm text-ink-2">GC I · DIV II</td>
+                  <td class="py-2.5 px-3 text-strong text-base">550</td>
+                  <td class="py-2.5 px-3">2</td>
+                  <td class="py-2.5 px-3">1</td>
+                  <td class="py-2.5 px-3">3</td>
+                  <td class="py-2.5 px-3">5</td>
+                  <td class="py-2.5 px-4 text-orange">1</td>
+                </tr>
+                <tr role="button" tabindex="0" onclick="openDossierModal('AEROPULSE')" class="surface-panel cursor-pointer hover:opacity-90">
+                  <td class="py-2.5 px-4 text-left f-display font-bold text-lg text-strong uppercase">AEROPULSE ↗</td>
+                  <td class="py-2.5 px-3 text-blue font-extrabold text-base">1,502</td>
+                  <td class="py-2.5 px-3 text-left f-display font-bold text-sm text-ink-2">GC I · DIV III</td>
+                  <td class="py-2.5 px-3 text-strong text-base">410</td>
+                  <td class="py-2.5 px-3">2</td>
+                  <td class="py-2.5 px-3">1</td>
+                  <td class="py-2.5 px-3">2</td>
+                  <td class="py-2.5 px-3">4</td>
+                  <td class="py-2.5 px-4">0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         05 · 13 BROADCAST THEMES × DARK & LIGHT STADIUM LIGHTING (LIVE SWATCHES)
+         ===================================================================== -->
+    <section id="themes" class="reveal-on-scroll surface-panel ziggurat-plaque p-6 sm:p-8 t-rad flex flex-col gap-5">
+      <div class="flex flex-wrap items-end justify-between gap-4 border-b-2 border-line pb-4">
+        <div>
+          <span class="f-mono text-xs font-extrabold text-gold uppercase tracking-widest">B-TIER VISUAL CUSTOMIZATION 05 // 4 ARASHIKAGE MONOLITH EXPRESSIONS + 9 STADIUM PALETTES</span>
+          <h2 class="f-display font-bold text-3xl sm:text-4xl uppercase text-strong mt-1">
+            [ 05 ] 13 BROADCAST THEMES (DEFAULT: D2-K3 SUMI WOODBLOCK + D2-K2 + D2-K1 + D2 LIGHT)
+          </h2>
+        </div>
+        <span class="f-mono text-xs font-bold text-ink-2 uppercase">
+          CLICK ANY THEME BELOW TO RE-SKIN THIS ENTIRE PAGE LIVE
+        </span>
+      </div>
+
+      <div id="theme-swatch-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <!-- Populated by JS renderThemeSwatches() -->
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         06 · DASHBOARD QOL, REPLAY QUOTA BANNER & COMPETITIVE BUG FIXES
+         ===================================================================== -->
+    <section id="bugfixes" class="reveal-on-scroll grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <!-- Left 5 Cols: Dashboard & QoL Changes + Interactive Replay Limit Banner -->
+      <div class="lg:col-span-5 surface-panel ziggurat-plaque p-6 t-rad flex flex-col gap-5">
+        <div class="border-b-2 border-line pb-3">
+          <span class="f-mono text-xs font-extrabold text-gold uppercase tracking-widest">QUALITY OF LIFE // COMMAND CENTER</span>
+          <h2 class="f-display font-bold text-2xl sm:text-3xl uppercase text-strong mt-1">
+            [ 06A ] DASHBOARD UPGRADES
+          </h2>
+        </div>
+
+        <ul class="flex flex-col gap-3 text-sm text-ink-2">
+          <li class="deco-plaque p-3.5">
+            <strong class="f-display font-bold text-base text-strong uppercase block">◆ Between-Matches Command Center</strong>
+            Demolished the giant <em>"WAITING FOR KICKOFF"</em> billboard after complaints that it was blocking the Jumbotron. The idle screen now goes straight to your Session KPIs, Core Playlist Ranks (<code class="telemetry-chip">3v3</code>, <code class="telemetry-chip">2v2</code>, <code class="telemetry-chip">1v1</code>), <code class="telemetry-chip">FOR vs. AGAINST</code> team stats, and your Last Match Box Score.
+          </li>
+          <li class="deco-plaque p-3.5">
+            <strong class="f-display font-bold text-base text-strong uppercase block">◆ Most-Played Playlist Net MMR</strong>
+            Session Net MMR now tracks your most-played mode of the session instead of adding 1v1 and 3v3 MMR together like a madman.
+          </li>
+          <li class="deco-plaque p-3.5">
+            <strong class="f-display font-bold text-base text-strong uppercase block">◆ Custom Calendar Date Picker</strong>
+            Filter your entire dashboard, win/loss records, and stat averages to any custom <code class="telemetry-chip">FROM → TO</code> date range.
+          </li>
+          <li class="deco-plaque p-3.5">
+            <strong class="f-display font-bold text-base text-strong uppercase block">◆ 20-Game Hosted Replay Buffer Guard</strong>
+            Rocket League's servers only hold a rolling buffer of <strong>20 match replays</strong> (which we normally download when you close the game). Play a 21st match without syncing and game #1 is vaporized forever. You can now set a <strong>configurable game threshold</strong> (e.g. <code class="telemetry-chip">15 / 20 games</code>) to fire a desktop notification &amp; warning banner, enable <strong>Auto-Sync at Threshold</strong> to automatically download all pending replays mid-session, or click <strong>Sync &amp; Download Now</strong> at any time.
+          </li>
+        </ul>
+
+        <!-- Interactive 20-Game Hosted Replay Buffer Protection Demo -->
+        <div class="surface-page border border-outline p-4 flex flex-col gap-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="f-mono text-xs font-extrabold text-muted uppercase">20-GAME HOSTED REPLAY BUFFER GUARD (INTERACTIVE)</span>
+            <div class="inline-flex border border-line text-xs f-display font-bold shrink-0">
+              <button type="button" onclick="setQuotaDemo('warn')" id="q-warn" class="px-2.5 py-1 bg-gold uppercase cursor-pointer">16/20 WARN</button>
+              <button type="button" onclick="setQuotaDemo('err')" id="q-err" class="px-2.5 py-1 text-ink-2 uppercase cursor-pointer">20/20 FULL</button>
+              <button type="button" onclick="setQuotaDemo('synced')" id="q-synced" class="px-2.5 py-1 text-ink-2 uppercase cursor-pointer">0/20 SYNCED</button>
+            </div>
+          </div>
+          <div id="quota-banner-box" class="p-3.5 deco-plaque flex flex-col gap-2.5">
+            <!-- Populated by setQuotaDemo -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Right 7 Cols: Broadcast Engineering Patch Notes & Bug Fixes -->
+      <div class="lg:col-span-7 surface-panel ziggurat-plaque t-rad overflow-hidden flex flex-col">
+        <div class="team-split-rule"></div>
+        <div class="p-6 sm:p-8 flex flex-col gap-5">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b-2 border-line pb-4">
+            <div>
+              <span class="f-mono text-xs font-extrabold text-gold uppercase tracking-widest">BROADCAST TECH DESK // PATCH CHANGELOG</span>
+              <h2 class="f-display font-bold text-2xl sm:text-3xl uppercase text-strong mt-1">
+                [ 06B ] BUG FIXES &amp; TELEMETRY REPAIRS
+              </h2>
+            </div>
+            <span class="intel-tag">8 COMPETITIVE FIXES SHIPPED</span>
+          </div>
+
+          <ul class="flex flex-col gap-3 text-base leading-snug">
+            <li class="deco-plaque p-4">
+              <strong class="text-strong">◆ Fixed a bug where <code class="telemetry-chip">Diamond I</code>, <code class="telemetry-chip">Diamond II</code>, and <code class="telemetry-chip">Diamond III</code> did not exist.</strong>
+              <span class="text-ink-2 block mt-1 text-sm">
+                An off-by-three rank table error previously caused Diamond players to be legally classified as Champions and Grand Champions to ascend into the astral plane. All historical ranks have been restored to their rightful tiers.
+              </span>
+            </li>
+
+            <li class="deco-plaque p-4">
+              <strong class="text-strong">◆ Fixed a bug where <code class="telemetry-chip">Division I</code> players had their division stripped</strong>
+              <span class="text-ink-2 block mt-1 text-sm">
+                Players in the first division of any rank were previously told they were simply "Grand Champion I" with no division to their name.
+              </span>
+            </li>
+
+            <li class="deco-plaque p-4">
+              <strong class="text-strong">◆ Fixed post-game MMR refusing to update until the <em>next</em> match ended.</strong>
+              <span class="text-ink-2 block mt-1 text-sm">
+                The app now patiently interrogates the servers for up to 25 seconds after the final whistle until your new MMR is handed over.
+              </span>
+            </li>
+
+            <li class="deco-plaque p-4">
+              <strong class="text-strong">◆ Fixed the local player ("YOU") card tracking a head-to-head rivalry against yourself.</strong>
+              <span class="text-ink-2 block mt-1 text-sm">
+                Your own card now shows your active session performance split cleanly into <strong>In Wins</strong> vs. <strong>In Losses</strong>.
+              </span>
+            </li>
+
+            <li class="deco-plaque p-4">
+              <strong class="text-strong">◆ Fixed a double-negative bug in Player Match History</strong>
+              <span class="text-ink-2 block mt-1 text-sm">
+                Beating a rival opponent is no longer celebrated by labeling the match a <code class="telemetry-chip text-loss">LOSS</code>.
+              </span>
+            </li>
+
+            <li class="deco-plaque p-4">
+              <strong class="text-strong">◆ Fixed a haunted pop-up bug</strong>
+              <span class="text-ink-2 block mt-1 text-sm">
+                Clicking a player or telemetry button will no longer occasionally open the window and slam it shut on the exact same frame.
+              </span>
+            </li>
+
+            <li class="deco-plaque p-4">
+              <strong class="text-strong">◆ Fixed a spiteful text-selection bug inside pop-ups</strong>
+              <span class="text-ink-2 block mt-1 text-sm">
+                Highlighting text inside a pop-up and releasing the mouse outside the border no longer closes the window out of spite.
+              </span>
+            </li>
+
+            <li class="deco-plaque p-4 flex items-center justify-between gap-2">
+              <strong class="text-gold f-mono uppercase tracking-wider">◆ Updated the localization files.</strong>
+              <span class="f-mono text-xs text-muted whitespace-nowrap">PATCH NOTES TRADITION</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =====================================================================
+       INTERACTIVE QUICK SCOUTING OVERLAY MODAL (<dialog>)
+       ===================================================================== -->
+  <dialog id="dossier-modal" class="dossier-dialog" aria-labelledby="dossier-modal-title">
+    <div id="dossier-backdrop" class="min-h-full w-full flex items-center justify-center p-4 sm:p-6">
+      <div class="w-full max-w-[980px] surface-panel ziggurat-plaque t-rad overflow-hidden" onclick="event.stopPropagation()">
+        <div class="team-split-rule"></div>
+        <div id="dossier-modal-content">
+          <!-- Populated dynamically by openDossierModal() -->
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <footer class="max-w-[1680px] mx-auto px-4 sm:px-6 py-8 border-t border-line flex flex-wrap items-center justify-between gap-4 text-xs f-mono text-muted">
+    <span>STRMSHDW-IO // 嵐影之印 GINZA GEOMETRIC MONOLITH SUITE · PATCH v2.0</span>
+    <span>BUILT FOR 1920×1080 &amp; SECOND-SCREEN COUCH VISIBILITY · ZERO SQUINTING GUARANTEED</span>
+  </footer>
+
+  <script>
+    const D2_LIGHT_REF = {
+      page: '#ebe5d9', panel: '#f4efe6', plaque: '#fcfaf6', panel2: '#e6dfd3', line: '#cfc7b8', outline: '#1c1917', frieze: '#4a3f33',
+      ink: '#171412', ink2: '#362f28', muted: '#615548', strong: '#090807',
+      blueSlab: '#1c1917', blueOnSlab: '#fbf9f5', blueInk: '#171412',
+      orangeSlab: '#b81d13', orangeOnSlab: '#fbf9f5', orangeInk: '#9e140a', vermilionDisplay: '#b81d13',
+      winSlab: '#12543b', winOnSlab: '#fbf9f5', win: '#1e523b',
+      lossSlab: '#a8180e', loss: '#9e140a',
+      goldSlab: '#b47b18', goldOnSlab: '#090807', gold: '#8c5604',
+      carrySlab: '#163f5c', carryInk: '#1b4965',
+      tagSlab: '#4a3f33', tagInk: '#4a3f33'
+    };
+
+    const THEMES = {
+      broadcast: {
+        name: '01 · 版画 Ginza Deco: Sumi Woodblock',
+        tag: 'D2-K3 · SUMI WOODBLOCK & WASHI',
+        fontDisplay: "'Josefin Sans', 'Space Grotesk', sans-serif",
+        radius: '0px',
+        dark:  { page: '#0a0908', panel: '#181614', plaque: '#0f0d0b', panel2: '#221f1c', line: '#38332d', outline: '#e2dbd0', frieze: '#d8d0c5', ink: '#f2efe9', ink2: '#cfc7b8', muted: '#918779', strong: '#fbf9f5', blueSlab: '#f2efe9', blueOnSlab: '#12100e', blueInk: '#f2efe9', orangeSlab: '#b81d13', orangeOnSlab: '#fbf9f5', orangeInk: '#d9382e', vermilionDisplay: '#d4261d', winSlab: '#166548', winOnSlab: '#fbf9f5', win: '#82a890', lossSlab: '#b81d13', loss: '#d9382e', goldSlab: '#b47b18', goldOnSlab: '#141210', gold: '#deb052', carrySlab: '#1b4d6e', carryInk: '#7da8c4', tagSlab: '#3a342e', tagInk: '#b8afa0' },
+        light: D2_LIGHT_REF
+      },
+      tactical: {
+        name: '02 · 漆 Ginza Deco: Urushi & Brass',
+        tag: 'D2-K2 · URUSHI LACQUER & BRASS',
+        fontDisplay: "'Josefin Sans', 'Space Grotesk', sans-serif",
+        radius: '0px',
+        dark:  { page: '#050403', panel: '#0a0806', plaque: '#14110c', panel2: '#1d1811', line: '#3a2d1b', outline: '#c89d54', frieze: '#d4a853', ink: '#f2ece1', ink2: '#c9bca6', muted: '#968367', strong: '#fffdf9', blueSlab: '#e8dac0', blueOnSlab: '#120f0c', blueInk: '#f2ece1', orangeSlab: '#a8180e', orangeOnSlab: '#fffdf9', orangeInk: '#d9382e', vermilionDisplay: '#d4261d', winSlab: '#166548', winOnSlab: '#fffdf9', win: '#82a890', lossSlab: '#a8180e', loss: '#d9382e', goldSlab: '#b8860b', goldOnSlab: '#120f0c', gold: '#e5b85c', carrySlab: '#1b4d6e', carryInk: '#7da8c4', tagSlab: '#3a2d1b', tagInk: '#c9bca6' },
+        light: D2_LIGHT_REF
+      },
+      swiss: {
+        name: '03 · 硯 Ginza Deco: Suzuri Inkstone',
+        tag: 'D2-K1 · INKSTONE & WASHI',
+        fontDisplay: "'Josefin Sans', 'Space Grotesk', sans-serif",
+        radius: '0px',
+        dark:  { page: '#0b0908', panel: '#14110e', plaque: '#1c1814', panel2: '#241f1a', line: '#362e26', outline: '#a89a86', frieze: '#bfb29e', ink: '#ede6d8', ink2: '#bfb5a2', muted: '#8f8270', strong: '#fbf8f3', blueSlab: '#e6dfd3', blueOnSlab: '#12100e', blueInk: '#ede6d8', orangeSlab: '#b81d13', orangeOnSlab: '#fbf8f3', orangeInk: '#d9382e', vermilionDisplay: '#d4261d', winSlab: '#166548', winOnSlab: '#fbf8f3', win: '#82a890', lossSlab: '#b81d13', loss: '#d9382e', goldSlab: '#b47b18', goldOnSlab: '#12100e', gold: '#deb052', carrySlab: '#1b4d6e', carryInk: '#7da8c4', tagSlab: '#362e26', tagInk: '#bfb5a2' },
+        light: D2_LIGHT_REF
+      },
+      arashi: {
+        name: '04 · 嵐 Ginza Deco: Arashi Washi & Sumi',
+        tag: 'D2 · WARM WASHI SCROLL (LIGHT)',
+        fontDisplay: "'Josefin Sans', 'Space Grotesk', sans-serif",
+        radius: '0px',
+        dark:  D2_LIGHT_REF,
+        light: D2_LIGHT_REF
+      },
+      arena: {
+        name: '05 · Glass Arena',
+        tag: 'STADIUM NEON',
+        fontDisplay: "'Barlow Condensed', sans-serif",
+        radius: '8px',
+        dark:  { page: '#090a14', panel: '#131629', panel2: '#1c203b', line: '#2a3056', outline: '#3e477a', ink: '#eef0ff', ink2: '#b8c0ec', muted: '#8590c8', strong: '#ffffff', blueSlab: '#3b82f6', blueInk: '#60a5fa', orangeSlab: '#f97316', orangeInk: '#fb923c', win: '#34d399', loss: '#f87171', gold: '#fbbf24' },
+        light: { page: '#f0f2fe', panel: '#ffffff', panel2: '#e2e6fd', line: '#c7d0f8', outline: '#96a5ec', ink: '#111536', ink2: '#2e366e', muted: '#56619e', strong: '#07091e', blueSlab: '#2563eb', blueInk: '#1d4ed8', orangeSlab: '#ea580c', orangeInk: '#c2410c', win: '#059669', loss: '#dc2626', gold: '#d97706' }
+      },
+      carbon: {
+        name: '06 · Carbon Telemetry',
+        tag: 'F1 PIT WALL',
+        fontDisplay: "'Barlow Condensed', sans-serif",
+        radius: '2px',
+        dark:  { page: '#0b0c0e', panel: '#15171b', panel2: '#1e2127', line: '#2d3139', outline: '#434956', ink: '#f3f4f6', ink2: '#c5cad3', muted: '#8e96a4', strong: '#ffffff', blueSlab: '#0066ff', blueInk: '#4da3ff', orangeSlab: '#ff4500', orangeInk: '#ff7438', win: '#00e676', loss: '#ff1744', gold: '#ffd600' },
+        light: { page: '#ededf0', panel: '#ffffff', panel2: '#dfe1e6', line: '#c2c6d0', outline: '#8c93a4', ink: '#111317', ink2: '#2e333d', muted: '#576072', strong: '#000000', blueSlab: '#0052cc', blueInk: '#0043a8', orangeSlab: '#d63a00', orangeInk: '#b33000', win: '#008a47', loss: '#c50023', gold: '#b28900' }
+      },
+      synthwave: {
+        name: '07 · Neo-Tokyo Synth',
+        tag: 'CYBERPUNK GRID',
+        fontDisplay: "'Barlow Condensed', sans-serif",
+        radius: '0px',
+        dark:  { page: '#10071f', panel: '#1b0d33', panel2: '#271447', line: '#3e216b', outline: '#5e359c', ink: '#f8e8ff', ink2: '#d8b4f8', muted: '#a97cd6', strong: '#ffffff', blueSlab: '#00b4d8', blueInk: '#00f5d4', orangeSlab: '#f72585', orangeInk: '#ff5ca8', win: '#00f5d4', loss: '#ff2a85', gold: '#fee440' },
+        light: { page: '#fbf5ff', panel: '#ffffff', panel2: '#f3e5ff', line: '#dab6fc', outline: '#b57edc', ink: '#23093d', ink2: '#481a73', muted: '#7138a6', strong: '#120324', blueSlab: '#0077b6', blueInk: '#0096c7', orangeSlab: '#c9184a', orangeInk: '#a4133c', win: '#008b76', loss: '#c9184a', gold: '#b58300' }
+      },
+      editorial: {
+        name: '08 · Press Box Editorial',
+        tag: 'SPORTS ALMANAC',
+        fontDisplay: "'Fraunces', serif",
+        radius: '0px',
+        dark:  { page: '#141210', panel: '#1f1c18', panel2: '#2b2621', line: '#3d362e', outline: '#594e43', ink: '#f4efe6', ink2: '#cdc3b4', muted: '#9c907f', strong: '#fffcf7', blueSlab: '#1d4ed8', blueInk: '#60a5fa', orangeSlab: '#c2410c', orangeInk: '#fb923c', win: '#22c55e', loss: '#ef4444', gold: '#f59e0b' },
+        light: { page: '#f7f3eb', panel: '#fffdf9', panel2: '#ede6d8', line: '#d1c7b5', outline: '#9c8f79', ink: '#1c1814', ink2: '#3d352c', muted: '#695d4f', strong: '#0a0806', blueSlab: '#1e3a8a', blueInk: '#1d4ed8', orangeSlab: '#9a3412', orangeInk: '#c2410c', win: '#15803d', loss: '#b91c1c', gold: '#b45309' }
+      },
+      nordic: {
+        name: '09 · Nordic Slate',
+        tag: 'FJORD MINIMAL',
+        fontDisplay: "'Space Grotesk', sans-serif",
+        radius: '6px',
+        dark:  { page: '#181c24', panel: '#222834', panel2: '#2c3342', line: '#3b4456', outline: '#505c73', ink: '#eceff4', ink2: '#d8dee9', muted: '#9aa5b8', strong: '#ffffff', blueSlab: '#5e81ac', blueInk: '#88c0d0', orangeSlab: '#d08770', orangeInk: '#ebcb8b', win: '#a3be8c', loss: '#bf616a', gold: '#ebcb8b' },
+        light: { page: '#eceff4', panel: '#ffffff', panel2: '#e5e9f0', line: '#c8d0df', outline: '#98a6be', ink: '#2e3440', ink2: '#3b4252', muted: '#4c566a', strong: '#1b1f27', blueSlab: '#40628c', blueInk: '#2e5077', orangeSlab: '#b85d43', orangeInk: '#9e472e', win: '#4f772d', loss: '#a53844', gold: '#b07d12' }
+      },
+      terminal: {
+        name: '10 · Retro CRT Terminal',
+        tag: 'PHOSPHOR MATRIX',
+        fontDisplay: "'JetBrains Mono', monospace",
+        radius: '0px',
+        dark:  { page: '#050b07', panel: '#0a160e', panel2: '#102216', line: '#1b3b26', outline: '#295939', ink: '#b8f5cc', ink2: '#7ce09d', muted: '#4ca66b', strong: '#e2ffec', blueSlab: '#0284c7', blueInk: '#38bdf8', orangeSlab: '#d97706', orangeInk: '#fbbf24', win: '#22c55e', loss: '#ef4444', gold: '#facc15' },
+        light: { page: '#edf7f0', panel: '#f9fffb', panel2: '#dcf0e2', line: '#a7d6b6', outline: '#65a87b', ink: '#072410', ink2: '#134724', muted: '#2e6f43', strong: '#021207', blueSlab: '#0369a1', blueInk: '#075985', orangeSlab: '#b45309', orangeInk: '#92400e', win: '#15803d', loss: '#b91c1c', gold: '#a16207' }
+      },
+      solar: {
+        name: '11 · Solarized Warm',
+        tag: 'LOW-GLARE LAB',
+        fontDisplay: "'Barlow Condensed', sans-serif",
+        radius: '4px',
+        dark:  { page: '#002b36', panel: '#073642', panel2: '#0d4352', line: '#1a5768', outline: '#2b7285', ink: '#eee8d5', ink2: '#93a1a1', muted: '#839496', strong: '#fdf6e3', blueSlab: '#268bd2', blueInk: '#58b2f0', orangeSlab: '#cb4b16', orangeInk: '#f27844', win: '#859900', loss: '#dc322f', gold: '#b58900' },
+        light: { page: '#fdf6e3', panel: '#eee8d5', panel2: '#e4dec8', line: '#c9c1a7', outline: '#93a1a1', ink: '#073642', ink2: '#33535c', muted: '#586e73', strong: '#002b36', blueSlab: '#2075b3', blueInk: '#175a8a', orangeSlab: '#b53f10', orangeInk: '#8f300a', win: '#5f6e00', loss: '#b8221f', gold: '#8c6900' }
+      },
+      industrial: {
+        name: '12 · High-Contrast Industrial',
+        tag: 'SAFETY YELLOW',
+        fontDisplay: "'Barlow Condensed', sans-serif",
+        radius: '0px',
+        dark:  { page: '#090909', panel: '#141414', panel2: '#1f1f1f', line: '#383838', outline: '#eab308', ink: '#f8fafc', ink2: '#cbd5e1', muted: '#94a3b8', strong: '#ffffff', blueSlab: '#0284c7', blueInk: '#38bdf8', orangeSlab: '#ea580c', orangeInk: '#fb923c', win: '#22c55e', loss: '#ef4444', gold: '#facc15' },
+        light: { page: '#f4f4f0', panel: '#ffffff', panel2: '#e4e4dc', line: '#18181b', outline: '#000000', ink: '#09090b', ink2: '#27272a', muted: '#52525b', strong: '#000000', blueSlab: '#0369a1', blueInk: '#075985', orangeSlab: '#c2410c', orangeInk: '#9a3412', win: '#15803d', loss: '#b91c1c', gold: '#ca8a04' }
+      },
+      oled: {
+        name: '13 · Pure OLED Pitch',
+        tag: 'TRUE #000000',
+        fontDisplay: "'Barlow Condensed', sans-serif",
+        radius: '0px',
+        dark:  { page: '#000000', panel: '#08090c', panel2: '#11131a', line: '#1f2430', outline: '#343c50', ink: '#f1f5f9', ink2: '#cbd5e1', muted: '#94a3b8', strong: '#ffffff', blueSlab: '#2563eb', blueInk: '#60a5fa', orangeSlab: '#ea580c', orangeInk: '#fb923c', win: '#10b981', loss: '#f43f5e', gold: '#f59e0b' },
+        light: { page: '#ffffff', panel: '#f8fafc', panel2: '#f1f5f9', line: '#cbd5e1', outline: '#64748b', ink: '#020617', ink2: '#1e293b', muted: '#475569', strong: '#000000', blueSlab: '#1d4ed8', blueInk: '#1e40af', orangeSlab: '#c2410c', orangeInk: '#9a3412', win: '#047857', loss: '#be123c', gold: '#b45309' }
+      }
+    };
+
+    const DOSSIER_PROFILES = {
+      AEROPULSE: {
+        id: 'Steam|76561198000000010|0',
+        name: 'AEROPULSE',
+        platform: 'STEAM',
+        relTag: '鎖 · PRIME DUO',
+        relColor: 'bg-win',
+        threatBadge: '印 · SMURF · 3V3 GC III (1795 · +335 VS YOU)',
+        withRecord: '4–1 (80%)',
+        vsRecord: '2–1 (67%)',
+        withStats: { pts: 446, g: 1.6, a: 1.2, sv: 1.8, sh: '39%', dem: 1.4, bpm: 438 },
+        vsStats:   { pts: 412, g: 1.3, a: 0.7, sv: 1.7, sh: '35%', dem: 1.0, bpm: 415 },
+        ranks: [
+          { mode: 'RANKED 3V3 (STANDARD)', rank: 'GC III · DIV II', mmr: '1,795 MMR' },
+          { mode: 'RANKED 2V2 (DOUBLES)',  rank: 'GC I · DIV III',  mmr: '1,502 MMR' },
+          { mode: 'RANKED 1V1 (DUEL)',     rank: 'CHAMP III · DIV II', mmr: '1,245 MMR' },
+        ],
+        tags: ['BACKBOARD DEFENSE', 'PASSES INFIELD', 'NEVER DOUBLE-COMMITS'],
+        note: 'Scouting Note: Actually rotates back-post and leaves mid-boost for you when you are at 0%. Protect this teammate at all costs.'
+      },
+      VORTEX_RL: {
+        id: 'Steam|76561198000000020|0',
+        name: 'VORTEX_RL',
+        platform: 'STEAM',
+        relTag: '戒 · ARCH-RIVAL',
+        relColor: 'bg-gold',
+        threatBadge: '印 · SMURF · 3V3 SSL (1890 · +430 VS YOU)',
+        withRecord: '1–0 (100%)',
+        vsRecord: '2–3 (40%)',
+        withStats: { pts: 410, g: 1.0, a: 1.0, sv: 2.0, sh: '33%', dem: 1.0, bpm: 422 },
+        vsStats:   { pts: 468, g: 1.8, a: 1.0, sv: 2.2, sh: '41%', dem: 1.6, bpm: 465 },
+        ranks: [
+          { mode: 'RANKED 3V3 (STANDARD)', rank: 'SSL · DIV I',       mmr: '1,890 MMR' },
+          { mode: 'RANKED 2V2 (DOUBLES)',  rank: 'CHAMP III · DIV IV', mmr: '1,414 MMR' },
+          { mode: 'RANKED 1V1 (DUEL)',     rank: 'GC I · DIV I',      mmr: '1,310 MMR' },
+        ],
+        tags: ['CEILING RESET ADDICT', 'STEALS CORNER BOOST', '465 BPM'],
+        note: 'Scouting Note: Claims to be "just chilling in 2s with a friend" while casually air-dribbling from his own backboard at 1,890 3v3 MMR. Challenge early on the wall.'
+      },
+      DANIEL_RL: {
+        id: 'Epic|dan_rl|0',
+        name: 'DANIEL_RL',
+        platform: 'EPIC',
+        relTag: '印 · NEMESIS',
+        relColor: 'bg-loss',
+        threatBadge: '戒 · HIGHER MMR (+325 VS YOU)',
+        withRecord: '0–0 (—)',
+        vsRecord: '0–3 (0%)',
+        withStats: { pts: 0, g: 0, a: 0, sv: 0, sh: '—', dem: 0, bpm: 0 },
+        vsStats:   { pts: 615, g: 2.3, a: 1.0, sv: 3.7, sh: '49%', dem: 2.0, bpm: 492 },
+        ranks: [
+          { mode: 'RANKED 3V3 (STANDARD)', rank: 'SSL · DIV I',       mmr: '1,960 MMR' },
+          { mode: 'RANKED 2V2 (DOUBLES)',  rank: 'GC III · DIV IV',   mmr: '1,810 MMR' },
+          { mode: 'RANKED 1V1 (DUEL)',     rank: 'SSL · DIV I',       mmr: '1,520 MMR' },
+        ],
+        tags: ['DO NOT GIVE SPACE', 'FAKE CHALLENGES', '99% SAVE EFFICIENCY'],
+        note: 'Scouting Note: Has saved 11 consecutive top-corner shots across 3 matches. Do not dive into his corner unless you enjoy watching 0-second counter-attack replays.'
+      }
+    };
+
+    let currentTheme = 'broadcast';
+    let currentMode = 'dark';
+    let isXlText = false;
+    let liveHistShown = true;
+    let statMode = 'avg';
+    let legacySquintMode = false;
+    let syncClicks = 0;
+    let modalBreadcrumbs = [];
+
+    function applyPalette() {
+      const theme = THEMES[currentTheme] || THEMES.broadcast;
+      const p = theme[currentMode];
+      const root = document.documentElement;
+      root.setAttribute('data-style', currentTheme);
+      root.setAttribute('data-mode', currentMode);
+      root.style.setProperty('--t-page', p.page);
+      root.style.setProperty('--t-panel', p.panel);
+      root.style.setProperty('--t-plaque', p.plaque || p.page);
+      root.style.setProperty('--t-panel-2', p.panel2);
+      root.style.setProperty('--t-line', p.line);
+      root.style.setProperty('--t-outline', p.outline);
+      root.style.setProperty('--t-frieze', p.frieze || p.gold);
+      root.style.setProperty('--t-ink', p.ink);
+      root.style.setProperty('--t-ink-2', p.ink2);
+      root.style.setProperty('--t-muted', p.muted);
+      root.style.setProperty('--t-strong', p.strong);
+      root.style.setProperty('--t-blue-slab', p.blueSlab);
+      root.style.setProperty('--t-blue-on-slab', p.blueOnSlab || '#fbf8f3');
+      root.style.setProperty('--t-blue-ink', p.blueInk);
+      root.style.setProperty('--t-orange-slab', p.orangeSlab);
+      root.style.setProperty('--t-orange-on-slab', p.orangeOnSlab || '#fbf8f3');
+      root.style.setProperty('--t-orange-ink', p.orangeInk);
+      root.style.setProperty('--t-vermilion-display', p.vermilionDisplay || p.orangeSlab);
+      root.style.setProperty('--t-win-slab', p.winSlab || p.win);
+      root.style.setProperty('--t-win-on-slab', p.winOnSlab || '#fbf8f3');
+      root.style.setProperty('--t-win', p.win);
+      root.style.setProperty('--t-loss-slab', p.lossSlab || p.loss);
+      root.style.setProperty('--t-loss', p.loss);
+      root.style.setProperty('--t-gold-slab', p.goldSlab || p.gold);
+      root.style.setProperty('--t-gold-on-slab', p.goldOnSlab || '#12100e');
+      root.style.setProperty('--t-gold', p.gold);
+      root.style.setProperty('--t-carry-slab', p.carrySlab || (currentMode === 'dark' ? '#1b4d6e' : '#163f5c'));
+      root.style.setProperty('--t-carry-ink', p.carryInk || (currentMode === 'dark' ? '#68b5db' : '#12344d'));
+      root.style.setProperty('--t-tag-slab', p.tagSlab || (currentMode === 'dark' ? '#59316e' : '#4b265e'));
+      root.style.setProperty('--t-tag-ink', p.tagInk || (currentMode === 'dark' ? '#c292de' : '#3d1d4f'));
+      root.style.setProperty('--t-radius', theme.radius);
+      root.style.setProperty('--t-font-display', theme.fontDisplay);
+
+      const meta = document.querySelector('meta[name="color-scheme"]');
+      if (meta) meta.content = currentMode;
+      try { localStorage.setItem('color-scheme', currentMode); } catch (_) {}
+
+      const darkBtn = document.getElementById('btn-mode-dark');
+      const lightBtn = document.getElementById('btn-mode-light');
+      if (darkBtn && lightBtn) {
+        darkBtn.className = `px-2.5 py-1 f-display font-bold text-xs tracking-wider uppercase cursor-pointer whitespace-nowrap ${currentMode === 'dark' ? 'bg-orange-slab' : 'text-ink-2'}`;
+        lightBtn.className = `px-2.5 py-1 f-display font-bold text-xs tracking-wider uppercase cursor-pointer whitespace-nowrap ${currentMode === 'light' ? 'bg-orange-slab' : 'text-ink-2'}`;
+      }
+      renderThemeSwatches();
+    }
+
+    function setColorMode(mode) {
+      currentMode = mode;
+      if (mode === 'light' && (currentTheme === 'broadcast' || currentTheme === 'tactical' || currentTheme === 'swiss')) {
+        currentTheme = 'arashi';
+        const sel = document.getElementById('theme-select');
+        if (sel) sel.value = 'arashi';
+      } else if (mode === 'dark' && currentTheme === 'arashi') {
+        currentTheme = 'broadcast';
+        const sel = document.getElementById('theme-select');
+        if (sel) sel.value = 'broadcast';
+      }
+      applyPalette();
+    }
+
+    function selectTheme(key) {
+      currentTheme = key;
+      if (key === 'arashi') {
+        currentMode = 'light';
+      } else if (key === 'broadcast' || key === 'tactical' || key === 'swiss') {
+        currentMode = 'dark';
+      }
+      const sel = document.getElementById('theme-select');
+      if (sel) sel.value = key;
+      applyPalette();
+    }
+
+    function toggleTextScale() {
+      isXlText = !isXlText;
+      document.documentElement.style.setProperty('--base-scale', isXlText ? '18.4px' : '16px');
+      const btn = document.getElementById('btn-scale-toggle');
+      if (btn) {
+        btn.textContent = isXlText ? '◆ TEXT: XL (+15% ON)' : '◆ TEXT: LARGE (100%)';
+      }
+    }
+
+    function triggerSyncJoke() {
+      const msgs = [
+        '⟳ INTERROGATING PSYNET SERVERS (+2s)...',
+        '⟳ CHECKING WITH ANALYST BOOTH 104 (+5s)...',
+        '◆ +9 MMR HANDED OVER & SYNCED (NO NEXT-GAME WAIT REQUIRED)!'
+      ];
+      const btn = document.getElementById('btn-sync-now');
+      const toast = document.getElementById('sync-toast');
+      syncClicks = (syncClicks + 1) % msgs.length;
+      if (toast) toast.textContent = msgs[syncClicks];
+      if (btn) {
+        btn.textContent = syncClicks === 2 ? '◆ SYNCED (+9 MMR)' : '⟳ SYNCING...';
+        setTimeout(() => { btn.textContent = '⟳ SYNC NOW'; }, 1400);
+      }
+    }
+
+    function toggleLiveHistDemo() {
+      liveHistShown = !liveHistShown;
+      document.querySelectorAll('.live-hist-demo').forEach(el => {
+        el.style.display = liveHistShown ? 'block' : 'none';
+      });
+      const btn = document.getElementById('btn-toggle-live-hist');
+      if (btn) {
+        btn.textContent = liveHistShown
+          ? 'HISTORICAL DATA: SHOWN (CLICK TO HIDE)'
+          : 'HISTORICAL DATA: HIDDEN (CLICK TO SHOW)';
+      }
+    }
+
+    function toggleLegacySquintDemo() {
+      legacySquintMode = !legacySquintMode;
+      const btn = document.getElementById('btn-squint-compare');
+      if (btn) {
+        btn.textContent = legacySquintMode
+          ? '◆ RETURN TO v2.0 BROADCAST DESK (AFTER)'
+          : '◆ PEEK AT v1.0 LEGACY SQUINT MODE (BEFORE)';
+        btn.className = legacySquintMode
+          ? 'px-3.5 py-1.5 bg-loss f-display font-bold text-sm uppercase cursor-pointer t-rad whitespace-nowrap'
+          : 'px-3.5 py-1.5 surface-page border-2 border-outline text-gold f-display font-bold text-sm uppercase cursor-pointer hover:opacity-90 t-rad whitespace-nowrap';
+      }
+      renderSplitDemo();
+    }
+
+    function setStatMode(mode) {
+      statMode = mode;
+      const isAvg = mode === 'avg';
+      const btnAvg = document.getElementById('btn-stat-avg');
+      const btnTot = document.getElementById('btn-stat-tot');
+      if (btnAvg && btnTot) {
+        btnAvg.className = `px-3.5 py-1.5 f-display font-bold text-sm uppercase cursor-pointer whitespace-nowrap ${isAvg ? 'bg-blue-slab' : 'text-ink-2'}`;
+        btnTot.className = `px-3.5 py-1.5 f-display font-bold text-sm uppercase cursor-pointer whitespace-nowrap ${!isAvg ? 'bg-blue-slab' : 'text-ink-2'}`;
+      }
+      renderSplitDemo();
+    }
+
+    function renderSplitDemo() {
+      const container = document.getElementById('split-demo-container');
+      if (!container) return;
+      const isAvg = statMode === 'avg';
+
+      if (legacySquintMode) {
+        container.innerHTML = `
+          <div class="px-4 py-2 bg-loss flex flex-wrap items-center justify-between gap-2">
+            <span class="f-display font-bold text-sm uppercase">
+              戒 · v1.0 LEGACY "SQUINT" VIEW (10PX CRAMPED INLINE LABELS · DISJOINT COLUMNS)
+            </span>
+            <span class="f-mono text-xs font-extrabold uppercase">
+              CAUTION: MAY CAUSE EYE STRAIN &amp; WHIFFED OPEN NETS
+            </span>
+          </div>
+          <div class="p-4 flex flex-col gap-2 font-mono" style="font-size:10px; line-height:1.25; opacity:0.75">
+            <div>
+              [FOR] GMS: 52 · PTS: ${isAvg ? '486' : '25272'} · GOALS: ${isAvg ? '1.9' : '99'} · ASSISTS: ${isAvg ? '1.1' : '57'} · SAVES: ${isAvg ? '2.0' : '104'} · SH%: 42% · DEMOS: ${isAvg ? '1.6' : '83'} · BPM: 432
+            </div>
+            <div>
+              [VS] GMS: 52 · PTS: ${isAvg ? '382' : '19864'} · GOALS: ${isAvg ? '1.2' : '62'} · ASSISTS: ${isAvg ? '0.7' : '36'} · SAVES: ${isAvg ? '1.7' : '88'} · SH%: 33% · DEMOS: ${isAvg ? '1.1' : '57'} · BPM: 398
+            </div>
+            <div class="text-gold pt-1" style="font-size:11px">
+              ↑ Notice how repeating inline labels in 10px font makes vertical comparison impossible at a glance.
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="px-4 py-2 surface-panel-2 border-b border-line flex flex-wrap items-center justify-between gap-2">
+          <span class="f-display font-bold text-sm uppercase text-ink-2">
+            v2.0 SESSION TEAM SPLIT · SHARED-HEADER ALIGNMENT DEMO
+          </span>
+          <span class="f-mono text-xs font-extrabold text-gold uppercase">
+            ${isAvg ? 'SHOWING PER-GAME AVERAGES (AVG / G)' : 'SHOWING CUMULATIVE TOTALS (52 GAMES — ZERO COLUMN SHIFT)'}
+          </span>
+        </div>
+        <table class="w-full text-right f-mono text-sm font-bold border-collapse">
+          <thead>
+            <tr class="border-b border-line f-display font-bold text-xs text-muted uppercase">
+              <th class="py-2.5 px-4 text-left">TEAM SPLIT</th>
+              <th class="py-2.5 px-3">GAMES</th>
+              <th class="py-2.5 px-3">PTS</th>
+              <th class="py-2.5 px-3">GOALS</th>
+              <th class="py-2.5 px-3">ASSISTS</th>
+              <th class="py-2.5 px-3">SAVES</th>
+              <th class="py-2.5 px-3">SHOT %</th>
+              <th class="py-2.5 px-3">DEMOS</th>
+              <th class="py-2.5 px-3">BPM</th>
+              <th class="py-2.5 px-4">SUPER %</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-line">
+              <td class="py-2.5 px-4 text-left f-display font-bold text-base text-blue uppercase">嵐 YOUR STATS (FOR)</td>
+              <td class="py-2.5 px-3">52</td>
+              <td class="py-2.5 px-3 text-strong">${isAvg ? '486' : '25,272'}</td>
+              <td class="py-2.5 px-3 text-strong">${isAvg ? '1.9' : '99'}</td>
+              <td class="py-2.5 px-3">${isAvg ? '1.1' : '57'}</td>
+              <td class="py-2.5 px-3">${isAvg ? '2.0' : '104'}</td>
+              <td class="py-2.5 px-3 text-win">42%</td>
+              <td class="py-2.5 px-3 text-orange">${isAvg ? '1.6' : '83'}</td>
+              <td class="py-2.5 px-3 text-blue">432</td>
+              <td class="py-2.5 px-4">19.4%</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-4 text-left f-display font-bold text-base text-orange uppercase">影 OPPONENTS (AGAINST)</td>
+              <td class="py-2.5 px-3">52</td>
+              <td class="py-2.5 px-3 text-strong">${isAvg ? '382' : '19,864'}</td>
+              <td class="py-2.5 px-3 text-strong">${isAvg ? '1.2' : '62'}</td>
+              <td class="py-2.5 px-3">${isAvg ? '0.7' : '36'}</td>
+              <td class="py-2.5 px-3">${isAvg ? '1.7' : '88'}</td>
+              <td class="py-2.5 px-3">33%</td>
+              <td class="py-2.5 px-3 text-orange">${isAvg ? '1.1' : '57'}</td>
+              <td class="py-2.5 px-3">398</td>
+              <td class="py-2.5 px-4">16.8%</td>
+            </tr>
+          </tbody>
+        </table>
+      `;
+    }
+
+    function openDossierModal(playerKey, fromBreadcrumb = false) {
+      const profile = DOSSIER_PROFILES[playerKey] || DOSSIER_PROFILES.AEROPULSE;
+      if (!fromBreadcrumb) {
+        if (modalBreadcrumbs[modalBreadcrumbs.length - 1] !== playerKey) {
+          modalBreadcrumbs.push(playerKey);
+        }
+      }
+      const otherKeys = Object.keys(DOSSIER_PROFILES).filter(k => k !== playerKey);
+      const box = document.getElementById('dossier-modal-content');
+      const dialog = document.getElementById('dossier-modal');
+      if (!box || !dialog) return;
+
+      box.innerHTML = `
+        <div class="surface-panel-2 border-b border-line px-6 py-4 flex flex-wrap items-start justify-between gap-4">
+          <div class="flex flex-col gap-1.5">
+            <div class="flex flex-wrap items-center gap-2 text-xs f-mono font-extrabold">
+              <span class="text-muted">BREADCRUMB TRAIL:</span>
+              <span class="text-ink-2">LIVE SCOREBOARD</span>
+              ${modalBreadcrumbs.map((k, idx) => `
+                <span class="text-muted">→</span>
+                <button type="button" onclick="jumpDossierBreadcrumb(${idx})" class="px-1.5 py-0.5 ${idx === modalBreadcrumbs.length - 1 ? 'bg-blue-slab' : 'surface-page border border-line text-blue'} uppercase cursor-pointer">
+                  ${k}
+                </button>
+              `).join('')}
+            </div>
+            <div class="flex flex-wrap items-center gap-3 mt-1">
+              <h3 id="dossier-modal-title" class="f-display font-bold text-3xl text-strong uppercase leading-none">
+                ${profile.name}
+              </h3>
+              <span class="badge-pill px-2.5 py-0.5 ${profile.relColor} f-display font-bold text-xs uppercase">
+                ${profile.relTag}
+              </span>
+              <span class="badge-pill px-2.5 py-0.5 bg-loss f-display font-bold text-xs uppercase">
+                ${profile.threatBadge}
+              </span>
+            </div>
+            <div class="f-mono text-xs text-muted">
+              PLATFORM: ${profile.platform} · ID: ${profile.id}
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 shrink-0">
+            <span class="intel-tag">SCOUTING INTEL // LIVE OVERLAY</span>
+            <button type="button" onclick="closeDossierModal()" class="px-3.5 py-1.5 surface-page border border-outline f-display font-bold text-sm text-strong uppercase cursor-pointer hover:opacity-90">
+              ESC ✕
+            </button>
+          </div>
+        </div>
+
+        <div class="p-6 flex flex-col gap-5 t-num">
+          <!-- WITH YOU vs AGAINST YOU Split Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="deco-plaque p-4 flex flex-col gap-2">
+              <div class="flex items-center justify-between border-b border-line pb-2">
+                <span class="px-2 py-0.5 bg-blue-slab f-display font-bold text-xs uppercase">嵐 WITH YOU (TEAMMATE)</span>
+                <span class="f-mono font-extrabold text-xl text-win">${profile.withRecord}</span>
+              </div>
+              <div class="grid grid-cols-7 text-right f-mono text-xs font-bold text-muted pt-1">
+                <span>PTS</span><span>G</span><span>A</span><span>SV</span><span>SH%</span><span>DEM</span><span>BPM</span>
+              </div>
+              <div class="grid grid-cols-7 text-right f-mono text-sm font-extrabold text-strong">
+                <span>${profile.withStats.pts}</span><span>${profile.withStats.g}</span><span>${profile.withStats.a}</span><span>${profile.withStats.sv}</span><span class="text-win">${profile.withStats.sh}</span><span class="text-orange">${profile.withStats.dem}</span><span class="text-blue">${profile.withStats.bpm}</span>
+              </div>
+            </div>
+
+            <div class="deco-plaque p-4 flex flex-col gap-2">
+              <div class="flex items-center justify-between border-b border-line pb-2">
+                <span class="px-2 py-0.5 bg-orange-slab f-display font-bold text-xs uppercase">影 AGAINST YOU (OPPONENT)</span>
+                <span class="f-mono font-extrabold text-xl text-orange">${profile.vsRecord}</span>
+              </div>
+              <div class="grid grid-cols-7 text-right f-mono text-xs font-bold text-muted pt-1">
+                <span>PTS</span><span>G</span><span>A</span><span>SV</span><span>SH%</span><span>DEM</span><span>BPM</span>
+              </div>
+              <div class="grid grid-cols-7 text-right f-mono text-sm font-extrabold text-strong">
+                <span>${profile.vsStats.pts}</span><span>${profile.vsStats.g}</span><span>${profile.vsStats.a}</span><span>${profile.vsStats.sv}</span><span class="text-win">${profile.vsStats.sh}</span><span class="text-orange">${profile.vsStats.dem}</span><span class="text-blue">${profile.vsStats.bpm}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Core 3v3 / 2v2 / 1v1 Ranks -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            ${profile.ranks.map(r => `
+              <div class="deco-plaque px-4 py-3 flex items-center justify-between">
+                <div>
+                  <div class="f-mono text-[11px] font-bold text-muted uppercase">${r.mode}</div>
+                  <div class="f-display font-bold text-lg text-strong uppercase">${r.rank}</div>
+                </div>
+                <div class="f-mono font-extrabold text-base text-gold">${r.mmr}</div>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Scouting Field Report & Tags -->
+          <div class="deco-plaque p-4 flex flex-col gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="f-mono text-xs font-extrabold text-gold uppercase">SCOUTING TAGS:</span>
+              ${profile.tags.map(t => `<span class="telemetry-chip">${t}</span>`).join('')}
+            </div>
+            <p class="text-sm text-ink-2">${profile.note}</p>
+          </div>
+
+          <!-- Cross-Player Hop Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-line text-xs f-mono">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-muted font-bold uppercase">HOP TO LOBBY PLAYER (BREADCRUMB STACK DEMO):</span>
+              ${otherKeys.map(k => `
+                <button type="button" onclick="openDossierModal('${k}')" class="px-2.5 py-1 surface-page border border-outline text-blue font-extrabold uppercase cursor-pointer hover:opacity-90">
+                  INSPECT ${k} →
+                </button>
+              `).join('')}
+            </div>
+            <span class="text-win font-extrabold">◆ NO HAUNTED AUTO-CLOSE ON CLICK</span>
+          </div>
+        </div>
+      `;
+
+      if (!dialog.open) {
+        if (typeof dialog.showModal === 'function') dialog.showModal();
+        else dialog.setAttribute('open', '');
+      }
+    }
+
+    function jumpDossierBreadcrumb(idx) {
+      const target = modalBreadcrumbs[idx];
+      modalBreadcrumbs = modalBreadcrumbs.slice(0, idx + 1);
+      openDossierModal(target, true);
+    }
+
+    function closeDossierModal() {
+      const dialog = document.getElementById('dossier-modal');
+      modalBreadcrumbs = [];
+      if (dialog && dialog.open) dialog.close();
+    }
+
+    document.getElementById('dossier-backdrop')?.addEventListener('click', (e) => {
+      if (e.target.id === 'dossier-backdrop') closeDossierModal();
+    });
+
+    function renderThemeSwatches() {
+      const grid = document.getElementById('theme-swatch-grid');
+      if (!grid) return;
+      grid.innerHTML = Object.entries(THEMES).map(([key, t]) => {
+        const active = key === currentTheme;
+        const p = key === 'arashi' ? t.light : ((key === 'broadcast' || key === 'tactical' || key === 'swiss') ? t.dark : t[currentMode]);
+        return `
+          <button type="button" onclick="selectTheme('${key}')"
+            class="text-left p-3.5 border-2 transition-transform hover:-translate-y-0.5 cursor-pointer flex flex-col gap-2 t-rad"
+            style="background:${p.panel}; border-color:${active ? p.gold : p.outline}; color:${p.ink}">
+            <div class="flex items-center justify-between gap-1">
+              <span class="f-mono text-[11px] font-extrabold uppercase truncate" style="color:${p.muted}">${t.tag}</span>
+              ${active ? `<span class="badge-pill px-1.5 py-0.5 text-[10px] f-mono font-extrabold uppercase" style="background:${p.orangeSlab}; color:#fff">ACTIVE</span>` : ''}
+            </div>
+            <div class="f-display font-bold text-base uppercase leading-tight" style="color:${p.strong}">${t.name}</div>
+            <div class="flex items-center gap-1.5 pt-1">
+              <span class="w-5 h-3 inline-block border border-black/20" style="background:${p.page}"></span>
+              <span class="w-5 h-3 inline-block border border-black/20" style="background:${p.blueSlab}"></span>
+              <span class="w-5 h-3 inline-block border border-black/20" style="background:${p.orangeSlab}"></span>
+              <span class="w-5 h-3 inline-block border border-black/20" style="background:${p.win}"></span>
+              <span class="w-5 h-3 inline-block border border-black/20" style="background:${p.gold}"></span>
+            </div>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function setBlackBoxTab(tabNum) {
+      for (let i = 1; i <= 5; i++) {
+        const btn = document.getElementById(`bb-tab-${i}`);
+        if (btn) {
+          btn.className = i === tabNum
+            ? 'px-4 py-2 bg-blue-slab f-display font-bold text-sm uppercase t-rad cursor-pointer'
+            : 'px-4 py-2 surface-page border border-line text-ink-2 f-display font-bold text-sm uppercase t-rad cursor-pointer';
+        }
+      }
+      const panel = document.getElementById('bb-panel');
+      if (!panel) return;
+
+      if (tabNum === 1) {
+        panel.innerHTML = `
+          <div class="text-xs f-mono font-extrabold text-muted uppercase mb-3">TAB Ⅰ · CORE &amp; MECHANICS (WITH TEAM TOTALS / AVG SUMMARY ROWS)</div>
+          <table class="w-full text-right f-mono text-sm font-bold border-collapse">
+            <thead>
+              <tr class="border-b border-line f-display font-bold text-xs text-muted uppercase">
+                <th class="py-2 px-3 text-left">PLAYER</th>
+                <th class="py-2 px-3 text-blue">MMR</th>
+                <th class="py-2 px-3 text-left">RANK · DIV</th>
+                <th class="py-2 px-3">SCORE</th>
+                <th class="py-2 px-3">GOALS</th>
+                <th class="py-2 px-3">ASSISTS</th>
+                <th class="py-2 px-3">SAVES</th>
+                <th class="py-2 px-3">SHOTS</th>
+                <th class="py-2 px-3">SHOT %</th>
+                <th class="py-2 px-3">DEM INF / TKN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-line">
+                <td class="py-2 px-3 text-left f-display font-bold text-lg text-strong">YOU ◆ MVP</td>
+                <td class="py-2 px-3 text-blue">1,485</td>
+                <td class="py-2 px-3 text-left">GC I · DIV II</td>
+                <td class="py-2 px-3 text-strong">550</td><td>2</td><td>1</td><td>3</td><td>5</td><td class="text-win">40%</td><td class="text-orange">1 / 1</td>
+              </tr>
+              <tr class="border-b border-line">
+                <td class="py-2 px-3 text-left f-display font-bold text-lg text-strong">AEROPULSE</td>
+                <td class="py-2 px-3 text-blue">1,502</td>
+                <td class="py-2 px-3 text-left">GC I · DIV III</td>
+                <td class="py-2 px-3 text-strong">410</td><td>2</td><td>1</td><td>2</td><td>4</td><td class="text-win">50%</td><td class="text-orange">0 / 1</td>
+              </tr>
+              <tr class="surface-panel-2 border-b-2 border-outline text-blue font-extrabold">
+                <td class="py-2 px-3 text-left f-display uppercase" colspan="3">嵐 STORM SQUAD TOTALS / AVG</td>
+                <td class="py-2 px-3">960</td><td>4</td><td>2</td><td>5</td><td>9</td><td>44%</td><td>1 / 2</td>
+              </tr>
+            </tbody>
+          </table>
+        `;
+      } else if (tabNum === 2) {
+        panel.innerHTML = `
+          <div class="text-xs f-mono font-extrabold text-muted uppercase mb-3">TAB Ⅱ · BOOST ECONOMY &amp; PADS (BPM, STOLEN, BIG/SMALL PADS, OVERFILL &amp; 0%/100% TIME)</div>
+          <table class="w-full text-right f-mono text-sm font-bold border-collapse">
+            <thead>
+              <tr class="border-b border-line f-display font-bold text-xs text-muted uppercase">
+                <th class="py-2 px-3 text-left">PLAYER</th>
+                <th class="py-2 px-3">BPM</th>
+                <th class="py-2 px-3">AVG BST</th>
+                <th class="py-2 px-3">COLLECTED</th>
+                <th class="py-2 px-3">STOLEN</th>
+                <th class="py-2 px-3">BIG PADS</th>
+                <th class="py-2 px-3">SMALL PADS</th>
+                <th class="py-2 px-3">OVERFILL</th>
+                <th class="py-2 px-3">0% BOOST TIME</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-line">
+                <td class="py-2 px-3 text-left f-display font-bold text-lg text-strong">YOU</td>
+                <td class="py-2 px-3 text-blue">432</td><td>49%</td><td>2,920</td><td class="text-orange">580</td><td>24</td><td>74</td><td>340</td><td>8.4%</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-left f-display font-bold text-lg text-strong">AEROPULSE</td>
+                <td class="py-2 px-3 text-blue">415</td><td>46%</td><td>2,724</td><td class="text-orange">490</td><td>21</td><td>68</td><td>290</td><td>9.1%</td>
+              </tr>
+            </tbody>
+          </table>
+        `;
+      } else if (tabNum === 3) {
+        panel.innerHTML = `
+          <div class="text-xs f-mono font-extrabold text-muted uppercase mb-3">TAB Ⅲ · SPEED &amp; MOVEMENT (UU/S, SUPERSONIC %, GROUND vs LOW/HIGH AIR, POWERSLIDES)</div>
+          <table class="w-full text-right f-mono text-sm font-bold border-collapse">
+            <thead>
+              <tr class="border-b border-line f-display font-bold text-xs text-muted uppercase">
+                <th class="py-2 px-3 text-left">PLAYER</th>
+                <th class="py-2 px-3">AVG SPEED</th>
+                <th class="py-2 px-3">SUPERSONIC %</th>
+                <th class="py-2 px-3">BOOST SPD %</th>
+                <th class="py-2 px-3">SLOW SPD %</th>
+                <th class="py-2 px-3">GROUND %</th>
+                <th class="py-2 px-3">LOW AIR %</th>
+                <th class="py-2 px-3">HIGH AIR %</th>
+                <th class="py-2 px-3">POWERSLIDES</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-line">
+                <td class="py-2 px-3 text-left f-display font-bold text-lg text-strong">YOU</td>
+                <td class="py-2 px-3 text-blue">1,545 uu/s</td><td class="text-win">20.5%</td><td>41.2%</td><td>38.3%</td><td>56.0%</td><td>32.5%</td><td>11.5%</td><td>62 (8.2s)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-left f-display font-bold text-lg text-strong">AEROPULSE</td>
+                <td class="py-2 px-3 text-blue">1,515 uu/s</td><td class="text-win">18.5%</td><td>40.2%</td><td>41.3%</td><td>58.0%</td><td>31.5%</td><td>10.5%</td><td>58 (7.8s)</td>
+              </tr>
+            </tbody>
+          </table>
+        `;
+      } else if (tabNum === 4) {
+        panel.innerHTML = `
+          <div class="text-xs f-mono font-extrabold text-muted uppercase mb-3">TAB Ⅳ · POSITIONING &amp; ROTATION (FIELD THIRDS, BEHIND BALL %, 1ST/LAST MAN, DIST TO BALL)</div>
+          <table class="w-full text-right f-mono text-sm font-bold border-collapse">
+            <thead>
+              <tr class="border-b border-line f-display font-bold text-xs text-muted uppercase">
+                <th class="py-2 px-3 text-left">PLAYER</th>
+                <th class="py-2 px-3">DEF 1/3</th>
+                <th class="py-2 px-3">NEUTRAL 1/3</th>
+                <th class="py-2 px-3">OFF 1/3</th>
+                <th class="py-2 px-3">BEHIND BALL</th>
+                <th class="py-2 px-3">IN FRONT</th>
+                <th class="py-2 px-3">MOST BACK</th>
+                <th class="py-2 px-3">MOST FWD</th>
+                <th class="py-2 px-3">DIST TO BALL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-line">
+                <td class="py-2 px-3 text-left f-display font-bold text-lg text-strong">YOU</td>
+                <td class="py-2 px-3">42%</td><td>35%</td><td class="text-blue">23%</td><td class="text-win">71%</td><td>29%</td><td>48%</td><td>52%</td><td>2,410 uu</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-left f-display font-bold text-lg text-strong">AEROPULSE</td>
+                <td class="py-2 px-3">46%</td><td>35%</td><td class="text-blue">19%</td><td class="text-win">69%</td><td>31%</td><td>52%</td><td>48%</td><td>2,420 uu</td>
+              </tr>
+            </tbody>
+          </table>
+        `;
+      } else {
+        panel.innerHTML = `
+          <div class="text-xs f-mono font-extrabold text-muted uppercase mb-3">TAB Ⅴ · TEAM HEAD-TO-HEAD TUG-OF-WAR (STORM MONOLITH vs RIVAL CINNABAR)</div>
+          <div class="flex flex-col gap-3">
+            <div>
+              <div class="flex justify-between f-mono text-sm font-extrabold mb-1">
+                <span class="text-blue">嵐 STORM 960 (58%)</span>
+                <span class="f-display uppercase text-strong">TEAM SCORE (PTS)</span>
+                <span class="text-orange">(42%) 690 RIVAL 影</span>
+              </div>
+              <div class="h-4 flex items-center gap-1 relative">
+                <div class="h-full bg-blue-slab border border-outline" style="width:58%"></div>
+                <div class="h-full bg-orange-slab border border-outline" style="width:42%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between f-mono text-sm font-extrabold mb-1">
+                <span class="text-blue">嵐 STORM 5,644 (53%)</span>
+                <span class="f-display uppercase text-strong">TOTAL BOOST COLLECTED</span>
+                <span class="text-orange">(47%) 5,028 RIVAL 影</span>
+              </div>
+              <div class="h-4 flex items-center gap-1 relative">
+                <div class="h-full bg-blue-slab border border-outline" style="width:53%"></div>
+                <div class="h-full bg-orange-slab border border-outline" style="width:47%"></div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    let demoThreshold = 15;
+    let demoAutoSync = true;
+    let demoToastNotify = true;
+    let demoQuotaState = 'warn';
+
+    function setDemoThreshold(val) {
+      demoThreshold = Number(val) || 15;
+      setQuotaDemo(demoQuotaState);
+    }
+
+    function toggleDemoAutoSync() {
+      demoAutoSync = !demoAutoSync;
+      setQuotaDemo(demoQuotaState);
+    }
+
+    function toggleDemoToast() {
+      demoToastNotify = !demoToastNotify;
+      setQuotaDemo(demoQuotaState);
+    }
+
+    function setQuotaDemo(state) {
+      demoQuotaState = state;
+      const box = document.getElementById('quota-banner-box');
+      const wBtn = document.getElementById('q-warn');
+      const eBtn = document.getElementById('q-err');
+      const sBtn = document.getElementById('q-synced');
+      if (!box) return;
+
+      const controlsHtml = (pendingCount, btnClass, btnLabel) => `
+        <div class="flex flex-wrap items-center gap-2 pt-1">
+          <button type="button" onclick="setQuotaDemo('synced')" class="px-2.5 py-1 ${btnClass} f-display font-bold text-xs uppercase cursor-pointer hover:opacity-90">
+            ${btnLabel}
+          </button>
+          <div class="inline-flex items-center gap-1.5 px-2 py-1 surface-page border border-line text-xs f-display font-bold uppercase">
+            <span class="text-muted">THRESHOLD:</span>
+            <select onchange="setDemoThreshold(this.value)" class="surface-panel text-strong f-mono font-bold text-xs px-1 py-0.5 border border-line cursor-pointer">
+              <option value="10" ${demoThreshold === 10 ? 'selected' : ''}>10 / 20G</option>
+              <option value="12" ${demoThreshold === 12 ? 'selected' : ''}>12 / 20G</option>
+              <option value="15" ${demoThreshold === 15 ? 'selected' : ''}>15 / 20G</option>
+              <option value="18" ${demoThreshold === 18 ? 'selected' : ''}>18 / 20G</option>
+            </select>
+          </div>
+          <button type="button" onclick="toggleDemoAutoSync()" class="px-2 py-1 ${demoAutoSync ? 'bg-blue-slab' : 'surface-page border border-line text-ink-2'} f-display font-bold text-xs uppercase cursor-pointer">
+            鎖 AUTO-SYNC @${demoThreshold}G: ${demoAutoSync ? 'ON' : 'OFF'}
+          </button>
+          <button type="button" onclick="toggleDemoToast()" class="px-2 py-1 ${demoToastNotify ? 'surface-page border border-line text-strong' : 'surface-page border border-line text-muted opacity-70'} f-display font-bold text-xs uppercase cursor-pointer">
+            ◆ NOTIFY: ${demoToastNotify ? 'ON' : 'OFF'}
+          </button>
+        </div>
+      `;
+
+      if (state === 'warn') {
+        if (wBtn && eBtn && sBtn) {
+          wBtn.className = 'px-2.5 py-1 bg-gold uppercase cursor-pointer';
+          eBtn.className = 'px-2.5 py-1 text-ink-2 uppercase cursor-pointer';
+          sBtn.className = 'px-2.5 py-1 text-ink-2 uppercase cursor-pointer';
+        }
+        const pending = Math.max(demoThreshold, 16);
+        const left = 20 - pending;
+        box.className = 'p-3.5 deco-plaque flex flex-col gap-2';
+        box.innerHTML = `
+          <div class="f-display font-bold text-base text-gold uppercase">
+            戒 · 20-GAME REPLAY BUFFER WARNING — ${pending} / 20 UNDOWNLOADED REPLAYS (${left} GAMES LEFT)
+          </div>
+          <p class="text-xs text-ink-2">
+            Rocket League only hosts <strong>20 replays</strong> on its servers (normally synced when you close the game). Any games over 20 not downloaded are lost forever!
+          </p>
+          ${controlsHtml(pending, 'bg-gold', `⟳ SYNC & DOWNLOAD ALL (${pending}) NOW`)}
+        `;
+      } else if (state === 'err') {
+        if (wBtn && eBtn && sBtn) {
+          wBtn.className = 'px-2.5 py-1 text-ink-2 uppercase cursor-pointer';
+          eBtn.className = 'px-2.5 py-1 bg-loss uppercase cursor-pointer';
+          sBtn.className = 'px-2.5 py-1 text-ink-2 uppercase cursor-pointer';
+        }
+        box.className = 'p-3.5 deco-plaque flex flex-col gap-2';
+        box.innerHTML = `
+          <div class="f-display font-bold text-base text-loss uppercase">
+            印 · 20-GAME REPLAY BUFFER FULL — 20 / 20 UNDOWNLOADED REPLAYS (OVERFLOW RISK!)
+          </div>
+          <p class="text-xs text-ink-2">
+            Rocket League's 20-game hosted replay buffer is full! Playing another match before syncing will permanently overwrite your oldest un-downloaded replay.
+          </p>
+          ${controlsHtml(20, 'bg-loss', '⟳ EMERGENCY SYNC & DOWNLOAD (20) NOW')}
+        `;
+      } else {
+        if (wBtn && eBtn && sBtn) {
+          wBtn.className = 'px-2.5 py-1 text-ink-2 uppercase cursor-pointer';
+          eBtn.className = 'px-2.5 py-1 text-ink-2 uppercase cursor-pointer';
+          sBtn.className = 'px-2.5 py-1 bg-win uppercase cursor-pointer';
+        }
+        box.className = 'p-3.5 deco-plaque flex flex-col gap-2';
+        box.innerHTML = `
+          <div class="f-display font-bold text-base text-win uppercase">
+            鎖 · ALL OUTSTANDING REPLAYS DOWNLOADED — 0 / 20 PENDING IN ROCKET LEAGUE BUFFER
+          </div>
+          <p class="text-xs text-ink-2">
+            All hosted replays have been safely downloaded from Rocket League's servers and queued for Ballchasing telemetry parsing. Next notification armed at <strong>${demoThreshold} / 20 games</strong> (${demoAutoSync ? 'Auto-Sync ON' : 'Sync on Game Exit'}).
+          </p>
+          ${controlsHtml(0, 'surface-page border border-line text-win', '◆ 0/20 QUEUED · SYNC ANYTIME')}
+        `;
+      }
+    }
+
+    document.getElementById('theme-select')?.addEventListener('change', (e) => {
+      selectTheme(e.target.value);
+    });
+
+    // Initialize interactive demos on load
+    applyPalette();
+    setStatMode('avg');
+    setBlackBoxTab(1);
+    setQuotaDemo('warn');
+  </script>
+</body>
+</html>

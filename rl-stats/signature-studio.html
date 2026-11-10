@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-variant="D2-K3" style="color-scheme: dark;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <title>STRMSHDW · 嵐影之印 Ginza Geometric Monolith Studio (D2-K3 & D2-K2)</title>
+
+  <script>
+    (function () {
+      try {
+        var savedMode = localStorage.getItem('strmshdw_d2_mode') || 'dark';
+        var savedVar = localStorage.getItem('strmshdw_d2_variant') || 'D2-K3';
+        document.documentElement.setAttribute('data-theme', savedMode);
+        document.documentElement.setAttribute('data-variant', savedVar);
+        document.documentElement.style.colorScheme = savedMode;
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700;800&family=Josefin+Sans:wght@600;700&family=Noto+Serif+JP:wght@600;700;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      /* 3-Tier Surface Depth (Viewport -> Scroll Canvas -> Monolith Plaque) */
+      --t-page: #0a0908;
+      --t-panel: #171513;
+      --t-plaque: #0f0d0b;
+      --t-panel-2: #211e1b;
+      --t-line: #36312b;
+      --t-outline: #dfd7c8;
+      --t-frieze: #d8d0c5;
+      --t-ink: #f2efe9;
+      --t-ink-2: #cfc7b8;
+      --t-muted: #918779;
+      --t-strong: #fbf9f5;
+
+      /* Woodblock Polarity: Inverted Washi Monolith (Ally) vs. Hanko Cinnabar (Rival) */
+      --t-ally-slab: #f2efe9;
+      --t-ally-on-slab: #12100e;
+      --t-ally-ink: #f2efe9;
+
+      --t-rival-slab: #b81d13;
+      --t-rival-on-slab: #fbf9f5;
+      --t-rival-ink: #d9382e;
+      --t-vermilion-display: #d4261d;
+
+      /* Disciplined Semantic Channels (Zero Neon Mint/Lavender Glow) */
+      --t-gold: #deb052;
+      --t-gold-line: #7a5c22;
+
+      --t-carry-ink: #7da8c4;
+      --t-carry-line: #2d556e;
+
+      --t-win: #82a890;
+      --t-win-line: #2d523d;
+
+      --t-loss: #d9382e;
+      --t-loss-slab: #b81d13;
+
+      --t-font-display: 'Josefin Sans', 'Space Grotesk', sans-serif;
+      --t-font-serif: 'Noto Serif JP', serif;
+      --t-font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --t-font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--t-page);
+      color: var(--t-ink);
+      font-family: var(--t-font-sans);
+      transition: background-color 180ms ease, color 180ms ease;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .f-display {
+      font-family: var(--t-font-display);
+      letter-spacing: 0.11em;
+      font-style: normal;
+    }
+    .f-serif-jp {
+      font-family: var(--t-font-serif);
+    }
+    .f-sans {
+      font-family: var(--t-font-sans);
+    }
+    .f-mono {
+      font-family: var(--t-font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+    .t-num {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .surface-page    { background-color: var(--t-page); }
+    .surface-panel   { background-color: var(--t-panel); }
+    .surface-plaque  { background-color: var(--t-plaque); }
+    .surface-panel-2 { background-color: var(--t-panel-2); }
+
+    .border-line    { border-color: var(--t-line); }
+    .border-outline { border-color: var(--t-outline); }
+
+    .text-ink       { color: var(--t-ink); }
+    .text-ink-2     { color: var(--t-ink-2); }
+    .text-muted     { color: var(--t-muted); }
+    .text-strong    { color: var(--t-strong); }
+    .text-frieze    { color: var(--t-frieze); }
+    .text-ally      { color: var(--t-ally-ink); }
+    .text-rival     { color: var(--t-rival-ink); }
+    .text-vermilion { color: var(--t-vermilion-display); }
+    .text-win       { color: var(--t-win); }
+    .text-loss      { color: var(--t-loss); }
+    .text-gold      { color: var(--t-gold); }
+    .text-carry     { color: var(--t-carry-ink); }
+
+    /* Woodblock Monolith Slabs (50/50 Polarity) */
+    .bg-ally-slab {
+      background-color: var(--t-ally-slab);
+      color: var(--t-ally-on-slab);
+    }
+    .bg-rival-slab {
+      background-color: var(--t-rival-slab);
+      color: var(--t-rival-on-slab);
+    }
+
+    /* =========================================================================
+       AUTHENTIC HANKO SEALS (10% Vermilion Impact) vs. INCISED CARTOUCHES (90% Monocolor Discipline)
+       ========================================================================= */
+
+    /* 1. Authentic Square Carved Hanko Stamp (判子 / 落款) */
+    .hanko-square-stamp {
+      display: inline-grid;
+      place-items: center;
+      width: 2.35rem;
+      height: 2.35rem;
+      background-color: var(--t-rival-slab);
+      color: var(--t-rival-on-slab);
+      font-family: var(--t-font-serif);
+      font-weight: 900;
+      font-size: 0.74rem;
+      line-height: 1.05;
+      letter-spacing: 0.04em;
+      text-align: center;
+      flex-shrink: 0;
+      outline: 1px solid color-mix(in oklab, currentColor 42%, transparent);
+      outline-offset: -3px;
+      user-select: none;
+    }
+
+    /* 2. Solid Vermilion Hanko Seal (Reserved STRICTLY for Smurf / Primary Alert) */
+    .hanko-seal-vermilion {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.16rem 0.55rem;
+      background-color: var(--t-rival-slab);
+      color: var(--t-rival-on-slab);
+      font-family: var(--t-font-display);
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+      outline: 1px solid color-mix(in oklab, currentColor 38%, transparent);
+      outline-offset: -2px;
+    }
+
+    /* 3. Incised Architectural Cartouches (Preserves 90% Monocolor Discipline) */
+    .cartouche {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.13rem 0.48rem;
+      background-color: var(--t-plaque);
+      font-family: var(--t-font-display);
+      font-weight: 700;
+      font-size: 0.69rem;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+      border: 1px solid var(--t-line);
+      color: var(--t-ink-2);
+    }
+
+    .cartouche-gold {
+      border-color: var(--t-gold-line);
+      color: var(--t-gold);
+    }
+    .cartouche-carry {
+      border-color: var(--t-carry-line);
+      color: var(--t-carry-ink);
+    }
+    .cartouche-jade {
+      border-color: var(--t-win-line);
+      color: var(--t-win);
+    }
+    .cartouche-monolith {
+      border-color: var(--t-outline);
+      color: var(--t-strong);
+    }
+
+    /* Symmetrical Art Deco Double-Ruled Top Frieze */
+    .deco-frieze-rule {
+      height: 5px;
+      width: 100%;
+      border-top: 2px solid var(--t-outline);
+      border-bottom: 1px solid var(--t-line);
+      background-color: var(--t-page);
+    }
+
+    .deco-medallion-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-family: var(--t-font-display);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--t-frieze);
+    }
+    .deco-medallion-bar::before,
+    .deco-medallion-bar::after {
+      content: "";
+      flex: 1;
+      height: 3px;
+      border-top: 1px solid var(--t-outline);
+      border-bottom: 1px solid var(--t-line);
+    }
+
+    .deco-section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: var(--t-font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--t-frieze);
+    }
+    .deco-section-divider::before,
+    .deco-section-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background-color: var(--t-line);
+    }
+
+    /* Stepped Art Deco Ziggurat Frame (Reserved STRICTLY for Top-Level Monolith Containers) */
+    .ziggurat-monolith {
+      border: 1.5px solid var(--t-outline);
+      box-shadow:
+        0 0 0 4px var(--t-page),
+        0 0 0 5.5px var(--t-line);
+    }
+
+    /* Arashikage Hexagram 64 Mark */
+    .arashikage-hex {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 20px;
+      height: 22px;
+      padding: 2px 0;
+      flex-shrink: 0;
+    }
+    .arashikage-hex .hex-solid {
+      width: 100%;
+      height: 2px;
+      background-color: var(--t-rival-slab);
+    }
+    .arashikage-hex .hex-broken {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      height: 2px;
+    }
+    .arashikage-hex .hex-broken span {
+      width: 42%;
+      height: 100%;
+      background-color: var(--t-rival-slab);
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+
+  <!-- =========================================================================
+       COMPACT STUDIO CONTROL BAR (Quiet Chrome so the Artwork Commands 90% of Viewport)
+       ========================================================================= -->
+  <header class="sticky top-0 z-50 surface-page border-b border-line">
+    <div class="max-w-[1560px] mx-auto px-4 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="p-1.5 surface-panel border border-line flex items-center justify-center">
+          <div class="arashikage-hex" aria-hidden="true">
+            <div class="hex-solid"></div>
+            <div class="hex-broken"><span></span><span></span></div>
+            <div class="hex-solid"></div>
+            <div class="hex-broken"><span></span><span></span></div>
+            <div class="hex-solid"></div>
+            <div class="hex-broken"><span></span><span></span></div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="f-display font-bold text-sm tracking-widest uppercase text-strong">STRMSHDW</span>
+          <span class="text-vermilion text-xs">◆</span>
+          <span class="f-serif-jp font-bold text-xs text-vermilion">嵐影之印</span>
+          <span class="f-mono text-[11px] text-muted uppercase">D2 GINZA MONOLITH STUDIO</span>
+        </div>
+      </div>
+
+      <!-- Primary Focus: D2-K3 (Sumi Woodblock) & D2-K2 (Urushi & Brass) + D2 Light Reference -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="inline-flex surface-panel border border-line p-0.5 gap-0.5" role="group" aria-label="Dark Mode Counterpart">
+          <button type="button" id="tab-D2-K3" onclick="selectVariant('D2-K3')" class="px-2.5 py-1 f-display font-bold text-xs uppercase cursor-pointer">
+            D2-K3 · 版画 SUMI WOODBLOCK
+          </button>
+          <button type="button" id="tab-D2-K2" onclick="selectVariant('D2-K2')" class="px-2.5 py-1 f-display font-bold text-xs uppercase cursor-pointer">
+            D2-K2 · 漆 URUSHI &amp; BRASS
+          </button>
+          <button type="button" id="tab-D2-K1" onclick="selectVariant('D2-K1')" class="px-2.5 py-1 f-display font-bold text-xs uppercase cursor-pointer">
+            D2-K1 · 硯 INKSTONE
+          </button>
+        </div>
+
+        <div class="inline-flex surface-panel border border-line p-0.5" role="group" aria-label="Surface Lighting Polarity">
+          <button type="button" id="btn-mode-dark" onclick="setMode('dark')" class="px-2.5 py-1 f-display font-bold text-xs uppercase cursor-pointer">
+            影 DARK (KAGE)
+          </button>
+          <button type="button" id="btn-mode-light" onclick="setMode('light')" class="px-2.5 py-1 f-display font-bold text-xs uppercase cursor-pointer">
+            嵐 LIGHT (D2 REFERENCE)
+          </button>
+        </div>
+
+        <a href="design-system.html" class="px-2.5 py-1 surface-panel border border-outline f-display font-bold text-xs uppercase text-strong hover:opacity-90">
+          ◆ DESIGN SYSTEM ↗
+        </a>
+        <a href="index.html" class="px-2.5 py-1 surface-panel border border-line f-display font-bold text-xs uppercase text-ink-2 hover:opacity-90">
+          PATCH SHOWCASE ↗
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-[1560px] mx-auto px-4 sm:px-6 py-5 flex flex-col gap-4">
+
+    <!-- =======================================================================
+         THE GINZA GEOMETRIC MONOLITH SCROLL CANVAS (D2)
+         ======================================================================= -->
+    <section id="studio-canvas" class="surface-panel ziggurat-monolith overflow-hidden relative">
+      <div class="deco-frieze-rule"></div>
+
+      <!-- Subtle Watermark Kanji -->
+      <div class="pointer-events-none select-none absolute right-6 top-8 f-serif-jp font-black text-[150px] leading-none opacity-[0.028] text-strong" aria-hidden="true">
+        嵐影
+      </div>
+
+      <div class="p-6 sm:p-9 flex flex-col gap-7 relative z-10">
+
+        <!-- Art Deco Architectural Medallion Frieze -->
+        <div class="deco-medallion-bar">
+          <span><span class="text-vermilion">◆</span> 嵐影之印 · ䷿ · ARASHIKAGE HEX64 · HANKO SCROLL TYPOGRAPHY × ART DECO MONOLITH <span class="text-vermilion">◆</span></span>
+        </div>
+
+        <!-- Upper Diptych: Left 7 Cols (Editorial Scroll Lockup + 25s Frieze) | Right 5 Cols (Pre-Kickoff Radar Monolith) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+
+          <!-- Left 7 Cols -->
+          <div class="lg:col-span-7 flex flex-col justify-between gap-5">
+            <div class="flex flex-col gap-4">
+              <!-- Authentic Carved Square Hanko Stamp + Open Art Deco Kicker Lockup -->
+              <div class="flex items-center gap-3.5 border-b border-line pb-3">
+                <div class="hanko-square-stamp" title="Arashikage Carved Vermilion Seal">
+                  <span>嵐影<br>之印</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="f-display font-bold text-xs tracking-[0.2em] uppercase text-strong">
+                    ARASHIKAGE TELEMETRY SCROLL // PATCH V2.0
+                  </span>
+                  <span id="canvas-kicker" class="f-mono text-[11px] font-bold text-frieze uppercase tracking-wider mt-0.5">
+                    D2-K3 · SUMI WOODBLOCK &amp; INVERTED WASHI (版画)
+                  </span>
+                </div>
+              </div>
+
+              <!-- Monumental Pure Sumi / Washi Ivory Calligraphy Headline (Lets the Carved Hanko Stamp Command the Vermilion Focal Point!) -->
+              <h1 class="f-display font-bold text-5xl sm:text-6xl leading-[0.94] uppercase text-strong" style="letter-spacing: 0.06em;">
+                THE "EYES ON<br>THE FIELD" UPDATE
+              </h1>
+
+              <!-- Evocative Editorial Lead -->
+              <p class="f-sans text-base sm:text-lg text-ink-2 leading-relaxed max-w-2xl">
+                Before the 3-2-1 kickoff countdown finishes, every driver on the pitch is cross-examined across all playlists—locking onto smurf accounts, party carries, and active-playlist threats while interrogating PsyNet for 25 seconds post-whistle so your MMR never lags a game behind.
+              </p>
+            </div>
+
+            <!-- Integrated Architectural Frieze: 25-Second Post-Game MMR Interrogator (Pure Monocolor + Vermilion Stamp — Zero Mint-Green Clash) -->
+            <div class="border-t-2 border-b border-outline py-4 flex flex-col gap-3">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                  <span class="hanko-square-stamp" style="width:1.85rem;height:1.85rem;font-size:0.66rem;">定刻</span>
+                  <div>
+                    <div class="f-mono text-[11px] font-bold text-frieze uppercase tracking-widest">HEADLINE FIX // 25-SECOND POST-WHISTLE MMR INTERROGATOR</div>
+                    <div class="f-display font-bold text-lg uppercase text-strong leading-tight">
+                      ZERO "ONE-GAME-BEHIND" MMR DELAY
+                    </div>
+                  </div>
+                </div>
+                <span class="cartouche cartouche-monolith">
+                  ◆ LOCKED AT +9s POST-WHISTLE
+                </span>
+              </div>
+
+              <p class="text-xs sm:text-sm text-ink-2 leading-snug">
+                Querying PsyNet <span class="f-mono font-bold text-strong">1.5s</span> after the final whistle meant Rocket League hadn't committed your match skill yet—leaving your MMR stuck until the <em>next</em> match ended. Our 25-second burst interrogator locks onto the exact second PsyNet commits your delta:
+              </p>
+
+              <!-- Sleek Architectural Cadence Ledger (Active Lock Highlighted in Crisp Monolith Polarity) -->
+              <div class="grid grid-cols-5 border border-line surface-plaque text-center f-mono text-xs font-bold divide-x divide-[#36312b]">
+                <div class="py-1.5 text-muted">+2s · WAIT</div>
+                <div class="py-1.5 text-muted">+5s · WAIT</div>
+                <div class="py-1.5 bg-ally-slab font-extrabold">+9s ◆ +11 MMR</div>
+                <div class="py-1.5 text-muted opacity-60">+15s · IDLE</div>
+                <div class="py-1.5 text-muted opacity-60">+25s · IDLE</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right 5 Cols: S-Tier Pre-Kickoff Lobby Radar Monolith (3-Tier Plaque Depth + Open Ledger Strata) -->
+          <div class="lg:col-span-5 surface-plaque ziggurat-monolith p-5 sm:p-6 flex flex-col justify-between gap-4">
+            <div class="flex items-start justify-between gap-2 border-b-2 border-outline pb-3">
+              <div>
+                <div class="f-mono text-[11px] font-bold text-frieze uppercase tracking-widest">S-TIER // PRE-KICKOFF LOBBY RADAR</div>
+                <h2 class="f-display font-bold text-2xl uppercase text-strong leading-tight mt-0.5">
+                  THREAT, CARRY &amp; SMURF SEAL LOCK
+                </h2>
+              </div>
+              <span class="cartouche cartouche-monolith">
+                ䷿ 3 SEALS ARMED
+              </span>
+            </div>
+
+            <!-- 3 Open Architectural Strata (Separated by 1px Hairlines) -->
+            <div class="flex flex-col divide-y divide-[#36312b] border-b border-line t-num">
+
+              <!-- Stratum 1: THREAT (Incised Kintsugi Gold Cartouche) -->
+              <div class="py-3.5 flex items-center justify-between gap-3">
+                <div>
+                  <div class="flex items-center gap-2.5">
+                    <span class="cartouche cartouche-gold">戒 · THREAT</span>
+                    <span class="f-display font-bold text-base uppercase text-strong">VORTEX_RL</span>
+                  </div>
+                  <div class="text-xs text-ink-2 mt-1">
+                    Opponent outranks your active playlist MMR (<span class="f-mono font-bold text-gold">+37 MMR</span>)
+                  </div>
+                </div>
+                <div class="text-right f-mono">
+                  <div class="text-xl font-extrabold text-gold">1,512</div>
+                  <div class="text-[11px] text-muted">GC1 · DIV II</div>
+                </div>
+              </div>
+
+              <!-- Stratum 2: CARRYING (Incised Aizome Steel-Indigo Cartouche) -->
+              <div class="py-3.5 flex items-center justify-between gap-3">
+                <div>
+                  <div class="flex items-center gap-2.5">
+                    <span class="cartouche cartouche-carry">双 · CARRYING</span>
+                    <span class="f-display font-bold text-base uppercase text-strong">VORTEX_RL + BOOSTED_BOB</span>
+                  </div>
+                  <div class="text-xs text-ink-2 mt-1">
+                    <span class="f-mono font-bold text-carry">+133 MMR</span> above queued party partner (<span class="f-mono font-bold text-ink">1,379 C3</span>)
+                  </div>
+                </div>
+                <div class="text-right f-mono">
+                  <div class="text-xl font-extrabold text-carry">+133 Δ</div>
+                  <div class="text-[11px] text-muted">PARTY SPREAD</div>
+                </div>
+              </div>
+
+              <!-- Stratum 3: SMURF ALERT (10% Solid Vermilion Hanko Stamp — Undisputed Alert Focal Point) -->
+              <div class="py-3.5 flex items-center justify-between gap-3">
+                <div>
+                  <div class="flex items-center gap-2.5">
+                    <span class="hanko-seal-vermilion">印 · SMURF ALERT</span>
+                    <span class="f-display font-bold text-base uppercase text-strong">DEFINITELY_NEW_77</span>
+                  </div>
+                  <div class="text-xs text-ink-2 mt-1">
+                    920 MMR in 1v1, but <span class="f-mono font-bold text-vermilion">1,460 GC1 in 2v2 (+540 MMR)</span>
+                  </div>
+                </div>
+                <div class="text-right f-mono">
+                  <div class="text-xl font-extrabold text-vermilion">1,460</div>
+                  <div class="text-[11px] text-muted">2V2 PEAK</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quiet Architectural Colophon Note -->
+            <div class="flex items-center justify-between gap-2 f-mono text-[11px] text-muted uppercase">
+              <span>90% MONOCOLOR SCROLL · 10% VERMILION SEAL</span>
+              <span class="text-frieze">MMR BEFORE RANK · DIV</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Quiet Architectural Section Divider -->
+        <div class="deco-section-divider">
+          <span><span class="text-vermilion">◆</span> 02 // LIVE LOBBY MATCHUP DIPTYCH · 嵐 STORM MONOLITH VS. 影 HANKO CINNABAR SEAL <span class="text-vermilion">◆</span></span>
+        </div>
+
+        <!-- 50/50 Woodblock Polarity Box Score Diptych (100% Row-for-Row Horizontal Alignment) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 t-num items-stretch">
+
+          <!-- Ally Table: Inverted Washi Ivory Monolith (Dark) / Sumi Black Monolith (Light) -->
+          <div class="surface-plaque border border-outline overflow-hidden flex flex-col justify-between">
+            <div class="px-4 py-2.5 bg-ally-slab border-b border-outline flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="f-display font-bold text-base tracking-wider uppercase">嵐 STORM // YOUR SQUAD</span>
+                <span class="f-mono text-[11px] font-bold opacity-75 uppercase">RANKED DOUBLES</span>
+              </div>
+              <span class="f-mono font-extrabold text-2xl">3</span>
+            </div>
+
+            <table class="w-full text-right f-mono text-sm border-collapse">
+              <thead>
+                <tr class="surface-panel-2 border-b border-line f-display text-[11px] text-muted uppercase whitespace-nowrap">
+                  <th class="py-2 px-4 text-left">PLAYER</th>
+                  <th class="py-2 px-3">MMR · RANK</th>
+                  <th class="py-2 px-2">PTS</th>
+                  <th class="py-2 px-2">G</th>
+                  <th class="py-2 px-2">A</th>
+                  <th class="py-2 px-2">SV</th>
+                  <th class="py-2 px-4">H2H WITH</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-[#36312b]">
+                <tr class="whitespace-nowrap">
+                  <td class="py-3 px-4 text-left">
+                    <div class="flex items-center gap-2">
+                      <span class="f-display font-bold text-base uppercase text-strong">STRMSHDW</span>
+                      <span class="cartouche cartouche-monolith">YOU · ◆ MVP</span>
+                    </div>
+                  </td>
+                  <td class="py-3 px-3">
+                    <div class="font-extrabold text-strong">1,475</div>
+                    <div class="text-[11px] text-muted">GC1 · D1</div>
+                  </td>
+                  <td class="py-3 px-2 font-bold text-strong">642</td>
+                  <td class="py-3 px-2 font-bold">2</td>
+                  <td class="py-3 px-2 font-bold">1</td>
+                  <td class="py-3 px-2 font-bold">3</td>
+                  <td class="py-3 px-4 text-xs text-muted">—</td>
+                </tr>
+                <tr class="whitespace-nowrap">
+                  <td class="py-3 px-4 text-left">
+                    <div class="flex items-center gap-2">
+                      <span class="f-display font-bold text-base uppercase text-strong">AEROPULSE</span>
+                      <span class="cartouche cartouche-jade">鎖 · PRIME DUO</span>
+                    </div>
+                  </td>
+                  <td class="py-3 px-3">
+                    <div class="font-extrabold text-strong">1,468</div>
+                    <div class="text-[11px] text-muted">GC1 · D1</div>
+                  </td>
+                  <td class="py-3 px-2 font-bold text-strong">488</td>
+                  <td class="py-3 px-2 font-bold">1</td>
+                  <td class="py-3 px-2 font-bold">2</td>
+                  <td class="py-3 px-2 font-bold">2</td>
+                  <td class="py-3 px-4 text-xs font-bold text-ink-2">14W–4L (78%)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Rival Table: Hanko Cinnabar Target Seal Header + Single-Line Row Alignment -->
+          <div class="surface-plaque border border-outline overflow-hidden flex flex-col justify-between">
+            <div class="px-4 py-2.5 bg-rival-slab border-b border-outline flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="f-display font-bold text-base tracking-wider uppercase">影 RIVAL // OPPOSING SQUAD</span>
+                <span class="f-mono text-[11px] font-bold opacity-85 uppercase">SEAL LOCKED</span>
+              </div>
+              <span class="f-mono font-extrabold text-2xl">2</span>
+            </div>
+
+            <table class="w-full text-right f-mono text-sm border-collapse">
+              <thead>
+                <tr class="surface-panel-2 border-b border-line f-display text-[11px] text-muted uppercase whitespace-nowrap">
+                  <th class="py-2 px-4 text-left">PLAYER</th>
+                  <th class="py-2 px-3">MMR · RANK</th>
+                  <th class="py-2 px-2">PTS</th>
+                  <th class="py-2 px-2">G</th>
+                  <th class="py-2 px-2">A</th>
+                  <th class="py-2 px-2">SV</th>
+                  <th class="py-2 px-4">VS RIVAL</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-[#36312b]">
+                <tr class="whitespace-nowrap">
+                  <td class="py-3 px-4 text-left">
+                    <div class="flex items-center gap-1.5">
+                      <span class="f-display font-bold text-base uppercase text-strong">VORTEX_RL</span>
+                      <span class="cartouche cartouche-gold">戒 THREAT</span>
+                      <span class="cartouche cartouche-carry">双 CARRY</span>
+                    </div>
+                  </td>
+                  <td class="py-3 px-3">
+                    <div class="font-extrabold text-vermilion">1,512</div>
+                    <div class="text-[11px] text-muted">GC1 · D2</div>
+                  </td>
+                  <td class="py-3 px-2 font-bold text-strong">590</td>
+                  <td class="py-3 px-2 font-bold">2</td>
+                  <td class="py-3 px-2 font-bold">0</td>
+                  <td class="py-3 px-2 font-bold">4</td>
+                  <td class="py-3 px-4 text-xs font-bold text-vermilion">5W–9L (36%)</td>
+                </tr>
+                <tr class="whitespace-nowrap">
+                  <td class="py-3 px-4 text-left">
+                    <div class="flex items-center gap-2">
+                      <span class="f-display font-bold text-base uppercase text-strong">BOOSTED_BOB</span>
+                      <span class="cartouche">PARTY</span>
+                    </div>
+                  </td>
+                  <td class="py-3 px-3">
+                    <div class="font-extrabold text-ink-2">1,379</div>
+                    <div class="text-[11px] text-muted">C3 · D2</div>
+                  </td>
+                  <td class="py-3 px-2 font-bold text-strong">214</td>
+                  <td class="py-3 px-2 font-bold">0</td>
+                  <td class="py-3 px-2 font-bold">1</td>
+                  <td class="py-3 px-2 font-bold">1</td>
+                  <td class="py-3 px-4 text-xs font-bold text-ink-2">3W–1L (75%)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Quiet Architectural Colophon Footer -->
+    <footer class="px-2 py-1 flex flex-wrap items-center justify-between gap-4 f-mono text-xs text-muted">
+      <div class="flex items-center gap-2">
+        <span class="text-vermilion">◆</span>
+        <span id="colophon-spec">D2-K3 · 版画 SUMI WOODBLOCK &amp; INVERTED WASHI — STARK TWO-SIDED WOODBLOCK PRINT POLARITY</span>
+      </div>
+      <div>90% MONOCOLOR SCROLL &amp; INCISED CARTOUCHES · 10% SHU-IRO VERMILION HANKO STAMPS</div>
+    </footer>
+
+  </main>
+
+  <script>
+    const D2_LIGHT_REFERENCE = {
+      page: '#ebe5d9',
+      panel: '#f4efe6',
+      plaque: '#fcfaf6',
+      panel2: '#e6dfd3',
+      line: '#cfc7b8',
+      outline: '#1c1917',
+      frieze: '#4a3f33',
+      ink: '#171412',
+      ink2: '#362f28',
+      muted: '#615548',
+      strong: '#090807',
+      allySlab: '#1c1917',
+      allyOnSlab: '#fbf9f5',
+      allyInk: '#171412',
+      rivalSlab: '#b81d13',
+      rivalOnSlab: '#fbf9f5',
+      rivalInk: '#9e140a',
+      vermilionDisplay: '#b81d13',
+      gold: '#8c5604',
+      goldLine: '#b48a3e',
+      carryInk: '#1b4965',
+      carryLine: '#6b9ab8',
+      win: '#1e523b',
+      winLine: '#63a38a',
+      loss: '#9e140a',
+      lossSlab: '#b81d13'
+    };
+
+    const DARK_VARIANTS = {
+      'D2-K3': {
+        code: 'D2-K3',
+        name: 'Sumi Woodblock & Inverted Washi (版画)',
+        kicker: 'D2-K3 · SUMI WOODBLOCK & INVERTED WASHI (版画) — STARK TWO-SIDED WOODBLOCK PRINT POLARITY',
+        dark: {
+          /* 3-Tier Depth: Deep Charcoal Viewport -> Warm Sumi Scroll -> Recessed Kokutan Ebony Plaques + Crisp Washi Ivory Chrome */
+          page: '#0a0908',
+          panel: '#181614',
+          plaque: '#0f0d0b',
+          panel2: '#221f1c',
+          line: '#38332d',
+          outline: '#e2dbd0',
+          frieze: '#d8d0c5',
+          ink: '#f2efe9',
+          ink2: '#cfc7b8',
+          muted: '#918779',
+          strong: '#fbf9f5',
+          allySlab: '#f2efe9',
+          allyOnSlab: '#12100e',
+          allyInk: '#f2efe9',
+          rivalSlab: '#b81d13',
+          rivalOnSlab: '#fbf9f5',
+          rivalInk: '#d9382e',
+          vermilionDisplay: '#d4261d',
+          gold: '#deb052',
+          goldLine: '#7a5c22',
+          carryInk: '#7da8c4',
+          carryLine: '#2d556e',
+          win: '#82a890',
+          winLine: '#2d523d',
+          loss: '#d9382e',
+          lossSlab: '#b81d13'
+        },
+        light: D2_LIGHT_REFERENCE
+      },
+
+      'D2-K2': {
+        code: 'D2-K2',
+        name: 'Urushi Lacquer & Kintsugi Brass (漆)',
+        kicker: 'D2-K2 · URUSHI LACQUER & KINTSUGI BRASS (漆) — ROIRO-URUSHI MIRROR BLACK & BURNISHED BRASS INLAY',
+        dark: {
+          /* 3-Tier Depth: Obsidian Viewport -> Roiro-Urushi Mirror Black Scroll -> Warm Smoked Umber Lacquer Plaques + Burnished Brass Chrome */
+          page: '#050403',
+          panel: '#0a0806',
+          plaque: '#14110c',
+          panel2: '#1d1811',
+          line: '#3a2d1b',
+          outline: '#c89d54',
+          frieze: '#d4a853',
+          ink: '#f2ece1',
+          ink2: '#c9bca6',
+          muted: '#968367',
+          strong: '#fffdf9',
+          allySlab: '#e8dac0',
+          allyOnSlab: '#120f0c',
+          allyInk: '#f2ece1',
+          rivalSlab: '#a8180e',
+          rivalOnSlab: '#fffdf9',
+          rivalInk: '#d9382e',
+          vermilionDisplay: '#d4261d',
+          gold: '#e5b85c',
+          goldLine: '#856428',
+          carryInk: '#7da8c4',
+          carryLine: '#2d556e',
+          win: '#82a890',
+          winLine: '#2d523d',
+          loss: '#d9382e',
+          lossSlab: '#a8180e'
+        },
+        light: D2_LIGHT_REFERENCE
+      },
+
+      'D2-K1': {
+        code: 'D2-K1',
+        name: 'Suzuri Inkstone & Inverted Washi (硯)',
+        kicker: 'D2-K1 · SUZURI INKSTONE & INVERTED WASHI (硯) — CARVED SUZURI INKSTONE & WASHI IVORY MONOLITH',
+        dark: {
+          page: '#0b0908',
+          panel: '#14110e',
+          plaque: '#1c1814',
+          panel2: '#241f1a',
+          line: '#362e26',
+          outline: '#a89a86',
+          frieze: '#bfb29e',
+          ink: '#ede6d8',
+          ink2: '#bfb5a2',
+          muted: '#8f8270',
+          strong: '#fbf8f3',
+          allySlab: '#e6dfd3',
+          allyOnSlab: '#12100e',
+          allyInk: '#ede6d8',
+          rivalSlab: '#b81d13',
+          rivalOnSlab: '#fbf8f3',
+          rivalInk: '#d9382e',
+          vermilionDisplay: '#d4261d',
+          gold: '#deb052',
+          goldLine: '#7a5c22',
+          carryInk: '#7da8c4',
+          carryLine: '#2d556e',
+          win: '#82a890',
+          winLine: '#2d523d',
+          loss: '#d9382e',
+          lossSlab: '#b81d13'
+        },
+        light: D2_LIGHT_REFERENCE
+      }
+    };
+
+    let activeVariant = document.documentElement.getAttribute('data-variant') || 'D2-K3';
+    if (!DARK_VARIANTS[activeVariant]) activeVariant = 'D2-K3';
+    let activeMode = document.documentElement.getAttribute('data-theme') || 'dark';
+
+    function applyStudioState() {
+      const v = DARK_VARIANTS[activeVariant] || DARK_VARIANTS['D2-K3'];
+      const p = v[activeMode];
+      const root = document.documentElement;
+
+      root.setAttribute('data-variant', activeVariant);
+      root.setAttribute('data-theme', activeMode);
+      root.style.colorScheme = activeMode;
+
+      root.style.setProperty('--t-page', p.page);
+      root.style.setProperty('--t-panel', p.panel);
+      root.style.setProperty('--t-plaque', p.plaque);
+      root.style.setProperty('--t-panel-2', p.panel2);
+      root.style.setProperty('--t-line', p.line);
+      root.style.setProperty('--t-outline', p.outline);
+      root.style.setProperty('--t-frieze', p.frieze);
+      root.style.setProperty('--t-ink', p.ink);
+      root.style.setProperty('--t-ink-2', p.ink2);
+      root.style.setProperty('--t-muted', p.muted);
+      root.style.setProperty('--t-strong', p.strong);
+      root.style.setProperty('--t-ally-slab', p.allySlab);
+      root.style.setProperty('--t-ally-on-slab', p.allyOnSlab);
+      root.style.setProperty('--t-ally-ink', p.allyInk);
+      root.style.setProperty('--t-rival-slab', p.rivalSlab);
+      root.style.setProperty('--t-rival-on-slab', p.rivalOnSlab);
+      root.style.setProperty('--t-rival-ink', p.rivalInk);
+      root.style.setProperty('--t-vermilion-display', p.vermilionDisplay);
+      root.style.setProperty('--t-gold', p.gold);
+      root.style.setProperty('--t-gold-line', p.goldLine);
+      root.style.setProperty('--t-carry-ink', p.carryInk);
+      root.style.setProperty('--t-carry-line', p.carryLine);
+      root.style.setProperty('--t-win', p.win);
+      root.style.setProperty('--t-win-line', p.winLine);
+      root.style.setProperty('--t-loss', p.loss);
+      root.style.setProperty('--t-loss-slab', p.lossSlab);
+
+      const kickerEl = document.getElementById('canvas-kicker');
+      const colophonEl = document.getElementById('colophon-spec');
+      const labelText = activeMode === 'light'
+        ? '嵐 ARASHI LIGHT REFERENCE · GINZA GEOMETRIC MONOLITH (WASHI SILK & SUMI INK)'
+        : v.kicker;
+      if (kickerEl) kickerEl.textContent = labelText;
+      if (colophonEl) colophonEl.textContent = labelText;
+
+      ['D2-K3', 'D2-K2', 'D2-K1'].forEach(key => {
+        const btn = document.getElementById('tab-' + key);
+        if (!btn) return;
+        const isSelected = key === activeVariant;
+        btn.className = isSelected
+          ? 'px-2.5 py-1 bg-ally-slab f-display font-bold text-xs uppercase cursor-pointer'
+          : 'px-2.5 py-1 text-ink-2 f-display font-bold text-xs uppercase cursor-pointer hover:opacity-85';
+      });
+
+      const darkBtn = document.getElementById('btn-mode-dark');
+      const lightBtn = document.getElementById('btn-mode-light');
+      if (darkBtn && lightBtn) {
+        darkBtn.className = `px-2.5 py-1 f-display font-bold text-xs uppercase cursor-pointer ${activeMode === 'dark' ? 'bg-rival-slab' : 'text-ink-2'}`;
+        lightBtn.className = `px-2.5 py-1 f-display font-bold text-xs uppercase cursor-pointer ${activeMode === 'light' ? 'bg-rival-slab' : 'text-ink-2'}`;
+      }
+
+      try {
+        localStorage.setItem('strmshdw_d2_variant', activeVariant);
+        localStorage.setItem('strmshdw_d2_mode', activeMode);
+      } catch (e) {}
+    }
+
+    function selectVariant(code) {
+      activeVariant = code;
+      applyStudioState();
+    }
+
+    function setMode(mode) {
+      activeMode = mode;
+      applyStudioState();
+    }
+
+    applyStudioState();
+  </script>
+</body>
+</html>
