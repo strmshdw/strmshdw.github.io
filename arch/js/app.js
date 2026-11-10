@@ -253,6 +253,18 @@
 
   let activeTheme = 'arashikage_monolith';
   let activePolarity = 'dark'; // 'light' | 'dark' (Default: 版画 · Hanga Sumi Woodblock)
+  let activeExpression = 'hanga'; // 'hanga' | 'urushi' | 'suzuri' | 'washi'
+  const AM_STAGE_KANJI = ['礎', '双', '戒', '録', '印', '鎖'];
+  const AM_EXPRESSION_LABELS = {
+    hanga: '版画 Hanga',
+    urushi: '漆 Urushi',
+    suzuri: '硯 Suzuri',
+    washi: '和紙 Washi'
+  };
+
+  function isArashikageMonolith() {
+    return activeTheme === 'arashikage_monolith';
+  }
 
   function getGlyph(key) {
     const g = THEME_GLYPHS[activeTheme] || THEME_GLYPHS.arashikage_monolith;
@@ -559,17 +571,21 @@
             btn.textContent = 'All (' + activeCount + '/3)';
           } else {
             const mAct = curModes.includes(key);
+            const isAm = isArashikageMonolith();
             const dotCol = isAct
               ? 'currentColor'
+              : isAm
+              ? mAct ? 'var(--am-celadon)' : 'var(--am-gold)'
               : mAct
               ? isLight ? '#15803d' : '#4ade80'
               : isLight ? '#b45309' : '#fbbf24';
+            const dotGlyph = isAm ? (mAct ? '鎖' : '戒') : mAct ? '●' : '⊘';
             const label = key === 'live' ? 'Live 5.5ms' : key === 'train' ? 'Train' : 'Distill';
             btn.innerHTML =
               '<span style="color:' +
               dotCol +
               '">' +
-              (mAct ? '●' : '⊘') +
+              dotGlyph +
               '</span><span>' +
               label +
               '</span>';
@@ -596,7 +612,9 @@
         const widgetCard = document.getElementById('stageWidgetCard');
         if (widgetCard) {
           widgetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          widgetCard.style.outline = '2px solid var(--accent-primary)';
+          widgetCard.style.outline = isArashikageMonolith()
+            ? '2px solid var(--am-outline)'
+            : '2px solid var(--accent-primary)';
           setTimeout(() => {
             widgetCard.style.outline = '';
           }, 900);
@@ -607,41 +625,73 @@
     function renderPathwayTelemetryBanner() {
       if (!pathwayTelemetryBanner) return;
       const isLight = activePolarity === 'light';
+      const isAm = isArashikageMonolith();
       const total = nodes.length;
       const activeNodes = nodes.filter((n) => isNodeActiveInMode(n, activeMode));
       const bypassedNodes = nodes.filter((n) => !isNodeActiveInMode(n, activeMode));
       const stageCols = getActiveStageColors();
 
-      const modeContractMap = {
-        all: {
-          badge: '● ALL PATHWAYS (' + total + '/' + total + ' ACTIVE)',
-          regime: 'Unified Inference (B=1 · <=5.5ms) + Training (B=12,512 · 4,096 Arenas) + Warm-Start Distillation',
-          badgeBg: isLight ? 'rgba(22,163,74,0.13)' : 'rgba(34,197,94,0.18)',
-          badgeCol: isLight ? '#15803d' : '#4ade80',
-          badgeBorder: isLight ? '#16a34a' : '#22c55e'
-        },
-        live: {
-          badge: '⚡ LIVE 5.5MS (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
-          regime: 'B=1 · 15Hz Policy / 60Hz Subtick / 120Hz Physics · CUDAGraph Locked · Zero Privileged/RL Overhead',
-          badgeBg: isLight ? 'rgba(2,132,199,0.13)' : 'rgba(56,189,248,0.18)',
-          badgeCol: isLight ? '#0369a1' : '#38bdf8',
-          badgeBorder: isLight ? '#0284c7' : '#38bdf8'
-        },
-        train: {
-          badge: '🔥 TRAIN 4,096 ARENAS (' + activeNodes.length + '/' + total + ' ACTIVE' + (bypassedNodes.length ? ' · ' + bypassedNodes.length + ' BYPASSED' : '') + ')',
-          regime: 'B=12,512 Cars (816 G=8 Cloned GRPO + 2,880 League PPO + 400 Boss) · Dual Critic + JEPA Active',
-          badgeBg: isLight ? 'rgba(22,163,74,0.13)' : 'rgba(34,197,94,0.18)',
-          badgeCol: isLight ? '#15803d' : '#4ade80',
-          badgeBorder: isLight ? '#16a34a' : '#22c55e'
-        },
-        distill: {
-          badge: '🧬 DISTILL WARM-START (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
-          regime: 'Offline Teacher (173,650 Steps) -> Student Behavioral Cloning & Value Alignment before RL',
-          badgeBg: isLight ? 'rgba(124,58,237,0.13)' : 'rgba(167,139,250,0.18)',
-          badgeCol: isLight ? '#6d28d9' : '#c4b5fd',
-          badgeBorder: isLight ? '#7c3aed' : '#a78bfa'
-        }
-      };
+      const modeContractMap = isAm
+        ? {
+            all: {
+              badge: '礎 · ALL PATHWAYS (' + total + '/' + total + ' ACTIVE)',
+              regime: 'Unified Inference (B=1 · <=5.5ms) + Training (B=12,512 · 4,096 Arenas) + Warm-Start Distillation',
+              badgeBg: 'var(--am-ground)',
+              badgeCol: 'var(--am-ink-strong)',
+              badgeBorder: 'var(--am-outline)'
+            },
+            live: {
+              badge: '双 · LIVE ≤5.5MS (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
+              regime: 'B=1 · 15Hz Policy / 60Hz Subtick / 120Hz Physics · CUDAGraph Locked · Zero Privileged/RL Overhead',
+              badgeBg: 'var(--am-ground)',
+              badgeCol: 'var(--am-steel)',
+              badgeBorder: 'var(--am-steel-rule)'
+            },
+            train: {
+              badge: '鎖 · TRAIN 4,096 ARENAS (' + activeNodes.length + '/' + total + ' ACTIVE' + (bypassedNodes.length ? ' · ' + bypassedNodes.length + ' BYPASSED' : '') + ')',
+              regime: 'B=12,512 Cars (816 G=8 Cloned GRPO + 2,880 League PPO + 400 Boss) · Dual Critic + JEPA Active',
+              badgeBg: 'var(--am-ground)',
+              badgeCol: 'var(--am-celadon)',
+              badgeBorder: 'var(--am-celadon-rule)'
+            },
+            distill: {
+              badge: '録 · DISTILL WARM-START (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
+              regime: 'Offline Teacher (173,650 Steps) -> Student Behavioral Cloning & Value Alignment before RL',
+              badgeBg: 'var(--am-ground)',
+              badgeCol: 'var(--am-gold)',
+              badgeBorder: 'var(--am-gold-rule)'
+            }
+          }
+        : {
+            all: {
+              badge: '● ALL PATHWAYS (' + total + '/' + total + ' ACTIVE)',
+              regime: 'Unified Inference (B=1 · <=5.5ms) + Training (B=12,512 · 4,096 Arenas) + Warm-Start Distillation',
+              badgeBg: isLight ? 'rgba(22,163,74,0.13)' : 'rgba(34,197,94,0.18)',
+              badgeCol: isLight ? '#15803d' : '#4ade80',
+              badgeBorder: isLight ? '#16a34a' : '#22c55e'
+            },
+            live: {
+              badge: '⚡ LIVE 5.5MS (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
+              regime: 'B=1 · 15Hz Policy / 60Hz Subtick / 120Hz Physics · CUDAGraph Locked · Zero Privileged/RL Overhead',
+              badgeBg: isLight ? 'rgba(2,132,199,0.13)' : 'rgba(56,189,248,0.18)',
+              badgeCol: isLight ? '#0369a1' : '#38bdf8',
+              badgeBorder: isLight ? '#0284c7' : '#38bdf8'
+            },
+            train: {
+              badge: '🔥 TRAIN 4,096 ARENAS (' + activeNodes.length + '/' + total + ' ACTIVE' + (bypassedNodes.length ? ' · ' + bypassedNodes.length + ' BYPASSED' : '') + ')',
+              regime: 'B=12,512 Cars (816 G=8 Cloned GRPO + 2,880 League PPO + 400 Boss) · Dual Critic + JEPA Active',
+              badgeBg: isLight ? 'rgba(22,163,74,0.13)' : 'rgba(34,197,94,0.18)',
+              badgeCol: isLight ? '#15803d' : '#4ade80',
+              badgeBorder: isLight ? '#16a34a' : '#22c55e'
+            },
+            distill: {
+              badge: '🧬 DISTILL WARM-START (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
+              regime: 'Offline Teacher (173,650 Steps) -> Student Behavioral Cloning & Value Alignment before RL',
+              badgeBg: isLight ? 'rgba(124,58,237,0.13)' : 'rgba(167,139,250,0.18)',
+              badgeCol: isLight ? '#6d28d9' : '#c4b5fd',
+              badgeBorder: isLight ? '#7c3aed' : '#a78bfa'
+            }
+          };
 
       const contract = modeContractMap[activeMode] || modeContractMap.all;
 
@@ -656,16 +706,19 @@
                 '<button type="button" data-telemetry-node="' +
                 bn.id +
                 '" class="no-wrap-btn mono text-[9.5px] font-bold px-1.5 py-0.5 rounded border cursor-pointer transition hover:opacity-90" style="background:' +
-                (isLight ? 'rgba(217,119,6,0.15)' : 'rgba(245,158,11,0.20)') +
+                (isAm ? 'var(--am-ground)' : isLight ? 'rgba(217,119,6,0.15)' : 'rgba(245,158,11,0.20)') +
                 ';color:' +
-                (isLight ? '#b45309' : '#fbbf24') +
-                ';border-color:#d97706" title="Inspect why #' +
+                (isAm ? 'var(--am-gold)' : isLight ? '#b45309' : '#fbbf24') +
+                ';border-color:' +
+                (isAm ? 'var(--am-gold-rule)' : '#d97706') +
+                '" title="Inspect why #' +
                 bn.num +
                 ' ' +
                 bn.title +
                 ' is bypassed in ' +
                 activeMode.toUpperCase() +
-                '">⊘ #' +
+                '">' +
+                (isAm ? '戒 · #' : '⊘ #') +
                 bn.num +
                 ' ' +
                 bn.title +
@@ -682,19 +735,26 @@
               const sCol = stageCols[cIdx] || '#64748b';
               const curNode = nodeMap[selectedNodeId];
               const isCurStage = curNode && curNode.col === cIdx;
+              const btnStyle = isAm
+                ? isCurStage
+                  ? 'background:var(--am-slab-primary);color:var(--am-slab-primary-ink);border-color:var(--am-outline)'
+                  : 'background:var(--am-ground);color:var(--am-ink-secondary);border-color:var(--am-rule);border-left:2.5px solid ' + sCol
+                : 'background:' +
+                  (isCurStage ? sCol + '24' : 'transparent') +
+                  ';color:' +
+                  sCol +
+                  ';border-color:' +
+                  (isCurStage ? sCol : sCol + '66');
+              const btnLbl = isAm ? AM_STAGE_KANJI[cIdx] + '·S' + (cIdx + 1) : 'S' + (cIdx + 1);
               return (
                 '<button type="button" data-telemetry-stage="' +
                 cIdx +
-                '" class="no-wrap-btn mono text-[9.5px] font-bold px-1.5 py-0.5 rounded border cursor-pointer transition" style="background:' +
-                (isCurStage ? sCol + '24' : 'transparent') +
-                ';color:' +
-                sCol +
-                ';border-color:' +
-                (isCurStage ? sCol : sCol + '66') +
+                '" class="no-wrap-btn mono text-[9.5px] font-bold px-1.5 py-0.5 rounded border cursor-pointer transition" style="' +
+                btnStyle +
                 '" title="Select Stage ' +
                 (cIdx + 1) +
-                ' lead block & interactive simulator">S' +
-                (cIdx + 1) +
+                ' lead block & interactive simulator">' +
+                btnLbl +
                 '</button>'
               );
             })
@@ -729,7 +789,9 @@
             const callout = document.getElementById('ntabCalloutBox');
             if (callout) {
               callout.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-              callout.style.outline = '2px solid #f59e0b';
+              callout.style.outline = isArashikageMonolith()
+                ? '2px solid var(--am-gold)'
+                : '2px solid #f59e0b';
               setTimeout(() => {
                 callout.style.outline = '';
               }, 900);
@@ -960,7 +1022,9 @@
               ? '<span class="px-1 rounded surface-panel text-[9px] text-secondary-ink">' + e.label + '</span>'
               : '') +
             (!edgeActive
-              ? '<span class="px-1 rounded text-[8.5px] font-bold" style="background:rgba(245,158,11,0.18);color:#d97706">BYPASSED</span>'
+              ? isArashikageMonolith()
+                ? '<span class="px-1 rounded text-[8.5px] font-bold" style="background:var(--am-ground);color:var(--am-gold);border:1px solid var(--am-gold-rule)">戒 BYPASSED</span>'
+                : '<span class="px-1 rounded text-[8.5px] font-bold" style="background:rgba(245,158,11,0.18);color:#d97706">BYPASSED</span>'
               : '');
           btn.addEventListener('click', () => {
             selectedNodeId = targetNode.id;
@@ -1045,35 +1109,36 @@
       const badge = document.getElementById('inspModeStatusBadge');
       if (!badge || !node) return;
       const isLight = activePolarity === 'light';
+      const isAm = isArashikageMonolith();
       const modes = node.modes || [];
       const activeList = ['live', 'train', 'distill'].filter((m) => modes.includes(m));
 
       if (activeMode === 'all') {
         if (activeList.length === 3) {
-          badge.textContent = '● 3/3 PATHWAYS';
-          badge.style.color = isLight ? '#15803d' : '#4ade80';
-          badge.style.borderColor = isLight ? '#16a34a' : '#22c55e';
-          badge.style.backgroundColor = isLight ? 'rgba(22,163,74,0.12)' : 'rgba(34,197,94,0.16)';
+          badge.textContent = isAm ? '鎖 · 3/3 PATHWAYS' : '● 3/3 PATHWAYS';
+          badge.style.color = isAm ? 'var(--am-celadon)' : isLight ? '#15803d' : '#4ade80';
+          badge.style.borderColor = isAm ? 'var(--am-celadon-rule)' : isLight ? '#16a34a' : '#22c55e';
+          badge.style.backgroundColor = isAm ? 'var(--am-ground)' : isLight ? 'rgba(22,163,74,0.12)' : 'rgba(34,197,94,0.16)';
         } else {
           const names = activeList.map((m) => m.toUpperCase()).join('+');
-          badge.textContent = '◐ ' + names + ' ONLY';
-          badge.style.color = isLight ? '#b45309' : '#fbbf24';
-          badge.style.borderColor = isLight ? '#d97706' : '#f59e0b';
-          badge.style.backgroundColor = isLight ? 'rgba(217,119,6,0.14)' : 'rgba(245,158,11,0.18)';
+          badge.textContent = (isAm ? '戒 · ' : '◐ ') + names + ' ONLY';
+          badge.style.color = isAm ? 'var(--am-gold)' : isLight ? '#b45309' : '#fbbf24';
+          badge.style.borderColor = isAm ? 'var(--am-gold-rule)' : isLight ? '#d97706' : '#f59e0b';
+          badge.style.backgroundColor = isAm ? 'var(--am-ground)' : isLight ? 'rgba(217,119,6,0.14)' : 'rgba(245,158,11,0.18)';
         }
       } else {
         const isAct = modes.includes(activeMode);
         const mName = activeMode.toUpperCase();
         if (isAct) {
-          badge.textContent = '● ' + mName + ': ACTIVE';
-          badge.style.color = isLight ? '#15803d' : '#4ade80';
-          badge.style.borderColor = isLight ? '#16a34a' : '#22c55e';
-          badge.style.backgroundColor = isLight ? 'rgba(22,163,74,0.14)' : 'rgba(34,197,94,0.18)';
+          badge.textContent = (isAm ? '鎖 · ' : '● ') + mName + ': ACTIVE';
+          badge.style.color = isAm ? 'var(--am-celadon)' : isLight ? '#15803d' : '#4ade80';
+          badge.style.borderColor = isAm ? 'var(--am-celadon-rule)' : isLight ? '#16a34a' : '#22c55e';
+          badge.style.backgroundColor = isAm ? 'var(--am-ground)' : isLight ? 'rgba(22,163,74,0.14)' : 'rgba(34,197,94,0.18)';
         } else {
-          badge.textContent = '⊘ ' + mName + ': BYPASSED';
-          badge.style.color = isLight ? '#b45309' : '#fbbf24';
-          badge.style.borderColor = isLight ? '#d97706' : '#f59e0b';
-          badge.style.backgroundColor = isLight ? 'rgba(217,119,6,0.18)' : 'rgba(245,158,11,0.22)';
+          badge.textContent = (isAm ? '戒 · ' : '⊘ ') + mName + ': BYPASSED';
+          badge.style.color = isAm ? 'var(--am-gold)' : isLight ? '#b45309' : '#fbbf24';
+          badge.style.borderColor = isAm ? 'var(--am-gold-rule)' : isLight ? '#d97706' : '#f59e0b';
+          badge.style.backgroundColor = isAm ? 'var(--am-ground)' : isLight ? 'rgba(217,119,6,0.18)' : 'rgba(245,158,11,0.22)';
         }
       }
     }
@@ -1084,6 +1149,7 @@
       if (!ntabSubLabel || !ntabSubContent || !node) return;
 
       const isLight = activePolarity === 'light';
+      const isAm = isArashikageMonolith();
       const modes = node.modes || [];
       const modeNames = {
         live: 'Live 5.5ms',
@@ -1094,7 +1160,9 @@
       if (activeMode === 'all') {
         const activeCount = ['live', 'train', 'distill'].filter((m) => modes.includes(m)).length;
         ntabSubLabel.innerHTML =
-          '<span>ROLE ACROSS PATHWAYS (' +
+          '<span>' +
+          (isAm ? '双 · ' : '') +
+          'ROLE ACROSS PATHWAYS (' +
           activeCount +
           '/3 ACTIVE)</span>' +
           '<button type="button" id="btnToggleAllModeExpand" class="ml-2 mono text-[9px] font-bold px-1.5 py-0.5 rounded surface-panel text-theme-accent border border-hairline hover:border-subtle cursor-pointer">' +
@@ -1105,14 +1173,20 @@
           .map((m) => {
             const isAct = modes.includes(m);
             const spec = getPathwayRoleSpec(node, activeArchKey, m);
-            const pillBg = isAct
+            const pillBg = isAm
+              ? 'var(--am-ground)'
+              : isAct
               ? isLight ? 'rgba(22,163,74,0.14)' : 'rgba(34,197,94,0.18)'
               : isLight ? 'rgba(217,119,6,0.16)' : 'rgba(245,158,11,0.22)';
-            const pillCol = isAct
+            const pillCol = isAm
+              ? isAct ? 'var(--am-celadon)' : 'var(--am-gold)'
+              : isAct
               ? isLight ? '#15803d' : '#4ade80'
               : isLight ? '#b45309' : '#fbbf24';
-            const pillBorder = isAct ? '#16a34a' : '#d97706';
-            const statusText = isAct ? '● ACTIVE' : '⊘ BYPASSED';
+            const pillBorder = isAm
+              ? isAct ? 'var(--am-celadon-rule)' : 'var(--am-gold-rule)'
+              : isAct ? '#16a34a' : '#d97706';
+            const statusText = isAm ? (isAct ? '鎖 ACTIVE' : '戒 BYPASSED') : isAct ? '● ACTIVE' : '⊘ BYPASSED';
             const shortMode = m === 'live' ? 'LIVE 5.5MS' : m === 'train' ? 'TRAIN (4K)' : 'DISTILL';
 
             return (
@@ -1169,15 +1243,21 @@
         const isAct = modes.includes(activeMode);
         const spec = getPathwayRoleSpec(node, activeArchKey, activeMode);
         const mLabel = modeNames[activeMode] || activeMode.toUpperCase();
-        ntabSubLabel.textContent = 'ROLE IN ' + mLabel.toUpperCase();
+        ntabSubLabel.textContent = (isAm ? '双 · ' : '') + 'ROLE IN ' + mLabel.toUpperCase();
 
-        const bannerBg = isAct
+        const bannerBg = isAm
+          ? 'var(--am-ground)'
+          : isAct
           ? isLight ? 'rgba(22,163,74,0.12)' : 'rgba(34,197,94,0.16)'
           : isLight ? 'rgba(217,119,6,0.15)' : 'rgba(245,158,11,0.20)';
-        const bannerCol = isAct
+        const bannerCol = isAm
+          ? isAct ? 'var(--am-celadon)' : 'var(--am-gold)'
+          : isAct
           ? isLight ? '#15803d' : '#4ade80'
           : isLight ? '#b45309' : '#fbbf24';
-        const bannerBorder = isAct ? '#16a34a' : '#d97706';
+        const bannerBorder = isAm
+          ? isAct ? 'var(--am-celadon-rule)' : 'var(--am-gold-rule)'
+          : isAct ? '#16a34a' : '#d97706';
 
         ntabSubContent.innerHTML =
           '<div class="flex flex-col gap-1.5">' +
@@ -1190,7 +1270,7 @@
           '<span class="mono text-[10px] font-bold" style="color:' +
           bannerCol +
           '">' +
-          (isAct ? '● ACTIVE' : '⊘ BYPASSED ON DIAGRAM') +
+          (isAm ? (isAct ? '鎖 · ACTIVE' : '戒 · BYPASSED ON DIAGRAM') : isAct ? '● ACTIVE' : '⊘ BYPASSED ON DIAGRAM') +
           '</span>' +
           '<span class="mono text-[9.5px] font-semibold text-primary-ink">' +
           spec.regime +
@@ -1250,10 +1330,20 @@
       }
 
       const inspBadge = document.getElementById('inspBadge');
-      inspBadge.textContent = 'BLOCK ' + n.num + ' · ' + n.tag;
-      inspBadge.style.color = n.color;
-      inspBadge.style.borderColor = n.color;
-      inspBadge.style.backgroundColor = n.color + '18';
+      const isAm = isArashikageMonolith();
+      if (isAm) {
+        inspBadge.textContent = (AM_STAGE_KANJI[n.col || 0] || '礎') + ' · BLOCK ' + n.num + ' · ' + n.tag;
+        inspBadge.style.color = 'var(--am-ink-strong)';
+        inspBadge.style.borderColor = 'var(--am-outline)';
+        inspBadge.style.backgroundColor = 'var(--am-ground)';
+        inspBadge.style.borderLeft = '3px solid ' + n.color;
+      } else {
+        inspBadge.textContent = 'BLOCK ' + n.num + ' · ' + n.tag;
+        inspBadge.style.color = n.color;
+        inspBadge.style.borderColor = n.color;
+        inspBadge.style.backgroundColor = n.color + '18';
+        inspBadge.style.borderLeft = '';
+      }
 
       updateInspectorModeStatusBadge(n);
 
@@ -1311,7 +1401,7 @@
       const ntabCalloutBox = document.getElementById('ntabCalloutBox');
 
       if (activeNTab === 'learn') {
-        ntabHeading.textContent = 'PRIMARY LITERATURE & WHITE PAPERS';
+        ntabHeading.textContent = (isAm ? '録 · ' : '') + 'PRIMARY LITERATURE & WHITE PAPERS';
         const papers = getExternalResourcesForNode(n);
         ntabBody.innerHTML = renderLearnMoreCardsHtml(papers);
         ntabCalloutBox.classList.add('hidden');
@@ -1322,22 +1412,22 @@
         let sigValue = (n.role || '') + ' — ' + n.tensor;
 
         if (activeNTab === 'how') {
-          ntabHeading.textContent = 'HOW IT WORKS // MECHANISM';
+          ntabHeading.textContent = (isAm ? '礎 · ' : '') + 'HOW IT WORKS // MECHANISM';
           ntabBody.textContent = n.how;
           sigLabel = 'DATAFLOW PLACEMENT & TENSOR';
           sigValue = (n.role || '') + ' — ' + n.tensor;
         } else if (activeNTab === 'why') {
-          ntabHeading.textContent = 'WHY IT IS USED // ENGINEERING RATIONALE';
+          ntabHeading.textContent = (isAm ? '戒 · ' : '') + 'WHY IT IS USED // ENGINEERING RATIONALE';
           ntabBody.textContent = n.why;
           sigLabel = 'MATHEMATICAL IDENTITY & INVARIANT';
           sigValue = n.formula;
         } else if (activeNTab === 'contrib') {
-          ntabHeading.textContent = 'SYSTEM IMPACT // CONTRIBUTION TO GOAL';
+          ntabHeading.textContent = (isAm ? '印 · ' : '') + 'SYSTEM IMPACT // CONTRIBUTION TO GOAL';
           ntabBody.textContent = n.contrib;
           sigLabel = 'DATAFLOW PLACEMENT';
           sigValue = n.role || n.sub;
         } else {
-          ntabHeading.textContent = 'MATHEMATICAL FORMULATION & TENSOR ABI';
+          ntabHeading.textContent = (isAm ? '双 · ' : '') + 'MATHEMATICAL FORMULATION & TENSOR ABI';
           ntabBody.textContent = n.formula;
           sigLabel = 'IN / OUT TENSOR SIGNATURE';
           sigValue = n.tensor;
@@ -1353,8 +1443,13 @@
     function renderTechDeepDive() {
       const t = techMap[selectedTechId] || techLib[0];
       if (!t) return;
+      const isAm = isArashikageMonolith();
       selTechDropdown.value = t.id;
       document.getElementById('techTitle').textContent = t.title;
+      const techKicker = document.getElementById('techKicker');
+      if (techKicker) {
+        techKicker.textContent = (isAm ? '録 · ' : '') + 'DEEP DIVE // SPOTLIGHT';
+      }
 
       // Update 5 Tabs in Deep Dive
       document.querySelectorAll('.ttab-btn').forEach((btn) => {
@@ -1371,7 +1466,7 @@
       const ttabSubContent = document.getElementById('ttabSubContent');
 
       if (activeTTab === 'learn') {
-        ttabHeading.textContent = 'PRIMARY LITERATURE & WHITE PAPERS';
+        ttabHeading.textContent = (isAm ? '録 · ' : '') + 'PRIMARY LITERATURE & WHITE PAPERS';
         const resList = TECH_EXTERNAL_RESOURCES[t.id] || [];
         ttabBody.innerHTML = renderLearnMoreCardsHtml(resList);
         ttabCalloutBox.classList.add('hidden');
@@ -1382,22 +1477,22 @@
         let sigValue = t.placement;
 
         if (activeTTab === 'how') {
-          ttabHeading.textContent = 'HOW IT WORKS // MECHANISM';
+          ttabHeading.textContent = (isAm ? '礎 · ' : '') + 'HOW IT WORKS // MECHANISM';
           ttabBody.textContent = t.how;
           sigLabel = 'DATAFLOW PLACEMENT';
           sigValue = t.placement;
         } else if (activeTTab === 'why') {
-          ttabHeading.textContent = 'WHY IT IS USED // ENGINEERING RATIONALE';
+          ttabHeading.textContent = (isAm ? '戒 · ' : '') + 'WHY IT IS USED // ENGINEERING RATIONALE';
           ttabBody.textContent = t.why;
           sigLabel = 'RESEARCH ORIGINS & EVOLUTION';
           sigValue = t.origins;
         } else if (activeTTab === 'contrib') {
-          ttabHeading.textContent = 'SYSTEM IMPACT // CONTRIBUTION TO GOAL';
+          ttabHeading.textContent = (isAm ? '印 · ' : '') + 'SYSTEM IMPACT // CONTRIBUTION TO GOAL';
           ttabBody.textContent = t.contrib;
           sigLabel = 'DATAFLOW PLACEMENT';
           sigValue = t.placement;
         } else {
-          ttabHeading.textContent = 'UNDERLYING SCIENCE & MATHEMATICAL MECHANISM';
+          ttabHeading.textContent = (isAm ? '双 · ' : '') + 'UNDERLYING SCIENCE & MATHEMATICAL MECHANISM';
           ttabBody.textContent = t.science;
           sigLabel = 'RESEARCH ORIGINS & EVOLUTION';
           sigValue = t.origins;
@@ -1405,18 +1500,21 @@
 
         const usedNodes = (t.usedIn || []).map((nid) => nodeMap[nid]).filter(Boolean);
         if (usedNodes.length === 0) {
-          ttabSubLabel.textContent = sigLabel;
+          ttabSubLabel.textContent = (isAm ? '双 · ' : '') + sigLabel;
           ttabSubContent.textContent = sigValue;
         } else if (activeMode === 'all') {
-          ttabSubLabel.textContent = 'PATHWAY FOOTPRINT ACROSS BLOCKS & ' + sigLabel;
+          ttabSubLabel.textContent = (isAm ? '双 · ' : '') + 'PATHWAY FOOTPRINT ACROSS BLOCKS & ' + sigLabel;
           const summaryHtml = usedNodes
             .map((un) => {
               const mList = ['live', 'train', 'distill'].filter((m) => (un.modes || []).includes(m));
               const isAll3 = mList.length === 3;
-              const badgeCol = isAll3 ? '#10b981' : '#f59e0b';
+              const badgeCol = isAm ? (isAll3 ? 'var(--am-celadon)' : 'var(--am-gold)') : isAll3 ? '#10b981' : '#f59e0b';
+              const borderCol = isAm
+                ? isAll3 ? 'var(--am-celadon-rule)' : 'var(--am-gold-rule)'
+                : isAll3 ? 'rgba(16,185,129,0.28)' : 'rgba(245,158,11,0.35)';
               return (
                 '<div class="px-2 py-1 rounded border surface-root flex items-center justify-between gap-2 mono text-[10px]" style="border-color:' +
-                (isAll3 ? 'rgba(16,185,129,0.28)' : 'rgba(245,158,11,0.35)') +
+                borderCol +
                 '">' +
                 '<span class="font-bold text-primary-ink truncate">#' +
                 un.num +
@@ -1426,7 +1524,9 @@
                 '<span class="font-bold shrink-0" style="color:' +
                 badgeCol +
                 '">' +
-                (isAll3 ? '● 3/3 Pathways' : '◐ ' + mList.map((m) => m.toUpperCase()).join('+') + ' Only') +
+                (isAll3
+                  ? (isAm ? '鎖 · ' : '● ') + '3/3 Pathways'
+                  : (isAm ? '戒 · ' : '◐ ') + mList.map((m) => m.toUpperCase()).join('+') + ' Only') +
                 '</span>' +
                 '</div>'
               );
@@ -1444,21 +1544,26 @@
             '</div>';
         } else {
           const mLabel = MODE_LABELS[activeMode] || activeMode.toUpperCase();
-          ttabSubLabel.textContent = 'PATHWAY ROLE (' + mLabel.toUpperCase() + ') & ' + sigLabel;
+          ttabSubLabel.textContent = (isAm ? '双 · ' : '') + 'PATHWAY ROLE (' + mLabel.toUpperCase() + ') & ' + sigLabel;
           const rowsHtml = usedNodes
             .map((un) => {
               const isAct = isNodeActiveInMode(un, activeMode);
               const spec = getPathwayRoleSpec(un, activeArchKey, activeMode);
-              const badgeCol = isAct ? '#10b981' : '#f59e0b';
+              const badgeCol = isAm ? (isAct ? 'var(--am-celadon)' : 'var(--am-gold)') : isAct ? '#10b981' : '#f59e0b';
+              const borderCol = isAm
+                ? isAct ? 'var(--am-celadon-rule)' : 'var(--am-gold-rule)'
+                : isAct ? 'rgba(16,185,129,0.32)' : 'rgba(245,158,11,0.40)';
               return (
                 '<div class="p-1.5 rounded border surface-root flex flex-col gap-0.5" style="border-color:' +
-                (isAct ? 'rgba(16,185,129,0.32)' : 'rgba(245,158,11,0.40)') +
+                borderCol +
                 '">' +
                 '<div class="flex flex-wrap items-center justify-between gap-1">' +
                 '<span class="mono text-[10px] font-bold" style="color:' +
                 badgeCol +
                 '">' +
-                (isAct ? '● #' + un.num + ' ' + un.title + ' (ACTIVE)' : '⊘ #' + un.num + ' ' + un.title + ' (BYPASSED)') +
+                (isAct
+                  ? (isAm ? '鎖 · #' : '● #') + un.num + ' ' + un.title + ' (ACTIVE)'
+                  : (isAm ? '戒 · #' : '⊘ #') + un.num + ' ' + un.title + ' (BYPASSED)') +
                 '</span>' +
                 '<span class="mono text-[9.5px] font-semibold text-primary-ink">' +
                 spec.regime +
@@ -1504,7 +1609,9 @@
           n.title +
           '</span>' +
           (!isAct && activeMode !== 'all'
-            ? '<span class="text-[9px] font-bold text-amber-500">[BYP]</span>'
+            ? isAm
+              ? '<span class="text-[9px] font-bold" style="color:var(--am-gold)">[戒 BYP]</span>'
+              : '<span class="text-[9px] font-bold text-amber-500">[BYP]</span>'
             : '');
         b.addEventListener('click', () => {
           selectedNodeId = n.id;
@@ -1622,11 +1729,13 @@
 
       const stageCols = getActiveStageColors();
       const colIdx = typeof node.col === 'number' ? node.col : 0;
+      const isAm = isArashikageMonolith();
+      const stagePrefix = isAm ? (AM_STAGE_KANJI[colIdx] || '礎') + ' · ' : '';
 
       if (colIdx === 0) {
         // STAGE 1: OBSERVATION MEMORY / CACHE-LINE INSPECTOR
         if (activeArchKey === 'hex64') {
-          wTitle.textContent = 'STAGE 1 // 5,376B CACHE-LINE INSPECTOR';
+          wTitle.textContent = stagePrefix + 'STAGE 1 // 5,376B CACHE-LINE INSPECTOR';
           wTag.textContent = '84 × 64B CL';
           const segments = [
             { name: 'Cars [0..5]', bytes: '0..1535', cl: '24 CL', color: stageCols[0], desc: '6 Cars × 64 floats (256B each): Pos, Vel, Rot6D, Local Vel, Dodge/Flip Timers, 4-Wheel Shocks' },
@@ -1643,11 +1752,19 @@
             const isSel = selectedMemSliceIdx === idx;
             const b = document.createElement('button');
             b.type = 'button';
-            b.className =
-              'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
-              (isSel ? 'border-subtle ring-1 ring-current' : 'border-hairline opacity-80 hover:opacity-100');
-            b.style.backgroundColor = seg.color;
-            b.style.color = renderer.getContrastInk(seg.color, '#111111', '#ffffff');
+            if (isAm) {
+              b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate border transition cursor-pointer am-interactive';
+              b.style.backgroundColor = isSel ? 'var(--am-slab-primary)' : 'var(--am-ground)';
+              b.style.color = isSel ? 'var(--am-slab-primary-ink)' : 'var(--am-ink-strong)';
+              b.style.borderColor = isSel ? 'var(--am-outline)' : 'var(--am-rule)';
+              b.style.borderBottom = isSel ? '2.5px solid var(--am-slab-counter)' : '2.5px solid ' + seg.color;
+            } else {
+              b.className =
+                'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
+                (isSel ? 'border-subtle ring-1 ring-current' : 'border-hairline opacity-80 hover:opacity-100');
+              b.style.backgroundColor = seg.color;
+              b.style.color = renderer.getContrastInk(seg.color, '#111111', '#ffffff');
+            }
             b.textContent = seg.cl;
             b.title = seg.name;
             b.addEventListener('click', () => {
@@ -1675,11 +1792,12 @@
           wBody.appendChild(info);
         } else {
           wTitle.textContent =
-            activeArchKey === 'gen1_ret40'
+            stagePrefix +
+            (activeArchKey === 'gen1_ret40'
               ? 'STAGE 1 // 41×25 ENTITY POD & SOA INSPECTOR'
               : activeArchKey === 'gen2_factorized'
               ? 'STAGE 1 // 684D EGOCENTRIC + 68D CRITIC INSPECTOR'
-              : 'STAGE 1 // 700D CANONICAL + 752D CRITIC INSPECTOR';
+              : 'STAGE 1 // 700D CANONICAL + 752D CRITIC INSPECTOR');
           wTag.textContent = activeArchKey === 'gen1_ret40' ? '41 TOKENS + 53.7KB' : 'K=4 STACK · R_car^T';
           const legacySegs =
             activeArchKey === 'gen1_ret40'
@@ -1704,11 +1822,19 @@
             const isSel = idx === i;
             const b = document.createElement('button');
             b.type = 'button';
-            b.className =
-              'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
-              (isSel ? 'border-subtle ring-1 ring-current' : 'border-hairline opacity-80 hover:opacity-100');
-            b.style.backgroundColor = seg.color;
-            b.style.color = renderer.getContrastInk(seg.color, '#111111', '#ffffff');
+            if (isAm) {
+              b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate border transition cursor-pointer am-interactive';
+              b.style.backgroundColor = isSel ? 'var(--am-slab-primary)' : 'var(--am-ground)';
+              b.style.color = isSel ? 'var(--am-slab-primary-ink)' : 'var(--am-ink-strong)';
+              b.style.borderColor = isSel ? 'var(--am-outline)' : 'var(--am-rule)';
+              b.style.borderBottom = isSel ? '2.5px solid var(--am-slab-counter)' : '2.5px solid ' + seg.color;
+            } else {
+              b.className =
+                'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
+                (isSel ? 'border-subtle ring-1 ring-current' : 'border-hairline opacity-80 hover:opacity-100');
+              b.style.backgroundColor = seg.color;
+              b.style.color = renderer.getContrastInk(seg.color, '#111111', '#ffffff');
+            }
             b.textContent = seg.cl;
             b.addEventListener('click', () => {
               selectedMemSliceIdx = i;
@@ -1735,13 +1861,14 @@
       } else if (colIdx === 1) {
         // STAGE 2: PAIRWISE RELATIONAL / TEMPORAL ENCODING SIMULATOR
         wTitle.textContent =
-          activeArchKey === 'hex64'
+          stagePrefix +
+          (activeArchKey === 'hex64'
             ? 'STAGE 2 // 16×64 PAIRWISE INTERCEPT SIMULATOR'
             : activeArchKey === 'gen3_perceiver'
             ? 'STAGE 2 // 144D CORE & 34×7D POINTNET SIMULATOR'
             : activeArchKey === 'gen2_factorized'
             ? 'STAGE 2 // K=4 FINITE-DIFFERENCE & JITTER SIMULATOR'
-            : 'STAGE 2 // AVX2 41×41×8 PAIRWISE r_ij SIMULATOR';
+            : 'STAGE 2 // AVX2 41×41×8 PAIRWISE r_ij SIMULATOR');
         wTag.textContent =
           activeArchKey === 'hex64'
             ? '1,024 PAIRS · 72D'
@@ -1825,13 +1952,14 @@
       } else if (colIdx === 2) {
         // STAGE 3: TEMPORAL MEMORY / TRUNK SIMULATOR (Distinct from Stage 4!)
         wTitle.textContent =
-          activeArchKey === 'hex64'
+          stagePrefix +
+          (activeArchKey === 'hex64'
             ? 'STAGE 3 // FP32 TITANS FAST-WEIGHT MEMORY GATE'
             : activeArchKey === 'gen3_perceiver'
             ? 'STAGE 3 // 2L ST-PERCEIVER LATENT BOTTLENECK'
             : activeArchKey === 'gen2_factorized'
             ? 'STAGE 3 // 3-BLOCK RESIDUAL MLP TRUNK (SiLU)'
-            : 'STAGE 3 // 4-LAYER RET-40 RELATIONAL TRUNK';
+            : 'STAGE 3 // 4-LAYER RET-40 RELATIONAL TRUNK');
         wTag.textContent =
           activeArchKey === 'hex64'
             ? '2×4×32×32 · ||W||_F<=4'
@@ -1899,11 +2027,12 @@
       } else if (colIdx === 3) {
         // STAGE 4: COCONUT RECURRENCE, 8x2 SOFT-MOE & 1,000 FSQ ROUTER (Distinct from Stage 3!)
         wTitle.textContent =
-          activeArchKey === 'hex64'
+          stagePrefix +
+          (activeArchKey === 'hex64'
             ? 'STAGE 4 // COCONUT LOOP, 8×2 SOFT-MOE & FSQ'
             : activeArchKey === 'gen1_ret40'
             ? 'STAGE 4 // QUATERNION S^3 & 4 EXPLOITER HEADS'
-            : 'STAGE 4 // SKILL TAXONOMY Z_t (8 × 32) & FUSION';
+            : 'STAGE 4 // SKILL TAXONOMY Z_t (8 × 32) & FUSION');
         wTag.textContent =
           activeArchKey === 'hex64'
             ? 'K=4..6 · 1,000 FSQ'
@@ -1959,11 +2088,12 @@
       } else if (colIdx === 4) {
         // STAGE 5: 60HZ SUBTICK ACTION CHUNK & MOTOR DECODER (Distinct from Stage 6!)
         wTitle.textContent =
-          activeArchKey === 'hex64'
+          stagePrefix +
+          (activeArchKey === 'hex64'
             ? 'STAGE 5 // 60HZ SUBTICK ACTION CHUNK (K_sub=4)'
             : activeArchKey === 'gen1_ret40'
             ? 'STAGE 5 // 120HZ GEODESIC SLERP ATTITUDE PD'
-            : 'STAGE 5 // 15HZ CATEGORICAL HEADS & FLIP FSM';
+            : 'STAGE 5 // 15HZ CATEGORICAL HEADS & FLIP FSM');
         wTag.textContent =
           activeArchKey === 'hex64'
             ? '4 × 16.7ms (60Hz)'
@@ -2028,11 +2158,12 @@
       } else {
         // STAGE 6: 4-HORIZON SYMLOG HL-GAUSS CRITIC, JEPA SEARCH & G=8 GRPO (Distinct from Stage 5!)
         wTitle.textContent =
-          activeArchKey === 'hex64'
+          stagePrefix +
+          (activeArchKey === 'hex64'
             ? 'STAGE 6 // 4-HORIZON SYMLOG CRITIC & JEPA SEARCH'
             : activeArchKey === 'gen1_ret40'
             ? 'STAGE 6 // 3-POPART & 32-QUANTILE CVaR CRITIC'
-            : 'STAGE 6 // 752D ASYMMETRIC CRITIC & 3-POPART';
+            : 'STAGE 6 // 752D ASYMMETRIC CRITIC & 3-POPART');
         wTag.textContent =
           activeArchKey === 'hex64'
             ? '4×51 BINS · M=16 CVaR'
@@ -2314,9 +2445,17 @@
           const dirPrefix = arrowSide === 'left' ? '◀ ' : arrowSide === 'top' ? '▲ ' : '';
           const dirSuffix = arrowSide === 'right' ? ' ▶' : arrowSide === 'bottom' ? ' ▼' : '';
           anchorBadge.textContent = dirPrefix + '#' + focusNode.num + ' ' + focusNode.title + dirSuffix;
-          anchorBadge.style.color = focusNode.color;
-          anchorBadge.style.borderColor = focusNode.color;
-          anchorBadge.style.backgroundColor = focusNode.color + '18';
+          if (isArashikageMonolith()) {
+            anchorBadge.style.color = 'var(--am-ink-strong)';
+            anchorBadge.style.borderColor = 'var(--am-outline)';
+            anchorBadge.style.backgroundColor = 'var(--am-ground)';
+            anchorBadge.style.borderLeft = '3px solid ' + focusNode.color;
+          } else {
+            anchorBadge.style.color = focusNode.color;
+            anchorBadge.style.borderColor = focusNode.color;
+            anchorBadge.style.backgroundColor = focusNode.color + '18';
+            anchorBadge.style.borderLeft = '';
+          }
         }
       }
     }
@@ -2461,14 +2600,37 @@
           .join('');
 
         if (tKey === 'arashikage_monolith') {
+          const exprButtonsHtml = [
+            { key: 'hanga', label: '01 · 版画 HANGA' },
+            { key: 'urushi', label: '02 · 漆 URUSHI' },
+            { key: 'suzuri', label: '03 · 硯 SUZURI' },
+            { key: 'washi', label: '04 · 和紙 WASHI' }
+          ]
+            .map((ex) => {
+              const isExprAct = isAct && activeExpression === ex.key;
+              return (
+                '<button type="button" data-am-expr="' +
+                ex.key +
+                '" class="mono text-[9px] font-bold px-1.5 py-0.5 border transition cursor-pointer" style="' +
+                (isExprAct
+                  ? 'background:var(--am-slab-primary);color:var(--am-slab-primary-ink);border-color:var(--am-outline)'
+                  : 'background:var(--am-ground);color:var(--am-ink-secondary);border-color:var(--am-rule)') +
+                '">' +
+                ex.label +
+                '</button>'
+              );
+            })
+            .join('');
+
           return (
-            '<button type="button" data-gallery-theme="' +
+            '<div data-gallery-theme="' +
             tKey +
-            '" class="col-span-1 sm:col-span-2 lg:col-span-3 p-2.5 rounded-lg text-left border transition cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-2 ' +
+            '" class="col-span-1 sm:col-span-2 lg:col-span-3 p-2.5 rounded-lg text-left border transition cursor-pointer flex flex-col gap-2 ' +
             (isAct
               ? 'surface-elevated border-subtle ring-2 ring-[var(--accent-primary)]'
               : 'surface-root border-hairline hover:border-subtle') +
             '">' +
+            '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">' +
             '<div class="flex items-center gap-2.5 min-w-0">' +
             '<span class="inline-grid place-items-center w-7 h-7 shrink-0 font-black text-[9px] leading-none" style="background:#b81d13;color:#fbf9f5;font-family:\'Noto Serif JP\',serif;outline:1px solid rgba(251,249,245,0.42);outline-offset:-2.5px">嵐影<br/>之印</span>' +
             '<div class="flex flex-col min-w-0">' +
@@ -2505,7 +2667,14 @@
             keyChar +
             '</span>' +
             '</div>' +
-            '</button>'
+            '</div>' +
+            '<div class="pt-1.5 border-t border-hairline flex flex-wrap items-center justify-between gap-1.5">' +
+            '<span class="mono text-[9px] font-bold text-muted-ink uppercase">4 Canonical Material Expressions:</span>' +
+            '<div class="flex flex-wrap items-center gap-1">' +
+            exprButtonsHtml +
+            '</div>' +
+            '</div>' +
+            '</div>'
           );
         }
 
@@ -2554,10 +2723,21 @@
       }).join('');
 
       themeGalleryGrid.querySelectorAll('[data-gallery-theme]').forEach((btn) => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+          if (e.target && e.target.closest('[data-am-expr]')) return;
           const targetTheme = btn.getAttribute('data-gallery-theme');
           if (targetTheme) {
             setTheme(targetTheme);
+          }
+        });
+      });
+
+      themeGalleryGrid.querySelectorAll('[data-am-expr]').forEach((exprBtn) => {
+        exprBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const expr = exprBtn.getAttribute('data-am-expr');
+          if (expr) {
+            setArashikageExpression(expr);
           }
         });
       });
@@ -2674,9 +2854,15 @@
         return;
       }
 
+      const isAm = isArashikageMonolith();
       searchPaletteResults.innerHTML = currentSearchItems
         .map((item, idx) => {
           const isSel = idx === activeSearchResultIdx;
+          const badgeStyle = isAm
+            ? item.kind === '★ SIGNATURE'
+              ? 'background:#b81d13;color:#fbf9f5;border:1px solid #b81d13'
+              : 'background:var(--am-ground);color:var(--am-ink-strong);border:1px solid var(--am-outline);border-left:3px solid ' + item.badgeColor
+            : 'background:' + item.badgeColor + '20;color:' + item.badgeColor + ';border:1px solid ' + item.badgeColor;
           return (
             '<button type="button" data-search-idx="' +
             idx +
@@ -2687,12 +2873,8 @@
             '">' +
             '<div class="flex flex-col min-w-0 flex-1">' +
             '<div class="flex items-center gap-1.5">' +
-            '<span class="mono text-[9px] font-bold px-1.5 py-0.2 rounded shrink-0" style="background:' +
-            item.badgeColor +
-            '20;color:' +
-            item.badgeColor +
-            ';border:1px solid ' +
-            item.badgeColor +
+            '<span class="mono text-[9px] font-bold px-1.5 py-0.2 rounded shrink-0" style="' +
+            badgeStyle +
             '">' +
             item.kind +
             '</span>' +
@@ -2728,12 +2910,34 @@
       });
     }
 
-    function setPolarity(mode) {
-      activePolarity = mode === 'dark' ? 'dark' : 'light';
+    function setArashikageExpression(expr) {
+      if (!AM_EXPRESSION_LABELS[expr]) return;
+      activeExpression = expr;
+      activeTheme = 'arashikage_monolith';
+      activePolarity = expr === 'washi' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-mode', activePolarity);
       document.body.setAttribute('data-mode', activePolarity);
+      document.body.setAttribute('data-expression', activeExpression);
       try {
         localStorage.setItem('arashikage_arch_polarity_v2', activePolarity);
+        localStorage.setItem('arashikage_arch_expr_v2', activeExpression);
+      } catch (_) {}
+      setTheme('arashikage_monolith');
+    }
+
+    function setPolarity(mode) {
+      activePolarity = mode === 'dark' ? 'dark' : 'light';
+      if (activePolarity === 'light') {
+        activeExpression = 'washi';
+      } else if (activeExpression === 'washi') {
+        activeExpression = 'hanga';
+      }
+      document.documentElement.setAttribute('data-mode', activePolarity);
+      document.body.setAttribute('data-mode', activePolarity);
+      document.body.setAttribute('data-expression', activeExpression);
+      try {
+        localStorage.setItem('arashikage_arch_polarity_v2', activePolarity);
+        localStorage.setItem('arashikage_arch_expr_v2', activeExpression);
       } catch (_) {}
       setTheme(activeTheme);
     }
@@ -2741,9 +2945,15 @@
     function setTheme(themeKey) {
       if (!THEME_META[themeKey]) return;
       activeTheme = themeKey;
+      if (activePolarity === 'light') {
+        activeExpression = 'washi';
+      } else if (activeExpression === 'washi') {
+        activeExpression = 'hanga';
+      }
       document.documentElement.setAttribute('data-mode', activePolarity);
       document.body.setAttribute('data-theme', themeKey);
       document.body.setAttribute('data-mode', activePolarity);
+      document.body.setAttribute('data-expression', activeExpression);
 
       try {
         localStorage.setItem('arashikage_arch_theme_v2', activeTheme);
@@ -2761,7 +2971,7 @@
       if (activeThemePillLabel) {
         activeThemePillLabel.textContent =
           themeKey === 'arashikage_monolith'
-            ? '★ · Arashikage Monolith'
+            ? '★ · Arashikage Monolith (' + (AM_EXPRESSION_LABELS[activeExpression] || '版画 Hanga') + ')'
             : String(themeIdx).padStart(2, '0') + ' · ' + meta.name;
       }
       if (btnThemeGalleryTrigger) {
@@ -3447,16 +3657,26 @@
       }
     });
 
-    // Restore saved theme/polarity & URL hash state (v2 defaults to Arashikage Monolith · Hanga Dark)
+    // Restore saved theme/polarity/expression & URL hash state (v2 defaults to Arashikage Monolith · Hanga Dark)
     try {
       const savedTheme = localStorage.getItem('arashikage_arch_theme_v2');
       const savedPol = localStorage.getItem('arashikage_arch_polarity_v2');
+      const savedExpr = localStorage.getItem('arashikage_arch_expr_v2');
       if (savedTheme && THEME_META[savedTheme]) activeTheme = savedTheme;
       if (savedPol === 'dark' || savedPol === 'light') activePolarity = savedPol;
+      if (savedExpr && AM_EXPRESSION_LABELS[savedExpr]) activeExpression = savedExpr;
     } catch (_) {}
 
     setTheme(activeTheme);
     setPolarity(activePolarity);
+    if (activeTheme === 'arashikage_monolith' && activePolarity === 'dark' && activeExpression !== 'washi') {
+      document.body.setAttribute('data-expression', activeExpression);
+      const activeThemePillLabel = document.getElementById('activeThemePillLabel');
+      if (activeThemePillLabel) {
+        activeThemePillLabel.textContent =
+          '★ · Arashikage Monolith (' + (AM_EXPRESSION_LABELS[activeExpression] || '版画 Hanga') + ')';
+      }
+    }
     syncModeFilterPills();
     const restoredFromHash = restoreStateFromUrlHash(setArchitecture, setTheme, setPolarity);
     if (restoredFromHash) {

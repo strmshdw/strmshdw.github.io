@@ -620,13 +620,14 @@
         ctx.beginPath(); ctx.moveTo(laneX, 41); ctx.lineTo(laneX + laneW, 41); ctx.stroke();
 
         // Carved Kanji Seal Prefix Cartouche (Voice 4: Noto Serif JP)
-        ctx.fillStyle = isLight ? '#1c1917' : '#0d0b0a';
+        const isStage5Seal = idx === 4;
+        ctx.fillStyle = isStage5Seal ? '#b81d13' : isLight ? '#ebe5d9' : '#0d0b0a';
         ctx.fillRect(laneX + 6, 17, 20, 20);
-        ctx.strokeStyle = ch.color;
+        ctx.strokeStyle = isStage5Seal ? 'rgba(251, 249, 245, 0.45)' : ch.color;
         ctx.lineWidth = 1.2;
         ctx.strokeRect(laneX + 6, 17, 20, 20);
         ctx.font = '900 11px "Noto Serif JP", serif';
-        ctx.fillStyle = isLight ? '#fbf9f5' : ch.color;
+        ctx.fillStyle = isStage5Seal ? '#fbf9f5' : ch.color;
         ctx.textAlign = 'center';
         ctx.fillText(stageKanji, laneX + 16, 31);
 
@@ -950,10 +951,17 @@
         ctx.strokeStyle = ch.color;
         ctx.lineWidth = 2.4;
         ctx.strokeRect(laneX - 1, 11, laneW + 2, 52);
-        ctx.fillStyle = ch.color;
-        ctx.fillRect(laneX + laneW - 44, 12, 43, 13);
-        ctx.font = '700 8px "IBM Plex Mono", monospace';
-        ctx.fillStyle = getContrastInk(ch.color, '#111111', '#ffffff');
+        if (activeTheme === 'arashikage_monolith') {
+          ctx.fillStyle = isLight ? '#1c1917' : '#f4efe6';
+          ctx.fillRect(laneX + laneW - 44, 12, 43, 13);
+          ctx.font = '700 8px "JetBrains Mono", "IBM Plex Mono", monospace';
+          ctx.fillStyle = isLight ? '#fbf9f5' : '#12100e';
+        } else {
+          ctx.fillStyle = ch.color;
+          ctx.fillRect(laneX + laneW - 44, 12, 43, 13);
+          ctx.font = '700 8px "IBM Plex Mono", monospace';
+          ctx.fillStyle = getContrastInk(ch.color, '#111111', '#ffffff');
+        }
         ctx.textAlign = 'center';
         ctx.fillText('STAGE ↗', laneX + laneW - 22.5, 21.5);
         ctx.restore();
@@ -1037,7 +1045,16 @@
         ctx.bezierCurveTo(cx1, y1, cx2, y2, x2, y2);
       }
 
-      if (isLight) {
+      if (activeTheme === 'arashikage_monolith') {
+        ctx.lineJoin = 'miter';
+        ctx.lineCap = 'square';
+        ctx.strokeStyle = isConnectedToFocus
+          ? n1.color
+          : isLight
+          ? 'rgba(54, 47, 40, ' + alpha + ')'
+          : 'rgba(201, 192, 177, ' + alpha + ')';
+        ctx.lineWidth = isConnectedToFocus || (highlightSet && tourActive) ? 2.4 : 1.5;
+      } else if (isLight) {
         ctx.strokeStyle = isConnectedToFocus ? n1.color : 'rgba(24, 24, 27, ' + alpha + ')';
         ctx.lineWidth = isConnectedToFocus || (highlightSet && tourActive) ? 2.6 : 1.7;
       } else {
@@ -1126,8 +1143,17 @@
         }
 
         ctx.fillStyle = n1.color;
-        if (
-          activeTheme === 'arashikage_monolith' ||
+        if (activeTheme === 'arashikage_monolith') {
+          const sz = isConnectedToFocus ? 6 : 4.5;
+          const kx = Math.round(px - sz / 2);
+          const ky = Math.round(py - sz / 2);
+          ctx.fillRect(kx, ky, sz, sz);
+          if (isConnectedToFocus) {
+            ctx.strokeStyle = isLight ? '#1c1917' : '#fbf9f5';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(kx - 0.5, ky - 0.5, sz + 1, sz + 1);
+          }
+        } else if (
           activeTheme === 'pixel_art' ||
           activeTheme === 'utilitarian' ||
           activeTheme === 'neo_brutalism' ||
@@ -1200,12 +1226,12 @@
           ctx.fillStyle = isLight ? '#1c1917' : '#f4efe6';
           ctx.fillRect(rx, ry, n.w, 25);
 
-          // Square Carved Shu-iro Vermilion Hanko Stamp (#b81d13) on left of header
+          // 1:1 Square Carved Shu-iro Vermilion Hanko Stamp (#b81d13, 25x25px) on left of header
           ctx.fillStyle = '#b81d13';
-          ctx.fillRect(rx, ry, 29, 25);
+          ctx.fillRect(rx, ry, 25, 25);
           ctx.strokeStyle = 'rgba(251, 249, 245, 0.45)';
           ctx.lineWidth = 1;
-          ctx.strokeRect(rx + 2.5, ry + 2.5, 24, 20);
+          ctx.strokeRect(rx + 2.5, ry + 2.5, 20, 20);
 
           // Left vertical Shu-iro Vermilion spine below header
           ctx.fillStyle = '#b81d13';
@@ -1219,7 +1245,7 @@
           ctx.font = '700 9.6px "JetBrains Mono", "IBM Plex Mono", monospace';
           ctx.fillStyle = '#fbf9f5';
           ctx.textAlign = 'center';
-          ctx.fillText(n.num, rx + 14.5, ry + 16.5);
+          ctx.fillText(n.num, rx + 12.5, ry + 16.5);
 
           if (!showTourBadgeInHeader) {
             ctx.font = '700 9.1px "JetBrains Mono", "IBM Plex Mono", monospace';
@@ -1787,16 +1813,19 @@
 
         if (tourStepBadgeText) {
           ctx.save();
-          ctx.font = '700 9.5px "IBM Plex Mono", ui-monospace, monospace';
+          const isAm = activeTheme === 'arashikage_monolith';
+          ctx.font = isAm
+            ? '700 8.5px "JetBrains Mono", "IBM Plex Mono", monospace'
+            : '700 9.5px "IBM Plex Mono", ui-monospace, monospace';
           const tagW = Math.ceil(ctx.measureText(tourStepBadgeText).width) + 12;
           const tagX = rx + n.w - tagW - 4;
           const tagY = ry + 5;
-          ctx.fillStyle = isLight ? '#111111' : '#ffffff';
+          ctx.fillStyle = isAm ? '#b81d13' : isLight ? '#111111' : '#ffffff';
           ctx.fillRect(tagX, tagY, tagW, 15);
-          ctx.strokeStyle = n.color;
-          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = isAm ? 'rgba(251, 249, 245, 0.5)' : n.color;
+          ctx.lineWidth = isAm ? 1 : 1.5;
           ctx.strokeRect(tagX, tagY, tagW, 15);
-          ctx.fillStyle = isLight ? '#ffffff' : '#111111';
+          ctx.fillStyle = isAm ? '#fbf9f5' : isLight ? '#ffffff' : '#111111';
           ctx.textAlign = 'center';
           ctx.fillText(tourStepBadgeText, tagX + tagW / 2, tagY + 11);
           ctx.restore();
@@ -1805,17 +1834,20 @@
         // Explicit In-Header BYPASSED Badge when node is inactive in the selected Pathway Filter
         ctx.save();
         ctx.globalAlpha = 0.96;
-        const bypassLabel = 'BYPASSED (' + activeMode.toUpperCase() + ')';
-        ctx.font = '700 8.5px "IBM Plex Mono", ui-monospace, monospace';
+        const isAm = activeTheme === 'arashikage_monolith';
+        const bypassLabel = (isAm ? '戒 · ' : '') + 'BYPASSED (' + activeMode.toUpperCase() + ')';
+        ctx.font = isAm
+          ? '700 8px "JetBrains Mono", "IBM Plex Mono", monospace'
+          : '700 8.5px "IBM Plex Mono", ui-monospace, monospace';
         const tagW = Math.ceil(ctx.measureText(bypassLabel).width) + 10;
         const tagX = rx + n.w - tagW - 4;
         const tagY = ry + 5;
-        ctx.fillStyle = isLight ? '#78350f' : '#451a03';
+        ctx.fillStyle = isAm ? (isLight ? '#ebe5d9' : '#0a0908') : isLight ? '#78350f' : '#451a03';
         ctx.fillRect(tagX, tagY, tagW, 15);
-        ctx.strokeStyle = '#f59e0b';
-        ctx.lineWidth = 1.4;
+        ctx.strokeStyle = isAm ? (isLight ? '#b48a3e' : '#7a5c22') : '#f59e0b';
+        ctx.lineWidth = isAm ? 1.1 : 1.4;
         ctx.strokeRect(tagX, tagY, tagW, 15);
-        ctx.fillStyle = '#fef3c7';
+        ctx.fillStyle = isAm ? (isLight ? '#8c5604' : '#deb052') : '#fef3c7';
         ctx.textAlign = 'center';
         ctx.fillText(bypassLabel, tagX + tagW / 2, tagY + 11);
         ctx.restore();
@@ -1829,12 +1861,15 @@
     // ====================================================================
     if (edgeLabelsToRender.length > 0) {
       ctx.save();
-      ctx.font = '700 9.5px "IBM Plex Mono", ui-monospace, monospace';
+      const isAm = activeTheme === 'arashikage_monolith';
+      ctx.font = isAm
+        ? '700 9.5px "JetBrains Mono", "IBM Plex Mono", monospace'
+        : '700 9.5px "IBM Plex Mono", ui-monospace, monospace';
       ctx.textAlign = 'center';
       const placed = [];
 
       edgeLabelsToRender.forEach((lbl) => {
-        const tw = Math.ceil(ctx.measureText(lbl.text).width) + 10;
+        const tw = Math.ceil(ctx.measureText(lbl.text).width) + (isAm ? 13 : 10);
         const th = 15;
         const pos = resolveEdgeLabelPosition(lbl, tw, th, nodes, placed);
         placed.push({ x: pos.x, y: pos.y, w: tw, h: th });
@@ -1842,7 +1877,7 @@
         const bx = Math.round(pos.x - tw / 2);
         const by = Math.round(pos.y - th / 2);
 
-        // If shifted away from wire midpoint, draw a crisp leader line & anchor dot
+        // If shifted away from wire midpoint, draw a crisp leader line & anchor mark
         const dist = Math.hypot(pos.x - lbl.wireX, pos.y - lbl.wireY);
         if (dist > 8) {
           ctx.save();
@@ -1854,15 +1889,19 @@
           ctx.lineTo(pos.x, pos.y);
           ctx.stroke();
           ctx.fillStyle = lbl.color;
-          ctx.beginPath();
-          ctx.arc(lbl.wireX, lbl.wireY, 2.5, 0, Math.PI * 2);
-          ctx.fill();
+          if (isAm) {
+            ctx.fillRect(Math.round(lbl.wireX - 2.5), Math.round(lbl.wireY - 2.5), 5, 5);
+          } else {
+            ctx.beginPath();
+            ctx.arc(lbl.wireX, lbl.wireY, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
           ctx.restore();
         }
 
         // Theme-matched Edge Tensor Label Pill
         const pillFill =
-          activeTheme === 'arashikage_monolith'
+          isAm
             ? isLight ? '#fcfaf6' : '#0d0b0a'
             : activeTheme === 'blueprint'
             ? isLight ? '#f0f7ff' : '#0b2242'
@@ -1878,8 +1917,8 @@
         }
 
         ctx.fillStyle = pillFill;
-        ctx.strokeStyle = lbl.color;
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = isAm ? (isLight ? '#1c1917' : '#d8d0c5') : lbl.color;
+        ctx.lineWidth = isAm ? 1.2 : 1.5;
 
         if (activeTheme === 'cyberpunk') {
           drawChamferedRect(ctx, bx, by, tw, th, 4);
@@ -1899,11 +1938,15 @@
           ctx.stroke();
         } else {
           ctx.fillRect(bx, by, tw, th);
+          if (isAm) {
+            ctx.fillStyle = lbl.color;
+            ctx.fillRect(bx, by, 2.5, th);
+          }
           ctx.strokeRect(bx, by, tw, th);
         }
 
-        ctx.fillStyle = isLight ? '#0f172a' : '#f8fafc';
-        ctx.fillText(lbl.text, pos.x, by + 11);
+        ctx.fillStyle = isAm ? (isLight ? '#090807' : '#fbf9f5') : isLight ? '#0f172a' : '#f8fafc';
+        ctx.fillText(lbl.text, isAm ? pos.x + 1 : pos.x, by + 11);
       });
       ctx.restore();
     }

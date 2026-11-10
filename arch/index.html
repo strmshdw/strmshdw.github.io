@@ -11,7 +11,7 @@
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';document.head.appendChild(s);"></script>
   <link rel="stylesheet" href="./styles/themes.css" />
 </head>
-<body data-theme="arashikage_monolith" data-mode="dark" class="surface-root antialiased lg:h-screen lg:w-screen lg:overflow-hidden flex flex-col">
+<body data-theme="arashikage_monolith" data-mode="dark" data-expression="hanga" class="surface-root antialiased lg:h-screen lg:w-screen lg:overflow-hidden flex flex-col">
 
   <!-- Full-Viewport Application Shell -->
   <div class="w-full flex-1 min-h-0 surface-panel flex flex-col overflow-hidden">
@@ -20,9 +20,23 @@
     <div id="topIdentityBar" class="shrink-0 px-3 py-1 border-b border-hairline surface-root flex items-center justify-between gap-2">
       <div class="flex items-center gap-2 min-w-0 flex-1">
         <button id="identityBrandTrigger" type="button" title="Open Quick Start &amp; Navigation Guide (Shortcut: ?)" class="flex items-center gap-1.5 shrink-0 cursor-pointer hover:opacity-85 transition">
+          <span class="am-hex64-plaque" aria-hidden="true" title="Hexagram 64 · Wei Ji (䷿ 火水未済 — Before Completion)">
+            <svg width="15" height="17" viewBox="0 0 22 24" fill="currentColor">
+              <rect x="0" y="0" width="22" height="2.4" />
+              <rect x="0" y="4.3" width="9.2" height="2.4" /><rect x="12.8" y="4.3" width="9.2" height="2.4" />
+              <rect x="0" y="8.6" width="22" height="2.4" />
+              <rect x="0" y="12.9" width="9.2" height="2.4" /><rect x="12.8" y="12.9" width="9.2" height="2.4" />
+              <rect x="0" y="17.2" width="22" height="2.4" />
+              <rect x="0" y="21.5" width="9.2" height="2.4" /><rect x="12.8" y="21.5" width="9.2" height="2.4" />
+            </svg>
+          </span>
           <span id="hankoBrandSeal" class="am-hanko-seal" aria-hidden="true">嵐影<br/>之印</span>
           <span id="brandDot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
           <span id="identityBadgeText" class="mono text-[11px] font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX64</span>
+          <span class="am-jp-subtitle hidden sm:inline-flex items-center gap-1 ml-0.5">
+            <span class="text-theme-accent text-[9px]">◆</span>
+            <span class="am-jp-kanji">嵐影 · 銀座碑文</span>
+          </span>
         </button>
         <span class="text-muted-ink shrink-0">|</span>
         <h1 id="identityMainTitle" class="text-xs font-bold text-primary-ink tracking-tight truncate" title="60 Hz Subtick Action Chunking &amp; Multi-Horizon RL Architecture">
@@ -490,9 +504,10 @@
 
         <!-- Section 1: Best Way to Start (3 Interactive Launchpad Cards) -->
         <div>
-          <div class="flex items-center justify-between gap-2 mb-1.5">
-            <span class="kicker text-theme-accent">1. RECOMMENDED STARTING PATHS (CLICK ANY BUTTON TO LAUNCH IMMEDIATELY)</span>
-            <span class="mono text-[10px] text-muted-ink hidden sm:inline">Tip: You can reopen this guide anytime via &ldquo;? Quick Start / Guide&rdquo;</span>
+          <div class="am-frieze-header flex items-center justify-between gap-2 mb-1.5">
+            <span class="kicker text-theme-accent shrink-0">礎 · 1. RECOMMENDED STARTING PATHS (CLICK ANY BUTTON TO LAUNCH IMMEDIATELY)</span>
+            <span class="am-frieze-rule"></span>
+            <span class="mono text-[10px] text-muted-ink hidden sm:inline shrink-0">Tip: Reopen anytime via &ldquo;? Quick Start / Guide&rdquo;</span>
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-2.5">
@@ -575,9 +590,10 @@
 
         <!-- Section 2: Anatomy of the 6 Core Interface Surfaces -->
         <div>
-          <div class="flex items-center justify-between gap-2 mb-1.5">
-            <span class="kicker text-theme-accent">2. ANATOMY OF THE INTERFACE (HOW EVERY PANEL &amp; CONTROL WORKS)</span>
-            <span class="mono text-[10px] text-muted-ink hidden sm:inline">Every view updates dynamically with zero page reloads</span>
+          <div class="am-frieze-header flex items-center justify-between gap-2 mb-1.5">
+            <span class="kicker text-theme-accent shrink-0">双 · 2. ANATOMY OF THE INTERFACE (HOW EVERY PANEL &amp; CONTROL WORKS)</span>
+            <span class="am-frieze-rule"></span>
+            <span class="mono text-[10px] text-muted-ink hidden sm:inline shrink-0">Every view updates dynamically with zero page reloads</span>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
