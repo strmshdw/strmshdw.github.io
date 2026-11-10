@@ -11,7 +11,7 @@
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';document.head.appendChild(s);"></script>
   <link rel="stylesheet" href="./styles/themes.css" />
 </head>
-<body data-theme="arashikage_monolith" data-mode="dark" data-expression="hanga" class="surface-root antialiased lg:h-screen lg:w-screen lg:overflow-hidden flex flex-col">
+<body data-theme="cyberpunk" data-mode="dark" data-expression="hanga" class="surface-root antialiased lg:h-screen lg:w-screen lg:overflow-hidden flex flex-col">
 
   <!-- Full-Viewport Application Shell -->
   <div class="w-full flex-1 min-h-0 surface-panel flex flex-col overflow-hidden">
@@ -121,12 +121,12 @@
       <!-- Cluster 2: Unified Theme Switcher (Opens 12-Style Visual Swatch Gallery) + Light/Dark Polarity -->
       <div class="flex items-center gap-1.5 shrink-0 relative">
         <button id="btnThemeGalleryTrigger" type="button" popovertarget="themeGalleryPopover" title="Open Design System &amp; 13-Style Visual Swatch Gallery (Keys: [ / ])" class="no-wrap-btn px-2.5 py-1 rounded-lg border border-subtle surface-panel text-[11px] font-bold text-primary-ink hover:opacity-90 transition cursor-pointer gap-1.5">
-          <span id="activeThemePillLabel">★ · Arashikage Monolith</span>
+          <span id="activeThemePillLabel">11 · Cyberpunk Neural Deck</span>
           <span class="text-[9.5px] text-muted-ink">▾</span>
         </button>
         <select id="selTheme" aria-label="Design Theme (Signature Arashikage Monolith + 12 Iconic Styles)" class="sr-only">
           <optgroup label="0. Signature Design System">
-            <option value="arashikage_monolith" selected>★ · Arashikage Monolith (版画 Hanga / 和紙 Washi)</option>
+            <option value="arashikage_monolith">★ · Arashikage Monolith (版画 Hanga / 和紙 Washi)</option>
           </optgroup>
           <optgroup label="I. Constructivist &amp; Editorial Grids">
             <option value="neo_brutalism">01 · Neo-Brutalism</option>
@@ -145,7 +145,7 @@
           </optgroup>
           <optgroup label="IV. Atmospheric, Cyber &amp; Biomimetic">
             <option value="aurora">10 · Aurora Borealis</option>
-            <option value="cyberpunk">11 · Cyberpunk Neural Deck</option>
+            <option value="cyberpunk" selected>11 · Cyberpunk Neural Deck</option>
             <option value="solarpunk">12 · Solarpunk Botanical</option>
           </optgroup>
         </select>

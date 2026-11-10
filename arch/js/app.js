@@ -251,8 +251,8 @@
     }
   };
 
-  let activeTheme = 'arashikage_monolith';
-  let activePolarity = 'dark'; // 'light' | 'dark' (Default: 版画 · Hanga Sumi Woodblock)
+  let activeTheme = 'cyberpunk';
+  let activePolarity = 'dark'; // 'light' | 'dark' (Default: Cyberpunk Neural Deck Dark)
   let activeExpression = 'hanga'; // 'hanga' | 'urushi' | 'suzuri' | 'washi'
   const AM_STAGE_KANJI = ['礎', '双', '戒', '録', '印', '鎖'];
   const AM_EXPRESSION_LABELS = {
@@ -2957,8 +2957,8 @@
       document.body.setAttribute('data-mode', activePolarity);
       document.body.setAttribute('data-expression', activeExpression);
       try {
-        localStorage.setItem('arashikage_arch_polarity_v2', activePolarity);
-        localStorage.setItem('arashikage_arch_expr_v2', activeExpression);
+        localStorage.setItem('arashikage_arch_polarity_v3', activePolarity);
+        localStorage.setItem('arashikage_arch_expr_v3', activeExpression);
       } catch (_) {}
       setTheme('arashikage_monolith');
     }
@@ -2974,8 +2974,8 @@
       document.body.setAttribute('data-mode', activePolarity);
       document.body.setAttribute('data-expression', activeExpression);
       try {
-        localStorage.setItem('arashikage_arch_polarity_v2', activePolarity);
-        localStorage.setItem('arashikage_arch_expr_v2', activeExpression);
+        localStorage.setItem('arashikage_arch_polarity_v3', activePolarity);
+        localStorage.setItem('arashikage_arch_expr_v3', activeExpression);
       } catch (_) {}
       setTheme(activeTheme);
     }
@@ -2994,7 +2994,7 @@
       document.body.setAttribute('data-expression', activeExpression);
 
       try {
-        localStorage.setItem('arashikage_arch_theme_v2', activeTheme);
+        localStorage.setItem('arashikage_arch_theme_v3', activeTheme);
       } catch (_) {}
 
       if (selTheme && selTheme.value !== activeTheme) {
@@ -3703,9 +3703,9 @@
 
     // Restore saved theme/polarity/expression & URL hash state (v2 defaults to Arashikage Monolith · Hanga Dark)
     try {
-      const savedTheme = localStorage.getItem('arashikage_arch_theme_v2');
-      const savedPol = localStorage.getItem('arashikage_arch_polarity_v2');
-      const savedExpr = localStorage.getItem('arashikage_arch_expr_v2');
+      const savedTheme = localStorage.getItem('arashikage_arch_theme_v3');
+      const savedPol = localStorage.getItem('arashikage_arch_polarity_v3');
+      const savedExpr = localStorage.getItem('arashikage_arch_expr_v3');
       if (savedTheme && THEME_META[savedTheme]) activeTheme = savedTheme;
       if (savedPol === 'dark' || savedPol === 'light') activePolarity = savedPol;
       if (savedExpr && AM_EXPRESSION_LABELS[savedExpr]) activeExpression = savedExpr;
