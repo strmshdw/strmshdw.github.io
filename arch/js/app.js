@@ -3752,12 +3752,18 @@
 
     renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
 
-    function loop() {
+    let lastFrameTime = performance.now();
+    function loop(now) {
+      const ts = typeof now === 'number' ? now : performance.now();
+      const dt = Math.min(Math.max((ts - lastFrameTime) / 1000, 0), 0.1);
+      lastFrameTime = ts;
       renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
       if (tourOverlayVisible && activeScenarioKey !== 'none') {
         positionAnchoredTourTooltip(false);
       }
-      animTick += 0.016;
+      if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        animTick += dt;
+      }
 
       let highlightSet = null;
       let tourFocusNodeId = null;

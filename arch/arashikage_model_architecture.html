@@ -6395,89 +6395,129 @@ window.ARASHIKAGE_ARCHITECTURES = {
       }
 
       if (modeActive && (!highlightSet || tourActive)) {
-        const t = (animTick + idx * 0.17) % 1.0;
-        let px, py;
+        // Constant arc-length pixel velocity (42 px/s) across all short, stepped, and multi-column wires
+        let pts;
         if (isLongBottomSweep) {
           const sweepY = 636;
           const turnX = x2 - 12;
-          if (t < 0.65) {
-            const st = t / 0.65;
-            px = (x1 + 12) + (turnX - (x1 + 12)) * st;
-            py = sweepY;
-          } else {
-            const st = (t - 0.65) / 0.35;
-            px = turnX;
-            py = sweepY + (y2 - sweepY) * st;
-          }
+          pts = [
+            { x: x1, y: y1 },
+            { x: x1 + 12, y: sweepY },
+            { x: turnX, y: sweepY },
+            { x: turnX, y: y2 },
+            { x: x2, y: y2 }
+          ];
         } else if (isLongTopSweep) {
           const sweepY = 82;
           const turnX1 = x1 + 10;
           const turnX2 = x2 - 10;
-          px = turnX1 + (turnX2 - turnX1) * t;
-          py = sweepY;
+          pts = [
+            { x: x1, y: y1 },
+            { x: turnX1, y: sweepY },
+            { x: turnX2, y: sweepY },
+            { x: x2, y: y2 }
+          ];
         } else if (n1.col === n2.col) {
           const sx = n1.x;
           const sy = n1.y + (n2.y > n1.y ? n1.h / 2 : -n1.h / 2);
           const ey = n2.y + (n2.y > n1.y ? -n2.h / 2 : n2.h / 2);
-          px = sx;
-          py = sy + (ey - sy) * t;
+          pts = [
+            { x: sx, y: sy },
+            { x: sx, y: ey }
+          ];
         } else if (useOrthogonalTraces) {
-          if (t < 0.35) {
-            const st = t / 0.35;
-            px = x1 + (midX - x1) * st;
-            py = y1;
-          } else if (t < 0.65) {
-            const st = (t - 0.35) / 0.30;
-            px = midX;
-            py = y1 + (y2 - y1) * st;
-          } else {
-            const st = (t - 0.65) / 0.35;
-            px = midX + (x2 - midX) * st;
-            py = y2;
-          }
+          pts = [
+            { x: x1, y: y1 },
+            { x: midX, y: y1 },
+            { x: midX, y: y2 },
+            { x: x2, y: y2 }
+          ];
         } else {
           const cx1 = x1 + (x2 - x1) * 0.48;
           const cx2 = x1 + (x2 - x1) * 0.52;
-          const mt = 1 - t;
-          px = mt * mt * mt * x1 + 3 * mt * mt * t * cx1 + 3 * mt * t * t * cx2 + t * t * t * x2;
-          py = mt * mt * mt * y1 + 3 * mt * mt * t * y1 + 3 * mt * t * t * y2 + t * t * t * y2;
+          pts = [];
+          const steps = 16;
+          for (let s = 0; s <= steps; s++) {
+            const bt = s / steps;
+            const mt = 1 - bt;
+            pts.push({
+              x: mt * mt * mt * x1 + 3 * mt * mt * bt * cx1 + 3 * mt * bt * bt * cx2 + bt * bt * bt * x2,
+              y: mt * mt * mt * y1 + 3 * mt * mt * bt * y1 + 3 * mt * bt * bt * y2 + bt * bt * bt * y2
+            });
+          }
         }
 
-        ctx.fillStyle = n1.color;
-        if (activeTheme === 'arashikage_monolith') {
-          const sz = isConnectedToFocus ? 6 : 4.5;
-          const kx = Math.round(px - sz / 2);
-          const ky = Math.round(py - sz / 2);
-          ctx.fillRect(kx, ky, sz, sz);
-          if (isConnectedToFocus) {
-            ctx.strokeStyle = isLight ? '#1c1917' : '#fbf9f5';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(kx - 0.5, ky - 0.5, sz + 1, sz + 1);
+        const segLens = [];
+        let totalLen = 0;
+        for (let i = 0; i < pts.length - 1; i++) {
+          const sl = Math.hypot(pts[i + 1].x - pts[i].x, pts[i + 1].y - pts[i].y);
+          segLens.push(sl);
+          totalLen += sl;
+        }
+
+        if (totalLen > 1) {
+          const PACKET_SPEED_PX_PER_SEC = 42;
+          const MIN_PACKET_STRIDE_PX = 135;
+          const numPackets = totalLen >= 260 ? Math.max(1, Math.round(totalLen / 240)) : 1;
+          const cycleSpan = numPackets > 1 ? totalLen : Math.max(totalLen, MIN_PACKET_STRIDE_PX);
+
+          for (let pIdx = 0; pIdx < numPackets; pIdx++) {
+            const dist =
+              (animTick * PACKET_SPEED_PX_PER_SEC + idx * 31 + pIdx * (cycleSpan / numPackets)) %
+              cycleSpan;
+            if (dist > totalLen) continue;
+
+            let rem = dist;
+            let px = pts[pts.length - 1].x;
+            let py = pts[pts.length - 1].y;
+            for (let i = 0; i < segLens.length; i++) {
+              const sl = segLens[i];
+              if (sl === 0) continue;
+              if (rem <= sl || i === segLens.length - 1) {
+                const st = Math.min(1, Math.max(0, rem / sl));
+                px = pts[i].x + (pts[i + 1].x - pts[i].x) * st;
+                py = pts[i].y + (pts[i + 1].y - pts[i].y) * st;
+                break;
+              }
+              rem -= sl;
+            }
+
+            ctx.fillStyle = n1.color;
+            if (activeTheme === 'arashikage_monolith') {
+              const sz = isConnectedToFocus ? 6 : 4.5;
+              const kx = Math.round(px - sz / 2);
+              const ky = Math.round(py - sz / 2);
+              ctx.fillRect(kx, ky, sz, sz);
+              if (isConnectedToFocus) {
+                ctx.strokeStyle = isLight ? '#1c1917' : '#fbf9f5';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(kx - 0.5, ky - 0.5, sz + 1, sz + 1);
+              }
+            } else if (
+              activeTheme === 'pixel_art' ||
+              activeTheme === 'utilitarian' ||
+              activeTheme === 'neo_brutalism' ||
+              activeTheme === 'modular_typo' ||
+              activeTheme === 'bauhaus' ||
+              activeTheme === 'blueprint'
+            ) {
+              const sz = isConnectedToFocus ? 6 : 4;
+              ctx.fillRect(Math.round(px - sz / 2), Math.round(py - sz / 2), sz, sz);
+            } else if (activeTheme === 'art_deco' || activeTheme === 'cyberpunk') {
+              const r = isConnectedToFocus ? 4.5 : 3.2;
+              ctx.beginPath();
+              ctx.moveTo(px, py - r);
+              ctx.lineTo(px + r, py);
+              ctx.lineTo(px, py + r);
+              ctx.lineTo(px - r, py);
+              ctx.closePath();
+              ctx.fill();
+            } else {
+              ctx.beginPath();
+              ctx.arc(px, py, isConnectedToFocus ? 3.5 : 2.5, 0, Math.PI * 2);
+              ctx.fill();
+            }
           }
-        } else if (
-          activeTheme === 'pixel_art' ||
-          activeTheme === 'utilitarian' ||
-          activeTheme === 'neo_brutalism' ||
-          activeTheme === 'modular_typo' ||
-          activeTheme === 'bauhaus' ||
-          activeTheme === 'blueprint'
-        ) {
-          const sz = isConnectedToFocus ? 6 : 4;
-          ctx.fillRect(Math.round(px - sz / 2), Math.round(py - sz / 2), sz, sz);
-        } else if (activeTheme === 'art_deco' || activeTheme === 'cyberpunk') {
-          // Diamond data packet (◆)
-          const r = isConnectedToFocus ? 4.5 : 3.2;
-          ctx.beginPath();
-          ctx.moveTo(px, py - r);
-          ctx.lineTo(px + r, py);
-          ctx.lineTo(px, py + r);
-          ctx.lineTo(px - r, py);
-          ctx.closePath();
-          ctx.fill();
-        } else {
-          ctx.beginPath();
-          ctx.arc(px, py, isConnectedToFocus ? 3.5 : 2.5, 0, Math.PI * 2);
-          ctx.fill();
         }
       }
     });
@@ -11025,12 +11065,18 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
     renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
 
-    function loop() {
+    let lastFrameTime = performance.now();
+    function loop(now) {
+      const ts = typeof now === 'number' ? now : performance.now();
+      const dt = Math.min(Math.max((ts - lastFrameTime) / 1000, 0), 0.1);
+      lastFrameTime = ts;
       renderer.fitDiagramAspectRatio(canvasWrapper, canvasAspectBox, canvas);
       if (tourOverlayVisible && activeScenarioKey !== 'none') {
         positionAnchoredTourTooltip(false);
       }
-      animTick += 0.016;
+      if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        animTick += dt;
+      }
 
       let highlightSet = null;
       let tourFocusNodeId = null;
