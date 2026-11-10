@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RL/SYNC v2.0.0 — Bespoke Material-Cohesive Blue &amp; Orange Palettes Across All 14 Designs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Barlow:wght@500;600;700&family=Fraunces:opsz,wght@9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700;800&family=Josefin+Sans:wght@600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0a0908;
+      color: #f2efe9;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      padding: 22px 32px 48px;
+      font-variant-numeric: tabular-nums;
+    }
+    .page-header {
+      max-width: 1840px;
+      margin: 0 auto 18px;
+      padding-bottom: 12px;
+      border-bottom: 1.5px solid #38332d;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .page-title {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #fbf9f5;
+    }
+    .page-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      color: #b8afa0;
+      margin-top: 4px;
+    }
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border: 1px solid #38332d;
+      background: #181614;
+      color: #cfc7b8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .section-heading {
+      max-width: 1840px;
+      margin: 14px auto 10px;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #d8d0c5;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-heading::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #38332d;
+    }
+
+    /* 2x2 Grid for the 4 Deco Monolith Themes (01-04) */
+    .monolith-grid {
+      max-width: 1840px;
+      margin: 0 auto 24px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    /* 3x3 Grid for Extended Studio Themes (05-13) */
+    .extended-grid {
+      max-width: 1840px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .theme-card {
+      background: var(--page);
+      color: var(--ink);
+      border: 1.5px solid var(--outline);
+      box-shadow: 0 0 0 3px #0a0908, 0 0 0 4px var(--line);
+      border-radius: var(--radius, 0px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .frieze-split {
+      height: 5px;
+      background: linear-gradient(90deg, var(--blue-slab) 0%, var(--blue-slab) 49%, transparent 49%, transparent 51%, var(--orange-slab) 51%, var(--orange-slab) 100%);
+      border-bottom: 1px solid var(--line);
+    }
+    .card-topbar {
+      background: var(--plaque);
+      border-bottom: 1px solid var(--line);
+      padding: 7px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .theme-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+    .theme-name {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--strong);
+    }
+    .theme-material {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .swatch-strip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    .swatch-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 5px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .swatch-dot {
+      width: 9px;
+      height: 9px;
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .card-body {
+      background: var(--panel);
+      padding: 11px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    /* Scorebug */
+    .scorebug {
+      border: 1px solid var(--outline);
+      background: var(--plaque);
+      border-radius: var(--radius, 0px);
+      overflow: hidden;
+    }
+    .scorebug-rule {
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue-slab) 0%, var(--blue-slab) 50%, var(--orange-slab) 50%, var(--orange-slab) 100%);
+    }
+    .scorebug-row {
+      display: flex;
+      align-items: stretch;
+      height: 56px;
+    }
+    .wing-blue {
+      flex: 1;
+      background: var(--blue-slab);
+      color: var(--on-slab);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 0 14px;
+    }
+    .wing-orange {
+      flex: 1;
+      background: var(--orange-slab);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0 14px;
+    }
+    .wing-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.14em;
+      line-height: 1;
+    }
+    .wing-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      opacity: 0.9;
+      margin-top: 3px;
+    }
+    .score-box {
+      width: 66px;
+      background: var(--plaque);
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      font-size: 38px;
+      line-height: 1;
+    }
+    .score-blue { color: var(--blue-ink); }
+    .score-orange { color: var(--orange-ink); }
+    .center-clock {
+      width: 140px;
+      background: var(--plaque);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 0 6px;
+      text-align: center;
+    }
+    .live-line {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--strong);
+    }
+    .live-dot { color: var(--loss); }
+    .mode-line {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+    .parity-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border: 1px solid var(--line);
+      color: var(--ink-2);
+    }
+
+    /* Two-column Player Cards inside each Theme Mock */
+    .players-pair {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .p-card {
+      background: var(--plaque);
+      border: 1px solid var(--outline);
+      border-radius: var(--radius, 0px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .p-slab {
+      padding: 7px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+    .p-slab-blue {
+      background: var(--blue-slab);
+      color: var(--on-slab);
+    }
+    .p-slab-orange {
+      background: var(--orange-slab);
+      color: #ffffff;
+    }
+    .p-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      opacity: 0.85;
+      text-transform: uppercase;
+    }
+    .p-name {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-top: 1px;
+    }
+    .p-mmr {
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+    .p-rank {
+      font-family: var(--font-display);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      opacity: 0.9;
+      text-transform: uppercase;
+    }
+    .p-badges {
+      padding: 5px 10px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-family: var(--font-display);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 2px 6px;
+      text-transform: uppercase;
+    }
+    .tag-you {
+      background: var(--panel);
+      color: var(--strong);
+      border: 1px solid var(--outline);
+    }
+    .tag-win {
+      background: var(--panel);
+      color: var(--win);
+      border: 1px solid var(--win);
+    }
+    .tag-smurf {
+      background: var(--loss-slab);
+      color: #fbf9f5;
+      border: 1.5px solid var(--loss-slab);
+      outline: 1px solid rgba(255,255,255,0.28);
+      outline-offset: -2px;
+      font-weight: 800;
+    }
+    .tag-carry {
+      background: var(--panel);
+      color: var(--carry, #7da8c4);
+      border: 1px solid var(--carry, #7da8c4);
+    }
+    .p-stats {
+      display: grid;
+      grid-template-columns: 1.3fr repeat(5, 1fr);
+    }
+    .stat-cell {
+      padding: 5px 7px;
+      border-right: 1px solid var(--line);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-k { font-size: 9px; color: var(--muted); font-weight: 700; }
+    .stat-v { font-size: 14px; color: var(--strong); font-weight: 800; }
+  </style>
+</head>
+<body>
+  <header class="page-header">
+    <div>
+      <div class="page-title">RL/SYNC v2.0.0 — BESPOKE MATERIAL-COHESIVE BLUE &amp; ORANGE PALETTES (ALL 14 DESIGNS)</div>
+      <div class="page-sub">Each design expresses Blue &amp; Orange through its own native material pigments, patinas, or cathode emissions — plus the restored Classic Broadcast core theme.</div>
+    </div>
+    <div class="badge-row">
+      <span class="pill">01 WOODBLOCK: AIZOME INDIGO &amp; BENGARA EARTH</span>
+      <span class="pill">02 LACQUER: PEACOCK PETROL &amp; COGNAC COPPER</span>
+      <span class="pill">05 CLASSIC BROADCAST: RESTORED CORE THEME</span>
+    </div>
+  </header>
+
+  <div class="section-heading">01–05 · CORE DESIGNS: DECO MONOLITH QUARTET &amp; RESTORED CLASSIC BROADCAST (ORIGINAL RL/SYNC)</div>
+  <section class="monolith-grid" id="monolith-grid"></section>
+
+  <div class="section-heading">06–14 · EXTENDED STUDIO DESIGNS (ARENA · CARBON · MANNFIELD · EDITORIAL · NORDIC · CRT · UTOPIA · BLUEPRINT · OLED)</div>
+  <section class="extended-grid" id="extended-grid"></section>
+
+  <script>
+    const THEMES = [
+      {
+        id: '01',
+        name: '01 · Deco Monolith: Woodblock (Default)',
+        material: 'Fermented Aizome Twilight Indigo (#1e3a52) & Bengara Red-Earth Persimmon (#9e4726)',
+        group: 'monolith',
+        fontDisplay: "'Josefin Sans', sans-serif",
+        radius: '0px',
+        page: '#0a0908', panel: '#181614', plaque: '#0f0d0b',
+        line: '#38332d', outline: '#e2dbd0',
+        ink: '#f2efe9', strong: '#fbf9f5', ink2: '#cfc7b8', muted: '#918779',
+        blueSlab: '#1e3a52', onSlab: '#fbf9f5', blueInk: '#789dba',
+        orangeSlab: '#9e4726', orangeInk: '#d9825b',
+        lossSlab: '#8f1822', loss: '#e04852', win: '#82a890', carry: '#7da8c4'
+      },
+      {
+        id: '02',
+        name: '02 · Deco Monolith: Lacquer & Brass',
+        material: 'Seiran Peacock-Petrol Lacquer (#13404d) & Kinsai Burnished Cognac-Copper (#9c4f1a)',
+        group: 'monolith',
+        fontDisplay: "'Josefin Sans', sans-serif",
+        radius: '0px',
+        page: '#040302', panel: '#120e09', plaque: '#080604',
+        line: '#4d391d', outline: '#d4a853',
+        ink: '#f5ebd6', strong: '#fffdf7', ink2: '#d4c3a3', muted: '#9e8866',
+        blueSlab: '#13404d', onSlab: '#fffdf9', blueInk: '#62a8ba',
+        orangeSlab: '#9c4f1a', orangeInk: '#e09145',
+        lossSlab: '#8c161e', loss: '#e0434d', win: '#82a890', carry: '#7da8c4'
+      },
+      {
+        id: '03',
+        name: '03 · Deco Monolith: Carved Inkstone',
+        material: 'Weathered Basalt Slate-Blue (#2b4559) & Kiln-Fired Earthenware Clay (#8f492a)',
+        group: 'monolith',
+        fontDisplay: "'Josefin Sans', sans-serif",
+        radius: '0px',
+        page: '#0c0b0a', panel: '#1d1916', plaque: '#12100e',
+        line: '#3d352e', outline: '#b5a692',
+        ink: '#ede6d8', strong: '#fbf8f3', ink2: '#bfb5a2', muted: '#8f8270',
+        blueSlab: '#2b4559', onSlab: '#fbf8f3', blueInk: '#80a2bd',
+        orangeSlab: '#8f492a', orangeInk: '#cf825f',
+        lossSlab: '#821d24', loss: '#d94b54', win: '#82a890', carry: '#7da8c4'
+      },
+      {
+        id: '04',
+        name: '04 · Deco Monolith: Warm Parchment (Light)',
+        material: 'Edo Bero-ai Prussian Ink (#1d3f58) & Autumn Maple Ochre-Sienna (#a8461c)',
+        group: 'monolith',
+        fontDisplay: "'Josefin Sans', sans-serif",
+        radius: '0px',
+        page: '#ebe5d9', panel: '#f4efe6', plaque: '#fcfaf6',
+        line: '#cfc7b8', outline: '#1c1917',
+        ink: '#171412', strong: '#090807', ink2: '#362f28', muted: '#615548',
+        blueSlab: '#1d3f58', onSlab: '#fbf9f5', blueInk: '#1a4363',
+        orangeSlab: '#a8461c', orangeInk: '#8f3812',
+        lossSlab: '#94171e', loss: '#9e141c', win: '#1e523b', carry: '#1b4965'
+      },
+      {
+        id: '05',
+        name: '05 · Classic Broadcast (Original RL/SYNC — Dark)',
+        material: 'Broadcast Desk Cerulean (#12598c / #30aff8) & Broadcast Amber-Orange (#b85214 / #f67f2f)',
+        group: 'monolith',
+        fontDisplay: "'Barlow Condensed', sans-serif",
+        radius: '0px',
+        page: '#0a0b0d', panel: '#121418', plaque: '#16181c',
+        line: '#1c1e22', outline: '#2a2d33',
+        ink: '#f2f3f5', strong: '#ffffff', ink2: '#c4c7cd', muted: '#7b7f88',
+        blueSlab: '#12598c', onSlab: '#ffffff', blueInk: '#30aff8',
+        orangeSlab: '#b85214', orangeInk: '#f67f2f',
+        lossSlab: '#9e1c28', loss: '#ff6a65', win: '#67d283', carry: '#30aff8'
+      },
+      {
+        id: '05-light',
+        name: '05 · Classic Broadcast (Original RL/SYNC — Light)',
+        material: 'Daylight Broadcast Cerulean (#125687 / #0b4a78) & Studio Amber-Copper (#b34e12 / #8f3b08)',
+        group: 'monolith',
+        fontDisplay: "'Barlow Condensed', sans-serif",
+        radius: '0px',
+        page: '#f1f2f5', panel: '#ffffff', plaque: '#f7f8fa',
+        line: '#dcdfe6', outline: '#1c1f26',
+        ink: '#121418', strong: '#000000', ink2: '#242933', muted: '#525a6b',
+        blueSlab: '#125687', onSlab: '#ffffff', blueInk: '#0b4a78',
+        orangeSlab: '#b34e12', orangeInk: '#8f3b08',
+        lossSlab: '#991b26', loss: '#c41c1c', win: '#157a38', carry: '#0b4a78'
+      },
+      {
+        id: '06',
+        name: '06 · Glassmorphic Arena',
+        material: 'Backlit Sapphire Polycarbonate & Solar Copper-Tangerine',
+        group: 'extended',
+        fontDisplay: "'Space Grotesk', sans-serif",
+        radius: '8px',
+        page: '#070913', panel: '#13192b', plaque: '#0d1220',
+        line: '#28324e', outline: '#475569',
+        ink: '#f8fafc', strong: '#ffffff', ink2: '#e2e8f0', muted: '#94a3b8',
+        blueSlab: '#155282', onSlab: '#ffffff', blueInk: '#56b4e9',
+        orangeSlab: '#b84a18', orangeInk: '#f59356',
+        lossSlab: '#9e193c', loss: '#f45b7a', win: '#34d399', carry: '#56b4e9'
+      },
+      {
+        id: '07',
+        name: '07 · Carbon Paddock',
+        material: 'Anodized Steel-Cobalt & McLaren Papaya-Copper',
+        group: 'extended',
+        fontDisplay: "'IBM Plex Sans', sans-serif",
+        radius: '4px',
+        page: '#09090b', panel: '#121215', plaque: '#0d0d10',
+        line: '#222228', outline: '#3f3f46',
+        ink: '#fafafa', strong: '#ffffff', ink2: '#e4e4e7', muted: '#a1a1aa',
+        blueSlab: '#1e4478', onSlab: '#ffffff', blueInk: '#6ea0e0',
+        orangeSlab: '#ba5618', orangeInk: '#f29a4b',
+        lossSlab: '#99152c', loss: '#f04864', win: '#10b981', carry: '#6ea0e0'
+      },
+      {
+        id: '08',
+        name: '08 · Mannfield Night',
+        material: 'Electric Cyber-Indigo & Outrun Sunset Coral-Flame',
+        group: 'extended',
+        fontDisplay: "'Space Grotesk', sans-serif",
+        radius: '4px',
+        page: '#0d061a', panel: '#160b2b', plaque: '#110822',
+        line: '#331c5c', outline: '#522d91',
+        ink: '#f5f0ff', strong: '#ffffff', ink2: '#e4d4ff', muted: '#a78bfa',
+        blueSlab: '#263c91', onSlab: '#ffffff', blueInk: '#5ce1e6',
+        orangeSlab: '#bd3b28', orangeInk: '#ff8a5c',
+        lossSlab: '#96124b', loss: '#ff4785', win: '#00f59b', carry: '#5ce1e6'
+      },
+      {
+        id: '09',
+        name: '09 · Editorial Gazette',
+        material: 'Archival Fountain-Pen Navy & Venetian Bookcloth Rust',
+        group: 'extended',
+        fontDisplay: "'Fraunces', serif",
+        radius: '2px',
+        page: '#141210', panel: '#1d1a17', plaque: '#171412',
+        line: '#332d27', outline: '#4d443b',
+        ink: '#f5efe6', strong: '#ffffff', ink2: '#e6dec3', muted: '#a89b8c',
+        blueSlab: '#233d54', onSlab: '#ffffff', blueInk: '#7ea3c4',
+        orangeSlab: '#9c4322', orangeInk: '#e08658',
+        lossSlab: '#801820', loss: '#e0535c', win: '#34d399', carry: '#7ea3c4'
+      },
+      {
+        id: '10',
+        name: '10 · Nordic Frost',
+        material: 'Glacier Fjord Slate-Blue & Arctic Cloudberry Copper',
+        group: 'extended',
+        fontDisplay: "'Space Grotesk', sans-serif",
+        radius: '6px',
+        page: '#1e222a', panel: '#262b36', plaque: '#212630',
+        line: '#3b4252', outline: '#4c566a',
+        ink: '#eceff4', strong: '#ffffff', ink2: '#e5e9f0', muted: '#9aa5b8',
+        blueSlab: '#2e506e', onSlab: '#ffffff', blueInk: '#88c0d0',
+        orangeSlab: '#9e4c2e', orangeInk: '#d08770',
+        lossSlab: '#822933', loss: '#bf616a', win: '#a3be8c', carry: '#88c0d0'
+      },
+      {
+        id: '11',
+        name: '11 · Retro CRT Phosphor',
+        material: 'VFD Vacuum-Fluorescent Teal-Blue & P3 Amber-Phosphor',
+        group: 'extended',
+        fontDisplay: "'JetBrains Mono', monospace",
+        radius: '0px',
+        page: '#040a06', panel: '#08140c', plaque: '#060f09',
+        line: '#163822', outline: '#235c37',
+        ink: '#d1fae5', strong: '#ecfdf5', ink2: '#a7f3d0', muted: '#34d399',
+        blueSlab: '#0f4c5c', onSlab: '#ecfdf5', blueInk: '#4fd1c5',
+        orangeSlab: '#964b12', orangeInk: '#f6ad55',
+        lossSlab: '#821c26', loss: '#f56565', win: '#4ade80', carry: '#4fd1c5'
+      },
+      {
+        id: '12',
+        name: '12 · Utopia Daylight (Light)',
+        material: 'Mediterranean Aegean Cerulean & Sun-Baked Adobe Terracotta',
+        group: 'extended',
+        fontDisplay: "'Barlow Condensed', sans-serif",
+        radius: '4px',
+        page: '#f5efe6', panel: '#fffdf9', plaque: '#f8f3eb',
+        line: '#dcd2c0', outline: '#bfb29b',
+        ink: '#182226', strong: '#0a1012', ink2: '#29383d', muted: '#596c73',
+        blueSlab: '#195670', onSlab: '#ffffff', blueInk: '#12465c',
+        orangeSlab: '#a84520', orangeInk: '#873314',
+        lossSlab: '#8f1928', loss: '#b01b2e', win: '#15803d', carry: '#195670'
+      },
+      {
+        id: '13',
+        name: '13 · Cobalt Blueprint',
+        material: 'Cyanotype Drafting Cerulean & Engineering Red-Lead Amber',
+        group: 'extended',
+        fontDisplay: "'Barlow Condensed', sans-serif",
+        radius: '0px',
+        page: '#091936', panel: '#0e234a', plaque: '#0b1d3e',
+        line: '#234582', outline: '#3b67b5',
+        ink: '#f0f6ff', strong: '#ffffff', ink2: '#d6e6ff', muted: '#85b2f2',
+        blueSlab: '#164e87', onSlab: '#ffffff', blueInk: '#7dd3fc',
+        orangeSlab: '#b05219', orangeInk: '#f6a45c',
+        lossSlab: '#941634', loss: '#fb7185', win: '#4ade80', carry: '#7dd3fc'
+      },
+      {
+        id: '14',
+        name: '14 · Pure OLED Pitch',
+        material: 'Zero-Halation Midnight Cobalt & Smoldering Ember-Copper',
+        group: 'extended',
+        fontDisplay: "'Barlow Condensed', sans-serif",
+        radius: '0px',
+        page: '#000000', panel: '#070709', plaque: '#040406',
+        line: '#1c1c24', outline: '#2e2e3b',
+        ink: '#ffffff', strong: '#ffffff', ink2: '#e4e4eb', muted: '#9898a8',
+        blueSlab: '#163878', onSlab: '#ffffff', blueInk: '#669df6',
+        orangeSlab: '#a33f14', orangeInk: '#f5864c',
+        lossSlab: '#8a1127', loss: '#f2465c', win: '#22c55e', carry: '#669df6'
+      }
+    ];
+
+    function renderCard(t) {
+      return `
+        <article class="theme-card" style="
+          --page:${t.page}; --panel:${t.panel}; --plaque:${t.plaque};
+          --line:${t.line}; --outline:${t.outline};
+          --ink:${t.ink}; --strong:${t.strong}; --ink-2:${t.ink2}; --muted:${t.muted};
+          --blue-slab:${t.blueSlab}; --on-slab:${t.onSlab}; --blue-ink:${t.blueInk};
+          --orange-slab:${t.orangeSlab}; --orange-ink:${t.orangeInk};
+          --loss-slab:${t.lossSlab}; --loss:${t.loss}; --win:${t.win}; --carry:${t.carry};
+          --font-display:${t.fontDisplay}; --radius:${t.radius};
+        ">
+          <div class="frieze-split"></div>
+          <div class="card-topbar">
+            <div class="theme-title-group">
+              <span class="theme-name">${t.name}</span>
+              <span class="theme-material">${t.material}</span>
+            </div>
+            <div class="swatch-strip">
+              <span class="swatch-chip"><span class="swatch-dot" style="background:${t.blueSlab}"></span>${t.blueSlab}</span>
+              <span class="swatch-chip"><span class="swatch-dot" style="background:${t.orangeSlab}"></span>${t.orangeSlab}</span>
+              <span class="swatch-chip"><span class="swatch-dot" style="background:${t.lossSlab}"></span>${t.lossSlab}</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="scorebug">
+              <div class="scorebug-rule"></div>
+              <div class="scorebug-row">
+                <div class="wing-blue">
+                  <div class="wing-title">BLUE</div>
+                  <div class="wing-sub">AVG 1494 · YOUR TEAM</div>
+                </div>
+                <div class="score-box score-blue">3</div>
+                <div class="center-clock">
+                  <div class="live-line"><span class="live-dot">●</span> LIVE 02:14</div>
+                  <div class="mode-line">RANKED 2V2</div>
+                  <div class="parity-chip">EVEN MATCH</div>
+                </div>
+                <div class="score-box score-orange">2</div>
+                <div class="wing-orange">
+                  <div class="wing-title">ORANGE</div>
+                  <div class="wing-sub">AVG 1497</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="players-pair">
+              <div class="p-card">
+                <div class="p-slab p-slab-blue">
+                  <div>
+                    <div class="p-role">BLUE TEAM // PLAYER</div>
+                    <div class="p-name">You</div>
+                  </div>
+                  <div>
+                    <div class="p-mmr">1485 MMR</div>
+                    <div class="p-rank">GC I · DIV II</div>
+                  </div>
+                </div>
+                <div class="p-badges">
+                  <span class="tag tag-you">◆ YOU · ACTIVE SESSION</span>
+                  <span class="tag tag-win">NET MMR +29</span>
+                </div>
+                <div class="p-stats">
+                  <div class="stat-cell"><span class="stat-k">PTS</span><span class="stat-v">480</span></div>
+                  <div class="stat-cell"><span class="stat-k">G</span><span class="stat-v">2</span></div>
+                  <div class="stat-cell"><span class="stat-k">A</span><span class="stat-v">1</span></div>
+                  <div class="stat-cell"><span class="stat-k">SV</span><span class="stat-v">3</span></div>
+                  <div class="stat-cell"><span class="stat-k">SH</span><span class="stat-v">5</span></div>
+                  <div class="stat-cell"><span class="stat-k">D</span><span class="stat-v">1</span></div>
+                </div>
+              </div>
+
+              <div class="p-card">
+                <div class="p-slab p-slab-orange">
+                  <div>
+                    <div class="p-role">ORANGE TEAM // PLAYER</div>
+                    <div class="p-name">VortexRL</div>
+                  </div>
+                  <div>
+                    <div class="p-mmr">1414 MMR</div>
+                    <div class="p-rank">CHAMP III · DIV IV</div>
+                  </div>
+                </div>
+                <div class="p-badges">
+                  <span class="tag tag-smurf">◆ SMURF · 3V3 SSL (1890 · +430)</span>
+                  <span class="tag tag-carry">◆ CARRYING (+95)</span>
+                </div>
+                <div class="p-stats">
+                  <div class="stat-cell"><span class="stat-k">PTS</span><span class="stat-v">420</span></div>
+                  <div class="stat-cell"><span class="stat-k">G</span><span class="stat-v">1</span></div>
+                  <div class="stat-cell"><span class="stat-k">A</span><span class="stat-v">1</span></div>
+                  <div class="stat-cell"><span class="stat-k">SV</span><span class="stat-v">4</span></div>
+                  <div class="stat-cell"><span class="stat-k">SH</span><span class="stat-v">6</span></div>
+                  <div class="stat-cell"><span class="stat-k">D</span><span class="stat-v">0</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    document.getElementById('monolith-grid').innerHTML = THEMES.filter(t => t.group === 'monolith').map(renderCard).join('');
+    document.getElementById('extended-grid').innerHTML = THEMES.filter(t => t.group === 'extended').map(renderCard).join('');
+  </script>
+</body>
+</html>
