@@ -76,7 +76,10 @@ body[data-mode="dark"] {
 .am-hanko-seal,
 .am-hex64-plaque,
 .am-jp-subtitle,
-.am-frieze-rule {
+.am-frieze-rule,
+.am-only-inline,
+.am-makers-watermark,
+.am-modal-top-rule {
   display: none;
 }
 
@@ -96,12 +99,12 @@ body[data-mode="dark"] {
 }
 
 /* --- 0. ARASHIKAGE MONOLITH (嵐影 · 銀座碑文 — PRIMARY SIGNATURE THEME) ---
-   4 Canonical Material Expressions:
+   Synchronized 1:1 with rl-stats/index.html & design-system.html:
    01 · 版画 Hanga (Sumi Woodblock — Default Dark)
    02 · 漆 Urushi (Roiro Lacquer & Kintsugi Brass — Dark)
    03 · 硯 Suzuri (Carved Inkstone — Dark)
    04 · 和紙 Washi (Mulberry Parchment — Light)
-   90/10 Pigment Law (九分墨・一分朱) · Stepped Art Deco Ziggurat Frame · Carved Hanko Seal */
+   90/10 Pigment Law (九分墨・一分朱) · Open Hairline Ledger Strata · Carved Hanko Seal */
 body[data-theme="arashikage_monolith"] {
   --ease-hanko-strike: cubic-bezier(0.12, 0.98, 0.24, 1);
   --dur-hanko-strike: 190ms;
@@ -112,30 +115,30 @@ body[data-theme="arashikage_monolith"] {
   font-variant-numeric: tabular-nums;
 }
 
-/* Expression 01: 版画 · Hanga (Sumi Woodblock — Default Dark) */
+/* Expression 01: 版画 · Hanga (Sumi Woodblock — Default Dark, 1:1 with rl-stats/index.html) */
 body[data-theme="arashikage_monolith"][data-mode="dark"] {
   --am-ground: #0a0908;
-  --am-canvas: #171412;
-  --am-plaque: #0d0b0a;
-  --am-canvas-subtle: #211d1a;
-  --am-rule: #36302a;
-  --am-outline: #d8d0c5;
-  --am-frieze: #cfc6b8;
-  --am-ink: #f4efe6;
+  --am-canvas: #181614;
+  --am-plaque: #0f0d0b;
+  --am-canvas-subtle: #221f1c;
+  --am-rule: #38332d;
+  --am-outline: #e2dbd0;
+  --am-frieze: #d8d0c5;
+  --am-ink: #f2efe9;
   --am-ink-strong: #fbf9f5;
-  --am-ink-secondary: #c9c0b1;
-  --am-ink-muted: #9e9384;
-  --am-slab-primary: #f4efe6;
+  --am-ink-secondary: #cfc7b8;
+  --am-ink-muted: #918779;
+  --am-slab-primary: #f2efe9;
   --am-slab-primary-ink: #12100e;
   --am-slab-counter: #b81d13;
   --am-slab-counter-ink: #fbf9f5;
-  --am-vermilion: #d4261d;
+  --am-vermilion: #d9382e;
   --am-gold: #deb052;
-  --am-gold-rule: #7a5c22;
+  --am-gold-rule: #785b22;
   --am-steel: #7da8c4;
-  --am-steel-rule: #3a607a;
-  --am-celadon: #82a890;
-  --am-celadon-rule: #3a634b;
+  --am-steel-rule: #3d637d;
+  --am-celadon: #689f7d;
+  --am-celadon-rule: #2d5940;
 
   --bg-root: var(--am-ground);
   --bg-panel: var(--am-canvas);
@@ -146,8 +149,8 @@ body[data-theme="arashikage_monolith"][data-mode="dark"] {
   --ink-primary: var(--am-ink-strong);
   --ink-secondary: var(--am-ink-secondary);
   --ink-muted: var(--am-ink-muted);
-  --accent-main: var(--am-vermilion);
-  --accent-ink: #fbf9f5;
+  --accent-main: var(--am-frieze);
+  --accent-ink: var(--am-slab-primary-ink);
   --accent-tint: var(--am-canvas-subtle);
   --font-display: "Josefin Sans", "Space Grotesk", "Inter", sans-serif;
   --font-body: "IBM Plex Sans", "Inter", system-ui, -apple-system, sans-serif;
@@ -160,53 +163,53 @@ body[data-theme="arashikage_monolith"][data-mode="dark"] {
 /* Expression 02: 漆 · Urushi (Roiro Lacquer & Kintsugi Brass — Dark) */
 body[data-theme="arashikage_monolith"][data-mode="dark"][data-expression="urushi"] {
   --am-ground: #060504;
-  --am-canvas: #120f0c;
-  --am-plaque: #090806;
+  --am-canvas: #120f0d;
+  --am-plaque: #0b0907;
   --am-canvas-subtle: #1c1713;
-  --am-rule: #42331f;
+  --am-rule: #3d3122;
   --am-outline: #e6c687;
   --am-frieze: #deb052;
-  --am-ink: #f7f2e7;
-  --am-ink-strong: #fffdf9;
-  --am-ink-secondary: #d4c5aa;
-  --am-ink-muted: #9e8c6c;
+  --am-ink: #f5efe4;
+  --am-ink-strong: #fcf9f2;
+  --am-ink-secondary: #d4c5af;
+  --am-ink-muted: #9e8c72;
   --am-slab-primary: #deb052;
-  --am-slab-primary-ink: #090806;
+  --am-slab-primary-ink: #0a0806;
   --am-slab-counter: #b81d13;
-  --am-slab-counter-ink: #fffdf9;
-  --am-vermilion: #d9291e;
+  --am-slab-counter-ink: #fcf9f2;
+  --am-vermilion: #e03e33;
   --am-gold: #f0c465;
   --am-gold-rule: #946e26;
   --am-steel: #7ba3bd;
   --am-steel-rule: #3a5c73;
-  --am-celadon: #7ea38c;
-  --am-celadon-rule: #395e49;
+  --am-celadon: #689f7d;
+  --am-celadon-rule: #2d5940;
 }
 
 /* Expression 03: 硯 · Suzuri (Carved Inkstone Monolith — Dark) */
 body[data-theme="arashikage_monolith"][data-mode="dark"][data-expression="suzuri"] {
   --am-ground: #08090c;
   --am-canvas: #12151c;
-  --am-plaque: #0b0d12;
+  --am-plaque: #0c0e13;
   --am-canvas-subtle: #1a1f29;
-  --am-rule: #2a3140;
+  --am-rule: #283040;
   --am-outline: #cbd5e1;
   --am-frieze: #94a3b8;
   --am-ink: #f1f5f9;
   --am-ink-strong: #ffffff;
   --am-ink-secondary: #cbd5e1;
-  --am-ink-muted: #94a3b8;
+  --am-ink-muted: #7e8da4;
   --am-slab-primary: #e2e8f0;
   --am-slab-primary-ink: #090b10;
   --am-slab-counter: #b81d13;
   --am-slab-counter-ink: #ffffff;
-  --am-vermilion: #d4261d;
+  --am-vermilion: #e04338;
   --am-gold: #deb052;
   --am-gold-rule: #785b22;
-  --am-steel: #8bb4d0;
+  --am-steel: #94a3b8;
   --am-steel-rule: #416885;
-  --am-celadon: #84ab93;
-  --am-celadon-rule: #3d664f;
+  --am-celadon: #5e9b78;
+  --am-celadon-rule: #2d5940;
 }
 
 /* Expression 04: 和紙 · Washi (Mulberry Parchment & Sumi Ink — Light) */
@@ -220,18 +223,18 @@ body[data-theme="arashikage_monolith"][data-mode="light"] {
   --am-frieze: #4a3f33;
   --am-ink: #171412;
   --am-ink-strong: #090807;
-  --am-ink-secondary: #362f28;
-  --am-ink-muted: #615548;
+  --am-ink-secondary: #3b352e;
+  --am-ink-muted: #6e6559;
   --am-slab-primary: #1c1917;
   --am-slab-primary-ink: #fbf9f5;
   --am-slab-counter: #b81d13;
   --am-slab-counter-ink: #fbf9f5;
-  --am-vermilion: #b81d13;
-  --am-gold: #8c5604;
+  --am-vermilion: #a81c14;
+  --am-gold: #8c5808;
   --am-gold-rule: #b48a3e;
   --am-steel: #1b4965;
   --am-steel-rule: #648ca8;
-  --am-celadon: #1e523b;
+  --am-celadon: #1e5638;
   --am-celadon-rule: #5c8f76;
 
   --bg-root: var(--am-ground);
@@ -243,8 +246,8 @@ body[data-theme="arashikage_monolith"][data-mode="light"] {
   --ink-primary: var(--am-ink-strong);
   --ink-secondary: var(--am-ink-secondary);
   --ink-muted: var(--am-ink-muted);
-  --accent-main: var(--am-vermilion);
-  --accent-ink: #fbf9f5;
+  --accent-main: var(--am-frieze);
+  --accent-ink: var(--am-slab-primary-ink);
   --accent-tint: var(--am-canvas-subtle);
   --font-display: "Josefin Sans", "Space Grotesk", "Inter", sans-serif;
   --font-body: "IBM Plex Sans", "Inter", system-ui, -apple-system, sans-serif;
@@ -270,9 +273,10 @@ body[data-theme="arashikage_monolith"] .rounded-xs {
    Voice 1 (Josefin Sans Display), Voice 2 (IBM Plex Sans Body), Voice 3 (JetBrains Mono Tabular), Voice 4 (Noto Serif JP Hanko Seal) */
 body[data-theme="arashikage_monolith"] h1,
 body[data-theme="arashikage_monolith"] h2,
+body[data-theme="arashikage_monolith"] h3,
 body[data-theme="arashikage_monolith"] .kicker {
   font-family: "Josefin Sans", "Space Grotesk", sans-serif;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
 }
 body[data-theme="arashikage_monolith"] .mono {
@@ -281,10 +285,34 @@ body[data-theme="arashikage_monolith"] .mono {
   font-feature-settings: "tnum" 1, "zero" 1;
 }
 
+/* Law 01 (90/10 Pigment Discipline): Kickers & architectural labels use warm Frieze/Gold (--am-frieze / --am-gold),
+   NOT loud vermilion (#d4261d), so only the carved Hanko seal and Tier 1 action triggers carry Shu-iro vermilion */
+body[data-theme="arashikage_monolith"] .kicker,
+body[data-theme="arashikage_monolith"] #ntabHeading,
+body[data-theme="arashikage_monolith"] #ttabHeading,
+body[data-theme="arashikage_monolith"] #ntabSubLabel,
+body[data-theme="arashikage_monolith"] #ttabSubLabel,
+body[data-theme="arashikage_monolith"] #techKicker {
+  color: var(--am-frieze) !important;
+}
+body[data-theme="arashikage_monolith"] .am-masthead-diamond {
+  color: var(--am-gold) !important;
+  font-size: 0.65rem;
+}
+body[data-theme="arashikage_monolith"] .am-only-inline {
+  display: inline-block;
+}
+
 /* Top Architectural Frieze Rule & Canonical Masthead Lockup (Hex64 6-Bar SVG Plaque + Carved Square Hanko Stamp) */
 body[data-theme="arashikage_monolith"] #topIdentityBar {
+  background-color: var(--am-canvas) !important;
   border-top: 2px solid var(--am-outline) !important;
-  box-shadow: inset 0 2px 0 0 var(--am-ground), inset 0 3px 0 0 var(--am-gold-rule) !important;
+  box-shadow: inset 0 2px 0 0 var(--am-ground), inset 0 3px 0 0 var(--am-gold) !important;
+  border-bottom: 1px solid var(--am-rule) !important;
+}
+body[data-theme="arashikage_monolith"] #controlPlaneHeader {
+  background-color: var(--am-canvas) !important;
+  border-bottom: 1.5px solid var(--am-outline) !important;
 }
 body[data-theme="arashikage_monolith"] #brandDot {
   display: none !important;
@@ -292,18 +320,18 @@ body[data-theme="arashikage_monolith"] #brandDot {
 body[data-theme="arashikage_monolith"] .am-hex64-plaque {
   display: inline-grid;
   place-items: center;
-  width: 1.55rem;
-  height: 1.55rem;
+  width: 1.65rem;
+  height: 1.65rem;
   background-color: var(--am-ground);
-  color: var(--am-ink-strong);
+  color: var(--am-vermilion);
   border: 1px solid var(--am-outline);
   flex-shrink: 0;
 }
 body[data-theme="arashikage_monolith"] .am-hanko-seal {
   display: inline-grid;
   place-items: center;
-  width: 1.55rem;
-  height: 1.55rem;
+  width: 1.65rem;
+  height: 1.65rem;
   background-color: #b81d13;
   color: #fbf9f5;
   font-family: "Noto Serif JP", "Hiragino Mincho ProN", serif;
@@ -319,17 +347,11 @@ body[data-theme="arashikage_monolith"] .am-hanko-seal {
   user-select: none;
   animation: am-hanko-strike var(--dur-hanko-strike) var(--ease-hanko-strike) both;
 }
-body[data-theme="arashikage_monolith"] .am-jp-subtitle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-body[data-theme="arashikage_monolith"] .am-jp-kanji {
-  font-family: "Noto Serif JP", "Hiragino Mincho ProN", serif;
-  font-weight: 900;
+body[data-theme="arashikage_monolith"] .am-hanko-seal-lg {
+  width: 2.25rem;
+  height: 2.25rem;
   font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  color: var(--am-ink-secondary);
+  outline-offset: -3px;
 }
 body[data-theme="arashikage_monolith"] .am-frieze-rule {
   display: block;
@@ -340,92 +362,130 @@ body[data-theme="arashikage_monolith"] .am-frieze-rule {
   margin: 0 0.5rem;
 }
 
-/* Canonical 3-Tier Semantic Seals & Structural Header Slabs from design-system.html */
-body[data-theme="arashikage_monolith"] .am-slab-primary {
-  background-color: var(--am-slab-primary) !important;
-  color: var(--am-slab-primary-ink) !important;
-  border-bottom: 1.5px solid var(--am-outline) !important;
-}
-body[data-theme="arashikage_monolith"] .am-slab-counter {
-  background-color: var(--am-slab-counter) !important;
-  color: var(--am-slab-counter-ink) !important;
-  border-bottom: 1.5px solid var(--am-outline) !important;
-}
-body[data-theme="arashikage_monolith"] .am-seal-vermilion {
-  background-color: #b81d13 !important;
-  color: #fbf9f5 !important;
-  border: 1px solid #b81d13 !important;
-  outline: 1px solid rgba(251, 249, 245, 0.38);
-  outline-offset: -2px;
-}
-body[data-theme="arashikage_monolith"] .am-cartouche-gold {
+/* Contiguous Shared-Border Segmented Control Strips (Matching rl-stats/index.html divide-x monolith strips) */
+body[data-theme="arashikage_monolith"] #genPillBar,
+body[data-theme="arashikage_monolith"] #modePillBar,
+body[data-theme="arashikage_monolith"] #polarityPillBar,
+body[data-theme="arashikage_monolith"] #inspectorViewToggleBar,
+body[data-theme="arashikage_monolith"] #nodeTabsBar,
+body[data-theme="arashikage_monolith"] #techTabsBar {
+  padding: 0 !important;
+  gap: 0 !important;
   background-color: var(--am-ground) !important;
-  color: var(--am-gold) !important;
-  border: 1px solid var(--am-gold-rule) !important;
+  border: 1px solid var(--am-outline) !important;
 }
-body[data-theme="arashikage_monolith"] .am-cartouche-steel {
-  background-color: var(--am-ground) !important;
-  color: var(--am-steel) !important;
-  border: 1px solid var(--am-steel-rule) !important;
+body[data-theme="arashikage_monolith"] #genPillBar > button + button,
+body[data-theme="arashikage_monolith"] #modePillBar > button + button,
+body[data-theme="arashikage_monolith"] #polarityPillBar > button + button,
+body[data-theme="arashikage_monolith"] #inspectorViewToggleBar > button + button,
+body[data-theme="arashikage_monolith"] #nodeTabsBar > button + button,
+body[data-theme="arashikage_monolith"] #techTabsBar > button + button {
+  border-left: 1px solid var(--am-rule) !important;
 }
-body[data-theme="arashikage_monolith"] .am-cartouche-celadon {
-  background-color: var(--am-ground) !important;
-  color: var(--am-celadon) !important;
-  border: 1px solid var(--am-celadon-rule) !important;
-}
-body[data-theme="arashikage_monolith"] .am-interactive {
-  transition:
-    border-color var(--dur-chisel-snap) var(--ease-chisel-snap),
-    background-color var(--dur-chisel-snap) var(--ease-chisel-snap),
-    transform var(--dur-chisel-snap) var(--ease-chisel-snap);
-}
-body[data-theme="arashikage_monolith"] .am-interactive:hover {
-  border-color: var(--am-outline) !important;
-  transform: translateY(-1px);
+body[data-theme="arashikage_monolith"] #genPillBar > button,
+body[data-theme="arashikage_monolith"] #modePillBar > button,
+body[data-theme="arashikage_monolith"] #polarityPillBar > button,
+body[data-theme="arashikage_monolith"] #inspectorViewToggleBar > button,
+body[data-theme="arashikage_monolith"] #nodeTabsBar > button,
+body[data-theme="arashikage_monolith"] #techTabsBar > button {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  border-right: 0 !important;
+  font-family: "Josefin Sans", "Space Grotesk", sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-/* Law 01 & Law 04: 90/10 Pigment Allocation (九分墨・一分朱)
-   Active segmented pills & navigation tabs use Tier 2 Inverted Monolith Slab Polarity (--am-slab-primary);
-   Primary Hanko action triggers retain Tier 1 Carved Shu-iro Vermilion (#b81d13) with inset rim */
+/* Active Segmented Cells Use Tier 2 Inverted Monolith Slab Polarity (--am-slab-primary) */
 body[data-theme="arashikage_monolith"] #genPillBar .btn-theme-accent,
-body[data-theme="arashikage_monolith"] #modePillBar .btn-theme-accent,
+body[data-theme="arashikage_monolith"] #modePillBar .surface-elevated,
+body[data-theme="arashikage_monolith"] #polarityPillBar .surface-elevated,
+body[data-theme="arashikage_monolith"] #inspectorViewToggleBar .surface-elevated,
 body[data-theme="arashikage_monolith"] .ntab-btn.btn-theme-accent,
 body[data-theme="arashikage_monolith"] .ttab-btn.btn-theme-accent,
 body[data-theme="arashikage_monolith"] .inline-mode-pill.btn-theme-accent {
   background-color: var(--am-slab-primary) !important;
   color: var(--am-slab-primary-ink) !important;
-  border-color: var(--am-outline) !important;
+  box-shadow: none !important;
   outline: none !important;
 }
+
+/* Primary Hanko Action Seals Retain Tier 1 Carved Shu-iro Vermilion (#b81d13) with Inset Rim */
 body[data-theme="arashikage_monolith"] #btnToggleTour.btn-theme-accent,
 body[data-theme="arashikage_monolith"] #btnOpenQuickStart.btn-theme-accent,
 body[data-theme="arashikage_monolith"] #btnCloseQuickStartBottom.btn-theme-accent,
 body[data-theme="arashikage_monolith"] #ttStepBadge.btn-theme-accent,
 body[data-theme="arashikage_monolith"] #btnResumeTourStep.btn-theme-accent,
+body[data-theme="arashikage_monolith"] #btnTtNext.btn-theme-accent,
 body[data-theme="arashikage_monolith"] #quickStartModalCard [data-qs-scenario="tour"].btn-theme-accent {
   background-color: #b81d13 !important;
   color: #fbf9f5 !important;
   border-color: var(--am-outline) !important;
   outline: 1px solid rgba(251, 249, 245, 0.38);
   outline-offset: -2px;
+  font-family: "Josefin Sans", "Space Grotesk", sans-serif;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
 }
 
-/* Structural Header Slabs for Inspector Callouts & Stage Simulator Card (Zero Translucent RGBA Wash) */
+/* Integrated Canvas Telemetry Colophon & Right Inspector Open Hairline Strata (Anti-Claustrophobia Law) */
+body[data-theme="arashikage_monolith"] #pathwayTelemetryBanner {
+  background-color: var(--am-canvas-subtle) !important;
+  border-bottom: 1px solid var(--am-rule) !important;
+}
+body[data-theme="arashikage_monolith"] #rightSidePanel {
+  background-color: var(--am-canvas) !important;
+  border-left: 1.5px solid var(--am-outline) !important;
+}
+body[data-theme="arashikage_monolith"] #inspectorStickyHeader {
+  background-color: var(--am-canvas) !important;
+  border-bottom: 1.5px solid var(--am-outline) !important;
+  padding: 0.6rem 0.85rem !important;
+}
+body[data-theme="arashikage_monolith"] #inspectorNodeView,
+body[data-theme="arashikage_monolith"] #inspectorTechView {
+  padding: 0 !important;
+  gap: 0 !important;
+}
+body[data-theme="arashikage_monolith"] #inspectorNodeView > .surface-card,
+body[data-theme="arashikage_monolith"] #inspectorTechView > .surface-card {
+  background-color: var(--am-canvas) !important;
+  border-top: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 1px solid var(--am-rule) !important;
+  padding: 0.75rem 0.9rem !important;
+  box-shadow: none !important;
+}
+
+/* Inspector Callouts as Recessed .deco-plaque Strata */
+body[data-theme="arashikage_monolith"] .theme-callout {
+  background-color: var(--am-plaque) !important;
+  border: 1px solid var(--am-rule) !important;
+}
 body[data-theme="arashikage_monolith"] .theme-callout-header {
   background-color: var(--am-canvas-subtle) !important;
-  border-bottom: 1px solid var(--am-outline) !important;
-  border-left: 3px solid var(--am-slab-counter) !important;
+  border-bottom: 1px solid var(--am-rule) !important;
+  border-left: 3px solid #b81d13 !important;
+  padding: 5px 9px !important;
 }
+body[data-theme="arashikage_monolith"] .theme-callout-body {
+  padding: 8px 9px !important;
+}
+
+/* Stage Simulator Header Slab (Matching rl-stats/index.html full-bleed structural header) */
 body[data-theme="arashikage_monolith"] #stageWidgetCard > div:first-child {
-  background-color: var(--am-slab-primary) !important;
-  color: var(--am-slab-primary-ink) !important;
-  padding: 4px 8px;
-  margin: -10px -10px 4px -10px;
-  border-bottom: 1.5px solid var(--am-outline);
+  background-color: var(--am-canvas-subtle) !important;
+  padding: 6px 10px !important;
+  margin: -0.75rem -0.9rem 0.45rem -0.9rem !important;
+  border-bottom: 1px solid var(--am-outline) !important;
+  border-left: 3px solid var(--am-gold) !important;
 }
-body[data-theme="arashikage_monolith"] #stageWidgetCard #ctxWidgetTitle,
+body[data-theme="arashikage_monolith"] #stageWidgetCard #ctxWidgetTitle {
+  color: var(--am-ink-strong) !important;
+}
 body[data-theme="arashikage_monolith"] #stageWidgetCard #ctxWidgetTag {
-  color: var(--am-slab-primary-ink) !important;
+  color: var(--am-gold) !important;
 }
 
 /* Stepped Art Deco Ziggurat Frame on Top-Level Monolith Overlays Only (Zero Diffused Drop-Shadow & Zero Blur) */
@@ -434,32 +494,122 @@ body[data-theme="arashikage_monolith"] #searchPalettePopover,
 body[data-theme="arashikage_monolith"] #quickStartModalCard,
 body[data-theme="arashikage_monolith"] #tourTooltip,
 body[data-theme="arashikage_monolith"] #exportPopoverMenu {
-  border: 1.5px solid var(--am-outline) !important;
+  background-color: var(--am-canvas) !important;
+  border: 2px solid var(--am-outline) !important;
   box-shadow:
-    0 0 0 4px var(--am-ground),
-    0 0 0 5.5px var(--am-rule) !important;
+    inset 0 0 0 2px var(--am-ground),
+    inset 0 0 0 3px var(--am-rule),
+    0 24px 60px rgba(0, 0, 0, 0.82) !important;
 }
 
-/* Shōji Kumiko Lattice Veil Backdrop (障子 · 組子 — Zero Optical Blur) */
+/* Shōji Architecture Briefing Scroll (Matching rl-stats/index.html:1255-1393) */
+body[data-theme="arashikage_monolith"] .am-modal-top-rule {
+  display: block;
+  height: 5px;
+  border-top: 2px solid var(--am-outline);
+  border-bottom: 1px solid var(--am-gold);
+  background-color: var(--am-ground);
+  flex-shrink: 0;
+}
+body[data-theme="arashikage_monolith"] .am-makers-watermark {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: absolute;
+  top: 2.2rem;
+  right: 1.5rem;
+  opacity: 0.035;
+  color: var(--am-ink-strong);
+  z-index: 0;
+}
+body[data-theme="arashikage_monolith"] .am-watermark-kanji {
+  font-family: "Noto Serif JP", serif;
+  font-weight: 900;
+  font-size: 4.5rem;
+  line-height: 1;
+}
+body[data-theme="arashikage_monolith"] .am-thesis-plaque {
+  background-color: var(--am-plaque);
+  border: 1px solid var(--am-rule);
+  border-left: 4px solid #b81d13;
+  padding: 0.55rem 0.85rem;
+}
+body[data-theme="arashikage_monolith"] #qsPathsLedger {
+  gap: 0 !important;
+  border: 1px solid var(--am-rule) !important;
+  background-color: var(--am-plaque) !important;
+}
+body[data-theme="arashikage_monolith"] #qsPathsLedger > .qs-ledger-col {
+  border: 0 !important;
+  background-color: var(--am-plaque) !important;
+  box-shadow: none !important;
+}
+@media (min-width: 1024px) {
+  body[data-theme="arashikage_monolith"] #qsPathsLedger > .qs-ledger-col + .qs-ledger-col {
+    border-left: 1px solid var(--am-rule) !important;
+  }
+}
+@media (max-width: 1023px) {
+  body[data-theme="arashikage_monolith"] #qsPathsLedger > .qs-ledger-col + .qs-ledger-col {
+    border-top: 1px solid var(--am-rule) !important;
+  }
+}
+body[data-theme="arashikage_monolith"] #qsSurfacesLedger {
+  gap: 0 !important;
+  border: 1px solid var(--am-rule) !important;
+  background-color: var(--am-plaque) !important;
+}
+body[data-theme="arashikage_monolith"] #qsSurfacesLedger > .qs-surface-cell {
+  background-color: var(--am-plaque) !important;
+  border: 0 !important;
+  border-right: 1px solid var(--am-rule) !important;
+  border-bottom: 1px solid var(--am-rule) !important;
+}
+
+/* Shōji Kumiko Lattice Veil Backdrop (160px × 104px Kumiko Screen + Radial Vignette — 1:1 with rl-stats/index.html:372-395) */
 body[data-theme="arashikage_monolith"] #quickStartModalBackdrop,
 body[data-theme="arashikage_monolith"] #themeGalleryPopover::backdrop,
 body[data-theme="arashikage_monolith"] #searchPalettePopover::backdrop {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  background-color: rgba(10, 9, 8, 0.84) !important;
+  background-color: rgba(10, 9, 8, 0.88) !important;
   background-image:
-    linear-gradient(to right, rgba(216, 208, 197, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(216, 208, 197, 0.07) 1px, transparent 1px) !important;
-  background-size: 32px 32px !important;
+    repeating-linear-gradient(
+      90deg,
+      rgba(226, 219, 208, 0.045) 0px,
+      rgba(226, 219, 208, 0.045) 1px,
+      transparent 1px,
+      transparent 160px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(226, 219, 208, 0.035) 0px,
+      rgba(226, 219, 208, 0.035) 1px,
+      transparent 1px,
+      transparent 104px
+    ),
+    radial-gradient(circle at 50% 38%, rgba(24, 22, 20, 0.45) 0%, rgba(10, 9, 8, 0.96) 100%) !important;
 }
 body[data-theme="arashikage_monolith"][data-mode="light"] #quickStartModalBackdrop,
 body[data-theme="arashikage_monolith"][data-mode="light"] #themeGalleryPopover::backdrop,
 body[data-theme="arashikage_monolith"][data-mode="light"] #searchPalettePopover::backdrop {
-  background-color: rgba(28, 25, 23, 0.72) !important;
+  background-color: rgba(28, 25, 23, 0.78) !important;
   background-image:
-    linear-gradient(to right, rgba(28, 25, 23, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(28, 25, 23, 0.08) 1px, transparent 1px) !important;
-  background-size: 32px 32px !important;
+    repeating-linear-gradient(
+      90deg,
+      rgba(28, 25, 23, 0.06) 0px,
+      rgba(28, 25, 23, 0.06) 1px,
+      transparent 1px,
+      transparent 160px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(28, 25, 23, 0.05) 0px,
+      rgba(28, 25, 23, 0.05) 1px,
+      transparent 1px,
+      transparent 104px
+    ),
+    radial-gradient(circle at 50% 38%, rgba(244, 239, 230, 0.25) 0%, rgba(28, 25, 23, 0.88) 100%) !important;
 }
 
 /* --- 1. NEO-BRUTALISM (LIGHT & DARK) --- */

@@ -88,7 +88,7 @@
 
   const THEME_META = {
     arashikage_monolith: {
-      name: 'Arashikage Monolith (嵐影 · 銀座碑文)',
+      name: 'Arashikage Monolith (嵐影)',
       notes: '版画 Hanga (Dark) / 和紙 Washi (Light) · 90/10 Sumi & Shu-iro Hanko Seal · Stepped Ziggurat Frame',
       stageColorsLight: ['#1c1917', '#1b4965', '#8c5604', '#6b4c1b', '#b81d13', '#1e523b'],
       stageColorsDark:  ['#d8d0c5', '#7da8c4', '#deb052', '#c89d54', '#d4261d', '#82a890']
@@ -186,7 +186,7 @@
   const THEME_GLYPHS = {
     arashikage_monolith: {
       prev: '◂', next: '▸', light: '陽', dark: '陰',
-      node: '礎', tech: '録', tourOn: '印', tourOff: '▸',
+      node: '▣', tech: '◈', tourOn: '印', tourOff: '▸',
       export: '↗', close: '✕', open: '↗', fs: '⊞', fsExit: '✕'
     },
     neo_brutalism: {
@@ -579,7 +579,7 @@
               : mAct
               ? isLight ? '#15803d' : '#4ade80'
               : isLight ? '#b45309' : '#fbbf24';
-            const dotGlyph = isAm ? (mAct ? '鎖' : '戒') : mAct ? '●' : '⊘';
+            const dotGlyph = mAct ? '●' : '⊘';
             const label = key === 'live' ? 'Live 5.5ms' : key === 'train' ? 'Train' : 'Distill';
             btn.innerHTML =
               '<span style="color:' +
@@ -634,28 +634,28 @@
       const modeContractMap = isAm
         ? {
             all: {
-              badge: '礎 · ALL PATHWAYS (' + total + '/' + total + ' ACTIVE)',
+              badge: '◆ ALL PATHWAYS (' + total + '/' + total + ' ACTIVE)',
               regime: 'Unified Inference (B=1 · <=5.5ms) + Training (B=12,512 · 4,096 Arenas) + Warm-Start Distillation',
               badgeBg: 'var(--am-ground)',
               badgeCol: 'var(--am-ink-strong)',
               badgeBorder: 'var(--am-outline)'
             },
             live: {
-              badge: '双 · LIVE ≤5.5MS (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
+              badge: '● LIVE ≤5.5MS (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
               regime: 'B=1 · 15Hz Policy / 60Hz Subtick / 120Hz Physics · CUDAGraph Locked · Zero Privileged/RL Overhead',
               badgeBg: 'var(--am-ground)',
               badgeCol: 'var(--am-steel)',
               badgeBorder: 'var(--am-steel-rule)'
             },
             train: {
-              badge: '鎖 · TRAIN 4,096 ARENAS (' + activeNodes.length + '/' + total + ' ACTIVE' + (bypassedNodes.length ? ' · ' + bypassedNodes.length + ' BYPASSED' : '') + ')',
+              badge: '● TRAIN 4,096 ARENAS (' + activeNodes.length + '/' + total + ' ACTIVE' + (bypassedNodes.length ? ' · ' + bypassedNodes.length + ' BYPASSED' : '') + ')',
               regime: 'B=12,512 Cars (816 G=8 Cloned GRPO + 2,880 League PPO + 400 Boss) · Dual Critic + JEPA Active',
               badgeBg: 'var(--am-ground)',
               badgeCol: 'var(--am-celadon)',
               badgeBorder: 'var(--am-celadon-rule)'
             },
             distill: {
-              badge: '録 · DISTILL WARM-START (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
+              badge: '● DISTILL WARM-START (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
               regime: 'Offline Teacher (173,650 Steps) -> Student Behavioral Cloning & Value Alignment before RL',
               badgeBg: 'var(--am-ground)',
               badgeCol: 'var(--am-gold)',
@@ -718,7 +718,7 @@
                 ' is bypassed in ' +
                 activeMode.toUpperCase() +
                 '">' +
-                (isAm ? '戒 · #' : '⊘ #') +
+                '⊘ #' +
                 bn.num +
                 ' ' +
                 bn.title +
@@ -728,38 +728,40 @@
           '</div>';
       } else {
         rightControlsHtml =
-          '<div class="flex items-center gap-1 flex-wrap">' +
-          '<span class="mono text-[9.5px] font-bold text-muted-ink uppercase">Jump Stage:</span>' +
+          '<div class="flex items-center gap-1.5 flex-wrap">' +
+          '<span class="mono text-[9.5px] font-bold text-muted-ink uppercase">Stage:</span>' +
+          '<div class="' + (isAm ? 'inline-flex items-center border border-[var(--am-outline)] bg-[var(--am-ground)]' : 'flex items-center gap-1') + '">' +
           [0, 1, 2, 3, 4, 5]
             .map((cIdx) => {
               const sCol = stageCols[cIdx] || '#64748b';
               const curNode = nodeMap[selectedNodeId];
               const isCurStage = curNode && curNode.col === cIdx;
               const btnStyle = isAm
-                ? isCurStage
-                  ? 'background:var(--am-slab-primary);color:var(--am-slab-primary-ink);border-color:var(--am-outline)'
-                  : 'background:var(--am-ground);color:var(--am-ink-secondary);border-color:var(--am-rule);border-left:2.5px solid ' + sCol
+                ? (isCurStage
+                    ? 'background:var(--am-slab-primary);color:var(--am-slab-primary-ink);'
+                    : 'background:var(--am-ground);color:var(--am-ink-secondary);') +
+                  (cIdx > 0 ? 'border-left:1px solid var(--am-rule);' : '') +
+                  'border-bottom:2px solid ' + sCol
                 : 'background:' +
                   (isCurStage ? sCol + '24' : 'transparent') +
                   ';color:' +
                   sCol +
                   ';border-color:' +
                   (isCurStage ? sCol : sCol + '66');
-              const btnLbl = isAm ? AM_STAGE_KANJI[cIdx] + '·S' + (cIdx + 1) : 'S' + (cIdx + 1);
               return (
                 '<button type="button" data-telemetry-stage="' +
                 cIdx +
-                '" class="no-wrap-btn mono text-[9.5px] font-bold px-1.5 py-0.5 rounded border cursor-pointer transition" style="' +
+                '" class="no-wrap-btn mono text-[9.5px] font-bold px-2 py-0.5 ' + (isAm ? '' : 'rounded border ') + 'cursor-pointer transition" style="' +
                 btnStyle +
                 '" title="Select Stage ' +
                 (cIdx + 1) +
-                ' lead block & interactive simulator">' +
-                btnLbl +
+                ' lead block & interactive simulator">S' +
+                (cIdx + 1) +
                 '</button>'
               );
             })
             .join('') +
-          '</div>';
+          '</div></div>';
       }
 
       pathwayTelemetryBanner.innerHTML =
@@ -823,8 +825,10 @@
       const nodeSuffix = curNode ? ' (#' + curNode.num + ')' : '';
       btnPolarityLight.textContent = getGlyph('light') + ' Light';
       btnPolarityDark.textContent = getGlyph('dark') + ' Dark';
-      document.getElementById('btnPrevTheme').textContent = getGlyph('prev');
-      document.getElementById('btnNextTheme').textContent = getGlyph('next');
+      const prevThemeBtn = document.getElementById('btnPrevTheme');
+      if (prevThemeBtn) prevThemeBtn.textContent = getGlyph('prev');
+      const nextThemeBtn = document.getElementById('btnNextTheme');
+      if (nextThemeBtn) nextThemeBtn.textContent = getGlyph('next');
       btnViewNode.textContent =
         getGlyph('node') + ' Block Inspector' + (activeRightView === 'tech' ? nodeSuffix : '');
       btnViewTech.textContent = getGlyph('tech') + ' Deep Dive';
@@ -978,7 +982,7 @@
 
       const makeCol = (title, edgeList, isIncoming) => {
         const col = document.createElement('div');
-        col.className = 'flex flex-col gap-1';
+        col.className = 'flex flex-col gap-1 min-w-0';
         const hdr = document.createElement('span');
         hdr.className = 'mono text-[9.5px] font-bold text-muted-ink uppercase';
         hdr.textContent = title;
@@ -993,7 +997,7 @@
         }
 
         const wrap = document.createElement('div');
-        wrap.className = 'flex flex-wrap gap-1';
+        wrap.className = 'flex flex-wrap gap-1 min-w-0';
         edgeList.forEach((e) => {
           const targetNode = nodeMap[isIncoming ? e.from : e.to];
           if (!targetNode) return;
@@ -1001,7 +1005,7 @@
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.className =
-            'no-wrap-btn px-1.5 py-0.5 rounded surface-root border border-hairline hover:border-subtle text-[10px] mono text-primary-ink transition cursor-pointer gap-1' +
+            'max-w-full inline-flex items-center px-1.5 py-0.5 rounded surface-root border border-hairline hover:border-subtle text-[10px] mono text-primary-ink transition cursor-pointer gap-1 overflow-hidden' +
             (edgeActive ? '' : ' opacity-55');
           btn.title =
             (isIncoming ? 'Upstream Input from #' : 'Downstream Output to #') +
@@ -1011,20 +1015,20 @@
             (e.label ? ' (' + e.label + ')' : '') +
             (edgeActive ? '' : ' — Bypassed in ' + activeMode.toUpperCase());
           btn.innerHTML =
-            '<span class="font-bold" style="color:' +
+            '<span class="font-bold shrink-0" style="color:' +
             targetNode.color +
             '">#' +
             targetNode.num +
-            '</span><span>' +
+            '</span><span class="truncate">' +
             targetNode.title +
             '</span>' +
             (e.label
-              ? '<span class="px-1 rounded surface-panel text-[9px] text-secondary-ink">' + e.label + '</span>'
+              ? '<span class="px-1 rounded surface-panel text-[9px] text-secondary-ink shrink-0">' + e.label + '</span>'
               : '') +
             (!edgeActive
               ? isArashikageMonolith()
-                ? '<span class="px-1 rounded text-[8.5px] font-bold" style="background:var(--am-ground);color:var(--am-gold);border:1px solid var(--am-gold-rule)">戒 BYPASSED</span>'
-                : '<span class="px-1 rounded text-[8.5px] font-bold" style="background:rgba(245,158,11,0.18);color:#d97706">BYPASSED</span>'
+                ? '<span class="px-1 rounded text-[8.5px] font-bold shrink-0" style="background:var(--am-ground);color:var(--am-gold);border:1px solid var(--am-gold-rule)">BYPASSED</span>'
+                : '<span class="px-1 rounded text-[8.5px] font-bold shrink-0" style="background:rgba(245,158,11,0.18);color:#d97706">BYPASSED</span>'
               : '');
           btn.addEventListener('click', () => {
             selectedNodeId = targetNode.id;
@@ -1115,13 +1119,13 @@
 
       if (activeMode === 'all') {
         if (activeList.length === 3) {
-          badge.textContent = isAm ? '鎖 · 3/3 PATHWAYS' : '● 3/3 PATHWAYS';
+          badge.textContent = '● 3/3 PATHWAYS';
           badge.style.color = isAm ? 'var(--am-celadon)' : isLight ? '#15803d' : '#4ade80';
           badge.style.borderColor = isAm ? 'var(--am-celadon-rule)' : isLight ? '#16a34a' : '#22c55e';
           badge.style.backgroundColor = isAm ? 'var(--am-ground)' : isLight ? 'rgba(22,163,74,0.12)' : 'rgba(34,197,94,0.16)';
         } else {
           const names = activeList.map((m) => m.toUpperCase()).join('+');
-          badge.textContent = (isAm ? '戒 · ' : '◐ ') + names + ' ONLY';
+          badge.textContent = '◐ ' + names + ' ONLY';
           badge.style.color = isAm ? 'var(--am-gold)' : isLight ? '#b45309' : '#fbbf24';
           badge.style.borderColor = isAm ? 'var(--am-gold-rule)' : isLight ? '#d97706' : '#f59e0b';
           badge.style.backgroundColor = isAm ? 'var(--am-ground)' : isLight ? 'rgba(217,119,6,0.14)' : 'rgba(245,158,11,0.18)';
@@ -1130,12 +1134,12 @@
         const isAct = modes.includes(activeMode);
         const mName = activeMode.toUpperCase();
         if (isAct) {
-          badge.textContent = (isAm ? '鎖 · ' : '● ') + mName + ': ACTIVE';
+          badge.textContent = '● ' + mName + ': ACTIVE';
           badge.style.color = isAm ? 'var(--am-celadon)' : isLight ? '#15803d' : '#4ade80';
           badge.style.borderColor = isAm ? 'var(--am-celadon-rule)' : isLight ? '#16a34a' : '#22c55e';
           badge.style.backgroundColor = isAm ? 'var(--am-ground)' : isLight ? 'rgba(22,163,74,0.14)' : 'rgba(34,197,94,0.18)';
         } else {
-          badge.textContent = (isAm ? '戒 · ' : '⊘ ') + mName + ': BYPASSED';
+          badge.textContent = '⊘ ' + mName + ': BYPASSED';
           badge.style.color = isAm ? 'var(--am-gold)' : isLight ? '#b45309' : '#fbbf24';
           badge.style.borderColor = isAm ? 'var(--am-gold-rule)' : isLight ? '#d97706' : '#f59e0b';
           badge.style.backgroundColor = isAm ? 'var(--am-ground)' : isLight ? 'rgba(217,119,6,0.18)' : 'rgba(245,158,11,0.22)';
@@ -1160,17 +1164,15 @@
       if (activeMode === 'all') {
         const activeCount = ['live', 'train', 'distill'].filter((m) => modes.includes(m)).length;
         ntabSubLabel.innerHTML =
-          '<span>' +
-          (isAm ? '双 · ' : '') +
-          'ROLE ACROSS PATHWAYS (' +
+          '<span>ROLE ACROSS PATHWAYS (' +
           activeCount +
           '/3 ACTIVE)</span>' +
-          '<button type="button" id="btnToggleAllModeExpand" class="ml-2 mono text-[9px] font-bold px-1.5 py-0.5 rounded surface-panel text-theme-accent border border-hairline hover:border-subtle cursor-pointer">' +
+          '<button type="button" id="btnToggleAllModeExpand" class="ml-2 mono text-[9px] font-bold px-1.5 py-0.5 rounded surface-panel text-primary-ink border border-hairline hover:border-subtle cursor-pointer">' +
           (allModePathwayExpanded ? '▴ Compact' : '▾ Expand Details') +
           '</button>';
 
         const rowsHtml = ['live', 'train', 'distill']
-          .map((m) => {
+          .map((m, rIdx) => {
             const isAct = modes.includes(m);
             const spec = getPathwayRoleSpec(node, activeArchKey, m);
             const pillBg = isAm
@@ -1186,13 +1188,16 @@
             const pillBorder = isAm
               ? isAct ? 'var(--am-celadon-rule)' : 'var(--am-gold-rule)'
               : isAct ? '#16a34a' : '#d97706';
-            const statusText = isAm ? (isAct ? '鎖 ACTIVE' : '戒 BYPASSED') : isAct ? '● ACTIVE' : '⊘ BYPASSED';
+            const statusText = isAct ? '● ACTIVE' : '⊘ BYPASSED';
             const shortMode = m === 'live' ? 'LIVE 5.5MS' : m === 'train' ? 'TRAIN (4K)' : 'DISTILL';
+            const rowClass = isAm
+              ? 'px-2.5 py-1.5 transition cursor-pointer flex flex-col gap-1 hover:bg-[var(--am-canvas-subtle)]' + (rIdx > 0 ? ' border-t border-[var(--am-rule)]' : '')
+              : 'px-2 py-1 rounded surface-panel border border-hairline hover:border-subtle transition cursor-pointer flex flex-col gap-1';
 
             return (
               '<div data-toggle-all-expand="' +
               m +
-              '" class="px-2 py-1 rounded surface-panel border border-hairline hover:border-subtle transition cursor-pointer flex flex-col gap-1" title="Click row to expand/collapse pathway explanation, or click Filter ↗">' +
+              '" class="' + rowClass + '" title="Click row to expand/collapse pathway explanation, or click Filter ↗">' +
               '<div class="flex items-center justify-between gap-2">' +
               '<div class="flex items-center gap-1.5 shrink-0">' +
               '<span class="mono text-[9.5px] font-bold text-primary-ink w-[4.8rem]">' +
@@ -1213,7 +1218,7 @@
               '</span>' +
               '<button type="button" data-switch-mode="' +
               m +
-              '" class="no-wrap-btn mono text-[9px] text-theme-accent font-bold px-1 rounded hover:underline shrink-0" title="Filter diagram to ' +
+              '" class="no-wrap-btn mono text-[9px] text-primary-ink font-bold px-1 rounded hover:underline shrink-0" title="Filter diagram to ' +
               modeNames[m] +
               '">Filter ↗</button>' +
               '</div>' +
@@ -1228,8 +1233,10 @@
           .join('');
 
         ntabSubContent.innerHTML =
-          '<div class="flex flex-col gap-1">' +
+          '<div class="flex flex-col ' + (isAm ? 'gap-1.5' : 'gap-1') + '">' +
+          '<div class="' + (isAm ? 'border border-[var(--am-rule)] bg-[var(--am-plaque)]' : 'flex flex-col gap-1') + '">' +
           rowsHtml +
+          '</div>' +
           '<div class="pt-1 border-t border-hairline flex flex-wrap items-baseline justify-between gap-1 mono text-[10px]">' +
           '<span class="font-bold text-muted-ink uppercase">' +
           sigLabel +
@@ -1243,7 +1250,7 @@
         const isAct = modes.includes(activeMode);
         const spec = getPathwayRoleSpec(node, activeArchKey, activeMode);
         const mLabel = modeNames[activeMode] || activeMode.toUpperCase();
-        ntabSubLabel.textContent = (isAm ? '双 · ' : '') + 'ROLE IN ' + mLabel.toUpperCase();
+        ntabSubLabel.textContent = 'ROLE IN ' + mLabel.toUpperCase();
 
         const bannerBg = isAm
           ? 'var(--am-ground)'
@@ -1270,7 +1277,7 @@
           '<span class="mono text-[10px] font-bold" style="color:' +
           bannerCol +
           '">' +
-          (isAm ? (isAct ? '鎖 · ACTIVE' : '戒 · BYPASSED ON DIAGRAM') : isAct ? '● ACTIVE' : '⊘ BYPASSED ON DIAGRAM') +
+          (isAct ? '● ACTIVE' : '⊘ BYPASSED ON DIAGRAM') +
           '</span>' +
           '<span class="mono text-[9.5px] font-semibold text-primary-ink">' +
           spec.regime +
@@ -1332,7 +1339,7 @@
       const inspBadge = document.getElementById('inspBadge');
       const isAm = isArashikageMonolith();
       if (isAm) {
-        inspBadge.textContent = (AM_STAGE_KANJI[n.col || 0] || '礎') + ' · BLOCK ' + n.num + ' · ' + n.tag;
+        inspBadge.textContent = 'BLOCK ' + n.num + ' · ' + n.tag;
         inspBadge.style.color = 'var(--am-ink-strong)';
         inspBadge.style.borderColor = 'var(--am-outline)';
         inspBadge.style.backgroundColor = 'var(--am-ground)';
@@ -1401,7 +1408,7 @@
       const ntabCalloutBox = document.getElementById('ntabCalloutBox');
 
       if (activeNTab === 'learn') {
-        ntabHeading.textContent = (isAm ? '録 · ' : '') + 'PRIMARY LITERATURE & WHITE PAPERS';
+        ntabHeading.textContent = 'PRIMARY LITERATURE & WHITE PAPERS';
         const papers = getExternalResourcesForNode(n);
         ntabBody.innerHTML = renderLearnMoreCardsHtml(papers);
         ntabCalloutBox.classList.add('hidden');
@@ -1412,22 +1419,22 @@
         let sigValue = (n.role || '') + ' — ' + n.tensor;
 
         if (activeNTab === 'how') {
-          ntabHeading.textContent = (isAm ? '礎 · ' : '') + 'HOW IT WORKS // MECHANISM';
+          ntabHeading.textContent = 'HOW IT WORKS // MECHANISM';
           ntabBody.textContent = n.how;
           sigLabel = 'DATAFLOW PLACEMENT & TENSOR';
           sigValue = (n.role || '') + ' — ' + n.tensor;
         } else if (activeNTab === 'why') {
-          ntabHeading.textContent = (isAm ? '戒 · ' : '') + 'WHY IT IS USED // ENGINEERING RATIONALE';
+          ntabHeading.textContent = 'WHY IT IS USED // ENGINEERING RATIONALE';
           ntabBody.textContent = n.why;
           sigLabel = 'MATHEMATICAL IDENTITY & INVARIANT';
           sigValue = n.formula;
         } else if (activeNTab === 'contrib') {
-          ntabHeading.textContent = (isAm ? '印 · ' : '') + 'SYSTEM IMPACT // CONTRIBUTION TO GOAL';
+          ntabHeading.textContent = 'SYSTEM IMPACT // CONTRIBUTION TO GOAL';
           ntabBody.textContent = n.contrib;
           sigLabel = 'DATAFLOW PLACEMENT';
           sigValue = n.role || n.sub;
         } else {
-          ntabHeading.textContent = (isAm ? '双 · ' : '') + 'MATHEMATICAL FORMULATION & TENSOR ABI';
+          ntabHeading.textContent = 'MATHEMATICAL FORMULATION & TENSOR ABI';
           ntabBody.textContent = n.formula;
           sigLabel = 'IN / OUT TENSOR SIGNATURE';
           sigValue = n.tensor;
@@ -1448,7 +1455,7 @@
       document.getElementById('techTitle').textContent = t.title;
       const techKicker = document.getElementById('techKicker');
       if (techKicker) {
-        techKicker.textContent = (isAm ? '録 · ' : '') + 'DEEP DIVE // SPOTLIGHT';
+        techKicker.textContent = 'DEEP DIVE // SPOTLIGHT';
       }
 
       // Update 5 Tabs in Deep Dive
@@ -1466,7 +1473,7 @@
       const ttabSubContent = document.getElementById('ttabSubContent');
 
       if (activeTTab === 'learn') {
-        ttabHeading.textContent = (isAm ? '録 · ' : '') + 'PRIMARY LITERATURE & WHITE PAPERS';
+        ttabHeading.textContent = 'PRIMARY LITERATURE & WHITE PAPERS';
         const resList = TECH_EXTERNAL_RESOURCES[t.id] || [];
         ttabBody.innerHTML = renderLearnMoreCardsHtml(resList);
         ttabCalloutBox.classList.add('hidden');
@@ -1477,22 +1484,22 @@
         let sigValue = t.placement;
 
         if (activeTTab === 'how') {
-          ttabHeading.textContent = (isAm ? '礎 · ' : '') + 'HOW IT WORKS // MECHANISM';
+          ttabHeading.textContent = 'HOW IT WORKS // MECHANISM';
           ttabBody.textContent = t.how;
           sigLabel = 'DATAFLOW PLACEMENT';
           sigValue = t.placement;
         } else if (activeTTab === 'why') {
-          ttabHeading.textContent = (isAm ? '戒 · ' : '') + 'WHY IT IS USED // ENGINEERING RATIONALE';
+          ttabHeading.textContent = 'WHY IT IS USED // ENGINEERING RATIONALE';
           ttabBody.textContent = t.why;
           sigLabel = 'RESEARCH ORIGINS & EVOLUTION';
           sigValue = t.origins;
         } else if (activeTTab === 'contrib') {
-          ttabHeading.textContent = (isAm ? '印 · ' : '') + 'SYSTEM IMPACT // CONTRIBUTION TO GOAL';
+          ttabHeading.textContent = 'SYSTEM IMPACT // CONTRIBUTION TO GOAL';
           ttabBody.textContent = t.contrib;
           sigLabel = 'DATAFLOW PLACEMENT';
           sigValue = t.placement;
         } else {
-          ttabHeading.textContent = (isAm ? '双 · ' : '') + 'UNDERLYING SCIENCE & MATHEMATICAL MECHANISM';
+          ttabHeading.textContent = 'UNDERLYING SCIENCE & MATHEMATICAL MECHANISM';
           ttabBody.textContent = t.science;
           sigLabel = 'RESEARCH ORIGINS & EVOLUTION';
           sigValue = t.origins;
@@ -1500,10 +1507,10 @@
 
         const usedNodes = (t.usedIn || []).map((nid) => nodeMap[nid]).filter(Boolean);
         if (usedNodes.length === 0) {
-          ttabSubLabel.textContent = (isAm ? '双 · ' : '') + sigLabel;
+          ttabSubLabel.textContent = sigLabel;
           ttabSubContent.textContent = sigValue;
         } else if (activeMode === 'all') {
-          ttabSubLabel.textContent = (isAm ? '双 · ' : '') + 'PATHWAY FOOTPRINT ACROSS BLOCKS & ' + sigLabel;
+          ttabSubLabel.textContent = 'PATHWAY FOOTPRINT ACROSS BLOCKS & ' + sigLabel;
           const summaryHtml = usedNodes
             .map((un) => {
               const mList = ['live', 'train', 'distill'].filter((m) => (un.modes || []).includes(m));
@@ -1525,8 +1532,8 @@
                 badgeCol +
                 '">' +
                 (isAll3
-                  ? (isAm ? '鎖 · ' : '● ') + '3/3 Pathways'
-                  : (isAm ? '戒 · ' : '◐ ') + mList.map((m) => m.toUpperCase()).join('+') + ' Only') +
+                  ? '● 3/3 Pathways'
+                  : '◐ ' + mList.map((m) => m.toUpperCase()).join('+') + ' Only') +
                 '</span>' +
                 '</div>'
               );
@@ -1544,7 +1551,7 @@
             '</div>';
         } else {
           const mLabel = MODE_LABELS[activeMode] || activeMode.toUpperCase();
-          ttabSubLabel.textContent = (isAm ? '双 · ' : '') + 'PATHWAY ROLE (' + mLabel.toUpperCase() + ') & ' + sigLabel;
+          ttabSubLabel.textContent = 'PATHWAY ROLE (' + mLabel.toUpperCase() + ') & ' + sigLabel;
           const rowsHtml = usedNodes
             .map((un) => {
               const isAct = isNodeActiveInMode(un, activeMode);
@@ -1562,8 +1569,8 @@
                 badgeCol +
                 '">' +
                 (isAct
-                  ? (isAm ? '鎖 · #' : '● #') + un.num + ' ' + un.title + ' (ACTIVE)'
-                  : (isAm ? '戒 · #' : '⊘ #') + un.num + ' ' + un.title + ' (BYPASSED)') +
+                  ? '● #' + un.num + ' ' + un.title + ' (ACTIVE)'
+                  : '⊘ #' + un.num + ' ' + un.title + ' (BYPASSED)') +
                 '</span>' +
                 '<span class="mono text-[9.5px] font-semibold text-primary-ink">' +
                 spec.regime +
@@ -1610,7 +1617,7 @@
           '</span>' +
           (!isAct && activeMode !== 'all'
             ? isAm
-              ? '<span class="text-[9px] font-bold" style="color:var(--am-gold)">[戒 BYP]</span>'
+              ? '<span class="text-[9px] font-bold" style="color:var(--am-gold)">[BYP]</span>'
               : '<span class="text-[9px] font-bold text-amber-500">[BYP]</span>'
             : '');
         b.addEventListener('click', () => {
@@ -1687,26 +1694,41 @@
         { key: 'gen1_ret40', short: 'Gen 1 · RET-40' }
       ];
 
+      const isAm = isArashikageMonolith();
       const matrixGrid = document.createElement('div');
-      matrixGrid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-1';
-      gens.forEach((g) => {
+      matrixGrid.className = isAm
+        ? 'grid grid-cols-1 sm:grid-cols-2 gap-0 border border-[var(--am-rule)] bg-[var(--am-plaque)]'
+        : 'grid grid-cols-1 sm:grid-cols-2 gap-1';
+      gens.forEach((g, gIdx) => {
         const isCurr = g.key === activeArchKey;
         const cardBtn = document.createElement('button');
         cardBtn.type = 'button';
-        cardBtn.className =
-          'w-full text-left p-1.5 rounded border transition cursor-pointer flex flex-col gap-0.5 ' +
-          (isCurr
-            ? 'surface-elevated border-subtle'
-            : 'surface-root border-hairline opacity-85 hover:opacity-100');
+        if (isAm) {
+          cardBtn.className =
+            'w-full text-left p-2 transition cursor-pointer flex flex-col gap-0.5 ' +
+            (gIdx % 2 === 1 ? 'sm:border-l border-[var(--am-rule)] ' : '') +
+            (gIdx >= 2 ? 'border-t border-[var(--am-rule)] ' : '') +
+            (isCurr
+              ? 'bg-[var(--am-canvas-subtle)] border-l-[3px] !border-l-[#b81d13]'
+              : 'bg-[var(--am-plaque)] opacity-85 hover:opacity-100 hover:bg-[var(--am-canvas)]');
+        } else {
+          cardBtn.className =
+            'w-full text-left p-1.5 rounded border transition cursor-pointer flex flex-col gap-0.5 ' +
+            (isCurr
+              ? 'surface-elevated border-subtle'
+              : 'surface-root border-hairline opacity-85 hover:opacity-100');
+        }
         cardBtn.innerHTML =
           '<div class="flex items-center justify-between gap-1">' +
-          '<span class="mono text-[9.5px] font-bold ' +
-          (isCurr ? 'text-theme-accent' : 'text-primary-ink') +
-          '">' +
-          (isCurr ? '▸ ' : '') +
+          '<span class="mono text-[9.5px] font-bold text-primary-ink">' +
+          (isCurr ? '◆ ' : '') +
           g.short +
           '</span>' +
-          (isCurr ? '<span class="mono text-[8.5px] px-1 rounded surface-panel text-secondary-ink">ACTIVE</span>' : '') +
+          (isCurr
+            ? '<span class="mono text-[8.5px] font-bold px-1 rounded ' +
+              (isAm ? 'bg-[#b81d13] text-[#fbf9f5]' : 'surface-panel text-secondary-ink') +
+              '">ACTIVE</span>'
+            : '') +
           '</div>' +
           '<div class="mono text-[9.5px] text-secondary-ink leading-tight">' +
           evo[g.key] +
@@ -1730,7 +1752,7 @@
       const stageCols = getActiveStageColors();
       const colIdx = typeof node.col === 'number' ? node.col : 0;
       const isAm = isArashikageMonolith();
-      const stagePrefix = isAm ? (AM_STAGE_KANJI[colIdx] || '礎') + ' · ' : '';
+      const stagePrefix = '';
 
       if (colIdx === 0) {
         // STAGE 1: OBSERVATION MEMORY / CACHE-LINE INSPECTOR
@@ -1747,17 +1769,16 @@
             { name: 'PrivCtx [128]', bytes: '4864..5375', cl: '8 CL', color: stageCols[0], desc: '128 Privileged Floats (512B): Exact Opponent Boost/Flip Secrets (Training Critic Only)' }
           ];
           const barRow = document.createElement('div');
-          barRow.className = 'grid grid-cols-7 gap-1';
+          barRow.className = isAm ? 'grid grid-cols-7 gap-0 border border-[var(--am-outline)] bg-[var(--am-ground)]' : 'grid grid-cols-7 gap-1';
           segments.forEach((seg, idx) => {
             const isSel = selectedMemSliceIdx === idx;
             const b = document.createElement('button');
             b.type = 'button';
             if (isAm) {
-              b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate border transition cursor-pointer am-interactive';
+              b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate transition cursor-pointer ' + (idx > 0 ? 'border-l border-[var(--am-rule)]' : '');
               b.style.backgroundColor = isSel ? 'var(--am-slab-primary)' : 'var(--am-ground)';
               b.style.color = isSel ? 'var(--am-slab-primary-ink)' : 'var(--am-ink-strong)';
-              b.style.borderColor = isSel ? 'var(--am-outline)' : 'var(--am-rule)';
-              b.style.borderBottom = isSel ? '2.5px solid var(--am-slab-counter)' : '2.5px solid ' + seg.color;
+              b.style.borderBottom = isSel ? '2.5px solid #b81d13' : '2.5px solid ' + seg.color;
             } else {
               b.className =
                 'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
@@ -1816,18 +1837,17 @@
                   { name: activeArchKey === 'gen3_perceiver' ? 'Wheels+Omni' : '68D Critic Tail', cl: activeArchKey === 'gen3_perceiver' ? '16D+68D' : '68D Priv', color: stageCols[5], bytes: activeArchKey === 'gen3_perceiver' ? 'Floats 684..752' : 'Critic 684..752', desc: (activeArchKey === 'gen3_perceiver' ? '16D 4-Frame Actor Wheel History + ' : '') + '68D Critic Tail: 20D Wheel Slip, 18D World Vel, 30D 5-Bounce Ballistics' }
                 ];
           const barRow = document.createElement('div');
-          barRow.className = 'grid grid-cols-5 gap-1';
+          barRow.className = isAm ? 'grid grid-cols-5 gap-0 border border-[var(--am-outline)] bg-[var(--am-ground)]' : 'grid grid-cols-5 gap-1';
           const idx = selectedMemSliceIdx % legacySegs.length;
           legacySegs.forEach((seg, i) => {
             const isSel = idx === i;
             const b = document.createElement('button');
             b.type = 'button';
             if (isAm) {
-              b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate border transition cursor-pointer am-interactive';
+              b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate transition cursor-pointer ' + (i > 0 ? 'border-l border-[var(--am-rule)]' : '');
               b.style.backgroundColor = isSel ? 'var(--am-slab-primary)' : 'var(--am-ground)';
               b.style.color = isSel ? 'var(--am-slab-primary-ink)' : 'var(--am-ink-strong)';
-              b.style.borderColor = isSel ? 'var(--am-outline)' : 'var(--am-rule)';
-              b.style.borderBottom = isSel ? '2.5px solid var(--am-slab-counter)' : '2.5px solid ' + seg.color;
+              b.style.borderBottom = isSel ? '2.5px solid #b81d13' : '2.5px solid ' + seg.color;
             } else {
               b.className =
                 'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
@@ -2047,14 +2067,20 @@
           { label: 'Goal-Line Shadow', kPass: 6, fsq: '#309 [-1,-2,+2]', exp: ['E5 ShadowDef: 58%', 'E1 Ground: 26%', 'E6 Evade: 16%'] }
         ];
         const pRow = document.createElement('div');
-        pRow.className = 'grid grid-cols-4 gap-1';
+        pRow.className = isAm ? 'grid grid-cols-4 gap-0 border border-[var(--am-outline)] bg-[var(--am-ground)]' : 'grid grid-cols-4 gap-1';
         phases.forEach((ph, idx) => {
           const isSel = selectedLatentPhaseIdx === idx;
           const b = document.createElement('button');
           b.type = 'button';
-          b.className =
-            'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
-            (isSel ? 'surface-elevated border-subtle text-theme-accent' : 'surface-root border-hairline text-secondary-ink hover:text-primary-ink');
+          if (isAm) {
+            b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate transition cursor-pointer ' + (idx > 0 ? 'border-l border-[var(--am-rule)]' : '');
+            b.style.backgroundColor = isSel ? 'var(--am-slab-primary)' : 'var(--am-ground)';
+            b.style.color = isSel ? 'var(--am-slab-primary-ink)' : 'var(--am-ink-secondary)';
+          } else {
+            b.className =
+              'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
+              (isSel ? 'surface-elevated border-subtle text-theme-accent' : 'surface-root border-hairline text-secondary-ink hover:text-primary-ink');
+          }
           b.textContent = ph.label.split(' ')[1] || ph.label;
           b.title = ph.label;
           b.addEventListener('click', () => {
@@ -2124,14 +2150,20 @@
               ];
 
         const stRow = document.createElement('div');
-        stRow.className = 'grid grid-cols-4 gap-1';
+        stRow.className = isAm ? 'grid grid-cols-4 gap-0 border border-[var(--am-outline)] bg-[var(--am-ground)]' : 'grid grid-cols-4 gap-1';
         subticks.forEach((st, idx) => {
           const isSel = selectedSubtickIdx === idx;
           const b = document.createElement('button');
           b.type = 'button';
-          b.className =
-            'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
-            (isSel ? 'surface-elevated border-subtle text-theme-accent' : 'surface-root border-hairline text-secondary-ink hover:text-primary-ink');
+          if (isAm) {
+            b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate transition cursor-pointer ' + (idx > 0 ? 'border-l border-[var(--am-rule)]' : '');
+            b.style.backgroundColor = isSel ? 'var(--am-slab-primary)' : 'var(--am-ground)';
+            b.style.color = isSel ? 'var(--am-slab-primary-ink)' : 'var(--am-ink-secondary)';
+          } else {
+            b.className =
+              'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
+              (isSel ? 'surface-elevated border-subtle text-theme-accent' : 'surface-root border-hairline text-secondary-ink hover:text-primary-ink');
+          }
           b.textContent = st.lbl.split(' ')[0] + ' ' + (st.lbl.split(' ')[1] || '');
           b.title = st.lbl;
           b.addEventListener('click', () => {
@@ -2179,14 +2211,20 @@
         ];
 
         const hRow = document.createElement('div');
-        hRow.className = 'grid grid-cols-4 gap-1';
+        hRow.className = isAm ? 'grid grid-cols-4 gap-0 border border-[var(--am-outline)] bg-[var(--am-ground)]' : 'grid grid-cols-4 gap-1';
         horizons.forEach((hz, idx) => {
           const isSel = selectedCriticHorizonIdx === idx;
           const b = document.createElement('button');
           b.type = 'button';
-          b.className =
-            'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
-            (isSel ? 'surface-elevated border-subtle text-theme-accent' : 'surface-root border-hairline text-secondary-ink hover:text-primary-ink');
+          if (isAm) {
+            b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate transition cursor-pointer ' + (idx > 0 ? 'border-l border-[var(--am-rule)]' : '');
+            b.style.backgroundColor = isSel ? 'var(--am-slab-primary)' : 'var(--am-ground)';
+            b.style.color = isSel ? 'var(--am-slab-primary-ink)' : 'var(--am-ink-secondary)';
+          } else {
+            b.className =
+              'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
+              (isSel ? 'surface-elevated border-subtle text-theme-accent' : 'surface-root border-hairline text-secondary-ink hover:text-primary-ink');
+          }
           b.textContent = hz.lbl.split(' ')[0];
           b.title = hz.lbl;
           b.addEventListener('click', () => {
@@ -3087,14 +3125,20 @@
     btnPolarityLight.addEventListener('click', () => setPolarity('light'));
     btnPolarityDark.addEventListener('click', () => setPolarity('dark'));
 
-    document.getElementById('btnPrevTheme').addEventListener('click', () => {
-      const idx = THEME_ORDER.indexOf(activeTheme);
-      setTheme(THEME_ORDER[(idx - 1 + THEME_ORDER.length) % THEME_ORDER.length]);
-    });
-    document.getElementById('btnNextTheme').addEventListener('click', () => {
-      const idx = THEME_ORDER.indexOf(activeTheme);
-      setTheme(THEME_ORDER[(idx + 1) % THEME_ORDER.length]);
-    });
+    const btnPrevThemeEl = document.getElementById('btnPrevTheme');
+    if (btnPrevThemeEl) {
+      btnPrevThemeEl.addEventListener('click', () => {
+        const idx = THEME_ORDER.indexOf(activeTheme);
+        setTheme(THEME_ORDER[(idx - 1 + THEME_ORDER.length) % THEME_ORDER.length]);
+      });
+    }
+    const btnNextThemeEl = document.getElementById('btnNextTheme');
+    if (btnNextThemeEl) {
+      btnNextThemeEl.addEventListener('click', () => {
+        const idx = THEME_ORDER.indexOf(activeTheme);
+        setTheme(THEME_ORDER[(idx + 1) % THEME_ORDER.length]);
+      });
+    }
 
     // Event Listeners: Scenario & 2-Row Docked Walkthrough HUD Bar
     selScenario.addEventListener('change', (e) => {

@@ -40,8 +40,8 @@ flowchart LR
   subgraph S0["Stratum 0 · Mounting Ground (--am-ground)"]
     subgraph S1["Stratum 1 · Scroll Canvas (--am-canvas + .am-monolith)"]
       subgraph S2["Stratum 2 · Carved Plaque (--am-plaque)"]
-        P90["90% Monocolor Scroll & 1px Incised Cartouches (戒 / 双 / 鎖 / 録)"]
-        P10["10% Solid Shu-iro Vermilion Seals (嵐影之印 / 定刻 / 印)"]
+        P90["90% Monocolor Scroll & 1px Incised Cartouches (THRESHOLD / VARIANCE / VERIFIED)"]
+        P10["10% Solid Shu-iro Vermilion Seals (嵐影之印 / 印)"]
       end
     end
   end
@@ -89,34 +89,34 @@ Rather than treating dark and light modes as mathematical inversions, **Arashika
 
 ---
 
-## 3. Pigment Hierarchy, Semantic Seals & Dual-Channel Encoding (`色彩と印章`)
+## 3. Pigment Hierarchy, Semantic Seals & Functional Kanji Restraint (`色彩と印章`)
 
-To prevent chromatic fatigue ("status-pill soup"), every interface adheres to a **Three-Tier Pigment Hierarchy** and **Dual-Channel Encoding** (every semantic state pairs a distinct Kanji seal prefix, a distinct border treatment, and a calibrated mineral pigment):
+To prevent chromatic fatigue ("status-pill soup") and decorative Kanji clutter, every interface adheres to a **Three-Tier Pigment Hierarchy** and **Functional Kanji Restraint** (Kanji are used strictly where they serve a genuine functional purpose—such as the carved *Hanko* maker's seal, the subtle background maker's watermark, the four material expression names, or in place of a standalone icon—never as decorative prefixes prepended to English headings or secondary status tags):
 
 ### Tier 1: Solid *Shu-iro* Vermilion Seals (`≤ 10%` Canvas Area)
 - **Tokens**: `--am-slab-counter` (`#b81d13` / `#a8180e`), `--am-slab-counter-ink` (`#fbf9f5`), `--am-vermilion` (`#d4261d` dark / `#b81d13` light).
 - **Permitted Uses**:
-  1. Square or vertical carved *Hanko* maker/section seals (`.am-hanko-stamp`: `[嵐影之印]`, `[定刻]`, `[未濟]`) with an inset `-3px` carved rim.
-  2. Primary critical anomaly stamps (`.am-seal-vermilion`: `[印 · CRITICAL ANOMALY]`) with an inset `-2px` carved rim.
-  3. The counterparty header slab in a bilateral comparative diptych (`.am-slab-counter`: `陰 COUNTERPARTY`).
+  1. Square or vertical carved *Hanko* maker/section seals (`.am-hanko-stamp`: `[嵐影之印]`) with an inset `-3px` carved rim.
+  2. Primary action or anomaly seals (`.am-seal-vermilion`: `[印 · CRITICAL ANOMALY]`, `[印 · GUIDE]`) where `印` serves directly in place of an action/alert icon with an inset `-2px` carved rim.
+  3. The counterparty header slab in a bilateral comparative diptych (`.am-slab-counter`).
 - **Prohibition**: No secondary classification tag (`THRESHOLD`, `VARIANCE`, `VERIFIED`, `ARCHIVE`) may ever use a solid colored fill.
 
 ### Tier 2: Inverted Monolith Slabs (Structural Counterweight)
 - **Tokens**: `--am-slab-primary` (`#f4efe6` Washi Ivory in Dark Polarity; `#1c1917` Sumi Ink in Light Polarity) and `--am-slab-primary-ink` (`#12100e` in Dark Polarity; `#fbf9f5` in Light Polarity).
 - **Permitted Uses**:
-  1. Primary entity header slabs in bilateral comparative diptychs (`.am-slab-primary`: `陽 PRIMARY ENTITY`).
+  1. Primary entity header slabs in bilateral comparative diptychs (`.am-slab-primary`).
   2. Active state locks in sequence timelines and primary command triggers (`.am-btn-primary`).
 
 ### Tier 3: `1px` Incised Mineral Cartouches (`90%` Monocolor Foundation)
-All secondary classifications are incised directly into `--am-ground` or `--am-plaque` with a `1px solid` hairline border and restrained mineral ink:
+All secondary classifications are incised directly into `--am-ground` or `--am-plaque` with a `1px solid` hairline border, clean tracked English typography (or geometric symbols `●`, `◆`, `⊘`), and restrained mineral ink:
 
-| Semantic Role | Seal Prefix | Class | Ink Token | Border Token | Universal Application |
+| Semantic Role | Geometric Signifier | Class | Ink Token | Border Token | Universal Application |
 | :--- | :---: | :--- | :--- | :--- | :--- |
-| **Caution / Threshold** | `戒` (*Imashime*) | `.am-cartouche-gold` | `--am-gold` | `--am-gold-rule` | SLA thresholds, elevated load, cautionary variance |
-| **Analytical / Relational** | `双` (*Sō*) | `.am-cartouche-steel` | `--am-steel` | `--am-steel-rule` | Secondary data series, correlation links, asymmetric load |
-| **Equilibrium / Verified** | `鎖` (*Kusari*) | `.am-cartouche-celadon` | `--am-celadon` | `--am-celadon-rule` | Verified integrity, nominal equilibrium, positive delta |
-| **Archival / Metadata** | `録` (*Roku*) | `.am-cartouche-mono` | `--am-ink-secondary` | `--am-rule` | Timestamps, revision tags, neutral classifications |
-| **Sovereign / Active** | `礎` (*Ishizue*) | `.am-cartouche-monolith` | `--am-ink-strong` | `--am-outline` | Active focal entity, primary node, locked selection |
+| **Caution / Threshold** | `◆` / `⊘` | `.am-cartouche-gold` | `--am-gold` | `--am-gold-rule` | SLA thresholds, elevated load, cautionary variance |
+| **Analytical / Relational** | `◆` | `.am-cartouche-steel` | `--am-steel` | `--am-steel-rule` | Secondary data series, correlation links, asymmetric load |
+| **Equilibrium / Verified** | `●` | `.am-cartouche-celadon` | `--am-celadon` | `--am-celadon-rule` | Verified integrity, nominal equilibrium, positive delta |
+| **Archival / Metadata** | `—` | `.am-cartouche-mono` | `--am-ink-secondary` | `--am-rule` | Timestamps, revision tags, neutral classifications |
+| **Sovereign / Active** | `●` | `.am-cartouche-monolith` | `--am-ink-strong` | `--am-outline` | Active focal entity, primary node, locked selection |
 
 ---
 
@@ -127,7 +127,7 @@ All secondary classifications are incised directly into `--am-ground` or `--am-p
 | Voice | Token | Typeface Stack | Structural Discipline |
 | :--- | :--- | :--- | :--- |
 | **1. Display Monument** | `--am-font-display` | `'Josefin Sans'`, `'Space Grotesk'`, `'Syne'`, sans-serif | Always `uppercase`, upright (`font-style: normal`—never faux-slanted italics), tight leading (`0.95` Hero, `1.08` Section), and architectural tracking (`0.06em` headlines; `0.12em–0.22em` kickers & friezes). |
-| **2. Carved Seal Serif** | `--am-font-serif` | `'Noto Serif JP'`, serif (`700` / `900`) | Used for square *Hanko* stamps (`嵐影之印`, `定刻`), semantic Kanji prefixes (`印`, `戒`, `双`, `鎖`, `録`), and low-opacity (`2.5%–4%`) structural watermarks. |
+| **2. Carved Seal Serif** | `--am-font-serif` | `'Noto Serif JP'`, serif (`700` / `900`) | Reserved strictly for functional kanji roles: square *Hanko* maker seals (`嵐影之印`), genuine icon-replacement glyphs (`印`, `陽`, `陰`), canonical material names (`版画`, `漆`, `硯`, `和紙`), and low-opacity (`2.5%–4%`) structural watermarks. |
 | **3. Editorial Sans** | `--am-font-sans` | `'IBM Plex Sans'`, `'Inter'`, system-ui | Used for long-form documentation, analytical commentary, and body copy. Constrained to `58ch–68ch` measure with `1.6` line-height in `--am-ink-secondary`. |
 | **4. Instrument Mono** | `--am-font-mono` | `'JetBrains Mono'`, monospace | Mandatory `font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1, "zero" 1;` across all metrics, deltas, timestamps, and ledger columns. |
 
@@ -148,11 +148,11 @@ All secondary classifications are incised directly into `--am-ground` or `--am-p
 2. **Authentic Square *Hanko* Proportions**: A `.am-hanko-stamp` is a compact geometric square (`2.25rem × 2.25rem`) housing a 2×2 Kanji seal (`嵐影 / 之印`) with an inset carved rim (`outline-offset: -3px`). Never stretch a vermilion seal into a full-width horizontal sentence ribbon.
 3. **The Primary Metric Monument Law**: In any analytical header or ledger card, the raw quantitative figure (`99.98%`, `1,480 MS`, `+42.8 Δ`) is the primary typographic monument (`1.35rem–2.25rem`, `font-weight: 800`), while classification metadata sits quietly beneath it (`0.6875rem`, `--am-ink-muted`).
 
-### Heraldic Signifiers & Geometric Iconography (`紋章 · 記号`)
-To preserve orthographic purity, **Arashikage Monolith** replaces rounded stroke icons, multi-tone vector illustrations, and OS emojis with **Three Heraldic Signifier Classes**:
-1. **Carved *Rakkan* Seals (`落款印`)**: `1:1` square vermilion blocks with `-3px` inset carved rims (`[嵐影之印]`, `[定刻]`, `[未濟]`) used to anchor mastheads and primary document strata.
-2. **Ideographic Semantic Prefixes (`漢字接頭辞`)**: Single Kanji characters (`印` Critical, `戒` Threshold, `双` Variance, `鎖` Verified, `録` Archive, `礎` Sovereign, `陽` Primary, `陰` Counterparty) paired with tracked Roman capitals for instantaneous dual-channel recognition.
-3. **Orthographic Vector Glyphs (`幾何学記号`)**: Sharp miter-joined geometric glyphs restricted to `90°` and `45°` axes (`◆` Frieze Diamond, `↗` Dossier Vector, `✕` Dismiss Lock, `⇅` Stratum Unfurl, `⟳` Sequence Trigger, `Δ` Quantitative Variance, `䷿` Hexagram 64).
+### Heraldic Signifiers, Functional Kanji Restraint & Geometric Iconography (`紋章 · 記号`)
+To preserve orthographic purity and prevent decorative Kanji noise, **Arashikage Monolith** enforces **Functional Kanji Restraint**: Kanji characters are never scattered as ornamental prefixes on English section headings, tabs, or status pills. Instead, visual signifiers are restricted to three purposeful classes:
+1. **Carved *Rakkan* Maker Seals (`落款印`)**: `1:1` square vermilion blocks with `-3px` inset carved rims (`[嵐影之印]`) used to anchor mastheads, active focal nodes, and primary document strata.
+2. **Functional Icon-Replacement Glyphs (`機能漢字`)**: Single Kanji characters used *strictly in place of a standalone icon* (`印` on Guide/Seal action triggers, `陽` / `陰` on Light/Dark polarity switches, and the 4 physical material expression badges `版画`, `漆`, `硯`, `和紙`).
+3. **Orthographic Vector Glyphs (`幾何学記号`)**: Sharp miter-joined geometric glyphs restricted to `90°` and `45°` axes (`◆` Frieze Diamond, `●` Active Node, `⊘` Bypassed State, `↗` Dossier Vector, `✕` Dismiss Lock, `⇅` Stratum Unfurl, `⟳` Sequence Trigger, `Δ` Quantitative Variance, `䷿` Hexagram 64).
 
 ---
 
@@ -275,12 +275,12 @@ All analytical charts and comparative meters follow **`墨線図` (*Sumi-sen-zu*
 | `--am-slab-counter` | `#b81d13` | `#a8180e` | `#b81d13` | `#b81d13` | Counterparty (`陰`) Slab & Hanko Seal Fill |
 | `--am-slab-counter-ink` | `#fbf9f5` | `#fffdf9` | `#fbf8f3` | `#fbf9f5` | Ink on Counterparty (`陰`) Slab & Seal |
 | `--am-vermilion` | `#d4261d` | `#d4261d` | `#d4261d` | `#b81d13` | Inline Vermilion Accent Ink |
-| `--am-gold` | `#deb052` | `#e5b85c` | `#deb052` | `#8c5604` | `戒 · THRESHOLD` Kintsugi Gold Ink |
-| `--am-gold-rule` | `#7a5c22` | `#856428` | `#7a5c22` | `#b48a3e` | `戒 · THRESHOLD` Cartouche Hairline |
-| `--am-steel` | `#7da8c4` | `#7da8c4` | `#7da8c4` | `#1b4965` | `双 · VARIANCE` Aizome Steel Ink |
-| `--am-steel-rule` | `#2d556e` | `#2d556e` | `#2d556e` | `#6b9ab8` | `双 · VARIANCE` Cartouche Hairline |
-| `--am-celadon` | `#82a890` | `#82a890` | `#82a890` | `#1e523b` | `鎖 · VERIFIED` Seiji Celadon Ink |
-| `--am-celadon-rule` | `#2d523d` | `#2d523d` | `#2d523d` | `#63a38a` | `鎖 · VERIFIED` Cartouche Hairline |
+| `--am-gold` | `#deb052` | `#e5b85c` | `#deb052` | `#8c5604` | `THRESHOLD` Kintsugi Gold Ink |
+| `--am-gold-rule` | `#7a5c22` | `#856428` | `#7a5c22` | `#b48a3e` | `THRESHOLD` Cartouche Hairline |
+| `--am-steel` | `#7da8c4` | `#7da8c4` | `#7da8c4` | `#1b4965` | `VARIANCE` Aizome Steel Ink |
+| `--am-steel-rule` | `#2d556e` | `#2d556e` | `#2d556e` | `#6b9ab8` | `VARIANCE` Cartouche Hairline |
+| `--am-celadon` | `#82a890` | `#82a890` | `#82a890` | `#1e523b` | `VERIFIED` Seiji Celadon Ink |
+| `--am-celadon-rule` | `#2d523d` | `#2d523d` | `#2d523d` | `#63a38a` | `VERIFIED` Cartouche Hairline |
 
 ---
 
@@ -288,8 +288,8 @@ All analytical charts and comparative meters follow **`墨線図` (*Sumi-sen-zu*
 
 | # | **DO (Arashikage Monolith Standard)** | **DON'T (Anti-Patterns)** |
 | :--- | :--- | :--- |
-| **01** | **DO** maintain the 90/10 pigment ratio: 90% Washi, Sumi, and Kintsugi Brass; reserve solid *Shu-iro* Vermilion (`≤ 10%`) strictly for carved *Hanko* seals (`[嵐影之印]`), critical anomaly stamps (`[印]`), and counterparty header slabs (`陰`). | **DON'T** render secondary classifications (`THRESHOLD`, `VARIANCE`, `VERIFIED`, `ARCHIVE`) as solid-fill colored pills. |
-| **02** | **DO** encode secondary states as `1px` incised mineral cartouches on `--am-ground` with dual-channel Kanji prefixes (`戒`, `双`, `鎖`, `録`). | **DON'T** use saturated neon text or unframed floating colored labels on dark surfaces. |
+| **01** | **DO** maintain the 90/10 pigment ratio: 90% Washi, Sumi, and Kintsugi Brass; reserve solid *Shu-iro* Vermilion (`≤ 10%`) strictly for carved *Hanko* seals (`[嵐影之印]`), primary seal actions (`[印]`), and counterparty header slabs. | **DON'T** render secondary classifications (`THRESHOLD`, `VARIANCE`, `VERIFIED`, `ARCHIVE`) as solid-fill colored pills. |
+| **02** | **DO** practice **Functional Kanji Restraint**: use Kanji only where genuinely functional (carved *Hanko* maker's seal, subtle background watermark, material expression names, or in place of a standalone icon), keeping secondary `1px` mineral cartouches in clean tracked English + geometric glyphs (`◆`, `●`, `⊘`). | **DON'T** prepend superfluous decorative Kanji prefixes onto English section headings, tabs, stage numbers, or status badges, and never use saturated neon text on dark surfaces. |
 | **03** | **DO** set display headlines in **100% unified `--am-ink-strong`** so the adjacent square vermilion *Hanko* seal commands the focal point. | **DON'T** split display headlines into two colors mid-phrase or across line breaks. |
 | **04** | **DO** construct *Hanko* stamps as compact geometric squares (`2.25rem × 2.25rem`) with an inset `outline-offset: -3px` carved rim beside tracked Art Deco kickers. | **DON'T** stretch a vermilion seal across wide horizontal sentence banners. |
 | **05** | **DO** apply the Stepped Art Deco Ziggurat Frame (`.am-monolith`) only to top-level monoliths, dividing internal rows with single `1px` hairlines (`--am-rule`). | **DON'T** nest double-bordered boxes inside double-bordered boxes. |

@@ -17,11 +17,11 @@
   <div class="w-full flex-1 min-h-0 surface-panel flex flex-col overflow-hidden">
 
     <!-- Dedicated Top Identity Banner + Quick Start Guide Trigger + 1-Click Segmented Generation Switcher -->
-    <div id="topIdentityBar" class="shrink-0 px-3 py-1 border-b border-hairline surface-root flex items-center justify-between gap-2">
-      <div class="flex items-center gap-2 min-w-0 flex-1">
-        <button id="identityBrandTrigger" type="button" title="Open Quick Start &amp; Navigation Guide (Shortcut: ?)" class="flex items-center gap-1.5 shrink-0 cursor-pointer hover:opacity-85 transition">
-          <span class="am-hex64-plaque" aria-hidden="true" title="Hexagram 64 · Wei Ji (䷿ 火水未済 — Before Completion)">
-            <svg width="15" height="17" viewBox="0 0 22 24" fill="currentColor">
+    <div id="topIdentityBar" class="shrink-0 px-3 py-1.5 border-b border-hairline surface-root flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5 min-w-0 flex-1">
+        <button id="identityBrandTrigger" type="button" title="Open Architecture Briefing &amp; Quick Start Guide (Shortcut: ?)" class="flex items-center gap-2 shrink-0 cursor-pointer hover:opacity-90 transition">
+          <span class="am-hex64-plaque" aria-hidden="true" title="Hexagram 64 · Wei Ji (䷿ — 64 Entities · 64B Cache Line · 64D Latent)">
+            <svg width="16" height="18" viewBox="0 0 22 24" fill="currentColor">
               <rect x="0" y="0" width="22" height="2.4" />
               <rect x="0" y="4.3" width="9.2" height="2.4" /><rect x="12.8" y="4.3" width="9.2" height="2.4" />
               <rect x="0" y="8.6" width="22" height="2.4" />
@@ -33,21 +33,18 @@
           <span id="hankoBrandSeal" class="am-hanko-seal" aria-hidden="true">嵐影<br/>之印</span>
           <span id="brandDot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
           <span id="identityBadgeText" class="mono text-[11px] font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX64</span>
-          <span class="am-jp-subtitle hidden sm:inline-flex items-center gap-1 ml-0.5">
-            <span class="text-theme-accent text-[9px]">◆</span>
-            <span class="am-jp-kanji">嵐影 · 銀座碑文</span>
-          </span>
         </button>
-        <span class="text-muted-ink shrink-0">|</span>
-        <h1 id="identityMainTitle" class="text-xs font-bold text-primary-ink tracking-tight truncate" title="60 Hz Subtick Action Chunking &amp; Multi-Horizon RL Architecture">
+        <span class="am-masthead-diamond text-muted-ink shrink-0">◆</span>
+        <h1 id="identityMainTitle" class="text-xs font-bold text-primary-ink tracking-wider truncate" title="60 Hz Subtick Action Chunking &amp; Multi-Horizon RL Architecture">
           60 Hz Subtick Action Chunking &amp; Multi-Horizon RL Architecture
         </h1>
       </div>
 
-      <!-- Quick Start / User Guide Trigger + Primary 1-Click Platform Generation Segmented Pill Bar -->
+      <!-- Quick Start / User Guide Trigger + Primary 1-Click Platform Generation Segmented Bar -->
       <div class="flex items-center gap-2 shrink-0">
-        <button id="btnOpenQuickStart" type="button" title="Open Quick Start &amp; How-To-Use Guide (Shortcut: ?)" class="no-wrap-btn px-2.5 py-0.5 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer gap-1 shrink-0">
-          <span>? Quick Start / Guide</span>
+        <button id="btnOpenQuickStart" type="button" title="Open Architecture Briefing &amp; Quick Start Guide (Shortcut: ?)" class="no-wrap-btn px-2.5 py-0.5 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer gap-1.5 shrink-0">
+          <span class="am-only-inline font-serif font-black text-[10px]">印</span>
+          <span>Quick Start / Guide</span>
           <kbd class="mono text-[9.5px] px-1 py-0.2 rounded bg-black/15 dark:bg-white/15 border border-current/25">?</kbd>
         </button>
 
@@ -123,43 +120,35 @@
 
       <!-- Cluster 2: Unified Theme Switcher (Opens 12-Style Visual Swatch Gallery) + Light/Dark Polarity -->
       <div class="flex items-center gap-1.5 shrink-0 relative">
-        <div class="inline-flex items-center rounded-lg border border-hairline surface-panel p-0.5 gap-0.5">
-          <button id="btnPrevTheme" title="Previous Design Theme ([)" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
-            ◀
-          </button>
-          <button id="btnThemeGalleryTrigger" type="button" popovertarget="themeGalleryPopover" title="Open Design System &amp; 13-Style Visual Swatch Gallery" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold text-primary-ink hover:bg-black/5 dark:hover:bg-white/10 transition cursor-pointer gap-1">
-            <span id="activeThemePillLabel">★ · Arashikage Monolith</span>
-            <span class="text-[9.5px] text-muted-ink">▾</span>
-          </button>
-          <select id="selTheme" aria-label="Design Theme (Signature Arashikage Monolith + 12 Iconic Styles)" class="sr-only">
-            <optgroup label="0. Signature Design System (嵐影 · 銀座碑文)">
-              <option value="arashikage_monolith" selected>★ · Arashikage Monolith (版画 Hanga / 和紙 Washi)</option>
-            </optgroup>
-            <optgroup label="I. Constructivist &amp; Editorial Grids">
-              <option value="neo_brutalism">01 · Neo-Brutalism</option>
-              <option value="modular_typo">02 · Modular Typography</option>
-              <option value="bauhaus">03 · Bauhaus Constructivism</option>
-            </optgroup>
-            <optgroup label="II. Engineering &amp; Hardware Consoles">
-              <option value="utilitarian">04 · Utilitarian CAD</option>
-              <option value="blueprint">05 · Blueprint Cyanotype</option>
-              <option value="braun_industrial">06 · Braun / Apollo Console</option>
-            </optgroup>
-            <optgroup label="III. Expressive, Decorative &amp; Retro">
-              <option value="memphis">07 · Memphis Milano</option>
-              <option value="pixel_art">08 · 16-Bit Pixel Art</option>
-              <option value="art_deco">09 · Art Deco Metropolis</option>
-            </optgroup>
-            <optgroup label="IV. Atmospheric, Cyber &amp; Biomimetic">
-              <option value="aurora">10 · Aurora Borealis</option>
-              <option value="cyberpunk">11 · Cyberpunk Neural Deck</option>
-              <option value="solarpunk">12 · Solarpunk Botanical</option>
-            </optgroup>
-          </select>
-          <button id="btnNextTheme" title="Next Design Theme (])" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
-            ▶
-          </button>
-        </div>
+        <button id="btnThemeGalleryTrigger" type="button" popovertarget="themeGalleryPopover" title="Open Design System &amp; 13-Style Visual Swatch Gallery (Keys: [ / ])" class="no-wrap-btn px-2.5 py-1 rounded-lg border border-subtle surface-panel text-[11px] font-bold text-primary-ink hover:opacity-90 transition cursor-pointer gap-1.5">
+          <span id="activeThemePillLabel">★ · Arashikage Monolith</span>
+          <span class="text-[9.5px] text-muted-ink">▾</span>
+        </button>
+        <select id="selTheme" aria-label="Design Theme (Signature Arashikage Monolith + 12 Iconic Styles)" class="sr-only">
+          <optgroup label="0. Signature Design System">
+            <option value="arashikage_monolith" selected>★ · Arashikage Monolith (版画 Hanga / 和紙 Washi)</option>
+          </optgroup>
+          <optgroup label="I. Constructivist &amp; Editorial Grids">
+            <option value="neo_brutalism">01 · Neo-Brutalism</option>
+            <option value="modular_typo">02 · Modular Typography</option>
+            <option value="bauhaus">03 · Bauhaus Constructivism</option>
+          </optgroup>
+          <optgroup label="II. Engineering &amp; Hardware Consoles">
+            <option value="utilitarian">04 · Utilitarian CAD</option>
+            <option value="blueprint">05 · Blueprint Cyanotype</option>
+            <option value="braun_industrial">06 · Braun / Apollo Console</option>
+          </optgroup>
+          <optgroup label="III. Expressive, Decorative &amp; Retro">
+            <option value="memphis">07 · Memphis Milano</option>
+            <option value="pixel_art">08 · 16-Bit Pixel Art</option>
+            <option value="art_deco">09 · Art Deco Metropolis</option>
+          </optgroup>
+          <optgroup label="IV. Atmospheric, Cyber &amp; Biomimetic">
+            <option value="aurora">10 · Aurora Borealis</option>
+            <option value="cyberpunk">11 · Cyberpunk Neural Deck</option>
+            <option value="solarpunk">12 · Solarpunk Botanical</option>
+          </optgroup>
+        </select>
 
         <!-- Visual 12-Theme Swatch Gallery Popover -->
         <div id="themeGalleryPopover" popover class="surface-elevated border border-subtle rounded-xl p-3 flex-col gap-2.5 w-[44rem] max-w-[95vw] z-50 shadow-2xl">
@@ -475,55 +464,80 @@
     </div>
   </div>
 
-  <!-- First-Time & On-Demand Quick Start / User Guide Modal -->
+  <!-- First-Time & On-Demand Quick Start / User Guide Modal (Shōji Architecture Briefing Scroll in Arashikage Monolith) -->
   <div id="quickStartModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="quickStartModalTitle" class="fixed inset-0 z-[70] hidden items-center justify-center p-2.5 sm:p-4">
-    <div id="quickStartModalCard" class="w-full max-w-[68rem] max-h-[93vh] overflow-y-auto flex flex-col">
+    <div id="quickStartModalCard" class="w-full max-w-[68rem] max-h-[93vh] overflow-y-auto flex flex-col relative">
 
-      <!-- Modal Top Header -->
-      <div class="px-4 py-3 border-b border-hairline surface-card flex items-start justify-between gap-3 sticky top-0 z-10">
-        <div class="min-w-0">
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="mono text-[10px] font-bold px-2 py-0.5 rounded btn-theme-accent border">QUICK START &amp; USER GUIDE</span>
-            <span class="mono text-[10px] font-bold text-muted-ink">6 STAGES · 17 SUBSYSTEMS · 4 GENERATIONS · 36 WHITE PAPERS</span>
+      <!-- Subtle Maker's Mark Watermark (嵐影 + Hexagram 64 ䷿ — Displayed in Arashikage Monolith) -->
+      <div class="am-makers-watermark pointer-events-none select-none" aria-hidden="true">
+        <span class="am-watermark-kanji">嵐影</span>
+        <svg width="68" height="74" viewBox="0 0 22 24" fill="currentColor">
+          <rect x="0" y="0" width="22" height="2.4" />
+          <rect x="0" y="4.3" width="9.2" height="2.4" /><rect x="12.8" y="4.3" width="9.2" height="2.4" />
+          <rect x="0" y="8.6" width="22" height="2.4" />
+          <rect x="0" y="12.9" width="9.2" height="2.4" /><rect x="12.8" y="12.9" width="9.2" height="2.4" />
+          <rect x="0" y="17.2" width="22" height="2.4" />
+          <rect x="0" y="21.5" width="9.2" height="2.4" /><rect x="12.8" y="21.5" width="9.2" height="2.4" />
+        </svg>
+      </div>
+
+      <!-- Top Architectural Frieze Rule & Colophon Bar -->
+      <div class="am-modal-top-rule"></div>
+      <div class="am-modal-colophon px-4 sm:px-6 py-1.5 border-b border-hairline surface-panel flex flex-wrap items-center justify-between gap-2 mono text-[10px] font-bold">
+        <span class="text-primary-ink">◆ ARCHITECTURE BRIEFING // ARASHIKAGE (HEX64) EXPLORER</span>
+        <span class="text-muted-ink">6 STAGES · 17 SUBSYSTEMS · 4 GENERATIONS · 36 WHITE PAPERS</span>
+      </div>
+
+      <!-- Stratum 1 & 2: Hanko Seal + Monumental Headline + Left-Bordered Thesis Plaque -->
+      <div class="px-4 sm:px-6 py-3.5 border-b border-hairline surface-card flex flex-col gap-2.5 sticky top-0 z-10">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3 min-w-0">
+            <span class="am-hanko-seal am-hanko-seal-lg" aria-hidden="true">嵐影<br/>之印</span>
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="kicker text-theme-accent">SYSTEMS &amp; NEURAL ARCHITECTURE DISPATCH // QUICK START GUIDE</span>
+              </div>
+              <h2 id="quickStartModalTitle" class="text-base sm:text-lg font-extrabold text-primary-ink tracking-wider mt-0.5 uppercase">
+                Arashikage // Hex64 Architecture Explorer
+              </h2>
+            </div>
           </div>
-          <h2 id="quickStartModalTitle" class="text-sm sm:text-base font-extrabold text-primary-ink tracking-tight mt-1">
-            How to Navigate the Arashikage (Hex64) Architecture Explorer
-          </h2>
-          <p class="text-[11.5px] text-secondary-ink leading-snug mt-0.5">
-            This interactive explorer maps the real-time physics, neural memory, and 60 Hz RL control architecture across 4 platform generations. Choose a starting path below or review the 6 interface surfaces.
-          </p>
+          <button id="btnCloseQuickStartTop" type="button" title="Close Guide (Esc)" class="no-wrap-btn px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-subtle text-[11px] font-bold hover:opacity-90 transition cursor-pointer shrink-0 gap-1.5">
+            <span>ESC · CLOSE</span>
+            <span class="text-xs leading-none">✕</span>
+          </button>
         </div>
-        <button id="btnCloseQuickStartTop" type="button" title="Close Guide (Esc)" class="no-wrap-btn px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-subtle text-[11px] font-bold hover:opacity-90 transition cursor-pointer shrink-0 gap-1">
-          <span>× Close</span>
-          <kbd class="mono text-[9.5px] px-1 py-0.2 rounded surface-root text-muted-ink border border-hairline">ESC</kbd>
-        </button>
+
+        <p class="am-thesis-plaque text-[11.5px] text-secondary-ink leading-relaxed">
+          Interactive schematic and tensor inspection console for the <strong>Arashikage (Hex64)</strong> 60 Hz Subtick Action Chunking &amp; Multi-Horizon RL platform. Compare real-time tournament inference (<strong>&le;5.5 ms</strong>), <strong>4,096-arena</strong> parallel training, and <strong>4 platform generations</strong> across 17 subsystem blocks and 36 peer-reviewed papers.
+        </p>
       </div>
 
       <!-- Modal Body -->
-      <div class="p-3.5 sm:p-4 flex flex-col gap-3.5">
+      <div class="p-4 sm:p-6 flex flex-col gap-4 relative z-[1]">
 
-        <!-- Section 1: Best Way to Start (3 Interactive Launchpad Cards) -->
+        <!-- Stratum 3: 3-Column Mandate Ledger (3 Recommended Starting Paths) -->
         <div>
-          <div class="am-frieze-header flex items-center justify-between gap-2 mb-1.5">
-            <span class="kicker text-theme-accent shrink-0">礎 · 1. RECOMMENDED STARTING PATHS (CLICK ANY BUTTON TO LAUNCH IMMEDIATELY)</span>
+          <div class="am-frieze-header flex items-center justify-between gap-2 mb-2">
+            <span class="kicker text-theme-accent shrink-0">I · RECOMMENDED STARTING PATHS (CLICK ANY ACTION TO LAUNCH IMMEDIATELY)</span>
             <span class="am-frieze-rule"></span>
-            <span class="mono text-[10px] text-muted-ink hidden sm:inline shrink-0">Tip: Reopen anytime via &ldquo;? Quick Start / Guide&rdquo;</span>
+            <span class="mono text-[10px] text-muted-ink hidden sm:inline shrink-0">Reopen anytime via &ldquo;Quick Start / Guide&rdquo; or ?</span>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-2.5">
+          <div id="qsPathsLedger" class="grid grid-cols-1 lg:grid-cols-3 gap-2.5">
             <!-- Path 1: 8-Step Guided Tour -->
-            <div class="surface-card border border-subtle rounded-xl p-3 flex flex-col justify-between gap-2">
+            <div class="qs-ledger-col surface-card border border-subtle rounded-xl p-3.5 flex flex-col justify-between gap-2.5">
               <div>
-                <div class="flex items-center justify-between gap-1.5 mb-1">
-                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded btn-theme-accent">BEST FIRST STEP · 3 MIN</span>
-                  <span class="mono text-[9.5px] font-bold text-muted-ink">8 STEPS</span>
+                <div class="flex items-center justify-between gap-1.5 mb-1.5">
+                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded btn-theme-accent">PATH I · BEST FIRST STEP</span>
+                  <span class="mono text-[9.5px] font-bold text-muted-ink">8 STEPS · 3 MIN</span>
                 </div>
-                <h3 class="text-xs font-extrabold text-primary-ink">Take the 66.7ms End-to-End Guided Tour</h3>
+                <h3 class="text-xs font-extrabold text-primary-ink uppercase tracking-wider">66.7ms End-to-End Guided Tour</h3>
                 <p class="text-[11px] text-secondary-ink leading-snug mt-1">
-                  Follows a single 15 Hz outer control cycle from the <strong>5,376B Rust Observation Slice (Stage 1)</strong> through <strong>Bipartite DiffAttn</strong>, <strong>FP32 Titans Memory</strong>, <strong>Coconut &amp; Soft-MoE</strong>, and <strong>60 Hz Flow-GRPO Control</strong> to the <strong>Dual 4×51 Symlog Critic (Stage 6)</strong>.
+                  Traces one complete 15 Hz outer control cycle from the <strong>5,376B Rust Observation Slice (Stage 1)</strong> through <strong>Bipartite DiffAttn</strong>, <strong>FP32 Titans Memory</strong>, <strong>Coconut &amp; Soft-MoE</strong>, and <strong>60 Hz Flow-GRPO Control</strong> to the <strong>Dual 4×51 Symlog Critic (Stage 6)</strong>.
                 </p>
-                <p class="text-[10.5px] text-muted-ink leading-snug mt-1">
-                  Use <kbd class="mono px-1 rounded surface-panel border border-hairline">←</kbd> / <kbd class="mono px-1 rounded surface-panel border border-hairline">→</kbd> to step. Click any other block mid-tour to inspect a detour, then click <strong>↺ Resume Step</strong>.
+                <p class="text-[10.5px] text-muted-ink leading-snug mt-1.5">
+                  Use <kbd class="mono px-1 rounded surface-panel border border-hairline">←</kbd> / <kbd class="mono px-1 rounded surface-panel border border-hairline">→</kbd> to step. Click any other block mid-tour to inspect a detour, then click <strong>↩ Resume Step</strong>.
                 </p>
               </div>
               <button type="button" data-qs-scenario="tour" class="no-wrap-btn w-full py-1.5 px-3 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer">
@@ -532,43 +546,43 @@
             </div>
 
             <!-- Path 2: 4 Tactical Match Scenarios -->
-            <div class="surface-card border border-hairline rounded-xl p-3 flex flex-col justify-between gap-2">
+            <div class="qs-ledger-col surface-card border border-hairline rounded-xl p-3.5 flex flex-col justify-between gap-2.5">
               <div>
-                <div class="flex items-center justify-between gap-1.5 mb-1">
-                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded surface-panel text-theme-accent border border-hairline">IN-GAME MECHANICS</span>
+                <div class="flex items-center justify-between gap-1.5 mb-1.5">
+                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded surface-panel text-primary-ink border border-hairline">PATH II · IN-GAME MECHANICS</span>
                   <span class="mono text-[9.5px] font-bold text-muted-ink">4 SCENARIOS</span>
                 </div>
-                <h3 class="text-xs font-extrabold text-primary-ink">Step Through a Live Match Scenario</h3>
+                <h3 class="text-xs font-extrabold text-primary-ink uppercase tracking-wider">Step Through a Live Match Scenario</h3>
                 <p class="text-[11px] text-secondary-ink leading-snug mt-1">
-                  See how concrete Rocket League situations route through trajectory buffers, test-time surprise gradients, specialist experts, and 60 Hz subtick clamps:
+                  Inspect how concrete Rocket League situations route through trajectory ring buffers, test-time surprise gradients, specialist experts, and 60 Hz subtick clamps:
                 </p>
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                 <button type="button" data-qs-scenario="bounce" class="no-wrap-btn justify-start px-2 py-1.5 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
-                  ▶ 1 · Corner Double-Tap
+                  ▸ 1 · Corner Double-Tap
                 </button>
                 <button type="button" data-qs-scenario="aerial" class="no-wrap-btn justify-start px-2 py-1.5 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
-                  ▶ 2 · Fast Aerial Stall Guard
+                  ▸ 2 · Fast Aerial Stall Guard
                 </button>
                 <button type="button" data-qs-scenario="fake" class="no-wrap-btn justify-start px-2 py-1.5 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
-                  ▶ 3 · Adapting to Fake
+                  ▸ 3 · Adapting to Fake
                 </button>
                 <button type="button" data-qs-scenario="save" class="no-wrap-btn justify-start px-2 py-1.5 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
-                  ▶ 4 · Goal-Line Save
+                  ▸ 4 · Goal-Line Save
                 </button>
               </div>
             </div>
 
             <!-- Path 3: Self-Paced Deep Dive, Tech Index & Search -->
-            <div class="surface-card border border-hairline rounded-xl p-3 flex flex-col justify-between gap-2">
+            <div class="qs-ledger-col surface-card border border-hairline rounded-xl p-3.5 flex flex-col justify-between gap-2.5">
               <div>
-                <div class="flex items-center justify-between gap-1.5 mb-1">
-                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded surface-panel text-theme-accent border border-hairline">SELF-PACED DEEP DIVE</span>
+                <div class="flex items-center justify-between gap-1.5 mb-1.5">
+                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded surface-panel text-primary-ink border border-hairline">PATH III · SELF-PACED REFERENCE</span>
                   <span class="mono text-[9.5px] font-bold text-muted-ink">10 TECHS · 36 PAPERS</span>
                 </div>
-                <h3 class="text-xs font-extrabold text-primary-ink">Inspect Blocks, Math &amp; Research Papers</h3>
+                <h3 class="text-xs font-extrabold text-primary-ink uppercase tracking-wider">Inspect Blocks, Math &amp; White Papers</h3>
                 <p class="text-[11px] text-secondary-ink leading-snug mt-1">
-                  Click any block <strong>#01..#17</strong> on the diagram to inspect its tensor shapes and interactive simulator, or open the <strong>10-Technology Library</strong> for scientific derivations and peer-reviewed papers:
+                  Click any block <strong>#01..#17</strong> on the diagram to inspect its tensor shapes and interactive simulator, or open the <strong>10-Technology Deep Dive</strong> for mathematical derivations and literature:
                 </p>
               </div>
               <div class="flex flex-col gap-1.5">
@@ -588,63 +602,58 @@
           </div>
         </div>
 
-        <!-- Section 2: Anatomy of the 6 Core Interface Surfaces -->
+        <!-- Stratum 4: Anatomy of the 6 Core Interface Surfaces -->
         <div>
-          <div class="am-frieze-header flex items-center justify-between gap-2 mb-1.5">
-            <span class="kicker text-theme-accent shrink-0">双 · 2. ANATOMY OF THE INTERFACE (HOW EVERY PANEL &amp; CONTROL WORKS)</span>
+          <div class="am-frieze-header flex items-center justify-between gap-2 mb-2">
+            <span class="kicker text-theme-accent shrink-0">II · ANATOMY OF THE INTERFACE (HOW EVERY PANEL &amp; CONTROL WORKS)</span>
             <span class="am-frieze-rule"></span>
-            <span class="mono text-[10px] text-muted-ink hidden sm:inline shrink-0">Every view updates dynamically with zero page reloads</span>
+            <span class="mono text-[10px] text-muted-ink hidden sm:inline shrink-0">Zero page reloads · URL-hash synchronized</span>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-            <!-- Surface 1 -->
-            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+          <div id="qsSurfacesLedger" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+            <div class="qs-surface-cell surface-panel border border-hairline rounded-xl p-3 flex flex-col gap-1">
               <div class="flex items-center justify-between gap-1">
-                <span class="mono text-[10px] font-bold text-theme-accent">01 · LEFT DATAFLOW CANVAS</span>
+                <span class="mono text-[10px] font-bold text-primary-ink">01 · LEFT DATAFLOW CANVAS</span>
                 <span class="mono text-[9.5px] text-muted-ink">17 Blocks · 24 Edges</span>
               </div>
               <p class="text-[11px] text-secondary-ink leading-snug">
-                Organized into <strong>6 Columns (Stage 1..6)</strong> flowing left-to-right. <strong>Hover</strong> any block to highlight its incoming/outgoing tensor edges; <strong>Click</strong> any block to load its full breakdown in the Right Inspector.
+                Organized into <strong>6 Columns (Stage 1..6)</strong> flowing left-to-right. <strong>Hover</strong> any block to illuminate its incoming/outgoing tensor edges; <strong>Click</strong> any block to load its breakdown in the Right Inspector.
               </p>
             </div>
 
-            <!-- Surface 2 -->
-            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+            <div class="qs-surface-cell surface-panel border border-hairline rounded-xl p-3 flex flex-col gap-1">
               <div class="flex items-center justify-between gap-1">
-                <span class="mono text-[10px] font-bold text-theme-accent">02 · PATHWAY FILTER PILLS</span>
+                <span class="mono text-[10px] font-bold text-primary-ink">02 · PATHWAY FILTER BAR</span>
                 <span class="mono text-[9.5px] text-muted-ink">All · Live · Train · Distill</span>
               </div>
               <p class="text-[11px] text-secondary-ink leading-snug">
-                Filters the graph by runtime regime. <strong>Pro Tip:</strong> Dimmed/dashed blocks (<span class="mono text-[10px]">BYPASSED</span>) remain clickable—click <strong>#04 Privileged Context</strong> in <strong>Live 5.5ms</strong> to see why it is zero-masked in tournaments.
+                Filters the graph by runtime regime. Dimmed/dashed blocks (<span class="mono text-[10px]">BYPASSED</span>) remain clickable—click <strong>#04 Privileged Context</strong> in <strong>Live 5.5ms</strong> to see why it is zero-masked in tournaments.
               </p>
             </div>
 
-            <!-- Surface 3 -->
-            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+            <div class="qs-surface-cell surface-panel border border-hairline rounded-xl p-3 flex flex-col gap-1">
               <div class="flex items-center justify-between gap-1">
-                <span class="mono text-[10px] font-bold text-theme-accent">03 · RIGHT INSPECTOR &amp; TECH INDEX</span>
+                <span class="mono text-[10px] font-bold text-primary-ink">03 · RIGHT INSPECTOR LEDGER</span>
                 <span class="mono text-[9.5px] text-muted-ink">5 Tabs · 36 Papers</span>
               </div>
               <p class="text-[11px] text-secondary-ink leading-snug">
-                Toggle between <strong>▣ Block</strong> (5 tabs: <em>How, Why, Impact, Math, Learn</em>) and <strong>◈ Tech Index (10)</strong>. In Tech Index, selecting any technology highlights every canvas block that uses it.
+                Switch between <strong>▣ Block Inspector</strong> (5 tabs: <em>How, Why, Impact, Math, Papers</em>) and <strong>◈ Deep Dive (10)</strong>. Selecting any technology highlights every canvas block that uses it.
               </p>
             </div>
 
-            <!-- Surface 4 -->
-            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+            <div class="qs-surface-cell surface-panel border border-hairline rounded-xl p-3 flex flex-col gap-1">
               <div class="flex items-center justify-between gap-1">
-                <span class="mono text-[10px] font-bold text-theme-accent">04 · 6 LIVE STAGE SIMULATORS</span>
-                <span class="mono text-[9.5px] text-muted-ink">Bottom-Right Card</span>
+                <span class="mono text-[10px] font-bold text-primary-ink">04 · 6 STAGE SIMULATORS</span>
+                <span class="mono text-[9.5px] text-muted-ink">Bottom-Right Stratum</span>
               </div>
               <p class="text-[11px] text-secondary-ink leading-snug">
-                Adapts to the active Stage (<strong>S1</strong> 5,376B Memory Map, <strong>S2</strong> 16×64 Pairwise Bias, <strong>S3</strong> Titans Surprise Slider, <strong>S4</strong> Coconut/MoE/FSQ, <strong>S5</strong> 60Hz Subtick Scrubber, <strong>S6</strong> Symlog Critic) + a <strong>4-Gen Evolution Matrix</strong>.
+                Adapts to the active Stage (<strong>S1</strong> 5,376B Memory Map, <strong>S2</strong> 16×64 Pairwise Bias, <strong>S3</strong> Titans Surprise Slider, <strong>S4</strong> Coconut/MoE/FSQ, <strong>S5</strong> 60Hz Subtick Scrubber, <strong>S6</strong> Symlog Critic) + <strong>4-Gen Evolution Matrix</strong>.
               </p>
             </div>
 
-            <!-- Surface 5 -->
-            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+            <div class="qs-surface-cell surface-panel border border-hairline rounded-xl p-3 flex flex-col gap-1">
               <div class="flex items-center justify-between gap-1">
-                <span class="mono text-[10px] font-bold text-theme-accent">05 · 4-GENERATION SWITCHER</span>
+                <span class="mono text-[10px] font-bold text-primary-ink">05 · 4-GENERATION SWITCHER</span>
                 <span class="mono text-[9.5px] text-muted-ink">Top-Right Bar</span>
               </div>
               <p class="text-[11px] text-secondary-ink leading-snug">
@@ -652,27 +661,26 @@
               </p>
             </div>
 
-            <!-- Surface 6 -->
-            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+            <div class="qs-surface-cell surface-panel border border-hairline rounded-xl p-3 flex flex-col gap-1">
               <div class="flex items-center justify-between gap-1">
-                <span class="mono text-[10px] font-bold text-theme-accent">06 · SIGNATURE MONOLITH + 12 THEMES &amp; EXPORT</span>
-                <span class="mono text-[9.5px] text-muted-ink">26 Visual Modes</span>
+                <span class="mono text-[10px] font-bold text-primary-ink">06 · DESIGN SYSTEM GALLERY</span>
+                <span class="mono text-[9.5px] text-muted-ink">4 Expressions + 12 Styles</span>
               </div>
               <p class="text-[11px] text-secondary-ink leading-snug">
-                Click <strong>★ · Arashikage Monolith ▾</strong> to switch between the signature <em>版画 Hanga / 和紙 Washi</em> monolith and 12 iconic design styles × Light/Dark. Use <strong>⛶ Full Screen</strong> or <strong>Export ▾</strong> for HTML/PNG/Mermaid.
+                Click <strong>★ · Arashikage Monolith ▾</strong> to switch between the 4 material expressions (<em>版画 Hanga, 漆 Urushi, 硯 Suzuri, 和紙 Washi</em>) and 12 iconic design styles. Use <strong>Export ▾</strong> for HTML/PNG/Mermaid.
               </p>
             </div>
           </div>
         </div>
 
-        <!-- Section 3: Keyboard Shortcuts Strip -->
-        <div class="surface-card border border-hairline rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2">
+        <!-- Keyboard Shortcuts Ledger Strip -->
+        <div class="surface-card border border-hairline rounded-xl px-3.5 py-2 flex flex-wrap items-center justify-between gap-2">
           <span class="kicker text-muted-ink">KEYBOARD SHORTCUTS</span>
           <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10.5px] text-secondary-ink">
-            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">?</kbd> Open Guide</span>
+            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">?</kbd> Guide</span>
             <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">/</kbd> or <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">Ctrl+K</kbd> Search</span>
             <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">←</kbd> <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">→</kbd> Tour Step</span>
-            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">[</kbd> <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">]</kbd> or <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">`,1..9,0,-,=</kbd> 13 Themes</span>
+            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">[</kbd> <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">]</kbd> or <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">`,1..9,0,-,=</kbd> 13 Styles</span>
             <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">L</kbd> / <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">D</kbd> Light / Dark</span>
             <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">Esc</kbd> Close / Exit</span>
           </div>
@@ -680,17 +688,17 @@
       </div>
 
       <!-- Modal Footer -->
-      <div class="px-4 py-2.5 border-t border-hairline surface-card flex flex-wrap items-center justify-between gap-2 sticky bottom-0 z-10">
+      <div class="px-4 sm:px-6 py-3 border-t border-hairline surface-card flex flex-wrap items-center justify-between gap-2 sticky bottom-0 z-10">
         <label class="inline-flex items-center gap-2 text-[11px] font-semibold text-secondary-ink cursor-pointer select-none">
           <input id="chkQuickStartAutoShow" type="checkbox" class="rounded border-subtle cursor-pointer" />
-          <span>Show this Quick Start Guide automatically on startup</span>
+          <span>Show this Architecture Briefing automatically on startup</span>
         </label>
         <div class="flex items-center gap-2">
-          <button type="button" data-qs-action="open-themes" class="no-wrap-btn px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-hairline hover:border-subtle text-[11px] font-bold transition cursor-pointer">
-            🎨 Browse 13 Design Styles
+          <button type="button" data-qs-action="open-themes" class="no-wrap-btn px-2.5 py-1.5 rounded-lg surface-panel text-primary-ink border border-hairline hover:border-subtle text-[11px] font-bold transition cursor-pointer">
+            ★ Design System Gallery
           </button>
-          <button id="btnCloseQuickStartBottom" type="button" class="no-wrap-btn px-3.5 py-1 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer">
-            Start Exploring →
+          <button id="btnCloseQuickStartBottom" type="button" class="no-wrap-btn px-4 py-1.5 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer uppercase tracking-wider">
+            Unfurl Architecture Explorer →
           </button>
         </div>
       </div>

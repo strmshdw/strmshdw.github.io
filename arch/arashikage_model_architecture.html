@@ -88,7 +88,10 @@ body[data-mode="dark"] {
 .am-hanko-seal,
 .am-hex64-plaque,
 .am-jp-subtitle,
-.am-frieze-rule {
+.am-frieze-rule,
+.am-only-inline,
+.am-makers-watermark,
+.am-modal-top-rule {
   display: none;
 }
 
@@ -108,12 +111,12 @@ body[data-mode="dark"] {
 }
 
 /* --- 0. ARASHIKAGE MONOLITH (嵐影 · 銀座碑文 — PRIMARY SIGNATURE THEME) ---
-   4 Canonical Material Expressions:
+   Synchronized 1:1 with rl-stats/index.html & design-system.html:
    01 · 版画 Hanga (Sumi Woodblock — Default Dark)
    02 · 漆 Urushi (Roiro Lacquer & Kintsugi Brass — Dark)
    03 · 硯 Suzuri (Carved Inkstone — Dark)
    04 · 和紙 Washi (Mulberry Parchment — Light)
-   90/10 Pigment Law (九分墨・一分朱) · Stepped Art Deco Ziggurat Frame · Carved Hanko Seal */
+   90/10 Pigment Law (九分墨・一分朱) · Open Hairline Ledger Strata · Carved Hanko Seal */
 body[data-theme="arashikage_monolith"] {
   --ease-hanko-strike: cubic-bezier(0.12, 0.98, 0.24, 1);
   --dur-hanko-strike: 190ms;
@@ -124,30 +127,30 @@ body[data-theme="arashikage_monolith"] {
   font-variant-numeric: tabular-nums;
 }
 
-/* Expression 01: 版画 · Hanga (Sumi Woodblock — Default Dark) */
+/* Expression 01: 版画 · Hanga (Sumi Woodblock — Default Dark, 1:1 with rl-stats/index.html) */
 body[data-theme="arashikage_monolith"][data-mode="dark"] {
   --am-ground: #0a0908;
-  --am-canvas: #171412;
-  --am-plaque: #0d0b0a;
-  --am-canvas-subtle: #211d1a;
-  --am-rule: #36302a;
-  --am-outline: #d8d0c5;
-  --am-frieze: #cfc6b8;
-  --am-ink: #f4efe6;
+  --am-canvas: #181614;
+  --am-plaque: #0f0d0b;
+  --am-canvas-subtle: #221f1c;
+  --am-rule: #38332d;
+  --am-outline: #e2dbd0;
+  --am-frieze: #d8d0c5;
+  --am-ink: #f2efe9;
   --am-ink-strong: #fbf9f5;
-  --am-ink-secondary: #c9c0b1;
-  --am-ink-muted: #9e9384;
-  --am-slab-primary: #f4efe6;
+  --am-ink-secondary: #cfc7b8;
+  --am-ink-muted: #918779;
+  --am-slab-primary: #f2efe9;
   --am-slab-primary-ink: #12100e;
   --am-slab-counter: #b81d13;
   --am-slab-counter-ink: #fbf9f5;
-  --am-vermilion: #d4261d;
+  --am-vermilion: #d9382e;
   --am-gold: #deb052;
-  --am-gold-rule: #7a5c22;
+  --am-gold-rule: #785b22;
   --am-steel: #7da8c4;
-  --am-steel-rule: #3a607a;
-  --am-celadon: #82a890;
-  --am-celadon-rule: #3a634b;
+  --am-steel-rule: #3d637d;
+  --am-celadon: #689f7d;
+  --am-celadon-rule: #2d5940;
 
   --bg-root: var(--am-ground);
   --bg-panel: var(--am-canvas);
@@ -158,8 +161,8 @@ body[data-theme="arashikage_monolith"][data-mode="dark"] {
   --ink-primary: var(--am-ink-strong);
   --ink-secondary: var(--am-ink-secondary);
   --ink-muted: var(--am-ink-muted);
-  --accent-main: var(--am-vermilion);
-  --accent-ink: #fbf9f5;
+  --accent-main: var(--am-frieze);
+  --accent-ink: var(--am-slab-primary-ink);
   --accent-tint: var(--am-canvas-subtle);
   --font-display: "Josefin Sans", "Space Grotesk", "Inter", sans-serif;
   --font-body: "IBM Plex Sans", "Inter", system-ui, -apple-system, sans-serif;
@@ -172,53 +175,53 @@ body[data-theme="arashikage_monolith"][data-mode="dark"] {
 /* Expression 02: 漆 · Urushi (Roiro Lacquer & Kintsugi Brass — Dark) */
 body[data-theme="arashikage_monolith"][data-mode="dark"][data-expression="urushi"] {
   --am-ground: #060504;
-  --am-canvas: #120f0c;
-  --am-plaque: #090806;
+  --am-canvas: #120f0d;
+  --am-plaque: #0b0907;
   --am-canvas-subtle: #1c1713;
-  --am-rule: #42331f;
+  --am-rule: #3d3122;
   --am-outline: #e6c687;
   --am-frieze: #deb052;
-  --am-ink: #f7f2e7;
-  --am-ink-strong: #fffdf9;
-  --am-ink-secondary: #d4c5aa;
-  --am-ink-muted: #9e8c6c;
+  --am-ink: #f5efe4;
+  --am-ink-strong: #fcf9f2;
+  --am-ink-secondary: #d4c5af;
+  --am-ink-muted: #9e8c72;
   --am-slab-primary: #deb052;
-  --am-slab-primary-ink: #090806;
+  --am-slab-primary-ink: #0a0806;
   --am-slab-counter: #b81d13;
-  --am-slab-counter-ink: #fffdf9;
-  --am-vermilion: #d9291e;
+  --am-slab-counter-ink: #fcf9f2;
+  --am-vermilion: #e03e33;
   --am-gold: #f0c465;
   --am-gold-rule: #946e26;
   --am-steel: #7ba3bd;
   --am-steel-rule: #3a5c73;
-  --am-celadon: #7ea38c;
-  --am-celadon-rule: #395e49;
+  --am-celadon: #689f7d;
+  --am-celadon-rule: #2d5940;
 }
 
 /* Expression 03: 硯 · Suzuri (Carved Inkstone Monolith — Dark) */
 body[data-theme="arashikage_monolith"][data-mode="dark"][data-expression="suzuri"] {
   --am-ground: #08090c;
   --am-canvas: #12151c;
-  --am-plaque: #0b0d12;
+  --am-plaque: #0c0e13;
   --am-canvas-subtle: #1a1f29;
-  --am-rule: #2a3140;
+  --am-rule: #283040;
   --am-outline: #cbd5e1;
   --am-frieze: #94a3b8;
   --am-ink: #f1f5f9;
   --am-ink-strong: #ffffff;
   --am-ink-secondary: #cbd5e1;
-  --am-ink-muted: #94a3b8;
+  --am-ink-muted: #7e8da4;
   --am-slab-primary: #e2e8f0;
   --am-slab-primary-ink: #090b10;
   --am-slab-counter: #b81d13;
   --am-slab-counter-ink: #ffffff;
-  --am-vermilion: #d4261d;
+  --am-vermilion: #e04338;
   --am-gold: #deb052;
   --am-gold-rule: #785b22;
-  --am-steel: #8bb4d0;
+  --am-steel: #94a3b8;
   --am-steel-rule: #416885;
-  --am-celadon: #84ab93;
-  --am-celadon-rule: #3d664f;
+  --am-celadon: #5e9b78;
+  --am-celadon-rule: #2d5940;
 }
 
 /* Expression 04: 和紙 · Washi (Mulberry Parchment & Sumi Ink — Light) */
@@ -232,18 +235,18 @@ body[data-theme="arashikage_monolith"][data-mode="light"] {
   --am-frieze: #4a3f33;
   --am-ink: #171412;
   --am-ink-strong: #090807;
-  --am-ink-secondary: #362f28;
-  --am-ink-muted: #615548;
+  --am-ink-secondary: #3b352e;
+  --am-ink-muted: #6e6559;
   --am-slab-primary: #1c1917;
   --am-slab-primary-ink: #fbf9f5;
   --am-slab-counter: #b81d13;
   --am-slab-counter-ink: #fbf9f5;
-  --am-vermilion: #b81d13;
-  --am-gold: #8c5604;
+  --am-vermilion: #a81c14;
+  --am-gold: #8c5808;
   --am-gold-rule: #b48a3e;
   --am-steel: #1b4965;
   --am-steel-rule: #648ca8;
-  --am-celadon: #1e523b;
+  --am-celadon: #1e5638;
   --am-celadon-rule: #5c8f76;
 
   --bg-root: var(--am-ground);
@@ -255,8 +258,8 @@ body[data-theme="arashikage_monolith"][data-mode="light"] {
   --ink-primary: var(--am-ink-strong);
   --ink-secondary: var(--am-ink-secondary);
   --ink-muted: var(--am-ink-muted);
-  --accent-main: var(--am-vermilion);
-  --accent-ink: #fbf9f5;
+  --accent-main: var(--am-frieze);
+  --accent-ink: var(--am-slab-primary-ink);
   --accent-tint: var(--am-canvas-subtle);
   --font-display: "Josefin Sans", "Space Grotesk", "Inter", sans-serif;
   --font-body: "IBM Plex Sans", "Inter", system-ui, -apple-system, sans-serif;
@@ -282,9 +285,10 @@ body[data-theme="arashikage_monolith"] .rounded-xs {
    Voice 1 (Josefin Sans Display), Voice 2 (IBM Plex Sans Body), Voice 3 (JetBrains Mono Tabular), Voice 4 (Noto Serif JP Hanko Seal) */
 body[data-theme="arashikage_monolith"] h1,
 body[data-theme="arashikage_monolith"] h2,
+body[data-theme="arashikage_monolith"] h3,
 body[data-theme="arashikage_monolith"] .kicker {
   font-family: "Josefin Sans", "Space Grotesk", sans-serif;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
 }
 body[data-theme="arashikage_monolith"] .mono {
@@ -293,10 +297,34 @@ body[data-theme="arashikage_monolith"] .mono {
   font-feature-settings: "tnum" 1, "zero" 1;
 }
 
+/* Law 01 (90/10 Pigment Discipline): Kickers & architectural labels use warm Frieze/Gold (--am-frieze / --am-gold),
+   NOT loud vermilion (#d4261d), so only the carved Hanko seal and Tier 1 action triggers carry Shu-iro vermilion */
+body[data-theme="arashikage_monolith"] .kicker,
+body[data-theme="arashikage_monolith"] #ntabHeading,
+body[data-theme="arashikage_monolith"] #ttabHeading,
+body[data-theme="arashikage_monolith"] #ntabSubLabel,
+body[data-theme="arashikage_monolith"] #ttabSubLabel,
+body[data-theme="arashikage_monolith"] #techKicker {
+  color: var(--am-frieze) !important;
+}
+body[data-theme="arashikage_monolith"] .am-masthead-diamond {
+  color: var(--am-gold) !important;
+  font-size: 0.65rem;
+}
+body[data-theme="arashikage_monolith"] .am-only-inline {
+  display: inline-block;
+}
+
 /* Top Architectural Frieze Rule & Canonical Masthead Lockup (Hex64 6-Bar SVG Plaque + Carved Square Hanko Stamp) */
 body[data-theme="arashikage_monolith"] #topIdentityBar {
+  background-color: var(--am-canvas) !important;
   border-top: 2px solid var(--am-outline) !important;
-  box-shadow: inset 0 2px 0 0 var(--am-ground), inset 0 3px 0 0 var(--am-gold-rule) !important;
+  box-shadow: inset 0 2px 0 0 var(--am-ground), inset 0 3px 0 0 var(--am-gold) !important;
+  border-bottom: 1px solid var(--am-rule) !important;
+}
+body[data-theme="arashikage_monolith"] #controlPlaneHeader {
+  background-color: var(--am-canvas) !important;
+  border-bottom: 1.5px solid var(--am-outline) !important;
 }
 body[data-theme="arashikage_monolith"] #brandDot {
   display: none !important;
@@ -304,18 +332,18 @@ body[data-theme="arashikage_monolith"] #brandDot {
 body[data-theme="arashikage_monolith"] .am-hex64-plaque {
   display: inline-grid;
   place-items: center;
-  width: 1.55rem;
-  height: 1.55rem;
+  width: 1.65rem;
+  height: 1.65rem;
   background-color: var(--am-ground);
-  color: var(--am-ink-strong);
+  color: var(--am-vermilion);
   border: 1px solid var(--am-outline);
   flex-shrink: 0;
 }
 body[data-theme="arashikage_monolith"] .am-hanko-seal {
   display: inline-grid;
   place-items: center;
-  width: 1.55rem;
-  height: 1.55rem;
+  width: 1.65rem;
+  height: 1.65rem;
   background-color: #b81d13;
   color: #fbf9f5;
   font-family: "Noto Serif JP", "Hiragino Mincho ProN", serif;
@@ -331,17 +359,11 @@ body[data-theme="arashikage_monolith"] .am-hanko-seal {
   user-select: none;
   animation: am-hanko-strike var(--dur-hanko-strike) var(--ease-hanko-strike) both;
 }
-body[data-theme="arashikage_monolith"] .am-jp-subtitle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-body[data-theme="arashikage_monolith"] .am-jp-kanji {
-  font-family: "Noto Serif JP", "Hiragino Mincho ProN", serif;
-  font-weight: 900;
+body[data-theme="arashikage_monolith"] .am-hanko-seal-lg {
+  width: 2.25rem;
+  height: 2.25rem;
   font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  color: var(--am-ink-secondary);
+  outline-offset: -3px;
 }
 body[data-theme="arashikage_monolith"] .am-frieze-rule {
   display: block;
@@ -352,92 +374,130 @@ body[data-theme="arashikage_monolith"] .am-frieze-rule {
   margin: 0 0.5rem;
 }
 
-/* Canonical 3-Tier Semantic Seals & Structural Header Slabs from design-system.html */
-body[data-theme="arashikage_monolith"] .am-slab-primary {
-  background-color: var(--am-slab-primary) !important;
-  color: var(--am-slab-primary-ink) !important;
-  border-bottom: 1.5px solid var(--am-outline) !important;
-}
-body[data-theme="arashikage_monolith"] .am-slab-counter {
-  background-color: var(--am-slab-counter) !important;
-  color: var(--am-slab-counter-ink) !important;
-  border-bottom: 1.5px solid var(--am-outline) !important;
-}
-body[data-theme="arashikage_monolith"] .am-seal-vermilion {
-  background-color: #b81d13 !important;
-  color: #fbf9f5 !important;
-  border: 1px solid #b81d13 !important;
-  outline: 1px solid rgba(251, 249, 245, 0.38);
-  outline-offset: -2px;
-}
-body[data-theme="arashikage_monolith"] .am-cartouche-gold {
+/* Contiguous Shared-Border Segmented Control Strips (Matching rl-stats/index.html divide-x monolith strips) */
+body[data-theme="arashikage_monolith"] #genPillBar,
+body[data-theme="arashikage_monolith"] #modePillBar,
+body[data-theme="arashikage_monolith"] #polarityPillBar,
+body[data-theme="arashikage_monolith"] #inspectorViewToggleBar,
+body[data-theme="arashikage_monolith"] #nodeTabsBar,
+body[data-theme="arashikage_monolith"] #techTabsBar {
+  padding: 0 !important;
+  gap: 0 !important;
   background-color: var(--am-ground) !important;
-  color: var(--am-gold) !important;
-  border: 1px solid var(--am-gold-rule) !important;
+  border: 1px solid var(--am-outline) !important;
 }
-body[data-theme="arashikage_monolith"] .am-cartouche-steel {
-  background-color: var(--am-ground) !important;
-  color: var(--am-steel) !important;
-  border: 1px solid var(--am-steel-rule) !important;
+body[data-theme="arashikage_monolith"] #genPillBar > button + button,
+body[data-theme="arashikage_monolith"] #modePillBar > button + button,
+body[data-theme="arashikage_monolith"] #polarityPillBar > button + button,
+body[data-theme="arashikage_monolith"] #inspectorViewToggleBar > button + button,
+body[data-theme="arashikage_monolith"] #nodeTabsBar > button + button,
+body[data-theme="arashikage_monolith"] #techTabsBar > button + button {
+  border-left: 1px solid var(--am-rule) !important;
 }
-body[data-theme="arashikage_monolith"] .am-cartouche-celadon {
-  background-color: var(--am-ground) !important;
-  color: var(--am-celadon) !important;
-  border: 1px solid var(--am-celadon-rule) !important;
-}
-body[data-theme="arashikage_monolith"] .am-interactive {
-  transition:
-    border-color var(--dur-chisel-snap) var(--ease-chisel-snap),
-    background-color var(--dur-chisel-snap) var(--ease-chisel-snap),
-    transform var(--dur-chisel-snap) var(--ease-chisel-snap);
-}
-body[data-theme="arashikage_monolith"] .am-interactive:hover {
-  border-color: var(--am-outline) !important;
-  transform: translateY(-1px);
+body[data-theme="arashikage_monolith"] #genPillBar > button,
+body[data-theme="arashikage_monolith"] #modePillBar > button,
+body[data-theme="arashikage_monolith"] #polarityPillBar > button,
+body[data-theme="arashikage_monolith"] #inspectorViewToggleBar > button,
+body[data-theme="arashikage_monolith"] #nodeTabsBar > button,
+body[data-theme="arashikage_monolith"] #techTabsBar > button {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  border-right: 0 !important;
+  font-family: "Josefin Sans", "Space Grotesk", sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-/* Law 01 & Law 04: 90/10 Pigment Allocation (九分墨・一分朱)
-   Active segmented pills & navigation tabs use Tier 2 Inverted Monolith Slab Polarity (--am-slab-primary);
-   Primary Hanko action triggers retain Tier 1 Carved Shu-iro Vermilion (#b81d13) with inset rim */
+/* Active Segmented Cells Use Tier 2 Inverted Monolith Slab Polarity (--am-slab-primary) */
 body[data-theme="arashikage_monolith"] #genPillBar .btn-theme-accent,
-body[data-theme="arashikage_monolith"] #modePillBar .btn-theme-accent,
+body[data-theme="arashikage_monolith"] #modePillBar .surface-elevated,
+body[data-theme="arashikage_monolith"] #polarityPillBar .surface-elevated,
+body[data-theme="arashikage_monolith"] #inspectorViewToggleBar .surface-elevated,
 body[data-theme="arashikage_monolith"] .ntab-btn.btn-theme-accent,
 body[data-theme="arashikage_monolith"] .ttab-btn.btn-theme-accent,
 body[data-theme="arashikage_monolith"] .inline-mode-pill.btn-theme-accent {
   background-color: var(--am-slab-primary) !important;
   color: var(--am-slab-primary-ink) !important;
-  border-color: var(--am-outline) !important;
+  box-shadow: none !important;
   outline: none !important;
 }
+
+/* Primary Hanko Action Seals Retain Tier 1 Carved Shu-iro Vermilion (#b81d13) with Inset Rim */
 body[data-theme="arashikage_monolith"] #btnToggleTour.btn-theme-accent,
 body[data-theme="arashikage_monolith"] #btnOpenQuickStart.btn-theme-accent,
 body[data-theme="arashikage_monolith"] #btnCloseQuickStartBottom.btn-theme-accent,
 body[data-theme="arashikage_monolith"] #ttStepBadge.btn-theme-accent,
 body[data-theme="arashikage_monolith"] #btnResumeTourStep.btn-theme-accent,
+body[data-theme="arashikage_monolith"] #btnTtNext.btn-theme-accent,
 body[data-theme="arashikage_monolith"] #quickStartModalCard [data-qs-scenario="tour"].btn-theme-accent {
   background-color: #b81d13 !important;
   color: #fbf9f5 !important;
   border-color: var(--am-outline) !important;
   outline: 1px solid rgba(251, 249, 245, 0.38);
   outline-offset: -2px;
+  font-family: "Josefin Sans", "Space Grotesk", sans-serif;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
 }
 
-/* Structural Header Slabs for Inspector Callouts & Stage Simulator Card (Zero Translucent RGBA Wash) */
+/* Integrated Canvas Telemetry Colophon & Right Inspector Open Hairline Strata (Anti-Claustrophobia Law) */
+body[data-theme="arashikage_monolith"] #pathwayTelemetryBanner {
+  background-color: var(--am-canvas-subtle) !important;
+  border-bottom: 1px solid var(--am-rule) !important;
+}
+body[data-theme="arashikage_monolith"] #rightSidePanel {
+  background-color: var(--am-canvas) !important;
+  border-left: 1.5px solid var(--am-outline) !important;
+}
+body[data-theme="arashikage_monolith"] #inspectorStickyHeader {
+  background-color: var(--am-canvas) !important;
+  border-bottom: 1.5px solid var(--am-outline) !important;
+  padding: 0.6rem 0.85rem !important;
+}
+body[data-theme="arashikage_monolith"] #inspectorNodeView,
+body[data-theme="arashikage_monolith"] #inspectorTechView {
+  padding: 0 !important;
+  gap: 0 !important;
+}
+body[data-theme="arashikage_monolith"] #inspectorNodeView > .surface-card,
+body[data-theme="arashikage_monolith"] #inspectorTechView > .surface-card {
+  background-color: var(--am-canvas) !important;
+  border-top: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 1px solid var(--am-rule) !important;
+  padding: 0.75rem 0.9rem !important;
+  box-shadow: none !important;
+}
+
+/* Inspector Callouts as Recessed .deco-plaque Strata */
+body[data-theme="arashikage_monolith"] .theme-callout {
+  background-color: var(--am-plaque) !important;
+  border: 1px solid var(--am-rule) !important;
+}
 body[data-theme="arashikage_monolith"] .theme-callout-header {
   background-color: var(--am-canvas-subtle) !important;
-  border-bottom: 1px solid var(--am-outline) !important;
-  border-left: 3px solid var(--am-slab-counter) !important;
+  border-bottom: 1px solid var(--am-rule) !important;
+  border-left: 3px solid #b81d13 !important;
+  padding: 5px 9px !important;
 }
+body[data-theme="arashikage_monolith"] .theme-callout-body {
+  padding: 8px 9px !important;
+}
+
+/* Stage Simulator Header Slab (Matching rl-stats/index.html full-bleed structural header) */
 body[data-theme="arashikage_monolith"] #stageWidgetCard > div:first-child {
-  background-color: var(--am-slab-primary) !important;
-  color: var(--am-slab-primary-ink) !important;
-  padding: 4px 8px;
-  margin: -10px -10px 4px -10px;
-  border-bottom: 1.5px solid var(--am-outline);
+  background-color: var(--am-canvas-subtle) !important;
+  padding: 6px 10px !important;
+  margin: -0.75rem -0.9rem 0.45rem -0.9rem !important;
+  border-bottom: 1px solid var(--am-outline) !important;
+  border-left: 3px solid var(--am-gold) !important;
 }
-body[data-theme="arashikage_monolith"] #stageWidgetCard #ctxWidgetTitle,
+body[data-theme="arashikage_monolith"] #stageWidgetCard #ctxWidgetTitle {
+  color: var(--am-ink-strong) !important;
+}
 body[data-theme="arashikage_monolith"] #stageWidgetCard #ctxWidgetTag {
-  color: var(--am-slab-primary-ink) !important;
+  color: var(--am-gold) !important;
 }
 
 /* Stepped Art Deco Ziggurat Frame on Top-Level Monolith Overlays Only (Zero Diffused Drop-Shadow & Zero Blur) */
@@ -446,32 +506,122 @@ body[data-theme="arashikage_monolith"] #searchPalettePopover,
 body[data-theme="arashikage_monolith"] #quickStartModalCard,
 body[data-theme="arashikage_monolith"] #tourTooltip,
 body[data-theme="arashikage_monolith"] #exportPopoverMenu {
-  border: 1.5px solid var(--am-outline) !important;
+  background-color: var(--am-canvas) !important;
+  border: 2px solid var(--am-outline) !important;
   box-shadow:
-    0 0 0 4px var(--am-ground),
-    0 0 0 5.5px var(--am-rule) !important;
+    inset 0 0 0 2px var(--am-ground),
+    inset 0 0 0 3px var(--am-rule),
+    0 24px 60px rgba(0, 0, 0, 0.82) !important;
 }
 
-/* Shōji Kumiko Lattice Veil Backdrop (障子 · 組子 — Zero Optical Blur) */
+/* Shōji Architecture Briefing Scroll (Matching rl-stats/index.html:1255-1393) */
+body[data-theme="arashikage_monolith"] .am-modal-top-rule {
+  display: block;
+  height: 5px;
+  border-top: 2px solid var(--am-outline);
+  border-bottom: 1px solid var(--am-gold);
+  background-color: var(--am-ground);
+  flex-shrink: 0;
+}
+body[data-theme="arashikage_monolith"] .am-makers-watermark {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: absolute;
+  top: 2.2rem;
+  right: 1.5rem;
+  opacity: 0.035;
+  color: var(--am-ink-strong);
+  z-index: 0;
+}
+body[data-theme="arashikage_monolith"] .am-watermark-kanji {
+  font-family: "Noto Serif JP", serif;
+  font-weight: 900;
+  font-size: 4.5rem;
+  line-height: 1;
+}
+body[data-theme="arashikage_monolith"] .am-thesis-plaque {
+  background-color: var(--am-plaque);
+  border: 1px solid var(--am-rule);
+  border-left: 4px solid #b81d13;
+  padding: 0.55rem 0.85rem;
+}
+body[data-theme="arashikage_monolith"] #qsPathsLedger {
+  gap: 0 !important;
+  border: 1px solid var(--am-rule) !important;
+  background-color: var(--am-plaque) !important;
+}
+body[data-theme="arashikage_monolith"] #qsPathsLedger > .qs-ledger-col {
+  border: 0 !important;
+  background-color: var(--am-plaque) !important;
+  box-shadow: none !important;
+}
+@media (min-width: 1024px) {
+  body[data-theme="arashikage_monolith"] #qsPathsLedger > .qs-ledger-col + .qs-ledger-col {
+    border-left: 1px solid var(--am-rule) !important;
+  }
+}
+@media (max-width: 1023px) {
+  body[data-theme="arashikage_monolith"] #qsPathsLedger > .qs-ledger-col + .qs-ledger-col {
+    border-top: 1px solid var(--am-rule) !important;
+  }
+}
+body[data-theme="arashikage_monolith"] #qsSurfacesLedger {
+  gap: 0 !important;
+  border: 1px solid var(--am-rule) !important;
+  background-color: var(--am-plaque) !important;
+}
+body[data-theme="arashikage_monolith"] #qsSurfacesLedger > .qs-surface-cell {
+  background-color: var(--am-plaque) !important;
+  border: 0 !important;
+  border-right: 1px solid var(--am-rule) !important;
+  border-bottom: 1px solid var(--am-rule) !important;
+}
+
+/* Shōji Kumiko Lattice Veil Backdrop (160px × 104px Kumiko Screen + Radial Vignette — 1:1 with rl-stats/index.html:372-395) */
 body[data-theme="arashikage_monolith"] #quickStartModalBackdrop,
 body[data-theme="arashikage_monolith"] #themeGalleryPopover::backdrop,
 body[data-theme="arashikage_monolith"] #searchPalettePopover::backdrop {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  background-color: rgba(10, 9, 8, 0.84) !important;
+  background-color: rgba(10, 9, 8, 0.88) !important;
   background-image:
-    linear-gradient(to right, rgba(216, 208, 197, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(216, 208, 197, 0.07) 1px, transparent 1px) !important;
-  background-size: 32px 32px !important;
+    repeating-linear-gradient(
+      90deg,
+      rgba(226, 219, 208, 0.045) 0px,
+      rgba(226, 219, 208, 0.045) 1px,
+      transparent 1px,
+      transparent 160px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(226, 219, 208, 0.035) 0px,
+      rgba(226, 219, 208, 0.035) 1px,
+      transparent 1px,
+      transparent 104px
+    ),
+    radial-gradient(circle at 50% 38%, rgba(24, 22, 20, 0.45) 0%, rgba(10, 9, 8, 0.96) 100%) !important;
 }
 body[data-theme="arashikage_monolith"][data-mode="light"] #quickStartModalBackdrop,
 body[data-theme="arashikage_monolith"][data-mode="light"] #themeGalleryPopover::backdrop,
 body[data-theme="arashikage_monolith"][data-mode="light"] #searchPalettePopover::backdrop {
-  background-color: rgba(28, 25, 23, 0.72) !important;
+  background-color: rgba(28, 25, 23, 0.78) !important;
   background-image:
-    linear-gradient(to right, rgba(28, 25, 23, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(28, 25, 23, 0.08) 1px, transparent 1px) !important;
-  background-size: 32px 32px !important;
+    repeating-linear-gradient(
+      90deg,
+      rgba(28, 25, 23, 0.06) 0px,
+      rgba(28, 25, 23, 0.06) 1px,
+      transparent 1px,
+      transparent 160px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(28, 25, 23, 0.05) 0px,
+      rgba(28, 25, 23, 0.05) 1px,
+      transparent 1px,
+      transparent 104px
+    ),
+    radial-gradient(circle at 50% 38%, rgba(244, 239, 230, 0.25) 0%, rgba(28, 25, 23, 0.88) 100%) !important;
 }
 
 /* --- 1. NEO-BRUTALISM (LIGHT & DARK) --- */
@@ -1316,11 +1466,11 @@ h1, h2, h3, h4 {
   <div class="w-full flex-1 min-h-0 surface-panel flex flex-col overflow-hidden">
 
     <!-- Dedicated Top Identity Banner + Quick Start Guide Trigger + 1-Click Segmented Generation Switcher -->
-    <div id="topIdentityBar" class="shrink-0 px-3 py-1 border-b border-hairline surface-root flex items-center justify-between gap-2">
-      <div class="flex items-center gap-2 min-w-0 flex-1">
-        <button id="identityBrandTrigger" type="button" title="Open Quick Start &amp; Navigation Guide (Shortcut: ?)" class="flex items-center gap-1.5 shrink-0 cursor-pointer hover:opacity-85 transition">
-          <span class="am-hex64-plaque" aria-hidden="true" title="Hexagram 64 · Wei Ji (䷿ 火水未済 — Before Completion)">
-            <svg width="15" height="17" viewBox="0 0 22 24" fill="currentColor">
+    <div id="topIdentityBar" class="shrink-0 px-3 py-1.5 border-b border-hairline surface-root flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5 min-w-0 flex-1">
+        <button id="identityBrandTrigger" type="button" title="Open Architecture Briefing &amp; Quick Start Guide (Shortcut: ?)" class="flex items-center gap-2 shrink-0 cursor-pointer hover:opacity-90 transition">
+          <span class="am-hex64-plaque" aria-hidden="true" title="Hexagram 64 · Wei Ji (䷿ — 64 Entities · 64B Cache Line · 64D Latent)">
+            <svg width="16" height="18" viewBox="0 0 22 24" fill="currentColor">
               <rect x="0" y="0" width="22" height="2.4" />
               <rect x="0" y="4.3" width="9.2" height="2.4" /><rect x="12.8" y="4.3" width="9.2" height="2.4" />
               <rect x="0" y="8.6" width="22" height="2.4" />
@@ -1332,21 +1482,18 @@ h1, h2, h3, h4 {
           <span id="hankoBrandSeal" class="am-hanko-seal" aria-hidden="true">嵐影<br/>之印</span>
           <span id="brandDot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
           <span id="identityBadgeText" class="mono text-[11px] font-bold tracking-wider text-primary-ink">ARASHIKAGE // HEX64</span>
-          <span class="am-jp-subtitle hidden sm:inline-flex items-center gap-1 ml-0.5">
-            <span class="text-theme-accent text-[9px]">◆</span>
-            <span class="am-jp-kanji">嵐影 · 銀座碑文</span>
-          </span>
         </button>
-        <span class="text-muted-ink shrink-0">|</span>
-        <h1 id="identityMainTitle" class="text-xs font-bold text-primary-ink tracking-tight truncate" title="60 Hz Subtick Action Chunking &amp; Multi-Horizon RL Architecture">
+        <span class="am-masthead-diamond text-muted-ink shrink-0">◆</span>
+        <h1 id="identityMainTitle" class="text-xs font-bold text-primary-ink tracking-wider truncate" title="60 Hz Subtick Action Chunking &amp; Multi-Horizon RL Architecture">
           60 Hz Subtick Action Chunking &amp; Multi-Horizon RL Architecture
         </h1>
       </div>
 
-      <!-- Quick Start / User Guide Trigger + Primary 1-Click Platform Generation Segmented Pill Bar -->
+      <!-- Quick Start / User Guide Trigger + Primary 1-Click Platform Generation Segmented Bar -->
       <div class="flex items-center gap-2 shrink-0">
-        <button id="btnOpenQuickStart" type="button" title="Open Quick Start &amp; How-To-Use Guide (Shortcut: ?)" class="no-wrap-btn px-2.5 py-0.5 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer gap-1 shrink-0">
-          <span>? Quick Start / Guide</span>
+        <button id="btnOpenQuickStart" type="button" title="Open Architecture Briefing &amp; Quick Start Guide (Shortcut: ?)" class="no-wrap-btn px-2.5 py-0.5 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer gap-1.5 shrink-0">
+          <span class="am-only-inline font-serif font-black text-[10px]">印</span>
+          <span>Quick Start / Guide</span>
           <kbd class="mono text-[9.5px] px-1 py-0.2 rounded bg-black/15 dark:bg-white/15 border border-current/25">?</kbd>
         </button>
 
@@ -1422,43 +1569,35 @@ h1, h2, h3, h4 {
 
       <!-- Cluster 2: Unified Theme Switcher (Opens 12-Style Visual Swatch Gallery) + Light/Dark Polarity -->
       <div class="flex items-center gap-1.5 shrink-0 relative">
-        <div class="inline-flex items-center rounded-lg border border-hairline surface-panel p-0.5 gap-0.5">
-          <button id="btnPrevTheme" title="Previous Design Theme ([)" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
-            ◀
-          </button>
-          <button id="btnThemeGalleryTrigger" type="button" popovertarget="themeGalleryPopover" title="Open Design System &amp; 13-Style Visual Swatch Gallery" class="no-wrap-btn px-2 py-0.5 rounded text-[11px] font-bold text-primary-ink hover:bg-black/5 dark:hover:bg-white/10 transition cursor-pointer gap-1">
-            <span id="activeThemePillLabel">★ · Arashikage Monolith</span>
-            <span class="text-[9.5px] text-muted-ink">▾</span>
-          </button>
-          <select id="selTheme" aria-label="Design Theme (Signature Arashikage Monolith + 12 Iconic Styles)" class="sr-only">
-            <optgroup label="0. Signature Design System (嵐影 · 銀座碑文)">
-              <option value="arashikage_monolith" selected>★ · Arashikage Monolith (版画 Hanga / 和紙 Washi)</option>
-            </optgroup>
-            <optgroup label="I. Constructivist &amp; Editorial Grids">
-              <option value="neo_brutalism">01 · Neo-Brutalism</option>
-              <option value="modular_typo">02 · Modular Typography</option>
-              <option value="bauhaus">03 · Bauhaus Constructivism</option>
-            </optgroup>
-            <optgroup label="II. Engineering &amp; Hardware Consoles">
-              <option value="utilitarian">04 · Utilitarian CAD</option>
-              <option value="blueprint">05 · Blueprint Cyanotype</option>
-              <option value="braun_industrial">06 · Braun / Apollo Console</option>
-            </optgroup>
-            <optgroup label="III. Expressive, Decorative &amp; Retro">
-              <option value="memphis">07 · Memphis Milano</option>
-              <option value="pixel_art">08 · 16-Bit Pixel Art</option>
-              <option value="art_deco">09 · Art Deco Metropolis</option>
-            </optgroup>
-            <optgroup label="IV. Atmospheric, Cyber &amp; Biomimetic">
-              <option value="aurora">10 · Aurora Borealis</option>
-              <option value="cyberpunk">11 · Cyberpunk Neural Deck</option>
-              <option value="solarpunk">12 · Solarpunk Botanical</option>
-            </optgroup>
-          </select>
-          <button id="btnNextTheme" title="Next Design Theme (])" class="no-wrap-btn px-1.5 py-0.5 rounded text-[11px] font-bold text-secondary-ink hover:text-primary-ink cursor-pointer">
-            ▶
-          </button>
-        </div>
+        <button id="btnThemeGalleryTrigger" type="button" popovertarget="themeGalleryPopover" title="Open Design System &amp; 13-Style Visual Swatch Gallery (Keys: [ / ])" class="no-wrap-btn px-2.5 py-1 rounded-lg border border-subtle surface-panel text-[11px] font-bold text-primary-ink hover:opacity-90 transition cursor-pointer gap-1.5">
+          <span id="activeThemePillLabel">★ · Arashikage Monolith</span>
+          <span class="text-[9.5px] text-muted-ink">▾</span>
+        </button>
+        <select id="selTheme" aria-label="Design Theme (Signature Arashikage Monolith + 12 Iconic Styles)" class="sr-only">
+          <optgroup label="0. Signature Design System">
+            <option value="arashikage_monolith" selected>★ · Arashikage Monolith (版画 Hanga / 和紙 Washi)</option>
+          </optgroup>
+          <optgroup label="I. Constructivist &amp; Editorial Grids">
+            <option value="neo_brutalism">01 · Neo-Brutalism</option>
+            <option value="modular_typo">02 · Modular Typography</option>
+            <option value="bauhaus">03 · Bauhaus Constructivism</option>
+          </optgroup>
+          <optgroup label="II. Engineering &amp; Hardware Consoles">
+            <option value="utilitarian">04 · Utilitarian CAD</option>
+            <option value="blueprint">05 · Blueprint Cyanotype</option>
+            <option value="braun_industrial">06 · Braun / Apollo Console</option>
+          </optgroup>
+          <optgroup label="III. Expressive, Decorative &amp; Retro">
+            <option value="memphis">07 · Memphis Milano</option>
+            <option value="pixel_art">08 · 16-Bit Pixel Art</option>
+            <option value="art_deco">09 · Art Deco Metropolis</option>
+          </optgroup>
+          <optgroup label="IV. Atmospheric, Cyber &amp; Biomimetic">
+            <option value="aurora">10 · Aurora Borealis</option>
+            <option value="cyberpunk">11 · Cyberpunk Neural Deck</option>
+            <option value="solarpunk">12 · Solarpunk Botanical</option>
+          </optgroup>
+        </select>
 
         <!-- Visual 12-Theme Swatch Gallery Popover -->
         <div id="themeGalleryPopover" popover class="surface-elevated border border-subtle rounded-xl p-3 flex-col gap-2.5 w-[44rem] max-w-[95vw] z-50 shadow-2xl">
@@ -1774,55 +1913,80 @@ h1, h2, h3, h4 {
     </div>
   </div>
 
-  <!-- First-Time & On-Demand Quick Start / User Guide Modal -->
+  <!-- First-Time & On-Demand Quick Start / User Guide Modal (Shōji Architecture Briefing Scroll in Arashikage Monolith) -->
   <div id="quickStartModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="quickStartModalTitle" class="fixed inset-0 z-[70] hidden items-center justify-center p-2.5 sm:p-4">
-    <div id="quickStartModalCard" class="w-full max-w-[68rem] max-h-[93vh] overflow-y-auto flex flex-col">
+    <div id="quickStartModalCard" class="w-full max-w-[68rem] max-h-[93vh] overflow-y-auto flex flex-col relative">
 
-      <!-- Modal Top Header -->
-      <div class="px-4 py-3 border-b border-hairline surface-card flex items-start justify-between gap-3 sticky top-0 z-10">
-        <div class="min-w-0">
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="mono text-[10px] font-bold px-2 py-0.5 rounded btn-theme-accent border">QUICK START &amp; USER GUIDE</span>
-            <span class="mono text-[10px] font-bold text-muted-ink">6 STAGES · 17 SUBSYSTEMS · 4 GENERATIONS · 36 WHITE PAPERS</span>
+      <!-- Subtle Maker's Mark Watermark (嵐影 + Hexagram 64 ䷿ — Displayed in Arashikage Monolith) -->
+      <div class="am-makers-watermark pointer-events-none select-none" aria-hidden="true">
+        <span class="am-watermark-kanji">嵐影</span>
+        <svg width="68" height="74" viewBox="0 0 22 24" fill="currentColor">
+          <rect x="0" y="0" width="22" height="2.4" />
+          <rect x="0" y="4.3" width="9.2" height="2.4" /><rect x="12.8" y="4.3" width="9.2" height="2.4" />
+          <rect x="0" y="8.6" width="22" height="2.4" />
+          <rect x="0" y="12.9" width="9.2" height="2.4" /><rect x="12.8" y="12.9" width="9.2" height="2.4" />
+          <rect x="0" y="17.2" width="22" height="2.4" />
+          <rect x="0" y="21.5" width="9.2" height="2.4" /><rect x="12.8" y="21.5" width="9.2" height="2.4" />
+        </svg>
+      </div>
+
+      <!-- Top Architectural Frieze Rule & Colophon Bar -->
+      <div class="am-modal-top-rule"></div>
+      <div class="am-modal-colophon px-4 sm:px-6 py-1.5 border-b border-hairline surface-panel flex flex-wrap items-center justify-between gap-2 mono text-[10px] font-bold">
+        <span class="text-primary-ink">◆ ARCHITECTURE BRIEFING // ARASHIKAGE (HEX64) EXPLORER</span>
+        <span class="text-muted-ink">6 STAGES · 17 SUBSYSTEMS · 4 GENERATIONS · 36 WHITE PAPERS</span>
+      </div>
+
+      <!-- Stratum 1 & 2: Hanko Seal + Monumental Headline + Left-Bordered Thesis Plaque -->
+      <div class="px-4 sm:px-6 py-3.5 border-b border-hairline surface-card flex flex-col gap-2.5 sticky top-0 z-10">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3 min-w-0">
+            <span class="am-hanko-seal am-hanko-seal-lg" aria-hidden="true">嵐影<br/>之印</span>
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="kicker text-theme-accent">SYSTEMS &amp; NEURAL ARCHITECTURE DISPATCH // QUICK START GUIDE</span>
+              </div>
+              <h2 id="quickStartModalTitle" class="text-base sm:text-lg font-extrabold text-primary-ink tracking-wider mt-0.5 uppercase">
+                Arashikage // Hex64 Architecture Explorer
+              </h2>
+            </div>
           </div>
-          <h2 id="quickStartModalTitle" class="text-sm sm:text-base font-extrabold text-primary-ink tracking-tight mt-1">
-            How to Navigate the Arashikage (Hex64) Architecture Explorer
-          </h2>
-          <p class="text-[11.5px] text-secondary-ink leading-snug mt-0.5">
-            This interactive explorer maps the real-time physics, neural memory, and 60 Hz RL control architecture across 4 platform generations. Choose a starting path below or review the 6 interface surfaces.
-          </p>
+          <button id="btnCloseQuickStartTop" type="button" title="Close Guide (Esc)" class="no-wrap-btn px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-subtle text-[11px] font-bold hover:opacity-90 transition cursor-pointer shrink-0 gap-1.5">
+            <span>ESC · CLOSE</span>
+            <span class="text-xs leading-none">✕</span>
+          </button>
         </div>
-        <button id="btnCloseQuickStartTop" type="button" title="Close Guide (Esc)" class="no-wrap-btn px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-subtle text-[11px] font-bold hover:opacity-90 transition cursor-pointer shrink-0 gap-1">
-          <span>× Close</span>
-          <kbd class="mono text-[9.5px] px-1 py-0.2 rounded surface-root text-muted-ink border border-hairline">ESC</kbd>
-        </button>
+
+        <p class="am-thesis-plaque text-[11.5px] text-secondary-ink leading-relaxed">
+          Interactive schematic and tensor inspection console for the <strong>Arashikage (Hex64)</strong> 60 Hz Subtick Action Chunking &amp; Multi-Horizon RL platform. Compare real-time tournament inference (<strong>&le;5.5 ms</strong>), <strong>4,096-arena</strong> parallel training, and <strong>4 platform generations</strong> across 17 subsystem blocks and 36 peer-reviewed papers.
+        </p>
       </div>
 
       <!-- Modal Body -->
-      <div class="p-3.5 sm:p-4 flex flex-col gap-3.5">
+      <div class="p-4 sm:p-6 flex flex-col gap-4 relative z-[1]">
 
-        <!-- Section 1: Best Way to Start (3 Interactive Launchpad Cards) -->
+        <!-- Stratum 3: 3-Column Mandate Ledger (3 Recommended Starting Paths) -->
         <div>
-          <div class="am-frieze-header flex items-center justify-between gap-2 mb-1.5">
-            <span class="kicker text-theme-accent shrink-0">礎 · 1. RECOMMENDED STARTING PATHS (CLICK ANY BUTTON TO LAUNCH IMMEDIATELY)</span>
+          <div class="am-frieze-header flex items-center justify-between gap-2 mb-2">
+            <span class="kicker text-theme-accent shrink-0">I · RECOMMENDED STARTING PATHS (CLICK ANY ACTION TO LAUNCH IMMEDIATELY)</span>
             <span class="am-frieze-rule"></span>
-            <span class="mono text-[10px] text-muted-ink hidden sm:inline shrink-0">Tip: Reopen anytime via &ldquo;? Quick Start / Guide&rdquo;</span>
+            <span class="mono text-[10px] text-muted-ink hidden sm:inline shrink-0">Reopen anytime via &ldquo;Quick Start / Guide&rdquo; or ?</span>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-2.5">
+          <div id="qsPathsLedger" class="grid grid-cols-1 lg:grid-cols-3 gap-2.5">
             <!-- Path 1: 8-Step Guided Tour -->
-            <div class="surface-card border border-subtle rounded-xl p-3 flex flex-col justify-between gap-2">
+            <div class="qs-ledger-col surface-card border border-subtle rounded-xl p-3.5 flex flex-col justify-between gap-2.5">
               <div>
-                <div class="flex items-center justify-between gap-1.5 mb-1">
-                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded btn-theme-accent">BEST FIRST STEP · 3 MIN</span>
-                  <span class="mono text-[9.5px] font-bold text-muted-ink">8 STEPS</span>
+                <div class="flex items-center justify-between gap-1.5 mb-1.5">
+                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded btn-theme-accent">PATH I · BEST FIRST STEP</span>
+                  <span class="mono text-[9.5px] font-bold text-muted-ink">8 STEPS · 3 MIN</span>
                 </div>
-                <h3 class="text-xs font-extrabold text-primary-ink">Take the 66.7ms End-to-End Guided Tour</h3>
+                <h3 class="text-xs font-extrabold text-primary-ink uppercase tracking-wider">66.7ms End-to-End Guided Tour</h3>
                 <p class="text-[11px] text-secondary-ink leading-snug mt-1">
-                  Follows a single 15 Hz outer control cycle from the <strong>5,376B Rust Observation Slice (Stage 1)</strong> through <strong>Bipartite DiffAttn</strong>, <strong>FP32 Titans Memory</strong>, <strong>Coconut &amp; Soft-MoE</strong>, and <strong>60 Hz Flow-GRPO Control</strong> to the <strong>Dual 4×51 Symlog Critic (Stage 6)</strong>.
+                  Traces one complete 15 Hz outer control cycle from the <strong>5,376B Rust Observation Slice (Stage 1)</strong> through <strong>Bipartite DiffAttn</strong>, <strong>FP32 Titans Memory</strong>, <strong>Coconut &amp; Soft-MoE</strong>, and <strong>60 Hz Flow-GRPO Control</strong> to the <strong>Dual 4×51 Symlog Critic (Stage 6)</strong>.
                 </p>
-                <p class="text-[10.5px] text-muted-ink leading-snug mt-1">
-                  Use <kbd class="mono px-1 rounded surface-panel border border-hairline">←</kbd> / <kbd class="mono px-1 rounded surface-panel border border-hairline">→</kbd> to step. Click any other block mid-tour to inspect a detour, then click <strong>↺ Resume Step</strong>.
+                <p class="text-[10.5px] text-muted-ink leading-snug mt-1.5">
+                  Use <kbd class="mono px-1 rounded surface-panel border border-hairline">←</kbd> / <kbd class="mono px-1 rounded surface-panel border border-hairline">→</kbd> to step. Click any other block mid-tour to inspect a detour, then click <strong>↩ Resume Step</strong>.
                 </p>
               </div>
               <button type="button" data-qs-scenario="tour" class="no-wrap-btn w-full py-1.5 px-3 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer">
@@ -1831,43 +1995,43 @@ h1, h2, h3, h4 {
             </div>
 
             <!-- Path 2: 4 Tactical Match Scenarios -->
-            <div class="surface-card border border-hairline rounded-xl p-3 flex flex-col justify-between gap-2">
+            <div class="qs-ledger-col surface-card border border-hairline rounded-xl p-3.5 flex flex-col justify-between gap-2.5">
               <div>
-                <div class="flex items-center justify-between gap-1.5 mb-1">
-                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded surface-panel text-theme-accent border border-hairline">IN-GAME MECHANICS</span>
+                <div class="flex items-center justify-between gap-1.5 mb-1.5">
+                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded surface-panel text-primary-ink border border-hairline">PATH II · IN-GAME MECHANICS</span>
                   <span class="mono text-[9.5px] font-bold text-muted-ink">4 SCENARIOS</span>
                 </div>
-                <h3 class="text-xs font-extrabold text-primary-ink">Step Through a Live Match Scenario</h3>
+                <h3 class="text-xs font-extrabold text-primary-ink uppercase tracking-wider">Step Through a Live Match Scenario</h3>
                 <p class="text-[11px] text-secondary-ink leading-snug mt-1">
-                  See how concrete Rocket League situations route through trajectory buffers, test-time surprise gradients, specialist experts, and 60 Hz subtick clamps:
+                  Inspect how concrete Rocket League situations route through trajectory ring buffers, test-time surprise gradients, specialist experts, and 60 Hz subtick clamps:
                 </p>
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                 <button type="button" data-qs-scenario="bounce" class="no-wrap-btn justify-start px-2 py-1.5 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
-                  ▶ 1 · Corner Double-Tap
+                  ▸ 1 · Corner Double-Tap
                 </button>
                 <button type="button" data-qs-scenario="aerial" class="no-wrap-btn justify-start px-2 py-1.5 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
-                  ▶ 2 · Fast Aerial Stall Guard
+                  ▸ 2 · Fast Aerial Stall Guard
                 </button>
                 <button type="button" data-qs-scenario="fake" class="no-wrap-btn justify-start px-2 py-1.5 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
-                  ▶ 3 · Adapting to Fake
+                  ▸ 3 · Adapting to Fake
                 </button>
                 <button type="button" data-qs-scenario="save" class="no-wrap-btn justify-start px-2 py-1.5 rounded-lg surface-panel hover:border-subtle text-primary-ink border border-hairline text-[10.5px] font-bold transition cursor-pointer">
-                  ▶ 4 · Goal-Line Save
+                  ▸ 4 · Goal-Line Save
                 </button>
               </div>
             </div>
 
             <!-- Path 3: Self-Paced Deep Dive, Tech Index & Search -->
-            <div class="surface-card border border-hairline rounded-xl p-3 flex flex-col justify-between gap-2">
+            <div class="qs-ledger-col surface-card border border-hairline rounded-xl p-3.5 flex flex-col justify-between gap-2.5">
               <div>
-                <div class="flex items-center justify-between gap-1.5 mb-1">
-                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded surface-panel text-theme-accent border border-hairline">SELF-PACED DEEP DIVE</span>
+                <div class="flex items-center justify-between gap-1.5 mb-1.5">
+                  <span class="mono text-[9.5px] font-bold px-1.5 py-0.5 rounded surface-panel text-primary-ink border border-hairline">PATH III · SELF-PACED REFERENCE</span>
                   <span class="mono text-[9.5px] font-bold text-muted-ink">10 TECHS · 36 PAPERS</span>
                 </div>
-                <h3 class="text-xs font-extrabold text-primary-ink">Inspect Blocks, Math &amp; Research Papers</h3>
+                <h3 class="text-xs font-extrabold text-primary-ink uppercase tracking-wider">Inspect Blocks, Math &amp; White Papers</h3>
                 <p class="text-[11px] text-secondary-ink leading-snug mt-1">
-                  Click any block <strong>#01..#17</strong> on the diagram to inspect its tensor shapes and interactive simulator, or open the <strong>10-Technology Library</strong> for scientific derivations and peer-reviewed papers:
+                  Click any block <strong>#01..#17</strong> on the diagram to inspect its tensor shapes and interactive simulator, or open the <strong>10-Technology Deep Dive</strong> for mathematical derivations and literature:
                 </p>
               </div>
               <div class="flex flex-col gap-1.5">
@@ -1887,63 +2051,58 @@ h1, h2, h3, h4 {
           </div>
         </div>
 
-        <!-- Section 2: Anatomy of the 6 Core Interface Surfaces -->
+        <!-- Stratum 4: Anatomy of the 6 Core Interface Surfaces -->
         <div>
-          <div class="am-frieze-header flex items-center justify-between gap-2 mb-1.5">
-            <span class="kicker text-theme-accent shrink-0">双 · 2. ANATOMY OF THE INTERFACE (HOW EVERY PANEL &amp; CONTROL WORKS)</span>
+          <div class="am-frieze-header flex items-center justify-between gap-2 mb-2">
+            <span class="kicker text-theme-accent shrink-0">II · ANATOMY OF THE INTERFACE (HOW EVERY PANEL &amp; CONTROL WORKS)</span>
             <span class="am-frieze-rule"></span>
-            <span class="mono text-[10px] text-muted-ink hidden sm:inline shrink-0">Every view updates dynamically with zero page reloads</span>
+            <span class="mono text-[10px] text-muted-ink hidden sm:inline shrink-0">Zero page reloads · URL-hash synchronized</span>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-            <!-- Surface 1 -->
-            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+          <div id="qsSurfacesLedger" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+            <div class="qs-surface-cell surface-panel border border-hairline rounded-xl p-3 flex flex-col gap-1">
               <div class="flex items-center justify-between gap-1">
-                <span class="mono text-[10px] font-bold text-theme-accent">01 · LEFT DATAFLOW CANVAS</span>
+                <span class="mono text-[10px] font-bold text-primary-ink">01 · LEFT DATAFLOW CANVAS</span>
                 <span class="mono text-[9.5px] text-muted-ink">17 Blocks · 24 Edges</span>
               </div>
               <p class="text-[11px] text-secondary-ink leading-snug">
-                Organized into <strong>6 Columns (Stage 1..6)</strong> flowing left-to-right. <strong>Hover</strong> any block to highlight its incoming/outgoing tensor edges; <strong>Click</strong> any block to load its full breakdown in the Right Inspector.
+                Organized into <strong>6 Columns (Stage 1..6)</strong> flowing left-to-right. <strong>Hover</strong> any block to illuminate its incoming/outgoing tensor edges; <strong>Click</strong> any block to load its breakdown in the Right Inspector.
               </p>
             </div>
 
-            <!-- Surface 2 -->
-            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+            <div class="qs-surface-cell surface-panel border border-hairline rounded-xl p-3 flex flex-col gap-1">
               <div class="flex items-center justify-between gap-1">
-                <span class="mono text-[10px] font-bold text-theme-accent">02 · PATHWAY FILTER PILLS</span>
+                <span class="mono text-[10px] font-bold text-primary-ink">02 · PATHWAY FILTER BAR</span>
                 <span class="mono text-[9.5px] text-muted-ink">All · Live · Train · Distill</span>
               </div>
               <p class="text-[11px] text-secondary-ink leading-snug">
-                Filters the graph by runtime regime. <strong>Pro Tip:</strong> Dimmed/dashed blocks (<span class="mono text-[10px]">BYPASSED</span>) remain clickable—click <strong>#04 Privileged Context</strong> in <strong>Live 5.5ms</strong> to see why it is zero-masked in tournaments.
+                Filters the graph by runtime regime. Dimmed/dashed blocks (<span class="mono text-[10px]">BYPASSED</span>) remain clickable—click <strong>#04 Privileged Context</strong> in <strong>Live 5.5ms</strong> to see why it is zero-masked in tournaments.
               </p>
             </div>
 
-            <!-- Surface 3 -->
-            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+            <div class="qs-surface-cell surface-panel border border-hairline rounded-xl p-3 flex flex-col gap-1">
               <div class="flex items-center justify-between gap-1">
-                <span class="mono text-[10px] font-bold text-theme-accent">03 · RIGHT INSPECTOR &amp; TECH INDEX</span>
+                <span class="mono text-[10px] font-bold text-primary-ink">03 · RIGHT INSPECTOR LEDGER</span>
                 <span class="mono text-[9.5px] text-muted-ink">5 Tabs · 36 Papers</span>
               </div>
               <p class="text-[11px] text-secondary-ink leading-snug">
-                Toggle between <strong>▣ Block</strong> (5 tabs: <em>How, Why, Impact, Math, Learn</em>) and <strong>◈ Tech Index (10)</strong>. In Tech Index, selecting any technology highlights every canvas block that uses it.
+                Switch between <strong>▣ Block Inspector</strong> (5 tabs: <em>How, Why, Impact, Math, Papers</em>) and <strong>◈ Deep Dive (10)</strong>. Selecting any technology highlights every canvas block that uses it.
               </p>
             </div>
 
-            <!-- Surface 4 -->
-            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+            <div class="qs-surface-cell surface-panel border border-hairline rounded-xl p-3 flex flex-col gap-1">
               <div class="flex items-center justify-between gap-1">
-                <span class="mono text-[10px] font-bold text-theme-accent">04 · 6 LIVE STAGE SIMULATORS</span>
-                <span class="mono text-[9.5px] text-muted-ink">Bottom-Right Card</span>
+                <span class="mono text-[10px] font-bold text-primary-ink">04 · 6 STAGE SIMULATORS</span>
+                <span class="mono text-[9.5px] text-muted-ink">Bottom-Right Stratum</span>
               </div>
               <p class="text-[11px] text-secondary-ink leading-snug">
-                Adapts to the active Stage (<strong>S1</strong> 5,376B Memory Map, <strong>S2</strong> 16×64 Pairwise Bias, <strong>S3</strong> Titans Surprise Slider, <strong>S4</strong> Coconut/MoE/FSQ, <strong>S5</strong> 60Hz Subtick Scrubber, <strong>S6</strong> Symlog Critic) + a <strong>4-Gen Evolution Matrix</strong>.
+                Adapts to the active Stage (<strong>S1</strong> 5,376B Memory Map, <strong>S2</strong> 16×64 Pairwise Bias, <strong>S3</strong> Titans Surprise Slider, <strong>S4</strong> Coconut/MoE/FSQ, <strong>S5</strong> 60Hz Subtick Scrubber, <strong>S6</strong> Symlog Critic) + <strong>4-Gen Evolution Matrix</strong>.
               </p>
             </div>
 
-            <!-- Surface 5 -->
-            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+            <div class="qs-surface-cell surface-panel border border-hairline rounded-xl p-3 flex flex-col gap-1">
               <div class="flex items-center justify-between gap-1">
-                <span class="mono text-[10px] font-bold text-theme-accent">05 · 4-GENERATION SWITCHER</span>
+                <span class="mono text-[10px] font-bold text-primary-ink">05 · 4-GENERATION SWITCHER</span>
                 <span class="mono text-[9.5px] text-muted-ink">Top-Right Bar</span>
               </div>
               <p class="text-[11px] text-secondary-ink leading-snug">
@@ -1951,27 +2110,26 @@ h1, h2, h3, h4 {
               </p>
             </div>
 
-            <!-- Surface 6 -->
-            <div class="surface-panel border border-hairline rounded-xl p-2.5 flex flex-col gap-1">
+            <div class="qs-surface-cell surface-panel border border-hairline rounded-xl p-3 flex flex-col gap-1">
               <div class="flex items-center justify-between gap-1">
-                <span class="mono text-[10px] font-bold text-theme-accent">06 · SIGNATURE MONOLITH + 12 THEMES &amp; EXPORT</span>
-                <span class="mono text-[9.5px] text-muted-ink">26 Visual Modes</span>
+                <span class="mono text-[10px] font-bold text-primary-ink">06 · DESIGN SYSTEM GALLERY</span>
+                <span class="mono text-[9.5px] text-muted-ink">4 Expressions + 12 Styles</span>
               </div>
               <p class="text-[11px] text-secondary-ink leading-snug">
-                Click <strong>★ · Arashikage Monolith ▾</strong> to switch between the signature <em>版画 Hanga / 和紙 Washi</em> monolith and 12 iconic design styles × Light/Dark. Use <strong>⛶ Full Screen</strong> or <strong>Export ▾</strong> for HTML/PNG/Mermaid.
+                Click <strong>★ · Arashikage Monolith ▾</strong> to switch between the 4 material expressions (<em>版画 Hanga, 漆 Urushi, 硯 Suzuri, 和紙 Washi</em>) and 12 iconic design styles. Use <strong>Export ▾</strong> for HTML/PNG/Mermaid.
               </p>
             </div>
           </div>
         </div>
 
-        <!-- Section 3: Keyboard Shortcuts Strip -->
-        <div class="surface-card border border-hairline rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2">
+        <!-- Keyboard Shortcuts Ledger Strip -->
+        <div class="surface-card border border-hairline rounded-xl px-3.5 py-2 flex flex-wrap items-center justify-between gap-2">
           <span class="kicker text-muted-ink">KEYBOARD SHORTCUTS</span>
           <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10.5px] text-secondary-ink">
-            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">?</kbd> Open Guide</span>
+            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">?</kbd> Guide</span>
             <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">/</kbd> or <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">Ctrl+K</kbd> Search</span>
             <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">←</kbd> <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">→</kbd> Tour Step</span>
-            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">[</kbd> <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">]</kbd> or <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">`,1..9,0,-,=</kbd> 13 Themes</span>
+            <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">[</kbd> <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">]</kbd> or <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">`,1..9,0,-,=</kbd> 13 Styles</span>
             <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">L</kbd> / <kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">D</kbd> Light / Dark</span>
             <span><kbd class="mono px-1 py-0.2 rounded surface-panel border border-hairline text-primary-ink">Esc</kbd> Close / Exit</span>
           </div>
@@ -1979,17 +2137,17 @@ h1, h2, h3, h4 {
       </div>
 
       <!-- Modal Footer -->
-      <div class="px-4 py-2.5 border-t border-hairline surface-card flex flex-wrap items-center justify-between gap-2 sticky bottom-0 z-10">
+      <div class="px-4 sm:px-6 py-3 border-t border-hairline surface-card flex flex-wrap items-center justify-between gap-2 sticky bottom-0 z-10">
         <label class="inline-flex items-center gap-2 text-[11px] font-semibold text-secondary-ink cursor-pointer select-none">
           <input id="chkQuickStartAutoShow" type="checkbox" class="rounded border-subtle cursor-pointer" />
-          <span>Show this Quick Start Guide automatically on startup</span>
+          <span>Show this Architecture Briefing automatically on startup</span>
         </label>
         <div class="flex items-center gap-2">
-          <button type="button" data-qs-action="open-themes" class="no-wrap-btn px-2.5 py-1 rounded-lg surface-panel text-primary-ink border border-hairline hover:border-subtle text-[11px] font-bold transition cursor-pointer">
-            🎨 Browse 13 Design Styles
+          <button type="button" data-qs-action="open-themes" class="no-wrap-btn px-2.5 py-1.5 rounded-lg surface-panel text-primary-ink border border-hairline hover:border-subtle text-[11px] font-bold transition cursor-pointer">
+            ★ Design System Gallery
           </button>
-          <button id="btnCloseQuickStartBottom" type="button" class="no-wrap-btn px-3.5 py-1 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer">
-            Start Exploring →
+          <button id="btnCloseQuickStartBottom" type="button" class="no-wrap-btn px-4 py-1.5 rounded-lg text-[11px] font-bold btn-theme-accent border transition cursor-pointer uppercase tracking-wider">
+            Unfurl Architecture Explorer →
           </button>
         </div>
       </div>
@@ -5532,39 +5690,39 @@ window.ARASHIKAGE_ARCHITECTURES = {
     // 1. THEME + POLARITY SPECIFIC BACKGROUND FIELD
     // ====================================================================
     if (activeTheme === 'arashikage_monolith') {
-      // Arashikage Monolith (嵐影 · 銀座碑文): Stratum 0 Mounting Ground + Stratum 1 Scroll Canvas + Stepped Ziggurat Frame + Kentō Marks
+      // Arashikage Monolith: Stratum 0 Mounting Ground + Stratum 1 Scroll Canvas + Stepped Ziggurat Frame
       ctx.fillStyle = isLight ? '#ebe5d9' : '#0a0908';
       ctx.fillRect(0, 0, BASE_W, BASE_H);
 
-      ctx.fillStyle = isLight ? '#f4efe6' : '#171412';
+      ctx.fillStyle = isLight ? '#f4efe6' : '#181614';
       ctx.fillRect(6, 6, BASE_W - 12, BASE_H - 12);
 
       // Subtle 1px horizontal incised ledger rules (--am-rule)
-      ctx.strokeStyle = isLight ? 'rgba(28, 25, 23, 0.055)' : 'rgba(216, 208, 197, 0.042)';
+      ctx.strokeStyle = isLight ? 'rgba(28, 25, 23, 0.05)' : 'rgba(226, 219, 208, 0.038)';
       ctx.lineWidth = 1;
       for (let gy = 68; gy < BASE_H - 8; gy += 36) {
         ctx.beginPath(); ctx.moveTo(8, gy); ctx.lineTo(BASE_W - 8, gy); ctx.stroke();
       }
 
-      // Low-opacity Sumi-e typographic watermark (嵐影 · ䷿)
+      // Low-opacity Maker's Mark Watermark (嵐影 · ䷿)
       ctx.save();
-      ctx.font = '900 104px "Noto Serif JP", serif';
-      ctx.fillStyle = isLight ? 'rgba(28, 25, 23, 0.028)' : 'rgba(244, 239, 230, 0.026)';
+      ctx.font = '900 96px "Noto Serif JP", serif';
+      ctx.fillStyle = isLight ? 'rgba(28, 25, 23, 0.028)' : 'rgba(242, 239, 233, 0.025)';
       ctx.textAlign = 'right';
-      ctx.fillText('嵐影 · ䷿', BASE_W - 26, BASE_H - 28);
+      ctx.fillText('嵐影 · ䷿', BASE_W - 24, BASE_H - 26);
       ctx.restore();
 
       // Stepped Art Deco Ziggurat Outer Frame (1px outer rule + 4px ground moat + 1.5px primary monolith outline)
-      ctx.strokeStyle = isLight ? '#cfc7b8' : '#36302a';
+      ctx.strokeStyle = isLight ? '#cfc7b8' : '#38332d';
       ctx.lineWidth = 1;
       ctx.strokeRect(2, 2, BASE_W - 4, BASE_H - 4);
-      ctx.strokeStyle = isLight ? '#1c1917' : '#d8d0c5';
+      ctx.strokeStyle = isLight ? '#1c1917' : '#e2dbd0';
       ctx.lineWidth = 1.5;
       ctx.strokeRect(6, 6, BASE_W - 12, BASE_H - 12);
 
-      // Woodblock Kentō (見当) corner registration notches in Shu-iro Vermilion
-      const kentoCol = isLight ? '#b81d13' : '#d4261d';
-      drawCornerBrackets(ctx, 6, 6, BASE_W - 12, BASE_H - 12, 12, kentoCol);
+      // Corner registration brackets in Kintsugi Gold / Outline
+      const kentoCol = isLight ? '#8c5808' : '#deb052';
+      drawCornerBrackets(ctx, 6, 6, BASE_W - 12, BASE_H - 12, 10, kentoCol);
     } else if (activeTheme === 'neo_brutalism') {
       ctx.fillStyle = isLight ? '#f3efe6' : '#111113';
       ctx.fillRect(0, 0, BASE_W, BASE_H);
@@ -5739,19 +5897,18 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const laneX = ch.x - laneW / 2;
 
       if (activeTheme === 'arashikage_monolith') {
-        // Arashikage Monolith Column: Stratum 2 Carved Plaque (--am-plaque) + Kanji Seal Prefix Cartouche (礎 双 戒 録 印 鎖)
-        const stageKanji = ['礎', '双', '戒', '録', '印', '鎖'][idx % 6];
-        const ruleCol = isLight ? '#cfc7b8' : '#36302a';
-        const outlineCol = isLight ? '#1c1917' : '#d8d0c5';
+        // Arashikage Monolith Column: Stratum 2 Carved Plaque (--am-plaque) + Clean Geometric Stage Index Cartouche (S1..S6)
+        const ruleCol = isLight ? '#cfc7b8' : '#38332d';
+        const outlineCol = isLight ? '#1c1917' : '#e2dbd0';
 
-        ctx.fillStyle = isLight ? 'rgba(252, 250, 246, 0.88)' : 'rgba(13, 11, 10, 0.86)';
+        ctx.fillStyle = isLight ? 'rgba(252, 250, 246, 0.88)' : 'rgba(15, 13, 11, 0.86)';
         ctx.fillRect(laneX, 12, laneW, BASE_H - 24);
         ctx.strokeStyle = ruleCol;
         ctx.lineWidth = 1;
         ctx.strokeRect(laneX, 12, laneW, BASE_H - 24);
 
         // Header monolith box
-        ctx.fillStyle = isLight ? '#e6dfd3' : '#211d1a';
+        ctx.fillStyle = isLight ? '#e6dfd3' : '#221f1c';
         ctx.fillRect(laneX, 12, laneW, 50);
         ctx.fillStyle = ch.color;
         ctx.fillRect(laneX, 12, laneW, 2.5);
@@ -5762,27 +5919,28 @@ window.ARASHIKAGE_ARCHITECTURES = {
         ctx.lineWidth = 1;
         ctx.beginPath(); ctx.moveTo(laneX, 41); ctx.lineTo(laneX + laneW, 41); ctx.stroke();
 
-        // Carved Kanji Seal Prefix Cartouche (Voice 4: Noto Serif JP)
-        const isStage5Seal = idx === 4;
-        ctx.fillStyle = isStage5Seal ? '#b81d13' : isLight ? '#ebe5d9' : '#0d0b0a';
-        ctx.fillRect(laneX + 6, 17, 20, 20);
-        ctx.strokeStyle = isStage5Seal ? 'rgba(251, 249, 245, 0.45)' : ch.color;
-        ctx.lineWidth = 1.2;
-        ctx.strokeRect(laneX + 6, 17, 20, 20);
-        ctx.font = '900 11px "Noto Serif JP", serif';
-        ctx.fillStyle = isStage5Seal ? '#fbf9f5' : ch.color;
+        // Geometric Stage Index Cartouche (S1..S6 — Zero Superfluous Kanji)
+        ctx.fillStyle = isLight ? '#ebe5d9' : '#0a0908';
+        ctx.fillRect(laneX + 6, 18, 22, 18);
+        ctx.strokeStyle = ruleCol;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(laneX + 6, 18, 22, 18);
+        ctx.fillStyle = ch.color;
+        ctx.fillRect(laneX + 6, 18, 2.5, 18);
+        ctx.font = '700 9.2px "JetBrains Mono", "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#090807' : '#fbf9f5';
         ctx.textAlign = 'center';
-        ctx.fillText(stageKanji, laneX + 16, 31);
+        ctx.fillText('S' + (idx + 1), laneX + 18, 30.5);
 
         // Voice 1: Josefin Sans Geometric Display Header
         ctx.font = '700 9.6px "Josefin Sans", "Space Grotesk", sans-serif';
         ctx.fillStyle = isLight ? '#090807' : '#fbf9f5';
         ctx.textAlign = 'left';
-        drawFittedText(ctx, ch.title, laneX + 31, 31, laneW - 37);
+        drawFittedText(ctx, ch.title.replace(/^STAGE\s+\d+\s*\/\/\s*/i, ''), laneX + 33, 30.5, laneW - 39);
 
         // Voice 3: JetBrains Mono Tabular Subtitle
         ctx.font = '600 9.3px "JetBrains Mono", "IBM Plex Mono", monospace';
-        ctx.fillStyle = isLight ? '#362f28' : '#c9c0b1';
+        ctx.fillStyle = isLight ? '#3b352e' : '#cfc7b8';
         ctx.textAlign = 'center';
         drawFittedText(ctx, ch.sub, ch.x, 55, laneW - 14);
 
@@ -6345,28 +6503,28 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
       if (activeTheme === 'arashikage_monolith') {
         // Arashikage Monolith Node (90/10 Pigment Law):
-        // - Unselected (90%): Incised 1px Stratum 2 mineral plaque (--am-plaque) + 3px left stage spine + unified --am-ink-strong title
-        // - Selected (10%): Stepped Ziggurat frame + Inverted Monolith Header (.am-slab-primary) + Square Carved Shu-iro Hanko Stamp (#b81d13)
-        const ruleCol = isLight ? '#cfc7b8' : '#36302a';
-        const outlineCol = isLight ? '#1c1917' : '#d8d0c5';
+        // - Unselected (90%): Calm monocolor Stratum 2 plaque (#0f0d0b / #fcfaf6) + 2.5px left stage mineral spine + --am-frieze index
+        // - Selected (10%): Stepped Ziggurat frame + Inverted Monolith Header (#f2efe9 / #1c1917) + Square Carved Shu-iro Hanko Stamp (#b81d13)
+        const ruleCol = isLight ? '#cfc7b8' : '#38332d';
+        const outlineCol = isLight ? '#1c1917' : '#e2dbd0';
 
         if (isSelected) {
-          // Stepped Ziggurat outer Kentō frame around selected monolith
+          // Stepped Ziggurat outer frame around selected monolith
           ctx.fillStyle = isLight ? '#ebe5d9' : '#0a0908';
           ctx.fillRect(rx - 3, ry - 3, n.w + 6, n.h + 6);
-          ctx.strokeStyle = isLight ? '#b81d13' : '#d4261d';
+          ctx.strokeStyle = '#b81d13';
           ctx.lineWidth = 1.2;
           ctx.strokeRect(rx - 4, ry - 4, n.w + 8, n.h + 8);
         }
 
         ctx.fillStyle = isLight
           ? isSelected ? '#fcfaf6' : isHovered ? '#f4efe6' : '#fcfaf6'
-          : isSelected ? '#171412' : isHovered ? '#211d1a' : '#0d0b0a';
+          : isSelected ? '#181614' : isHovered ? '#221f1c' : '#0f0d0b';
         ctx.fillRect(rx, ry, n.w, n.h);
 
         if (isSelected) {
           // Inverted Monolith Header Slab (.am-slab-primary)
-          ctx.fillStyle = isLight ? '#1c1917' : '#f4efe6';
+          ctx.fillStyle = isLight ? '#1c1917' : '#f2efe9';
           ctx.fillRect(rx, ry, n.w, 25);
 
           // 1:1 Square Carved Shu-iro Vermilion Hanko Stamp (#b81d13, 25x25px) on left of header
@@ -6397,11 +6555,11 @@ window.ARASHIKAGE_ARCHITECTURES = {
             drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 7, ry + 16.5, innerW - 28);
           }
         } else {
-          // Subtle header band + 3px left stage mineral chisel spine
-          ctx.fillStyle = isLight ? '#f4efe6' : '#151210';
+          // Calm 90% Sumi/Washi header band + 2.5px left stage mineral spine
+          ctx.fillStyle = isLight ? '#f4efe6' : '#181614';
           ctx.fillRect(rx, ry, n.w, 24);
           ctx.fillStyle = n.color;
-          ctx.fillRect(rx, ry, 3, n.h);
+          ctx.fillRect(rx, ry, 2.5, n.h);
 
           ctx.strokeStyle = isHovered ? outlineCol : ruleCol;
           ctx.lineWidth = isHovered ? 1.5 : 1.1;
@@ -6411,13 +6569,13 @@ window.ARASHIKAGE_ARCHITECTURES = {
           ctx.beginPath(); ctx.moveTo(rx, ry + 24); ctx.lineTo(rx + n.w, ry + 24); ctx.stroke();
 
           ctx.font = '700 9.5px "JetBrains Mono", "IBM Plex Mono", monospace';
-          ctx.fillStyle = n.color;
+          ctx.fillStyle = isLight ? '#4a3f33' : '#d8d0c5';
           ctx.textAlign = 'left';
           ctx.fillText('#' + n.num, rx + 8, ry + 16);
 
           if (!showTourBadgeInHeader) {
             ctx.font = '600 9.1px "JetBrains Mono", "IBM Plex Mono", monospace';
-            ctx.fillStyle = isLight ? '#615548' : '#9e9384';
+            ctx.fillStyle = isLight ? '#6e6559' : '#918779';
             ctx.textAlign = 'right';
             drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 7, ry + 16, innerW - 30);
           }
@@ -6978,7 +7136,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
         ctx.save();
         ctx.globalAlpha = 0.96;
         const isAm = activeTheme === 'arashikage_monolith';
-        const bypassLabel = (isAm ? '戒 · ' : '') + 'BYPASSED (' + activeMode.toUpperCase() + ')';
+        const bypassLabel = 'BYPASSED (' + activeMode.toUpperCase() + ')';
         ctx.font = isAm
           ? '700 8px "JetBrains Mono", "IBM Plex Mono", monospace'
           : '700 8.5px "IBM Plex Mono", ui-monospace, monospace';
@@ -7203,7 +7361,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
   const THEME_META = {
     arashikage_monolith: {
-      name: 'Arashikage Monolith (嵐影 · 銀座碑文)',
+      name: 'Arashikage Monolith (嵐影)',
       notes: '版画 Hanga (Dark) / 和紙 Washi (Light) · 90/10 Sumi & Shu-iro Hanko Seal · Stepped Ziggurat Frame',
       stageColorsLight: ['#1c1917', '#1b4965', '#8c5604', '#6b4c1b', '#b81d13', '#1e523b'],
       stageColorsDark:  ['#d8d0c5', '#7da8c4', '#deb052', '#c89d54', '#d4261d', '#82a890']
@@ -7301,7 +7459,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
   const THEME_GLYPHS = {
     arashikage_monolith: {
       prev: '◂', next: '▸', light: '陽', dark: '陰',
-      node: '礎', tech: '録', tourOn: '印', tourOff: '▸',
+      node: '▣', tech: '◈', tourOn: '印', tourOff: '▸',
       export: '↗', close: '✕', open: '↗', fs: '⊞', fsExit: '✕'
     },
     neo_brutalism: {
@@ -7694,7 +7852,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
               : mAct
               ? isLight ? '#15803d' : '#4ade80'
               : isLight ? '#b45309' : '#fbbf24';
-            const dotGlyph = isAm ? (mAct ? '鎖' : '戒') : mAct ? '●' : '⊘';
+            const dotGlyph = mAct ? '●' : '⊘';
             const label = key === 'live' ? 'Live 5.5ms' : key === 'train' ? 'Train' : 'Distill';
             btn.innerHTML =
               '<span style="color:' +
@@ -7749,28 +7907,28 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const modeContractMap = isAm
         ? {
             all: {
-              badge: '礎 · ALL PATHWAYS (' + total + '/' + total + ' ACTIVE)',
+              badge: '◆ ALL PATHWAYS (' + total + '/' + total + ' ACTIVE)',
               regime: 'Unified Inference (B=1 · <=5.5ms) + Training (B=12,512 · 4,096 Arenas) + Warm-Start Distillation',
               badgeBg: 'var(--am-ground)',
               badgeCol: 'var(--am-ink-strong)',
               badgeBorder: 'var(--am-outline)'
             },
             live: {
-              badge: '双 · LIVE ≤5.5MS (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
+              badge: '● LIVE ≤5.5MS (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
               regime: 'B=1 · 15Hz Policy / 60Hz Subtick / 120Hz Physics · CUDAGraph Locked · Zero Privileged/RL Overhead',
               badgeBg: 'var(--am-ground)',
               badgeCol: 'var(--am-steel)',
               badgeBorder: 'var(--am-steel-rule)'
             },
             train: {
-              badge: '鎖 · TRAIN 4,096 ARENAS (' + activeNodes.length + '/' + total + ' ACTIVE' + (bypassedNodes.length ? ' · ' + bypassedNodes.length + ' BYPASSED' : '') + ')',
+              badge: '● TRAIN 4,096 ARENAS (' + activeNodes.length + '/' + total + ' ACTIVE' + (bypassedNodes.length ? ' · ' + bypassedNodes.length + ' BYPASSED' : '') + ')',
               regime: 'B=12,512 Cars (816 G=8 Cloned GRPO + 2,880 League PPO + 400 Boss) · Dual Critic + JEPA Active',
               badgeBg: 'var(--am-ground)',
               badgeCol: 'var(--am-celadon)',
               badgeBorder: 'var(--am-celadon-rule)'
             },
             distill: {
-              badge: '録 · DISTILL WARM-START (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
+              badge: '● DISTILL WARM-START (' + activeNodes.length + '/' + total + ' ACTIVE · ' + bypassedNodes.length + ' BYPASSED)',
               regime: 'Offline Teacher (173,650 Steps) -> Student Behavioral Cloning & Value Alignment before RL',
               badgeBg: 'var(--am-ground)',
               badgeCol: 'var(--am-gold)',
@@ -7833,7 +7991,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
                 ' is bypassed in ' +
                 activeMode.toUpperCase() +
                 '">' +
-                (isAm ? '戒 · #' : '⊘ #') +
+                '⊘ #' +
                 bn.num +
                 ' ' +
                 bn.title +
@@ -7843,38 +8001,40 @@ window.ARASHIKAGE_ARCHITECTURES = {
           '</div>';
       } else {
         rightControlsHtml =
-          '<div class="flex items-center gap-1 flex-wrap">' +
-          '<span class="mono text-[9.5px] font-bold text-muted-ink uppercase">Jump Stage:</span>' +
+          '<div class="flex items-center gap-1.5 flex-wrap">' +
+          '<span class="mono text-[9.5px] font-bold text-muted-ink uppercase">Stage:</span>' +
+          '<div class="' + (isAm ? 'inline-flex items-center border border-[var(--am-outline)] bg-[var(--am-ground)]' : 'flex items-center gap-1') + '">' +
           [0, 1, 2, 3, 4, 5]
             .map((cIdx) => {
               const sCol = stageCols[cIdx] || '#64748b';
               const curNode = nodeMap[selectedNodeId];
               const isCurStage = curNode && curNode.col === cIdx;
               const btnStyle = isAm
-                ? isCurStage
-                  ? 'background:var(--am-slab-primary);color:var(--am-slab-primary-ink);border-color:var(--am-outline)'
-                  : 'background:var(--am-ground);color:var(--am-ink-secondary);border-color:var(--am-rule);border-left:2.5px solid ' + sCol
+                ? (isCurStage
+                    ? 'background:var(--am-slab-primary);color:var(--am-slab-primary-ink);'
+                    : 'background:var(--am-ground);color:var(--am-ink-secondary);') +
+                  (cIdx > 0 ? 'border-left:1px solid var(--am-rule);' : '') +
+                  'border-bottom:2px solid ' + sCol
                 : 'background:' +
                   (isCurStage ? sCol + '24' : 'transparent') +
                   ';color:' +
                   sCol +
                   ';border-color:' +
                   (isCurStage ? sCol : sCol + '66');
-              const btnLbl = isAm ? AM_STAGE_KANJI[cIdx] + '·S' + (cIdx + 1) : 'S' + (cIdx + 1);
               return (
                 '<button type="button" data-telemetry-stage="' +
                 cIdx +
-                '" class="no-wrap-btn mono text-[9.5px] font-bold px-1.5 py-0.5 rounded border cursor-pointer transition" style="' +
+                '" class="no-wrap-btn mono text-[9.5px] font-bold px-2 py-0.5 ' + (isAm ? '' : 'rounded border ') + 'cursor-pointer transition" style="' +
                 btnStyle +
                 '" title="Select Stage ' +
                 (cIdx + 1) +
-                ' lead block & interactive simulator">' +
-                btnLbl +
+                ' lead block & interactive simulator">S' +
+                (cIdx + 1) +
                 '</button>'
               );
             })
             .join('') +
-          '</div>';
+          '</div></div>';
       }
 
       pathwayTelemetryBanner.innerHTML =
@@ -7938,8 +8098,10 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const nodeSuffix = curNode ? ' (#' + curNode.num + ')' : '';
       btnPolarityLight.textContent = getGlyph('light') + ' Light';
       btnPolarityDark.textContent = getGlyph('dark') + ' Dark';
-      document.getElementById('btnPrevTheme').textContent = getGlyph('prev');
-      document.getElementById('btnNextTheme').textContent = getGlyph('next');
+      const prevThemeBtn = document.getElementById('btnPrevTheme');
+      if (prevThemeBtn) prevThemeBtn.textContent = getGlyph('prev');
+      const nextThemeBtn = document.getElementById('btnNextTheme');
+      if (nextThemeBtn) nextThemeBtn.textContent = getGlyph('next');
       btnViewNode.textContent =
         getGlyph('node') + ' Block Inspector' + (activeRightView === 'tech' ? nodeSuffix : '');
       btnViewTech.textContent = getGlyph('tech') + ' Deep Dive';
@@ -8093,7 +8255,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
       const makeCol = (title, edgeList, isIncoming) => {
         const col = document.createElement('div');
-        col.className = 'flex flex-col gap-1';
+        col.className = 'flex flex-col gap-1 min-w-0';
         const hdr = document.createElement('span');
         hdr.className = 'mono text-[9.5px] font-bold text-muted-ink uppercase';
         hdr.textContent = title;
@@ -8108,7 +8270,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
         }
 
         const wrap = document.createElement('div');
-        wrap.className = 'flex flex-wrap gap-1';
+        wrap.className = 'flex flex-wrap gap-1 min-w-0';
         edgeList.forEach((e) => {
           const targetNode = nodeMap[isIncoming ? e.from : e.to];
           if (!targetNode) return;
@@ -8116,7 +8278,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.className =
-            'no-wrap-btn px-1.5 py-0.5 rounded surface-root border border-hairline hover:border-subtle text-[10px] mono text-primary-ink transition cursor-pointer gap-1' +
+            'max-w-full inline-flex items-center px-1.5 py-0.5 rounded surface-root border border-hairline hover:border-subtle text-[10px] mono text-primary-ink transition cursor-pointer gap-1 overflow-hidden' +
             (edgeActive ? '' : ' opacity-55');
           btn.title =
             (isIncoming ? 'Upstream Input from #' : 'Downstream Output to #') +
@@ -8126,20 +8288,20 @@ window.ARASHIKAGE_ARCHITECTURES = {
             (e.label ? ' (' + e.label + ')' : '') +
             (edgeActive ? '' : ' — Bypassed in ' + activeMode.toUpperCase());
           btn.innerHTML =
-            '<span class="font-bold" style="color:' +
+            '<span class="font-bold shrink-0" style="color:' +
             targetNode.color +
             '">#' +
             targetNode.num +
-            '</span><span>' +
+            '</span><span class="truncate">' +
             targetNode.title +
             '</span>' +
             (e.label
-              ? '<span class="px-1 rounded surface-panel text-[9px] text-secondary-ink">' + e.label + '</span>'
+              ? '<span class="px-1 rounded surface-panel text-[9px] text-secondary-ink shrink-0">' + e.label + '</span>'
               : '') +
             (!edgeActive
               ? isArashikageMonolith()
-                ? '<span class="px-1 rounded text-[8.5px] font-bold" style="background:var(--am-ground);color:var(--am-gold);border:1px solid var(--am-gold-rule)">戒 BYPASSED</span>'
-                : '<span class="px-1 rounded text-[8.5px] font-bold" style="background:rgba(245,158,11,0.18);color:#d97706">BYPASSED</span>'
+                ? '<span class="px-1 rounded text-[8.5px] font-bold shrink-0" style="background:var(--am-ground);color:var(--am-gold);border:1px solid var(--am-gold-rule)">BYPASSED</span>'
+                : '<span class="px-1 rounded text-[8.5px] font-bold shrink-0" style="background:rgba(245,158,11,0.18);color:#d97706">BYPASSED</span>'
               : '');
           btn.addEventListener('click', () => {
             selectedNodeId = targetNode.id;
@@ -8230,13 +8392,13 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
       if (activeMode === 'all') {
         if (activeList.length === 3) {
-          badge.textContent = isAm ? '鎖 · 3/3 PATHWAYS' : '● 3/3 PATHWAYS';
+          badge.textContent = '● 3/3 PATHWAYS';
           badge.style.color = isAm ? 'var(--am-celadon)' : isLight ? '#15803d' : '#4ade80';
           badge.style.borderColor = isAm ? 'var(--am-celadon-rule)' : isLight ? '#16a34a' : '#22c55e';
           badge.style.backgroundColor = isAm ? 'var(--am-ground)' : isLight ? 'rgba(22,163,74,0.12)' : 'rgba(34,197,94,0.16)';
         } else {
           const names = activeList.map((m) => m.toUpperCase()).join('+');
-          badge.textContent = (isAm ? '戒 · ' : '◐ ') + names + ' ONLY';
+          badge.textContent = '◐ ' + names + ' ONLY';
           badge.style.color = isAm ? 'var(--am-gold)' : isLight ? '#b45309' : '#fbbf24';
           badge.style.borderColor = isAm ? 'var(--am-gold-rule)' : isLight ? '#d97706' : '#f59e0b';
           badge.style.backgroundColor = isAm ? 'var(--am-ground)' : isLight ? 'rgba(217,119,6,0.14)' : 'rgba(245,158,11,0.18)';
@@ -8245,12 +8407,12 @@ window.ARASHIKAGE_ARCHITECTURES = {
         const isAct = modes.includes(activeMode);
         const mName = activeMode.toUpperCase();
         if (isAct) {
-          badge.textContent = (isAm ? '鎖 · ' : '● ') + mName + ': ACTIVE';
+          badge.textContent = '● ' + mName + ': ACTIVE';
           badge.style.color = isAm ? 'var(--am-celadon)' : isLight ? '#15803d' : '#4ade80';
           badge.style.borderColor = isAm ? 'var(--am-celadon-rule)' : isLight ? '#16a34a' : '#22c55e';
           badge.style.backgroundColor = isAm ? 'var(--am-ground)' : isLight ? 'rgba(22,163,74,0.14)' : 'rgba(34,197,94,0.18)';
         } else {
-          badge.textContent = (isAm ? '戒 · ' : '⊘ ') + mName + ': BYPASSED';
+          badge.textContent = '⊘ ' + mName + ': BYPASSED';
           badge.style.color = isAm ? 'var(--am-gold)' : isLight ? '#b45309' : '#fbbf24';
           badge.style.borderColor = isAm ? 'var(--am-gold-rule)' : isLight ? '#d97706' : '#f59e0b';
           badge.style.backgroundColor = isAm ? 'var(--am-ground)' : isLight ? 'rgba(217,119,6,0.18)' : 'rgba(245,158,11,0.22)';
@@ -8275,17 +8437,15 @@ window.ARASHIKAGE_ARCHITECTURES = {
       if (activeMode === 'all') {
         const activeCount = ['live', 'train', 'distill'].filter((m) => modes.includes(m)).length;
         ntabSubLabel.innerHTML =
-          '<span>' +
-          (isAm ? '双 · ' : '') +
-          'ROLE ACROSS PATHWAYS (' +
+          '<span>ROLE ACROSS PATHWAYS (' +
           activeCount +
           '/3 ACTIVE)</span>' +
-          '<button type="button" id="btnToggleAllModeExpand" class="ml-2 mono text-[9px] font-bold px-1.5 py-0.5 rounded surface-panel text-theme-accent border border-hairline hover:border-subtle cursor-pointer">' +
+          '<button type="button" id="btnToggleAllModeExpand" class="ml-2 mono text-[9px] font-bold px-1.5 py-0.5 rounded surface-panel text-primary-ink border border-hairline hover:border-subtle cursor-pointer">' +
           (allModePathwayExpanded ? '▴ Compact' : '▾ Expand Details') +
           '</button>';
 
         const rowsHtml = ['live', 'train', 'distill']
-          .map((m) => {
+          .map((m, rIdx) => {
             const isAct = modes.includes(m);
             const spec = getPathwayRoleSpec(node, activeArchKey, m);
             const pillBg = isAm
@@ -8301,13 +8461,16 @@ window.ARASHIKAGE_ARCHITECTURES = {
             const pillBorder = isAm
               ? isAct ? 'var(--am-celadon-rule)' : 'var(--am-gold-rule)'
               : isAct ? '#16a34a' : '#d97706';
-            const statusText = isAm ? (isAct ? '鎖 ACTIVE' : '戒 BYPASSED') : isAct ? '● ACTIVE' : '⊘ BYPASSED';
+            const statusText = isAct ? '● ACTIVE' : '⊘ BYPASSED';
             const shortMode = m === 'live' ? 'LIVE 5.5MS' : m === 'train' ? 'TRAIN (4K)' : 'DISTILL';
+            const rowClass = isAm
+              ? 'px-2.5 py-1.5 transition cursor-pointer flex flex-col gap-1 hover:bg-[var(--am-canvas-subtle)]' + (rIdx > 0 ? ' border-t border-[var(--am-rule)]' : '')
+              : 'px-2 py-1 rounded surface-panel border border-hairline hover:border-subtle transition cursor-pointer flex flex-col gap-1';
 
             return (
               '<div data-toggle-all-expand="' +
               m +
-              '" class="px-2 py-1 rounded surface-panel border border-hairline hover:border-subtle transition cursor-pointer flex flex-col gap-1" title="Click row to expand/collapse pathway explanation, or click Filter ↗">' +
+              '" class="' + rowClass + '" title="Click row to expand/collapse pathway explanation, or click Filter ↗">' +
               '<div class="flex items-center justify-between gap-2">' +
               '<div class="flex items-center gap-1.5 shrink-0">' +
               '<span class="mono text-[9.5px] font-bold text-primary-ink w-[4.8rem]">' +
@@ -8328,7 +8491,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
               '</span>' +
               '<button type="button" data-switch-mode="' +
               m +
-              '" class="no-wrap-btn mono text-[9px] text-theme-accent font-bold px-1 rounded hover:underline shrink-0" title="Filter diagram to ' +
+              '" class="no-wrap-btn mono text-[9px] text-primary-ink font-bold px-1 rounded hover:underline shrink-0" title="Filter diagram to ' +
               modeNames[m] +
               '">Filter ↗</button>' +
               '</div>' +
@@ -8343,8 +8506,10 @@ window.ARASHIKAGE_ARCHITECTURES = {
           .join('');
 
         ntabSubContent.innerHTML =
-          '<div class="flex flex-col gap-1">' +
+          '<div class="flex flex-col ' + (isAm ? 'gap-1.5' : 'gap-1') + '">' +
+          '<div class="' + (isAm ? 'border border-[var(--am-rule)] bg-[var(--am-plaque)]' : 'flex flex-col gap-1') + '">' +
           rowsHtml +
+          '</div>' +
           '<div class="pt-1 border-t border-hairline flex flex-wrap items-baseline justify-between gap-1 mono text-[10px]">' +
           '<span class="font-bold text-muted-ink uppercase">' +
           sigLabel +
@@ -8358,7 +8523,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
         const isAct = modes.includes(activeMode);
         const spec = getPathwayRoleSpec(node, activeArchKey, activeMode);
         const mLabel = modeNames[activeMode] || activeMode.toUpperCase();
-        ntabSubLabel.textContent = (isAm ? '双 · ' : '') + 'ROLE IN ' + mLabel.toUpperCase();
+        ntabSubLabel.textContent = 'ROLE IN ' + mLabel.toUpperCase();
 
         const bannerBg = isAm
           ? 'var(--am-ground)'
@@ -8385,7 +8550,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
           '<span class="mono text-[10px] font-bold" style="color:' +
           bannerCol +
           '">' +
-          (isAm ? (isAct ? '鎖 · ACTIVE' : '戒 · BYPASSED ON DIAGRAM') : isAct ? '● ACTIVE' : '⊘ BYPASSED ON DIAGRAM') +
+          (isAct ? '● ACTIVE' : '⊘ BYPASSED ON DIAGRAM') +
           '</span>' +
           '<span class="mono text-[9.5px] font-semibold text-primary-ink">' +
           spec.regime +
@@ -8447,7 +8612,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const inspBadge = document.getElementById('inspBadge');
       const isAm = isArashikageMonolith();
       if (isAm) {
-        inspBadge.textContent = (AM_STAGE_KANJI[n.col || 0] || '礎') + ' · BLOCK ' + n.num + ' · ' + n.tag;
+        inspBadge.textContent = 'BLOCK ' + n.num + ' · ' + n.tag;
         inspBadge.style.color = 'var(--am-ink-strong)';
         inspBadge.style.borderColor = 'var(--am-outline)';
         inspBadge.style.backgroundColor = 'var(--am-ground)';
@@ -8516,7 +8681,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const ntabCalloutBox = document.getElementById('ntabCalloutBox');
 
       if (activeNTab === 'learn') {
-        ntabHeading.textContent = (isAm ? '録 · ' : '') + 'PRIMARY LITERATURE & WHITE PAPERS';
+        ntabHeading.textContent = 'PRIMARY LITERATURE & WHITE PAPERS';
         const papers = getExternalResourcesForNode(n);
         ntabBody.innerHTML = renderLearnMoreCardsHtml(papers);
         ntabCalloutBox.classList.add('hidden');
@@ -8527,22 +8692,22 @@ window.ARASHIKAGE_ARCHITECTURES = {
         let sigValue = (n.role || '') + ' — ' + n.tensor;
 
         if (activeNTab === 'how') {
-          ntabHeading.textContent = (isAm ? '礎 · ' : '') + 'HOW IT WORKS // MECHANISM';
+          ntabHeading.textContent = 'HOW IT WORKS // MECHANISM';
           ntabBody.textContent = n.how;
           sigLabel = 'DATAFLOW PLACEMENT & TENSOR';
           sigValue = (n.role || '') + ' — ' + n.tensor;
         } else if (activeNTab === 'why') {
-          ntabHeading.textContent = (isAm ? '戒 · ' : '') + 'WHY IT IS USED // ENGINEERING RATIONALE';
+          ntabHeading.textContent = 'WHY IT IS USED // ENGINEERING RATIONALE';
           ntabBody.textContent = n.why;
           sigLabel = 'MATHEMATICAL IDENTITY & INVARIANT';
           sigValue = n.formula;
         } else if (activeNTab === 'contrib') {
-          ntabHeading.textContent = (isAm ? '印 · ' : '') + 'SYSTEM IMPACT // CONTRIBUTION TO GOAL';
+          ntabHeading.textContent = 'SYSTEM IMPACT // CONTRIBUTION TO GOAL';
           ntabBody.textContent = n.contrib;
           sigLabel = 'DATAFLOW PLACEMENT';
           sigValue = n.role || n.sub;
         } else {
-          ntabHeading.textContent = (isAm ? '双 · ' : '') + 'MATHEMATICAL FORMULATION & TENSOR ABI';
+          ntabHeading.textContent = 'MATHEMATICAL FORMULATION & TENSOR ABI';
           ntabBody.textContent = n.formula;
           sigLabel = 'IN / OUT TENSOR SIGNATURE';
           sigValue = n.tensor;
@@ -8563,7 +8728,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       document.getElementById('techTitle').textContent = t.title;
       const techKicker = document.getElementById('techKicker');
       if (techKicker) {
-        techKicker.textContent = (isAm ? '録 · ' : '') + 'DEEP DIVE // SPOTLIGHT';
+        techKicker.textContent = 'DEEP DIVE // SPOTLIGHT';
       }
 
       // Update 5 Tabs in Deep Dive
@@ -8581,7 +8746,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const ttabSubContent = document.getElementById('ttabSubContent');
 
       if (activeTTab === 'learn') {
-        ttabHeading.textContent = (isAm ? '録 · ' : '') + 'PRIMARY LITERATURE & WHITE PAPERS';
+        ttabHeading.textContent = 'PRIMARY LITERATURE & WHITE PAPERS';
         const resList = TECH_EXTERNAL_RESOURCES[t.id] || [];
         ttabBody.innerHTML = renderLearnMoreCardsHtml(resList);
         ttabCalloutBox.classList.add('hidden');
@@ -8592,22 +8757,22 @@ window.ARASHIKAGE_ARCHITECTURES = {
         let sigValue = t.placement;
 
         if (activeTTab === 'how') {
-          ttabHeading.textContent = (isAm ? '礎 · ' : '') + 'HOW IT WORKS // MECHANISM';
+          ttabHeading.textContent = 'HOW IT WORKS // MECHANISM';
           ttabBody.textContent = t.how;
           sigLabel = 'DATAFLOW PLACEMENT';
           sigValue = t.placement;
         } else if (activeTTab === 'why') {
-          ttabHeading.textContent = (isAm ? '戒 · ' : '') + 'WHY IT IS USED // ENGINEERING RATIONALE';
+          ttabHeading.textContent = 'WHY IT IS USED // ENGINEERING RATIONALE';
           ttabBody.textContent = t.why;
           sigLabel = 'RESEARCH ORIGINS & EVOLUTION';
           sigValue = t.origins;
         } else if (activeTTab === 'contrib') {
-          ttabHeading.textContent = (isAm ? '印 · ' : '') + 'SYSTEM IMPACT // CONTRIBUTION TO GOAL';
+          ttabHeading.textContent = 'SYSTEM IMPACT // CONTRIBUTION TO GOAL';
           ttabBody.textContent = t.contrib;
           sigLabel = 'DATAFLOW PLACEMENT';
           sigValue = t.placement;
         } else {
-          ttabHeading.textContent = (isAm ? '双 · ' : '') + 'UNDERLYING SCIENCE & MATHEMATICAL MECHANISM';
+          ttabHeading.textContent = 'UNDERLYING SCIENCE & MATHEMATICAL MECHANISM';
           ttabBody.textContent = t.science;
           sigLabel = 'RESEARCH ORIGINS & EVOLUTION';
           sigValue = t.origins;
@@ -8615,10 +8780,10 @@ window.ARASHIKAGE_ARCHITECTURES = {
 
         const usedNodes = (t.usedIn || []).map((nid) => nodeMap[nid]).filter(Boolean);
         if (usedNodes.length === 0) {
-          ttabSubLabel.textContent = (isAm ? '双 · ' : '') + sigLabel;
+          ttabSubLabel.textContent = sigLabel;
           ttabSubContent.textContent = sigValue;
         } else if (activeMode === 'all') {
-          ttabSubLabel.textContent = (isAm ? '双 · ' : '') + 'PATHWAY FOOTPRINT ACROSS BLOCKS & ' + sigLabel;
+          ttabSubLabel.textContent = 'PATHWAY FOOTPRINT ACROSS BLOCKS & ' + sigLabel;
           const summaryHtml = usedNodes
             .map((un) => {
               const mList = ['live', 'train', 'distill'].filter((m) => (un.modes || []).includes(m));
@@ -8640,8 +8805,8 @@ window.ARASHIKAGE_ARCHITECTURES = {
                 badgeCol +
                 '">' +
                 (isAll3
-                  ? (isAm ? '鎖 · ' : '● ') + '3/3 Pathways'
-                  : (isAm ? '戒 · ' : '◐ ') + mList.map((m) => m.toUpperCase()).join('+') + ' Only') +
+                  ? '● 3/3 Pathways'
+                  : '◐ ' + mList.map((m) => m.toUpperCase()).join('+') + ' Only') +
                 '</span>' +
                 '</div>'
               );
@@ -8659,7 +8824,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
             '</div>';
         } else {
           const mLabel = MODE_LABELS[activeMode] || activeMode.toUpperCase();
-          ttabSubLabel.textContent = (isAm ? '双 · ' : '') + 'PATHWAY ROLE (' + mLabel.toUpperCase() + ') & ' + sigLabel;
+          ttabSubLabel.textContent = 'PATHWAY ROLE (' + mLabel.toUpperCase() + ') & ' + sigLabel;
           const rowsHtml = usedNodes
             .map((un) => {
               const isAct = isNodeActiveInMode(un, activeMode);
@@ -8677,8 +8842,8 @@ window.ARASHIKAGE_ARCHITECTURES = {
                 badgeCol +
                 '">' +
                 (isAct
-                  ? (isAm ? '鎖 · #' : '● #') + un.num + ' ' + un.title + ' (ACTIVE)'
-                  : (isAm ? '戒 · #' : '⊘ #') + un.num + ' ' + un.title + ' (BYPASSED)') +
+                  ? '● #' + un.num + ' ' + un.title + ' (ACTIVE)'
+                  : '⊘ #' + un.num + ' ' + un.title + ' (BYPASSED)') +
                 '</span>' +
                 '<span class="mono text-[9.5px] font-semibold text-primary-ink">' +
                 spec.regime +
@@ -8725,7 +8890,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
           '</span>' +
           (!isAct && activeMode !== 'all'
             ? isAm
-              ? '<span class="text-[9px] font-bold" style="color:var(--am-gold)">[戒 BYP]</span>'
+              ? '<span class="text-[9px] font-bold" style="color:var(--am-gold)">[BYP]</span>'
               : '<span class="text-[9px] font-bold text-amber-500">[BYP]</span>'
             : '');
         b.addEventListener('click', () => {
@@ -8802,26 +8967,41 @@ window.ARASHIKAGE_ARCHITECTURES = {
         { key: 'gen1_ret40', short: 'Gen 1 · RET-40' }
       ];
 
+      const isAm = isArashikageMonolith();
       const matrixGrid = document.createElement('div');
-      matrixGrid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-1';
-      gens.forEach((g) => {
+      matrixGrid.className = isAm
+        ? 'grid grid-cols-1 sm:grid-cols-2 gap-0 border border-[var(--am-rule)] bg-[var(--am-plaque)]'
+        : 'grid grid-cols-1 sm:grid-cols-2 gap-1';
+      gens.forEach((g, gIdx) => {
         const isCurr = g.key === activeArchKey;
         const cardBtn = document.createElement('button');
         cardBtn.type = 'button';
-        cardBtn.className =
-          'w-full text-left p-1.5 rounded border transition cursor-pointer flex flex-col gap-0.5 ' +
-          (isCurr
-            ? 'surface-elevated border-subtle'
-            : 'surface-root border-hairline opacity-85 hover:opacity-100');
+        if (isAm) {
+          cardBtn.className =
+            'w-full text-left p-2 transition cursor-pointer flex flex-col gap-0.5 ' +
+            (gIdx % 2 === 1 ? 'sm:border-l border-[var(--am-rule)] ' : '') +
+            (gIdx >= 2 ? 'border-t border-[var(--am-rule)] ' : '') +
+            (isCurr
+              ? 'bg-[var(--am-canvas-subtle)] border-l-[3px] !border-l-[#b81d13]'
+              : 'bg-[var(--am-plaque)] opacity-85 hover:opacity-100 hover:bg-[var(--am-canvas)]');
+        } else {
+          cardBtn.className =
+            'w-full text-left p-1.5 rounded border transition cursor-pointer flex flex-col gap-0.5 ' +
+            (isCurr
+              ? 'surface-elevated border-subtle'
+              : 'surface-root border-hairline opacity-85 hover:opacity-100');
+        }
         cardBtn.innerHTML =
           '<div class="flex items-center justify-between gap-1">' +
-          '<span class="mono text-[9.5px] font-bold ' +
-          (isCurr ? 'text-theme-accent' : 'text-primary-ink') +
-          '">' +
-          (isCurr ? '▸ ' : '') +
+          '<span class="mono text-[9.5px] font-bold text-primary-ink">' +
+          (isCurr ? '◆ ' : '') +
           g.short +
           '</span>' +
-          (isCurr ? '<span class="mono text-[8.5px] px-1 rounded surface-panel text-secondary-ink">ACTIVE</span>' : '') +
+          (isCurr
+            ? '<span class="mono text-[8.5px] font-bold px-1 rounded ' +
+              (isAm ? 'bg-[#b81d13] text-[#fbf9f5]' : 'surface-panel text-secondary-ink') +
+              '">ACTIVE</span>'
+            : '') +
           '</div>' +
           '<div class="mono text-[9.5px] text-secondary-ink leading-tight">' +
           evo[g.key] +
@@ -8845,7 +9025,7 @@ window.ARASHIKAGE_ARCHITECTURES = {
       const stageCols = getActiveStageColors();
       const colIdx = typeof node.col === 'number' ? node.col : 0;
       const isAm = isArashikageMonolith();
-      const stagePrefix = isAm ? (AM_STAGE_KANJI[colIdx] || '礎') + ' · ' : '';
+      const stagePrefix = '';
 
       if (colIdx === 0) {
         // STAGE 1: OBSERVATION MEMORY / CACHE-LINE INSPECTOR
@@ -8862,17 +9042,16 @@ window.ARASHIKAGE_ARCHITECTURES = {
             { name: 'PrivCtx [128]', bytes: '4864..5375', cl: '8 CL', color: stageCols[0], desc: '128 Privileged Floats (512B): Exact Opponent Boost/Flip Secrets (Training Critic Only)' }
           ];
           const barRow = document.createElement('div');
-          barRow.className = 'grid grid-cols-7 gap-1';
+          barRow.className = isAm ? 'grid grid-cols-7 gap-0 border border-[var(--am-outline)] bg-[var(--am-ground)]' : 'grid grid-cols-7 gap-1';
           segments.forEach((seg, idx) => {
             const isSel = selectedMemSliceIdx === idx;
             const b = document.createElement('button');
             b.type = 'button';
             if (isAm) {
-              b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate border transition cursor-pointer am-interactive';
+              b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate transition cursor-pointer ' + (idx > 0 ? 'border-l border-[var(--am-rule)]' : '');
               b.style.backgroundColor = isSel ? 'var(--am-slab-primary)' : 'var(--am-ground)';
               b.style.color = isSel ? 'var(--am-slab-primary-ink)' : 'var(--am-ink-strong)';
-              b.style.borderColor = isSel ? 'var(--am-outline)' : 'var(--am-rule)';
-              b.style.borderBottom = isSel ? '2.5px solid var(--am-slab-counter)' : '2.5px solid ' + seg.color;
+              b.style.borderBottom = isSel ? '2.5px solid #b81d13' : '2.5px solid ' + seg.color;
             } else {
               b.className =
                 'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
@@ -8931,18 +9110,17 @@ window.ARASHIKAGE_ARCHITECTURES = {
                   { name: activeArchKey === 'gen3_perceiver' ? 'Wheels+Omni' : '68D Critic Tail', cl: activeArchKey === 'gen3_perceiver' ? '16D+68D' : '68D Priv', color: stageCols[5], bytes: activeArchKey === 'gen3_perceiver' ? 'Floats 684..752' : 'Critic 684..752', desc: (activeArchKey === 'gen3_perceiver' ? '16D 4-Frame Actor Wheel History + ' : '') + '68D Critic Tail: 20D Wheel Slip, 18D World Vel, 30D 5-Bounce Ballistics' }
                 ];
           const barRow = document.createElement('div');
-          barRow.className = 'grid grid-cols-5 gap-1';
+          barRow.className = isAm ? 'grid grid-cols-5 gap-0 border border-[var(--am-outline)] bg-[var(--am-ground)]' : 'grid grid-cols-5 gap-1';
           const idx = selectedMemSliceIdx % legacySegs.length;
           legacySegs.forEach((seg, i) => {
             const isSel = idx === i;
             const b = document.createElement('button');
             b.type = 'button';
             if (isAm) {
-              b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate border transition cursor-pointer am-interactive';
+              b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate transition cursor-pointer ' + (i > 0 ? 'border-l border-[var(--am-rule)]' : '');
               b.style.backgroundColor = isSel ? 'var(--am-slab-primary)' : 'var(--am-ground)';
               b.style.color = isSel ? 'var(--am-slab-primary-ink)' : 'var(--am-ink-strong)';
-              b.style.borderColor = isSel ? 'var(--am-outline)' : 'var(--am-rule)';
-              b.style.borderBottom = isSel ? '2.5px solid var(--am-slab-counter)' : '2.5px solid ' + seg.color;
+              b.style.borderBottom = isSel ? '2.5px solid #b81d13' : '2.5px solid ' + seg.color;
             } else {
               b.className =
                 'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
@@ -9162,14 +9340,20 @@ window.ARASHIKAGE_ARCHITECTURES = {
           { label: 'Goal-Line Shadow', kPass: 6, fsq: '#309 [-1,-2,+2]', exp: ['E5 ShadowDef: 58%', 'E1 Ground: 26%', 'E6 Evade: 16%'] }
         ];
         const pRow = document.createElement('div');
-        pRow.className = 'grid grid-cols-4 gap-1';
+        pRow.className = isAm ? 'grid grid-cols-4 gap-0 border border-[var(--am-outline)] bg-[var(--am-ground)]' : 'grid grid-cols-4 gap-1';
         phases.forEach((ph, idx) => {
           const isSel = selectedLatentPhaseIdx === idx;
           const b = document.createElement('button');
           b.type = 'button';
-          b.className =
-            'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
-            (isSel ? 'surface-elevated border-subtle text-theme-accent' : 'surface-root border-hairline text-secondary-ink hover:text-primary-ink');
+          if (isAm) {
+            b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate transition cursor-pointer ' + (idx > 0 ? 'border-l border-[var(--am-rule)]' : '');
+            b.style.backgroundColor = isSel ? 'var(--am-slab-primary)' : 'var(--am-ground)';
+            b.style.color = isSel ? 'var(--am-slab-primary-ink)' : 'var(--am-ink-secondary)';
+          } else {
+            b.className =
+              'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
+              (isSel ? 'surface-elevated border-subtle text-theme-accent' : 'surface-root border-hairline text-secondary-ink hover:text-primary-ink');
+          }
           b.textContent = ph.label.split(' ')[1] || ph.label;
           b.title = ph.label;
           b.addEventListener('click', () => {
@@ -9239,14 +9423,20 @@ window.ARASHIKAGE_ARCHITECTURES = {
               ];
 
         const stRow = document.createElement('div');
-        stRow.className = 'grid grid-cols-4 gap-1';
+        stRow.className = isAm ? 'grid grid-cols-4 gap-0 border border-[var(--am-outline)] bg-[var(--am-ground)]' : 'grid grid-cols-4 gap-1';
         subticks.forEach((st, idx) => {
           const isSel = selectedSubtickIdx === idx;
           const b = document.createElement('button');
           b.type = 'button';
-          b.className =
-            'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
-            (isSel ? 'surface-elevated border-subtle text-theme-accent' : 'surface-root border-hairline text-secondary-ink hover:text-primary-ink');
+          if (isAm) {
+            b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate transition cursor-pointer ' + (idx > 0 ? 'border-l border-[var(--am-rule)]' : '');
+            b.style.backgroundColor = isSel ? 'var(--am-slab-primary)' : 'var(--am-ground)';
+            b.style.color = isSel ? 'var(--am-slab-primary-ink)' : 'var(--am-ink-secondary)';
+          } else {
+            b.className =
+              'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
+              (isSel ? 'surface-elevated border-subtle text-theme-accent' : 'surface-root border-hairline text-secondary-ink hover:text-primary-ink');
+          }
           b.textContent = st.lbl.split(' ')[0] + ' ' + (st.lbl.split(' ')[1] || '');
           b.title = st.lbl;
           b.addEventListener('click', () => {
@@ -9294,14 +9484,20 @@ window.ARASHIKAGE_ARCHITECTURES = {
         ];
 
         const hRow = document.createElement('div');
-        hRow.className = 'grid grid-cols-4 gap-1';
+        hRow.className = isAm ? 'grid grid-cols-4 gap-0 border border-[var(--am-outline)] bg-[var(--am-ground)]' : 'grid grid-cols-4 gap-1';
         horizons.forEach((hz, idx) => {
           const isSel = selectedCriticHorizonIdx === idx;
           const b = document.createElement('button');
           b.type = 'button';
-          b.className =
-            'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
-            (isSel ? 'surface-elevated border-subtle text-theme-accent' : 'surface-root border-hairline text-secondary-ink hover:text-primary-ink');
+          if (isAm) {
+            b.className = 'py-1 px-1 text-[9.5px] mono font-bold truncate transition cursor-pointer ' + (idx > 0 ? 'border-l border-[var(--am-rule)]' : '');
+            b.style.backgroundColor = isSel ? 'var(--am-slab-primary)' : 'var(--am-ground)';
+            b.style.color = isSel ? 'var(--am-slab-primary-ink)' : 'var(--am-ink-secondary)';
+          } else {
+            b.className =
+              'py-1 px-1 rounded text-[9.5px] mono font-bold truncate border transition cursor-pointer ' +
+              (isSel ? 'surface-elevated border-subtle text-theme-accent' : 'surface-root border-hairline text-secondary-ink hover:text-primary-ink');
+          }
           b.textContent = hz.lbl.split(' ')[0];
           b.title = hz.lbl;
           b.addEventListener('click', () => {
@@ -10202,14 +10398,20 @@ window.ARASHIKAGE_ARCHITECTURES = {
     btnPolarityLight.addEventListener('click', () => setPolarity('light'));
     btnPolarityDark.addEventListener('click', () => setPolarity('dark'));
 
-    document.getElementById('btnPrevTheme').addEventListener('click', () => {
-      const idx = THEME_ORDER.indexOf(activeTheme);
-      setTheme(THEME_ORDER[(idx - 1 + THEME_ORDER.length) % THEME_ORDER.length]);
-    });
-    document.getElementById('btnNextTheme').addEventListener('click', () => {
-      const idx = THEME_ORDER.indexOf(activeTheme);
-      setTheme(THEME_ORDER[(idx + 1) % THEME_ORDER.length]);
-    });
+    const btnPrevThemeEl = document.getElementById('btnPrevTheme');
+    if (btnPrevThemeEl) {
+      btnPrevThemeEl.addEventListener('click', () => {
+        const idx = THEME_ORDER.indexOf(activeTheme);
+        setTheme(THEME_ORDER[(idx - 1 + THEME_ORDER.length) % THEME_ORDER.length]);
+      });
+    }
+    const btnNextThemeEl = document.getElementById('btnNextTheme');
+    if (btnNextThemeEl) {
+      btnNextThemeEl.addEventListener('click', () => {
+        const idx = THEME_ORDER.indexOf(activeTheme);
+        setTheme(THEME_ORDER[(idx + 1) % THEME_ORDER.length]);
+      });
+    }
 
     // Event Listeners: Scenario & 2-Row Docked Walkthrough HUD Bar
     selScenario.addEventListener('change', (e) => {

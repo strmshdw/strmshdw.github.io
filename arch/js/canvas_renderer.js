@@ -389,39 +389,39 @@
     // 1. THEME + POLARITY SPECIFIC BACKGROUND FIELD
     // ====================================================================
     if (activeTheme === 'arashikage_monolith') {
-      // Arashikage Monolith (嵐影 · 銀座碑文): Stratum 0 Mounting Ground + Stratum 1 Scroll Canvas + Stepped Ziggurat Frame + Kentō Marks
+      // Arashikage Monolith: Stratum 0 Mounting Ground + Stratum 1 Scroll Canvas + Stepped Ziggurat Frame
       ctx.fillStyle = isLight ? '#ebe5d9' : '#0a0908';
       ctx.fillRect(0, 0, BASE_W, BASE_H);
 
-      ctx.fillStyle = isLight ? '#f4efe6' : '#171412';
+      ctx.fillStyle = isLight ? '#f4efe6' : '#181614';
       ctx.fillRect(6, 6, BASE_W - 12, BASE_H - 12);
 
       // Subtle 1px horizontal incised ledger rules (--am-rule)
-      ctx.strokeStyle = isLight ? 'rgba(28, 25, 23, 0.055)' : 'rgba(216, 208, 197, 0.042)';
+      ctx.strokeStyle = isLight ? 'rgba(28, 25, 23, 0.05)' : 'rgba(226, 219, 208, 0.038)';
       ctx.lineWidth = 1;
       for (let gy = 68; gy < BASE_H - 8; gy += 36) {
         ctx.beginPath(); ctx.moveTo(8, gy); ctx.lineTo(BASE_W - 8, gy); ctx.stroke();
       }
 
-      // Low-opacity Sumi-e typographic watermark (嵐影 · ䷿)
+      // Low-opacity Maker's Mark Watermark (嵐影 · ䷿)
       ctx.save();
-      ctx.font = '900 104px "Noto Serif JP", serif';
-      ctx.fillStyle = isLight ? 'rgba(28, 25, 23, 0.028)' : 'rgba(244, 239, 230, 0.026)';
+      ctx.font = '900 96px "Noto Serif JP", serif';
+      ctx.fillStyle = isLight ? 'rgba(28, 25, 23, 0.028)' : 'rgba(242, 239, 233, 0.025)';
       ctx.textAlign = 'right';
-      ctx.fillText('嵐影 · ䷿', BASE_W - 26, BASE_H - 28);
+      ctx.fillText('嵐影 · ䷿', BASE_W - 24, BASE_H - 26);
       ctx.restore();
 
       // Stepped Art Deco Ziggurat Outer Frame (1px outer rule + 4px ground moat + 1.5px primary monolith outline)
-      ctx.strokeStyle = isLight ? '#cfc7b8' : '#36302a';
+      ctx.strokeStyle = isLight ? '#cfc7b8' : '#38332d';
       ctx.lineWidth = 1;
       ctx.strokeRect(2, 2, BASE_W - 4, BASE_H - 4);
-      ctx.strokeStyle = isLight ? '#1c1917' : '#d8d0c5';
+      ctx.strokeStyle = isLight ? '#1c1917' : '#e2dbd0';
       ctx.lineWidth = 1.5;
       ctx.strokeRect(6, 6, BASE_W - 12, BASE_H - 12);
 
-      // Woodblock Kentō (見当) corner registration notches in Shu-iro Vermilion
-      const kentoCol = isLight ? '#b81d13' : '#d4261d';
-      drawCornerBrackets(ctx, 6, 6, BASE_W - 12, BASE_H - 12, 12, kentoCol);
+      // Corner registration brackets in Kintsugi Gold / Outline
+      const kentoCol = isLight ? '#8c5808' : '#deb052';
+      drawCornerBrackets(ctx, 6, 6, BASE_W - 12, BASE_H - 12, 10, kentoCol);
     } else if (activeTheme === 'neo_brutalism') {
       ctx.fillStyle = isLight ? '#f3efe6' : '#111113';
       ctx.fillRect(0, 0, BASE_W, BASE_H);
@@ -596,19 +596,18 @@
       const laneX = ch.x - laneW / 2;
 
       if (activeTheme === 'arashikage_monolith') {
-        // Arashikage Monolith Column: Stratum 2 Carved Plaque (--am-plaque) + Kanji Seal Prefix Cartouche (礎 双 戒 録 印 鎖)
-        const stageKanji = ['礎', '双', '戒', '録', '印', '鎖'][idx % 6];
-        const ruleCol = isLight ? '#cfc7b8' : '#36302a';
-        const outlineCol = isLight ? '#1c1917' : '#d8d0c5';
+        // Arashikage Monolith Column: Stratum 2 Carved Plaque (--am-plaque) + Clean Geometric Stage Index Cartouche (S1..S6)
+        const ruleCol = isLight ? '#cfc7b8' : '#38332d';
+        const outlineCol = isLight ? '#1c1917' : '#e2dbd0';
 
-        ctx.fillStyle = isLight ? 'rgba(252, 250, 246, 0.88)' : 'rgba(13, 11, 10, 0.86)';
+        ctx.fillStyle = isLight ? 'rgba(252, 250, 246, 0.88)' : 'rgba(15, 13, 11, 0.86)';
         ctx.fillRect(laneX, 12, laneW, BASE_H - 24);
         ctx.strokeStyle = ruleCol;
         ctx.lineWidth = 1;
         ctx.strokeRect(laneX, 12, laneW, BASE_H - 24);
 
         // Header monolith box
-        ctx.fillStyle = isLight ? '#e6dfd3' : '#211d1a';
+        ctx.fillStyle = isLight ? '#e6dfd3' : '#221f1c';
         ctx.fillRect(laneX, 12, laneW, 50);
         ctx.fillStyle = ch.color;
         ctx.fillRect(laneX, 12, laneW, 2.5);
@@ -619,27 +618,28 @@
         ctx.lineWidth = 1;
         ctx.beginPath(); ctx.moveTo(laneX, 41); ctx.lineTo(laneX + laneW, 41); ctx.stroke();
 
-        // Carved Kanji Seal Prefix Cartouche (Voice 4: Noto Serif JP)
-        const isStage5Seal = idx === 4;
-        ctx.fillStyle = isStage5Seal ? '#b81d13' : isLight ? '#ebe5d9' : '#0d0b0a';
-        ctx.fillRect(laneX + 6, 17, 20, 20);
-        ctx.strokeStyle = isStage5Seal ? 'rgba(251, 249, 245, 0.45)' : ch.color;
-        ctx.lineWidth = 1.2;
-        ctx.strokeRect(laneX + 6, 17, 20, 20);
-        ctx.font = '900 11px "Noto Serif JP", serif';
-        ctx.fillStyle = isStage5Seal ? '#fbf9f5' : ch.color;
+        // Geometric Stage Index Cartouche (S1..S6 — Zero Superfluous Kanji)
+        ctx.fillStyle = isLight ? '#ebe5d9' : '#0a0908';
+        ctx.fillRect(laneX + 6, 18, 22, 18);
+        ctx.strokeStyle = ruleCol;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(laneX + 6, 18, 22, 18);
+        ctx.fillStyle = ch.color;
+        ctx.fillRect(laneX + 6, 18, 2.5, 18);
+        ctx.font = '700 9.2px "JetBrains Mono", "IBM Plex Mono", monospace';
+        ctx.fillStyle = isLight ? '#090807' : '#fbf9f5';
         ctx.textAlign = 'center';
-        ctx.fillText(stageKanji, laneX + 16, 31);
+        ctx.fillText('S' + (idx + 1), laneX + 18, 30.5);
 
         // Voice 1: Josefin Sans Geometric Display Header
         ctx.font = '700 9.6px "Josefin Sans", "Space Grotesk", sans-serif';
         ctx.fillStyle = isLight ? '#090807' : '#fbf9f5';
         ctx.textAlign = 'left';
-        drawFittedText(ctx, ch.title, laneX + 31, 31, laneW - 37);
+        drawFittedText(ctx, ch.title.replace(/^STAGE\s+\d+\s*\/\/\s*/i, ''), laneX + 33, 30.5, laneW - 39);
 
         // Voice 3: JetBrains Mono Tabular Subtitle
         ctx.font = '600 9.3px "JetBrains Mono", "IBM Plex Mono", monospace';
-        ctx.fillStyle = isLight ? '#362f28' : '#c9c0b1';
+        ctx.fillStyle = isLight ? '#3b352e' : '#cfc7b8';
         ctx.textAlign = 'center';
         drawFittedText(ctx, ch.sub, ch.x, 55, laneW - 14);
 
@@ -1202,28 +1202,28 @@
 
       if (activeTheme === 'arashikage_monolith') {
         // Arashikage Monolith Node (90/10 Pigment Law):
-        // - Unselected (90%): Incised 1px Stratum 2 mineral plaque (--am-plaque) + 3px left stage spine + unified --am-ink-strong title
-        // - Selected (10%): Stepped Ziggurat frame + Inverted Monolith Header (.am-slab-primary) + Square Carved Shu-iro Hanko Stamp (#b81d13)
-        const ruleCol = isLight ? '#cfc7b8' : '#36302a';
-        const outlineCol = isLight ? '#1c1917' : '#d8d0c5';
+        // - Unselected (90%): Calm monocolor Stratum 2 plaque (#0f0d0b / #fcfaf6) + 2.5px left stage mineral spine + --am-frieze index
+        // - Selected (10%): Stepped Ziggurat frame + Inverted Monolith Header (#f2efe9 / #1c1917) + Square Carved Shu-iro Hanko Stamp (#b81d13)
+        const ruleCol = isLight ? '#cfc7b8' : '#38332d';
+        const outlineCol = isLight ? '#1c1917' : '#e2dbd0';
 
         if (isSelected) {
-          // Stepped Ziggurat outer Kentō frame around selected monolith
+          // Stepped Ziggurat outer frame around selected monolith
           ctx.fillStyle = isLight ? '#ebe5d9' : '#0a0908';
           ctx.fillRect(rx - 3, ry - 3, n.w + 6, n.h + 6);
-          ctx.strokeStyle = isLight ? '#b81d13' : '#d4261d';
+          ctx.strokeStyle = '#b81d13';
           ctx.lineWidth = 1.2;
           ctx.strokeRect(rx - 4, ry - 4, n.w + 8, n.h + 8);
         }
 
         ctx.fillStyle = isLight
           ? isSelected ? '#fcfaf6' : isHovered ? '#f4efe6' : '#fcfaf6'
-          : isSelected ? '#171412' : isHovered ? '#211d1a' : '#0d0b0a';
+          : isSelected ? '#181614' : isHovered ? '#221f1c' : '#0f0d0b';
         ctx.fillRect(rx, ry, n.w, n.h);
 
         if (isSelected) {
           // Inverted Monolith Header Slab (.am-slab-primary)
-          ctx.fillStyle = isLight ? '#1c1917' : '#f4efe6';
+          ctx.fillStyle = isLight ? '#1c1917' : '#f2efe9';
           ctx.fillRect(rx, ry, n.w, 25);
 
           // 1:1 Square Carved Shu-iro Vermilion Hanko Stamp (#b81d13, 25x25px) on left of header
@@ -1254,11 +1254,11 @@
             drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 7, ry + 16.5, innerW - 28);
           }
         } else {
-          // Subtle header band + 3px left stage mineral chisel spine
-          ctx.fillStyle = isLight ? '#f4efe6' : '#151210';
+          // Calm 90% Sumi/Washi header band + 2.5px left stage mineral spine
+          ctx.fillStyle = isLight ? '#f4efe6' : '#181614';
           ctx.fillRect(rx, ry, n.w, 24);
           ctx.fillStyle = n.color;
-          ctx.fillRect(rx, ry, 3, n.h);
+          ctx.fillRect(rx, ry, 2.5, n.h);
 
           ctx.strokeStyle = isHovered ? outlineCol : ruleCol;
           ctx.lineWidth = isHovered ? 1.5 : 1.1;
@@ -1268,13 +1268,13 @@
           ctx.beginPath(); ctx.moveTo(rx, ry + 24); ctx.lineTo(rx + n.w, ry + 24); ctx.stroke();
 
           ctx.font = '700 9.5px "JetBrains Mono", "IBM Plex Mono", monospace';
-          ctx.fillStyle = n.color;
+          ctx.fillStyle = isLight ? '#4a3f33' : '#d8d0c5';
           ctx.textAlign = 'left';
           ctx.fillText('#' + n.num, rx + 8, ry + 16);
 
           if (!showTourBadgeInHeader) {
             ctx.font = '600 9.1px "JetBrains Mono", "IBM Plex Mono", monospace';
-            ctx.fillStyle = isLight ? '#615548' : '#9e9384';
+            ctx.fillStyle = isLight ? '#6e6559' : '#918779';
             ctx.textAlign = 'right';
             drawFittedText(ctx, n.tag.toUpperCase(), rx + n.w - 7, ry + 16, innerW - 30);
           }
@@ -1835,7 +1835,7 @@
         ctx.save();
         ctx.globalAlpha = 0.96;
         const isAm = activeTheme === 'arashikage_monolith';
-        const bypassLabel = (isAm ? '戒 · ' : '') + 'BYPASSED (' + activeMode.toUpperCase() + ')';
+        const bypassLabel = 'BYPASSED (' + activeMode.toUpperCase() + ')';
         ctx.font = isAm
           ? '700 8px "JetBrains Mono", "IBM Plex Mono", monospace'
           : '700 8.5px "IBM Plex Mono", ui-monospace, monospace';
